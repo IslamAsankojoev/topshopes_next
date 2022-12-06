@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getLocalStorage } from 'utils/local-storage/localStorage';
-import { login, logout, profile, register } from './user.actions';
+import { login, logout, profile, register, update } from './user.actions';
 import { IInitialState } from './user.interface';
 
 const initialState: IInitialState = {
@@ -51,6 +51,16 @@ const userSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(profile.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(update.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(update.fulfilled, (state, action: PayloadAction<any>) => {
+      state.user = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(update.rejected, (state) => {
       state.isLoading = false;
     });
   },

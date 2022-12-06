@@ -6,7 +6,7 @@ import { removeToken, saveToken, saveToStorage } from './auth.helpers';
 export const AuthService = {
   register: async ({ email, phone, password }: IRegister) => {
     try {
-      const response = await axiosClassic.post(getUsersUrl(''), {
+      const response = await axiosClassic.post(getUsersUrl('profile/'), {
         email,
         phone,
         password,
@@ -19,7 +19,7 @@ export const AuthService = {
 
   login: async ({ email, password }: ILogin) => {
     try {
-      const response = await axiosClassic.post<IAuthResponse>('/token/create/', {
+      const response = await axiosClassic.post<IAuthResponse>('auth/login/', {
         email,
         password,
       });
@@ -46,7 +46,7 @@ export const AuthService = {
 
   refresh: async ({ refresh }: ITokens) => {
     try {
-      const response = await axiosClassic.post<IAuthResponse>('/token/refresh/', { refresh });
+      const response = await axiosClassic.post<IAuthResponse>('auth/refresh/', { refresh });
       if (response.data.access) {
         saveToken(response.data);
       }
@@ -58,7 +58,19 @@ export const AuthService = {
 
   profile: async () => {
     try {
-      const response = await instance.get<IAuthResponse>(getUsersUrl('me'));
+      const response = await instance.get<IAuthResponse>('profile/');
+      if (response.data) {
+        saveToStorage(response.data[0]);
+      }
+      console.log(response.data[0]);
+      return response.data[0];
+    } catch (error) {
+      throw error;
+    }
+  },
+  update: async (data: any, id: string) => {
+    try {
+      const response = await instance.patch<IAuthResponse>(`profile/${id}/`, data);
       if (response.data) {
         saveToStorage(response.data);
       }

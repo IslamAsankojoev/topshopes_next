@@ -59,13 +59,11 @@ const Navigations = () => {
           href: '/orders',
           title: 'Orders',
           icon: ShoppingBagOutlined,
-          count: state.userStore.user?.orders?.length,
         },
         {
           href: '/wish-list',
           title: 'Wishlist',
           icon: FavoriteBorder,
-          count: state.wishStore.items?.length || 0,
         },
         // {
         //   href: '/support-tickets',
@@ -83,7 +81,6 @@ const Navigations = () => {
           href: '/address',
           title: 'Addresses',
           icon: Place,
-          count: state.userStore.user?.addresses?.length,
         },
         // {
         //   href: '/payment-methods',
@@ -107,12 +104,12 @@ const Navigations = () => {
             <StyledNavLink
               href={item.href}
               key={item.title}
-              isCurrentPath={pathname.includes(item.href)}>
+              isCurrentPath={pathname.includes(item.href)}
+            >
               <FlexBox alignItems="center" gap={1}>
                 <item.icon color="inherit" fontSize="small" className="nav-icon" />
                 <span>{item.title}</span>
               </FlexBox>
-              <span>{item.count}</span>
             </StyledNavLink>
           ))}
         </Fragment>
@@ -127,7 +124,8 @@ const Navigations = () => {
           marginBottom: '1.25rem',
           justifyContent: 'space-between',
         }}
-        onClick={logoutHandler}>
+        onClick={logoutHandler}
+      >
         <FlexBox alignItems="center" gap={1}>
           <Logout fontSize="small" className="nav-icon" />
           <span>Logout</span>

@@ -4,13 +4,13 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { Avatar, Box, Button, Grid, TextField } from '@mui/material';
-import { UsersService } from 'api/services/users/users.service';
 import Card1 from 'components/Card1';
 import { FlexBox } from 'components/flex-box';
 import UserDashboardHeader from 'components/header/UserDashboardHeader';
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard';
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations';
 import { Formik } from 'formik';
+import { useActions } from 'hooks/useActions';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -19,15 +19,19 @@ import { getLocalStorage } from 'utils/local-storage/localStorage';
 import * as yup from 'yup';
 
 const ProfileEditor = () => {
-  const { push } = useRouter();
   const user = useTypedSelector((state) => state.userStore.user);
   const [file, setFile] = React.useState(null);
   const [fileLocaleUrl, setFileLocaleUrl] = React.useState(null);
 
+  const { push } = useRouter();
+  const { update } = useActions();
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setFile(file);
-    setFileLocaleUrl(URL.createObjectURL(file));
+    if (file) {
+      setFile(file);
+      setFileLocaleUrl(URL.createObjectURL(file));
+    }
   };
 
   const handleFormSubmit = async (values: any) => {
@@ -36,13 +40,13 @@ const ProfileEditor = () => {
     formData.append('last_name', values.last_name);
     formData.append('email', values.email);
     formData.append('phone', values.phone);
-    formData.append('password', values.password);
     formData.append('birthday', values.birthday);
     formData.append('verified', 'true');
     if (file) {
       formData.append('avatar', file);
     }
-    await UsersService.updateUser(user.id, formData);
+
+    await update({ data: formData, id: user.id });
 
     push('/profile');
   };
@@ -154,19 +158,7 @@ const ProfileEditor = () => {
                       helperText={touched.phone && errors.phone}
                     />
                   </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      type={'password'}
-                      placeholder="Password"
-                      name="password"
-                      onBlur={handleBlur}
-                      value={values.password}
-                      onChange={handleChange}
-                      error={!!touched.password && !!errors.password}
-                      helperText={touched.password && errors.password}
-                    />
-                  </Grid>
+
                   <Grid item md={6} xs={12}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DateTimePicker
@@ -207,7 +199,6 @@ const initialValues = {
   last_name: '',
   email: '',
   phone: '',
-  password: '',
   birth_date: new Date(),
 };
 
@@ -217,7 +208,6 @@ const checkoutSchema = yup.object().shape({
   email: yup.string().email('invalid email').required('required'),
   phone: yup.string().required('required'),
   birth_date: yup.date().required('invalid date'),
-  password: yup.string().required('required'),
 });
 
 export default ProfileEditor;

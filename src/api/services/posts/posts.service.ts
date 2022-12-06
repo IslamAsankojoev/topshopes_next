@@ -12,7 +12,7 @@ export const PostsService = {
   },
   getOnePost: async (id: string) => {
     try {
-      const response = await axiosClassic.get(getPostsUrl(`/${id}`));
+      const response = await axiosClassic.get(getPostsUrl(`${id}/`));
       return response.data;
     } catch (error) {
       throw error;

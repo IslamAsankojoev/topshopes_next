@@ -2,9 +2,17 @@ import { instance } from 'api/interceptor';
 import { getAddressesUrl } from 'config/api.config';
 
 export const AddressesService = {
+  async getAddresses() {
+    try {
+      const response = await instance.get(getAddressesUrl(''));
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
   async getAddress(id: string) {
     try {
-      const response = await instance.get(getAddressesUrl(`${id}`));
+      const response = await instance.get(getAddressesUrl(`${id}/`));
       return response.data;
     } catch (error) {
       throw error;
@@ -20,7 +28,7 @@ export const AddressesService = {
   },
   async updateAddress(id: string, data: any) {
     try {
-      const response = await instance.put(getAddressesUrl(`${id}`), data);
+      const response = await instance.patch(getAddressesUrl(`${id}/`), data);
       return response.data;
     } catch (error) {
       throw error;
@@ -28,7 +36,7 @@ export const AddressesService = {
   },
   async deleteAddress(id: string) {
     try {
-      const response = await instance.delete(getAddressesUrl(`${id}`));
+      const response = await instance.delete(getAddressesUrl(`${id}/`));
       return response.data;
     } catch (error) {
       throw error;

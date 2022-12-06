@@ -60,7 +60,7 @@ const CarouselCard1: FC<CarouselCard1Props> = ({
     <StyledBox>
       <Grid container spacing={3} alignItems="center" justifyContent="center">
         <Grid item className="grid-item" sm={5} xs={12}>
-          <h1 className="title">{useTranslate(text.title)}</h1>
+          <h1 className="title">{useLocales().title}</h1>
           <Paragraph color="secondary.main" mb={2.7}>
             {description}
           </Paragraph>
@@ -71,7 +71,8 @@ const CarouselCard1: FC<CarouselCard1Props> = ({
               disableElevation
               variant="contained"
               className="button-link"
-              sx={{ height: 44, borderRadius: '4px' }}>
+              sx={{ height: 44, borderRadius: '4px' }}
+            >
               {buttonText}
             </Button>
           </a>
@@ -94,6 +95,7 @@ const CarouselCard1: FC<CarouselCard1Props> = ({
   );
 };
 export default CarouselCard1;
+
 // static text
 const text = {
   title: {

@@ -129,7 +129,7 @@ const Profile: NextPageAuth = () => {
             <Small color="grey.600" mb={0.5}>
               Birth date
             </Small>
-            <span className="pre">{format(new Date(user.dateOfBirth), 'dd MMM, yyyy')}</span>
+            <span className="pre">{format(new Date(), 'dd MMM, yyyy')}</span>
           </FlexBox>
         </TableRow>
       </CustomerDashboardLayout>

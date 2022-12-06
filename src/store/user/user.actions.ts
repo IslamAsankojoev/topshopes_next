@@ -1,8 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { axiosClassic, instance } from 'api/interceptor';
 import { AuthService } from 'api/services/auth/auth.service';
-import { getUsersUrl } from 'config/api.config';
-import { IAuthResponse, ILogin, IRegister, ITokens } from './user.interface';
+import { ILogin, IRegister } from './user.interface';
 import Cookie from 'js-cookie';
 import { toast } from 'react-toastify';
 
@@ -15,7 +13,7 @@ export const register = createAsyncThunk(
       toast.success('Register success');
       return response;
     } catch (error) {
-      toast.error(error.response?.data[Object.keys(error.response?.data)[0]][0]);
+      toast.error('register');
       return thunkApi.rejectWithValue(error.response.data);
     }
   },
@@ -30,7 +28,7 @@ export const login = createAsyncThunk(
       toast.success('Login success');
       return response;
     } catch (error) {
-      toast.error(error.response?.data[Object.keys(error.response?.data)[0]]);
+      toast.error('login');
       return thunkApi.rejectWithValue(error.response.data);
     }
   },
@@ -70,3 +68,17 @@ export const profile = createAsyncThunk('auth/profile', async () => {
     throw error;
   }
 });
+
+export const update = createAsyncThunk(
+  'auth/profile/update',
+  async ({ data, id }: any, thunkApi) => {
+    try {
+      const response = await AuthService.update(data, id);
+      toast.success('Update success');
+      return response;
+    } catch (error) {
+      toast.error('update');
+      return thunkApi.rejectWithValue(error.response.data);
+    }
+  },
+);

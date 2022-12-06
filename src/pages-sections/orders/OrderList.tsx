@@ -1,9 +1,10 @@
 import { Pagination } from '@mui/material';
+import { OrdersService } from 'api/services/orders/orders.service';
 import { FlexBox } from 'components/flex-box';
 import TableRow from 'components/TableRow';
 import { H5 } from 'components/Typography';
-import { useTypedSelector } from 'hooks/useTypedSelector';
 import { FC, Fragment } from 'react';
+import { useQuery } from 'react-query';
 import OrderRow from './OrderRow';
 
 // ============================================================
@@ -11,48 +12,51 @@ type OrderListProps = {};
 // ============================================================
 
 const OrderList: FC<OrderListProps> = () => {
-  const user = useTypedSelector((state) => state.userStore.user);
+  const { isLoading, data: orders, isError } = useQuery('orders', () => OrdersService.getOrders());
 
   return (
-    <Fragment>
-      <TableRow
-        elevation={0}
-        sx={{
-          padding: '0px 18px',
-          background: 'none',
-          display: { xs: 'none', md: 'flex' },
-        }}>
-        <H5 color="grey.600" my={0} mx={0.75} textAlign="left">
-          Order #
-        </H5>
+    !isLoading && (
+      <Fragment>
+        <TableRow
+          elevation={0}
+          sx={{
+            padding: '0px 18px',
+            background: 'none',
+            display: { xs: 'none', md: 'flex' },
+          }}
+        >
+          <H5 color="grey.600" my={0} mx={0.75} textAlign="left">
+            Order #
+          </H5>
 
-        <H5 color="grey.600" my={0} mx={0.75} textAlign="left">
-          Status
-        </H5>
+          <H5 color="grey.600" my={0} mx={0.75} textAlign="left">
+            Status
+          </H5>
 
-        <H5 color="grey.600" my={0} mx={0.75} textAlign="left">
-          Date purchased
-        </H5>
+          <H5 color="grey.600" my={0} mx={0.75} textAlign="left">
+            Date purchased
+          </H5>
 
-        <H5 color="grey.600" my={0} mx={0.75} textAlign="left">
-          Total
-        </H5>
-        <H5 flex="0 0 0 !important" color="grey.600" px={2.75} my={0} />
-      </TableRow>
+          <H5 color="grey.600" my={0} mx={0.75} textAlign="left">
+            Total
+          </H5>
+          <H5 flex="0 0 0 !important" color="grey.600" px={2.75} my={0} />
+        </TableRow>
 
-      {user.orders.map((item) => (
-        <OrderRow {...item} key={item.id} />
-      ))}
+        {orders.map((item) => (
+          <OrderRow {...item} key={item.id} />
+        ))}
 
-      <FlexBox justifyContent="center" mt={5}>
-        <Pagination
-          count={5}
-          color="primary"
-          variant="outlined"
-          onChange={(data) => console.log(data)}
-        />
-      </FlexBox>
-    </Fragment>
+        <FlexBox justifyContent="center" mt={5}>
+          <Pagination
+            count={5}
+            color="primary"
+            variant="outlined"
+            onChange={(data) => console.log(data)}
+          />
+        </FlexBox>
+      </Fragment>
+    )
   );
 };
 

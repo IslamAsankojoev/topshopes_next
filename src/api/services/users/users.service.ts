@@ -12,7 +12,7 @@ export const UsersService = {
   },
   async getUser(id: string) {
     try {
-      const response = await axiosClassic.get(getUsersUrl(`${id}`));
+      const response = await axiosClassic.get(getUsersUrl(`${id}/`));
       return response.data;
     } catch (error) {
       throw error;
@@ -20,7 +20,7 @@ export const UsersService = {
   },
   async updateUser(id: string, data: any) {
     try {
-      const response = await axiosClassic.put(getUsersUrl(`${id}`), data);
+      const response = await axiosClassic.put(getUsersUrl(`${id}/`), data);
       return response.data;
     } catch (error) {
       throw error;
