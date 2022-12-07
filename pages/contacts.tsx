@@ -1,5 +1,6 @@
-import ShopLayout1 from 'components/layouts/ShopLayout1';
-import React from 'react';
+import Icon from "components/icons/FaIcon/Icon";
+import ShopLayout1 from "components/layouts/ShopLayout1";
+import React from "react";
 
 const ContactsPage = ({ data }) => {
   React.useEffect(() => {
@@ -9,9 +10,11 @@ const ContactsPage = ({ data }) => {
     <ShopLayout1>
       <div
         style={{
-          padding: '100px',
+          padding: "100px",
         }}
-      ></div>
+      >
+        <Icon color={"red"} size={"30px"} iconName={"FaYoutube"} />
+      </div>
     </ShopLayout1>
   );
 };
