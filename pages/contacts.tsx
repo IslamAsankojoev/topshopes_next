@@ -12,9 +12,7 @@ const ContactsPage = ({ data }) => {
         style={{
           padding: "100px",
         }}
-      >
-        <Icon color={"red"} size={"30px"} iconName={"FaYoutube"} />
-      </div>
+      ></div>
     </ShopLayout1>
   );
 };
