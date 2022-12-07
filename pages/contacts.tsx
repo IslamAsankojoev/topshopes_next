@@ -1,4 +1,4 @@
-import Icon from "components/icons/Icon";
+import Icon from "components/icons/FaIcon/Icon";
 import ShopLayout1 from "components/layouts/ShopLayout1";
 import React from "react";
 
@@ -13,7 +13,7 @@ const ContactsPage = ({ data }) => {
           padding: "100px",
         }}
       >
-        <Icon iconName={"FaYoutube"} />
+        <Icon color={"red"} size={"30px"} iconName={"FaYoutube"} />
       </div>
     </ShopLayout1>
   );
