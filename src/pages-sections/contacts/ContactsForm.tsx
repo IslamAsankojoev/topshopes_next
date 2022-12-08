@@ -8,14 +8,14 @@ import { sendMessage } from '../../components/bot/TelegramBotMeassage'
 interface formDataType {
 	username: string
 	email: string
-	phone: number | null
+	phone: number | ''
 	message: string
 }
 const ContactsForm = () => {
 	const [formData, setFormData] = React.useState<formDataType>({
 		username: '',
 		email: '',
-		phone: null,
+		phone: '',
 		message: '',
 	})
 
@@ -31,18 +31,18 @@ const ContactsForm = () => {
 			await sendMessage(`
 			Обратная связь⛓: 
 
--👤 имя отправителя: ${formData.username}
+			-👤 имя отправителя: ${formData.username}
 
--📫 email: ${formData.email}
+			-📫 email: ${formData.email}
 
--☎️ номер телефона: ${formData.phone}
+			-☎️ номер телефона: ${formData.phone}
 
--✍️ сообщение: "${formData.message}"
+			-✍️ сообщение: "${formData.message}"
 			`)
 			setFormData({
 				username: '',
 				email: '',
-				phone: null,
+				phone: '',
 				message: '',
 			})
 			toast.success('успешно отправлено')
