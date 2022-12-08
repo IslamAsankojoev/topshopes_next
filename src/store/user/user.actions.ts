@@ -69,13 +69,16 @@ export const profile = createAsyncThunk('auth/profile', async () => {
   }
 });
 
-export const update = createAsyncThunk('auth/profile/update', async (data: any, thunkApi) => {
-  try {
-    const response = await AuthService.update(data);
-    toast.success('Update success');
-    return response;
-  } catch (error) {
-    toast.error('update');
-    return thunkApi.rejectWithValue(error.response.data);
-  }
-});
+export const update = createAsyncThunk(
+  'auth/profile/update',
+  async ({ data, id }: any, thunkApi) => {
+    try {
+      const response = await AuthService.update(data, id);
+      toast.success('Update success');
+      return response;
+    } catch (error) {
+      toast.error('update');
+      return thunkApi.rejectWithValue(error.response.data);
+    }
+  },
+);
