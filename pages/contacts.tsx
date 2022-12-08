@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import Icon from "components/icons/FaIcon/Icon";
+>>>>>>> parent of 0b7575f6 (fix order)
 import ShopLayout1 from "components/layouts/ShopLayout1";
 import React from "react";
 
