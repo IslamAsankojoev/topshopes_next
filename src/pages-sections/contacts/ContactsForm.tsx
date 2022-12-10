@@ -31,13 +31,13 @@ const ContactsForm = () => {
 			await sendMessage(`
 			Обратная связь⛓: 
 
-			-👤 имя отправителя: ${formData.username}
+			-имя отправителя: ${formData.username}
 
-			-📫 email: ${formData.email}
+			-email: ${formData.email}
 
-			-☎️ номер телефона: ${formData.phone}
+			-номер телефона: ${formData.phone}
 
-			-✍️ сообщение: "${formData.message}"
+			-сообщение: "${formData.message}"
 			`)
 			setFormData({
 				username: '',
