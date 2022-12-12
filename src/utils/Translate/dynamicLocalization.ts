@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import Cookie from 'js-cookie'
 
 interface dynamicLocalizationProps {
 	words: {
@@ -10,8 +10,8 @@ interface dynamicLocalizationProps {
 	}
 }
 
-export const useLocalization = (words): dynamicLocalizationProps => {
-	const { locale } = useRouter()
+export const dynamicLocalization = (words): dynamicLocalizationProps => {
+	const locale = Cookie.get('i18nextLng')
 	if (locale === 'ky-KG') {
 		return words.kg || words.en
 	}
