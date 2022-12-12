@@ -46,7 +46,7 @@ const ProfileEditor = () => {
       formData.append('avatar', file);
     }
 
-    await update(formData);
+    await update({ data: formData, id: user.id });
 
     push('/profile');
   };
