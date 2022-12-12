@@ -13,7 +13,7 @@ interface dynamicLocalizationProps {
 export const useLocalization = (words): dynamicLocalizationProps => {
 	const { locale } = useRouter()
 	if (locale === 'ky-KG') {
-		return words.kg
+		return words.kg || words.en
 	}
-	return words[locale]
+	return words[locale] || words.en
 }

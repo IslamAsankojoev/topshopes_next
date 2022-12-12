@@ -7,21 +7,7 @@ import styled from '@emotion/styled'
 import { GetServerSideProps } from 'next'
 import Cookie from 'js-cookie'
 
-export const getServerSideProps: GetServerSideProps = async () => {
-	const cook = Cookie.get('i18nextLng') || 'en'
-	return {
-		props: {
-			cook,
-		},
-	}
-}
-
 const ContactsPage = ({ cook }) => {
-	console.log(Cookie.get('i18nextLng'))
-	// React.useEffect(() => {
-	// 	console.log(cook)
-	// }, [])
-
 	return (
 		<ShopLayout1>
 			<SEO title="Contacts" />
