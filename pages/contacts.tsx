@@ -4,8 +4,6 @@ import SEO from '../src/components/SEO'
 import { Container } from '@mui/system'
 import ContactsForm from '../src/pages-sections/contacts/ContactsForm'
 import styled from '@emotion/styled'
-import { GetServerSideProps } from 'next'
-import Cookie from 'js-cookie'
 
 const ContactsPage = ({ cook }) => {
 	return (

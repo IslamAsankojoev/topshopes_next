@@ -8,23 +8,33 @@ export const axiosClassic = axios.create({
 	baseURL: `${API_URL}`,
 	headers: {
 		'Content-Type': 'application/json',
-		'Accept-Language': Cookie.get('i18nextLng') || 'en',
 	},
+})
+axiosClassic.interceptors.request.use((config) => {
+	const lng = Cookie.get('i18nextLng')
+	if (config.headers) {
+		config.headers['accept-language'] = lng || 'en'
+	}
+	return config
 })
 
 export const instance = axios.create({
 	baseURL: `${API_URL}`,
 	headers: {
 		'Content-Type': 'application/json',
-		'Accept-Language': Cookie.get('i18nextLng') || 'en',
 	},
 })
 
 instance.interceptors.request.use((config) => {
 	const access = Cookie.get('token')
-	if (config.headers && access)
-		config.headers.Authorization = `Bearer ${access}`
+	const lng = Cookie.get('i18nextLng')
 
+	if (config.headers) {
+		config.headers['accept-language'] = lng || 'en'
+	}
+	if (config.headers && access) {
+		config.headers.Authorization = `Bearer ${access}`
+	}
 	return config
 })
 
