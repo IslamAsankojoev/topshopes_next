@@ -1,5 +1,6 @@
 import { instance } from 'api/interceptor'
 import { getCategoriesUrlAdmin } from 'config/api.config'
+import { toast } from 'react-toastify'
 
 export const CategoriesService = {
 	getCategories: async () => {
@@ -26,6 +27,7 @@ export const CategoriesService = {
 			)
 			return response.data
 		} catch (error) {
+			toast.error('error')
 			throw error
 		}
 	},

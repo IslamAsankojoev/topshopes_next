@@ -1,36 +1,39 @@
 export const categoryEditForm = [
 	{
-		label: 'Name',
+		name: 'name',
+		label: 'name',
 		type: 'text',
 		placeholder: 'Enter name',
 		required: true,
 	},
-
 	{
-		label: 'Description',
+		name: 'description',
+		label: 'description',
 		type: 'text',
 		placeholder: 'Enter description',
 		required: true,
 	},
-
 	{
-		label: 'Icon',
+		name: 'icon',
+		label: 'icon',
 		type: 'file',
 		placeholder: 'Enter icon',
-		required: true,
+		required: false,
 	},
 	{
-		label: 'Image',
+		name: 'image',
+		label: 'image',
 		type: 'file',
 		placeholder: 'Enter image',
 		required: true,
 	},
-	{
-		label: 'Featured',
-		type: 'checkbox',
-		placeholder: 'Enter featured',
-		required: true,
-	},
+	// {
+	// 	name: 'featured',
+	// 	label: 'Featured',
+	// 	type: 'checkbox',
+	// 	placeholder: 'Enter featured',
+	// 	required: false,
+	// },
 	// {
 	// 	label: 'Slug',
 	// 	type: 'text',

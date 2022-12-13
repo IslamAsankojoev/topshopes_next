@@ -1,15 +1,24 @@
-import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material'
+import {
+	Button,
+	Checkbox,
+	FormControlLabel,
+	Switch,
+	TextField,
+} from '@mui/material'
 import { FC, useEffect, useState } from 'react'
-import placeholder from '../../../public/assets/images/placeholder.jpg'
 import styles from './Field.module.scss'
 
 const Field: FC<any> = (props) => {
 	const { type, ...other } = props
 
-	if (type == 'textfield') {
-		return <TextField {...other} />
+	if (type == 'text') {
+		return (
+			<>
+				<TextField {...other} />
+			</>
+		)
 	}
-	if (type == 'textarea') {
+	if (type == 'text') {
 		return <TextField {...other} multiline rows={4} />
 	}
 	if (type == 'select') {
@@ -18,7 +27,7 @@ const Field: FC<any> = (props) => {
 	if (type == 'checkbox') {
 		return (
 			<>
-				<Checkbox color="info" {...other} />
+				<Switch color="info" {...other} checked={other.value} />
 				<span>{other.label} </span>
 			</>
 		)
@@ -35,16 +44,20 @@ const Field: FC<any> = (props) => {
 			const file = e.target.files[0]
 			if (file) {
 				setFileLocaleUrl(URL.createObjectURL(file))
+				other.setFieldValue(other.label, file)
 			}
-			other.setFieldValue(other.label, file)
 		}
+
+		useEffect(() => {
+			console.log(other.defaultData)
+		}, [])
 
 		return (
 			<>
 				<div className={styles.file}>
 					<img
 						className={styles.uploadImage}
-						src={fileLocaleUrl}
+						src={other.defaultData[other.name] || fileLocaleUrl}
 						alt="Uploaded image"
 					/>
 					<Button
@@ -57,7 +70,6 @@ const Field: FC<any> = (props) => {
 						<input
 							name={other.name}
 							onChange={(e) => handleFileChange(e)}
-							hidden
 							accept="image/*"
 							type="file"
 						/>
