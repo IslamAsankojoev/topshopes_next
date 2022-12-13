@@ -36,9 +36,7 @@ const Field: FC<any> = (props) => {
 		return <TextField {...other} type="radio" />
 	}
 	if (type == 'file') {
-		const [fileLocaleUrl, setFileLocaleUrl] = useState(
-			'/assets/images/placeholder.jpg'
-		)
+		const [fileLocaleUrl, setFileLocaleUrl] = useState(null)
 
 		const handleFileChange = (e) => {
 			const file = e.target.files[0]
@@ -57,7 +55,11 @@ const Field: FC<any> = (props) => {
 				<div className={styles.file}>
 					<img
 						className={styles.uploadImage}
-						src={other.defaultData[other.name] || fileLocaleUrl}
+						src={
+							fileLocaleUrl ||
+							other.defaultData[other.name] ||
+							'/assets/images/placeholder.jpg'
+						}
 						alt="Uploaded image"
 					/>
 					<Button
@@ -68,6 +70,7 @@ const Field: FC<any> = (props) => {
 					>
 						{other.label}
 						<input
+							hidden
 							name={other.name}
 							onChange={(e) => handleFileChange(e)}
 							accept="image/*"
