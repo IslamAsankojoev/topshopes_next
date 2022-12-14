@@ -90,7 +90,7 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 							setFieldValue={setFieldValue}
 							onBlur={handleBlur}
 							onChange={handleChange}
-							defaultData={defaultData ? defaultData : null}
+							defaultData={defaultData || {}}
 						/>
 						<span style={{ color: 'red', fontWeight: '600' }}>
 							{!!errors[field.name] && 'required'}

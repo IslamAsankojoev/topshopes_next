@@ -47,3 +47,20 @@ export const categoryEditForm = [
 	// 	required: true,
 	// },
 ]
+
+export const brandEditForm = [
+	{
+		name: 'name',
+		label: 'name',
+		type: 'text',
+		placeholder: 'Enter name',
+		required: true,
+	},
+	{
+		name: 'image',
+		label: 'image',
+		type: 'file',
+		placeholder: 'Upload image',
+		required: true,
+	},
+]

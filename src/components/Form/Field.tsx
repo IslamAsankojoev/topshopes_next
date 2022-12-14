@@ -5,7 +5,7 @@ import {
 	Switch,
 	TextField,
 } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import styles from './Field.module.scss'
 
 const Field: FC<any> = (props) => {
@@ -45,10 +45,6 @@ const Field: FC<any> = (props) => {
 				other.setFieldValue(other.label, file)
 			}
 		}
-
-		useEffect(() => {
-			console.log(other.defaultData)
-		}, [])
 
 		return (
 			<>

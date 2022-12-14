@@ -1,39 +1,37 @@
 import { Box } from '@mui/material'
-import { CategoriesService } from 'api/services-admin/categories/category.service'
+import { BrandsService } from 'api/services-admin/brands/brand.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-
-import { ICategory } from 'shared/types/product.types'
-
-import { categoryEditForm } from 'utils/constants/forms'
+import { brandEditForm } from 'utils/constants/forms'
 
 const CreateCategory = ({ id }) => {
 	const { push } = useRouter()
-	const [category, setCategory] = useState<ICategory>(null)
+	const [brand, setBrand] = useState(null)
 
 	const handleFormSubmit = async (data) => {
-		await CategoriesService.updateCategory(id as string, data)
-		push('/admin/categories')
+		await BrandsService.updateBrand(id, data)
+		push('/admin/brands')
 	}
 
 	useEffect(() => {
-		const getCategory = async () => {
-			const data = await CategoriesService.getCategory(id as string)
-			setCategory(data)
+		const getBrand = async () => {
+			const data = await BrandsService.getBrand(id)
+			setBrand(data)
 		}
-		getCategory()
+		getBrand()
 	}, [])
 
-	return category ? (
+	return brand ? (
 		<Box py={4}>
-			<H3 mb={2}>Edit Category</H3>
+			<H3 mb={2}>Add New Brand</H3>
 			<CreateForm
-				defaultData={category}
-				fields={categoryEditForm}
+				defaultData={brand}
+				fields={brandEditForm}
 				handleFormSubmit={handleFormSubmit}
 			/>
 		</Box>
@@ -44,7 +42,9 @@ CreateCategory.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export const getServerSideProps = async (context) => {
+export default CreateCategory
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id } = context.params
 
 	return {
@@ -53,5 +53,3 @@ export const getServerSideProps = async (context) => {
 		},
 	}
 }
-
-export default CreateCategory
