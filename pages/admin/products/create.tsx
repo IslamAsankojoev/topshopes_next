@@ -1,50 +1,74 @@
-import { Box } from "@mui/material";
-import VendorDashboardLayout from "components/layouts/vendor-dashboard";
-import { H3 } from "components/Typography";
-import { ProductForm } from "pages-sections/admin";
-import React, { ReactElement } from "react";
-import * as yup from "yup";
+import { Box } from '@mui/material'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import { H3 } from 'components/Typography'
+import { ProductForm } from 'pages-sections/admin'
+import React, { ReactElement } from 'react'
+import * as yup from 'yup'
+import { productFormValidationSchema } from './[id]'
+import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
+import Loading from '../../../src/components/Loading'
+import { instance } from '../../../src/api/interceptor'
+import { getProductsUrlAdmin } from '../../../src/config/api.config'
+import { toast } from 'react-toastify'
+import { objToFormData } from '../../../src/utils/formData'
+import { useRouter } from 'next/router'
 
 const CreateProduct = () => {
-  const initialValues = {
-    name: "",
-    stock: "",
-    price: "",
-    sale_price: "",
-    description: "",
-    tags: "",
-    category: "",
-  };
+	const initialValues = {
+		title: '',
+		categories: [],
+		colors: [],
+		discount: 0,
+		price: '0',
+		published: false,
+		rating: '',
+		shop: '',
+		sizes: [],
+		brand: '',
+		thumbnail: '',
+		unit: '',
+	}
+	const fetch = useProductFetch()
+	const { push } = useRouter()
 
-  const handleFormSubmit = () => {};
+	const handleFormSubmit = async (data) => {
+		console.log(data)
+		try {
+			const response = await instance.post(
+				getProductsUrlAdmin(``),
+				objToFormData(data)
+			)
+			toast.success('success')
+			await push('/admin/products/')
+		} catch (e: any) {
+			toast.error(e?.message)
+			console.log(e)
+		}
+	}
 
-  return (
-    <Box py={4}>
-      <H3 mb={2}>Add New Product</H3>
+	if (fetch.isLoading) {
+		return <Loading />
+	}
 
-      <ProductForm
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        handleFormSubmit={handleFormSubmit}
-      />
-    </Box>
-  );
-};
+	return fetch ? (
+		<Box py={4}>
+			<H3 mb={2}>Add New Product</H3>
+
+			<ProductForm
+				productFetch={fetch}
+				initialValues={initialValues}
+				validationSchema={productFormValidationSchema}
+				handleFormSubmit={handleFormSubmit}
+				update={false}
+			/>
+		</Box>
+	) : null
+}
 
 // =============================================================================
 CreateProduct.getLayout = function getLayout(page: ReactElement) {
-  return <VendorDashboardLayout>{page}</VendorDashboardLayout>;
-};
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
+}
 // =============================================================================
 
-const validationSchema = yup.object().shape({
-  name: yup.string().required("required"),
-  category: yup.string().required("required"),
-  description: yup.string().required("required"),
-  stock: yup.number().required("required"),
-  price: yup.number().required("required"),
-  sale_price: yup.number().required("required"),
-  tags: yup.object().required("required"),
-});
-
-export default CreateProduct;
+export default CreateProduct

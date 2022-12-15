@@ -1,168 +1,281 @@
-import { Button, Card, Grid, MenuItem, TextField } from "@mui/material";
-import DropZone from "components/DropZone";
-import { Formik } from "formik";
-import React, { FC } from "react";
-import * as yup from "yup";
-import { Assign, ObjectShape } from "yup/lib/object";
+import { Button, Card, Grid, MenuItem, TextField } from '@mui/material'
+import DropZone from 'components/DropZone'
+import { useFormik } from 'formik'
+import React, { FC } from 'react'
+import * as yup from 'yup'
+import { Assign, ObjectShape } from 'yup/lib/object'
+import MultipleSelect from '../../../components/multiple-select/MultipleSelect'
+import {
+	getIdArray,
+	MultipleSelectDataFormat,
+} from '../../../components/multiple-select/MultipleSelectHelper'
+import styled from '@emotion/styled'
+import { ProductFetchTypes, useProductFetch } from './useProductFetch'
+import { checkChangeThumbnail } from './productFormHelper'
+import { objToFormData } from '../../../utils/formData'
+import { Formik } from 'formik'
+import React, { FC } from 'react'
+import * as yup from 'yup'
+import { Assign, ObjectShape } from 'yup/lib/object'
 
 // ================================================================
 type ProductFormProps = {
-  initialValues: any;
-  handleFormSubmit: (values: any) => void;
-  validationSchema: yup.ObjectSchema<Assign<ObjectShape, any>>;
-};
+	initialValues: any
+	handleFormSubmit: (values: any) => void
+	validationSchema: yup.ObjectSchema<Assign<ObjectShape, any>>
+	productFetch: ProductFetchTypes
+	update?: boolean
+}
 // ================================================================
 
 const ProductForm: FC<ProductFormProps> = (props) => {
-  const { initialValues, validationSchema, handleFormSubmit } = props;
+	const {
+		initialValues,
+		validationSchema,
+		handleFormSubmit,
+		productFetch,
+		update,
+	} = props
 
-  return (
-    <Card sx={{ p: 6 }}>
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item sm={6} xs={12}>
-                <TextField
-                  fullWidth
-                  name="name"
-                  label="Name"
-                  color="info"
-                  size="medium"
-                  placeholder="Name"
-                  value={values.name}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  error={!!touched.name && !!errors.name}
-                  helperText={touched.name && errors.name}
-                />
-              </Grid>
-              <Grid item sm={6} xs={12}>
-                <TextField
-                  select
-                  fullWidth
-                  color="info"
-                  size="medium"
-                  name="category"
-                  onBlur={handleBlur}
-                  placeholder="Category"
-                  onChange={handleChange}
-                  value={values.category}
-                  label="Select Category"
-                  error={!!touched.category && !!errors.category}
-                  helperText={touched.category && errors.category}
-                >
-                  <MenuItem value="electronics">Electronics</MenuItem>
-                  <MenuItem value="fashion">Fashion</MenuItem>
-                </TextField>
-              </Grid>
+	//data fetching
+	const { categories, size, colors, brands, shops } = productFetch
 
-              <Grid item xs={12}>
-                <DropZone onChange={(files) => console.log(files)} />
-              </Grid>
+	//states for multiple selects
+	const [categoryState, setCategoryState] = React.useState(
+		MultipleSelectDataFormat(update ? initialValues.categories : [])
+	)
+	const [sizeState, setSizeState] = React.useState(
+		MultipleSelectDataFormat(update ? initialValues.sizes : [])
+	)
+	const [colorsState, setColorsState] = React.useState(
+		MultipleSelectDataFormat(update ? initialValues.colors : [])
+	)
+	const [imageState, setImageState] = React.useState(
+		initialValues.thumbnail ? initialValues.thumbnail : null
+	)
 
-              <Grid item xs={12}>
-                <TextField
-                  rows={6}
-                  multiline
-                  fullWidth
-                  color="info"
-                  size="medium"
-                  name="description"
-                  label="Description"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  placeholder="Description"
-                  value={values.description}
-                  error={!!touched.description && !!errors.description}
-                  helperText={touched.description && errors.description}
-                />
-              </Grid>
-              <Grid item sm={6} xs={12}>
-                <TextField
-                  fullWidth
-                  name="stock"
-                  color="info"
-                  size="medium"
-                  label="Stock"
-                  placeholder="Stock"
-                  onBlur={handleBlur}
-                  value={values.stock}
-                  onChange={handleChange}
-                  error={!!touched.stock && !!errors.stock}
-                  helperText={touched.stock && errors.stock}
-                />
-              </Grid>
-              <Grid item sm={6} xs={12}>
-                <TextField
-                  fullWidth
-                  name="tags"
-                  label="Tags"
-                  color="info"
-                  size="medium"
-                  placeholder="Tags"
-                  onBlur={handleBlur}
-                  value={values.tags}
-                  onChange={handleChange}
-                  error={!!touched.tags && !!errors.tags}
-                  helperText={touched.tags && errors.tags}
-                />
-              </Grid>
-              <Grid item sm={6} xs={12}>
-                <TextField
-                  fullWidth
-                  name="price"
-                  color="info"
-                  size="medium"
-                  type="number"
-                  onBlur={handleBlur}
-                  value={values.price}
-                  label="Regular Price"
-                  onChange={handleChange}
-                  placeholder="Regular Price"
-                  error={!!touched.price && !!errors.price}
-                  helperText={touched.price && errors.price}
-                />
-              </Grid>
-              <Grid item sm={6} xs={12}>
-                <TextField
-                  fullWidth
-                  color="info"
-                  size="medium"
-                  type="number"
-                  name="sale_price"
-                  label="Sale Price"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  placeholder="Sale Price"
-                  value={values.sale_price}
-                  error={!!touched.sale_price && !!errors.sale_price}
-                  helperText={touched.sale_price && errors.sale_price}
-                />
-              </Grid>
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		setFieldValue,
+	} = useFormik({
+		initialValues,
+		onSubmit: async () => {
+			console.log(values)
+			const submitData = {
+				...checkChangeThumbnail(values),
+				categories: getIdArray(categoryState),
+				sizes: getIdArray(sizeState),
+				colors: getIdArray(colorsState),
+			}
+			handleFormSubmit(
+				initialValues.thumbnail === values.thumbnail
+					? submitData
+					: { ...submitData, thumbnail: values.thumbnail }
+			)
+		},
+		validationSchema: validationSchema,
+	})
 
-              <Grid item sm={6} xs={12}>
-                <Button variant="contained" color="info" type="submit">
-                  Save product
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        )}
-      </Formik>
-    </Card>
-  );
-};
+	return (
+		<Card sx={{ p: 6 }}>
+			<form onSubmit={handleSubmit}>
+				<Grid container spacing={3}>
+					<Grid item sm={6} xs={12}>
+						<TextField
+							fullWidth
+							name="title"
+							label="Title"
+							color="info"
+							size="medium"
+							placeholder="Title"
+							value={values.title}
+							onBlur={handleBlur}
+							onChange={handleChange}
+							error={!!touched.title && !!errors.title}
+							helperText={touched.title && errors.title}
+						/>
+					</Grid>
 
-export default ProductForm;
+					<Grid item sm={6} xs={12}>
+						<MultipleSelect
+							names={categories}
+							chosenName={categoryState}
+							setChosenName={setCategoryState}
+							label={'Categories'}
+						/>
+					</Grid>
+
+					<Grid item sm={imageState ? 6 : 12} xs={12}>
+						<DropZone
+							name={'thumbnail'}
+							onBlur={handleBlur}
+							required={!values.thumbnail}
+							onChange={(file: any) => {
+								setFieldValue('thumbnail', file)
+								setImageState(URL.createObjectURL(file))
+							}}
+							multiple={false}
+							accept={'image/*'}
+						/>
+					</Grid>
+
+					{imageState ? (
+						<Grid sx={{ width: '100%', height: '100%' }} item sm={6} xs={12}>
+							<PrevImg src={imageState} alt={'picture'} />
+						</Grid>
+					) : null}
+
+					<Grid sm={6} item xs={12}>
+						<MultipleSelect
+							names={size}
+							chosenName={sizeState}
+							setChosenName={setSizeState}
+							label={'Sizes'}
+						/>
+					</Grid>
+
+					<Grid item sm={6} xs={12}>
+						<MultipleSelect
+							names={colors}
+							chosenName={colorsState}
+							setChosenName={setColorsState}
+							label={'Colors'}
+						/>
+					</Grid>
+					<Grid item sm={6} xs={12}>
+						<TextField
+							fullWidth
+							name="rating"
+							label="Rating"
+							color="info"
+							size="medium"
+							placeholder="Rating"
+							onBlur={handleBlur}
+							value={values.rating}
+							onChange={handleChange}
+							error={!!touched.rating && !!errors.rating}
+							helperText={touched.rating && errors.rating}
+						/>
+					</Grid>
+					<Grid item sm={6} xs={12}>
+						<TextField
+							fullWidth
+							name="price"
+							color="info"
+							size="medium"
+							type="number"
+							onBlur={handleBlur}
+							value={values.price}
+							label="Regular Price"
+							onChange={handleChange}
+							placeholder="Regular Price"
+							error={!!touched.price && !!errors.price}
+							helperText={touched.price && errors.price}
+						/>
+					</Grid>
+
+					<Grid item sm={6} xs={12}>
+						<TextField
+							fullWidth
+							color="info"
+							size="medium"
+							name="unit"
+							label="Unit"
+							onBlur={handleBlur}
+							onChange={handleChange}
+							placeholder="Unit"
+							value={values.unit}
+							error={!!touched.unit && !!errors.unit}
+							helperText={touched.unit && errors.unit}
+						/>
+					</Grid>
+					<Grid item sm={6} xs={12}>
+						<TextField
+							fullWidth
+							type={'number'}
+							color="info"
+							size="medium"
+							name="discount"
+							label="Discount"
+							onBlur={handleBlur}
+							onChange={handleChange}
+							placeholder="Discount"
+							value={values.discount}
+							error={!!touched.discount && !!errors.discount}
+							helperText={touched.discount && errors.discount}
+						/>
+					</Grid>
+
+					<Grid item sm={6} xs={12}>
+						<TextField
+							select
+							fullWidth
+							color="info"
+							size="medium"
+							name="brand"
+							onBlur={handleBlur}
+							placeholder="Brands"
+							onChange={handleChange}
+							value={values.brand}
+							label="Select Brand"
+							error={!!touched.brand && !!errors.brand}
+							helperText={touched.brand && errors.brand}
+						>
+							{brands?.map((brand) => (
+								<MenuItem key={brand.name} value={brand.id}>
+									{brand.name}
+								</MenuItem>
+							))}
+						</TextField>
+					</Grid>
+
+					<Grid item sm={6} xs={12}>
+						<TextField
+							select
+							fullWidth
+							color="info"
+							size="medium"
+							name="shop"
+							onBlur={handleBlur}
+							placeholder="Shop"
+							onChange={handleChange}
+							value={values.shop}
+							label="Select Shop"
+							error={!!touched.shop && !!errors.shop}
+							helperText={touched.shop && errors.shop}
+						>
+							{shops?.map((shop) => (
+								<MenuItem key={shop.name} value={shop.id}>
+									{shop.name}
+								</MenuItem>
+							))}
+						</TextField>
+					</Grid>
+
+					<Grid item sm={6} xs={12}>
+						<Button variant="contained" color="info" type="submit">
+							{update ? 'Save product' : 'Create product'}
+						</Button>
+					</Grid>
+				</Grid>
+			</form>
+		</Card>
+	)
+}
+const PrevImg = styled.img`
+	max-width: 408px;
+	max-height: 220px;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border-radius: 10px;
+
+	margin: auto;
+`
+
+export default ProductForm

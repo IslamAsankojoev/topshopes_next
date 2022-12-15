@@ -1,70 +1,98 @@
-import { Delete, Edit, RemoveRedEye } from "@mui/icons-material";
-import { Avatar } from "@mui/material";
-import BazaarSwitch from "components/BazaarSwitch";
-import React, { FC, useState } from "react";
+import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
+import { Avatar } from '@mui/material'
+import { CategoriesService } from 'api/services-admin/categories/category.service'
+import BazaarSwitch from 'components/BazaarSwitch'
+
+import { getCategoriesUrl } from 'config/api.config'
+import { useRouter } from 'next/router'
+import React, { FC, useState } from 'react'
+import { ICategory } from 'shared/types/product.types'
 import {
-  CategoryWrapper,
-  StyledIconButton,
-  StyledTableCell,
-  StyledTableRow,
-} from "./StyledComponents";
+	CategoryWrapper,
+	StyledIconButton,
+	StyledTableCell,
+	StyledTableRow,
+} from './StyledComponents'
 
 // ========================================================================
 type CategoryRowProps = {
-  item: any;
-  selected: any[];
-};
+	item: ICategory
+	selected: any[]
+	refetch: () => void
+}
 // ========================================================================
 
-const CategoryRow: FC<CategoryRowProps> = ({ item, selected }) => {
-  const { category, name, level, banner, featured } = item;
-  const isItemSelected = selected.indexOf(name) !== -1;
+const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 
-  // state
-  const [featuredCategory, setFeaturedCategory] = useState(featured);
+	const { reload, push } = useRouter()
+	const { featured, icon, id, name, image, parent, slug } = item
+	const isItemSelected = selected.indexOf(name) !== -1
 
-  return (
-    <StyledTableRow
-      tabIndex={-1}
-      role="checkbox"
-      selected={isItemSelected}
-      aria-checked={isItemSelected}
-    >
-      <StyledTableCell align="left">{name}</StyledTableCell>
+	// state
+	const [featuredCategory, setFeaturedCategory] = useState(featured)
 
-      <StyledTableCell align="left">
-        <CategoryWrapper>{category}</CategoryWrapper>
-      </StyledTableCell>
+	const featuredCategoryHandler = async () => {
+		await CategoriesService.updateCategory(id, { featured: !featuredCategory })
+		setFeaturedCategory((state) => !state)
+	}
 
-      <StyledTableCell align="left">
-        <Avatar src={banner} sx={{ borderRadius: "8px" }} />
-      </StyledTableCell>
+	const handleRemove = async () => {
 
-      <StyledTableCell align="left">{level}</StyledTableCell>
+		if (!confirm('Are you sure you want to delete this category?')) return
+		await CategoriesService.deleteCategory(id)
+		refetch()
+	}
 
-      <StyledTableCell align="left">
-        <BazaarSwitch
-          color="info"
-          checked={featuredCategory}
-          onChange={() => setFeaturedCategory((state) => !state)}
-        />
-      </StyledTableCell>
+	const handleEdit = () => {
+		push(getCategoriesUrl(id))
+	}
 
-      <StyledTableCell align="center">
-        <StyledIconButton>
-          <Edit />
-        </StyledIconButton>
+	return (
+		<StyledTableRow
+			tabIndex={-1}
+			role="checkbox"
+			selected={isItemSelected}
+			aria-checked={isItemSelected}
+		>
+			<StyledTableCell align="left">{name}</StyledTableCell>
 
-        <StyledIconButton>
-          <RemoveRedEye />
-        </StyledIconButton>
+			<StyledTableCell align="left">
+				<CategoryWrapper>{name}</CategoryWrapper>
+			</StyledTableCell>
 
-        <StyledIconButton>
-          <Delete />
-        </StyledIconButton>
-      </StyledTableCell>
-    </StyledTableRow>
-  );
-};
+			<StyledTableCell align="left">
+				{icon ? <Avatar src={icon} sx={{ borderRadius: '8px' }} /> : 'none'}
+			</StyledTableCell>
 
-export default CategoryRow;
+			<StyledTableCell align="left">
+				<Avatar src={image} sx={{ borderRadius: '8px' }} />
+			</StyledTableCell>
+
+			{/* <StyledTableCell align="left">{level}</StyledTableCell> */}
+
+			<StyledTableCell align="left">
+				<BazaarSwitch
+					color="info"
+					checked={featuredCategory}
+					onChange={featuredCategoryHandler}
+				/>
+			</StyledTableCell>
+
+			<StyledTableCell align="center">
+				<StyledIconButton onClick={handleEdit}>
+					<Edit />
+				</StyledIconButton>
+				{/* 
+				<StyledIconButton>
+					<RemoveRedEye />
+				</StyledIconButton> */}
+
+				<StyledIconButton onClick={handleRemove}>
+					<Delete />
+				</StyledIconButton>
+			</StyledTableCell>
+		</StyledTableRow>
+	)
+}
+
+export default CategoryRow
