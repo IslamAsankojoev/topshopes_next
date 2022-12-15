@@ -1,70 +1,89 @@
-import { Delete, Edit, RemoveRedEye } from "@mui/icons-material";
-import { Avatar } from "@mui/material";
-import BazaarSwitch from "components/BazaarSwitch";
-import React, { FC, useState } from "react";
+import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
+import { Avatar } from '@mui/material'
+import { CategoriesService } from 'api/services-admin/categories/category.service'
+import BazaarSwitch from 'components/BazaarSwitch'
+import { useRouter } from 'next/router'
+import React, { FC, useState } from 'react'
+import { ICategory } from 'shared/types/product.types'
 import {
-  CategoryWrapper,
-  StyledIconButton,
-  StyledTableCell,
-  StyledTableRow,
-} from "./StyledComponents";
+	CategoryWrapper,
+	StyledIconButton,
+	StyledTableCell,
+	StyledTableRow,
+} from './StyledComponents'
 
 // ========================================================================
 type CategoryRowProps = {
-  item: any;
-  selected: any[];
-};
+	item: ICategory
+	selected: any[]
+	refetch: () => void
+}
 // ========================================================================
 
-const CategoryRow: FC<CategoryRowProps> = ({ item, selected }) => {
-  const { category, name, level, banner, featured } = item;
-  const isItemSelected = selected.indexOf(name) !== -1;
+const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
+	const { reload } = useRouter()
+	const { featured, icon, id, name, image, parent, slug } = item
+	const isItemSelected = selected.indexOf(name) !== -1
 
-  // state
-  const [featuredCategory, setFeaturedCategory] = useState(featured);
+	// state
+	const [featuredCategory, setFeaturedCategory] = useState(featured)
 
-  return (
-    <StyledTableRow
-      tabIndex={-1}
-      role="checkbox"
-      selected={isItemSelected}
-      aria-checked={isItemSelected}
-    >
-      <StyledTableCell align="left">{name}</StyledTableCell>
+	const featuredCategoryHandler = async () => {
+		await CategoriesService.updateCategory(id, { featured: !featuredCategory })
+		setFeaturedCategory((state) => !state)
+	}
 
-      <StyledTableCell align="left">
-        <CategoryWrapper>{category}</CategoryWrapper>
-      </StyledTableCell>
+	const handleRemove = async () => {
+		await CategoriesService.deleteCategory(id)
+		refetch()
+	}
 
-      <StyledTableCell align="left">
-        <Avatar src={banner} sx={{ borderRadius: "8px" }} />
-      </StyledTableCell>
+	return (
+		<StyledTableRow
+			tabIndex={-1}
+			role="checkbox"
+			selected={isItemSelected}
+			aria-checked={isItemSelected}
+		>
+			<StyledTableCell align="left">{name}</StyledTableCell>
 
-      <StyledTableCell align="left">{level}</StyledTableCell>
+			<StyledTableCell align="left">
+				<CategoryWrapper>{name}</CategoryWrapper>
+			</StyledTableCell>
 
-      <StyledTableCell align="left">
-        <BazaarSwitch
-          color="info"
-          checked={featuredCategory}
-          onChange={() => setFeaturedCategory((state) => !state)}
-        />
-      </StyledTableCell>
+			<StyledTableCell align="left">
+				<Avatar src={icon} sx={{ borderRadius: '8px' }} />
+			</StyledTableCell>
 
-      <StyledTableCell align="center">
-        <StyledIconButton>
-          <Edit />
-        </StyledIconButton>
+			<StyledTableCell align="left">
+				<Avatar src={image} sx={{ borderRadius: '8px' }} />
+			</StyledTableCell>
 
-        <StyledIconButton>
-          <RemoveRedEye />
-        </StyledIconButton>
+			{/* <StyledTableCell align="left">{level}</StyledTableCell> */}
 
-        <StyledIconButton>
-          <Delete />
-        </StyledIconButton>
-      </StyledTableCell>
-    </StyledTableRow>
-  );
-};
+			<StyledTableCell align="left">
+				<BazaarSwitch
+					color="info"
+					checked={featuredCategory}
+					onChange={featuredCategoryHandler}
+				/>
+			</StyledTableCell>
 
-export default CategoryRow;
+			<StyledTableCell align="center">
+				<StyledIconButton>
+					<Edit />
+				</StyledIconButton>
+				{/* 
+				<StyledIconButton>
+					<RemoveRedEye />
+				</StyledIconButton> */}
+
+				<StyledIconButton onClick={handleRemove}>
+					<Delete />
+				</StyledIconButton>
+			</StyledTableCell>
+		</StyledTableRow>
+	)
+}
+
+export default CategoryRow
