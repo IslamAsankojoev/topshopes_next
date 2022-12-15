@@ -14,9 +14,6 @@ import { ProductFetchTypes, useProductFetch } from './useProductFetch'
 import { checkChangeThumbnail } from './productFormHelper'
 import { objToFormData } from '../../../utils/formData'
 import { Formik } from 'formik'
-import React, { FC } from 'react'
-import * as yup from 'yup'
-import { Assign, ObjectShape } from 'yup/lib/object'
 
 // ================================================================
 type ProductFormProps = {

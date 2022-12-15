@@ -1,11 +1,11 @@
 import { useQuery } from 'react-query'
 import { CategoriesService } from '../../../api/services-admin/categories/category.service'
-import { BrandService } from '../../../api/services-admin/brand/brand.service'
 import { SizesService } from '../../../api/services/sizes/sizes.service'
 import { ColorsService } from '../../../api/services/colors/colors.service'
 import { ShopsService } from '../../../api/services-admin/shops/shops.service'
 import { ICategory } from '../../../shared/types/product.types'
 import { IShop } from '../../../shared/types/shop.types'
+import { BrandsService } from 'api/services-admin/brands/brand.service'
 
 export interface ProductFetchTypes {
 	categories: ICategory[]
@@ -24,7 +24,7 @@ export const useProductFetch = () => {
 	)
 	const { data: brands, isLoading: brandsLoading } = useQuery(
 		'admin-brands',
-		BrandService.getBrands,
+		BrandsService.getBrands,
 		{
 			refetchOnWindowFocus: false,
 			retry: 1,
