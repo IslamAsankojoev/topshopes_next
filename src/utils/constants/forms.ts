@@ -64,3 +64,20 @@ export const brandEditForm = [
 		required: true,
 	},
 ]
+
+export const colorEditForm = [
+	{
+		name: 'name',
+		label: 'name',
+		type: 'text',
+		placeholder: 'Enter name',
+		required: true,
+	},
+	{
+		name: 'color',
+		label: 'color',
+		type: 'text',
+		placeholder: 'Enter color',
+		required: true,
+	},
+]

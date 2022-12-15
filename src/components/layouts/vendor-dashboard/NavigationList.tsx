@@ -1,113 +1,115 @@
-import duotone from "components/icons/duotone";
+import duotone from 'components/icons/duotone'
 
 export const navigations = [
-  { type: "label", label: "Admin" },
-  {
-    name: "Dashboard",
-    icon: duotone.Dashboard,
-    path: "/vendor/dashboard",
-  },
+	{ type: 'label', label: 'Admin' },
+	{
+		name: 'Dashboard',
+		icon: duotone.Dashboard,
+		path: '/vendor/dashboard',
+	},
 
-  {
-    name: "Products",
-    icon: duotone.Products,
-    children: [
-      { name: "Product List", path: "/admin/products" },
-      { name: "Create Product", path: "/admin/products/create" },
-      { name: "Category", path: "/admin/categories" },
-      { name: "Brand", path: "/admin/brands" },
-      { name: "Review", path: "/admin/product-reviews" },
-    ],
-  },
+	{
+		name: 'Products',
+		icon: duotone.Products,
+		children: [
+			{ name: 'Product List', path: '/admin/products' },
+			{ name: 'Create Product', path: '/admin/products/create' },
+			{ name: 'Category', path: '/admin/categories' },
+			{ name: 'Brand', path: '/admin/brands' },
+			{ name: 'Review', path: '/admin/product-reviews' },
+			{ name: 'Color', path: '/admin/colors' },
+			{ name: 'Size', path: '/admin/sizes' },
+		],
+	},
 
-  {
-    name: "Orders",
-    icon: duotone.Order,
-    children: [
-      { name: "Order List", path: "/admin/orders" },
-      { name: "Order Details", path: "/admin/orders/1" },
-    ],
-  },
+	{
+		name: 'Orders',
+		icon: duotone.Order,
+		children: [
+			{ name: 'Order List', path: '/admin/orders' },
+			{ name: 'Order Details', path: '/admin/orders/1' },
+		],
+	},
 
-  {
-    name: "Customers",
-    icon: duotone.Customers,
-    path: "/admin/customers",
-  },
+	{
+		name: 'Customers',
+		icon: duotone.Customers,
+		path: '/admin/customers',
+	},
 
-  {
-    name: "Refunds",
-    icon: duotone.Refund,
-    children: [
-      { name: "Refund Request", path: "/admin/refund-request" },
-      { name: "Refund Settings", path: "/admin/refund-setting" },
-    ],
-  },
+	{
+		name: 'Refunds',
+		icon: duotone.Refund,
+		children: [
+			{ name: 'Refund Request', path: '/admin/refund-request' },
+			{ name: 'Refund Settings', path: '/admin/refund-setting' },
+		],
+	},
 
-  {
-    name: "Sellers",
-    icon: duotone.Seller,
-    children: [
-      { name: "Seller List", path: "/admin/sellers" },
-      { name: "Seller Package", path: "/admin/seller-package" },
-      { name: "Package Payments", path: "/admin/package-payment" },
-      { name: "Earning History", path: "/admin/earning-history" },
-      { name: "Payouts", path: "/admin/payouts" },
-      { name: "Payout Request", path: "/admin/payout-request" },
-    ],
-  },
+	{
+		name: 'Sellers',
+		icon: duotone.Seller,
+		children: [
+			{ name: 'Seller List', path: '/admin/sellers' },
+			{ name: 'Seller Package', path: '/admin/seller-package' },
+			{ name: 'Package Payments', path: '/admin/package-payment' },
+			{ name: 'Earning History', path: '/admin/earning-history' },
+			{ name: 'Payouts', path: '/admin/payouts' },
+			{ name: 'Payout Request', path: '/admin/payout-request' },
+		],
+	},
 
-  { type: "label", label: "Vendor" },
-  {
-    name: "Earnings",
-    icon: duotone.ProjectChart,
-    children: [
-      { name: "Earning History", path: "/vendor/earning-history" },
-      { name: "Payouts", path: "/vendor/payouts" },
-      { name: "Payout Request", path: "/vendor/payout-requests" },
-      { name: "Payout Settings", path: "/vendor/payout-settings" },
-    ],
-  },
+	{ type: 'label', label: 'Vendor' },
+	{
+		name: 'Earnings',
+		icon: duotone.ProjectChart,
+		children: [
+			{ name: 'Earning History', path: '/vendor/earning-history' },
+			{ name: 'Payouts', path: '/vendor/payouts' },
+			{ name: 'Payout Request', path: '/vendor/payout-requests' },
+			{ name: 'Payout Settings', path: '/vendor/payout-settings' },
+		],
+	},
 
-  {
-    name: "Refund Request",
-    icon: duotone.Refund,
-    path: "/vendor/refund-request",
-  },
+	{
+		name: 'Refund Request',
+		icon: duotone.Refund,
+		path: '/vendor/refund-request',
+	},
 
-  {
-    name: "Reviews",
-    icon: duotone.Review,
-    path: "/vendor/reviews",
-  },
+	{
+		name: 'Reviews',
+		icon: duotone.Review,
+		path: '/vendor/reviews',
+	},
 
-  {
-    name: "Shop Setting",
-    icon: duotone.SiteSetting,
-    path: "/vendor/shop-settings",
-  },
+	{
+		name: 'Shop Setting',
+		icon: duotone.SiteSetting,
+		path: '/vendor/shop-settings',
+	},
 
-  {
-    name: "Support Tickets",
-    icon: duotone.ElementHub,
-    path: "/vendor/support-tickets",
-  },
+	{
+		name: 'Support Tickets',
+		icon: duotone.ElementHub,
+		path: '/vendor/support-tickets',
+	},
 
-  {
-    name: "Account Setting",
-    icon: duotone.AccountSetting,
-    path: "/vendor/account-setting",
-  },
+	{
+		name: 'Account Setting',
+		icon: duotone.AccountSetting,
+		path: '/vendor/account-setting',
+	},
 
-  {
-    name: "Site Setting",
-    icon: duotone.SiteSetting,
-    path: "/vendor/site-settings",
-  },
+	{
+		name: 'Site Setting',
+		icon: duotone.SiteSetting,
+		path: '/vendor/site-settings',
+	},
 
-  {
-    name: "Logout",
-    icon: duotone.Session,
-    path: "/vendor/dashboard-version-2",
-  },
-];
+	{
+		name: 'Logout',
+		icon: duotone.Session,
+		path: '/vendor/dashboard-version-2',
+	},
+]
