@@ -31,8 +31,10 @@ instance.interceptors.response.use(
 	async (error) => {
 		const originalRequest = error.config
 		if (
-			(error.response && error.response.status === 401) ||
-			(error.config && !error.config._isRetry)
+			error.response &&
+			error.response.status === 401 &&
+			error.config &&
+			!error.config._isRetry
 		) {
 			originalRequest._isRetry = true
 			try {
@@ -41,6 +43,8 @@ instance.interceptors.response.use(
 			} catch (e) {
 				removeToken()
 			}
+		} else {
+			removeToken()
 		}
 
 		throw error

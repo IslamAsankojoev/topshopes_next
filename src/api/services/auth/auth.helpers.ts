@@ -6,6 +6,9 @@ export const saveToken = (data: ITokens) => {
 	if (data.access) {
 		Cookie.set('token', data.access)
 	}
+	if (data.refresh) {
+		Cookie.set('refresh', data.refresh)
+	}
 }
 
 export const removeToken = () => {
