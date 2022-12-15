@@ -65,6 +65,26 @@ export const brandEditForm = [
 	},
 ]
 
+export const sizeEditForm = [
+	{
+		name: 'name',
+		label: 'name',
+		type: 'text',
+		placeholder: 'Enter name',
+		required: true,
+	},
+]
+
+export const brandTypeEditForm = [
+	{
+		name: 'name',
+		label: 'name',
+		type: 'text',
+		placeholder: 'Enter name',
+		required: true,
+	},
+]
+
 export const colorEditForm = [
 	{
 		name: 'name',

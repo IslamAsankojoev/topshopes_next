@@ -11,31 +11,32 @@ import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { useRouter } from 'next/router'
 import ColorRow from 'pages-sections/admin/ColorRow'
+import SizeRow from 'pages-sections/admin/SizeRow'
 import React, { ReactElement, useEffect } from 'react'
 import { useQuery } from 'react-query'
+import { SizesService } from '../../../src/api/services/sizes/sizes.service'
 
 const tableHeading = [
 	{ id: 'name', label: 'Name', align: 'center' },
-	{ id: 'color', label: 'Color', align: 'center' },
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
 // =============================================================================
-BrandList.getLayout = function getLayout(page: ReactElement) {
+SizesList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 // =============================================================================
 
-type BrandListProps = { brands: any[] }
+type SizesListProps = { sizes: any[] }
 
-export default function BrandList() {
+export default function SizesList() {
 	const { push } = useRouter()
 
 	const {
-		data: colors,
+		data: sizes,
 		isLoading,
 		refetch,
-	} = useQuery<any>('get colors admin', ColorsService.getColors)
+	} = useQuery<any>('get colors admin', SizesService.getSizes)
 
 	const {
 		order,
@@ -45,19 +46,19 @@ export default function BrandList() {
 		filteredList,
 		handleChangePage,
 		handleRequestSort,
-	} = useMuiTable({ listData: colors })
+	} = useMuiTable({ listData: sizes })
 
 	return !isLoading ? (
 		<Box py={4}>
-			<H3 mb={2}>Product Colors</H3>
+			<H3 mb={2}>Product Sizes</H3>
 
 			<SearchArea
 				handleSearch={() => {}}
-				buttonText="Add Color"
+				buttonText="Add sizes"
 				handleBtnClick={() => {
-					push('/admin/colors/create')
+					push('/admin/sizes/create')
 				}}
-				searchPlaceholder="Search Color..."
+				searchPlaceholder="Search Sizes..."
 			/>
 
 			<Card>
@@ -69,15 +70,15 @@ export default function BrandList() {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={colors.length}
+								rowCount={sizes.length}
 								numSelected={selected.length}
 								onRequestSort={handleRequestSort}
 							/>
 
 							<TableBody>
-								{filteredList.map((color, index) => (
-									<ColorRow
-										color={color}
+								{filteredList.map((size, index) => (
+									<SizeRow
+										name={size}
 										key={index}
 										selected={selected}
 										refetch={refetch}
@@ -91,7 +92,7 @@ export default function BrandList() {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(colors.length / rowsPerPage)}
+						count={Math.ceil(sizes.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>

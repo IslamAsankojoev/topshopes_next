@@ -36,10 +36,11 @@ type ProductListProps = { products: any[] }
 
 export default function ProductList() {
 	const { push } = useRouter()
-	const { data: products, isLoading } = useQuery(
-		'admin-products',
-		AdminProductsService.getProducts
-	)
+	const {
+		data: products,
+		isLoading,
+		refetch,
+	} = useQuery('admin-products', AdminProductsService.getProducts)
 
 	const {
 		order,
@@ -83,7 +84,11 @@ export default function ProductList() {
 
 								<TableBody>
 									{filteredList.map((product, index) => (
-										<ProductRow product={product} key={index} />
+										<ProductRow
+											refetch={refetch}
+											product={product}
+											key={index}
+										/>
 									))}
 								</TableBody>
 							</Table>

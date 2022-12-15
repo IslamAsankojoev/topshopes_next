@@ -81,7 +81,6 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 						<Field
 							type={field.type}
 							fullWidth
-
 							name={field.name}
 							label={field.name}
 							color="info"
@@ -100,7 +99,7 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 				))}
 				<Grid item sm={6} xs={12}>
 					<Button variant="contained" color="info" type="submit">
-						Save product
+						Save
 					</Button>
 				</Grid>
 			</Grid>

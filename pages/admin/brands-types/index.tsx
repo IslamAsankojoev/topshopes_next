@@ -1,7 +1,5 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { BrandsService } from 'api/services-admin/brands/brand.service'
-import { ColorsService } from 'api/services/colors/colors.service'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
@@ -10,32 +8,32 @@ import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { useRouter } from 'next/router'
-import ColorRow from 'pages-sections/admin/ColorRow'
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
+import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
+import BrandsTypesRow from '../../../src/pages-sections/admin/BrandsTypesRow'
 
 const tableHeading = [
 	{ id: 'name', label: 'Name', align: 'center' },
-	{ id: 'color', label: 'Color', align: 'center' },
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
 // =============================================================================
-BrandList.getLayout = function getLayout(page: ReactElement) {
+BrandsTypesList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 // =============================================================================
 
-type BrandListProps = { brands: any[] }
+type BrandsTypesListProps = { sizes: any[] }
 
-export default function BrandList() {
+export default function BrandsTypesList() {
 	const { push } = useRouter()
 
 	const {
-		data: colors,
+		data: brandsTypes,
 		isLoading,
 		refetch,
-	} = useQuery<any>('get colors admin', ColorsService.getColors)
+	} = useQuery<any>('get brandsTypes admin', BrandTypesService.getBrandsTypes)
 
 	const {
 		order,
@@ -45,19 +43,19 @@ export default function BrandList() {
 		filteredList,
 		handleChangePage,
 		handleRequestSort,
-	} = useMuiTable({ listData: colors })
+	} = useMuiTable({ listData: brandsTypes })
 
 	return !isLoading ? (
 		<Box py={4}>
-			<H3 mb={2}>Product Colors</H3>
+			<H3 mb={2}>Product Brands Types</H3>
 
 			<SearchArea
 				handleSearch={() => {}}
-				buttonText="Add Color"
+				buttonText="Add Brands Types"
 				handleBtnClick={() => {
-					push('/admin/colors/create')
+					push('/admin/brands-types/create')
 				}}
-				searchPlaceholder="Search Color..."
+				searchPlaceholder="Search Brands Types..."
 			/>
 
 			<Card>
@@ -69,15 +67,15 @@ export default function BrandList() {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={colors.length}
+								rowCount={brandsTypes?.length}
 								numSelected={selected.length}
 								onRequestSort={handleRequestSort}
 							/>
 
 							<TableBody>
-								{filteredList.map((color, index) => (
-									<ColorRow
-										color={color}
+								{filteredList.map((bt, index) => (
+									<BrandsTypesRow
+										name={bt}
 										key={index}
 										selected={selected}
 										refetch={refetch}
@@ -91,7 +89,7 @@ export default function BrandList() {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(colors.length / rowsPerPage)}
+						count={Math.ceil(brandsTypes?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>

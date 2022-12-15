@@ -16,6 +16,7 @@ export const navigations = [
 			{ name: 'Create Product', path: '/admin/products/create' },
 			{ name: 'Category', path: '/admin/categories' },
 			{ name: 'Brand', path: '/admin/brands' },
+			{ name: 'Brand Type', path: '/admin/brands-types' },
 			{ name: 'Review', path: '/admin/product-reviews' },
 			{ name: 'Color', path: '/admin/colors' },
 			{ name: 'Size', path: '/admin/sizes' },

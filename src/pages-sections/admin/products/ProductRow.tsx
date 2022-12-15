@@ -1,4 +1,4 @@
-import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 import { Avatar, Box, Tooltip } from '@mui/material'
 import BazaarSwitch from 'components/BazaarSwitch'
 import { FlexBox } from 'components/flex-box'
@@ -12,16 +12,15 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from '../StyledComponents'
-import { instance } from '../../../api/interceptor'
 import { AdminProductsService } from '../../../api/services-admin/products/products.service'
 import { toast } from 'react-toastify'
 import TooltipList from '../../../components/tooltip/TooltipList'
 
 // ========================================================================
-type ProductRowProps = { product: any }
+type ProductRowProps = { product: any; refetch: () => void }
 // ========================================================================
 
-const ProductRow: FC<ProductRowProps> = ({ product }) => {
+const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 	const { categories, title, price, thumbnail, brand, id, published } = product
 
 	// state
@@ -33,6 +32,7 @@ const ProductRow: FC<ProductRowProps> = ({ product }) => {
 		if (window.confirm('Are you sure you want to uninstall this product?')) {
 			try {
 				await AdminProductsService.deleteProduct(id)
+				refetch()
 			} catch (e: unknown) {
 				toast.error('An error has occurred')
 				console.log(e)
