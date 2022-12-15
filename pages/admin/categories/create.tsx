@@ -22,6 +22,7 @@ const CreateCategory = () => {
 		<Box py={4}>
 			<H3 mb={2}>Add New Category</H3>
 			<CreateForm
+
 				defaultData={{}}
 				fields={categoryEditForm}
 				handleFormSubmit={handleFormSubmit}

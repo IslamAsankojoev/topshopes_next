@@ -2,6 +2,7 @@ import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
 import { CategoriesService } from 'api/services-admin/categories/category.service'
 import BazaarSwitch from 'components/BazaarSwitch'
+
 import { getCategoriesUrl } from 'config/api.config'
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
@@ -22,6 +23,7 @@ type CategoryRowProps = {
 // ========================================================================
 
 const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
+
 	const { reload, push } = useRouter()
 	const { featured, icon, id, name, image, parent, slug } = item
 	const isItemSelected = selected.indexOf(name) !== -1
@@ -35,6 +37,7 @@ const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 	}
 
 	const handleRemove = async () => {
+
 		if (!confirm('Are you sure you want to delete this category?')) return
 		await CategoriesService.deleteCategory(id)
 		refetch()

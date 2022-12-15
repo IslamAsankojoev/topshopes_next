@@ -81,6 +81,7 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 						<Field
 							type={field.type}
 							fullWidth
+
 							name={field.name}
 							label={field.name}
 							color="info"

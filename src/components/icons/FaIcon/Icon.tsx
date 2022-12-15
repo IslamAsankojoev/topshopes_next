@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 import * as icons from 'react-icons/fa'
 
 type TypeIcon = keyof typeof icons
 
-const MyIcons: React.FC<{
+interface IconProps extends ComponentPropsWithoutRef<'image'> {
 	iconName: TypeIcon
 	size?: string
 	color?: string
-}> = (props) => {
+}
+
+// В iconName можно передать название любых иконок из FontAwesome
+const MyIcons: React.FC<IconProps> = (props) => {
 	const { iconName, size, color, ...other } = props
 	const Icon = icons[iconName]
 	return (

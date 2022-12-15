@@ -10,7 +10,7 @@ export type IProduct = {
 	discount: number
 	thumbnail: string
 	images: string[]
-	categories: [string]
+	categories: ICategory[]
 	status: string
 	rating: number
 	unit: string

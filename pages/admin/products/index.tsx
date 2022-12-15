@@ -30,6 +30,74 @@ ProductList.getLayout = function getLayout(page: ReactElement) {
 type ProductListProps = { products: any[] }
 // =============================================================================
 
+
+export default function ProductList() {
+	const { push } = useRouter()
+	const { data: products, isLoading } = useQuery(
+		'admin-products',
+		AdminProductsService.getProducts
+	)
+
+	const {
+		order,
+		orderBy,
+		selected,
+		rowsPerPage,
+		filteredList,
+		handleChangePage,
+		handleRequestSort,
+	} = useMuiTable({ listData: products })
+
+	if (isLoading) {
+		return <Loading />
+	}
+
+	return (
+		<Box py={4}>
+			<H3 mb={2}>Product List</H3>
+
+			<SearchArea
+				handleSearch={() => {}}
+				buttonText="Add Product"
+				handleBtnClick={() => push('/admin/products/create')}
+				searchPlaceholder="Search Product..."
+			/>
+
+			{products?.length ? (
+				<Card>
+					<Scrollbar>
+						<TableContainer sx={{ minWidth: 900 }}>
+							<Table>
+								<TableHeader
+									order={order}
+									hideSelectBtn
+									orderBy={orderBy}
+									heading={tableHeading}
+									rowCount={products.length}
+									numSelected={selected.length}
+									onRequestSort={handleRequestSort}
+								/>
+
+								<TableBody>
+									{filteredList.map((product, index) => (
+										<ProductRow product={product} key={index} />
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Scrollbar>
+
+					<Stack alignItems="center" my={4}>
+						<TablePagination
+							onChange={handleChangePage}
+							count={Math.ceil(products.length / rowsPerPage)}
+						/>
+					</Stack>
+				</Card>
+			) : null}
+		</Box>
+	)
+=======
 export default function ProductList(props: ProductListProps) {
 	const { products } = props
 
@@ -88,8 +156,3 @@ export default function ProductList(props: ProductListProps) {
 	)
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-	const products = await api.products()
-
-	return { props: { products } }
-}

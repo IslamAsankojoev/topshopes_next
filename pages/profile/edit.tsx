@@ -219,7 +219,7 @@ const initialValues = {
 
 const checkoutSchema = yup.object().shape({
 	first_name: yup.string().required('required'),
-	last_name: yup.string().required('required'),
+	last_name: yup.string(),
 	email: yup.string().email('invalid email').required('required'),
 	phone: yup.string().required('required'),
 	birth_date: yup.date().required('invalid date'),

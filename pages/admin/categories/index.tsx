@@ -36,6 +36,7 @@ type CategoryListProps = { categories: ICategory[] }
 
 // =============================================================================
 
+
 export default function CategoryList() {
 	const { push } = useRouter()
 	const {
@@ -53,6 +54,7 @@ export default function CategoryList() {
 		handleChangePage,
 		handleRequestSort,
 	} = useMuiTable({ listData: categories })
+
 
 	return !isLoading ? (
 		<Box py={4}>

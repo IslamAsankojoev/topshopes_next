@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 export const CategoriesService = {
 	getCategories: async () => {
 		try {
+
 			const response = await instance.get(getCategoriesUrlAdmin(''))
 			return response.data
 		} catch (error) {

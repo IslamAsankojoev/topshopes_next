@@ -27,6 +27,7 @@ export const categoryEditForm = [
 		placeholder: 'Enter image',
 		required: true,
 	},
+
 	// {
 	// 	name: 'featured',
 	// 	label: 'Featured',
@@ -47,7 +48,6 @@ export const categoryEditForm = [
 	// 	required: true,
 	// },
 ]
-
 export const brandEditForm = [
 	{
 		name: 'name',

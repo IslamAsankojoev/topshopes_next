@@ -29,15 +29,14 @@ const ContactsForm = () => {
 		e.preventDefault()
 		try {
 			await sendMessage(`
-			Обратная связь⛓: 
+			Обратная связь: 
 
-			-👤 имя отправителя: ${formData.username}
-
-			-📫 email: ${formData.email}
-
-			-☎️ номер телефона: ${formData.phone}
-
-			-✍️ сообщение: "${formData.message}"
+			-имя: ${formData.username}
+			-email: ${formData.email}
+			-номер телефона: ${formData.phone}
+			
+			-сообщение: 
+			"${formData.message}"
 			`)
 			setFormData({
 				username: '',
@@ -89,12 +88,13 @@ const ContactsForm = () => {
 					/>
 				</DoubleInput>
 				<TextField
+					inputProps={{ pattern: '/[^0-9 ]/g' }}
 					variant={'standard'}
+					inputMode={'decimal'}
 					name={'phone'}
 					onChange={onChange}
 					value={formData.phone}
 					required
-					type={'number'}
 					label={'Phone Number'}
 				/>
 				<TextField

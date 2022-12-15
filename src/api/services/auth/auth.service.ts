@@ -75,6 +75,7 @@ export const AuthService = {
 			throw error
 		}
 	},
+
 	update: async (data: any) => {
 		try {
 			const response = await instance.patch<IAuthResponse>(`profile/`, data)
