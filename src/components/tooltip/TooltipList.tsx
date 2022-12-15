@@ -14,7 +14,7 @@ const TooltipList = (props) => {
 						<ul>
 							{list?.map((li) => (
 								<CategoryWrapper
-									sx={{ fontSize: '10px' }}
+									sx={{ fontSize: '13px', fontWeight: '600' }}
 									key={li + '-tooltip'}
 								>
 									{li}
@@ -35,15 +35,14 @@ const TooltipList = (props) => {
 const TooltipWrapper = styled.div`
 	display: grid;
 	justify-content: start;
-	align-items: center;
-
-	padding: 15px 0px;
+	align-items: start;
+	padding: 15px 8px;
 
 	ul {
-		padding-left: calc(1.2rem + 0.9vw);
 		display: flex;
-		flex-wrap: wrap;
+		align-items: flex-start;
 		grid-gap: 10px;
+		flex-wrap: wrap;
 	}
 `
 
