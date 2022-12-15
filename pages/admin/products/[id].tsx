@@ -13,6 +13,7 @@ import { instance } from '../../../src/api/interceptor'
 import { getProductsUrlAdmin } from '../../../src/config/api.config'
 import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
 import { objToFormData } from '../../../src/utils/formData'
+import { useRouter } from 'next/router'
 
 // form field validation schema
 export const productFormValidationSchema = yup.object().shape({
@@ -51,6 +52,7 @@ export default function EditProduct({ query }) {
 		}
 	)
 	const fetch = useProductFetch()
+	const { push } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct) => {
 		try {
@@ -58,8 +60,8 @@ export default function EditProduct({ query }) {
 				getProductsUrlAdmin(`${query.id}/`),
 				objToFormData(data)
 			)
-			console.log(data)
 			toast.success('success')
+			await push('/admin/products/')
 		} catch (e: any) {
 			toast.error(e?.message)
 			console.log(e)

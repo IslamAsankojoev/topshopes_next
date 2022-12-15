@@ -1,5 +1,5 @@
 import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
-import { Avatar, Box } from '@mui/material'
+import { Avatar, Box, Tooltip } from '@mui/material'
 import BazaarSwitch from 'components/BazaarSwitch'
 import { FlexBox } from 'components/flex-box'
 import { Paragraph, Small } from 'components/Typography'
@@ -15,13 +15,14 @@ import {
 import { instance } from '../../../api/interceptor'
 import { AdminProductsService } from '../../../api/services-admin/products/products.service'
 import { toast } from 'react-toastify'
+import TooltipList from '../../../components/tooltip/TooltipList'
 
 // ========================================================================
 type ProductRowProps = { product: any }
 // ========================================================================
 
 const ProductRow: FC<ProductRowProps> = ({ product }) => {
-	const { category, title, price, thumbnail, brand, id, published } = product
+	const { categories, title, price, thumbnail, brand, id, published } = product
 
 	// state
 	const router = useRouter()
@@ -58,13 +59,22 @@ const ProductRow: FC<ProductRowProps> = ({ product }) => {
 					<Avatar src={thumbnail} sx={{ borderRadius: '8px' }} />
 					<Box>
 						<Paragraph>{title}</Paragraph>
-						{/*<Small color="grey.600">#{id}</Small>*/}
 					</Box>
 				</FlexBox>
 			</StyledTableCell>
 
 			<StyledTableCell align="left">
-				<CategoryWrapper>{category}</CategoryWrapper>
+				<TooltipList
+					list={categories?.length > 1 ? categories.map((c) => c.name) : null}
+				>
+					<CategoryWrapper>
+						{categories?.length
+							? categories?.length > 1
+								? categories[0].name + '...'
+								: categories[0].name
+							: null}
+					</CategoryWrapper>
+				</TooltipList>
 			</StyledTableCell>
 
 			<StyledTableCell align="left">

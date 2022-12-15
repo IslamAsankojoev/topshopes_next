@@ -50,25 +50,32 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		initialValues.thumbnail ? initialValues.thumbnail : null
 	)
 
-	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-		useFormik({
-			initialValues,
-			onSubmit: async () => {
-				console.log(values)
-				const submitData = {
-					...checkChangeThumbnail(values),
-					categories: getIdArray(categoryState),
-					sizes: getIdArray(sizeState),
-					colors: getIdArray(colorsState),
-				}
-				handleFormSubmit(
-					initialValues.thumbnail === values.thumbnail
-						? submitData
-						: { ...submitData, thumbnail: values.thumbnail }
-				)
-			},
-			validationSchema: validationSchema,
-		})
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		setFieldValue,
+	} = useFormik({
+		initialValues,
+		onSubmit: async () => {
+			console.log(values)
+			const submitData = {
+				...checkChangeThumbnail(values),
+				categories: getIdArray(categoryState),
+				sizes: getIdArray(sizeState),
+				colors: getIdArray(colorsState),
+			}
+			handleFormSubmit(
+				initialValues.thumbnail === values.thumbnail
+					? submitData
+					: { ...submitData, thumbnail: values.thumbnail }
+			)
+		},
+		validationSchema: validationSchema,
+	})
 
 	return (
 		<Card sx={{ p: 6 }}>
@@ -105,8 +112,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							onBlur={handleBlur}
 							required={!values.thumbnail}
 							onChange={(file: any) => {
-								values.thumbnail = file
-								console.log(values)
+								setFieldValue('thumbnail', file)
 								setImageState(URL.createObjectURL(file))
 							}}
 							multiple={false}
@@ -249,7 +255,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 
 					<Grid item sm={6} xs={12}>
 						<Button variant="contained" color="info" type="submit">
-							Save product
+							{update ? 'Save product' : 'Create product'}
 						</Button>
 					</Grid>
 				</Grid>

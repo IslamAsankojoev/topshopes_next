@@ -11,6 +11,7 @@ import { instance } from '../../../src/api/interceptor'
 import { getProductsUrlAdmin } from '../../../src/config/api.config'
 import { toast } from 'react-toastify'
 import { objToFormData } from '../../../src/utils/formData'
+import { useRouter } from 'next/router'
 
 const CreateProduct = () => {
 	const initialValues = {
@@ -28,15 +29,17 @@ const CreateProduct = () => {
 		unit: '',
 	}
 	const fetch = useProductFetch()
+	const { push } = useRouter()
 
 	const handleFormSubmit = async (data) => {
+		console.log(data)
 		try {
 			const response = await instance.post(
 				getProductsUrlAdmin(``),
 				objToFormData(data)
 			)
-			console.log(data)
 			toast.success('success')
+			await push('/admin/products/')
 		} catch (e: any) {
 			toast.error(e?.message)
 			console.log(e)
