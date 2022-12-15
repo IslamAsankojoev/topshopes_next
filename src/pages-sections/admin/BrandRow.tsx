@@ -1,64 +1,85 @@
-import { Delete, RemoveRedEye } from "@mui/icons-material";
-import { Avatar } from "@mui/material";
-import BazaarSwitch from "components/BazaarSwitch";
-import React, { FC, useState } from "react";
+import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
+import { Avatar } from '@mui/material'
+import { BrandsService } from 'api/services-admin/brands/brand.service'
+import BazaarSwitch from 'components/BazaarSwitch'
+import { useRouter } from 'next/router'
+import React, { FC, useState } from 'react'
 import {
-  StyledIconButton,
-  StyledTableCell,
-  StyledTableRow,
-} from "./StyledComponents";
+	StyledIconButton,
+	StyledTableCell,
+	StyledTableRow,
+} from './StyledComponents'
 
 // ========================================================================
 type BrandRowProps = {
-  brand: any;
-  selected: any[];
-};
+	brand: any
+	selected: any[]
+	refetch: () => void
+}
 // ========================================================================
 
-const BrandRow: FC<BrandRowProps> = ({ brand, selected }) => {
-  const { name, featured, logo, id } = brand;
-  const isItemSelected = selected.indexOf(name) !== -1;
+const BrandRow: FC<BrandRowProps> = ({ brand, selected, refetch }) => {
+	const { push } = useRouter()
+	const { name, featured, image, id } = brand
+	const isItemSelected = selected.indexOf(name) !== -1
 
-  // state
-  const [featuredCategory, setFeaturedCategory] = useState(featured);
+	// state
+	const [featuredCategory, setFeaturedCategory] = useState(featured)
 
-  return (
-    <StyledTableRow
-      tabIndex={-1}
-      role="checkbox"
-      selected={isItemSelected}
-      aria-checked={isItemSelected}
-    >
-      <StyledTableCell align="center">{id}</StyledTableCell>
+	const handleSwitch = async () => {
+		await BrandsService.updateBrand(id, { featured: !featuredCategory })
+		setFeaturedCategory((state) => !state)
+	}
+	const handleEdit = () => {
+		push(`/admin/brands/${id}`)
+	}
 
-      <StyledTableCell align="center">{name}</StyledTableCell>
+	const handleRemove = async () => {
+		if (!confirm('Are you sure you want to delete this brand?')) return
+		await BrandsService.deleteBrand(id)
+		refetch()
+	}
 
-      <StyledTableCell align="center">
-        <Avatar
-          src={logo}
-          sx={{ width: 55, height: "auto", margin: "auto", borderRadius: 0 }}
-        />
-      </StyledTableCell>
+	return (
+		<StyledTableRow
+			tabIndex={-1}
+			role="checkbox"
+			selected={isItemSelected}
+			aria-checked={isItemSelected}
+		>
+			{/* <StyledTableCell align="center">{id}</StyledTableCell> */}
 
-      <StyledTableCell align="center">
-        <BazaarSwitch
-          color="info"
-          checked={featuredCategory}
-          onChange={() => setFeaturedCategory((state) => !state)}
-        />
-      </StyledTableCell>
+			<StyledTableCell align="center">{name}</StyledTableCell>
 
-      <StyledTableCell align="center">
-        <StyledIconButton>
-          <RemoveRedEye />
-        </StyledIconButton>
+			<StyledTableCell align="center">
+				<Avatar
+					src={image}
+					sx={{ width: 55, height: 'auto', margin: 'auto', borderRadius: 0 }}
+				/>
+			</StyledTableCell>
 
-        <StyledIconButton>
-          <Delete />
-        </StyledIconButton>
-      </StyledTableCell>
-    </StyledTableRow>
-  );
-};
+			<StyledTableCell align="center">
+				<BazaarSwitch
+					color="info"
+					checked={featuredCategory}
+					onChange={handleSwitch}
+				/>
+			</StyledTableCell>
 
-export default BrandRow;
+			<StyledTableCell align="center">
+				{/* <StyledIconButton>
+					<RemoveRedEye />
+				</StyledIconButton> */}
+				<StyledIconButton onClick={handleEdit}>
+					<Edit />
+				</StyledIconButton>
+
+				<StyledIconButton onClick={handleRemove}>
+					<Delete />
+				</StyledIconButton>
+			</StyledTableCell>
+		</StyledTableRow>
+	)
+}
+
+export default BrandRow

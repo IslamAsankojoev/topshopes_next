@@ -36,12 +36,14 @@ type CategoryListProps = { categories: ICategory[] }
 
 // =============================================================================
 
-export default function CategoryList(props: CategoryListProps) {
+
+export default function CategoryList() {
 	const { push } = useRouter()
-	const { data: categories, refetch } = useQuery(
-		'categories',
-		CategoriesService.getCategories
-	)
+	const {
+		data: categories,
+		refetch,
+		isLoading,
+	} = useQuery('get categories admin', () => CategoriesService.getCategories())
 
 	const {
 		order,
@@ -53,7 +55,8 @@ export default function CategoryList(props: CategoryListProps) {
 		handleRequestSort,
 	} = useMuiTable({ listData: categories })
 
-	return categories ? (
+
+	return !isLoading ? (
 		<Box py={4}>
 			<H3 mb={2}>Product Categories</H3>
 

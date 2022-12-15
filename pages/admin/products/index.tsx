@@ -11,18 +11,10 @@ import { GetStaticProps } from 'next'
 import { ProductRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import api from 'utils/api/dashboard'
-import { instance } from '../../../src/api/interceptor'
-import { getProductsUrlAdmin } from '../../../src/config/api.config'
-import { useQuery } from 'react-query'
-import { CategoriesService } from '../../../src/api/services-admin/categories/category.service'
-import { AdminProductsService } from '../../../src/api/services-admin/products/products.service'
-import Loading from '../../../src/components/Loading'
-import { useRouter } from 'next/router'
 
 const tableHeading = [
-	{ id: 'title', label: 'Title', align: 'left' },
-	{ id: 'categories', label: 'Categories', align: 'left' },
-	// { id: 'thumbnail', label: 'Thumbnail', align: 'left' },
+	{ id: 'name', label: 'Name', align: 'left' },
+	{ id: 'category', label: 'Category', align: 'left' },
 	{ id: 'brand', label: 'Brand', align: 'left' },
 	{ id: 'price', label: 'Price', align: 'left' },
 	{ id: 'published', label: 'Published', align: 'left' },
@@ -37,6 +29,7 @@ ProductList.getLayout = function getLayout(page: ReactElement) {
 
 type ProductListProps = { products: any[] }
 // =============================================================================
+
 
 export default function ProductList() {
 	const { push } = useRouter()
@@ -104,4 +97,62 @@ export default function ProductList() {
 			) : null}
 		</Box>
 	)
+=======
+export default function ProductList(props: ProductListProps) {
+	const { products } = props
+
+	const {
+		order,
+		orderBy,
+		selected,
+		rowsPerPage,
+		filteredList,
+		handleChangePage,
+		handleRequestSort,
+	} = useMuiTable({ listData: products })
+
+	return (
+		<Box py={4}>
+			<H3 mb={2}>Product List</H3>
+
+			<SearchArea
+				handleSearch={() => {}}
+				buttonText="Add Product"
+				handleBtnClick={() => {}}
+				searchPlaceholder="Search Product..."
+			/>
+
+			<Card>
+				<Scrollbar>
+					<TableContainer sx={{ minWidth: 900 }}>
+						<Table>
+							<TableHeader
+								order={order}
+								hideSelectBtn
+								orderBy={orderBy}
+								heading={tableHeading}
+								rowCount={products.length}
+								numSelected={selected.length}
+								onRequestSort={handleRequestSort}
+							/>
+
+							<TableBody>
+								{filteredList.map((product, index) => (
+									<ProductRow product={product} key={index} />
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</Scrollbar>
+
+				<Stack alignItems="center" my={4}>
+					<TablePagination
+						onChange={handleChangePage}
+						count={Math.ceil(products.length / rowsPerPage)}
+					/>
+				</Stack>
+			</Card>
+		</Box>
+	)
 }
+

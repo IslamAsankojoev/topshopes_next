@@ -2,6 +2,8 @@ import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
 import { CategoriesService } from 'api/services-admin/categories/category.service'
 import BazaarSwitch from 'components/BazaarSwitch'
+
+import { getCategoriesUrl } from 'config/api.config'
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
 import { ICategory } from 'shared/types/product.types'
@@ -21,7 +23,8 @@ type CategoryRowProps = {
 // ========================================================================
 
 const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
-	const { reload } = useRouter()
+
+	const { reload, push } = useRouter()
 	const { featured, icon, id, name, image, parent, slug } = item
 	const isItemSelected = selected.indexOf(name) !== -1
 
@@ -34,8 +37,14 @@ const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 	}
 
 	const handleRemove = async () => {
+
+		if (!confirm('Are you sure you want to delete this category?')) return
 		await CategoriesService.deleteCategory(id)
 		refetch()
+	}
+
+	const handleEdit = () => {
+		push(getCategoriesUrl(id))
 	}
 
 	return (
@@ -52,7 +61,7 @@ const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="left">
-				<Avatar src={icon} sx={{ borderRadius: '8px' }} />
+				{icon ? <Avatar src={icon} sx={{ borderRadius: '8px' }} /> : 'none'}
 			</StyledTableCell>
 
 			<StyledTableCell align="left">
@@ -70,7 +79,7 @@ const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<StyledIconButton>
+				<StyledIconButton onClick={handleEdit}>
 					<Edit />
 				</StyledIconButton>
 				{/* 

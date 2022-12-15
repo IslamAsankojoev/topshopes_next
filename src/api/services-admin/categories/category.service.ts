@@ -1,14 +1,13 @@
 import { instance } from 'api/interceptor'
 import { getCategoriesUrlAdmin } from 'config/api.config'
-import { ICategory } from '../../../shared/types/product.types'
+import { toast } from 'react-toastify'
 
 export const CategoriesService = {
 	getCategories: async () => {
 		try {
-			const { data } = await instance.get<ICategory[]>(
-				getCategoriesUrlAdmin('')
-			)
-			return data
+
+			const response = await instance.get(getCategoriesUrlAdmin(''))
+			return response.data
 		} catch (error) {
 			throw error
 		}
@@ -29,6 +28,7 @@ export const CategoriesService = {
 			)
 			return response.data
 		} catch (error) {
+			toast.error('error')
 			throw error
 		}
 	},

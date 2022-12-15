@@ -75,12 +75,10 @@ export const AuthService = {
 			throw error
 		}
 	},
-	update: async (data: any, id: string) => {
+
+	update: async (data: any) => {
 		try {
-			const response = await instance.patch<IAuthResponse>(
-				`profile/${id}/`,
-				data
-			)
+			const response = await instance.patch<IAuthResponse>(`profile/`, data)
 			if (response.data) {
 				saveToStorage(response.data)
 			}

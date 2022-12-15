@@ -1,15 +1,25 @@
-import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
-import placeholder from '../../../public/assets/images/placeholder.jpg'
+import {
+	Button,
+	Checkbox,
+	FormControlLabel,
+	Switch,
+	TextField,
+} from '@mui/material'
+import { FC, useState } from 'react'
 import styles from './Field.module.scss'
 
 const Field: FC<any> = (props) => {
 	const { type, ...other } = props
 
-	if (type == 'textfield') {
-		return <TextField {...other} />
+
+	if (type == 'text') {
+		return (
+			<>
+				<TextField {...other} />
+			</>
+		)
 	}
-	if (type == 'textarea') {
+	if (type == 'text') {
 		return <TextField {...other} multiline rows={4} />
 	}
 	if (type == 'select') {
@@ -18,7 +28,8 @@ const Field: FC<any> = (props) => {
 	if (type == 'checkbox') {
 		return (
 			<>
-				<Checkbox color="info" {...other} />
+
+				<Switch color="info" {...other} checked={other.value} />
 				<span>{other.label} </span>
 			</>
 		)
@@ -27,16 +38,16 @@ const Field: FC<any> = (props) => {
 		return <TextField {...other} type="radio" />
 	}
 	if (type == 'file') {
-		const [fileLocaleUrl, setFileLocaleUrl] = useState(
-			'/assets/images/placeholder.jpg'
-		)
+
+		const [fileLocaleUrl, setFileLocaleUrl] = useState(null)
 
 		const handleFileChange = (e) => {
 			const file = e.target.files[0]
 			if (file) {
 				setFileLocaleUrl(URL.createObjectURL(file))
+
+				other.setFieldValue(other.label, file)
 			}
-			other.setFieldValue(other.label, file)
 		}
 
 		return (
@@ -44,7 +55,11 @@ const Field: FC<any> = (props) => {
 				<div className={styles.file}>
 					<img
 						className={styles.uploadImage}
-						src={fileLocaleUrl}
+						src={
+							fileLocaleUrl ||
+							other.defaultData[other.name] ||
+							'/assets/images/placeholder.jpg'
+						}
 						alt="Uploaded image"
 					/>
 					<Button
@@ -55,9 +70,9 @@ const Field: FC<any> = (props) => {
 					>
 						{other.label}
 						<input
+							hidden
 							name={other.name}
 							onChange={(e) => handleFileChange(e)}
-							hidden
 							accept="image/*"
 							type="file"
 						/>

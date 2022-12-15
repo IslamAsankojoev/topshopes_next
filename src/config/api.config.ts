@@ -10,9 +10,11 @@ export const getPostsUrl = (string: string) => `posts/${string}`
 export const getOrdersUrl = (string: string) => `orders/${string}`
 export const getAddressesUrl = (string: string) => `profile/address/${string}`
 
+
+export const getBrandsUrlAdmin = (string: string) => `admin/brand/${string}`
 export const getCategoriesUrlAdmin = (string: string) =>
 	`admin/categories/${string}`
 export const getProductsUrlAdmin = (string: string) =>
 	`admin/products/${string}`
-export const getBrandUrlAdmin = (string: string) => `admin/brand/${string}`
 export const getShopsUrlAdmin = (string: string) => `admin/shops/${string}`
+
