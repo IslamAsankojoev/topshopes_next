@@ -2,10 +2,12 @@ import { Box } from '@mui/material'
 import { CategoriesService } from 'api/services-admin/categories/category.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
+import { toast } from 'react-toastify'
 
 import { ICategory } from 'shared/types/product.types'
 
@@ -13,22 +15,36 @@ import { categoryEditForm } from 'utils/constants/forms'
 
 const CreateCategory = ({ id }) => {
 	const { push } = useRouter()
-	const [category, setCategory] = useState<ICategory>(null)
 
-	const handleFormSubmit = async (data) => {
-		await CategoriesService.updateCategory(id as string, data)
-		push('/admin/categories')
+	// category fetch
+	const { data: category, isLoading } = useQuery('category admin get', () =>
+		CategoriesService.getCategory(id)
+	)
+
+	// category update
+	const { isLoading: mutationLoading, mutateAsync } = useMutation(
+		'category admin create',
+		(data: ICategory) => CategoriesService.updateCategory(id, data),
+		{
+			onSuccess: () => {
+				toast.success('success')
+				push('/admin/categories')
+			},
+			onError: (e: any) => {
+				toast.error(e.message)
+			},
+		}
+	)
+
+	const handleFormSubmit = async (data: ICategory) => {
+		await mutateAsync(data)
 	}
 
-	useEffect(() => {
-		const getCategory = async () => {
-			const data = await CategoriesService.getCategory(id as string)
-			setCategory(data)
-		}
-		getCategory()
-	}, [])
+	if (isLoading || mutationLoading) {
+		return <Loading />
+	}
 
-	return category ? (
+	return (
 		<Box py={4}>
 			<H3 mb={2}>Edit Category</H3>
 			<CreateForm
@@ -37,7 +53,7 @@ const CreateCategory = ({ id }) => {
 				handleFormSubmit={handleFormSubmit}
 			/>
 		</Box>
-	) : null
+	)
 }
 
 CreateCategory.getLayout = function getLayout(page: ReactElement) {

@@ -2,7 +2,7 @@ import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { AdminProductsService } from '../../../src/api/services-admin/products/products.service'
 import Loading from '../../../src/components/Loading'
 import { toast } from 'react-toastify'
@@ -21,12 +21,16 @@ EditProduct.getLayout = function getLayout(page: ReactElement) {
 // =============================================================================
 
 export default function EditProduct({ query }) {
+	// getting all dependencies for selects
+	const fetch = useProductFetch()
+
+	// product fetch
 	const {
 		data: product,
 		isLoading,
 		isError,
 	} = useQuery(
-		'admin-product',
+		'product admin get',
 		() => AdminProductsService.getProduct(query.id),
 		{
 			refetchOnWindowFocus: false,
@@ -35,25 +39,30 @@ export default function EditProduct({ query }) {
 		}
 	)
 
-	const fetch = useProductFetch()
+	// product mutation
+	const { isLoading: mutationLoading, mutateAsync } = useMutation(
+		'product admin update',
+		(data: FormData) => AdminProductsService.updateProduct(query.id, data),
+		{
+			onSuccess: () => {
+				toast.success('success')
+				push('/admin/products/')
+			},
+			onError: (e: any) => {
+				toast.error(e.message)
+			},
+		}
+	)
+
 	const { push } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct) => {
-		try {
-			console.log(data)
-			AdminProductsService.updateProduct(
-				query.id,
-				objToFormData(checkChangeThumbnail(data, product.thumbnail))
-			)
-			toast.success('success')
-			await push('/admin/products/')
-		} catch (e: any) {
-			toast.error(e?.message)
-			console.log(e)
-		}
+		await mutateAsync(
+			objToFormData(checkChangeThumbnail(data, product.thumbnail))
+		)
 	}
 
-	if (isLoading || fetch.isLoading) {
+	if (isLoading || fetch.isLoading || mutationLoading) {
 		return <Loading />
 	}
 

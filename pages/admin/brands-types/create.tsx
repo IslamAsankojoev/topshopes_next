@@ -6,13 +6,35 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { brandTypeEditForm } from '../../../src/utils/constants/forms'
 import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
+import { useMutation } from 'react-query'
+import { IBrandTypes } from 'shared/types/brand-types.types'
+import { toast } from 'react-toastify'
+import Loading from 'components/Loading'
 
 const CreateBrandTypes = () => {
 	const { push } = useRouter()
 
-	const handleFormSubmit = async (data) => {
-		await BrandTypesService.createBrandTypes(data)
-		push('/admin/brands-types')
+	// brand type create
+	const { isLoading, mutateAsync } = useMutation(
+		'brandTypes admin create',
+		(data: IBrandTypes) => BrandTypesService.createBrandTypes(data),
+		{
+			onSuccess: () => {
+				toast.success('success')
+				push('/admin/brands-types')
+			},
+			onError: (e: any) => {
+				toast.error(e.message)
+			},
+		}
+	)
+
+	const handleFormSubmit = async (data: IBrandTypes) => {
+		await mutateAsync(data)
+	}
+
+	if (isLoading) {
+		return <Loading />
 	}
 
 	return (

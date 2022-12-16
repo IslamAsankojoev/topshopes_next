@@ -4,6 +4,7 @@ import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
@@ -45,7 +46,11 @@ export default function BrandsTypesList() {
 		handleRequestSort,
 	} = useMuiTable({ listData: brandsTypes })
 
-	return !isLoading ? (
+	if (isLoading) {
+		return <Loading />
+	}
+
+	return (
 		<Box py={4}>
 			<H3 mb={2}>Product Brands Types</H3>
 
@@ -94,5 +99,5 @@ export default function BrandsTypesList() {
 				</Stack>
 			</Card>
 		</Box>
-	) : null
+	)
 }

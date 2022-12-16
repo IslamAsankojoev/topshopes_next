@@ -2,31 +2,48 @@ import { Box } from '@mui/material'
 import { BrandsService } from 'api/services-admin/brands/brand.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import { ReactElement } from 'react'
+import { useMutation, useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { IBrand } from 'shared/types/brand.types'
 import { brandEditForm } from 'utils/constants/forms'
 
-const CreateCategory = ({ id }) => {
+const BrandUpdate = ({ id }) => {
 	const { push } = useRouter()
-	const [brand, setBrand] = useState(null)
 
-	const handleFormSubmit = async (data) => {
-		await BrandsService.updateBrand(id, data)
-		push('/admin/brands')
+	// brand fetch
+	const { data: brand, isLoading } = useQuery('brand admin get', () =>
+		BrandsService.getBrand(id)
+	)
+
+	// brand update
+	const { isLoading: mutationLoading, mutateAsync } = useMutation(
+		'brand admin update',
+		(data: IBrand) => BrandsService.updateBrand(id, data),
+		{
+			onSuccess: () => {
+				toast.success('success')
+				push('/admin/brands')
+			},
+			onError: (e: any) => {
+				toast.error(e.message)
+			},
+		}
+	)
+
+	const handleFormSubmit = async (data: IBrand) => {
+		await mutateAsync(data)
 	}
 
-	useEffect(() => {
-		const getBrand = async () => {
-			const data = await BrandsService.getBrand(id)
-			setBrand(data)
-		}
-		getBrand()
-	}, [])
+	if (isLoading || mutationLoading) {
+		return <Loading />
+	}
 
-	return brand ? (
+	return (
 		<Box py={4}>
 			<H3 mb={2}>Add New Brand</H3>
 			<CreateForm
@@ -35,14 +52,14 @@ const CreateCategory = ({ id }) => {
 				handleFormSubmit={handleFormSubmit}
 			/>
 		</Box>
-	) : null
+	)
 }
 
-CreateCategory.getLayout = function getLayout(page: ReactElement) {
+BrandUpdate.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default CreateCategory
+export default BrandUpdate
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id } = context.params

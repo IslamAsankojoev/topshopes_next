@@ -5,12 +5,13 @@ import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { useRouter } from 'next/router'
 import { BrandRow } from 'pages-sections/admin'
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 
 const tableHeading = [
@@ -21,14 +22,14 @@ const tableHeading = [
 ]
 
 // =============================================================================
-BrandList.getLayout = function getLayout(page: ReactElement) {
+BrandsList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 // =============================================================================
 
-type BrandListProps = { brands: any[] }
+type BrandsListProps = { brands: any[] }
 
-export default function BrandList() {
+export default function BrandsList() {
 	const { push } = useRouter()
 
 	const {
@@ -47,7 +48,11 @@ export default function BrandList() {
 		handleRequestSort,
 	} = useMuiTable({ listData: brands })
 
-	return !isLoading ? (
+	if (isLoading) {
+		return <Loading />
+	}
+
+	return (
 		<Box py={4}>
 			<H3 mb={2}>Product Brands</H3>
 
@@ -96,5 +101,5 @@ export default function BrandList() {
 				</Stack>
 			</Card>
 		</Box>
-	) : null
+	)
 }

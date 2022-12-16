@@ -19,7 +19,7 @@ type ColorRowProps = {
 }
 // ========================================================================
 
-const BrandRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
+const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 	const { push } = useRouter()
 	const { name, color: colorCode, id } = color
 	const isItemSelected = selected.indexOf(name) !== -1
@@ -52,6 +52,7 @@ const BrandRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 						width: 55,
 						height: 55,
 						borderRadius: '10px',
+						margin: '0 auto',
 					}}
 				/>
 			</StyledTableCell>
@@ -69,4 +70,4 @@ const BrandRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 	)
 }
 
-export default BrandRow
+export default ColorRow

@@ -1,19 +1,22 @@
 import { Box } from '@mui/material'
-import { ColorsService } from 'api/services/colors/colors.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { ISize } from 'shared/types/size.types'
 import { sizeEditForm } from 'utils/constants/forms'
 import { SizesService } from '../../../src/api/services/sizes/sizes.service'
 
-const CreateCategory = ({ id }) => {
+const UpdateSize = ({ id }) => {
 	const { push } = useRouter()
 
+	// size fetch
 	const { data: size, isLoading } = useQuery(
-		'get size one',
+		'size admin get',
 		() => SizesService.getSize(id),
 		{
 			enabled: !!id,
@@ -21,12 +24,30 @@ const CreateCategory = ({ id }) => {
 		}
 	)
 
-	const handleFormSubmit = async (data) => {
-		await SizesService.updateSize(id, data)
-		push('/admin/sizes')
+	// size mutation
+	const { isLoading: mutationLoading, mutateAsync } = useMutation(
+		'size admin update',
+		(data: ISize) => SizesService.updateSize(id, data),
+		{
+			onSuccess: () => {
+				toast.success('success')
+				push('/admin/sizes')
+			},
+			onError: (e: any) => {
+				toast.error(e.message)
+			},
+		}
+	)
+
+	const handleFormSubmit = async (data: ISize) => {
+		await mutateAsync(data)
 	}
 
-	return !isLoading ? (
+	if (isLoading || mutationLoading) {
+		return <Loading />
+	}
+
+	return (
 		<Box py={4}>
 			<H3 mb={2}>Update Size</H3>
 			<CreateForm
@@ -35,14 +56,14 @@ const CreateCategory = ({ id }) => {
 				handleFormSubmit={handleFormSubmit}
 			/>
 		</Box>
-	) : null
+	)
 }
 
-CreateCategory.getLayout = function getLayout(page: ReactElement) {
+UpdateSize.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default CreateCategory
+export default UpdateSize
 
 export const getServerSideProps = async (context) => {
 	const { id } = context.params

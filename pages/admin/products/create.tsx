@@ -10,37 +10,49 @@ import { toast } from 'react-toastify'
 import { objToFormData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
+import { useMutation } from 'react-query'
+
+const initialValues = {
+	title: '',
+	categories: [],
+	colors: [],
+	discount: 0,
+	price: '0',
+	published: false,
+	rating: '',
+	shop: '',
+	sizes: [],
+	brand: '',
+	thumbnail: '',
+	unit: '',
+}
 
 const CreateProduct = () => {
-	const initialValues = {
-		title: '',
-		categories: [],
-		colors: [],
-		discount: 0,
-		price: '0',
-		published: false,
-		rating: '',
-		shop: '',
-		sizes: [],
-		brand: '',
-		thumbnail: '',
-		unit: '',
-	}
+	// getting all dependencies for selects
 	const fetch = useProductFetch()
+
 	const { push } = useRouter()
 
-	const handleFormSubmit = async (data) => {
-		try {
-			AdminProductsService.createProduct(objToFormData(data))
-			toast.success('success')
-			await push('/admin/products/')
-		} catch (e: any) {
-			toast.error(e?.message)
-			console.log(e)
+	// create product
+	const { isLoading: mutationLoading, mutateAsync } = useMutation(
+		'product admin create',
+		(data: FormData) => AdminProductsService.createProduct(data),
+		{
+			onSuccess: () => {
+				toast.success('success')
+				push('/admin/products/')
+			},
+			onError: (e: any) => {
+				toast.error(e.message)
+			},
 		}
+	)
+
+	const handleFormSubmit = async (data) => {
+		await mutateAsync(objToFormData(data))
 	}
 
-	if (fetch.isLoading) {
+	if (fetch.isLoading || mutationLoading) {
 		return <Loading />
 	}
 

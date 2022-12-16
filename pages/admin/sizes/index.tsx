@@ -1,18 +1,16 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { BrandsService } from 'api/services-admin/brands/brand.service'
-import { ColorsService } from 'api/services/colors/colors.service'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { useRouter } from 'next/router'
-import ColorRow from 'pages-sections/admin/ColorRow'
 import SizeRow from 'pages-sections/admin/SizeRow'
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { SizesService } from '../../../src/api/services/sizes/sizes.service'
 
@@ -36,7 +34,7 @@ export default function SizesList() {
 		data: sizes,
 		isLoading,
 		refetch,
-	} = useQuery<any>('get colors admin', SizesService.getSizes)
+	} = useQuery<any>('colors admin get', SizesService.getSizes)
 
 	const {
 		order,
@@ -48,7 +46,11 @@ export default function SizesList() {
 		handleRequestSort,
 	} = useMuiTable({ listData: sizes })
 
-	return !isLoading ? (
+	if (isLoading) {
+		return <Loading />
+	}
+
+	return (
 		<Box py={4}>
 			<H3 mb={2}>Product Sizes</H3>
 
@@ -97,5 +99,5 @@ export default function SizesList() {
 				</Stack>
 			</Card>
 		</Box>
-	) : null
+	)
 }

@@ -38,7 +38,7 @@ export default function ProductList() {
 		data: products,
 		isLoading,
 		refetch,
-	} = useQuery('admin-products', AdminProductsService.getProducts)
+	} = useQuery('products admin get', AdminProductsService.getProducts)
 
 	const {
 		order,
@@ -100,7 +100,9 @@ export default function ProductList() {
 						/>
 					</Stack>
 				</Card>
-			) : <h2>Empty...</h2>}
+			) : (
+				<h2>Empty...</h2>
+			)}
 		</Box>
 	)
 }
