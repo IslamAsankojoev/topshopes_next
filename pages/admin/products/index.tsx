@@ -9,12 +9,10 @@ import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
-import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { ProductRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
-import api from 'utils/api/dashboard'
 
 const tableHeading = [
 	{ id: 'name', label: 'Name', align: 'left' },

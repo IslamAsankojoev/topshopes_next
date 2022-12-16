@@ -31,7 +31,9 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 				acc[field.name] = yup.mixed().required('Required')
 				return acc
 			}
-			if (field.type == 'checkbox' && field.required) {
+			if (field.type == 'color' && field.required) {
+				acc[field.name] = yup.string().required('Required')
+				return acc
 			}
 			return acc
 		}, {})

@@ -96,7 +96,7 @@ export const colorEditForm = [
 	{
 		name: 'color',
 		label: 'color',
-		type: 'text',
+		type: 'color',
 		placeholder: 'Enter color',
 		required: true,
 	},

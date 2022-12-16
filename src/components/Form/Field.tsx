@@ -11,7 +11,6 @@ import styles from './Field.module.scss'
 const Field: FC<any> = (props) => {
 	const { type, ...other } = props
 
-
 	if (type == 'text') {
 		return (
 			<>
@@ -22,13 +21,15 @@ const Field: FC<any> = (props) => {
 	if (type == 'text') {
 		return <TextField {...other} multiline rows={4} />
 	}
+	if (type == 'color') {
+		return <input {...other} type={'color'} />
+	}
 	if (type == 'select') {
 		return <TextField {...other} select />
 	}
 	if (type == 'checkbox') {
 		return (
 			<>
-
 				<Switch color="info" {...other} checked={other.value} />
 				<span>{other.label} </span>
 			</>
@@ -38,7 +39,6 @@ const Field: FC<any> = (props) => {
 		return <TextField {...other} type="radio" />
 	}
 	if (type == 'file') {
-
 		const [fileLocaleUrl, setFileLocaleUrl] = useState(null)
 
 		const handleFileChange = (e) => {
