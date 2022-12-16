@@ -3,15 +3,13 @@ import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
-import * as yup from 'yup'
-import { productFormValidationSchema } from './[id]'
+import { productFormValidationSchema } from './productFormValidationSchema'
 import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
 import Loading from '../../../src/components/Loading'
-import { instance } from '../../../src/api/interceptor'
-import { getProductsUrlAdmin } from '../../../src/config/api.config'
 import { toast } from 'react-toastify'
 import { objToFormData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
+import { AdminProductsService } from 'api/services-admin/products/products.service'
 
 const CreateProduct = () => {
 	const initialValues = {
@@ -32,12 +30,8 @@ const CreateProduct = () => {
 	const { push } = useRouter()
 
 	const handleFormSubmit = async (data) => {
-		console.log(data)
 		try {
-			const response = await instance.post(
-				getProductsUrlAdmin(``),
-				objToFormData(data)
-			)
+			AdminProductsService.createProduct(objToFormData(data))
 			toast.success('success')
 			await push('/admin/products/')
 		} catch (e: any) {

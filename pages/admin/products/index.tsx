@@ -100,7 +100,7 @@ export default function ProductList() {
 						/>
 					</Stack>
 				</Card>
-			) : null}
+			) : <h2>Empty...</h2>}
 		</Box>
 	)
 }

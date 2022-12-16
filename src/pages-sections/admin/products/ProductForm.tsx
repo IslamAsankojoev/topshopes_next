@@ -37,16 +37,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	//data fetching
 	const { categories, size, colors, brands, shops } = productFetch
 
-	//states for multiple selects
-	const [categoryState, setCategoryState] = React.useState(
-		MultipleSelectDataFormat(update ? initialValues.categories : [])
-	)
-	const [sizeState, setSizeState] = React.useState(
-		MultipleSelectDataFormat(update ? initialValues.sizes : [])
-	)
-	const [colorsState, setColorsState] = React.useState(
-		MultipleSelectDataFormat(update ? initialValues.colors : [])
-	)
 	const [imageState, setImageState] = React.useState(
 		initialValues.thumbnail ? initialValues.thumbnail : null
 	)
@@ -61,20 +51,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		setFieldValue,
 	} = useFormik({
 		initialValues,
-		onSubmit: async () => {
-			console.log(values)
-			const submitData = {
-				...checkChangeThumbnail(values),
-				categories: getIdArray(categoryState),
-				sizes: getIdArray(sizeState),
-				colors: getIdArray(colorsState),
-			}
-			handleFormSubmit(
-				initialValues.thumbnail === values.thumbnail
-					? submitData
-					: { ...submitData, thumbnail: values.thumbnail }
-			)
-		},
+		onSubmit: handleFormSubmit,
 		validationSchema: validationSchema,
 	})
 
@@ -100,10 +77,15 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 
 					<Grid item sm={6} xs={12}>
 						<MultipleSelect
-							names={categories}
-							chosenName={categoryState}
-							setChosenName={setCategoryState}
+							allNames={categories}
+							defaultValues={values.categories}
+							onChange={(selected) => {
+								setFieldValue('categories', selected)
+								console.log(selected)
+							}}
 							label={'Categories'}
+							helperText={touched.categories && (errors.categories as string)}
+							error={!!touched.categories && !!errors.categories}
 						/>
 					</Grid>
 
@@ -111,7 +93,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						<DropZone
 							name={'thumbnail'}
 							onBlur={handleBlur}
-							required={!values.thumbnail}
 							onChange={(file: any) => {
 								setFieldValue('thumbnail', file)
 								setImageState(URL.createObjectURL(file))
@@ -119,6 +100,11 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							multiple={false}
 							accept={'image/*'}
 						/>
+						{!!touched.thumbnail && !!errors.thumbnail ? (
+							<h2 style={{ color: 'red', textAlign: 'center' }}>
+								{touched.thumbnail && errors.thumbnail}
+							</h2>
+						) : null}
 					</Grid>
 
 					{imageState ? (
@@ -129,19 +115,23 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 
 					<Grid sm={6} item xs={12}>
 						<MultipleSelect
-							names={size}
-							chosenName={sizeState}
-							setChosenName={setSizeState}
+							allNames={size}
+							defaultValues={values.sizes}
+							onChange={(selected) => setFieldValue('sizes', selected)}
 							label={'Sizes'}
+							helperText={touched.sizes && (errors.sizes as string)}
+							error={!!touched.sizes && !!errors.sizes}
 						/>
 					</Grid>
 
 					<Grid item sm={6} xs={12}>
 						<MultipleSelect
-							names={colors}
-							chosenName={colorsState}
-							setChosenName={setColorsState}
+							allNames={colors}
+							defaultValues={values.colors}
+							onChange={(selected) => setFieldValue('colors', selected)}
 							label={'Colors'}
+							helperText={touched.colors && (errors.colors as string)}
+							error={!!touched.colors && !!errors.colors}
 						/>
 					</Grid>
 					<Grid item sm={6} xs={12}>

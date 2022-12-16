@@ -27,7 +27,7 @@ export const AdminProductsService = {
 			throw error
 		}
 	},
-	updateProduct: async (data, id) => {
+	updateProduct: async (id, data) => {
 		try {
 			const response = await instance.patch(getProductsUrlAdmin(`${id}/`), data)
 			return response.data

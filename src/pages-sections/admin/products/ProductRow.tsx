@@ -41,10 +41,9 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 	}
 	const publishOnchange = async () => {
 		try {
-			await AdminProductsService.updateProduct(
-				{ published: !productPublish },
-				id
-			)
+			await AdminProductsService.updateProduct(id, {
+				published: !productPublish,
+			})
 			setProductPublish((state) => !state)
 		} catch (e: unknown) {
 			toast.error('An error has occurred')

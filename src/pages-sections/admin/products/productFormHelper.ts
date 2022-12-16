@@ -1,6 +1,7 @@
-import { objToFormData } from '../../../utils/formData'
-
-export const checkChangeThumbnail = (data) => {
+export const checkChangeThumbnail = (data, thumbnail) => {
+	if (data.thumbnail !== thumbnail) {
+		return data
+	}
 	const response = {}
 	for (let i in data) {
 		if (i !== 'thumbnail') {
