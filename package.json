@@ -34,6 +34,7 @@
     "@types/draft-js": "^0.11.10",
     "@types/draftjs-to-html": "^0.8.1",
     "@types/html-to-draftjs": "^1.4.0",
+    "@types/js-cookie": "^3.0.2",
     "@types/react-draft-wysiwyg": "^1.13.4",
     "apexcharts": "^3.35.2",
     "axios": "^0.24.0",

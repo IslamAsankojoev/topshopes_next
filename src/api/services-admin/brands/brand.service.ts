@@ -1,4 +1,4 @@
-import { IBrand } from './../../../shared/types/brand.types';
+import { IBrand } from './../../../shared/types/brand.types'
 import { instance } from 'api/interceptor'
 import { getBrandsUrlAdmin } from 'config/api.config'
 

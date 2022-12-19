@@ -22,7 +22,6 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-
 // =============================================================================
 BrandsList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
@@ -32,11 +31,6 @@ BrandsList.getLayout = function getLayout(page: ReactElement) {
 type BrandsListProps = { brands: any[] }
 
 export default function BrandsList() {
-
-type BrandListProps = { brands: any[] }
-
-const BrandList = () => {
-
 	const { push } = useRouter()
 
 	const {
@@ -110,14 +104,3 @@ const BrandList = () => {
 		</Box>
 	)
 }
-
-BrandList.isOnlyUser = true
-
-export default BrandList
-
-// =============================================================================
-// @ts-ignore
-BrandList.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
