@@ -13,18 +13,25 @@ import { ICategory } from 'shared/types/product.types'
 
 import { categoryEditForm } from 'utils/constants/forms'
 
-const CreateCategory = ({ id }) => {
-	const { push } = useRouter()
+const CreateCategory = () => {
+	const {
+		push,
+		query: { id },
+	} = useRouter()
 
 	// category fetch
-	const { data: category, isLoading } = useQuery('category admin get', () =>
-		CategoriesService.getCategory(id)
+	const { data: category, isLoading } = useQuery(
+		'category admin get',
+		() => CategoriesService.getCategory(id as string),
+		{
+			enabled: !!id,
+		}
 	)
 
 	// category update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'category admin create',
-		(data: ICategory) => CategoriesService.updateCategory(id, data),
+		(data: ICategory) => CategoriesService.updateCategory(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -58,16 +65,6 @@ const CreateCategory = ({ id }) => {
 
 CreateCategory.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-
-export const getServerSideProps = async (context) => {
-	const { id } = context.params
-
-	return {
-		props: {
-			id,
-		},
-	}
 }
 
 export default CreateCategory

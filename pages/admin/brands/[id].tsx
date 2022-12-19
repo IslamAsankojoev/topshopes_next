@@ -66,7 +66,6 @@ export default BrandUpdate
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id } = context.params
-
 	return {
 		props: {
 			id,
