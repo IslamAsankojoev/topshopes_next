@@ -5,10 +5,7 @@ import { Container } from '@mui/system'
 import ContactsForm from '../src/pages-sections/contacts/ContactsForm'
 import styled from '@emotion/styled'
 
-const ContactsPage = ({ data }) => {
-	React.useEffect(() => {
-		console.log(data)
-	}, [])
+const ContactsPage = () => {
 	return (
 		<ShopLayout1>
 			<SEO title="Contacts" />
