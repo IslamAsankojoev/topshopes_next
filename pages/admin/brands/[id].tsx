@@ -6,13 +6,14 @@ import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, FC } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { IBrand } from 'shared/types/brand.types'
 import { brandEditForm } from 'utils/constants/forms'
 
-const BrandUpdate = ({ id }) => {
+const BrandUpdate: NextPageAuth<{ id: string }> = ({ id }) => {
 	const { push } = useRouter()
 
 	// brand fetch
@@ -54,6 +55,8 @@ const BrandUpdate = ({ id }) => {
 		</Box>
 	)
 }
+
+BrandUpdate.isOnlyUser = true
 
 BrandUpdate.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
