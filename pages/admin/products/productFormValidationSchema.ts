@@ -14,4 +14,5 @@ export const productFormValidationSchema = yup.object().shape({
 	brand: yup.string().required('brand required'),
 	thumbnail: yup.mixed().required('thumbnail required'),
 	unit: yup.string().required('unit required'),
+	images: yup.array(),
 })

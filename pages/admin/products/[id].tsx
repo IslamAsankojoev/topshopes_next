@@ -57,9 +57,7 @@ export default function EditProduct({ query }) {
 	const { push } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct) => {
-		await mutateAsync(
-			objToFormData(checkChangeThumbnail(data, product.thumbnail))
-		)
+		await mutateAsync(objToFormData(checkChangeThumbnail(data)))
 	}
 
 	if (isLoading || fetch.isLoading || mutationLoading) {

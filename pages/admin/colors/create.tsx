@@ -41,7 +41,7 @@ const CreateColor = () => {
 		<Box py={4}>
 			<H3 mb={2}>Add New Color</H3>
 			<CreateForm
-				defaultData={{}}
+				defaultData={{ name: '', color: 'black' }}
 				fields={colorEditForm}
 				handleFormSubmit={handleFormSubmit}
 			/>

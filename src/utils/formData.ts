@@ -24,6 +24,5 @@ function buildFormData(formData, data, parentKey?) {
 export function objToFormData(data) {
 	const formData = new FormData()
 	buildFormData(formData, data)
-	console.log(formData)
 	return formData
 }

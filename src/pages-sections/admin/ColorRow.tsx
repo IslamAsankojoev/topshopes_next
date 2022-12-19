@@ -5,6 +5,8 @@ import { ColorsService } from 'api/services/colors/colors.service'
 import BazaarSwitch from 'components/BazaarSwitch'
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
+import { useMutation } from 'react-query'
+import { toast } from 'react-toastify'
 import {
 	StyledIconButton,
 	StyledTableCell,
@@ -28,10 +30,22 @@ const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 		push(`/admin/colors/${id}`)
 	}
 
+	const { mutateAsync } = useMutation(
+		'color admin delete',
+		(id: number) => ColorsService.deleteColor(id),
+		{
+			onSuccess: () => {
+				refetch()
+			},
+			onError: (e: any) => {
+				toast.error(e.message)
+			},
+		}
+	)
+
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this color?')) return
-		await ColorsService.deleteColor(id)
-		refetch()
+		await mutateAsync(id)
 	}
 
 	return (
@@ -41,8 +55,6 @@ const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 			selected={isItemSelected}
 			aria-checked={isItemSelected}
 		>
-			{/* <StyledTableCell align="center">{id}</StyledTableCell> */}
-
 			<StyledTableCell align="center">{name}</StyledTableCell>
 
 			<StyledTableCell align="center">

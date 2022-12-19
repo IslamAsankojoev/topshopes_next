@@ -1,4 +1,12 @@
-import { Button, Card, Grid, MenuItem, TextField } from '@mui/material'
+import {
+	Button,
+	Card,
+	Grid,
+	ImageList,
+	ImageListItem,
+	MenuItem,
+	TextField,
+} from '@mui/material'
 import DropZone from 'components/DropZone'
 import { useFormik } from 'formik'
 import React, { FC } from 'react'
@@ -32,6 +40,10 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 
 	const [imageState, setImageState] = React.useState(
 		initialValues.thumbnail ? initialValues.thumbnail : null
+	)
+
+	const [images, setImages] = React.useState(
+		initialValues.images ? initialValues.images : null
 	)
 
 	const {
@@ -72,10 +84,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						<MultipleSelect
 							allNames={categories}
 							defaultValues={values.categories}
-							onChange={(selected) => {
-								setFieldValue('categories', selected)
-								console.log(selected)
-							}}
+							onChange={(selected) => setFieldValue('categories', selected)}
 							label={'Categories'}
 							helperText={touched.categories && (errors.categories as string)}
 							error={!!touched.categories && !!errors.categories}
@@ -86,12 +95,12 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						<DropZone
 							name={'thumbnail'}
 							onBlur={handleBlur}
-							onChange={(file: any) => {
-								setFieldValue('thumbnail', file)
-								setImageState(URL.createObjectURL(file))
+							onChange={(file: File[]) => {
+								setFieldValue('thumbnail', file[0])
+								setImageState(URL.createObjectURL(file[0]))
 							}}
 							multiple={false}
-							accept={'image/*'}
+							accept={'image/*,.web'}
 						/>
 						{!!touched.thumbnail && !!errors.thumbnail ? (
 							<h2 style={{ color: 'red', textAlign: 'center' }}>
@@ -235,6 +244,38 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 								</MenuItem>
 							))}
 						</TextField>
+					</Grid>
+
+					<Grid item xs={12}>
+						<DropZone
+							name={'images'}
+							onBlur={handleBlur}
+							onChange={(files: File[]) => {
+								setFieldValue('images', files)
+								setImages(files.map((file) => URL.createObjectURL(file)))
+							}}
+							multiple={true}
+							accept={'image/*,.web'}
+						/>
+					</Grid>
+
+					<Grid item xs={12}>
+						<ImageList
+							sx={{ width: 500, height: 450 }}
+							cols={3}
+							rowHeight={164}
+						>
+							{images?.map((item: string) => (
+								<ImageListItem key={item}>
+									<img
+										src={item}
+										srcSet={`${item}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+										alt={item}
+										loading="lazy"
+									/>
+								</ImageListItem>
+							))}
+						</ImageList>
 					</Grid>
 
 					<Grid item sm={6} xs={12}>

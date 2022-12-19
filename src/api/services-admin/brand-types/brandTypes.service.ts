@@ -1,5 +1,6 @@
 import { instance } from 'api/interceptor'
 import { getBrandsTypesUrlAdmin } from 'config/api.config'
+import { IBrandTypes } from 'shared/types/brand-types.types'
 
 export const BrandTypesService = {
 	getBrandsTypes: async () => {
@@ -18,7 +19,7 @@ export const BrandTypesService = {
 			throw error
 		}
 	},
-	updateBrandTypes: async (id: string, data: any) => {
+	updateBrandTypes: async (id: string, data: IBrandTypes) => {
 		try {
 			const response = await instance.patch(
 				getBrandsTypesUrlAdmin(`${id}/`),
@@ -29,7 +30,7 @@ export const BrandTypesService = {
 			throw error
 		}
 	},
-	createBrandTypes: async (data: any) => {
+	createBrandTypes: async (data: IBrandTypes) => {
 		try {
 			const response = await instance.post(getBrandsTypesUrlAdmin(''), data)
 			return response.data
