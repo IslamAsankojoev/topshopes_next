@@ -74,7 +74,7 @@ export default function BrandsList() {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={brands.length}
+								rowCount={brands?.length}
 								numSelected={selected.length}
 								onRequestSort={handleRequestSort}
 							/>
@@ -96,7 +96,7 @@ export default function BrandsList() {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(brands.length / rowsPerPage)}
+						count={Math.ceil(brands?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>
