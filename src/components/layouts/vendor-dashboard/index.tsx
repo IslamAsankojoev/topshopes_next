@@ -1,6 +1,8 @@
 import { Box, styled } from '@mui/material'
-import { Fragment, useState } from 'react'
-import { NextPageAuth } from 'shared/types/auth.types'
+import { AppProps } from 'next/app'
+import { FC, Fragment, ReactElement, useState } from 'react'
+import { NextPageAuth, TypeRoles } from 'shared/types/auth.types'
+
 import DashboardNavbar from './DashboardNavbar'
 import DashboardSidebar from './DashboardSidebar'
 
@@ -17,7 +19,7 @@ const InnerWrapper = styled(Box)(({ theme }) => ({
 	[theme.breakpoints.down(1550)]: { paddingLeft: '2rem', paddingRight: '2rem' },
 }))
 
-const VendorDashboardLayout: NextPageAuth = ({ children }) => {
+const VendorDashboardLayout = ({ children }) => {
 	const [sidebarCompact, setSidebarCompact] = useState(0)
 	const [showMobileSideBar, setShowMobileSideBar] = useState(0)
 
@@ -44,7 +46,5 @@ const VendorDashboardLayout: NextPageAuth = ({ children }) => {
 		</Fragment>
 	)
 }
-
-VendorDashboardLayout.isOnlyUser = true
 
 export default VendorDashboardLayout

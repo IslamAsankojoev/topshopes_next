@@ -49,8 +49,8 @@ const CreateCategory = () => {
 	)
 }
 
-CreateCategory.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
+// CreateCategory.getLayout = function getLayout(page: ReactElement) {
+// 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
+// }
 
 export default CreateCategory

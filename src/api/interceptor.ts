@@ -22,7 +22,6 @@ instance.interceptors.request.use((config) => {
 	const access = Cookie.get('token')
 	if (config.headers && access)
 		config.headers.Authorization = `Bearer ${access}`
-
 	return config
 })
 
@@ -38,13 +37,11 @@ instance.interceptors.response.use(
 		) {
 			originalRequest._isRetry = true
 			try {
-				await AuthService.refresh({ refresh: localStorage.getItem('refresh') })
+				await AuthService.refresh({ refresh: Cookie.get('refresh') })
 				return instance.request(originalRequest)
 			} catch (e) {
 				removeToken()
 			}
-		} else {
-			removeToken()
 		}
 
 		throw error

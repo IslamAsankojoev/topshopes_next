@@ -35,6 +35,7 @@ const CreateBrand = () => {
 
 	if (isLoading) {
 		return <Loading />
+
 	}
 
 	return (

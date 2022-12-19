@@ -32,3 +32,12 @@ export type ICategory = {
 	description: string
 	featured: boolean
 }
+
+export type IBrand = {
+	id: string
+	name: string
+	slug: string
+	image: string
+	featured: boolean
+	type: number
+}

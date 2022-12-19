@@ -1,5 +1,6 @@
 import { axiosClassic, instance } from 'api/interceptor'
 import { getUsersUrl } from 'config/api.config'
+import Cookies from 'js-cookie'
 import {
 	IAuthResponse,
 	ILogin,
@@ -31,7 +32,7 @@ export const AuthService = {
 			})
 
 			if (response.data.access) {
-				localStorage.setItem('refresh', response.data.refresh)
+				Cookies.set('refresh', response.data.refresh)
 				saveToken(response.data)
 			}
 			return response.data
@@ -44,7 +45,6 @@ export const AuthService = {
 		try {
 			removeToken()
 			localStorage.removeItem('user')
-			localStorage.removeItem('refresh')
 		} catch (error) {
 			throw error
 		}
