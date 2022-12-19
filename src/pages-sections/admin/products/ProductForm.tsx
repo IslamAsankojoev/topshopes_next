@@ -246,38 +246,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						</TextField>
 					</Grid>
 
-					<Grid item xs={12}>
-						<DropZone
-							name={'images'}
-							onBlur={handleBlur}
-							onChange={(files: File[]) => {
-								setFieldValue('images', files)
-								setImages(files.map((file) => URL.createObjectURL(file)))
-							}}
-							multiple={true}
-							accept={'image/*,.web'}
-						/>
-					</Grid>
-
-					<Grid item xs={12}>
-						<ImageList
-							sx={{ width: 500, height: 450 }}
-							cols={3}
-							rowHeight={164}
-						>
-							{images?.map((item: string) => (
-								<ImageListItem key={item}>
-									<img
-										src={item}
-										srcSet={`${item}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-										alt={item}
-										loading="lazy"
-									/>
-								</ImageListItem>
-							))}
-						</ImageList>
-					</Grid>
-
 					<Grid item sm={6} xs={12}>
 						<Button variant="contained" color="info" type="submit">
 							{update ? 'Save product' : 'Create product'}

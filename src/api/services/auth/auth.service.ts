@@ -11,13 +11,14 @@ import { removeToken, saveToken, saveToStorage } from './auth.helpers'
 export const AuthService = {
 	register: async ({ email, phone, password }: IRegister) => {
 		try {
-			const response = await axiosClassic.post(getUsersUrl('profile/'), {
+			const response = await axiosClassic.post('profile/', {
 				email,
 				phone,
 				password,
 			})
 			return response.data
 		} catch (error) {
+			console.dir(error)
 			throw error
 		}
 	},
