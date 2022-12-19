@@ -24,6 +24,7 @@ const ProfileEditor: NextPageAuth = () => {
 	const user = useTypedSelector((state) => state.userStore.user)
 	const [file, setFile] = React.useState(null)
 	const [fileLocaleUrl, setFileLocaleUrl] = React.useState(null)
+	const { avatar, ...initialData } = getLocalStorage('user') || initialValues
 
 	const { push } = useRouter()
 	const { update } = useActions()
@@ -37,9 +38,11 @@ const ProfileEditor: NextPageAuth = () => {
 	}
 
 	const handleFormSubmit = async (values: any) => {
-		await update(formData({ ...values, avatar: file }))
+		if (file) values.avatar = file
+		console.log(values)
+		await update(formData(values))
 
-		// push('/profile')
+		push('/profile')
 	}
 
 	return user ? (
@@ -94,7 +97,7 @@ const ProfileEditor: NextPageAuth = () => {
 				</FlexBox>
 
 				<Formik
-					initialValues={getLocalStorage('user') || initialValues}
+					initialValues={initialData}
 					// validationSchema={checkoutSchema}
 					onSubmit={handleFormSubmit}
 				>

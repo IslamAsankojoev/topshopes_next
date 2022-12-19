@@ -19,7 +19,6 @@ export const AuthService = {
 			})
 			return response.data
 		} catch (error) {
-			console.dir(error)
 			throw error
 		}
 	},

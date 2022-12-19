@@ -14,7 +14,7 @@ export const register = createAsyncThunk(
 			return response
 		} catch (error) {
 			toast.error('register')
-			return thunkApi.rejectWithValue(error.response.data)
+			thunkApi.rejectWithValue(error)
 		}
 	}
 )
@@ -29,13 +29,13 @@ export const login = createAsyncThunk(
 			return response
 		} catch (error) {
 			toast.error('login')
-			return thunkApi.rejectWithValue(error.response.data)
+			throw error
 		}
 	}
 )
 
 // logout
-export const logout = createAsyncThunk('auth/logout', async () => {
+export const logout = createAsyncThunk('auth/logout', async (_, thunkApi) => {
 	try {
 		await AuthService.logout()
 		toast.success('Logout success')
@@ -46,21 +46,24 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 })
 
 // refresh
-export const checkAuth = createAsyncThunk('auth/refresh', async () => {
-	try {
-		const response = await AuthService.refresh({
-			refresh: Cookie.get('refresh'),
-		})
-		toast.success('Logout success')
-		return response
-	} catch (error) {
-		toast.error('refresh')
-		throw error
+export const checkAuth = createAsyncThunk(
+	'auth/refresh',
+	async (_, thunkApi) => {
+		try {
+			const response = await AuthService.refresh({
+				refresh: Cookie.get('refresh'),
+			})
+			toast.success('Logout success')
+			return response
+		} catch (error) {
+			toast.error('refresh')
+			throw error
+		}
 	}
-})
+)
 
 // profile
-export const profile = createAsyncThunk('auth/profile', async () => {
+export const profile = createAsyncThunk('auth/profile', async (_, thunkApi) => {
 	try {
 		const response = await AuthService.profile()
 		toast.success('Profile success')
@@ -80,7 +83,7 @@ export const update = createAsyncThunk(
 			return response
 		} catch (error) {
 			toast.error('update')
-			return thunkApi.rejectWithValue(error.response.data)
+			throw error
 		}
 	}
 )

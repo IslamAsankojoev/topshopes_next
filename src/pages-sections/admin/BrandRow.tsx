@@ -35,7 +35,7 @@ const BrandRow: FC<BrandRowProps> = ({ brand, selected, refetch }) => {
 	}
 
 	const handleRemove = async () => {
-		if (!confirm('Are you sure you want to delete this brand?')) return
+		if (!confirm('Are you sure?')) return
 		await BrandsService.deleteBrand(id)
 		refetch()
 	}
