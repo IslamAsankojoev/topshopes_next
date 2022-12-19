@@ -89,3 +89,5 @@ EditProduct.getLayout = function getLayout(page: ReactElement) {
 export const getServerSideProps = async ({ query }) => {
 	return { props: { query } }
 }
+
+export default EditProduct

@@ -85,3 +85,5 @@ export const getStaticProps: GetStaticProps = async () => {
 	const requests = await api.refundRequests()
 	return { props: { requests } }
 }
+
+export default RefundRequest

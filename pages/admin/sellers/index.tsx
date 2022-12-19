@@ -92,3 +92,5 @@ export const getStaticProps: GetStaticProps = async () => {
 	const sellers = await api.sellers()
 	return { props: { sellers } }
 }
+
+export default SellerList

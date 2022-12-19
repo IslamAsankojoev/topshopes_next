@@ -130,3 +130,5 @@ export const getStaticProps: GetStaticProps = async () => {
 	const requests = await api.payoutRequests()
 	return { props: { requests } }
 }
+
+export default PayoutRequests

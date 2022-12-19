@@ -111,3 +111,5 @@ export const getStaticProps: GetStaticProps = async () => {
 	const payouts = await api.payouts()
 	return { props: { payouts } }
 }
+
+export default Payouts

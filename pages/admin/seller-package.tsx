@@ -71,3 +71,5 @@ SellerPackage.isOnlyUser = true
 SellerPackage.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
+
+export default SellerPackage

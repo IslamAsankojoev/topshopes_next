@@ -97,3 +97,5 @@ export const getStaticProps: GetStaticProps = async () => {
 	const customers = await api.customers()
 	return { props: { customers } }
 }
+
+export default CustomerList

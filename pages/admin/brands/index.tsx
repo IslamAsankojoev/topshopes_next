@@ -103,3 +103,5 @@ BrandsList.isOnlyUser = true
 BrandsList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
+
+export default BrandsList

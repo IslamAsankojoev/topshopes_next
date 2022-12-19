@@ -117,3 +117,5 @@ export const getStaticProps: GetStaticProps = async () => {
 	const earnings = await api.earningHistory()
 	return { props: { earnings } }
 }
+
+export default EarningHistory

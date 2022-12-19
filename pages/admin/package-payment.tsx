@@ -115,3 +115,5 @@ export const getStaticProps: GetStaticProps = async () => {
 	const payments = await api.packagePayments()
 	return { props: { payments } }
 }
+
+export default PackagePayment

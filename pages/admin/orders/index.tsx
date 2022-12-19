@@ -113,3 +113,5 @@ export const getStaticProps: GetStaticProps = async () => {
 
 	return { props: { orders } }
 }
+
+export default OrderList

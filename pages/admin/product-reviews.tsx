@@ -76,9 +76,10 @@ ProductReviews.isOnlyUser = true
 ProductReviews.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
-//
 
 export const getStaticProps: GetStaticProps = async () => {
 	const reviews = await api.reviews()
 	return { props: { reviews } }
 }
+
+export default ProductReviews
