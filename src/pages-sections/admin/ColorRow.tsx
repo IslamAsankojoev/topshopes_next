@@ -63,6 +63,7 @@ const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 						backgroundColor: colorCode,
 						width: 55,
 						height: 55,
+						margin: 'auto',
 						borderRadius: '10px',
 						margin: '0 auto',
 					}}

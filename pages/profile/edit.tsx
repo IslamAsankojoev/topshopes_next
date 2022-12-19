@@ -15,10 +15,11 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { getLocalStorage } from 'utils/local-storage/localStorage'
 import * as yup from 'yup'
 
-const ProfileEditor = () => {
+const ProfileEditor: NextPageAuth = () => {
 	const user = useTypedSelector((state) => state.userStore.user)
 	const [file, setFile] = React.useState(null)
 	const [fileLocaleUrl, setFileLocaleUrl] = React.useState(null)
@@ -208,6 +209,8 @@ const ProfileEditor = () => {
 		</CustomerDashboardLayout>
 	) : null
 }
+
+ProfileEditor.isOnlyUser = true
 
 const initialValues = {
 	first_name: '',

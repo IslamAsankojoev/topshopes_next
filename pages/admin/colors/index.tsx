@@ -11,7 +11,7 @@ import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { useRouter } from 'next/router'
 import ColorRow from 'pages-sections/admin/ColorRow'
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 
 const tableHeading = [

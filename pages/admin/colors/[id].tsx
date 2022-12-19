@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 import { IColors } from 'shared/types/product.types'
 import { colorEditForm } from 'utils/constants/forms'
 
+
 const UpdateColors = ({ id }) => {
 	const { push } = useRouter()
 
@@ -49,7 +50,7 @@ const UpdateColors = ({ id }) => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Add New Brand</H3>
+			<H3 mb={2}>Edit Color</H3>
 			<CreateForm
 				defaultData={color}
 				fields={colorEditForm}
@@ -59,11 +60,13 @@ const UpdateColors = ({ id }) => {
 	)
 }
 
+
 UpdateColors.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
 export default UpdateColors
+
 
 export const getServerSideProps = async (context) => {
 	const { id } = context.params
