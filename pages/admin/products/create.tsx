@@ -7,7 +7,7 @@ import { productFormValidationSchema } from './productFormValidationSchema'
 import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
 import Loading from '../../../src/components/Loading'
 import { toast } from 'react-toastify'
-import { objToFormData } from '../../../src/utils/formData'
+import { formData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { useMutation } from 'react-query'
@@ -49,7 +49,7 @@ const CreateProduct = () => {
 	)
 
 	const handleFormSubmit = async (data) => {
-		await mutateAsync(objToFormData(data))
+		await mutateAsync(formData(data))
 	}
 
 	if (fetch.isLoading || mutationLoading) {

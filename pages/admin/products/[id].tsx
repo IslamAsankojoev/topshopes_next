@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
 import { IProduct } from '../../../src/shared/types/product.types'
 import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
-import { objToFormData } from '../../../src/utils/formData'
+import { formData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
 import { checkChangeThumbnail } from 'pages-sections/admin/products/productFormHelper'
 import { productFormValidationSchema } from './productFormValidationSchema'
@@ -57,7 +57,7 @@ export default function EditProduct({ query }) {
 	const { push } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct) => {
-		await mutateAsync(objToFormData(checkChangeThumbnail(data)))
+		await mutateAsync(formData(checkChangeThumbnail(data)))
 	}
 
 	if (isLoading || fetch.isLoading || mutationLoading) {

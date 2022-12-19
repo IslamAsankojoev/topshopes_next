@@ -73,7 +73,7 @@ export const profile = createAsyncThunk('auth/profile', async () => {
 
 export const update = createAsyncThunk(
 	'auth/profile/update',
-	async ({ data }: any, thunkApi) => {
+	async (data: any, thunkApi) => {
 		try {
 			const response = await AuthService.update(data)
 			toast.success('Update success')

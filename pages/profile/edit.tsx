@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { formData } from 'utils/formData'
 import { getLocalStorage } from 'utils/local-storage/localStorage'
 import * as yup from 'yup'
 
@@ -36,20 +37,9 @@ const ProfileEditor: NextPageAuth = () => {
 	}
 
 	const handleFormSubmit = async (values: any) => {
-		const formData = new FormData()
-		formData.append('first_name', values.first_name)
-		formData.append('last_name', values.last_name)
-		formData.append('email', values.email)
-		formData.append('phone', values.phone)
-		formData.append('birthday', values.birthday)
-		formData.append('verified', 'true')
-		if (file) {
-			formData.append('avatar', file)
-		}
+		await update(formData({ ...values, avatar: file }))
 
-		await update(formData)
-
-		push('/profile')
+		// push('/profile')
 	}
 
 	return user ? (
