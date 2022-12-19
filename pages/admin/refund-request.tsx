@@ -9,6 +9,7 @@ import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { RefundRequestRow } from 'pages-sections/admin'
 import { ReactElement } from 'react'
+import { NextPageAuth } from 'shared/types/auth.types'
 import api from 'utils/api/dashboard'
 
 // table column list
@@ -21,17 +22,11 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-// =============================================================================
-RefundRequest.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
-
 type RefundRequestProps = { requests: any[] }
 
 // =============================================================================
 
-export default function RefundRequest({ requests }: RefundRequestProps) {
+const RefundRequest: NextPageAuth<RefundRequestProps> = ({ requests }) => {
 	const {
 		order,
 		orderBy,
@@ -78,6 +73,12 @@ export default function RefundRequest({ requests }: RefundRequestProps) {
 			</Card>
 		</Box>
 	)
+}
+
+RefundRequest.isOnlyUser = true
+
+RefundRequest.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
 export const getStaticProps: GetStaticProps = async () => {

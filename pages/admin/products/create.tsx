@@ -11,6 +11,7 @@ import { formData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { useMutation } from 'react-query'
+import { NextPageAuth } from 'shared/types/auth.types'
 
 const initialValues = {
 	title: '',
@@ -27,7 +28,7 @@ const initialValues = {
 	unit: '',
 }
 
-const CreateProduct = () => {
+const CreateProduct: NextPageAuth = () => {
 	// getting all dependencies for selects
 	const fetch = useProductFetch()
 
@@ -71,10 +72,10 @@ const CreateProduct = () => {
 	) : null
 }
 
-// =============================================================================
+CreateProduct.isOnlyUser = true
+
 CreateProduct.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
-// =============================================================================
 
 export default CreateProduct

@@ -7,11 +7,12 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { ISize } from 'shared/types/size.types'
 import { SizesService } from '../../../src/api/services/sizes/sizes.service'
 import { sizeEditForm } from '../../../src/utils/constants/forms'
 
-const CreateSizes = () => {
+const CreateSizes: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	// size mutation
@@ -48,6 +49,8 @@ const CreateSizes = () => {
 		</Box>
 	)
 }
+
+CreateSizes.isOnlyUser = true
 
 CreateSizes.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

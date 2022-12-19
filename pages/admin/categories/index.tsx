@@ -26,10 +26,6 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-type CategoryListProps = { categories: ICategory[] }
-
-// =============================================================================
-
 const CategoryList: NextPageAuth = () => {
 	const { push } = useRouter()
 	const {
@@ -53,59 +49,61 @@ const CategoryList: NextPageAuth = () => {
 	}
 
 	return (
-		<VendorDashboardLayout>
-			<Box py={4}>
-				<H3 mb={2}>Product Categories</H3>
+		<Box py={4}>
+			<H3 mb={2}>Product Categories</H3>
 
-				<SearchArea
-					handleSearch={() => {}}
-					buttonText="Add Category"
-					handleBtnClick={() => {
-						push('/admin/categories/create')
-					}}
-					searchPlaceholder="Search Category..."
-				/>
+			<SearchArea
+				handleSearch={() => {}}
+				buttonText="Add Category"
+				handleBtnClick={() => {
+					push('/admin/categories/create')
+				}}
+				searchPlaceholder="Search Category..."
+			/>
 
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 900 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={categories.length}
-									numSelected={selected.length}
-									onRequestSort={handleRequestSort}
-								/>
+			<Card>
+				<Scrollbar>
+					<TableContainer sx={{ minWidth: 900 }}>
+						<Table>
+							<TableHeader
+								order={order}
+								hideSelectBtn
+								orderBy={orderBy}
+								heading={tableHeading}
+								rowCount={categories.length}
+								numSelected={selected.length}
+								onRequestSort={handleRequestSort}
+							/>
 
-								<TableBody>
-									{filteredList.map((category, index) => (
-										<CategoryRow
-											item={category}
-											key={index}
-											selected={selected}
-											refetch={refetch}
-										/>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
+							<TableBody>
+								{filteredList.map((category, index) => (
+									<CategoryRow
+										item={category}
+										key={index}
+										selected={selected}
+										refetch={refetch}
+									/>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</Scrollbar>
 
-					<Stack alignItems="center" my={4}>
-						<TablePagination
-							onChange={handleChangePage}
-							count={Math.ceil(categories.length / rowsPerPage)}
-						/>
-					</Stack>
-				</Card>
-			</Box>
-		</VendorDashboardLayout>
+				<Stack alignItems="center" my={4}>
+					<TablePagination
+						onChange={handleChangePage}
+						count={Math.ceil(categories.length / rowsPerPage)}
+					/>
+				</Stack>
+			</Card>
+		</Box>
 	)
 }
 
 CategoryList.isOnlyUser = true
+
+CategoryList.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
+}
 
 export default CategoryList

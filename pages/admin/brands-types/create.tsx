@@ -10,8 +10,9 @@ import { useMutation } from 'react-query'
 import { IBrandTypes } from 'shared/types/brand-types.types'
 import { toast } from 'react-toastify'
 import Loading from 'components/Loading'
+import { NextPageAuth } from 'shared/types/auth.types'
 
-const CreateBrandTypes = () => {
+const CreateBrandTypes: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	// brand type create
@@ -48,6 +49,7 @@ const CreateBrandTypes = () => {
 		</Box>
 	)
 }
+CreateBrandTypes.isOnlyUser = true
 
 CreateBrandTypes.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

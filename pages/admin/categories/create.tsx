@@ -8,10 +8,11 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { ICategory } from 'shared/types/product.types'
 import { categoryEditForm } from 'utils/constants/forms'
 
-const CreateCategory = () => {
+const CreateCategory: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	// category create
@@ -48,6 +49,8 @@ const CreateCategory = () => {
 		</Box>
 	)
 }
+
+CreateCategory.isOnlyUser = true
 
 CreateCategory.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

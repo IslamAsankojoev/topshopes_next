@@ -14,6 +14,7 @@ import { OrderRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
 import api from 'utils/api/dashboard'
 
 // table column list
@@ -27,17 +28,7 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-// =============================================================================
-OrderList.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
-
-type OrderListProps = { orders: any[] }
-
-// =============================================================================
-
-export default function OrderList() {
+const OrderList: NextPageAuth = () => {
 	const { data: orders, isLoading } = useQuery(
 		'orders admin get',
 		OrdersService.getOrders,
@@ -109,6 +100,12 @@ export default function OrderList() {
 			</Card>
 		</Box>
 	)
+}
+
+OrderList.isOnlyUser = true
+
+OrderList.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
 export const getStaticProps: GetStaticProps = async () => {

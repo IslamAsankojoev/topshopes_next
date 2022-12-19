@@ -7,22 +7,31 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { IBrandTypes } from 'shared/types/brand-types.types'
 import { brandTypeEditForm } from 'utils/constants/forms'
 import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
 
-const CreateBrandType = ({ id }) => {
-	const { push } = useRouter()
+const CreateBrandType: NextPageAuth = () => {
+	const {
+		push,
+		query: { id },
+	} = useRouter()
 
 	// brand type fetch
-	const { data: brandType, isLoading } = useQuery('get brandType one', () =>
-		BrandTypesService.getBrandTypes(id)
+	const { data: brandType, isLoading } = useQuery(
+		'get brandType one',
+		() => BrandTypesService.getBrandTypes(id as string),
+		{
+			enabled: !!id,
+		}
 	)
 
 	// brand type update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'brandTypes admin update',
-		(data: IBrandTypes) => BrandTypesService.updateBrandTypes(id, data),
+		(data: IBrandTypes) =>
+			BrandTypesService.updateBrandTypes(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -54,18 +63,10 @@ const CreateBrandType = ({ id }) => {
 	)
 }
 
+CreateBrandType.isOnlyUser = true
+
 CreateBrandType.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
 export default CreateBrandType
-
-export const getServerSideProps = async (context) => {
-	const { id } = context.params
-
-	return {
-		props: {
-			id,
-		},
-	}
-}

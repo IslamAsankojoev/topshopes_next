@@ -11,6 +11,7 @@ import useMuiTable from 'hooks/useMuiTable'
 import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
 import BrandsTypesRow from '../../../src/pages-sections/admin/BrandsTypesRow'
 
@@ -19,15 +20,7 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-// =============================================================================
-BrandsTypesList.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
-
-type BrandsTypesListProps = { sizes: any[] }
-
-export default function BrandsTypesList() {
+const BrandsTypesList: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const {
@@ -100,4 +93,10 @@ export default function BrandsTypesList() {
 			</Card>
 		</Box>
 	)
+}
+
+BrandsTypesList.isOnlyUser = true
+
+BrandsTypesList.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }

@@ -13,16 +13,14 @@ import { formData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
 import { checkChangeThumbnail } from 'pages-sections/admin/products/productFormHelper'
 import { productFormValidationSchema } from './productFormValidationSchema'
+import { NextPageAuth } from 'shared/types/auth.types'
 
-// =============================================================================
-EditProduct.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
-
-export default function EditProduct({ query }) {
+const EditProduct: NextPageAuth = () => {
 	// getting all dependencies for selects
 	const fetch = useProductFetch()
+	const {
+		query: { id },
+	} = useRouter()
 
 	// product fetch
 	const {
@@ -31,10 +29,9 @@ export default function EditProduct({ query }) {
 		isError,
 	} = useQuery(
 		'product admin get',
-		() => AdminProductsService.getProduct(query.id),
+		() => AdminProductsService.getProduct(id as string),
 		{
-			refetchOnWindowFocus: false,
-			retry: 1,
+			enabled: !!id,
 			onError: (e: any) => toast.error(e.message, { autoClose: 5000 }),
 		}
 	)
@@ -42,7 +39,7 @@ export default function EditProduct({ query }) {
 	// product mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'product admin update',
-		(data: FormData) => AdminProductsService.updateProduct(query.id, data),
+		(data: FormData) => AdminProductsService.updateProduct(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -82,6 +79,11 @@ export default function EditProduct({ query }) {
 			) : null}
 		</Box>
 	) : null
+}
+EditProduct.isOnlyUser = true
+
+EditProduct.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
 export const getServerSideProps = async ({ query }) => {

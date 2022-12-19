@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import { BrandRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { IBrand } from 'shared/types/product.types'
 
 const tableHeading = [
@@ -22,15 +23,7 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-// =============================================================================
-BrandsList.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
-
-type BrandsListProps = { brands: any[] }
-
-export default function BrandsList() {
+const BrandsList: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const {
@@ -103,4 +96,10 @@ export default function BrandsList() {
 			</Card>
 		</Box>
 	)
+}
+
+BrandsList.isOnlyUser = true
+
+BrandsList.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
