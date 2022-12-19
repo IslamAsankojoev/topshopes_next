@@ -7,11 +7,11 @@ export const ColorsService = {
 		const { data } = await instance.get(getColorsUrl(''))
 		return data
 	},
-	getColor: async (id: number) => {
+	getColor: async (id: string) => {
 		const { data } = await instance.get(getColorsUrl(`${id}/`))
 		return data
 	},
-	updateColor: async (id: number, data: IColors) => {
+	updateColor: async (id: string, data: IColors) => {
 		const { data: updated } = await instance.patch(getColorsUrl(`${id}/`), data)
 		return updated
 	},
@@ -19,7 +19,7 @@ export const ColorsService = {
 		const { data: created } = await instance.post(getColorsUrl(''), data)
 		return created
 	},
-	deleteColor: async (id: number) => {
+	deleteColor: async (id: string) => {
 		const { data: deleted } = await instance.delete(getColorsUrl(`${id}/`))
 		return deleted
 	},

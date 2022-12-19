@@ -8,10 +8,11 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { IColors } from 'shared/types/product.types'
 import { colorEditForm } from 'utils/constants/forms'
 
-const CreateColor = () => {
+const CreateColor: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	// color mutation
@@ -48,6 +49,8 @@ const CreateColor = () => {
 		</Box>
 	)
 }
+
+CreateColor.isOnlyUser = true
 
 CreateColor.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

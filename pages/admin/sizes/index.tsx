@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import SizeRow from 'pages-sections/admin/SizeRow'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { SizesService } from '../../../src/api/services/sizes/sizes.service'
 
 const tableHeading = [
@@ -19,15 +20,7 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-// =============================================================================
-SizesList.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
-
-type SizesListProps = { sizes: any[] }
-
-export default function SizesList() {
+const SizesList: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const {
@@ -101,3 +94,10 @@ export default function SizesList() {
 		</Box>
 	)
 }
+SizesList.isOnlyUser = true
+
+SizesList.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
+}
+
+export default SizesList

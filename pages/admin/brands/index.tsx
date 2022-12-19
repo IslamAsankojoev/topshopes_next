@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import { BrandRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { IBrand } from 'shared/types/product.types'
 
 const tableHeading = [
@@ -22,15 +23,7 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-// =============================================================================
-BrandsList.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
-
-type BrandsListProps = { brands: any[] }
-
-export default function BrandsList() {
+const BrandsList: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const {
@@ -75,7 +68,7 @@ export default function BrandsList() {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={brands.length}
+								rowCount={brands?.length}
 								numSelected={selected.length}
 								onRequestSort={handleRequestSort}
 							/>
@@ -97,10 +90,18 @@ export default function BrandsList() {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(brands.length / rowsPerPage)}
+						count={Math.ceil(brands?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>
 		</Box>
 	)
 }
+
+BrandsList.isOnlyUser = true
+
+BrandsList.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
+}
+
+export default BrandsList

@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import { ProductRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
+import { NextPageAuth } from 'shared/types/auth.types'
 
 const tableHeading = [
 	{ id: 'name', label: 'Name', align: 'left' },
@@ -23,16 +24,7 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-// =============================================================================
-ProductList.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
-
-type ProductListProps = { products: any[] }
-// =============================================================================
-
-export default function ProductList() {
+const ProductList: NextPageAuth = () => {
 	const { push } = useRouter()
 	const {
 		data: products,
@@ -106,3 +98,11 @@ export default function ProductList() {
 		</Box>
 	)
 }
+
+ProductList.isOnlyUser = true
+
+ProductList.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
+}
+
+export default ProductList

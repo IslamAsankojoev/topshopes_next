@@ -8,10 +8,11 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { IBrand } from 'shared/types/brand.types'
 import { brandEditForm } from 'utils/constants/forms'
 
-const CreateBrand = () => {
+const CreateBrand: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	// brand create
@@ -48,6 +49,8 @@ const CreateBrand = () => {
 		</Box>
 	)
 }
+
+CreateBrand.isOnlyUser = true
 
 CreateBrand.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

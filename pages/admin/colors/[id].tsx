@@ -8,17 +8,20 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { IColors } from 'shared/types/product.types'
 import { colorEditForm } from 'utils/constants/forms'
 
-
-const UpdateColors = ({ id }) => {
-	const { push } = useRouter()
+const UpdateColors: NextPageAuth = () => {
+	const {
+		push,
+		query: { id },
+	} = useRouter()
 
 	// color mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'color admin update',
-		(data: IColors) => ColorsService.updateColor(id, data),
+		(data: IColors) => ColorsService.updateColor(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -33,7 +36,7 @@ const UpdateColors = ({ id }) => {
 	// color fetch
 	const { data: color, isLoading } = useQuery(
 		'color admin get',
-		() => ColorsService.getColor(id),
+		() => ColorsService.getColor(id as string),
 		{
 			enabled: !!id,
 			cacheTime: 0,
@@ -60,20 +63,10 @@ const UpdateColors = ({ id }) => {
 	)
 }
 
+UpdateColors.isOnlyUser = true
 
 UpdateColors.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
 export default UpdateColors
-
-
-export const getServerSideProps = async (context) => {
-	const { id } = context.params
-
-	return {
-		props: {
-			id,
-		},
-	}
-}

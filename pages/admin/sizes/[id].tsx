@@ -7,12 +7,16 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { ISize } from 'shared/types/size.types'
 import { sizeEditForm } from 'utils/constants/forms'
 import { SizesService } from '../../../src/api/services/sizes/sizes.service'
 
-const UpdateSize = ({ id }) => {
-	const { push } = useRouter()
+const UpdateSize: NextPageAuth = () => {
+	const {
+		push,
+		query: { id },
+	} = useRouter()
 
 	// size fetch
 	const { data: size, isLoading } = useQuery(
@@ -20,7 +24,6 @@ const UpdateSize = ({ id }) => {
 		() => SizesService.getSize(id),
 		{
 			enabled: !!id,
-			cacheTime: 0,
 		}
 	)
 
@@ -59,18 +62,10 @@ const UpdateSize = ({ id }) => {
 	)
 }
 
+UpdateSize.isOnlyUser = true
+
 UpdateSize.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
 export default UpdateSize
-
-export const getServerSideProps = async (context) => {
-	const { id } = context.params
-
-	return {
-		props: {
-			id,
-		},
-	}
-}

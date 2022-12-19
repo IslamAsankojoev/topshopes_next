@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import ColorRow from 'pages-sections/admin/ColorRow'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
+import { NextPageAuth } from 'shared/types/auth.types'
 
 const tableHeading = [
 	{ id: 'name', label: 'Name', align: 'center' },
@@ -20,15 +21,7 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-// =============================================================================
-ColorList.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
-
-type ColorListProps = { colors: any[] }
-
-export default function ColorList() {
+const ColorList: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const {
@@ -102,3 +95,11 @@ export default function ColorList() {
 		</Box>
 	)
 }
+
+ColorList.isOnlyUser = true
+
+ColorList.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
+}
+
+export default ColorList
