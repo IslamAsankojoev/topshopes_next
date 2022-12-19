@@ -31,7 +31,9 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 				acc[field.name] = yup.mixed().required('Required')
 				return acc
 			}
-			if (field.type == 'checkbox' && field.required) {
+			if (field.type == 'color' && field.required) {
+				acc[field.name] = yup.string().required('Required')
+				return acc
 			}
 			return acc
 		}, {})
@@ -81,7 +83,6 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 						<Field
 							type={field.type}
 							fullWidth
-
 							name={field.name}
 							label={field.name}
 							color="info"
@@ -100,7 +101,7 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 				))}
 				<Grid item sm={6} xs={12}>
 					<Button variant="contained" color="info" type="submit">
-						Save product
+						Save
 					</Button>
 				</Grid>
 			</Grid>

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { CategoriesService } from 'api/services-admin/categories/category.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
@@ -8,27 +7,26 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
+import { IBrandTypes } from 'shared/types/brand-types.types'
+import { brandTypeEditForm } from 'utils/constants/forms'
+import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
 
-import { ICategory } from 'shared/types/product.types'
-
-import { categoryEditForm } from 'utils/constants/forms'
-
-const CreateCategory = ({ id }) => {
+const CreateBrandType = ({ id }) => {
 	const { push } = useRouter()
 
-	// category fetch
-	const { data: category, isLoading } = useQuery('category admin get', () =>
-		CategoriesService.getCategory(id)
+	// brand type fetch
+	const { data: brandType, isLoading } = useQuery('get brandType one', () =>
+		BrandTypesService.getBrandTypes(id)
 	)
 
-	// category update
+	// brand type update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
-		'category admin create',
-		(data: ICategory) => CategoriesService.updateCategory(id, data),
+		'brandTypes admin update',
+		(data: IBrandTypes) => BrandTypesService.updateBrandTypes(id, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
-				push('/admin/categories')
+				push('/admin/brands-types')
 			},
 			onError: (e: any) => {
 				toast.error(e.message)
@@ -36,7 +34,7 @@ const CreateCategory = ({ id }) => {
 		}
 	)
 
-	const handleFormSubmit = async (data: ICategory) => {
+	const handleFormSubmit = async (data: IBrandTypes) => {
 		await mutateAsync(data)
 	}
 
@@ -46,19 +44,21 @@ const CreateCategory = ({ id }) => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Edit Category</H3>
+			<H3 mb={2}>Update Brand Type</H3>
 			<CreateForm
-				defaultData={category}
-				fields={categoryEditForm}
+				defaultData={brandType}
+				fields={brandTypeEditForm}
 				handleFormSubmit={handleFormSubmit}
 			/>
 		</Box>
 	)
 }
 
-CreateCategory.getLayout = function getLayout(page: ReactElement) {
+CreateBrandType.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
+
+export default CreateBrandType
 
 export const getServerSideProps = async (context) => {
 	const { id } = context.params
@@ -69,5 +69,3 @@ export const getServerSideProps = async (context) => {
 		},
 	}
 }
-
-export default CreateCategory

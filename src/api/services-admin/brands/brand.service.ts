@@ -1,3 +1,4 @@
+import { IBrand } from './../../../shared/types/brand.types';
 import { instance } from 'api/interceptor'
 import { getBrandsUrlAdmin } from 'config/api.config'
 
@@ -18,7 +19,7 @@ export const BrandsService = {
 			throw error
 		}
 	},
-	updateBrand: async (id: string, data: any) => {
+	updateBrand: async (id: string, data: IBrand | FormData | any) => {
 		try {
 			const response = await instance.patch(getBrandsUrlAdmin(`${id}/`), data)
 			return response.data
@@ -26,7 +27,7 @@ export const BrandsService = {
 			throw error
 		}
 	},
-	createBrand: async (data: any) => {
+	createBrand: async (data: IBrand | FormData) => {
 		try {
 			const response = await instance.post(getBrandsUrlAdmin(''), data)
 			return response.data

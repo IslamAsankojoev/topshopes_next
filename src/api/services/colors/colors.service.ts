@@ -1,3 +1,4 @@
+import { IColors } from 'shared/types/product.types';
 import { instance } from '../../interceptor'
 import { getColorsUrl } from '../../../config/api.config'
 
@@ -6,19 +7,19 @@ export const ColorsService = {
 		const { data } = await instance.get(getColorsUrl(''))
 		return data
 	},
-	getColor: async (id: string) => {
+	getColor: async (id: number) => {
 		const { data } = await instance.get(getColorsUrl(`${id}/`))
 		return data
 	},
-	updateColor: async (id: string, data: any) => {
+	updateColor: async (id: number, data: IColors) => {
 		const { data: updated } = await instance.patch(getColorsUrl(`${id}/`), data)
 		return updated
 	},
-	createColor: async (data: any) => {
+	createColor: async (data: IColors) => {
 		const { data: created } = await instance.post(getColorsUrl(''), data)
 		return created
 	},
-	deleteColor: async (id: string) => {
+	deleteColor: async (id: number) => {
 		const { data: deleted } = await instance.delete(getColorsUrl(`${id}/`))
 		return deleted
 	},

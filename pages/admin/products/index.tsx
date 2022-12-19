@@ -9,12 +9,10 @@ import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
-import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { ProductRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
-import api from 'utils/api/dashboard'
 
 const tableHeading = [
 	{ id: 'name', label: 'Name', align: 'left' },
@@ -36,10 +34,11 @@ type ProductListProps = { products: any[] }
 
 export default function ProductList() {
 	const { push } = useRouter()
-	const { data: products, isLoading } = useQuery(
-		'admin-products',
-		AdminProductsService.getProducts
-	)
+	const {
+		data: products,
+		isLoading,
+		refetch,
+	} = useQuery('products admin get', AdminProductsService.getProducts)
 
 	const {
 		order,
@@ -83,7 +82,11 @@ export default function ProductList() {
 
 								<TableBody>
 									{filteredList.map((product, index) => (
-										<ProductRow product={product} key={index} />
+										<ProductRow
+											refetch={refetch}
+											product={product}
+											key={index}
+										/>
 									))}
 								</TableBody>
 							</Table>
@@ -97,7 +100,9 @@ export default function ProductList() {
 						/>
 					</Stack>
 				</Card>
-			) : null}
+			) : (
+				<h2>Empty...</h2>
+			)}
 		</Box>
 	)
 }

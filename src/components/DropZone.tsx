@@ -3,9 +3,6 @@ import { Box, Button, Divider } from '@mui/material'
 import React, { ComponentPropsWithoutRef, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { H5, Small } from './Typography'
-import { File } from 'next/dist/compiled/@edge-runtime/primitives/fetch'
-import styled from '@emotion/styled'
-import { objToFormData } from '../utils/formData'
 
 // @ts-ignore
 export interface DropZoneProps extends ComponentPropsWithoutRef<'input'> {
@@ -20,7 +17,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 
 	const onDrop = useCallback((acceptedFiles) => {
 		if (onChange) {
-			onChange(acceptedFiles[0])
+			onChange(acceptedFiles)
 			setTitle(acceptedFiles[0]?.name)
 		}
 	}, [])
@@ -76,7 +73,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 				color="info"
 				sx={{ px: 4, my: 4 }}
 			>
-				Select file
+				Select image
 			</Button>
 		</Box>
 	)

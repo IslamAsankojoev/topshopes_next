@@ -1,27 +1,27 @@
 import { Box } from '@mui/material'
-import { CategoriesService } from 'api/services-admin/categories/category.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
+import { brandTypeEditForm } from '../../../src/utils/constants/forms'
+import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
 import { useMutation } from 'react-query'
+import { IBrandTypes } from 'shared/types/brand-types.types'
 import { toast } from 'react-toastify'
-import { ICategory } from 'shared/types/product.types'
-import { categoryEditForm } from 'utils/constants/forms'
+import Loading from 'components/Loading'
 
-const CreateCategory = () => {
+const CreateBrandTypes = () => {
 	const { push } = useRouter()
 
-	// category create
+	// brand type create
 	const { isLoading, mutateAsync } = useMutation(
-		'category admin create',
-		(data: ICategory) => CategoriesService.createCategory(data),
+		'brandTypes admin create',
+		(data: IBrandTypes) => BrandTypesService.createBrandTypes(data),
 		{
 			onSuccess: () => {
 				toast.success('success')
-				push('/admin/categories')
+				push('/admin/brands-types')
 			},
 			onError: (e: any) => {
 				toast.error(e.message)
@@ -29,7 +29,7 @@ const CreateCategory = () => {
 		}
 	)
 
-	const handleFormSubmit = async (data: ICategory) => {
+	const handleFormSubmit = async (data: IBrandTypes) => {
 		await mutateAsync(data)
 	}
 
@@ -39,18 +39,18 @@ const CreateCategory = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Add New Category</H3>
+			<H3 mb={2}>Add New Brand Type</H3>
 			<CreateForm
 				defaultData={{}}
-				fields={categoryEditForm}
+				fields={brandTypeEditForm}
 				handleFormSubmit={handleFormSubmit}
 			/>
 		</Box>
 	)
 }
 
-CreateCategory.getLayout = function getLayout(page: ReactElement) {
+CreateBrandTypes.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default CreateCategory
+export default CreateBrandTypes

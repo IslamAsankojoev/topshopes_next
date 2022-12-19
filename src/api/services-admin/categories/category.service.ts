@@ -1,3 +1,4 @@
+import { ICategory } from 'shared/types/product.types';
 import { instance } from 'api/interceptor'
 import { getCategoriesUrlAdmin } from 'config/api.config'
 import { toast } from 'react-toastify'
@@ -5,7 +6,6 @@ import { toast } from 'react-toastify'
 export const CategoriesService = {
 	getCategories: async () => {
 		try {
-
 			const response = await instance.get(getCategoriesUrlAdmin(''))
 			return response.data
 		} catch (error) {
@@ -20,7 +20,7 @@ export const CategoriesService = {
 			throw error
 		}
 	},
-	updateCategory: async (id: string, data: any) => {
+	updateCategory: async (id: string, data: ICategory | FormData | any) => {
 		try {
 			const response = await instance.patch(
 				getCategoriesUrlAdmin(`${id}/`),
@@ -32,7 +32,7 @@ export const CategoriesService = {
 			throw error
 		}
 	},
-	createCategory: async (data: any) => {
+	createCategory: async (data: ICategory | FormData) => {
 		try {
 			const response = await instance.post(getCategoriesUrlAdmin(''), data)
 			return response.data

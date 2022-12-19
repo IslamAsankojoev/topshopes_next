@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { CategoriesService } from 'api/services-admin/categories/category.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
@@ -8,27 +7,31 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
+import { ISize } from 'shared/types/size.types'
+import { sizeEditForm } from 'utils/constants/forms'
+import { SizesService } from '../../../src/api/services/sizes/sizes.service'
 
-import { ICategory } from 'shared/types/product.types'
-
-import { categoryEditForm } from 'utils/constants/forms'
-
-const CreateCategory = ({ id }) => {
+const UpdateSize = ({ id }) => {
 	const { push } = useRouter()
 
-	// category fetch
-	const { data: category, isLoading } = useQuery('category admin get', () =>
-		CategoriesService.getCategory(id)
+	// size fetch
+	const { data: size, isLoading } = useQuery(
+		'size admin get',
+		() => SizesService.getSize(id),
+		{
+			enabled: !!id,
+			cacheTime: 0,
+		}
 	)
 
-	// category update
+	// size mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
-		'category admin create',
-		(data: ICategory) => CategoriesService.updateCategory(id, data),
+		'size admin update',
+		(data: ISize) => SizesService.updateSize(id, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
-				push('/admin/categories')
+				push('/admin/sizes')
 			},
 			onError: (e: any) => {
 				toast.error(e.message)
@@ -36,7 +39,7 @@ const CreateCategory = ({ id }) => {
 		}
 	)
 
-	const handleFormSubmit = async (data: ICategory) => {
+	const handleFormSubmit = async (data: ISize) => {
 		await mutateAsync(data)
 	}
 
@@ -46,19 +49,21 @@ const CreateCategory = ({ id }) => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Edit Category</H3>
+			<H3 mb={2}>Update Size</H3>
 			<CreateForm
-				defaultData={category}
-				fields={categoryEditForm}
+				defaultData={size}
+				fields={sizeEditForm}
 				handleFormSubmit={handleFormSubmit}
 			/>
 		</Box>
 	)
 }
 
-CreateCategory.getLayout = function getLayout(page: ReactElement) {
+UpdateSize.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
+
+export default UpdateSize
 
 export const getServerSideProps = async (context) => {
 	const { id } = context.params
@@ -69,5 +74,3 @@ export const getServerSideProps = async (context) => {
 		},
 	}
 }
-
-export default CreateCategory

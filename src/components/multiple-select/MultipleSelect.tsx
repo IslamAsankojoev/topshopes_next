@@ -6,6 +6,7 @@ import Select from '@mui/material/Select'
 import Chip from '@mui/material/Chip'
 import { FormControl, InputLabel } from '@mui/material'
 import {
+	getIdArray,
 	MultipleSelectDataFormat,
 	MultipleSelectTextSplit,
 } from './MultipleSelectHelper'
@@ -25,30 +26,48 @@ type selectList = { id: string | number; name: string }[]
 
 interface MultipleSelectProps {
 	label: string
-	names: selectList
-	chosenName: any[]
-	setChosenName: React.Dispatch<React.SetStateAction<any>>
+	allNames: selectList
+	defaultValues: selectList
+	onChange: (arr: any[]) => void
+	error?: boolean
+	helperText?: string
 }
 
-// Компонент принимает в себя names с типом selectList, и внутри себя меняет переданный
-// в пропсах chosenName, setChosenName. В них хранится массив с id-шками типа string.
-// В итоге в chosenName у нас выходит ['exampleIdsperatorExampleName', ...]
+// через onChange можно и вытащить нужные нам данные
+// пример: <MultipleSelect onChange={(values) => console.log(values)} />
 
-// Важно!!! Нужно chosenName перед тем как передать, нужно завернуть в функцию MultipleSelectDataFormat
 const MultipleSelect: React.FC<MultipleSelectProps> = (props) => {
-	const { names, label, chosenName, setChosenName, ...other } = props
+	const {
+		allNames,
+		label,
+		defaultValues,
+		onChange,
+		error,
+		helperText,
+		...other
+	} = props
+
+	const [selected, setSelected] = React.useState(
+		MultipleSelectDataFormat(defaultValues)
+	)
 
 	const handleChange = (e: React.ChangeEvent<any>) => {
+		const value =
+			typeof e.target.value === 'string'
+				? e.target.value.split(',')
+				: e.target.value
+
 		if (e.target.value.length > 3) {
 			e.target.value.pop()
 		} else if (e.target.value.length === 0) {
 			return
 		}
-		setChosenName(
-			typeof e.target.value === 'string'
-				? e.target.value.split(',')
-				: e.target.value
-		)
+
+		setSelected(value)
+
+		if (onChange) {
+			onChange(getIdArray(value))
+		}
 	}
 
 	return (
@@ -57,13 +76,12 @@ const MultipleSelect: React.FC<MultipleSelectProps> = (props) => {
 			<Select
 				{...other}
 				labelId={label}
-				required
 				multiple
 				fullWidth
-				value={chosenName}
+				value={selected}
 				onChange={handleChange}
 				label={label}
-				input={<OutlinedInput label={label} />}
+				input={<OutlinedInput error={error} label={label} />}
 				renderValue={(selected) => (
 					<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
 						{selected.map((value) => (
@@ -76,12 +94,17 @@ const MultipleSelect: React.FC<MultipleSelectProps> = (props) => {
 				)}
 				MenuProps={MenuProps}
 			>
-				{MultipleSelectDataFormat(names)?.map((name) => (
+				{MultipleSelectDataFormat(allNames)?.map((name) => (
 					<MenuItem key={MultipleSelectTextSplit(name)[0] + label} value={name}>
 						{MultipleSelectTextSplit(name)[1]}
 					</MenuItem>
 				))}
 			</Select>
+			{helperText ? (
+				<p style={{ color: 'red', fontWeight: 300, fontSize: '12px' }}>
+					{helperText}
+				</p>
+			) : null}
 		</FormControl>
 	)
 }

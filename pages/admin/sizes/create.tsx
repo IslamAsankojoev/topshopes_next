@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { CategoriesService } from 'api/services-admin/categories/category.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
@@ -8,20 +7,21 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
-import { ICategory } from 'shared/types/product.types'
-import { categoryEditForm } from 'utils/constants/forms'
+import { ISize } from 'shared/types/size.types'
+import { SizesService } from '../../../src/api/services/sizes/sizes.service'
+import { sizeEditForm } from '../../../src/utils/constants/forms'
 
-const CreateCategory = () => {
+const CreateSizes = () => {
 	const { push } = useRouter()
 
-	// category create
+	// size mutation
 	const { isLoading, mutateAsync } = useMutation(
-		'category admin create',
-		(data: ICategory) => CategoriesService.createCategory(data),
+		'size admin create',
+		(data: ISize) => SizesService.createSize(data),
 		{
 			onSuccess: () => {
 				toast.success('success')
-				push('/admin/categories')
+				push('/admin/sizes')
 			},
 			onError: (e: any) => {
 				toast.error(e.message)
@@ -29,7 +29,7 @@ const CreateCategory = () => {
 		}
 	)
 
-	const handleFormSubmit = async (data: ICategory) => {
+	const handleFormSubmit = async (data: ISize) => {
 		await mutateAsync(data)
 	}
 
@@ -39,18 +39,18 @@ const CreateCategory = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Add New Category</H3>
+			<H3 mb={2}>Add New Size</H3>
 			<CreateForm
 				defaultData={{}}
-				fields={categoryEditForm}
+				fields={sizeEditForm}
 				handleFormSubmit={handleFormSubmit}
 			/>
 		</Box>
 	)
 }
 
-CreateCategory.getLayout = function getLayout(page: ReactElement) {
+CreateSizes.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default CreateCategory
+export default CreateSizes

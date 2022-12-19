@@ -11,7 +11,7 @@ export const AdminProductsService = {
 			throw error
 		}
 	},
-	getProduct: async (id) => {
+	getProduct: async (id: string) => {
 		try {
 			const response = await instance.get(getProductsUrlAdmin(`${id}/`))
 			return response.data
@@ -19,7 +19,7 @@ export const AdminProductsService = {
 			throw error
 		}
 	},
-	createProduct: async (data) => {
+	createProduct: async (data: IProduct | FormData) => {
 		try {
 			const response = await instance.post(getProductsUrlAdmin(''), data)
 			return response.data
@@ -27,7 +27,7 @@ export const AdminProductsService = {
 			throw error
 		}
 	},
-	updateProduct: async (data, id) => {
+	updateProduct: async (id: string, data: IProduct | FormData | any) => {
 		try {
 			const response = await instance.patch(getProductsUrlAdmin(`${id}/`), data)
 			return response.data
@@ -35,7 +35,7 @@ export const AdminProductsService = {
 			throw error
 		}
 	},
-	deleteProduct: async (id) => {
+	deleteProduct: async (id: string) => {
 		try {
 			const response = await instance.delete(getProductsUrlAdmin(`${id}/`))
 			return response.data

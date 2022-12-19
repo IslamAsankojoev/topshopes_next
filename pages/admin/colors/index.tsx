@@ -5,6 +5,7 @@ import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
@@ -20,21 +21,21 @@ const tableHeading = [
 ]
 
 // =============================================================================
-BrandList.getLayout = function getLayout(page: ReactElement) {
+ColorList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 // =============================================================================
 
-type BrandListProps = { brands: any[] }
+type ColorListProps = { colors: any[] }
 
-export default function BrandList() {
+export default function ColorList() {
 	const { push } = useRouter()
 
 	const {
 		data: colors,
 		isLoading,
 		refetch,
-	} = useQuery<any>('get colors admin', ColorsService.getColors)
+	} = useQuery<any>('colors admin get', ColorsService.getColors)
 
 	const {
 		order,
@@ -46,7 +47,11 @@ export default function BrandList() {
 		handleRequestSort,
 	} = useMuiTable({ listData: colors })
 
-	return !isLoading ? (
+	if (isLoading) {
+		return <Loading />
+	}
+
+	return (
 		<Box py={4}>
 			<H3 mb={2}>Product Colors</H3>
 
@@ -95,5 +100,5 @@ export default function BrandList() {
 				</Stack>
 			</Card>
 		</Box>
-	) : null
+	)
 }
