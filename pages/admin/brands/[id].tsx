@@ -4,27 +4,31 @@ import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
-import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { ReactElement, FC } from 'react'
+import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IBrand } from 'shared/types/brand.types'
 import { brandEditForm } from 'utils/constants/forms'
 
-const BrandUpdate: NextPageAuth<{ id: string }> = ({ id }) => {
-	const { push } = useRouter()
+const BrandUpdate: NextPageAuth = () => {
+	const {
+		push,
+		query: { id },
+	} = useRouter()
 
 	// brand fetch
-	const { data: brand, isLoading } = useQuery('brand admin get', () =>
-		BrandsService.getBrand(id)
+	const { data: brand, isLoading } = useQuery(
+		'brand admin get',
+		() => BrandsService.getBrand(id as string),
+		{ enabled: !!id }
 	)
 
 	// brand update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'brand admin update',
-		(data: IBrand) => BrandsService.updateBrand(id, data),
+		(data: IBrand) => BrandsService.updateBrand(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -63,13 +67,3 @@ BrandUpdate.getLayout = function getLayout(page: ReactElement) {
 }
 
 export default BrandUpdate
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { id } = context.params
-
-	return {
-		props: {
-			id,
-		},
-	}
-}
