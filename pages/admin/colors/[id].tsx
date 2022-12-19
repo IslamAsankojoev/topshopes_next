@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { BrandsService } from 'api/services-admin/brands/brand.service'
 import { ColorsService } from 'api/services/colors/colors.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
@@ -9,7 +8,7 @@ import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { colorEditForm } from 'utils/constants/forms'
 
-const CreateCategory = ({ id }) => {
+const CreateColor = ({ id }) => {
 	const { push } = useRouter()
 
 	const { data: color, isLoading } = useQuery(
@@ -28,7 +27,7 @@ const CreateCategory = ({ id }) => {
 
 	return !isLoading ? (
 		<Box py={4}>
-			<H3 mb={2}>Add New Brand</H3>
+			<H3 mb={2}>Edit Color</H3>
 			<CreateForm
 				defaultData={color}
 				fields={colorEditForm}
@@ -38,11 +37,11 @@ const CreateCategory = ({ id }) => {
 	) : null
 }
 
-CreateCategory.getLayout = function getLayout(page: ReactElement) {
+CreateColor.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default CreateCategory
+export default CreateColor
 
 export const getServerSideProps = async (context) => {
 	const { id } = context.params

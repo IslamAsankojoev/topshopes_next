@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { BrandsService } from 'api/services-admin/brands/brand.service'
 import { ColorsService } from 'api/services/colors/colors.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
@@ -8,7 +7,7 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { colorEditForm } from 'utils/constants/forms'
 
-const CreateCategory = () => {
+const CreateColor = () => {
 	const { push } = useRouter()
 
 	const handleFormSubmit = async (data) => {
@@ -18,7 +17,7 @@ const CreateCategory = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Add New Brand</H3>
+			<H3 mb={2}>Add New Color</H3>
 			<CreateForm
 				defaultData={{}}
 				fields={colorEditForm}
@@ -28,8 +27,8 @@ const CreateCategory = () => {
 	)
 }
 
-CreateCategory.getLayout = function getLayout(page: ReactElement) {
+CreateColor.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default CreateCategory
+export default CreateColor

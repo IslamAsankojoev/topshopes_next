@@ -1,6 +1,5 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { BrandsService } from 'api/services-admin/brands/brand.service'
 import { ColorsService } from 'api/services/colors/colors.service'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
@@ -10,9 +9,8 @@ import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { useRouter } from 'next/router'
-import { BrandRow } from 'pages-sections/admin'
 import ColorRow from 'pages-sections/admin/ColorRow'
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 
 const tableHeading = [

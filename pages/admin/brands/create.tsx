@@ -5,14 +5,24 @@ import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
+import { useMutation, useQuery } from 'react-query'
 import { brandEditForm } from 'utils/constants/forms'
 
 const CreateCategory = () => {
 	const { push } = useRouter()
 
+	const { mutateAsync } = useMutation(
+		'create brand',
+		(data) => BrandsService.createBrand(data),
+		{
+			onSuccess: () => {
+				push('/admin/brands')
+			},
+		}
+	)
+
 	const handleFormSubmit = async (data) => {
-		await BrandsService.createBrand(data)
-		push('/admin/brands')
+		await mutateAsync(data)
 	}
 
 	return (

@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import { BrandRow } from 'pages-sections/admin'
 import React, { ReactElement, useEffect } from 'react'
 import { useQuery } from 'react-query'
+import { IBrand } from 'shared/types/product.types'
 
 const tableHeading = [
 	{ id: 'name', label: 'Name', align: 'center' },
@@ -20,22 +21,16 @@ const tableHeading = [
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-// =============================================================================
-BrandList.getLayout = function getLayout(page: ReactElement) {
-	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-// =============================================================================
-
 type BrandListProps = { brands: any[] }
 
-export default function BrandList() {
+const BrandList = () => {
 	const { push } = useRouter()
 
 	const {
 		data: brands,
 		isLoading,
 		refetch,
-	} = useQuery<any>('get brands admin', () => BrandsService.getBrands())
+	} = useQuery<IBrand[]>('get brands admin', () => BrandsService.getBrands())
 
 	const {
 		order,
@@ -45,7 +40,7 @@ export default function BrandList() {
 		filteredList,
 		handleChangePage,
 		handleRequestSort,
-	} = useMuiTable({ listData: brands })
+	} = useMuiTable({ listData: brands as any })
 
 	return !isLoading ? (
 		<Box py={4}>
@@ -98,3 +93,14 @@ export default function BrandList() {
 		</Box>
 	) : null
 }
+
+BrandList.isOnlyUser = true
+
+export default BrandList
+
+// =============================================================================
+// @ts-ignore
+BrandList.getLayout = function getLayout(page: ReactElement) {
+	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
+}
+// =============================================================================

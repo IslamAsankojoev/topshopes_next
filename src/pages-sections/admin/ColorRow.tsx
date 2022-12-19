@@ -19,7 +19,7 @@ type ColorRowProps = {
 }
 // ========================================================================
 
-const BrandRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
+const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 	const { push } = useRouter()
 	const { name, color: colorCode, id } = color
 	const isItemSelected = selected.indexOf(name) !== -1
@@ -51,6 +51,7 @@ const BrandRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 						backgroundColor: colorCode,
 						width: 55,
 						height: 55,
+						margin: 'auto',
 						borderRadius: '10px',
 					}}
 				/>
@@ -69,4 +70,4 @@ const BrandRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 	)
 }
 
-export default BrandRow
+export default ColorRow
