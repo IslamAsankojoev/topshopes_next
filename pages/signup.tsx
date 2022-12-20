@@ -13,6 +13,4 @@ const SignUpPage: NextPageAuth = () => {
 	)
 }
 
-SignUpPage.isOnlyUser = false
-
 export default SignUpPage
