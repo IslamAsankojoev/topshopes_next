@@ -6,11 +6,11 @@ import { FlexBox } from 'components/flex-box'
 import { StyledNavLink } from 'components/mobile-navigation/styles'
 import { H3, H6, Small } from 'components/Typography'
 import { useFormik } from 'formik'
-import { useActions } from 'hooks/useActions'
 import { useRouter } from 'next/router'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
+import { getErrorMessage } from 'utils/getErrorMessage'
 import * as yup from 'yup'
 import EyeToggleButton from './EyeToggleButton'
 import { Wrapper } from './Login'
@@ -18,15 +18,27 @@ import SocialButtons from './SocialButtons'
 
 const Signup = () => {
 	const [passwordVisibility, setPasswordVisibility] = useState(false)
-	const { register } = useActions()
 	const { push, replace, asPath } = useRouter()
 
 	const togglePasswordVisibility = useCallback(() => {
 		setPasswordVisibility((visible) => !visible)
 	}, [])
 
+	const { mutateAsync } = useMutation(
+		'register',
+		() => AuthService.register(values),
+		{
+			onSuccess: () => {
+				push('/login')
+			},
+			onError: (e: any) => {
+				toast.error(getErrorMessage(e))
+			},
+		}
+	)
+
 	const handleFormSubmit = async () => {
-		await register(values)
+		await mutateAsync()
 	}
 
 	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
