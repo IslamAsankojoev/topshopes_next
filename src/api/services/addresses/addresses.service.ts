@@ -1,5 +1,7 @@
+import { getErrorMessage } from 'utils/getErrorMessage';
 import { instance } from 'api/interceptor';
 import { getAddressesUrl } from 'config/api.config';
+import { toast } from 'react-toastify';
 
 export const AddressesService = {
   async getAddresses() {
@@ -7,6 +9,7 @@ export const AddressesService = {
       const response = await instance.get(getAddressesUrl(''));
       return response.data;
     } catch (error) {
+      toast.error(`adrresses: ${getErrorMessage(error)}`)
       throw error;
     }
   },
@@ -15,6 +18,7 @@ export const AddressesService = {
       const response = await instance.get(getAddressesUrl(`${id}/`));
       return response.data;
     } catch (error) {
+      toast.error(`adrresses: ${getErrorMessage(error)}`)
       throw error;
     }
   },
@@ -23,6 +27,7 @@ export const AddressesService = {
       const response = await instance.post(getAddressesUrl(''), data);
       return response.data;
     } catch (error) {
+      toast.error(`adrresses: ${getErrorMessage(error)}`)
       throw error;
     }
   },
@@ -31,6 +36,7 @@ export const AddressesService = {
       const response = await instance.patch(getAddressesUrl(`${id}/`), data);
       return response.data;
     } catch (error) {
+      toast.error(`adrresses: ${getErrorMessage(error)}`)
       throw error;
     }
   },
@@ -39,6 +45,7 @@ export const AddressesService = {
       const response = await instance.delete(getAddressesUrl(`${id}/`));
       return response.data;
     } catch (error) {
+      toast.error(`adrresses: ${getErrorMessage(error)}`)
       throw error;
     }
   },

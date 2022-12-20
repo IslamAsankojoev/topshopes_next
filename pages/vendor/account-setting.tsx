@@ -281,9 +281,10 @@ const AccountSetting: NextPageAuth = () => {
 	)
 }
 
-// =============================================================================
-// @ts-ignore
+AccountSetting.isOnlyUser = true
+
 AccountSetting.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
-// =============================================================================
+
+export default AccountSetting

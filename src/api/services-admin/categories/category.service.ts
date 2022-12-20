@@ -1,3 +1,4 @@
+import { getErrorMessage } from 'utils/getErrorMessage';
 import { ICategory } from 'shared/types/product.types';
 import { instance } from 'api/interceptor'
 import { getCategoriesUrlAdmin } from 'config/api.config'
@@ -9,6 +10,7 @@ export const CategoriesService = {
 			const response = await instance.get(getCategoriesUrlAdmin(''))
 			return response.data
 		} catch (error) {
+			toast.error(`categories: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -17,6 +19,7 @@ export const CategoriesService = {
 			const response = await instance.get(getCategoriesUrlAdmin(`${id}/`))
 			return response.data
 		} catch (error) {
+			toast.error(`categories: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -28,7 +31,7 @@ export const CategoriesService = {
 			)
 			return response.data
 		} catch (error) {
-			toast.error('error')
+			toast.error(`categories: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -37,6 +40,7 @@ export const CategoriesService = {
 			const response = await instance.post(getCategoriesUrlAdmin(''), data)
 			return response.data
 		} catch (error) {
+			toast.error(`categories: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -45,6 +49,7 @@ export const CategoriesService = {
 			const response = await instance.delete(getCategoriesUrlAdmin(`${id}/`))
 			return response.data
 		} catch (error) {
+			toast.error(`categories: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},

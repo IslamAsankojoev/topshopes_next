@@ -1,3 +1,5 @@
+import { getErrorMessage } from 'utils/getErrorMessage';
+import { toast } from 'react-toastify';
 import { instance } from '../../interceptor'
 import { getProductsUrlAdmin } from '../../../config/api.config'
 import { IProduct } from '../../../shared/types/product.types'
@@ -8,6 +10,7 @@ export const AdminProductsService = {
 			const response = await instance.get(getProductsUrlAdmin(''))
 			return response.data
 		} catch (error) {
+			toast.error(`products: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -16,6 +19,7 @@ export const AdminProductsService = {
 			const response = await instance.get(getProductsUrlAdmin(`${id}/`))
 			return response.data
 		} catch (error) {
+			toast.error(`products: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -24,6 +28,7 @@ export const AdminProductsService = {
 			const response = await instance.post(getProductsUrlAdmin(''), data)
 			return response.data
 		} catch (error) {
+			toast.error(`products: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -32,6 +37,7 @@ export const AdminProductsService = {
 			const response = await instance.patch(getProductsUrlAdmin(`${id}/`), data)
 			return response.data
 		} catch (error) {
+			toast.error(`products: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -40,6 +46,7 @@ export const AdminProductsService = {
 			const response = await instance.delete(getProductsUrlAdmin(`${id}/`))
 			return response.data
 		} catch (error) {
+			toast.error(`products: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
