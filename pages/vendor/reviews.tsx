@@ -114,6 +114,8 @@ const Reviews: NextPageAuth = () => {
 	)
 }
 
+Reviews.isOnlyUser = true
+
 Reviews.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
