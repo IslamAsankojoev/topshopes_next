@@ -18,6 +18,12 @@ const AuthProvider: React.FC<any> = ({
 
 	React.useEffect(() => {
 		const refresh = Cookie.get('refresh')
+		if (refresh && !isOnlyUser && pathname === '/login') push('/profile')
+		if (refresh && !isOnlyUser && pathname === '/signup') push('/profile')
+	}, [pathname, asPath]) // eslint-disable-line react-hooks/exhaustive-deps
+
+	React.useEffect(() => {
+		const refresh = Cookie.get('refresh')
 		if (refresh && isOnlyUser) profile()
 	}, [pathname, asPath]) // eslint-disable-line react-hooks/exhaustive-deps
 
