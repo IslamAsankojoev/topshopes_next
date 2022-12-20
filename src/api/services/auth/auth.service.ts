@@ -1,3 +1,5 @@
+import { getErrorMessage } from 'utils/getErrorMessage';
+import { toast } from 'react-toastify';
 import { axiosClassic, instance } from 'api/interceptor'
 import { getUsersUrl } from 'config/api.config'
 import Cookies from 'js-cookie'
@@ -19,7 +21,7 @@ export const AuthService = {
 			})
 			return response.data
 		} catch (error) {
-			console.dir(error)
+			toast.error(`auth: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -37,6 +39,7 @@ export const AuthService = {
 			}
 			return response.data
 		} catch (error) {
+			toast.error(`auth: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -46,6 +49,7 @@ export const AuthService = {
 			removeToken()
 			localStorage.removeItem('user')
 		} catch (error) {
+			toast.error(`auth: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -60,6 +64,7 @@ export const AuthService = {
 			}
 			return response.data
 		} catch (error) {
+			toast.error(`auth: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -73,6 +78,7 @@ export const AuthService = {
 			console.log(response.data)
 			return response.data
 		} catch (error) {
+			toast.error(`auth: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -85,6 +91,7 @@ export const AuthService = {
 			}
 			return response.data
 		} catch (error) {
+			toast.error(`auth: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},

@@ -1,3 +1,5 @@
+import { getErrorMessage } from 'utils/getErrorMessage';
+import { toast } from 'react-toastify';
 import { instance } from 'api/interceptor'
 import { getBrandsTypesUrlAdmin } from 'config/api.config'
 import { IBrandTypes } from 'shared/types/brand-types.types'
@@ -8,6 +10,7 @@ export const BrandTypesService = {
 			const response = await instance.get(getBrandsTypesUrlAdmin(''))
 			return response.data
 		} catch (error) {
+			toast.error(`brand types: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -16,6 +19,7 @@ export const BrandTypesService = {
 			const response = await instance.get(getBrandsTypesUrlAdmin(`${id}/`))
 			return response.data
 		} catch (error) {
+			toast.error(`brand types: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -27,6 +31,7 @@ export const BrandTypesService = {
 			)
 			return response.data
 		} catch (error) {
+			toast.error(`brand types: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -35,6 +40,7 @@ export const BrandTypesService = {
 			const response = await instance.post(getBrandsTypesUrlAdmin(''), data)
 			return response.data
 		} catch (error) {
+			toast.error(`brand types: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},
@@ -43,6 +49,7 @@ export const BrandTypesService = {
 			const response = await instance.delete(getBrandsTypesUrlAdmin(`${id}/`))
 			return response.data
 		} catch (error) {
+			toast.error(`brand types: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},

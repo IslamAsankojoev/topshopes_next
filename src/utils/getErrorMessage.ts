@@ -1,10 +1,11 @@
 
 export const getErrorMessage = (e: any) => {
     const errorData = e?.response?.data
-
-    if (errorData) {
-       return errorData[Object.keys(errorData)[0]]
+    const errorMessage = errorData[Object.keys(errorData)[0]]
+    
+    if (errorData && errorMessage.length > 1) {
+       return errorMessage
     }
-
+    
     return e.message
 }
