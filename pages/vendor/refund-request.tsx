@@ -73,6 +73,8 @@ const RefundRequest: NextPageAuth<RefundRequestProps> = ({ requests }) => {
 	)
 }
 
+RefundRequest.isOnlyUser = true
+
 RefundRequest.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }

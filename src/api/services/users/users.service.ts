@@ -9,7 +9,7 @@ export const UsersService = {
       const response = await axiosClassic.get(getUsersUrl(''));
       return response.data;
     } catch (error) {
-      toast.error('users: ', getErrorMessage(error))
+      toast.error(`users: ${getErrorMessage(error)}`)
       throw error;
     }
   },
