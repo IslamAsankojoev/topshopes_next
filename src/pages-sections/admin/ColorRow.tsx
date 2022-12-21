@@ -30,7 +30,7 @@ const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 
 	const { mutateAsync } = useMutation(
 		'color admin delete',
-		(id: number) => ColorsService.delete(id),
+		() => ColorsService.delete(id as string),
 		{
 			onSuccess: () => {
 				refetch()
@@ -43,7 +43,7 @@ const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this color?')) return
-		await mutateAsync(id)
+		await mutateAsync()
 	}
 
 	return (

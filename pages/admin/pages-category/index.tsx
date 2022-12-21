@@ -1,6 +1,6 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { AdminPageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
+import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
@@ -27,7 +27,7 @@ const PageCategoryList: NextPageAuth = () => {
 		data: pageCategory,
 		isLoading,
 		refetch,
-	} = useQuery<any>('page-category admin get', AdminPageCategoryService.getList)
+	} = useQuery<any>('page-category admin get', PageCategoryService.getList)
 
 	const {
 		order,

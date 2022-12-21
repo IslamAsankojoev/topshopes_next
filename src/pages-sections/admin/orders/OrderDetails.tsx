@@ -61,7 +61,7 @@ const OrderDetails = () => {
 		refetch,
 	}: { data: IOrder; isLoading: any; refetch: () => void } = useQuery(
 		'get one order',
-		() => OrdersService.getOrder(id as string),
+		() => OrdersService.get(id as string),
 		{
 			enabled: !!id,
 		}
@@ -69,7 +69,7 @@ const OrderDetails = () => {
 
 	const { mutateAsync } = useMutation(
 		'change status order',
-		(value) => OrdersService.updateOrder(id as string, { status: value }),
+		(value) => OrdersService.update(id as string, { status: value }),
 		{
 			onSuccess: () => {
 				refetch()

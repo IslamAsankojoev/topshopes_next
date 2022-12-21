@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
-import { AdminPageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
-import { AdminPagesService } from 'api/services-admin/pages/pages.service'
+import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
+import { PagesService } from 'api/services-admin/pages/pages.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
@@ -21,10 +21,10 @@ const CreatePages: NextPageAuth = () => {
 	// pages create
 	const { isLoading, mutateAsync } = useMutation(
 		'page admin create',
-		(data: FormData) => AdminPagesService.create(data),
+		(data: FormData) => PagesService.create(data),
 		{
 			onSuccess: () => {
-				toast.success('success')
+				toast.success('Page created')
 				push('/admin/pages-list')
 			},
 			onError: (e: any) => {
@@ -35,12 +35,12 @@ const CreatePages: NextPageAuth = () => {
 
 	const { data: categories, isLoading: categoryLoading } = useQuery(
 		'categoryPage admin get',
-		AdminPageCategoryService.getList
+		PageCategoryService.getList
 	)
 
-	const handleFormSubmit = async (data: FormData, values: IPages) => {
+	const handleFormSubmit = async (_: any, values: IPages) => {
 		await mutateAsync(
-			formData({ ...values, content: { data: values.content } })
+			formData({ ...values, content: JSON.stringify({ data: values.content }) })
 		)
 	}
 

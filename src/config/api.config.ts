@@ -19,5 +19,6 @@ export const getProductsUrlAdmin = (string: string) =>
 	`admin/products/${string}`
 export const getShopsUrlAdmin = (string: string) => `admin/shops/${string}`
 export const getPagesUrlAdmin = (string: string) => `admin/pages/${string}`
-export const getPageCategoryUrlAdmin = (string: string) => `admin/page/categories/${string}`
+export const getPageCategoryUrlAdmin = (string: string) =>
+	`admin/page/categories/${string}`
 export const getUsersUrlAdmin = (string: string) => `admin/users/${string}`

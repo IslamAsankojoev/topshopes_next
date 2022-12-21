@@ -14,7 +14,7 @@ import { NextPageAuth } from 'shared/types/auth.types'
 import api from 'utils/api/dashboard'
 import { IUser } from 'shared/types/user.types'
 import { useQuery } from 'react-query'
-import { UsersService } from 'api/services/users/users.service'
+import { UsersService } from 'api/services-admin/users/users.service'
 import { useRouter } from 'next/router'
 
 const tableHeading = [
@@ -33,7 +33,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = ({ customers }) => {
 		data: Users,
 		isLoading,
 		refetch,
-	} = useQuery('get users all', UsersService.getUsers)
+	} = useQuery('get users all', UsersService.getList)
 
 	const {
 		order,

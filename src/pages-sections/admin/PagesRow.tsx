@@ -1,6 +1,6 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { AdminPagesService } from 'api/services-admin/pages/pages.service'
+import { PagesService } from 'api/services-admin/pages/pages.service'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 import { IPages } from 'shared/types/pages.types'
@@ -28,7 +28,7 @@ const PagesRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this page?')) return
-		await AdminPagesService.delete(id)
+		await PagesService.delete(id)
 		refetch()
 	}
 

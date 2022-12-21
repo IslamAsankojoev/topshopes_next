@@ -1,6 +1,6 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { UsersService } from 'api/services/users/users.service'
+import { UsersService } from 'api/services-admin/users/users.service'
 import BazaarSwitch from 'components/BazaarSwitch'
 import { FlexBox } from 'components/flex-box'
 import { Paragraph } from 'components/Typography'
@@ -37,7 +37,7 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 
 	const { mutateAsync } = useMutation(
 		'update user verified',
-		() => UsersService.updateUser(id, { verified: !publish }),
+		() => UsersService.update(id, { verified: !publish }),
 		{
 			onError: (e: unknown) => {
 				refetch()
@@ -49,7 +49,7 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 	const onDelete = async () => {
 		if (window.confirm('Are you sure?')) {
 			try {
-				await UsersService.deleteUser(id)
+				await UsersService.delete(id)
 				refetch()
 			} catch (e: unknown) {
 				console.log(e)
@@ -99,7 +99,7 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 					<Edit />
 				</StyledIconButton>
 
-				<StyledIconButton>
+				<StyledIconButton onClick={onDelete}>
 					<Delete />
 				</StyledIconButton>
 			</StyledTableCell>
