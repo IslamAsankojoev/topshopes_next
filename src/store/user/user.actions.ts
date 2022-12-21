@@ -10,7 +10,6 @@ export const register = createAsyncThunk(
 	async ({ email, password, phone }: IRegister) => {
 		try {
 			const response = await AuthService.register({ email, phone, password })
-			toast.success('Register success')
 			return response
 		} catch (error) {
 			throw error
@@ -24,7 +23,6 @@ export const login = createAsyncThunk(
 	async ({ email, password }: ILogin) => {
 		try {
 			const response = await AuthService.login({ email, password })
-			toast.success('Login success')
 			return response
 		} catch (error) {
 			throw error
@@ -36,7 +34,6 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk('auth/logout', async () => {
 	try {
 		await AuthService.logout()
-		toast.success('Logout success')
 	} catch (error) {
 		throw error
 	}
@@ -45,10 +42,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 // refresh
 export const checkAuth = createAsyncThunk('auth/refresh', async () => {
 	try {
-		const response = await AuthService.refresh({
-			refresh: Cookie.get('refresh'),
-		})
-		toast.success('Logout success')
+		const response = await AuthService.refresh()
 		return response
 	} catch (error) {
 		throw error
@@ -59,7 +53,6 @@ export const checkAuth = createAsyncThunk('auth/refresh', async () => {
 export const profile = createAsyncThunk('auth/profile', async () => {
 	try {
 		const response = await AuthService.profile()
-		toast.success('Profile success')
 		return response
 	} catch (error) {
 		throw error
@@ -71,7 +64,6 @@ export const update = createAsyncThunk(
 	async (data: any) => {
 		try {
 			const response = await AuthService.update(data)
-			toast.success('Update success')
 			return response
 		} catch (error) {
 			throw error

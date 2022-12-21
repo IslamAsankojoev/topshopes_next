@@ -89,6 +89,8 @@ const Payouts: NextPageAuth<PayoutsProps> = ({ payouts }) => {
 	)
 }
 
+Payouts.isOnlyUser = true
+
 Payouts.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }

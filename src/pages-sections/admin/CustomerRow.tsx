@@ -1,9 +1,14 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
+import { UsersService } from 'api/services/users/users.service'
+import BazaarSwitch from 'components/BazaarSwitch'
 import { FlexBox } from 'components/flex-box'
 import { Paragraph } from 'components/Typography'
 import currency from 'currency.js'
-import React, { FC } from 'react'
+import { useRouter } from 'next/router'
+import React, { FC, useState } from 'react'
+import { useMutation } from 'react-query'
+import { IUser } from 'shared/types/user.types'
 import {
 	StyledIconButton,
 	StyledTableCell,
@@ -11,18 +16,57 @@ import {
 } from './StyledComponents'
 
 // ========================================================================
-type CustomerRowProps = { customer: any }
+type CustomerRowProps = { customer: IUser; refetch: () => void }
 // ========================================================================
 
-const CustomerRow: FC<CustomerRowProps> = ({ customer }) => {
-	const { email, name, phone, image, balance, orders } = customer
+const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
+	const {
+		addresses,
+		avatar,
+		email,
+		first_name,
+		last_name,
+		phone,
+		verified,
+		id,
+	} = customer
 
-	return (
+	// state
+	const { push } = useRouter()
+	const [publish, setProductPublish] = useState(verified)
+
+	const { mutateAsync } = useMutation(
+		'update user verified',
+		() => UsersService.updateUser(id, { verified: !publish }),
+		{
+			onError: (e: unknown) => {
+				refetch()
+			},
+		}
+	)
+
+	//handlers
+	const onDelete = async () => {
+		if (window.confirm('Are you sure?')) {
+			try {
+				await UsersService.deleteUser(id)
+				refetch()
+			} catch (e: unknown) {
+				console.log(e)
+			}
+		}
+	}
+	const publishOnchange = async () => {
+		setProductPublish(!publish)
+		mutateAsync()
+	}
+
+	return customer ? (
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
 				<FlexBox alignItems="center" gap={1.5}>
-					<Avatar src={image} sx={{}} />
-					<Paragraph>{name}</Paragraph>
+					<Avatar src={avatar} sx={{}} />
+					<Paragraph>{first_name}</Paragraph>
 				</FlexBox>
 			</StyledTableCell>
 
@@ -34,16 +78,24 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer }) => {
 				{email}
 			</StyledTableCell>
 
-			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+			{/* <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
 				{currency(balance, { separator: ',' }).format()}
-			</StyledTableCell>
+			</StyledTableCell> */}
 
-			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-				{orders}
+			<StyledTableCell align="left">
+				<BazaarSwitch
+					color="info"
+					checked={publish}
+					onChange={publishOnchange}
+				/>
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<StyledIconButton>
+				<StyledIconButton
+					onClick={() => {
+						push(`customers/${id}`)
+					}}
+				>
 					<Edit />
 				</StyledIconButton>
 
@@ -52,7 +104,7 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer }) => {
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>
-	)
+	) : null
 }
 
 export default CustomerRow

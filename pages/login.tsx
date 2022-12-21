@@ -13,6 +13,4 @@ const LoginPage: NextPageAuth = () => {
 	)
 }
 
-LoginPage.isOnlyUser = false
-
 export default LoginPage

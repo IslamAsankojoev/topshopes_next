@@ -124,13 +124,6 @@ const Profile: NextPageAuth = () => {
 						</Small>
 						<span>{user.phone}</span>
 					</FlexBox>
-
-					<FlexBox flexDirection="column" p={1}>
-						<Small color="grey.600" mb={0.5}>
-							Birth date
-						</Small>
-						<span className="pre">{format(new Date(), 'dd MMM, yyyy')}</span>
-					</FlexBox>
 				</TableRow>
 			</CustomerDashboardLayout>
 		)

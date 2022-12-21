@@ -32,7 +32,7 @@ const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 
 	const { mutateAsync } = useMutation(
 		'color admin delete',
-		(id: number) => ColorsService.deleteColor(id),
+		(id: string) => ColorsService.deleteColor(id as string),
 		{
 			onSuccess: () => {
 				refetch()
@@ -65,6 +65,7 @@ const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 						height: 55,
 						margin: 'auto',
 						borderRadius: '10px',
+						//@ts-ignore
 						margin: '0 auto',
 					}}
 				/>

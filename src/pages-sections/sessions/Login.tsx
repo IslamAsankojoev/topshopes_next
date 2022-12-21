@@ -12,6 +12,8 @@ import EyeToggleButton from './EyeToggleButton'
 import SocialButtons from './SocialButtons'
 import { useRouter } from 'next/router'
 import { StyledNavLink } from 'components/mobile-navigation/styles'
+import { AuthService } from 'api/services/auth/auth.service'
+import { useMutation } from 'react-query'
 
 const fbStyle = { background: '#3B5998', color: 'white' }
 const googleStyle = { background: '#4285F4', color: 'white' }
@@ -38,15 +40,17 @@ export const Wrapper = styled<React.FC<WrapperProps & CardProps>>(
 
 const Login = () => {
 	const [passwordVisibility, setPasswordVisibility] = useState(false)
-	const { login, profile } = useActions()
+	const { profile } = useActions()
 	const { push } = useRouter()
 
 	const togglePasswordVisibility = useCallback(() => {
 		setPasswordVisibility((visible) => !visible)
 	}, [])
 
+	const { mutateAsync } = useMutation('login', () => AuthService.login(values))
+
 	const handleFormSubmit = async () => {
-		await login({ email: values.email, password: values.password })
+		await mutateAsync()
 		await profile()
 		push('/profile')
 	}

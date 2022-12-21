@@ -8,7 +8,6 @@ export const getErrorMessage = (e: any) => {
 
 	return e.message
 }
-
 // export const errorCatch = (error: any): string =>
 // 	error.response && error.response.data
 // 		? typeof error.response.data.message === 'object'
