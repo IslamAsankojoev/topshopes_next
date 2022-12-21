@@ -9,7 +9,6 @@ export const productFormValidationSchema = yup.object().shape({
 	price: yup.string().required('price required'),
 	published: yup.boolean().required('published required'),
 	rating: yup.string().required('rating required'),
-	shop: yup.string().required('shop required'),
 	sizes: yup.array().min(1).required('sizes required'),
 	brand: yup.string().required('brand required'),
 	thumbnail: yup.mixed().required('thumbnail required'),

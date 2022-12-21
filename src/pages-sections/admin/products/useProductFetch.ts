@@ -12,7 +12,7 @@ export interface ProductFetchTypes {
 	brands: { id: string; name: string; image: string }[]
 	colors: { id: string; name: string }[]
 	size: { id: string; name: string }[]
-	shops: IShop[]
+	shops?: IShop[]
 	isLoading: boolean
 }
 

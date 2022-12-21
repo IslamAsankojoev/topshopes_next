@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { UsersService } from 'api/services/users/users.service'
+import { UsersService } from 'api/services-admin/users/users.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
@@ -19,7 +19,7 @@ const CreateCategory: NextPageAuth = () => {
 
 	const { isLoading, data: user } = useQuery(
 		'get one user',
-		() => UsersService.getUser(id as string),
+		() => UsersService.get(id as string),
 		{
 			enabled: !!id,
 		}
@@ -28,7 +28,7 @@ const CreateCategory: NextPageAuth = () => {
 	// category create
 	const { mutateAsync } = useMutation(
 		'admin create user',
-		(data) => UsersService.updateUser(id as string, data),
+		(data) => UsersService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('User updated successfully')

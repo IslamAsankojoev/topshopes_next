@@ -23,6 +23,7 @@ type ProductFormProps = {
 	validationSchema: yup.ObjectSchema<Assign<ObjectShape, any>>
 	productFetch: ProductFetchTypes
 	update?: boolean
+	includeShop?: boolean
 }
 // ================================================================
 
@@ -223,30 +224,32 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						</TextField>
 					</Grid>
 
-					<Grid item sm={6} xs={12}>
-						<TextField
-							select
-							fullWidth
-							color="info"
-							size="medium"
-							name="shop"
-							onBlur={handleBlur}
-							placeholder="Shop"
-							onChange={handleChange}
-							value={values.shop}
-							label="Select Shop"
-							error={!!touched.shop && !!errors.shop}
-							helperText={touched.shop && errors.shop}
-						>
-							{shops?.map((shop) => (
-								<MenuItem key={shop.name} value={shop.id}>
-									{shop.name}
-								</MenuItem>
-							))}
-						</TextField>
-					</Grid>
+					{props.includeShop ? (
+						<Grid item sm={6} xs={12}>
+							<TextField
+								select
+								fullWidth
+								color="info"
+								size="medium"
+								name="shop"
+								onBlur={handleBlur}
+								placeholder="Shop"
+								onChange={handleChange}
+								value={values.shop}
+								label="Select Shop"
+								error={!!touched.shop && !!errors.shop}
+								helperText={touched.shop && errors.shop}
+							>
+								{shops?.map((shop) => (
+									<MenuItem key={shop.name} value={shop.id}>
+										{shop.name}
+									</MenuItem>
+								))}
+							</TextField>
+						</Grid>
+					) : null}
 
-					<Grid item sm={6} xs={12}>
+					<Grid item xs={12}>
 						<Button variant="contained" color="info" type="submit">
 							{update ? 'Save product' : 'Create product'}
 						</Button>

@@ -4,9 +4,11 @@ export const getAuthUrl = (string: string) => `auth/${string}`
 export const getProductsUrl = (string: string) => `products/${string}`
 export const getColorsUrl = (string: string) => `products/colors/${string}`
 export const getSizeUrl = (string: string) => `products/sizes/${string}`
-export const getCategoriesUrl = (string: string) => `categories/${string}`
+export const getCategoriesUrl = (string: string) => `shops/categories/${string}`
 export const getPostsUrl = (string: string) => `posts/${string}`
 export const getOrdersUrl = (string: string) => `shop/orders/${string}`
+
+export const getBrandsUrl = (string: string) => `shops/brand/${string}`
 export const getAddressesUrl = (string: string) => `profile/address/${string}`
 export const getShopUrl = (string: string) => `shop/${string}`
 
@@ -20,5 +22,6 @@ export const getProductsUrlAdmin = (string: string) =>
 	`admin/products/${string}`
 export const getShopsUrlAdmin = (string: string) => `admin/shops/${string}`
 export const getPagesUrlAdmin = (string: string) => `admin/pages/${string}`
-export const getPageCategoryUrlAdmin = (string: string) => `admin/page/categories/${string}`
+export const getPageCategoryUrlAdmin = (string: string) =>
+	`admin/page/categories/${string}`
 export const getUsersUrlAdmin = (string: string) => `admin/users/${string}`

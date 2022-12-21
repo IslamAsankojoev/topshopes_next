@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { AdminPageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
+import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
@@ -21,7 +21,7 @@ const CreatePageCategory: NextPageAuth = () => {
 	// PageCategory mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'pageCategory admin update',
-		(data: IPagesCategory) => AdminPageCategoryService.create(data),
+		(data: IPagesCategory) => PageCategoryService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('success')

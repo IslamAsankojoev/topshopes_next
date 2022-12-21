@@ -1,6 +1,5 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
@@ -10,24 +9,25 @@ import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { useRouter } from 'next/router'
-import PageCategoryRow from 'pages-sections/admin/PageCategoryRow'
+import SizeRow from 'pages-sections/admin/SizeRow'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { SizesService } from '../../../src/api/services/sizes/sizes.service'
 
 const tableHeading = [
-	{ id: 'title', label: 'Title', align: 'center' },
+	{ id: 'name', label: 'Name', align: 'center' },
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-const PageCategoryList: NextPageAuth = () => {
+const SizesList: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const {
-		data: pageCategory,
+		data: sizes,
 		isLoading,
 		refetch,
-	} = useQuery<any>('page-category admin get', PageCategoryService.getList)
+	} = useQuery<any>('colors admin get', SizesService.getList)
 
 	const {
 		order,
@@ -37,7 +37,7 @@ const PageCategoryList: NextPageAuth = () => {
 		filteredList,
 		handleChangePage,
 		handleRequestSort,
-	} = useMuiTable({ listData: pageCategory })
+	} = useMuiTable({ listData: sizes })
 
 	if (isLoading) {
 		return <Loading />
@@ -45,15 +45,15 @@ const PageCategoryList: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Page Category</H3>
+			<H3 mb={2}>Product Sizes</H3>
 
 			<SearchArea
 				handleSearch={() => {}}
-				buttonText="Add page category"
+				buttonText="Add sizes"
 				handleBtnClick={() => {
-					push('/admin/pages-category/create')
+					push('/admin/sizes/create')
 				}}
-				searchPlaceholder="Search page category..."
+				searchPlaceholder="Search Sizes..."
 			/>
 
 			<Card>
@@ -65,14 +65,14 @@ const PageCategoryList: NextPageAuth = () => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={pageCategory?.length}
+								rowCount={sizes.length}
 								numSelected={selected.length}
 								onRequestSort={handleRequestSort}
 							/>
 
 							<TableBody>
 								{filteredList.map((size, index) => (
-									<PageCategoryRow
+									<SizeRow
 										name={size}
 										key={index}
 										selected={selected}
@@ -87,17 +87,17 @@ const PageCategoryList: NextPageAuth = () => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(pageCategory?.length / rowsPerPage)}
+						count={Math.ceil(sizes.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>
 		</Box>
 	)
 }
-PageCategoryList.isOnlyUser = true
+SizesList.isOnlyUser = true
 
-PageCategoryList.getLayout = function getLayout(page: ReactElement) {
+SizesList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default PageCategoryList
+export default SizesList

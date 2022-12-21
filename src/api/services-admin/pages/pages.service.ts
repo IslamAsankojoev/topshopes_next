@@ -1,4 +1,4 @@
-import { CRUDservice } from './../../crud.service';
+import { CRUDservice } from './../../crud.service'
 import { getPagesUrlAdmin } from '../../../config/api.config'
 
-export const AdminPagesService = CRUDservice(getPagesUrlAdmin, 'pages')
+export const PagesService = CRUDservice(getPagesUrlAdmin, 'pages')

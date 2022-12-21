@@ -31,7 +31,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 	const { mutateAsync } = useMutation(
 		'update shop product',
-		() => AdminProductsService.update(id, { published: !productPublish }),
+		() => ProductsService.update(id, { published: !productPublish }),
 		{
 			onError: (e: unknown) => {
 				refetch()
@@ -46,7 +46,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 	const onDelete = async () => {
 		if (window.confirm('Are you sure you want to delete this product?')) {
 			try {
-				await AdminProductsService.delete(id)
+				await ProductsService.delete(id)
 				refetch()
 			} catch (e: unknown) {
 				toast.error('An error has occurred')

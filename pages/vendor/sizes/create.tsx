@@ -5,32 +5,20 @@ import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { ISize } from 'shared/types/size.types'
-import { sizeEditForm } from 'utils/constants/forms'
 import { SizesService } from '../../../src/api/services/sizes/sizes.service'
+import { sizeEditForm } from '../../../src/utils/constants/forms'
 
-const UpdateSize: NextPageAuth = () => {
-	const {
-		push,
-		query: { id },
-	} = useRouter()
-
-	// size fetch
-	const { data: size, isLoading } = useQuery(
-		'size admin get',
-		() => SizesService.get(id as string),
-		{
-			enabled: !!id,
-		}
-	)
+const CreateSizes: NextPageAuth = () => {
+	const { push } = useRouter()
 
 	// size mutation
-	const { isLoading: mutationLoading, mutateAsync } = useMutation(
-		'size admin update',
-		(data: ISize) => SizesService.update(id as string, data),
+	const { isLoading, mutateAsync } = useMutation(
+		'size admin create',
+		(data: ISize) => SizesService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -46,15 +34,15 @@ const UpdateSize: NextPageAuth = () => {
 		await mutateAsync(data)
 	}
 
-	if (isLoading || mutationLoading) {
+	if (isLoading) {
 		return <Loading />
 	}
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Update Size</H3>
+			<H3 mb={2}>Add New Size</H3>
 			<CreateForm
-				defaultData={size}
+				defaultData={{}}
 				fields={sizeEditForm}
 				handleFormSubmit={handleFormSubmit}
 			/>
@@ -62,10 +50,10 @@ const UpdateSize: NextPageAuth = () => {
 	)
 }
 
-UpdateSize.isOnlyUser = true
+CreateSizes.isOnlyUser = true
 
-UpdateSize.getLayout = function getLayout(page: ReactElement) {
+CreateSizes.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default UpdateSize
+export default CreateSizes

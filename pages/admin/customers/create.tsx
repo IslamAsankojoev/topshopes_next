@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { UsersService } from 'api/services/users/users.service'
+import { UsersService } from 'api/services-admin/users/users.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
@@ -17,7 +17,7 @@ const CreateCategory: NextPageAuth = () => {
 	// category create
 	const { isLoading, mutateAsync } = useMutation(
 		'category admin create',
-		(data) => UsersService.createUser(data),
+		(data) => UsersService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('User created successfully')

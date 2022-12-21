@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
-import { AdminPageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
-import { AdminPagesService } from 'api/services-admin/pages/pages.service'
+import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
+import { PagesService } from 'api/services-admin/pages/pages.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
@@ -24,7 +24,7 @@ const UpdatePages: NextPageAuth = () => {
 	// page fetching
 	const { data: page, isLoading } = useQuery(
 		'page admin get',
-		() => AdminPagesService.get(id as string),
+		() => PagesService.get(id as string),
 		{
 			enabled: !!id,
 		}
@@ -33,10 +33,10 @@ const UpdatePages: NextPageAuth = () => {
 	// page update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'page admin update',
-		(data: FormData | IPages) => AdminPagesService.update(id as string, data),
+		(data: FormData | IPages) => PagesService.update(id as string, data),
 		{
 			onSuccess: () => {
-				toast.success('success')
+				toast.success('Page updated')
 				push('/admin/pages-list')
 			},
 		}
@@ -44,13 +44,17 @@ const UpdatePages: NextPageAuth = () => {
 
 	const { data: categories, isLoading: categoryLoading } = useQuery(
 		'categoryPage admin get',
-		AdminPageCategoryService.getList
+		PageCategoryService.getList
 	)
 
-	const handleFormSubmit = async (data: FormData, values: IPages) => {
+	const handleFormSubmit = async (_: any, values: IPages) => {
 		console.log(values)
-		const submitData = { ...values, content: { data: values.content } }
-		await mutateAsync(formData(submitData))
+		await mutateAsync(
+			formData({
+				...values,
+				content: JSON.stringify({ data: values.content }),
+			})
+		)
 	}
 
 	if (isLoading || categoryLoading || mutationLoading) {
