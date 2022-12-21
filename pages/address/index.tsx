@@ -5,25 +5,30 @@ import { FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
+import Loading from 'components/Loading'
 import TableRow from 'components/TableRow'
-import { useActions } from 'hooks/useActions'
-import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 
 const AddressList: NextPageAuth = () => {
-	const user = useTypedSelector((state) => state.userStore.user)
-	const { push, replace, asPath } = useRouter()
-	const { profile } = useActions()
+	const { push } = useRouter()
 
-	const handleDelete = async (id: string, e) => {
-		e.preventDefault()
-		await AddressesService.deleteAddress(id as string)
-		profile()
+	const {
+		data: addresses,
+		isLoading,
+		refetch,
+	} = useQuery('address get', AddressesService.getList)
+
+	const handleDelete = async (id: string) => {
+		await AddressesService.delete(id as string)
+		refetch()
 	}
+
 	return (
 		<CustomerDashboardLayout>
+			{isLoading ? <Loading /> : null}
 			<UserDashboardHeader
 				icon={Place}
 				title="My Addresses"
@@ -41,7 +46,7 @@ const AddressList: NextPageAuth = () => {
 				}
 			/>
 
-			{user?.addresses?.map((address) => (
+			{addresses?.map((address) => (
 				<TableRow sx={{ my: 2, padding: '6px 18px' }} key={address.id}>
 					<Typography whiteSpace="pre" m={0.75} textAlign="left">
 						{address.city}, {address.street}
@@ -62,7 +67,7 @@ const AddressList: NextPageAuth = () => {
 							</IconButton>
 						</Link>
 
-						<IconButton onClick={(e) => handleDelete(address.id, e)}>
+						<IconButton onClick={() => handleDelete(address.id)}>
 							<Delete fontSize="small" color="inherit" />
 						</IconButton>
 					</Typography>
@@ -76,38 +81,38 @@ const AddressList: NextPageAuth = () => {
 	)
 }
 
-const orderList = [
-	{
-		orderNo: '1050017AS',
-		status: 'Pending',
-		purchaseDate: new Date(),
-		price: 350,
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Processing',
-		purchaseDate: new Date(),
-		price: 500,
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Delivered',
-		purchaseDate: '2020/12/23',
-		price: 700,
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Delivered',
-		purchaseDate: '2020/12/23',
-		price: 700,
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Cancelled',
-		purchaseDate: '2020/12/15',
-		price: 300,
-	},
-]
+// const orderList = [
+// 	{
+// 		orderNo: '1050017AS',
+// 		status: 'Pending',
+// 		purchaseDate: new Date(),
+// 		price: 350,
+// 	},
+// 	{
+// 		orderNo: '1050017AS',
+// 		status: 'Processing',
+// 		purchaseDate: new Date(),
+// 		price: 500,
+// 	},
+// 	{
+// 		orderNo: '1050017AS',
+// 		status: 'Delivered',
+// 		purchaseDate: '2020/12/23',
+// 		price: 700,
+// 	},
+// 	{
+// 		orderNo: '1050017AS',
+// 		status: 'Delivered',
+// 		purchaseDate: '2020/12/23',
+// 		price: 700,
+// 	},
+// 	{
+// 		orderNo: '1050017AS',
+// 		status: 'Cancelled',
+// 		purchaseDate: '2020/12/15',
+// 		price: 300,
+// 	},
+// ]
 
 AddressList.isOnlyUser = true
 

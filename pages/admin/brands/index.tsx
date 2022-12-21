@@ -30,7 +30,7 @@ const BrandsList: NextPageAuth = () => {
 		data: brands,
 		isLoading,
 		refetch,
-	} = useQuery<IBrand[]>('get brands admin', () => BrandsService.getBrands())
+	} = useQuery<IBrand[]>('get brands admin', BrandsService.getList)
 
 	const {
 		order,

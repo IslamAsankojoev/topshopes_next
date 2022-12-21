@@ -37,7 +37,7 @@ const CreateProduct: NextPageAuth = () => {
 	// create product
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'product admin create',
-		(data: FormData) => AdminProductsService.createProduct(data),
+		(data: FormData) => AdminProductsService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('success')

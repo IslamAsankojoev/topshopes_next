@@ -1,10 +1,8 @@
-import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { BrandsService } from 'api/services-admin/brands/brand.service'
 import { ColorsService } from 'api/services/colors/colors.service'
-import BazaarSwitch from 'components/BazaarSwitch'
 import { useRouter } from 'next/router'
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import {
@@ -32,7 +30,7 @@ const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 
 	const { mutateAsync } = useMutation(
 		'color admin delete',
-		(id: string) => ColorsService.deleteColor(id as string),
+		(id: number) => ColorsService.delete(id),
 		{
 			onSuccess: () => {
 				refetch()
@@ -60,13 +58,11 @@ const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 			<StyledTableCell align="center">
 				<div
 					style={{
+						margin: '0 auto',
 						backgroundColor: colorCode,
 						width: 55,
 						height: 55,
-						margin: 'auto',
 						borderRadius: '10px',
-						//@ts-ignore
-						margin: '0 auto',
 					}}
 				/>
 			</StyledTableCell>

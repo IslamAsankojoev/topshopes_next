@@ -28,7 +28,7 @@ const ColorList: NextPageAuth = () => {
 		data: colors,
 		isLoading,
 		refetch,
-	} = useQuery<any>('colors admin get', ColorsService.getColors)
+	} = useQuery<any>('colors admin get', ColorsService.getList)
 
 	const {
 		order,

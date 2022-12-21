@@ -19,12 +19,12 @@ export interface ProductFetchTypes {
 export const useProductFetch = () => {
 	const { data: categories, isLoading: categoriesLoading } = useQuery(
 		'admin-categories',
-		CategoriesService.getCategories,
+		CategoriesService.getList,
 		{ refetchOnWindowFocus: false, retry: 1 }
 	)
 	const { data: brands, isLoading: brandsLoading } = useQuery(
 		'admin-brands',
-		BrandsService.getBrands,
+		BrandsService.getList,
 		{
 			refetchOnWindowFocus: false,
 			retry: 1,
@@ -32,7 +32,7 @@ export const useProductFetch = () => {
 	)
 	const { data: size, isLoading: sizeLoading } = useQuery(
 		'sizes',
-		SizesService.getSizes,
+		SizesService.getList,
 		{
 			refetchOnWindowFocus: false,
 			retry: 1,
@@ -40,7 +40,7 @@ export const useProductFetch = () => {
 	)
 	const { data: colors, isLoading: colorsLoading } = useQuery(
 		'colors',
-		ColorsService.getColors,
+		ColorsService.getList,
 		{
 			refetchOnWindowFocus: false,
 			retry: 1,
@@ -48,7 +48,7 @@ export const useProductFetch = () => {
 	)
 	const { data: shops, isLoading: shopsLoading } = useQuery(
 		'shops',
-		ShopsService.getShops,
+		ShopsService.getList,
 		{
 			refetchOnWindowFocus: false,
 			retry: 1,

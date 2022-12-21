@@ -8,7 +8,6 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
-import { SizesService } from '../../api/services/sizes/sizes.service'
 import { BrandTypesService } from '../../api/services-admin/brand-types/brandTypes.service'
 
 // ========================================================================
@@ -35,7 +34,7 @@ const BrandsTypesRow: FC<BrandsTypesRowProps> = ({
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this Brands Types?')) return
-		await BrandTypesService.deleteBrandTypes(id)
+		await BrandTypesService.delete(id)
 		refetch()
 	}
 

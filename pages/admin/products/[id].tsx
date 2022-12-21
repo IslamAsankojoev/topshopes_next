@@ -29,7 +29,7 @@ const EditProduct: NextPageAuth = () => {
 		isError,
 	} = useQuery(
 		'product admin get',
-		() => AdminProductsService.getProduct(id as string),
+		() => AdminProductsService.get(id as string),
 		{
 			enabled: !!id,
 			onError: (e: any) => toast.error(e.message, { autoClose: 5000 }),
@@ -39,7 +39,7 @@ const EditProduct: NextPageAuth = () => {
 	// product mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'product admin update',
-		(data: FormData) => AdminProductsService.updateProduct(id as string, data),
+		(data: FormData) => AdminProductsService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')

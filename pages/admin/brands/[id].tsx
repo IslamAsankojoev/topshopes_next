@@ -21,14 +21,14 @@ const BrandUpdate: NextPageAuth = () => {
 	// brand fetch
 	const { data: brand, isLoading } = useQuery(
 		'brand admin get',
-		() => BrandsService.getBrand(id as string),
+		() => BrandsService.get(id as string),
 		{ enabled: !!id }
 	)
 
 	// brand update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'brand admin update',
-		(data: IBrand) => BrandsService.updateBrand(id as string, data),
+		(data: IBrand) => BrandsService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')

@@ -23,7 +23,7 @@ const CreateCategory: NextPageAuth = () => {
 	// category fetch
 	const { data: category, isLoading } = useQuery(
 		'category admin get',
-		() => CategoriesService.getCategory(id as string),
+		() => CategoriesService.get(id as string),
 		{
 			enabled: !!id,
 		}
@@ -32,7 +32,7 @@ const CreateCategory: NextPageAuth = () => {
 	// category update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'category admin create',
-		(data: ICategory) => CategoriesService.updateCategory(id as string, data),
+		(data: ICategory) => CategoriesService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')

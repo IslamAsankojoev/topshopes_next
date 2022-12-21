@@ -18,7 +18,7 @@ const CreateBrand: NextPageAuth = () => {
 	// brand create
 	const { isLoading, mutateAsync } = useMutation(
 		'brand admin create',
-		(data: IBrand) => BrandsService.createBrand(data),
+		(data: IBrand) => BrandsService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('success')

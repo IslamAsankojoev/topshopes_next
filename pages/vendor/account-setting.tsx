@@ -91,7 +91,7 @@ const AccountSetting: NextPageAuth = () => {
 		if (file) {
 			formData.append('avatar', file)
 		}
-		await UsersService.updateUser(user.id, formData)
+		await UsersService.update(user.id, formData)
 
 		profile()
 	}

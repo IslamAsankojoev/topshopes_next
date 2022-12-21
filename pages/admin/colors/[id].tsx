@@ -21,7 +21,7 @@ const UpdateColors: NextPageAuth = () => {
 	// color mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'color admin update',
-		(data: IColors) => ColorsService.updateColor(id as string, data),
+		(data: IColors) => ColorsService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -36,7 +36,7 @@ const UpdateColors: NextPageAuth = () => {
 	// color fetch
 	const { data: color, isLoading } = useQuery(
 		'color admin get',
-		() => ColorsService.getColor(id as string),
+		() => ColorsService.get(id as string),
 		{
 			enabled: !!id,
 			cacheTime: 0,

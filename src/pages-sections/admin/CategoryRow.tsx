@@ -31,13 +31,13 @@ const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 	const [featuredCategory, setFeaturedCategory] = useState(featured)
 
 	const featuredCategoryHandler = async () => {
-		await CategoriesService.updateCategory(id, { featured: !featuredCategory })
+		await CategoriesService.update(id, { featured: !featuredCategory })
 		setFeaturedCategory((state) => !state)
 	}
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this category?')) return
-		await CategoriesService.deleteCategory(id)
+		await CategoriesService.delete(id)
 		refetch()
 	}
 
