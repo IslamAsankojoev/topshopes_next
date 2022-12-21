@@ -49,9 +49,9 @@ const UpdatePages: NextPageAuth = () => {
 	)
 
 	const handleFormSubmit = async (data: FormData, values: IPages) => {
+		console.log(values)
 		const submitData = { ...values, content: { data: values.content } }
-		console.log(removeImg(submitData, 'image'))
-		await mutateAsync(formData(removeImg(submitData, 'image')))
+		await mutateAsync(formData(submitData))
 	}
 
 	if (isLoading || categoryLoading || mutationLoading) {
