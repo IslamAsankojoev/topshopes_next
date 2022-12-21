@@ -74,7 +74,6 @@ export const AuthService = {
 			if (response.data) {
 				saveToStorage(response.data)
 			}
-			console.log(response.data)
 			return response.data
 		} catch (error) {
 			toast.error(`auth: ${getErrorMessage(error)}`)

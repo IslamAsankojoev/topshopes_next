@@ -14,7 +14,6 @@ import { IPages } from 'shared/types/pages.types'
 import { pageEditForm } from 'utils/constants/forms'
 import React from 'react'
 import { formData } from 'utils/formData'
-import { removeImg } from 'utils/removeImg'
 
 const UpdatePages: NextPageAuth = () => {
 	const {
