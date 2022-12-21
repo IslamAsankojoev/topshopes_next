@@ -27,7 +27,7 @@ const SizesList: NextPageAuth = () => {
 		data: sizes,
 		isLoading,
 		refetch,
-	} = useQuery<any>('colors admin get', SizesService.getSizes)
+	} = useQuery<any>('colors admin get', SizesService.getList)
 
 	const {
 		order,

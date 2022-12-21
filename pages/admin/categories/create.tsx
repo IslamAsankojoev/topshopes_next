@@ -18,7 +18,7 @@ const CreateCategory: NextPageAuth = () => {
 	// category create
 	const { isLoading, mutateAsync } = useMutation(
 		'category admin create',
-		(data: ICategory) => CategoriesService.createCategory(data),
+		(data: ICategory) => CategoriesService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('success')

@@ -27,7 +27,7 @@ const BrandsTypesList: NextPageAuth = () => {
 		data: brandsTypes,
 		isLoading,
 		refetch,
-	} = useQuery<any>('get brandsTypes admin', BrandTypesService.getBrandsTypes)
+	} = useQuery<any>('get brandsTypes admin', BrandTypesService.getList)
 
 	const {
 		order,

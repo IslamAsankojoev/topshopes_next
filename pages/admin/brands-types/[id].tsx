@@ -21,7 +21,7 @@ const CreateBrandType: NextPageAuth = () => {
 	// brand type fetch
 	const { data: brandType, isLoading } = useQuery(
 		'get brandType one',
-		() => BrandTypesService.getBrandTypes(id as string),
+		() => BrandTypesService.get(id as string),
 		{
 			enabled: !!id,
 		}

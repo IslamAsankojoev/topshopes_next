@@ -31,7 +31,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 	const onDelete = async () => {
 		if (window.confirm('Are you sure you want to uninstall this product?')) {
 			try {
-				await AdminProductsService.deleteProduct(id)
+				await AdminProductsService.delete(id)
 				refetch()
 			} catch (e: unknown) {
 				toast.error('An error has occurred')
@@ -41,7 +41,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 	}
 	const publishOnchange = async () => {
 		try {
-			await AdminProductsService.updateProduct(id, {
+			await AdminProductsService.update(id, {
 				published: !productPublish,
 			})
 			setProductPublish((state) => !state)

@@ -18,7 +18,7 @@ const CreateColor: NextPageAuth = () => {
 	// color mutation
 	const { isLoading, mutateAsync } = useMutation(
 		'color admin create',
-		(data: IColors) => ColorsService.createColor(data),
+		(data: IColors) => ColorsService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('success')

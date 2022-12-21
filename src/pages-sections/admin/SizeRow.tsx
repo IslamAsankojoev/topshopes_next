@@ -30,7 +30,7 @@ const sizeRow: FC<SizeRowProps> = ({ name, selected, refetch }) => {
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this size?')) return
-		await SizesService.deleteSize(id)
+		await SizesService.delete(id)
 		refetch()
 	}
 

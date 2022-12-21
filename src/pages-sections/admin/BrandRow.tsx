@@ -27,7 +27,7 @@ const BrandRow: FC<BrandRowProps> = ({ brand, selected, refetch }) => {
 	const [featuredCategory, setFeaturedCategory] = useState(featured)
 
 	const handleSwitch = async () => {
-		await BrandsService.updateBrand(id, { featured: !featuredCategory })
+		await BrandsService.update(id, { featured: !featuredCategory })
 		setFeaturedCategory((state) => !state)
 	}
 	const handleEdit = () => {
@@ -36,7 +36,7 @@ const BrandRow: FC<BrandRowProps> = ({ brand, selected, refetch }) => {
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure?')) return
-		await BrandsService.deleteBrand(id)
+		await BrandsService.delete(id)
 		refetch()
 	}
 

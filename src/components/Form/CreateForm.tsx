@@ -75,13 +75,13 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 	})
 
 	const handleFormSubmitForm = () => {
-		// const formData = new FormData()
-		// Object.keys(values).forEach((key) => {
-		// 	if (!!values[key]) {
-		// 		formData.append(key, values[key])
-		// 	}
-		// }, formData)
-		handleFormSubmit(formData(values), values)
+		const formData = new FormData()
+		Object.keys(values).forEach((key) => {
+			if (!!values[key]) {
+				formData.append(key, values[key])
+			}
+		}, formData)
+		handleFormSubmit(formData, values)
 	}
 
 	return fields ? (

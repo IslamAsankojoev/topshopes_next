@@ -32,7 +32,7 @@ const CategoryList: NextPageAuth = () => {
 		data: categories,
 		refetch,
 		isLoading,
-	} = useQuery('get categories admin', () => CategoriesService.getCategories())
+	} = useQuery('get categories admin', CategoriesService.getList)
 
 	const {
 		order,

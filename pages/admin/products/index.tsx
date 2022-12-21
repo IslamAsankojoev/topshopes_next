@@ -30,7 +30,7 @@ const ProductList: NextPageAuth = () => {
 		data: products,
 		isLoading,
 		refetch,
-	} = useQuery('products admin get', AdminProductsService.getProducts)
+	} = useQuery('products admin get', AdminProductsService.getList)
 
 	const {
 		order,

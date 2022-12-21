@@ -1,12 +1,8 @@
-import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { CategoriesService } from 'api/services-admin/categories/category.service'
 import { AdminPagesService } from 'api/services-admin/pages/pages.service'
-import BazaarSwitch from 'components/BazaarSwitch'
-
-import { getCategoriesUrl } from 'config/api.config'
 import { useRouter } from 'next/router'
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { IPages } from 'shared/types/pages.types'
 
 import {

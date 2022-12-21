@@ -18,7 +18,7 @@ const CreateSizes: NextPageAuth = () => {
 	// size mutation
 	const { isLoading, mutateAsync } = useMutation(
 		'size admin create',
-		(data: ISize) => SizesService.createSize(data),
+		(data: ISize) => SizesService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('success')

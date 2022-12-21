@@ -31,7 +31,7 @@ const tableHeading = [
 const OrderList: NextPageAuth = () => {
 	const { data: orders, isLoading } = useQuery(
 		'orders admin get',
-		OrdersService.getOrders,
+		OrdersService.getList,
 		{
 			onError: (e: any) => {
 				toast.error(e.message)

@@ -21,7 +21,7 @@ const UpdateSize: NextPageAuth = () => {
 	// size fetch
 	const { data: size, isLoading } = useQuery(
 		'size admin get',
-		() => SizesService.getSize(id),
+		() => SizesService.get(id),
 		{
 			enabled: !!id,
 		}
@@ -30,7 +30,7 @@ const UpdateSize: NextPageAuth = () => {
 	// size mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'size admin update',
-		(data: ISize) => SizesService.updateSize(id, data),
+		(data: ISize) => SizesService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
