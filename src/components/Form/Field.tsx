@@ -1,12 +1,11 @@
-import {
-	Button,
-	Checkbox,
-	FormControlLabel,
-	Switch,
-	TextField,
-} from '@mui/material'
+import { Button, MenuItem, Switch, TextField } from '@mui/material'
 import { FC, useState } from 'react'
 import styles from './Field.module.scss'
+import dynamic from 'next/dynamic'
+const DynamicTextEditor = dynamic(
+	() => import('components/TextEditor/TextEditor'),
+	{ ssr: false }
+)
 
 const Field: FC<any> = (props) => {
 	const { type, ...other } = props
@@ -24,6 +23,35 @@ const Field: FC<any> = (props) => {
 	if (type == 'color') {
 		return <input {...other} type={'color'} />
 	}
+
+	if (type == 'select') {
+		return (
+			<TextField {...other} select>
+				{other.allNames?.map((select: { id: string; name: string }) => (
+					<MenuItem key={select.name} value={select.id}>
+						{select.name}
+					</MenuItem>
+				))}
+			</TextField>
+		)
+	}
+
+	if (type == 'textEditor') {
+		const [value, setValue] = useState(null)
+
+		const onChange = (editorValue: string) => {
+			setValue(editorValue)
+			other.setFieldValue(other.name, editorValue)
+		}
+
+		return (
+			<DynamicTextEditor
+				onChange={onChange}
+				placeholder={other.label}
+				value={other.defaultData[other.label] || value}
+			/>
+		)
+	}
 	if (type == 'select') {
 		return <TextField {...other} select />
 	}
@@ -36,7 +64,7 @@ const Field: FC<any> = (props) => {
 		)
 	}
 	if (type == 'radio') {
-		return <TextField {...other} type="radio" />
+		return <TextField {...other} type="radio" fullWidth />
 	}
 	if (type == 'file') {
 		const [fileLocaleUrl, setFileLocaleUrl] = useState(null)

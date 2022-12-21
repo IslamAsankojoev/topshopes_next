@@ -18,7 +18,7 @@ const Test: React.FC = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		console.log(text)
+		console.log(typeof text)
 	}
 
 	return (

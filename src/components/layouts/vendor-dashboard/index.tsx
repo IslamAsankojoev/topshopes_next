@@ -1,7 +1,5 @@
 import { Box, styled } from '@mui/material'
-import { AppProps } from 'next/app'
-import { FC, Fragment, ReactElement, useState } from 'react'
-import { NextPageAuth, TypeRoles } from 'shared/types/auth.types'
+import { Fragment, useState } from 'react'
 
 import DashboardNavbar from './DashboardNavbar'
 import DashboardSidebar from './DashboardSidebar'

@@ -27,6 +27,7 @@ import TodoList from "./TodoList";
 import UserProfile from "./UserProfile";
 import UserTie from "./UserTie";
 import Vest from "./Vest";
+import Pager from "./Pager";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -60,4 +61,5 @@ export default {
   Shoe,
   UserTie,
   Vest,
+  Pager
 };

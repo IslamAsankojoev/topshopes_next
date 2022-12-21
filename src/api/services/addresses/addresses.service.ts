@@ -1,52 +1,5 @@
-import { getErrorMessage } from 'utils/getErrorMessage';
-import { instance } from 'api/interceptor';
+import { CRUDservice } from './../../crud.service';
 import { getAddressesUrl } from 'config/api.config';
-import { toast } from 'react-toastify';
 
-export const AddressesService = {
-  async getAddresses() {
-    try {
-      const response = await instance.get(getAddressesUrl(''));
-      return response.data;
-    } catch (error) {
-      toast.error(`adrresses: ${getErrorMessage(error)}`)
-      throw error;
-    }
-  },
-  async getAddress(id: string) {
-    try {
-      const response = await instance.get(getAddressesUrl(`${id}/`));
-      return response.data;
-    } catch (error) {
-      toast.error(`adrresses: ${getErrorMessage(error)}`)
-      throw error;
-    }
-  },
-  async addAddress(data: any) {
-    try {
-      const response = await instance.post(getAddressesUrl(''), data);
-      return response.data;
-    } catch (error) {
-      toast.error(`adrresses: ${getErrorMessage(error)}`)
-      throw error;
-    }
-  },
-  async updateAddress(id: string, data: any) {
-    try {
-      const response = await instance.patch(getAddressesUrl(`${id}/`), data);
-      return response.data;
-    } catch (error) {
-      toast.error(`adrresses: ${getErrorMessage(error)}`)
-      throw error;
-    }
-  },
-  async deleteAddress(id: string) {
-    try {
-      const response = await instance.delete(getAddressesUrl(`${id}/`));
-      return response.data;
-    } catch (error) {
-      toast.error(`adrresses: ${getErrorMessage(error)}`)
-      throw error;
-    }
-  },
-};
+
+export const AddressesService = CRUDservice(getAddressesUrl, 'address')

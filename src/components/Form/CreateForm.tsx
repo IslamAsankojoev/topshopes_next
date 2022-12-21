@@ -3,6 +3,7 @@ import Field from './Field'
 import * as yup from 'yup'
 import { ErrorMessage, Form, useFormik } from 'formik'
 import { useEffect } from 'react'
+import { formData } from 'utils/formData'
 
 const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 	// write validation schema for each field by iterating over fields
@@ -12,26 +13,34 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 				acc[field.name] = yup.string().required('Required')
 				return acc
 			}
-			if (field.type == 'number' && field.required) {
+			if (field.type === 'number' && field.required) {
 				acc[field.name] = yup.number().required('Required')
 				return acc
 			}
-			if (field.type == 'email' && field.required) {
+			if (field.type === 'email' && field.required) {
 				acc[field.name] = yup
 					.string()
 					.email('Invalid email')
 					.required('Required')
 				return acc
 			}
-			if (field.type == 'date' && field.required) {
+			if (field.type === 'date' && field.required) {
 				acc[field.name] = yup.date().required('Required')
 				return acc
 			}
-			if (field.type == 'file' && field.required) {
+			if (field.type === 'file' && field.required) {
 				acc[field.name] = yup.mixed().required('Required')
 				return acc
 			}
-			if (field.type == 'color' && field.required) {
+			if (field.type === 'color' && field.required) {
+				acc[field.name] = yup.string().required('Required')
+				return acc
+			}
+			if (field.type === 'textEditor' && field.required) {
+				acc[field.name] = yup.string().required('Required')
+				return acc
+			}
+			if (field.type === 'select' && field.required) {
 				acc[field.name] = yup.string().required('Required')
 				return acc
 			}
@@ -66,20 +75,20 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 	})
 
 	const handleFormSubmitForm = () => {
-		const formData = new FormData()
-		Object.keys(values).forEach((key) => {
-			if (!!values[key]) {
-				formData.append(key, values[key])
-			}
-		}, formData)
-		handleFormSubmit(formData)
+		// const formData = new FormData()
+		// Object.keys(values).forEach((key) => {
+		// 	if (!!values[key]) {
+		// 		formData.append(key, values[key])
+		// 	}
+		// }, formData)
+		handleFormSubmit(formData(values), values)
 	}
 
 	return fields ? (
 		<form onSubmit={handleSubmit}>
 			<Grid container spacing={3}>
 				{fields.map((field, id) => (
-					<Grid item sm={6} xs={12} key={id}>
+					<Grid item sm={field?.fullWidth ? 12 : 6} xs={12} key={id}>
 						<Field
 							type={field.type}
 							fullWidth
@@ -93,13 +102,14 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 							onBlur={handleBlur}
 							onChange={handleChange}
 							defaultData={defaultData || {}}
+							allNames={field?.allNames || []}
 						/>
 						<span style={{ color: 'red', fontWeight: '600' }}>
 							{!!errors[field.name] && 'required'}
 						</span>
 					</Grid>
 				))}
-				<Grid item sm={6} xs={12}>
+				<Grid item xs={12}>
 					<Button variant="contained" color="info" type="submit">
 						Save
 					</Button>

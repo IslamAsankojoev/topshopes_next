@@ -24,6 +24,15 @@ export const navigations = [
 	},
 
 	{
+		name: 'Pages',
+		icon: duotone.Pager,
+		children: [
+			{ name: 'Pages List', path: '/admin/pages-list' },
+			{ name: 'Pages Category', path: '/admin/pages-category' },
+		],
+	},
+
+	{
 		name: 'Orders',
 		icon: duotone.Order,
 		children: [

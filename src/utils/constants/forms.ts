@@ -101,3 +101,38 @@ export const colorEditForm = [
 		required: true,
 	},
 ]
+
+export const pageEditForm = [
+	{
+		name: 'title',
+		label: 'Title',
+		type: 'text',
+		placeholder: 'Enter title',
+		required: true,
+		fullWidth: true
+	},
+	{
+		name: 'content',
+		label: 'Content',
+		type: 'textEditor',
+		placeholder: 'Enter content',
+		fullWidth: true
+	},
+	{
+		name: 'image',
+		label: 'Image',
+		type: 'file',
+		placeholder: 'Enter image',
+	},
+]
+
+export const pageCategoryEditForm = [
+	{
+		name: 'title',
+		label: 'title',
+		type: 'text',
+		placeholder: 'Enter title',
+		required: true,
+	},
+]
+
