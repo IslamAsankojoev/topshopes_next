@@ -1,61 +1,126 @@
-import { Delete } from '@mui/icons-material'
-import {
-	Box,
-	Button,
-	Card,
-	Divider,
-	IconButton,
-	MenuItem,
-	Stack,
-	TextField,
-} from '@mui/material'
+import styled from '@emotion/styled'
+import { Box, Button, Card, Grid, TextField } from '@mui/material'
+import { ShopService } from 'api/services/shop/shop.service'
 import DropZone from 'components/DropZone'
-import { FlexBox } from 'components/flex-box'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import Loading from 'components/Loading'
 import { H3, Paragraph } from 'components/Typography'
-import { Formik } from 'formik'
-import React, { ReactElement, useState } from 'react'
+import { useFormik } from 'formik'
+import { useRouter } from 'next/router'
+import React, { ReactElement } from 'react'
+import { useMutation, useQuery } from 'react-query'
+import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { IShop } from 'shared/types/shop.types'
+import { formData } from 'utils/formData'
+import { removeImg } from 'utils/removeImg'
 import * as Yup from 'yup'
 
 const initialValues = {
-	shopName: 'The Icon Style',
-	shopPhone: '+123 4567 8910',
-	shopAddress: '4990 Hide A Way Road Santa Clara, CA 95050.',
-	order: 10,
-	category: 'fashion',
-	description:
-		"There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+	name: '',
+	phone: '',
+	address: '',
+	email: '',
+	cover_picture: '',
+	profile_picture: '',
 }
 
 const validationSchema = Yup.object().shape({
-	shopName: Yup.string().required('Shop Name is required!'),
-	shopPhone: Yup.string().required('Shop Phone is required!'),
-	category: Yup.string().required('Category is required!'),
-	description: Yup.string().required('Description is required!'),
-	shopAddress: Yup.string().required('Shop Address is required!'),
-	order: Yup.number().required('Orders is required!'),
+	name: Yup.string().required('Shop Name is required!'),
+	email: Yup.string()
+		.email('invalid email')
+		.required('Shop email is required!'),
+	address: Yup.string().required('Address is required!'),
+	phone: Yup.string().required('Shop Address is required!'),
+	cover_picture: Yup.mixed().required('Orders is required!'),
+	profile_picture: Yup.mixed().required('Orders is required!'),
 })
 
 const ShopSettings: NextPageAuth = () => {
-	const [links, setLinks] = useState([
-		{ id: 1, name: 'Links', value: 'https://www.productbanner.com' },
-	])
+	// const [links, setLinks] = useState([
+	// 	{ id: 1, name: 'Links', value: 'https://www.productbanner.com' },
+	// ])
 
-	const handleAddLink = () => {
-		setLinks((state) => [
-			...state,
-			{ id: Date.now(), name: 'Links', value: 'https://www.google.com' },
-		])
+	// const handleAddLink = () => {
+	// 	setLinks((state) => [
+	// 		...state,
+	// 		{ id: Date.now(), name: 'Links', value: 'https://www.google.com' },
+	// 	])
+	// }
+
+	// const handleDeleteLink = (id: number) => () => {
+	// 	setLinks((state) => state.filter((item) => item.id !== id))
+	// }
+
+	const { push } = useRouter()
+
+	// shop fetching
+	const { data: shop, isLoading } = useQuery('shop get', ShopService.getList)
+
+	// shop mutation
+	const { mutateAsync: createAsync } = useMutation(
+		'shop create',
+		(data: FormData) => ShopService.create(data),
+		{
+			onSuccess: () => {
+				toast.success('shop successfully created')
+				push('vendor/products')
+			},
+		}
+	)
+
+	const { mutateAsync: updateAsync } = useMutation(
+		'shop update',
+		(data: FormData) => ShopService.update(null, data),
+		{
+			onSuccess: () => {
+				toast.success('shop successfully updated')
+				push('vendor/products')
+			},
+		}
+	)
+
+	// images
+	const [coverPicture, setCoverPicture] = React.useState(
+		shop?.length ? shop[0]?.cover_picture : ''
+	)
+	const [profilePicture, setProfilePicture] = React.useState(
+		shop?.length ? shop[0]?.profile_picture : ''
+	)
+
+	// submiting
+	const handleFormSubmit = (values: IShop) => {
+		if (shop.length) {
+			const checkCoverPicture = removeImg(values, 'cover_picture')
+			const checkProfilePicture = removeImg(
+				checkCoverPicture,
+				'profile_picture'
+			)
+			updateAsync(formData(checkProfilePicture))
+			return
+		}
+		createAsync(formData(values))
 	}
 
-	const handleDeleteLink = (id: number) => () => {
-		setLinks((state) => state.filter((item) => item.id !== id))
-	}
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		setFieldValue,
+	} = useFormik({
+		initialValues: shop?.length ? shop[0] : initialValues,
+		onSubmit: handleFormSubmit,
+		validationSchema: validationSchema,
+	})
 
-	const handleFormSubmit = (values) => {}
+	// if (isLoading) {
+	// 	return <Loading />
+	// }
 
-	return (
+	return !isLoading ? (
 		<Box py={4} maxWidth={740} margin="auto">
 			<H3 mb={2}>Shop Settings</H3>
 
@@ -64,112 +129,137 @@ const ShopSettings: NextPageAuth = () => {
 					Basic Settings
 				</Paragraph>
 
-				<Formik
-					onSubmit={handleFormSubmit}
-					initialValues={initialValues}
-					validationSchema={validationSchema}
-				>
-					{({
-						values,
-						errors,
-						touched,
-						handleChange,
-						handleBlur,
-						handleSubmit,
-					}) => (
-						<form onSubmit={handleSubmit}>
-							<Stack spacing={3} mb={3}>
-								<TextField
-									color="info"
-									size="medium"
-									name="shopName"
-									label="Shop Name *"
-									onBlur={handleBlur}
-									value={values.shopName}
-									onChange={handleChange}
-									helperText={touched.shopName && errors.shopName}
-									error={Boolean(errors.shopName && touched.shopName)}
-								/>
+				<form onSubmit={handleSubmit}>
+					<Grid container alignItems={'center'} spacing={3}>
+						<Grid item sx={{ alignContent: 'center' }} xs={12}>
+							<TextField
+								fullWidth
+								color="info"
+								size="medium"
+								name="name"
+								label="Shop Name *"
+								onBlur={handleBlur}
+								value={values.name}
+								onChange={handleChange}
+								helperText={touched.name && errors.name}
+								error={Boolean(errors.name && touched.name)}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								fullWidth
+								color="info"
+								size="medium"
+								name="email"
+								label="email"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.email}
+								helperText={touched.email && errors.email}
+								error={Boolean(errors.email && touched.email)}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								fullWidth
+								color="info"
+								size="medium"
+								name="address"
+								onBlur={handleBlur}
+								placeholder="address"
+								label="Select address"
+								onChange={handleChange}
+								value={values.address}
+								helperText={touched.address && errors.address}
+								error={Boolean(errors.address && touched.address)}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								fullWidth
+								color="info"
+								size="medium"
+								name="phone"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.phone}
+								label="phone"
+								helperText={touched.phone && errors.phone}
+								error={Boolean(errors.phone && touched.phone)}
+							/>
+						</Grid>
 
-								<TextField
-									color="info"
-									size="medium"
-									name="shopPhone"
-									label="Shop Phone"
-									onBlur={handleBlur}
-									onChange={handleChange}
-									value={values.shopPhone}
-									helperText={touched.shopPhone && errors.shopPhone}
-									error={Boolean(errors.shopPhone && touched.shopPhone)}
-								/>
+						<Grid item sm={coverPicture ? 6 : 12} xs={12}>
+							<h3 style={{ margin: 0 }}>Cover picture</h3>
+							<DropZone
+								name={'cover_picture'}
+								onBlur={handleBlur}
+								onChange={(file: File[]) => {
+									setFieldValue('cover_picture', file[0])
+									setCoverPicture(URL.createObjectURL(file[0]))
+								}}
+								multiple={false}
+								accept={'image/*,.web'}
+							/>
+							{!!touched.cover_picture && !!errors.cover_picture ? (
+								<h4 style={{ color: 'red', textAlign: 'center' }}>
+									{touched.cover_picture && errors.cover_picture}
+								</h4>
+							) : null}
+						</Grid>
 
-								<TextField
-									select
-									fullWidth
-									color="info"
-									size="medium"
-									name="category"
-									onBlur={handleBlur}
-									placeholder="Category"
-									label="Select Category"
-									onChange={handleChange}
-									value={values.category}
-									helperText={touched.category && errors.category}
-									error={Boolean(errors.category && touched.category)}
-								>
-									<MenuItem value="electronics">Electronics</MenuItem>
-									<MenuItem value="fashion">Fashion</MenuItem>
-								</TextField>
+						{coverPicture ? (
+							<Grid sx={{ width: '100%', height: '100%' }} item sm={6} xs={12}>
+								<PrevImg src={coverPicture} alt={'picture'} />
+							</Grid>
+						) : null}
 
-								<TextField
-									rows={6}
-									multiline
-									fullWidth
-									color="info"
-									size="medium"
-									name="description"
-									onBlur={handleBlur}
-									onChange={handleChange}
-									value={values.description}
-									label="Description (optional)"
-									helperText={touched.description && errors.description}
-									error={Boolean(errors.description && touched.description)}
-								/>
+						<Grid item sm={profilePicture ? 6 : 12} xs={12}>
+							<h3 style={{ margin: 0 }}>Profile picture</h3>
+							<DropZone
+								name={'profile_picture'}
+								onBlur={handleBlur}
+								onChange={(file: File[]) => {
+									setFieldValue('profile_picture', file[0])
+									setProfilePicture(URL.createObjectURL(file[0]))
+								}}
+								multiple={false}
+								accept={'image/*,.web'}
+							/>
+							{!!touched.profile_picture && !!errors.profile_picture ? (
+								<h4 style={{ color: 'red', textAlign: 'center' }}>
+									{touched.profile_picture && errors.profile_picture}
+								</h4>
+							) : null}
+						</Grid>
 
-								<TextField
-									color="info"
-									size="medium"
-									name="shopAddress"
-									label="Shop Address"
-									onBlur={handleBlur}
-									onChange={handleChange}
-									value={values.shopAddress}
-									helperText={touched.shopAddress && errors.shopAddress}
-									error={Boolean(errors.shopAddress && touched.shopAddress)}
-								/>
+						{profilePicture ? (
+							<Grid
+								sx={{
+									width: '100%',
+									height: '100%',
+								}}
+								item
+								sm={6}
+								xs={12}
+							>
+								<PrevImg src={profilePicture} alt={'picture'} />
+							</Grid>
+						) : null}
+					</Grid>
 
-								<TextField
-									name="order"
-									color="info"
-									size="medium"
-									type="number"
-									onBlur={handleBlur}
-									value={values.order}
-									label="Minimum Order *"
-									onChange={handleChange}
-									helperText={touched.order && errors.order}
-									error={Boolean(errors.order && touched.order)}
-								/>
-							</Stack>
+					<Button
+						sx={{ m: '20px 0' }}
+						fullWidth
+						type="submit"
+						color="info"
+						variant="contained"
+					>
+						Save Changes
+					</Button>
+				</form>
 
-							<Button type="submit" color="info" variant="contained">
-								Save Changes
-							</Button>
-						</form>
-					)}
-				</Formik>
-
-				<Divider sx={{ my: 4 }} />
+				{/* <Divider sx={{ my: 4 }} />
 
 				<Paragraph fontWeight={700} mb={2}>
 					Shop Page Settings
@@ -201,9 +291,9 @@ const ShopSettings: NextPageAuth = () => {
 						title="All products page banner * (Recommended size 1025x120)"
 						imageSize="We had to limit height to maintian consistancy. Some device both side of the banner might cropped for height limitation."
 					/>
-				</Stack>
+				</Stack> */}
 
-				<Box mb={4}>
+				{/* <Box mb={4}>
 					{links.map((item) => (
 						<FlexBox gap={2} alignItems="center" mb={2} key={item.id}>
 							<TextField
@@ -225,15 +315,25 @@ const ShopSettings: NextPageAuth = () => {
 					<Button color="info" variant="outlined" onClick={handleAddLink}>
 						Add Link
 					</Button>
-				</Box>
+				</Box> */}
 
-				<Button color="info" variant="contained">
+				{/* <Button color="info" variant="contained">
 					Save Changes
-				</Button>
+				</Button> */}
 			</Card>
 		</Box>
-	)
+	) : null
 }
+
+const PrevImg = styled.img`
+	max-width: 408px;
+	max-height: 220px;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border-radius: 10px;
+	margin: auto;
+`
 
 ShopSettings.isOnlyUser = true
 

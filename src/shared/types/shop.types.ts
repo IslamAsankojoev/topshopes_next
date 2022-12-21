@@ -8,8 +8,8 @@ export interface IShop {
   address: string;
   verified: boolean;
   phone: string;
-  coverPicture: string;
-  profilePicture: string;
+  cover_picture: string;
+  profile_picture: string;
   socialLinks: ILinks;
   products: IProduct[];
 }

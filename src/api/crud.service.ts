@@ -23,9 +23,9 @@ export const CRUDservice = (url: (id?: string) => string, toastText?: string) =>
                 throw error
             }
         },
-        update: async (id: string, data: FormData | any) => {
+        update: async (id: string | null, data: FormData | any) => {
             try {
-                const response = await instance.patch(url(`${id}/`), data)
+                const response = await instance.patch(url(id ?`${id}/`:null), data)
                 return response.data
             } catch (error) {
                 toast.error(`${toastText || 'error'}: ${getErrorMessage(error)}`)
