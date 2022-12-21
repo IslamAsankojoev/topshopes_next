@@ -1,5 +1,5 @@
-import { getErrorMessage } from 'utils/getErrorMessage';
-import { toast } from 'react-toastify';
+import { getErrorMessage } from 'utils/getErrorMessage'
+import { toast } from 'react-toastify'
 import { axiosClassic, instance } from 'api/interceptor'
 import Cookies from 'js-cookie'
 import {
@@ -53,10 +53,10 @@ export const AuthService = {
 		}
 	},
 
-	refresh: async ({ refresh }: ITokens) => {
+	refresh: async () => {
 		try {
 			const response = await axiosClassic.post<IAuthResponse>('auth/refresh/', {
-				refresh,
+				refresh: Cookies.get('refresh'),
 			})
 			if (response.data.access) {
 				saveToken(response.data)

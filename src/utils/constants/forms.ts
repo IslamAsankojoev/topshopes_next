@@ -1,3 +1,5 @@
+import { IUser } from 'shared/types/user.types'
+
 export const categoryEditForm = [
 	{
 		name: 'name',
@@ -136,3 +138,47 @@ export const pageCategoryEditForm = [
 	},
 ]
 
+export const userEditForm = [
+	{
+		name: 'first_name',
+		label: 'first_name',
+		type: 'text',
+		placeholder: 'Enter first_name',
+		required: true,
+	},
+	{
+		name: 'last_name',
+		label: 'last_name',
+		type: 'text',
+		placeholder: 'Enter last_name',
+		required: false,
+	},
+	{
+		name: 'email',
+		label: 'email',
+		type: 'email',
+		placeholder: 'Enter email',
+		required: true,
+	},
+	{
+		name: 'phone',
+		label: 'phone',
+		type: 'text',
+		placeholder: 'Enter phone',
+		required: true,
+	},
+	{
+		name: 'avatar',
+		label: 'avatar',
+		type: 'file',
+		placeholder: 'Upload avatar',
+		required: false,
+	},
+	{
+		name: 'password',
+		label: 'password',
+		type: 'text',
+		placeholder: 'Enter password',
+		required: false,
+	},
+]

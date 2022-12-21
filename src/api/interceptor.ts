@@ -37,7 +37,8 @@ instance.interceptors.response.use(
 		) {
 			originalRequest._isRetry = true
 			try {
-				await AuthService.refresh({ refresh: Cookie.get('refresh') })
+				console.log('refresh token')
+				await AuthService.refresh()
 				return instance.request(originalRequest)
 			} catch (e) {
 				removeToken()

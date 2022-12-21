@@ -9,29 +9,32 @@ import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { CustomerRow } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 import api from 'utils/api/dashboard'
+import { IUser } from 'shared/types/user.types'
+import { useQuery } from 'react-query'
+import { UsersService } from 'api/services/users/users.service'
+import { useRouter } from 'next/router'
 
-// table column list
 const tableHeading = [
-	{ id: 'name', label: 'Name', align: 'left' },
+	{ id: 'first_name', label: 'First name', align: 'left' },
 	{ id: 'phone', label: 'Phone', align: 'left' },
 	{ id: 'email', label: 'Email', align: 'left' },
-	{ id: 'balance', label: 'Wallet Balance', align: 'left' },
-	{ id: 'orders', label: 'No Of Orders', align: 'left' },
+	{ id: 'verified', label: 'Verified', align: 'left' },
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
 
-// =============================================================================
-
-// =============================================================================
-
-type CustomerListProps = { customers: any[] }
-
-// =============================================================================
+type CustomerListProps = { customers: IUser[] }
 
 const CustomerList: NextPageAuth<CustomerListProps> = ({ customers }) => {
+	const { push } = useRouter()
+	const {
+		data: Users,
+		isLoading,
+		refetch,
+	} = useQuery('get users all', UsersService.getUsers)
+
 	const {
 		order,
 		orderBy,
@@ -40,17 +43,19 @@ const CustomerList: NextPageAuth<CustomerListProps> = ({ customers }) => {
 		filteredList,
 		handleChangePage,
 		handleRequestSort,
-	} = useMuiTable({ listData: customers })
+	} = useMuiTable({ listData: Users })
 
-	return (
+	return !isLoading ? (
 		<Box py={4}>
-			<H3 mb={2}>Customers</H3>
+			<H3 mb={2}>Users</H3>
 
 			<SearchArea
 				handleSearch={() => {}}
-				buttonText="Add Customer"
-				handleBtnClick={() => {}}
-				searchPlaceholder="Search Customer..."
+				buttonText="Add Users"
+				handleBtnClick={() => {
+					push('/admin/customers/create')
+				}}
+				searchPlaceholder="Search Users..."
 			/>
 
 			<Card>
@@ -69,7 +74,11 @@ const CustomerList: NextPageAuth<CustomerListProps> = ({ customers }) => {
 
 							<TableBody>
 								{filteredList.map((customer, index) => (
-									<CustomerRow customer={customer} key={index} />
+									<CustomerRow
+										refetch={refetch}
+										customer={customer}
+										key={index}
+									/>
 								))}
 							</TableBody>
 						</Table>
@@ -84,7 +93,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = ({ customers }) => {
 				</Stack>
 			</Card>
 		</Box>
-	)
+	) : null
 }
 
 CustomerList.isOnlyUser = true

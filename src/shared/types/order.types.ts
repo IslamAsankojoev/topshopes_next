@@ -5,15 +5,17 @@ export interface IOrder {
 	total_price: string
 	is_delivered: boolean
 	shipping_address: string
-	status: 'PENDING' | 'DELIVERED' | 'CANCELLED' | 'PROCESSING'
+	status: IOrderStatus
 	delivered_at: string
 	items: IOrderItem[]
 	created_at?: string
 }
 
+export type IOrderStatus = 'PENDING' | 'DELIVERED' | 'CANCELLED' | 'PROCESSING'
+
 export interface IOrderShort {
 	id: string
-	status: 'PENDING' | 'DELIVERED' | 'CANCELLED' | 'PROCESSING'
+	status: IOrderStatus
 	created_at: string
 	total_price: string
 }
