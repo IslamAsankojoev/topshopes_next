@@ -2,16 +2,20 @@ import { Box } from '@mui/material'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
-import { productFormValidationSchema } from './productFormValidationSchema'
+import React, { ReactElement, useEffect } from 'react'
+import { productFormValidationSchema } from './validationSchema'
 import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
 import Loading from '../../../src/components/Loading'
 import { toast } from 'react-toastify'
 import { formData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
-import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { useMutation, useQueries } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { ProductsService } from 'api/services/products/product.service'
+import { CategoriesService } from 'api/services/categories/category.service'
+import { ColorsService } from 'api/services/colors/colors.service'
+import { SizesService } from 'api/services/sizes/sizes.service'
+import { BrandsService } from 'api/services/brands/brand.service'
 
 const initialValues = {
 	title: '',
@@ -21,7 +25,6 @@ const initialValues = {
 	price: '0',
 	published: false,
 	rating: '',
-	shop: '',
 	sizes: [],
 	brand: '',
 	thumbnail: '',
@@ -30,18 +33,40 @@ const initialValues = {
 
 const CreateProduct: NextPageAuth = () => {
 	// getting all dependencies for selects
-	const fetch = useProductFetch()
+	const {
+		'0': Categories,
+		'1': Colors,
+		'2': Sizes,
+		'3': Brands,
+	} = useQueries([
+		{
+			queryKey: 'product categories fetch',
+			queryFn: CategoriesService.getList,
+		},
+		{
+			queryKey: 'product colors fetch',
+			queryFn: ColorsService.getList,
+		},
+		{
+			queryKey: 'product sizes fetch',
+			queryFn: SizesService.getList,
+		},
+		{
+			queryKey: 'product brands fetch',
+			queryFn: BrandsService.getList,
+		},
+	])
 
 	const { push } = useRouter()
 
 	// create product
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'product admin create',
-		(data: FormData) => AdminProductsService.create(data),
+		(data: FormData) => ProductsService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('success')
-				push('/admin/products/')
+				push('/vendor/products/')
 			},
 			onError: (e: any) => {
 				toast.error(e.message)
@@ -50,10 +75,18 @@ const CreateProduct: NextPageAuth = () => {
 	)
 
 	const handleFormSubmit = async (data) => {
-		await mutateAsync(formData(data))
+		// console.log(data)
+		const { shop, ...rest } = data
+		await mutateAsync(formData(rest))
 	}
 
-	if (fetch.isLoading || mutationLoading) {
+	if (
+		Categories.isLoading ||
+		Colors.isLoading ||
+		Sizes.isLoading ||
+		Brands.isLoading ||
+		mutationLoading
+	) {
 		return <Loading />
 	}
 
@@ -62,12 +95,22 @@ const CreateProduct: NextPageAuth = () => {
 			<H3 mb={2}>Add New Product</H3>
 
 			<ProductForm
-				productFetch={fetch}
+				productFetch={{
+					categories: Categories.data,
+					colors: Colors.data,
+					size: Sizes.data,
+					brands: Brands.data,
+					isLoading:
+						Categories.isLoading ||
+						Colors.isLoading ||
+						Sizes.isLoading ||
+						Brands.isLoading,
+				}}
 				initialValues={initialValues}
 				validationSchema={productFormValidationSchema}
 				handleFormSubmit={handleFormSubmit}
 				update={false}
-				includeShop={true}
+				includeShop={false}
 			/>
 		</Box>
 	) : null

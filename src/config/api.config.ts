@@ -4,9 +4,10 @@ export const getAuthUrl = (string: string) => `auth/${string}`
 export const getProductsUrl = (string: string) => `products/${string}`
 export const getColorsUrl = (string: string) => `products/colors/${string}`
 export const getSizeUrl = (string: string) => `products/sizes/${string}`
-export const getCategoriesUrl = (string: string) => `categories/${string}`
+export const getCategoriesUrl = (string: string) => `shops/categories/${string}`
 export const getPostsUrl = (string: string) => `posts/${string}`
 export const getOrdersUrl = (string: string) => `shop/orders/${string}`
+export const getBrandsUrl = (string: string) => `shops/brand/${string}`
 
 export const getAddressesUrl = (string: string) => `profile/address/${string}`
 

@@ -9,7 +9,7 @@ export const navigations = [
 	},
 
 	{
-		name: 'Products',
+		name: 'All Products',
 		icon: duotone.Products,
 		children: [
 			{ name: 'Product List', path: '/admin/products' },
@@ -70,6 +70,15 @@ export const navigations = [
 	},
 
 	{ type: 'label', label: 'Vendor' },
+	{
+		name: 'Shop Products',
+		icon: duotone.Products,
+		children: [
+			{ name: 'Product List', path: '/vendor/products' },
+			{ name: 'Create Product', path: '/vendor/products/create' },
+			{ name: 'Size', path: '/vendor/sizes' },
+		],
+	},
 	{
 		name: 'Earnings',
 		icon: duotone.ProjectChart,
