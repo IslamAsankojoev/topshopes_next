@@ -185,17 +185,17 @@ export const userEditForm = [
 
 export const siteSettingsFormEdit = [
 	{
-		name: 'mail',
-		label: 'mail',
+		name: 'email',
+		label: 'email',
 		type: 'text',
 		placeholder: 'Enter mail',
 		required: true,
 	},
 	{
-		name: 'sup_mail',
-		label: 'sup mail',
+		name: 'support_email',
+		label: 'support email',
 		type: 'text',
-		placeholder: 'Enter sup mail',
+		placeholder: 'Enter support email',
 		required: true,
 	},
 	{
