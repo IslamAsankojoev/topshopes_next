@@ -11,13 +11,9 @@ const Field: FC<any> = (props) => {
 	const { type, ...other } = props
 
 	if (type == 'text') {
-		return (
-			<>
-				<TextField {...other} />
-			</>
-		)
+		return <TextField {...other} />
 	}
-	if (type == 'text') {
+	if (type == 'text-multiline') {
 		return <TextField {...other} multiline rows={4} />
 	}
 	if (type == 'color') {

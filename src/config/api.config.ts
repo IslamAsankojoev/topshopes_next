@@ -25,3 +25,4 @@ export const getPagesUrlAdmin = (string: string) => `admin/pages/${string}`
 export const getPageCategoryUrlAdmin = (string: string) =>
 	`admin/page/categories/${string}`
 export const getUsersUrlAdmin = (string: string) => `admin/users/${string}`
+export const getSiteSettingsUrlAdmin = (string: string) => `admin/site-settings/${string}`
