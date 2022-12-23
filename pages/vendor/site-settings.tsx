@@ -20,7 +20,7 @@ const SiteSettings: NextPageAuth = () => {
 	// site settings mutate
 	const { mutateAsync } = useMutation(
 		'site-settings admin update',
-		(data: ISiteSettings) => SiteSettingsService.update('1', data),
+		(data: FormData) => SiteSettingsService.update('1', data),
 		{
 			onSuccess: () => {
 				toast.success('settings saved successfully')
@@ -29,7 +29,7 @@ const SiteSettings: NextPageAuth = () => {
 	)
 
 	// submiting
-	const handleFormSubmit = (_: any, data: ISiteSettings) => {
+	const handleFormSubmit = (data: FormData) => {
 		mutateAsync(data)
 	}
 

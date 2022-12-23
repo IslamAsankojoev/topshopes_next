@@ -263,5 +263,17 @@ export const siteSettingsFormEdit = [
 		placeholder: 'Enter instagram',
 		required: true,
 	},
+	{
+		name: 'map',
+		label: 'map',
+		type: 'text',
+		required: true,
+	},
+	{
+		name: 'logo',
+		label: 'logo',
+		type: 'file',
+		required: true,
+	},
 ]
 
