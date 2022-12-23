@@ -2,6 +2,7 @@ export const API_URL = `${process.env.SERVER_URL}/api/`
 
 export const getAuthUrl = (string: string) => `auth/${string}`
 export const getProductsUrl = (string: string) => `products/${string}`
+export const getShopsProductsUrl = (string: string) => `shops/products/${string}`
 export const getColorsUrl = (string: string) => `products/colors/${string}`
 export const getSizeUrl = (string: string) => `products/sizes/${string}`
 export const getCategoriesUrl = (string: string) => `shops/categories/${string}`
