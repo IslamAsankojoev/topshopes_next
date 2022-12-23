@@ -1,5 +1,5 @@
 import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider, Hydrate } from 'react-query'
 import { Provider } from 'react-redux'
 import store from 'store/store'
 import AuthProvider from './AuthProvider/AuthProvider'
@@ -16,14 +16,16 @@ const queryClient = new QueryClient({
 	},
 })
 
-const MainProvider: React.FC<any> = ({ children, Component }) => {
+const MainProvider: React.FC<any> = ({ children, Component, pageProps }) => {
 	return (
 		<>
 			<Provider store={store}>
 				<QueryClientProvider client={queryClient}>
-					<ToastifyProvider />
-					<WishCartProvider />
-					<AuthProvider Component={Component}>{children}</AuthProvider>
+					<Hydrate state={pageProps.dehydratedState}>
+						<ToastifyProvider />
+						<WishCartProvider />
+						<AuthProvider Component={Component}>{children}</AuthProvider>
+					</Hydrate>
 				</QueryClientProvider>
 			</Provider>
 		</>
