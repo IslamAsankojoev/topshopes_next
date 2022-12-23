@@ -47,6 +47,7 @@ const SettingsProvider = ({
 	}, [])
 
 	return (
+
 		<MainProvider Component={Component} pageProps={pageProps}>
 			<SettingsContext.Provider value={{ settings, updateSettings }}>
 				{children}
