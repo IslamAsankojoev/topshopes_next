@@ -16,10 +16,18 @@ export const SettingsContext = createContext({
 })
 
 // ============================================================
-type settingsProviderProps = { children?: ReactNode; Component: any }
+type settingsProviderProps = {
+	children?: ReactNode
+	Component: any
+	pageProps: any
+}
 // ============================================================
 
-const SettingsProvider = ({ children, Component }: settingsProviderProps) => {
+const SettingsProvider = ({
+	children,
+	Component,
+	pageProps,
+}: settingsProviderProps) => {
 	const [settings, setSettings] = useState(initialSettings)
 
 	const updateSettings = (updatedSetting: SettingsOptions) => {
@@ -39,7 +47,8 @@ const SettingsProvider = ({ children, Component }: settingsProviderProps) => {
 	}, [])
 
 	return (
-		<MainProvider Component={Component}>
+
+		<MainProvider Component={Component} pageProps={pageProps}>
 			<SettingsContext.Provider value={{ settings, updateSettings }}>
 				{children}
 			</SettingsContext.Provider>

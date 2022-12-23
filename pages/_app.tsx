@@ -59,7 +59,7 @@ const App = ({ Component, pageProps }: TypeAppProps) => {
 				<OpenGraphTags />
 			</Head>
 
-			<SettingsProvider Component={Component}>
+			<SettingsProvider Component={Component} pageProps={pageProps}>
 				<AppProvider>
 					<MuiTheme>
 						<RTL>{getLayout(<AnyComponent {...pageProps} />)}</RTL>
