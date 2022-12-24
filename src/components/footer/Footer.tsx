@@ -64,7 +64,7 @@ const Footer: FC<{ siteSettings?: ISiteSettings }> = ({ siteSettings }) => {
 								</Box>
 
 								<div>
-									{aboutLinks.map((item, ind) => (
+									{aboutLinks?.map((item, ind) => (
 										<Link href="/" key={ind} passHref>
 											<StyledLink>{item}</StyledLink>
 										</Link>
@@ -84,7 +84,7 @@ const Footer: FC<{ siteSettings?: ISiteSettings }> = ({ siteSettings }) => {
 								</Box>
 
 								<div>
-									{customerCareLinks.map((item, ind) => (
+									{customerCareLinks?.map((item, ind) => (
 										<Link href="/" key={ind} passHref>
 											<StyledLink>{item}</StyledLink>
 										</Link>
@@ -103,28 +103,22 @@ const Footer: FC<{ siteSettings?: ISiteSettings }> = ({ siteSettings }) => {
 									Contact Us
 								</Box>
 								<Box py={0.6} color="grey.500">
-									{siteSettings?.short_description ||
-										settings?.data?.short_description}
+									{settings?.data?.short_description}
 								</Box>
 								<Box py={0.6} color="grey.500">
-									Address: {siteSettings?.address || settings?.data?.address}
+									Address: {settings?.data?.address}
 								</Box>
 								<Box py={0.6} color="grey.500">
 									Email: {siteSettings?.email || settings?.data?.email}
 								</Box>
 								<Box py={0.6} mb={2} color="grey.500">
-									Phone:{' '}
-									{siteSettings?.footer_phone || settings?.data?.footer_phone}
+									Phone: {settings?.data?.footer_phone}
 								</Box>
 
 								<FlexBox className="flex" mx={-0.625}>
-									{iconList.map((item, ind) => (
+									{iconList?.map((item, ind) => (
 										<a
-											href={
-												siteSettings
-													? siteSettings[item.key]
-													: settings?.data[item.key]
-											}
+											href={settings?.data[item.key]}
 											target="_blank"
 											rel="noreferrer noopenner"
 											key={ind}

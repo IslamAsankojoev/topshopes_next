@@ -52,7 +52,7 @@ const ProductReviews: NextPageAuth<ProductReviewsProps> = ({ reviews }) => {
 							/>
 
 							<TableBody>
-								{filteredList.map((review, index) => (
+								{filteredList?.map((review, index) => (
 									<ReviewRow review={review} key={index} />
 								))}
 							</TableBody>

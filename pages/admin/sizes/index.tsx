@@ -71,7 +71,7 @@ const SizesList: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList.map((size, index) => (
+								{filteredList?.map((size, index) => (
 									<SizeRow
 										name={size}
 										key={index}

@@ -10,21 +10,55 @@ import {
 	Theme,
 } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { ShopsProductsService } from 'api/services/shops-products/ShopsProducts.service'
 import { FlexBox } from 'components/flex-box'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
-import Navbar from 'components/navbar/Navbar'
 import ProductCard1List from 'components/products/ProductCard1List'
 import ProductCard9List from 'components/products/ProductCard9List'
 import ProductFilterCard from 'components/products/ProductFilterCard'
 import Sidenav from 'components/sidenav/Sidenav'
 import { H5, Paragraph } from 'components/Typography'
+import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
+import { dehydrate, QueryClient, useQuery } from 'react-query'
 
-const ShopPage = () => {
+// ===================================================
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+	const queryClient = new QueryClient()
+	await queryClient.fetchQuery(['shop products'], () =>
+		ShopsProductsService.getList(query as Record<string, string | number>)
+	)
+
+	return {
+		props: {
+			query,
+			dehydratedState: dehydrate(queryClient),
+		},
+	}
+}
+// ===================================================
+
+const ShopPage = ({ query }) => {
+	// fetching
+	const router = useRouter()
+
+	const { data: products } = useQuery(['shop products'], () =>
+		ShopsProductsService.getList(query)
+	)
+	console.log(products)
+
+	// mui settings
 	const [view, setView] = useState('grid')
 	const downMd = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
-
 	const toggleView = useCallback((v) => () => setView(v), [])
+
+	// ordering
+	const filterHandler = (params: Record<string, string | number>) => {
+		router.push(router.asPath, {
+			query: { ...router.query, ...params },
+		})
+	}
 
 	return (
 		<ShopLayout1>
@@ -68,8 +102,11 @@ const ShopPage = () => {
 								placeholder="Short by"
 								defaultValue={sortOptions[0].value}
 								sx={{ flex: '1 1 0', minWidth: '150px' }}
+								onChange={({ target }) =>
+									filterHandler({ ordering: target.value })
+								}
 							>
-								{sortOptions.map((item) => (
+								{sortOptions?.map((item) => (
 									<MenuItem value={item.value} key={item.value}>
 										{item.label}
 									</MenuItem>
@@ -117,7 +154,13 @@ const ShopPage = () => {
 					</Grid>
 
 					<Grid item md={9} xs={12}>
-						{view === 'grid' ? <ProductCard1List /> : <ProductCard9List />}
+						{products?.length ? (
+							view === 'grid' ? (
+								<ProductCard1List products={products} />
+							) : (
+								<ProductCard9List products={products} />
+							)
+						) : null}
 					</Grid>
 				</Grid>
 			</Container>

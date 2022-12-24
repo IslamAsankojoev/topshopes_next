@@ -63,7 +63,7 @@ const SellerList: NextPageAuth<SellerListProps> = ({ sellers }) => {
 							/>
 
 							<TableBody>
-								{filteredList.map((seller, index) => (
+								{filteredList?.map((seller, index) => (
 									<SellerRow seller={seller} key={index} />
 								))}
 							</TableBody>

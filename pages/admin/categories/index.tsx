@@ -76,7 +76,7 @@ const CategoryList: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList.map((category, index) => (
+								{filteredList?.map((category, index) => (
 									<CategoryRow
 										item={category}
 										key={index}

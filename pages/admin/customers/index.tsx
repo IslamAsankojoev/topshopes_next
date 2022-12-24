@@ -73,7 +73,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = ({ customers }) => {
 							/>
 
 							<TableBody>
-								{filteredList.map((customer, index) => (
+								{filteredList?.map((customer, index) => (
 									<CustomerRow
 										refetch={refetch}
 										customer={customer}

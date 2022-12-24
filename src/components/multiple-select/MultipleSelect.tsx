@@ -84,7 +84,7 @@ const MultipleSelect: React.FC<MultipleSelectProps> = (props) => {
 				input={<OutlinedInput error={error} label={label} />}
 				renderValue={(selected) => (
 					<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-						{selected.map((value) => (
+						{selected?.map((value) => (
 							<Chip
 								key={value + label}
 								label={MultipleSelectTextSplit(value)[1]}
