@@ -70,7 +70,7 @@ const RefundSetting: NextPageAuth = () => {
 				<H5 mb={2}>Reason Type</H5>
 
 				<Box width={{ lg: '90%', xs: '100%' }}>
-					{reasonTypeList.map((reason) => (
+					{reasonTypeList?.map((reason) => (
 						<FlexBox mb={2} gap={3} key={reason.id} alignItems="center">
 							<Box
 								sx={{

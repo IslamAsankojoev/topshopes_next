@@ -85,7 +85,7 @@ const OrderDetails: NextPageAuth = () => {
 
 			<Card sx={{ p: '2rem 1.5rem', mb: '30px' }}>
 				<StyledFlexbox>
-					{stepIconList.map((Icon, ind) => (
+					{stepIconList?.map((Icon, ind) => (
 						<Fragment key={ind}>
 							<Box position="relative">
 								<Avatar
@@ -178,7 +178,7 @@ const OrderDetails: NextPageAuth = () => {
 
 				<Box py={1}>
 					{order.items.length &&
-						order.items.map((item) => (
+						order.items?.map((item) => (
 							<FlexBox
 								px={2}
 								py={1}

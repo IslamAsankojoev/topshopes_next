@@ -37,7 +37,7 @@ const CategoryMenuCard: FC<CategoryMenuCardProps> = (props) => {
 
 	return (
 		<Wrapper open={open} position={position}>
-			{navigations.map((item) => {
+			{navigations?.map((item) => {
 				let MegaMenu = megaMenu[item.menuComponent]
 
 				return (

@@ -294,7 +294,7 @@ const ShopSettings: NextPageAuth = () => {
 				</Stack> */}
 
 				{/* <Box mb={4}>
-					{links.map((item) => (
+					{links?.map((item) => (
 						<FlexBox gap={2} alignItems="center" mb={2} key={item.id}>
 							<TextField
 								fullWidth

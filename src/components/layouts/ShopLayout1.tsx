@@ -32,7 +32,6 @@ const ShopLayout1: FC<ShopLayout1Props> = ({
 	showTopbar = true,
 	topbarBgColor,
 	showNavbar = true,
-	siteSettings,
 }) => {
 	const [isFixed, setIsFixed] = useState(false)
 	const toggleIsFixed = useCallback((fixed) => setIsFixed(fixed), [])
@@ -40,9 +39,7 @@ const ShopLayout1: FC<ShopLayout1Props> = ({
 	return (
 		<Fragment>
 			{/* TOPBAR */}
-			{showTopbar && (
-				<Topbar siteSettings={siteSettings} bgColor={topbarBgColor} />
-			)}
+			{showTopbar && <Topbar bgColor={topbarBgColor} />}
 
 			{/* HEADER */}
 			<Sticky fixedOn={0} onSticky={toggleIsFixed} scrollDistance={300}>
@@ -58,7 +55,7 @@ const ShopLayout1: FC<ShopLayout1Props> = ({
 			</div>
 
 			<MobileNavigationBar />
-			<Footer siteSettings={siteSettings} />
+			<Footer />
 		</Fragment>
 	)
 }

@@ -74,7 +74,7 @@ const ProductList: NextPageAuth = () => {
 								/>
 
 								<TableBody>
-									{filteredList.map((product, index) => (
+									{filteredList?.map((product, index) => (
 										<ProductClientRow
 											refetch={refetch}
 											product={product}

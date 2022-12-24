@@ -4,16 +4,15 @@ import SEO from '../src/components/SEO'
 import { Container } from '@mui/system'
 import ContactsForm from '../src/pages-sections/contacts/ContactsForm'
 import styled from '@emotion/styled'
-import { GetServerSideProps, GetStaticProps, NextPage } from 'next'
+import { GetStaticProps, NextPage } from 'next'
 import { axiosClassic } from 'api/interceptor'
 
 export const getStaticProps: GetStaticProps = async () => {
 	const { data } = await axiosClassic.get('/settings/1/')
-	return { props: { map: data.map }, revalidate: 300 }
+	return { props: { map: data?.map }, revalidate: 86400 }
 }
 
-const ContactsPage: NextPage<{ map: string; data: any }> = ({ map, data }) => {
-	console.log(data)
+const ContactsPage: NextPage<{ map: string; data: any }> = ({ map }) => {
 	return (
 		<ShopLayout1>
 			<SEO title="Contacts" />

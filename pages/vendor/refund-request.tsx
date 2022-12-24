@@ -54,7 +54,7 @@ const RefundRequest: NextPageAuth<RefundRequestProps> = ({ requests }) => {
 							/>
 
 							<TableBody>
-								{filteredList.map((request, index) => (
+								{filteredList?.map((request, index) => (
 									<RefundRequestRow request={request} key={index} />
 								))}
 							</TableBody>

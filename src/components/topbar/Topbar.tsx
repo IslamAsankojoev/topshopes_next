@@ -95,16 +95,12 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 
 					<FlexBox alignItems="center">
 						<CallOutlined fontSize="small" />
-						<Span className="title">
-							{siteSettings?.header_phone || settings?.data?.header_phone}
-						</Span>
+						<Span className="title">{settings?.data?.header_phone}</Span>
 					</FlexBox>
 
 					<FlexBox alignItems="center" ml={2.5}>
 						<MailOutline fontSize="small" />
-						<Span className="title">
-							{siteSettings?.support_email || settings?.data?.support_email}
-						</Span>
+						<Span className="title">{settings?.data?.support_email}</Span>
 					</FlexBox>
 				</FlexBox>
 
@@ -125,7 +121,7 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 							</TouchRipple>
 						}
 					>
-						{languages.map((item) => (
+						{languages?.map((item) => (
 							<MenuItem
 								className="menuItem"
 								key={item}
@@ -145,7 +141,7 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 							</TouchRipple>
 						}
 					>
-						{currencyList.map((item) => (
+						{currencyList?.map((item) => (
 							<MenuItem
 								className="menuItem"
 								key={item.title}

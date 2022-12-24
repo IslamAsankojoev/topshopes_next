@@ -62,7 +62,7 @@ const Reviews: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList.map((review, index) => (
+								{filteredList?.map((review, index) => (
 									<StyledTableRow tabIndex={-1} role="checkbox" key={index}>
 										<StyledTableCell align="left">
 											<FlexBox alignItems="center" gap={1.5}>
