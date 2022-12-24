@@ -55,7 +55,9 @@ const ShopSettings: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	// shop fetching
-	const { data: shop, isLoading } = useQuery('shop get', ShopService.getList)
+	const { data: shop, isLoading } = useQuery('shop get', ShopService.getList, {
+		select: (data) => data[0],
+	})
 
 	// shop mutation
 	const { mutateAsync: createAsync } = useMutation(
@@ -82,15 +84,15 @@ const ShopSettings: NextPageAuth = () => {
 
 	// images
 	const [coverPicture, setCoverPicture] = React.useState(
-		shop?.length ? shop[0]?.cover_picture : ''
+		shop?.length ? shop?.cover_picture : ''
 	)
 	const [profilePicture, setProfilePicture] = React.useState(
-		shop?.length ? shop[0]?.profile_picture : ''
+		shop?.length ? shop?.profile_picture : ''
 	)
 
 	// submiting
 	const handleFormSubmit = (values: IShop) => {
-		if (shop.length) {
+		if (shop) {
 			const checkCoverPicture = removeImg(values, 'cover_picture')
 			const checkProfilePicture = removeImg(
 				checkCoverPicture,
@@ -110,8 +112,9 @@ const ShopSettings: NextPageAuth = () => {
 		handleChange,
 		handleSubmit,
 		setFieldValue,
+		setValues,
 	} = useFormik({
-		initialValues: shop?.length ? shop[0] : initialValues,
+		initialValues: shop || initialValues,
 		onSubmit: handleFormSubmit,
 		validationSchema: validationSchema,
 	})
@@ -119,16 +122,21 @@ const ShopSettings: NextPageAuth = () => {
 	// if (isLoading) {
 	// 	return <Loading />
 	// }
+	React.useEffect(() => {
+		if (shop) {
+			setValues(shop)
+			setCoverPicture(shop.cover_picture)
+			setProfilePicture(shop.profile_picture)
+		}
+	}, [shop])
 
 	return !isLoading ? (
 		<Box py={4} maxWidth={740} margin="auto">
 			<H3 mb={2}>Shop Settings</H3>
-
 			<Card sx={{ p: 3 }}>
 				<Paragraph fontWeight={700} mb={4}>
 					Basic Settings
 				</Paragraph>
-
 				<form onSubmit={handleSubmit}>
 					<Grid container alignItems={'center'} spacing={3}>
 						<Grid item sx={{ alignContent: 'center' }} xs={12}>
