@@ -65,7 +65,7 @@ const PayoutRequests: NextPageAuth<PayoutRequestsProps> = ({ requests }) => {
 							/>
 
 							<TableBody>
-								{filteredList.map((request, index) => (
+								{filteredList?.map((request, index) => (
 									<StyledTableRow role="checkbox" key={index}>
 										<StyledTableCell align="left">{request.no}</StyledTableCell>
 										<StyledTableCell align="left">

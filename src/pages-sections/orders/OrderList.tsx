@@ -12,10 +12,7 @@ type OrderListProps = {}
 // ============================================================
 
 const OrderList: FC<OrderListProps> = () => {
-	const {
-		isLoading,
-		data: orders,
-	} = useQuery('orders', OrdersService.getList)
+	const { isLoading, data: orders } = useQuery('orders', OrdersService.getList)
 
 	return (
 		!isLoading && (
@@ -46,7 +43,7 @@ const OrderList: FC<OrderListProps> = () => {
 					<H5 flex="0 0 0 !important" color="grey.600" px={2.75} my={0} />
 				</TableRow>
 
-				{orders.map((item) => (
+				{orders?.map((item) => (
 					<OrderRow {...item} key={item.id} />
 				))}
 

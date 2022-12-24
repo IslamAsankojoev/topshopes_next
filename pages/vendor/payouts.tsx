@@ -55,7 +55,7 @@ const Payouts: NextPageAuth<PayoutsProps> = ({ payouts }) => {
 							/>
 
 							<TableBody>
-								{filteredList.map((payout, index) => (
+								{filteredList?.map((payout, index) => (
 									<StyledTableRow role="checkbox" key={index}>
 										<StyledTableCell align="center">
 											{payout.no}

@@ -59,7 +59,7 @@ const EarningHistory: NextPageAuth<EarningHistoryProps> = ({ earnings }) => {
 							/>
 
 							<TableBody>
-								{filteredList.map((item, index) => (
+								{filteredList?.map((item, index) => (
 									<StyledTableRow role="checkbox" key={index}>
 										<StyledTableCell align="left">{item.no}</StyledTableCell>
 										<StyledTableCell align="left">

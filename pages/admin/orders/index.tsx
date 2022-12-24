@@ -83,7 +83,7 @@ const OrderList: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList.map((order, index) => (
+								{filteredList?.map((order, index) => (
 									<OrderRow order={order} key={index} />
 								))}
 							</TableBody>

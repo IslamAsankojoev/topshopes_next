@@ -54,7 +54,7 @@ const SupportTickets: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList.map((ticket, index) => (
+								{filteredList?.map((ticket, index) => (
 									<StyledTableRow role="checkbox" key={index}>
 										<StyledTableCell align="left">
 											{ticket.information}

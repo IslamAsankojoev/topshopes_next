@@ -28,7 +28,7 @@ const VendorDashboard: NextPageAuth<DashboardProps> = (props) => {
 				</Grid>
 
 				<Grid container item md={6} xs={12} spacing={3}>
-					{cardList.map((item) => (
+					{cardList?.map((item) => (
 						<Grid item md={6} sm={6} xs={12} key={item.id}>
 							<Card1
 								title={item.title}

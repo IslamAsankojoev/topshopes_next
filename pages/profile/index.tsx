@@ -71,7 +71,7 @@ const Profile: NextPageAuth = () => {
 
 						{/* <Grid item md={6} xs={12}>
             <Grid container spacing={4}>
-              {infoList.map((item) => (
+              {infoList?.map((item) => (
                 <Grid item lg={3} sm={6} xs={6} key={item.subtitle}>
                   <Card
                     sx={{

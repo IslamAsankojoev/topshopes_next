@@ -56,7 +56,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 	}
 
 	const renderLevels = (data: any) => {
-		return data.map((item: any, index: any) => {
+		return data?.map((item: any, index: any) => {
 			if (item.type === 'label')
 				return (
 					<ListLabel key={index} compact={COMPACT}>

@@ -72,7 +72,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 			<StyledTableCell align="left">
 				<TooltipList
-					list={categories?.length > 1 ? categories.map((c) => c.name) : null}
+					list={categories?.length > 1 ? categories?.map((c) => c.name) : null}
 				>
 					<CategoryWrapper>
 						{categories?.length
