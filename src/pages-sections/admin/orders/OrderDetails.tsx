@@ -126,7 +126,7 @@ const OrderDetails = () => {
 						</TextField>
 					</FlexBox>
 
-					{order.items.map((item: IOrderItem, index) => (
+					{order.items?.map((item: IOrderItem, index) => (
 						<Box
 							my={2}
 							gap={2}

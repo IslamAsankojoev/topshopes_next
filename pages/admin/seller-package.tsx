@@ -58,7 +58,7 @@ const SellerPackage: NextPageAuth = () => {
 			</FlexBetween>
 
 			<Grid container spacing={3}>
-				{packageList.map((item) => (
+				{packageList?.map((item) => (
 					<Grid item xl={4} md={6} xs={12} key={item.id}>
 						<SellerPackageCard listItem={item} />
 					</Grid>

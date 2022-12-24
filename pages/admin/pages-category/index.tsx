@@ -71,7 +71,7 @@ const PageCategoryList: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList.map((size, index) => (
+								{filteredList?.map((size, index) => (
 									<PageCategoryRow
 										name={size}
 										key={index}
