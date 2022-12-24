@@ -74,7 +74,7 @@ const PagesList: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList.map((page) => (
+								{filteredList?.map((page) => (
 									<PagesRow
 										item={page}
 										key={page?.id}

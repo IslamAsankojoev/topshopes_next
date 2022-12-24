@@ -1,72 +1,50 @@
-import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Box, Card, styled, Tab } from '@mui/material'
+import { Box } from '@mui/material'
+import { SiteSettingsService } from 'api/services-admin/site-settings/siteSettings.service'
+import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import BannerSlider from 'pages-sections/site-settings/BannerSlider'
-import FooterForm from 'pages-sections/site-settings/FooterForm'
-import GeneralForm from 'pages-sections/site-settings/GeneralForm'
-import ShippingVatForm from 'pages-sections/site-settings/ShippingVatForm'
-import SocialLinksForm from 'pages-sections/site-settings/SocialLinksForm'
-import TopbarForm from 'pages-sections/site-settings/TopbarForm'
-import React, { ReactElement, useState } from 'react'
+import Loading from 'components/Loading'
+import { H3 } from 'components/Typography'
+
+import React, { ReactElement } from 'react'
+import { useMutation, useQuery } from 'react-query'
+import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-
-const StyledTabPanel = styled(TabPanel)(() => ({
-	paddingLeft: 0,
-	paddingRight: 0,
-	paddingBottom: 0,
-}))
-
-const StyledTabList = styled(TabList)(({ theme }) => ({
-	'& .MuiTab-root.Mui-selected': { color: theme.palette.info.main },
-	'& .MuiTabs-indicator': { background: theme.palette.info.main },
-}))
+import { ISiteSettings } from 'shared/types/site-settings.types'
+import { siteSettingsFormEdit } from 'utils/constants/forms'
 
 const SiteSettings: NextPageAuth = () => {
-	const [selectTab, setSelectTab] = useState('general')
+	const { data, isLoading } = useQuery('site-settings admin get', () =>
+		SiteSettingsService.get('1')
+	)
+
+	// site settings mutate
+	const { mutateAsync } = useMutation(
+		'site-settings admin update',
+		(data: FormData) => SiteSettingsService.update('1', data),
+		{
+			onSuccess: () => {
+				toast.success('settings saved successfully')
+			},
+		}
+	)
+
+	// submiting
+	const handleFormSubmit = (data: FormData) => {
+		mutateAsync(data)
+	}
+
+	if (isLoading) {
+		return <Loading />
+	}
 
 	return (
 		<Box py={4}>
-			<Card sx={{ px: 3, py: 2 }}>
-				<TabContext value={selectTab}>
-					<Box sx={{ borderBottom: 1, borderColor: 'grey.300' }}>
-						<StyledTabList
-							onChange={(_, value) => setSelectTab(value)}
-							variant="scrollable"
-						>
-							<Tab label="General" value="general" disableRipple />
-							<Tab label="Topbar" value="topbar" disableRipple />
-							<Tab label="Footer" value="footer" disableRipple />
-							<Tab label="Social Links" value="social-links" disableRipple />
-							<Tab label="Banner Slider" value="banner-slider" disableRipple />
-							<Tab label="Shipping & Vat" value="shipping-vat" disableRipple />
-						</StyledTabList>
-					</Box>
-
-					<StyledTabPanel value="general">
-						<GeneralForm />
-					</StyledTabPanel>
-
-					<StyledTabPanel value="topbar">
-						<TopbarForm />
-					</StyledTabPanel>
-
-					<StyledTabPanel value="footer">
-						<FooterForm />
-					</StyledTabPanel>
-
-					<StyledTabPanel value="social-links">
-						<SocialLinksForm />
-					</StyledTabPanel>
-
-					<StyledTabPanel value="banner-slider">
-						<BannerSlider />
-					</StyledTabPanel>
-
-					<StyledTabPanel value="shipping-vat">
-						<ShippingVatForm />
-					</StyledTabPanel>
-				</TabContext>
-			</Card>
+			<H3 mb={2}>Site settings</H3>
+			<CreateForm
+				defaultData={data}
+				fields={siteSettingsFormEdit}
+				handleFormSubmit={handleFormSubmit}
+			/>
 		</Box>
 	)
 }

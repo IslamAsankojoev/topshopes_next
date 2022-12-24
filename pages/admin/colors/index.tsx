@@ -72,7 +72,7 @@ const ColorList: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList.map((color, index) => (
+								{filteredList?.map((color, index) => (
 									<ColorRow
 										color={color}
 										key={index}

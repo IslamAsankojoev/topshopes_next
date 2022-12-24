@@ -182,3 +182,98 @@ export const userEditForm = [
 		required: false,
 	},
 ]
+
+export const siteSettingsFormEdit = [
+	{
+		name: 'email',
+		label: 'email',
+		type: 'text',
+		placeholder: 'Enter mail',
+		required: true,
+	},
+	{
+		name: 'support_email',
+		label: 'support email',
+		type: 'text',
+		placeholder: 'Enter support email',
+		required: true,
+	},
+	{
+		name: 'header_phone',
+		label: 'header phone',
+		type: 'text',
+		placeholder: 'Enter Header phone',
+		required: true,
+	},
+	{
+		name: 'footer_phone',
+		label: 'footer phone',
+		type: 'text',
+		placeholder: 'Enter footer phone',
+		required: true,
+	},
+	{
+		name: 'short_description',
+		label: 'short description',
+		type: 'text-multiline',
+		placeholder: 'Enter short description',
+		required: true,
+		fullWidth: true
+	},
+	{
+		name: 'address',
+		label: 'address',
+		type: 'text',
+		placeholder: 'Enter address',
+		required: true,
+		fullWidth: true
+	},
+	{
+		name: 'facebook',
+		label: 'facebook link',
+		type: 'text',
+		placeholder: 'Enter facebook',
+		required: true,
+	},
+	{
+		name: 'twitter',
+		label: 'twitter link',
+		type: 'text',
+		placeholder: 'Enter twitter',
+		required: true,
+	},
+	{
+		name: 'youtube',
+		label: 'youtube link',
+		type: 'text',
+		placeholder: 'Enter youtube',
+		required: true,
+	},
+	{
+		name: 'gmail',
+		label: 'gmail link',
+		type: 'text',
+		placeholder: 'Enter gmail',
+		required: true,
+	},
+	{
+		name: 'instagram',
+		label: 'instagram link',
+		type: 'text',
+		placeholder: 'Enter instagram',
+		required: true,
+	},
+	{
+		name: 'map',
+		label: 'map',
+		type: 'text',
+		required: true,
+	},
+	{
+		name: 'logo',
+		label: 'logo',
+		type: 'file',
+		required: true,
+	},
+]
+

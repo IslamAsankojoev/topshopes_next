@@ -74,7 +74,7 @@ const BrandsList: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList.map((brand, index) => (
+								{filteredList?.map((brand, index) => (
 									<BrandRow
 										brand={brand}
 										key={index}

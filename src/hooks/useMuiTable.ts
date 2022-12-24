@@ -18,7 +18,7 @@ export function getComparator(order: Order, orderBy: string) {
 }
 
 export function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
-	const stabilizedThis = array.map((el, index) => [el, index] as [T, number])
+	const stabilizedThis = array?.map((el, index) => [el, index] as [T, number])
 
 	stabilizedThis.sort((a, b) => {
 		const order = comparator(a[0], b[0])
@@ -26,7 +26,7 @@ export function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 		return a[1] - b[1]
 	})
 
-	return stabilizedThis.map((el) => el[0])
+	return stabilizedThis?.map((el) => el[0])
 }
 
 // ================================================================
@@ -54,7 +54,7 @@ const useMuiTable = (props: HookProps) => {
 
 	const handleSelectAllClick = (checked: boolean, defaultSelect: string) => {
 		if (checked) {
-			const newSelecteds = listData.map((n: any) => n[defaultSelect])
+			const newSelecteds = listData?.map((n: any) => n[defaultSelect])
 			setSelected(newSelecteds)
 			return
 		}

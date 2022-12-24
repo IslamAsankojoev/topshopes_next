@@ -1,11 +1,11 @@
-import Footer from 'components/footer/Footer';
-import Header from 'components/header/Header';
-import MobileNavigationBar from 'components/mobile-navigation/MobileNavigationBar';
-import Sticky from 'components/sticky/Sticky';
-import Topbar from 'components/topbar/Topbar';
-import Head from 'next/head';
-import React, { FC, Fragment, useCallback, useState } from 'react';
-import Navbar from 'components/navbar/Navbar';
+import Footer from 'components/footer/Footer'
+import Header from 'components/header/Header'
+import MobileNavigationBar from 'components/mobile-navigation/MobileNavigationBar'
+import Sticky from 'components/sticky/Sticky'
+import Topbar from 'components/topbar/Topbar'
+import React, { FC, Fragment, useCallback, useState } from 'react'
+import Navbar from 'components/navbar/Navbar'
+import { ISiteSettings } from 'shared/types/site-settings.types'
 
 /**
  *  Used in:
@@ -20,43 +20,44 @@ import Navbar from 'components/navbar/Navbar';
 
 // ===================================================
 type ShopLayout1Props = {
-  showTopbar?: boolean;
-  showNavbar?: boolean;
-  topbarBgColor?: string;
-};
+	showTopbar?: boolean
+	showNavbar?: boolean
+	topbarBgColor?: string
+	siteSettings?: ISiteSettings
+}
 // ===================================================
 
 const ShopLayout1: FC<ShopLayout1Props> = ({
-  children,
-  showTopbar = true,
-  topbarBgColor,
-  showNavbar = true,
+	children,
+	showTopbar = true,
+	topbarBgColor,
+	showNavbar = true,
 }) => {
-  const [isFixed, setIsFixed] = useState(false);
-  const toggleIsFixed = useCallback((fixed) => setIsFixed(fixed), []);
+	const [isFixed, setIsFixed] = useState(false)
+	const toggleIsFixed = useCallback((fixed) => setIsFixed(fixed), [])
 
-  return (
-    <Fragment>
-      {/* TOPBAR */}
-      {showTopbar && <Topbar bgColor={topbarBgColor} />}
+	return (
+		<Fragment>
+			{/* TOPBAR */}
+			{showTopbar && <Topbar bgColor={topbarBgColor} />}
 
-      {/* HEADER */}
-      <Sticky fixedOn={0} onSticky={toggleIsFixed} scrollDistance={300}>
-        <Header isFixed={isFixed} />
-      </Sticky>
+			{/* HEADER */}
+			<Sticky fixedOn={0} onSticky={toggleIsFixed} scrollDistance={300}>
+				<Header isFixed={isFixed} />
+			</Sticky>
 
-      <div className="section-after-sticky">
-        {/* NAVIGATION BAR */}
-        {showNavbar && <Navbar elevation={0} border={1} />}
+			<div className="section-after-sticky">
+				{/* NAVIGATION BAR */}
+				{showNavbar && <Navbar elevation={0} border={1} />}
 
-        {/* BODY CONTENT */}
-        {children}
-      </div>
+				{/* BODY CONTENT */}
+				{children}
+			</div>
 
-      <MobileNavigationBar />
-      <Footer />
-    </Fragment>
-  );
-};
+			<MobileNavigationBar />
+			<Footer />
+		</Fragment>
+	)
+}
 
-export default ShopLayout1;
+export default ShopLayout1

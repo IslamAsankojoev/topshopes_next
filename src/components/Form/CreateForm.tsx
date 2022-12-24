@@ -87,7 +87,7 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 	return fields ? (
 		<form onSubmit={handleSubmit}>
 			<Grid container spacing={3}>
-				{fields.map((field, id) => (
+				{fields?.map((field, id) => (
 					<Grid item sm={field?.fullWidth ? 12 : 6} xs={12} key={id}>
 						<Field
 							type={field.type}
@@ -105,7 +105,7 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 							allNames={field?.allNames || []}
 						/>
 						<span style={{ color: 'red', fontWeight: '600' }}>
-							{!!errors[field.name] && 'required'}
+							{!!errors[field.name] && !!touched[field.name] && 'required'}
 						</span>
 					</Grid>
 				))}
