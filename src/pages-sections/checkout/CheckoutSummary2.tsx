@@ -10,7 +10,7 @@ const CheckoutSummary2: FC = () => {
 				Your order
 			</Paragraph>
 
-			{cartList?.map((item) => (
+			{cartList.map((item) => (
 				<FlexBetween mb={1.5} key={item.name}>
 					<Paragraph>
 						<Span fontWeight="700" fontSize="14px">
