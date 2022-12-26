@@ -1,15 +1,17 @@
-import { Button, Card, Divider, Grid, TextField } from '@mui/material'
-import Autocomplete from '@mui/material/Autocomplete'
-import MenuItem from '@mui/material/MenuItem'
-import { FlexBetween, FlexBox } from 'components/flex-box'
-import CheckoutNavLayout from 'components/layouts/CheckoutNavLayout'
+import { Box, Button, Card, Divider, Grid } from '@mui/material'
+import { Container } from '@mui/system'
+import { FlexBetween } from 'components/flex-box'
+import ShopLayout1 from 'components/layouts/ShopLayout1'
 import ProductCard7 from 'components/product-cards/ProductCard7'
 import SEO from 'components/SEO'
 import { Span } from 'components/Typography'
 import { CartItem, useAppContext } from 'contexts/AppContext'
+<<<<<<< HEAD
 import countryList from 'data/countryList'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+=======
+>>>>>>> iska
 import { NextPage } from 'next'
 import Link from 'next/link'
 import { ICartItem } from 'store/cart/cart.interface'
@@ -21,6 +23,7 @@ const Cart: NextPage = () => {
 	const cartList: ICartItem[] = cart
 
 	return (
+<<<<<<< HEAD
 		<CheckoutNavLayout>
 			<SEO title="Cart" />
 			<Grid container spacing={3}>
@@ -119,31 +122,51 @@ const Cart: NextPage = () => {
 								<MenuItem value={item.value} key={item.label}>
 									{item.label}
 								</MenuItem>
+=======
+		<ShopLayout1>
+			<Container sx={{ my: 4 }}>
+				<Box mb={3} display={{ sm: 'block', xs: 'none' }}>
+					<SEO title="Cart" />
+					<Grid container spacing={3}>
+						<Grid item md={8} xs={12}>
+							{cartList?.map((item) => (
+								<ProductCard7 key={item.id} {...item} />
+>>>>>>> iska
 							))}
-						</TextField>
+						</Grid>
 
-						<TextField
-							fullWidth
-							size="small"
-							label="Zip Code"
-							placeholder="3100"
-							variant="outlined"
-							sx={{ mt: 2 }}
-						/>
+						<Grid item md={4} xs={12}>
+							<Card sx={{ padding: 3 }}>
+								<FlexBetween mb={2}>
+									<Span color="grey.600">Total:</Span>
 
-						<Button variant="outlined" color="primary" fullWidth sx={{ my: 2 }}>
-							Calculate Shipping
-						</Button>
+									<Span fontSize={18} fontWeight={600} lineHeight="1">
+										${getTotalPrice().toFixed(2)}
+									</Span>
+								</FlexBetween>
 
-						<Link href="/checkout" passHref>
-							<Button variant="contained" color="primary" fullWidth>
-								Checkout Now
-							</Button>
-						</Link>
-					</Card>
-				</Grid>
-			</Grid>
-		</CheckoutNavLayout>
+								<Divider sx={{ mb: 2 }} />
+
+								<Button
+									variant="outlined"
+									color="primary"
+									fullWidth
+									sx={{ my: 2 }}
+								>
+									Calculate Shipping
+								</Button>
+
+								<Link href="/checkout-alternative" passHref>
+									<Button variant="contained" color="primary" fullWidth>
+										Checkout Now
+									</Button>
+								</Link>
+							</Card>
+						</Grid>
+					</Grid>
+				</Box>
+			</Container>
+		</ShopLayout1>
 	)
 }
 

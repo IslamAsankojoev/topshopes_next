@@ -19,7 +19,7 @@ import { ProductFetchTypes } from './useProductFetch'
 // ================================================================
 type ProductFormProps = {
 	initialValues: any
-	handleFormSubmit: (values: any) => void
+	handleFormSubmit: (values: any, redirect?: boolean) => void
 	validationSchema: yup.ObjectSchema<Assign<ObjectShape, any>>
 	productFetch: ProductFetchTypes
 	update?: boolean
@@ -39,13 +39,14 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	//data fetching
 	const { categories, size, colors, brands, shops } = productFetch
 
+	// states
 	const [imageState, setImageState] = React.useState(
 		initialValues.thumbnail ? initialValues.thumbnail : null
 	)
-
 	const [images, setImages] = React.useState(
 		initialValues.images ? initialValues.images : null
 	)
+	const [redirect, setRedirect] = React.useState<boolean>(false)
 
 	const {
 		values,
@@ -57,7 +58,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		setFieldValue,
 	} = useFormik({
 		initialValues,
-		onSubmit: handleFormSubmit,
+		onSubmit: () => handleFormSubmit(values, redirect),
 		validationSchema: validationSchema,
 	})
 
@@ -250,7 +251,22 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 					) : null}
 
 					<Grid item xs={12}>
-						<Button variant="contained" color="info" type="submit">
+						{update ? (
+							<Button
+								sx={{ m: '0 20px' }}
+								variant="contained"
+								color="info"
+								type="submit"
+							>
+								Save and exit
+							</Button>
+						) : null}
+						<Button
+							onClick={() => setRedirect(true)}
+							variant="contained"
+							color="info"
+							type="submit"
+						>
 							{update ? 'Save product' : 'Create product'}
 						</Button>
 					</Grid>

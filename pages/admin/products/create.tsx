@@ -49,7 +49,7 @@ const CreateProduct: NextPageAuth = () => {
 		}
 	)
 
-	const handleFormSubmit = async (data) => {
+	const handleFormSubmit = async (data: FormData) => {
 		await mutateAsync(formData(data))
 	}
 

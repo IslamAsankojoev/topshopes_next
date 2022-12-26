@@ -43,7 +43,6 @@ const EditProduct: NextPageAuth = () => {
 		{
 			onSuccess: () => {
 				toast.success('success')
-				push('/admin/products/')
 			},
 			onError: (e: any) => {
 				toast.error(e.message)
@@ -53,8 +52,9 @@ const EditProduct: NextPageAuth = () => {
 
 	const { push } = useRouter()
 
-	const handleFormSubmit = async (data: IProduct) => {
+	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
 		await mutateAsync(formData(checkChangeThumbnail(data)))
+		if (!redirect) push('/admin/products/')
 	}
 
 	if (isLoading || fetch.isLoading || mutationLoading) {

@@ -1,28 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { DeleteOutline, ModeEditOutline } from '@mui/icons-material'
+import { DeleteOutline } from '@mui/icons-material'
 import {
 	Avatar,
-	Box,
 	Button,
 	Card,
-	Checkbox,
+	FormControl,
 	Grid,
-	MenuItem,
+	Radio,
+	RadioGroup,
 	Typography,
 } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import IconButton from '@mui/material/IconButton'
-import TextField from '@mui/material/TextField'
+import { AddressesService } from 'api/services/addresses/addresses.service'
 import Card1 from 'components/Card1'
 import { FlexBetween, FlexBox } from 'components/flex-box'
-import LazyImage from 'components/LazyImage'
 import { H6, Paragraph } from 'components/Typography'
-import { months, years } from 'data/months-years'
-import { format } from 'date-fns'
-import { Formik } from 'formik'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import { method } from 'lodash'
 import { useRouter } from 'next/router'
-import { FC, useEffect, useState } from 'react'
-import * as yup from 'yup'
+import { FC, useState } from 'react'
+import { useMutation, useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { IAddress } from 'shared/types/user.types'
 import EditAddressForm from './EditAddressForm'
 import NewAddressForm from './NewAddressForm'
 
@@ -51,432 +51,209 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 }
 
 const CheckoutForm2: FC = () => {
+	// states
+	const [selectedAddress, setSelectedAddress] = useState<string>('')
+	const [paymentMethod, setPaymentMethod] = useState('')
+
+	// hooks
 	const router = useRouter()
-	const [hasVoucher, setHasVoucher] = useState(false)
-	const [newAddress, setNewAddress] = useState<any>('')
-	const [dateList, setDateList] = useState<DateProps[]>([])
-	const [addressData, setAddressData] = useState<any[]>([])
-	const [openEditForm, setOpenEditForm] = useState<boolean>(false)
-	const [selected, setSelected] = useState<{ [k: string]: any } | boolean>(
-		false
+
+	// redux
+	const { user } = useTypedSelector((state) => state.userStore)
+
+	// address fetching
+	const { data: addresses, refetch } = useQuery(
+		'address get',
+		AddressesService.getList
 	)
 
+	// address mutation
+	const { mutateAsync: createAsync } = useMutation(
+		'address create',
+		(data: IAddress) => AddressesService.create({ ...data, user: user.id }),
+		{
+			onSuccess: () => {
+				toast.success('new address successfully created')
+				refetch()
+			},
+		}
+	)
+	const { mutateAsync: updateAsync } = useMutation(
+		'address update',
+		({ id, data }: { id: string; data: IAddress }) =>
+			AddressesService.update(id, data),
+		{
+			onSuccess: () => {
+				toast.success('address successfully updated')
+				refetch()
+			},
+		}
+	)
+
+	// handlers
 	const handleFormSubmit = async (values: any) => {
-		router.push('/payment')
+		// router.push('/payment')
 	}
 
-	const handleFieldValueChange =
-		(value: string, fieldName: string, setFieldValue: any) => () => {
-			setFieldValue(fieldName, value)
-		}
-
-	const toggleHasVoucher = () => setHasVoucher((has) => !has)
-
-	useEffect(() => {
-		let list = []
-		let today = new Date()
-		let dateCount = today.getDate()
-
-		list.push({ label: format(today, 'dd MMMM'), value: today.toISOString() })
-
-		for (let i = 1; i < 10; i++) {
-			today.setDate(dateCount + i)
-			list.push({
-				label: format(today, 'dd MMMM'),
-				value: today.toISOString(),
-			})
-		}
-
-		setDateList(list)
-	}, [])
-
-	useEffect(() => {
-		if (newAddress !== '') setAddressData([newAddress, ...addressData])
-		else setAddressData(addressList2)
-	}, [newAddress])
-
-	const deleteAddress = (name: string | number) => {
-		const newArr = addressData.filter((item) => item.name !== name)
-		setAddressData(newArr)
+	const handleFieldValueChange = (id: string) => () => {
+		setSelectedAddress(id)
 	}
 
-	const editHandler = (value: any) => {
-		const data = addressData.find((item) => item.name === value)
-		setSelected(data)
-		openEditForm ? setOpenEditForm(false) : setOpenEditForm(true)
-	}
-
-	const initialValues = {
-		card: '',
-		date: '',
-		time: '',
-		address: '',
-		voucher: '',
-		cardHolderName: '',
-		cardNumber: '',
-		cardMonth: '',
-		cardYear: '',
-		cardCVC: '',
+	const deleteAddress = async (
+		e: React.MouseEvent<HTMLElement>,
+		id: string
+	) => {
+		e.stopPropagation()
+		await AddressesService.delete(id)
+		await refetch()
 	}
 
 	return (
-		<Formik
-			onSubmit={handleFormSubmit}
-			initialValues={initialValues}
-			validationSchema={checkoutSchema}
-		>
-			{({
-				values,
-				errors,
-				touched,
-				handleChange,
-				handleSubmit,
-				setFieldValue,
-			}) => (
-				<form onSubmit={handleSubmit}>
-					<Card1 sx={{ mb: 3 }}>
-						<Heading number={1} title="Delivery Date and Time" />
+		<>
+			<Card1 sx={{ mb: 3 }}>
+				<FlexBetween>
+					<Heading number={1} title="Delivery Address" />
+					<NewAddressForm mutateAsync={createAsync} />
+				</FlexBetween>
 
-						<Box mb={3.5}>
-							<Grid container spacing={3}>
-								<Grid item sm={6} xs={12}>
-									<TextField
-										select
-										fullWidth
-										type="text"
-										name="date"
-										label="Delivery Date"
-										onChange={handleChange}
-										value={values.date}
-										error={!!touched.date && !!errors.date}
-										helperText={touched.date && errors.date}
+				<Grid container spacing={3}>
+					{addresses?.map((item: IAddress) => (
+						<Grid item md={4} sm={6} xs={12} key={item.id}>
+							<Card
+								sx={{
+									padding: 2,
+									boxShadow: 'none',
+									cursor: 'pointer',
+									border: '1px solid',
+									position: 'relative',
+									backgroundColor: 'grey.100',
+									borderColor:
+										item.id === selectedAddress
+											? 'primary.main'
+											: 'transparent',
+								}}
+								onClick={handleFieldValueChange(item.id)}
+							>
+								<FlexBox
+									justifyContent="flex-end"
+									sx={{ position: 'absolute', top: 5, right: 5 }}
+								>
+									<EditAddressForm address={item} mutateAsync={updateAsync} />
+									<IconButton
+										size="small"
+										color="error"
+										onClick={(e) => deleteAddress(e, item.id)}
 									>
-										{dateList?.map((item) => (
-											<MenuItem value={item.value} key={item.label}>
-												{item.label}
-											</MenuItem>
-										))}
-									</TextField>
-								</Grid>
-								<Grid item sm={6} xs={12}>
-									<TextField
-										select
-										fullWidth
-										type="text"
-										name="time"
-										label="Delivery Time"
-										onChange={handleChange}
-										value={values.time}
-										error={!!touched.time && !!errors.time}
-										helperText={touched.time && errors.time}
-									>
-										{timeList?.map((item) => (
-											<MenuItem value={item.value} key={item.value}>
-												{item.value}
-											</MenuItem>
-										))}
-									</TextField>
-								</Grid>
-							</Grid>
-						</Box>
-					</Card1>
+										<DeleteOutline sx={{ fontSize: 20 }} />
+									</IconButton>
+								</FlexBox>
 
-					<Card1 sx={{ mb: 3 }}>
-						<FlexBetween>
-							<Heading number={2} title="Delivery Address" />
-
-							<NewAddressForm setNewAddress={setNewAddress} />
-						</FlexBetween>
-
-						<Typography mb={1.5}>Delivery Address</Typography>
-						<Grid container spacing={3}>
-							{addressData?.map((item, ind) => (
-								<Grid item md={4} sm={6} xs={12} key={ind}>
-									<Card
-										sx={{
-											padding: 2,
-											boxShadow: 'none',
-											cursor: 'pointer',
-											border: '1px solid',
-											position: 'relative',
-											backgroundColor: 'grey.100',
-											borderColor:
-												item.street1 === values.address
-													? 'primary.main'
-													: 'transparent',
-										}}
-										onClick={handleFieldValueChange(
-											item.street1,
-											'address',
-											setFieldValue
-										)}
-									>
-										<FlexBox
-											justifyContent="flex-end"
-											sx={{ position: 'absolute', top: 5, right: 5 }}
-										>
-											{selected && (
-												<EditAddressForm
-													selected={selected}
-													addressData={addressData}
-													openEditForm={openEditForm}
-													setOpenEditForm={setOpenEditForm}
-													setAddressData={setAddressData}
-												/>
-											)}
-
-											<IconButton
-												size="small"
-												sx={{ mr: 1 }}
-												onClick={() => editHandler(item.name)}
-											>
-												<ModeEditOutline sx={{ fontSize: 20 }} />
-											</IconButton>
-											<IconButton
-												size="small"
-												color="error"
-												onClick={() => deleteAddress(item.name)}
-											>
-												<DeleteOutline sx={{ fontSize: 20 }} />
-											</IconButton>
-										</FlexBox>
-
-										<H6 mb={0.5}>{item.name}</H6>
-										<Paragraph color="grey.700">{item.street1}</Paragraph>
-										{item.street2 && (
-											<Paragraph color="grey.700">{item.address2}</Paragraph>
-										)}
-										<Paragraph color="grey.700">{item.phone}</Paragraph>
-									</Card>
-								</Grid>
-							))}
+								<H6 mb={0.5}>{item.country}</H6>
+								<Paragraph color="grey.700">{item.city}</Paragraph>
+								<Paragraph color="grey.700">{item.street}</Paragraph>
+								<Paragraph color="grey.700">{item.phone}</Paragraph>
+							</Card>
 						</Grid>
-					</Card1>
+					))}
+				</Grid>
+			</Card1>
 
-					<Card1 sx={{ mb: 3 }}>
-						<Heading number={3} title="Payment Details" />
+			<Card1 sx={{ mb: 3 }}>
+				<Heading number={2} title="Payment Details" />
 
-						<Box mb={3.5}>
-							<Typography mb={1.5}>Enter Card Information</Typography>
-							<Grid container spacing={3}>
-								<Grid item sm={6} xs={12}>
-									<TextField
-										fullWidth
-										type="text"
-										name="cardHolderName"
-										onChange={handleChange}
-										label="Enter Your Name"
-										value={values.cardHolderName}
-										error={!!touched.cardHolderName && !!errors.cardHolderName}
-										helperText={touched.cardHolderName && errors.cardHolderName}
-									/>
-								</Grid>
-								<Grid item sm={6} xs={12}>
-									<TextField
-										fullWidth
-										type="number"
-										name="cardNumber"
-										onChange={handleChange}
-										label="Enter Your Card Number"
-										value={values.cardNumber}
-										error={!!touched.cardNumber && !!errors.cardNumber}
-										helperText={touched.cardNumber && errors.cardNumber}
-									/>
-								</Grid>
-								<Grid item sm={12} xs={12}>
-									<Box display="flex" justifyContent="space-between">
-										<TextField
-											select
-											fullWidth
-											type="number"
-											name="cardMonth"
-											onChange={handleChange}
-											label="Expire Card Month"
-											value={values.cardMonth}
-											error={!!touched.cardMonth && !!errors.cardMonth}
-											helperText={touched.cardMonth && errors.cardMonth}
-										>
-											{months?.map((item) => (
-												<MenuItem value={item} key={item}>
-													{item}
-												</MenuItem>
-											))}
-										</TextField>
-										<TextField
-											select
-											fullWidth
-											type="number"
-											name="cardYear"
-											onChange={handleChange}
-											label="Expire Card Year"
-											value={values.cardYear}
-											error={!!touched.cardYear && !!errors.cardYear}
-											helperText={touched.cardYear && errors.cardYear}
-											sx={{ mx: 3 }}
-										>
-											{years?.map((item) => (
-												<MenuItem value={item} key={item}>
-													{item}
-												</MenuItem>
-											))}
-										</TextField>
-										<TextField
-											fullWidth
-											type="number"
-											name="cardCVC"
-											label="CVC/CVV"
-											onChange={handleChange}
-											value={values.cardCVC}
-											error={!!touched.cardCVC && !!errors.cardCVC}
-											helperText={touched.cardCVC && errors.cardCVC}
-										/>
-									</Box>
-								</Grid>
-							</Grid>
+				<FormControl>
+					<RadioGroup
+						value={paymentMethod}
+						defaultValue={payment_methods[0]?.name}
+						onChange={({ target }) => setPaymentMethod(target.value)}
+					>
+						{payment_methods?.map((method) => (
 							<FormControlLabel
-								sx={{ mt: 1 }}
-								control={<Checkbox />}
-								label="Save this card"
+								key={method.id}
+								value={method.id}
+								control={<Radio />}
+								label={method.name}
 							/>
-						</Box>
+						))}
+					</RadioGroup>
+				</FormControl>
 
-						<Box>
-							<Typography mb={1.5}>Saved Cards</Typography>
-
-							<Grid container spacing={3}>
-								{paymentMethodList?.map((item) => (
-									<Grid item md={4} sm={6} xs={12} key={item.last4Digits}>
-										<Card
-											sx={{
-												padding: 2,
-												boxShadow: 'none',
-												cursor: 'pointer',
-												border: '1px solid',
-												backgroundColor: 'grey.100',
-												borderColor:
-													item.last4Digits === values.card
-														? 'primary.main'
-														: 'transparent',
-											}}
-											onClick={handleFieldValueChange(
-												item.last4Digits,
-												'card',
-												setFieldValue
-											)}
-										>
-											<Box height={24} width={36} position="relative" mb={1}>
-												<LazyImage
-													layout="fill"
-													objectFit="contain"
-													src={`/assets/images/payment-methods/${item.cardType}.svg`}
-												/>
-											</Box>
-
-											<Paragraph color="grey.700">
-												**** **** **** {item.last4Digits}
-											</Paragraph>
-											<Paragraph color="grey.700">{item.name}</Paragraph>
-										</Card>
-									</Grid>
-								))}
-							</Grid>
-						</Box>
-
-						<Button
-							sx={{ color: 'primary.main', mt: 3, lineHeight: 1 }}
-							onClick={toggleHasVoucher}
-						>
-							I have a voucher
-						</Button>
-
-						{hasVoucher && (
-							<FlexBox mt={3} gap={2} maxWidth="400px">
-								<TextField
-									fullWidth
-									name="voucher"
-									value={values.voucher}
-									onChange={handleChange}
-									placeholder="Enter voucher code here"
-								/>
-								<Button variant="contained" color="primary" type="button">
-									Apply
-								</Button>
-							</FlexBox>
-						)}
-
-						<Button
-							fullWidth
-							type="submit"
-							color="primary"
-							variant="contained"
-							sx={{ mt: 3 }}
-						>
-							Place Order
-						</Button>
-					</Card1>
-				</form>
-			)}
-		</Formik>
+				<Button
+					fullWidth
+					type="submit"
+					color="primary"
+					variant="contained"
+					sx={{ mt: 3 }}
+				>
+					Place Order
+				</Button>
+			</Card1>
+		</>
 	)
 }
 
-const addressList2 = [
-	{
-		name: 'Home',
-		phone: '+17804084466',
-		street2: '435 Bristol, MA 2351',
-		street1: '375 Subidbazaar, MA 2351',
-	},
-	{
-		name: 'Office',
-		phone: '+18334271710',
-		street2: '968 Brockton, MA 2351',
-		street1: '645 Bondorbazaar, MA 2351',
-	},
-	{
-		name: 'Office 2',
-		phone: '+17754739407',
-		street2: '777 Kazi, MA 2351',
-		street1: '324 Ambarkhana, MA 2351',
-	},
+const payment_methods: { id: string; name: string }[] = [
+	{ id: 'cash_on_dilivery', name: 'cash on dilivery' },
+	{ id: 'credit_card', name: 'credit card' },
 ]
 
-const paymentMethodList = [
-	{
-		cardType: 'Amex',
-		last4Digits: '4765',
-		name: 'Jaslynn Land',
-	},
-	{
-		cardType: 'Mastercard',
-		last4Digits: '5432',
-		name: 'Jaslynn Land',
-	},
-	{
-		cardType: 'Visa',
-		last4Digits: '4543',
-		name: 'Jaslynn Land',
-	},
-]
+// const addressList2 = [
+// 	{
+// 		name: 'Home',
+// 		phone: '+17804084466',
+// 		street2: '435 Bristol, MA 2351',
+// 		street1: '375 Subidbazaar, MA 2351',
+// 	},
+// 	{
+// 		name: 'Office',
+// 		phone: '+18334271710',
+// 		street2: '968 Brockton, MA 2351',
+// 		street1: '645 Bondorbazaar, MA 2351',
+// 	},
+// 	{
+// 		name: 'Office 2',
+// 		phone: '+17754739407',
+// 		street2: '777 Kazi, MA 2351',
+// 		street1: '324 Ambarkhana, MA 2351',
+// 	},
+// ]
 
-const timeList = [
-	{ label: '9AM - 11AM', value: '9AM - 11AM' },
-	{ label: '11AM - 1PM', value: '11AM - 1PM' },
-	{ label: '3PM - 5PM', value: '3PM - 5PM' },
-	{ label: '5PM - 7PM', value: '5PM - 7PM' },
-]
+// const paymentMethodList = [
+// 	{
+// 		cardType: 'Amex',
+// 		last4Digits: '4765',
+// 		name: 'Jaslynn Land',
+// 	},
+// 	{
+// 		cardType: 'Mastercard',
+// 		last4Digits: '5432',
+// 		name: 'Jaslynn Land',
+// 	},
+// 	{
+// 		cardType: 'Visa',
+// 		last4Digits: '4543',
+// 		name: 'Jaslynn Land',
+// 	},
+// ]
 
-const checkoutSchema = yup.object().shape({
-	card: yup.string().required('required'),
-	date: yup.string().required('required'),
-	time: yup.string().required('required'),
-	address: yup.string().required('required'),
-	cardHolderName: yup.string().required('required'),
-	cardNumber: yup.number().required('required'),
-	cardMonth: yup.string().required('required'),
-	cardYear: yup.number().required('required'),
-	cardCVC: yup.number().required('required'),
-	voucher: yup.string(),
-})
+// const timeList = [
+// 	{ label: '9AM - 11AM', value: '9AM - 11AM' },
+// 	{ label: '11AM - 1PM', value: '11AM - 1PM' },
+// 	{ label: '3PM - 5PM', value: '3PM - 5PM' },
+// 	{ label: '5PM - 7PM', value: '5PM - 7PM' },
+// ]
+
+// const checkoutSchema = yup.object().shape({
+// 	card: yup.string().required('required'),
+// 	date: yup.string().required('required'),
+// 	time: yup.string().required('required'),
+// 	address: yup.string().required('required'),
+// 	cardHolderName: yup.string().required('required'),
+// 	cardNumber: yup.number().required('required'),
+// 	cardMonth: yup.string().required('required'),
+// 	cardYear: yup.number().required('required'),
+// 	cardCVC: yup.number().required('required'),
+// 	voucher: yup.string(),
+// })
 
 export default CheckoutForm2

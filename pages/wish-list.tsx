@@ -6,9 +6,9 @@ import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
 import ProductCard1 from 'components/product-cards/ProductCard1'
 import SEO from 'components/SEO'
-import productDatabase from 'data/product-database'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { IProduct } from 'shared/types/product.types'
 
 const WishList: NextPageAuth = () => {
 	const wihListItems = useTypedSelector((state) => state.wishStore.items)
@@ -28,9 +28,9 @@ const WishList: NextPageAuth = () => {
 
 			<Grid container spacing={3}>
 				{wihListItems
-					?.map((item) => (
+					?.map((item: IProduct | any) => (
 						<Grid item lg={4} sm={6} xs={6} key={item.id}>
-							<ProductCard1 {...item} />
+							<ProductCard1 product={{ ...item, thumbnail: item.imgUrl }} />
 						</Grid>
 					))
 					.reverse()}
