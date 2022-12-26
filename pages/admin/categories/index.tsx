@@ -70,8 +70,8 @@ const CategoryList: NextPageAuth = () => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={categories.length}
-								numSelected={selected.length}
+								rowCount={categories?.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 
@@ -92,7 +92,7 @@ const CategoryList: NextPageAuth = () => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(categories.length / rowsPerPage)}
+						count={Math.ceil(categories?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>

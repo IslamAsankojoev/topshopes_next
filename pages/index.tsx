@@ -101,9 +101,6 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 
 			{/* SERVICE CARDS */}
 			<Section12 serviceList={props.serviceList} />
-
-			{/* SETTINGS IS USED ONLY FOR DEMO, YOU CAN REMOVE THIS */}
-			<Setting />
 		</ShopLayout1>
 	)
 }

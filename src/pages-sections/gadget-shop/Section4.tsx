@@ -24,7 +24,7 @@ const Section4: FC<Props> = ({ mostViewedList }) => {
 		<CategorySectionCreator title="Most Viewed">
 			<Box mt={-0.5} mb={-0.5}>
 				<Carousel
-					totalSlides={mostViewedList.length}
+					totalSlides={mostViewedList?.length}
 					visibleSlides={visibleSlides}
 					infinite={true}
 					leftButtonStyle={arrowButtonStyle}

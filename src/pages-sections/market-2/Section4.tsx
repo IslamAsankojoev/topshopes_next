@@ -34,7 +34,7 @@ const Section4: FC<Section4Props> = ({ products }) => {
 			</FlexBetween>
 
 			<Carousel
-				totalSlides={products.length}
+				totalSlides={products?.length}
 				visibleSlides={visibleSlides}
 				sx={carouselStyled}
 			>

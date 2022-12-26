@@ -66,7 +66,7 @@ const Section7: FC<Section7Props> = ({ blogs }) => {
 				<Carousel
 					autoPlay
 					showArrow={false}
-					totalSlides={brands.length}
+					totalSlides={brands?.length}
 					visibleSlides={visibleSlides}
 					sx={{ ':hover': { cursor: 'grab' } }}
 				>

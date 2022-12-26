@@ -32,7 +32,7 @@ const CarouselSection: FC<CarouselProps> = ({ productList }) => {
 			<Carousel
 				infinite={true}
 				visibleSlides={visibleSlides}
-				totalSlides={productList.length}
+				totalSlides={productList?.length}
 				leftButtonStyle={arrowButtonStyle}
 				rightButtonStyle={arrowButtonStyle}
 			>

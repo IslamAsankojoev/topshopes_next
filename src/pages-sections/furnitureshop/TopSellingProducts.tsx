@@ -31,7 +31,7 @@ const TopSellingProducts: FC<Props> = ({ productsData }) => {
 			</Box>
 
 			<Carousel
-				totalSlides={productsData.length}
+				totalSlides={productsData?.length}
 				visibleSlides={visibleSlides}
 				infinite={true}
 				sx={{

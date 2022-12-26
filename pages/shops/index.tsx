@@ -22,7 +22,7 @@ const ShopList = () => {
 				<FlexBetween flexWrap="wrap" mt={4}>
 					<Span color="grey.600">Showing 1-9 of 300 Shops</Span>
 					<Pagination
-						count={shopList.length}
+						count={shopList?.length}
 						variant="outlined"
 						color="primary"
 					/>

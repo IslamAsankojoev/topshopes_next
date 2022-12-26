@@ -25,7 +25,7 @@ const Section3: FC<Props> = ({ newArrivals }) => {
 			<Carousel
 				infinite={true}
 				visibleSlides={visibleSlides}
-				totalSlides={newArrivals.length}
+				totalSlides={newArrivals?.length}
 				leftButtonStyle={arrowButtonStyle}
 				rightButtonStyle={arrowButtonStyle}
 			>

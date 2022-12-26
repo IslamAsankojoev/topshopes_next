@@ -26,7 +26,7 @@ const TopCategorySection: FC<Props> = ({ categoryList }) => {
 		<Box>
 			<H1 my={2}>Top Categories</H1>
 			<Carousel
-				totalSlides={categoryList.length}
+				totalSlides={categoryList?.length}
 				visibleSlides={visibleSlides}
 				infinite={true}
 				sx={{

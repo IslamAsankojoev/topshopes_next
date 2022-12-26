@@ -30,7 +30,7 @@ const TopProductsSection: FC<Props> = ({ productsData }) => {
 				</Paragraph>
 			</Box>
 			<Carousel
-				totalSlides={productsData.length}
+				totalSlides={productsData?.length}
 				visibleSlides={visibleSlides}
 				infinite={true}
 				sx={{

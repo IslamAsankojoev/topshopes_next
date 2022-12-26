@@ -56,7 +56,9 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 		<Box width="380px">
 			<Box
 				overflow="auto"
-				height={`calc(100vh - ${!!cartList.length ? '80px - 3.25rem' : '0px'})`}
+				height={`calc(100vh - ${
+					!!cartList?.length ? '80px - 3.25rem' : '0px'
+				})`}
 			>
 				<FlexBox
 					alignItems="center"
@@ -66,13 +68,13 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 				>
 					<ShoppingBagOutlined color="inherit" />
 					<Box fontWeight={600} fontSize="16px" ml={1}>
-						{cartList.length} item
+						{cartList?.length} item
 					</Box>
 				</FlexBox>
 
 				<Divider />
 
-				{!!!cartList.length && (
+				{!!!cartList?.length && (
 					<FlexBox
 						alignItems="center"
 						flexDirection="column"
@@ -175,7 +177,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 				))}
 			</Box>
 
-			{!!cartList.length && (
+			{!!cartList?.length && (
 				<Box p={2.5}>
 					<Link href="/checkout-alternative" passHref>
 						<BazaarButton

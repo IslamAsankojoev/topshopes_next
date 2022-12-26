@@ -22,7 +22,7 @@ const FashionProductCarousel: FC<FashionProductCarouselProps> = ({
 			</H2>
 
 			<Carousel
-				totalSlides={products.length}
+				totalSlides={products?.length}
 				visibleSlides={visibleSlides}
 				sx={carouselStyled}
 			>

@@ -37,7 +37,7 @@ const Section8 = () => {
 				<Carousel
 					autoPlay
 					showArrow={false}
-					totalSlides={brands.length}
+					totalSlides={brands?.length}
 					visibleSlides={visibleSlides}
 					sx={{ ':hover': { cursor: 'grab' } }}
 				>

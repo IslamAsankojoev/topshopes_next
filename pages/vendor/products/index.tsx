@@ -68,8 +68,8 @@ const ProductList: NextPageAuth = () => {
 									hideSelectBtn
 									orderBy={orderBy}
 									heading={tableHeading}
-									rowCount={products.length}
-									numSelected={selected.length}
+									rowCount={products?.length}
+									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
 
@@ -89,7 +89,7 @@ const ProductList: NextPageAuth = () => {
 					<Stack alignItems="center" my={4}>
 						<TablePagination
 							onChange={handleChangePage}
-							count={Math.ceil(products.length / rowsPerPage)}
+							count={Math.ceil(products?.length / rowsPerPage)}
 						/>
 					</Stack>
 				</Card>

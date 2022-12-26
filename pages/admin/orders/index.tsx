@@ -73,8 +73,8 @@ const OrderList: NextPageAuth = () => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={orders.length}
-								numSelected={selected.length}
+								rowCount={orders?.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 
@@ -90,7 +90,7 @@ const OrderList: NextPageAuth = () => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(orders.length / rowsPerPage)}
+						count={Math.ceil(orders?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>

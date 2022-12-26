@@ -129,7 +129,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 								ml={ind === 0 ? 'auto' : 0}
 								style={{ cursor: 'pointer' }}
 								onClick={handleImageClick(ind)}
-								mr={ind === imgGroup.length - 1 ? 'auto' : '10px'}
+								mr={ind === imgGroup?.length - 1 ? 'auto' : '10px'}
 								borderColor={
 									selectedImage === ind ? 'primary.main' : 'grey.400'
 								}

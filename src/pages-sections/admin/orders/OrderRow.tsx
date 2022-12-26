@@ -32,7 +32,7 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 	return id ? (
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">{id.slice(0, 8)}</StyledTableCell>
-			<StyledTableCell align="left">{items.length}</StyledTableCell>
+			<StyledTableCell align="left">{items?.length}</StyledTableCell>
 
 			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
 				{delivered_at}

@@ -32,7 +32,7 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 			<Carousel
 				infinite={true}
 				visibleSlides={visibleSlides}
-				totalSlides={flashDeals.length}
+				totalSlides={flashDeals?.length}
 				leftButtonStyle={arrowButtonStyle}
 				rightButtonStyle={arrowButtonStyle}
 			>

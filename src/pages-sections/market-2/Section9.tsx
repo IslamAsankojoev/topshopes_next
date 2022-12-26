@@ -78,7 +78,7 @@ const Section9: FC<Section9Props> = ({ products }) => {
 			</FlexBetween>
 
 			<Carousel
-				totalSlides={products.length}
+				totalSlides={products?.length}
 				visibleSlides={visibleSlides}
 				sx={carouselStyled}
 			>

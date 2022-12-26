@@ -46,8 +46,8 @@ const PayoutRequests: NextPageAuth = () => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={listData.length}
-								numSelected={selected.length}
+								rowCount={listData?.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 
@@ -79,7 +79,7 @@ const PayoutRequests: NextPageAuth = () => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(listData.length / rowsPerPage)}
+						count={Math.ceil(listData?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>

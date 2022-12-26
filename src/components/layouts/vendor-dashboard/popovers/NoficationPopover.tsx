@@ -139,7 +139,7 @@ const NotificationsPopover: FC = () => {
 										<StyledTab disableRipple value="2" label="Archived" />
 									</StyledTabList>
 
-									{orders.length === 0 ? (
+									{orders?.length === 0 ? (
 										<Paragraph fontWeight="500" textAlign="center" p={2}>
 											There are no notifications
 										</Paragraph>
@@ -157,7 +157,7 @@ const NotificationsPopover: FC = () => {
 										</TabPanel>
 									)}
 
-									{archives.length === 0 ? (
+									{archives?.length === 0 ? (
 										<Paragraph fontWeight="500" textAlign="center" p={2}>
 											There are no archives
 										</Paragraph>

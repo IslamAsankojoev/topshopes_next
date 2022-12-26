@@ -30,7 +30,7 @@ const ProductImages: FC<IProductImages> = ({
 	add,
 }) => {
 	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		if ([...e.target.files].length > 5) {
+		if ([...e.target.files]?.length > 5) {
 			toast.error('You can upload max 5 images')
 		}
 		const images = [...e.target.files].slice(0, 5)
@@ -50,7 +50,7 @@ const ProductImages: FC<IProductImages> = ({
 	return (
 		<Card sx={{ p: 6, mt: 2 }}>
 			<h3>Product images</h3>
-			{images.length > 0 ? (
+			{images?.length > 0 ? (
 				<ImageList cols={5}>
 					{images.map((item) => (
 						<Card variant="outlined" sx={{ border: '1px solid #EAEAEA' }}>

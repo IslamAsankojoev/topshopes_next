@@ -69,7 +69,7 @@ const BrandsList: NextPageAuth = () => {
 								orderBy={orderBy}
 								heading={tableHeading}
 								rowCount={brands?.length}
-								numSelected={selected.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 
