@@ -62,10 +62,10 @@ export const useProductFetch = () => {
 		colors,
 		shops,
 		isLoading:
-			categoriesLoading &&
-			brandsLoading &&
-			sizeLoading &&
-			colorsLoading &&
+			categoriesLoading ||
+			brandsLoading ||
+			sizeLoading ||
+			colorsLoading ||
 			shopsLoading,
 	}
 
