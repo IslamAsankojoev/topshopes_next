@@ -40,11 +40,7 @@ const ColorList: NextPageAuth = () => {
 		handleRequestSort,
 	} = useMuiTable({ listData: colors })
 
-	if (isLoading) {
-		return <Loading />
-	}
-
-	return (
+	return !isLoading ? (
 		<Box py={4}>
 			<H3 mb={2}>Product Colors</H3>
 
@@ -93,7 +89,7 @@ const ColorList: NextPageAuth = () => {
 				</Stack>
 			</Card>
 		</Box>
-	)
+	) : null
 }
 
 ColorList.isOnlyUser = true
