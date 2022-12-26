@@ -53,11 +53,7 @@ const OrderList: NextPageAuth = () => {
 		defaultOrder: 'desc',
 	})
 
-	if (isLoading) {
-		return <Loading />
-	}
-
-	return (
+	return !isLoading ? (
 		<Box py={4}>
 			<H3 mb={2}>Orders</H3>
 
@@ -99,7 +95,7 @@ const OrderList: NextPageAuth = () => {
 				</Stack>
 			</Card>
 		</Box>
-	)
+	) : null
 }
 
 OrderList.isOnlyUser = true

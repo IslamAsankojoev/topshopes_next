@@ -8,16 +8,17 @@ import SEO from 'components/SEO'
 import { Span } from 'components/Typography'
 import { CartItem, useAppContext } from 'contexts/AppContext'
 import countryList from 'data/countryList'
+import { useActions } from 'hooks/useActions'
+import { useTypedSelector } from 'hooks/useTypedSelector'
 import { NextPage } from 'next'
 import Link from 'next/link'
+import { ICartItem } from 'store/cart/cart.interface'
 
 const Cart: NextPage = () => {
-	const { state } = useAppContext()
-	const cartList: CartItem[] = state.cart
-
-	const getTotalPrice = () => {
-		return cartList.reduce((accum, item) => accum + item.price * item.qty, 0)
-	}
+	const { cart, total_items, total_price } = useTypedSelector(
+		(state) => state.cartStore
+	)
+	const cartList: ICartItem[] = cart
 
 	return (
 		<CheckoutNavLayout>
@@ -35,7 +36,7 @@ const Cart: NextPage = () => {
 							<Span color="grey.600">Total:</Span>
 
 							<Span fontSize={18} fontWeight={600} lineHeight="1">
-								${getTotalPrice().toFixed(2)}
+								${total_price.toFixed(2)}
 							</Span>
 						</FlexBetween>
 

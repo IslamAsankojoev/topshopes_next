@@ -5,8 +5,10 @@ import Image from 'components/BazaarImage'
 import { FlexBox } from 'components/flex-box'
 import { Span } from 'components/Typography'
 import { useAppContext } from 'contexts/AppContext'
+import { useActions } from 'hooks/useActions'
 import Link from 'next/link'
 import React, { useCallback } from 'react'
+import { ICartItem } from 'store/cart/cart.interface'
 
 // styled components
 const Wrapper = styled(Card)(({ theme }) => ({
@@ -26,38 +28,33 @@ const Wrapper = styled(Card)(({ theme }) => ({
 }))
 
 // =========================================================
-type ProductCard7Props = {
-	qty: number
-	name: string
-	price: number
-	imgUrl?: string
-	id: string | number
-}
+
 // =========================================================
 
-const ProductCard7: React.FC<ProductCard7Props> = ({
+const ProductCard7: React.FC<ICartItem> = ({
 	id,
-	name,
+	title,
 	qty,
 	price,
 	imgUrl,
 }) => {
-	const { dispatch } = useAppContext()
-	// handle change cart
-	const handleCartAmountChange = useCallback(
-		(amount) => () => {
-			dispatch({
-				type: 'CHANGE_CART_AMOUNT',
-				payload: { id, name, price, imgUrl, qty: amount },
-			})
-		},
-		[]
-	)
+	const { addToCart, removeFromCart, trashFromCart } = useActions()
+
+	const handleAddToCart = useCallback(() => {
+		addToCart({ id, title, price, imgUrl })
+	}, [])
+
+	const handleRemoveFromCart = useCallback(() => {
+		removeFromCart({ id, title, price, imgUrl })
+	}, [])
+	const handleTrashFromCart = useCallback(() => {
+		trashFromCart({ id, title, price, imgUrl })
+	}, [])
 
 	return (
 		<Wrapper>
 			<Image
-				alt={name}
+				alt={title}
 				width={140}
 				height={140}
 				display="block"
@@ -66,7 +63,7 @@ const ProductCard7: React.FC<ProductCard7Props> = ({
 
 			<IconButton
 				size="small"
-				onClick={handleCartAmountChange(0)}
+				onClick={handleTrashFromCart}
 				sx={{ position: 'absolute', right: 15, top: 15 }}
 			>
 				<Close fontSize="small" />
@@ -76,7 +73,7 @@ const ProductCard7: React.FC<ProductCard7Props> = ({
 				<Link href={`/product/${id}`}>
 					<a>
 						<Span ellipsis fontWeight="600" fontSize={18}>
-							{name}
+							{title}
 						</Span>
 					</a>
 				</Link>
@@ -87,7 +84,7 @@ const ProductCard7: React.FC<ProductCard7Props> = ({
 					</Span>
 
 					<Span fontWeight={600} color="primary.main">
-						${(price * qty).toFixed(2)}
+						${(Number(price) * qty).toFixed(2)}
 					</Span>
 				</FlexBox>
 
@@ -97,7 +94,7 @@ const ProductCard7: React.FC<ProductCard7Props> = ({
 						sx={{ p: '5px' }}
 						variant="outlined"
 						disabled={qty === 1}
-						onClick={handleCartAmountChange(qty - 1)}
+						onClick={handleRemoveFromCart}
 					>
 						<Remove fontSize="small" />
 					</Button>
@@ -109,7 +106,7 @@ const ProductCard7: React.FC<ProductCard7Props> = ({
 						color="primary"
 						sx={{ p: '5px' }}
 						variant="outlined"
-						onClick={handleCartAmountChange(qty + 1)}
+						onClick={handleAddToCart}
 					>
 						<Add fontSize="small" />
 					</Button>

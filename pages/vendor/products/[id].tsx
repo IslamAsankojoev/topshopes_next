@@ -34,10 +34,12 @@ const EditProduct: NextPageAuth = () => {
 		refetch,
 	} = useQuery('product images', () => ProductsService.get(id as string), {
 		enabled: !!id,
+		select: (data) => data.images,
 	})
 	const { mutateAsync: imageCreateMutateAsync } = useMutation(
 		'product image create',
-		(image: File) => ImagesService.create({ image: image, id: id })
+		(image: File) =>
+			ImagesService.create(formData({ image: image, product: id }))
 	)
 	const { mutateAsync: imageDeleteMutateAsync } = useMutation(
 		'product images delete',

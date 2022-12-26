@@ -1,78 +1,77 @@
-import { Button, Divider, TextField, Typography } from "@mui/material";
-import Card1 from "components/Card1";
-import { FlexBetween, FlexBox } from "components/flex-box";
-import React, { FC } from "react";
+import { Button, Divider, TextField, Typography } from '@mui/material'
+import Card1 from 'components/Card1'
+import { FlexBetween, FlexBox } from 'components/flex-box'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import React, { FC } from 'react'
 
 const CheckoutSummary: FC = () => {
-  return (
-    <Card1>
-      <FlexBetween mb={1}>
-        <Typography color="grey.600">Subtotal:</Typography>
-        <FlexBox alignItems="flex-end">
-          <Typography fontSize="18px" fontWeight="600" lineHeight="1">
-            $2610.
-          </Typography>
-          <Typography fontWeight="600" fontSize="14px" lineHeight="1">
-            00
-          </Typography>
-        </FlexBox>
-      </FlexBetween>
-      <FlexBetween mb={1}>
-        <Typography color="grey.600">Shipping:</Typography>
-        <FlexBox alignItems="flex-end">
-          <Typography fontSize="18px" fontWeight="600" lineHeight="1">
-            -
-          </Typography>
-        </FlexBox>
-      </FlexBetween>
-      <FlexBetween mb={1}>
-        <Typography color="grey.600">Tax:</Typography>
-        <FlexBox alignItems="flex-end">
-          <Typography fontSize="18px" fontWeight="600" lineHeight="1">
-            $40.
-          </Typography>
-          <Typography fontWeight="600" fontSize="14px" lineHeight="1">
-            00
-          </Typography>
-        </FlexBox>
-      </FlexBetween>
-      <FlexBetween mb={2}>
-        <Typography color="grey.600">Discount:</Typography>
-        <FlexBox alignItems="flex-end">
-          <Typography fontSize="18px" fontWeight="600" lineHeight="1">
-            -
-          </Typography>
-        </FlexBox>
-      </FlexBetween>
+	const { total_price, cart, total_items } = useTypedSelector(
+		(state) => state.cartStore
+	)
 
-      <Divider sx={{ mb: "1rem" }} />
+	return (
+		<Card1>
+			<FlexBetween mb={1}>
+				<Typography color="grey.600">Subtotal:</Typography>
+				<FlexBox alignItems="flex-end">
+					<Typography fontSize="18px" fontWeight="600" lineHeight="1">
+						{total_price.toFixed(2)}c
+					</Typography>
+				</FlexBox>
+			</FlexBetween>
+			<FlexBetween mb={1}>
+				<Typography color="grey.600">Shipping:</Typography>
+				<FlexBox alignItems="flex-end">
+					<Typography fontSize="18px" fontWeight="600" lineHeight="1">
+						-
+					</Typography>
+				</FlexBox>
+			</FlexBetween>
+			<FlexBetween mb={1}>
+				<Typography color="grey.600">Tax:</Typography>
+				<FlexBox alignItems="flex-end">
+					<Typography fontSize="18px" fontWeight="600" lineHeight="1">
+						$40.
+					</Typography>
+				</FlexBox>
+			</FlexBetween>
+			<FlexBetween mb={2}>
+				<Typography color="grey.600">Discount:</Typography>
+				<FlexBox alignItems="flex-end">
+					<Typography fontSize="18px" fontWeight="600" lineHeight="1">
+						-
+					</Typography>
+				</FlexBox>
+			</FlexBetween>
 
-      <Typography
-        fontSize="25px"
-        fontWeight="600"
-        lineHeight="1"
-        textAlign="right"
-        mb={3}
-      >
-        $2610.00
-      </Typography>
+			<Divider sx={{ mb: '1rem' }} />
 
-      <TextField
-        placeholder="Voucher"
-        variant="outlined"
-        size="small"
-        fullWidth
-      />
-      <Button
-        variant="outlined"
-        color="primary"
-        fullWidth
-        sx={{ mt: "1rem", mb: "30px" }}
-      >
-        Apply Voucher
-      </Button>
-    </Card1>
-  );
-};
+			<Typography
+				fontSize="25px"
+				fontWeight="600"
+				lineHeight="1"
+				textAlign="right"
+				mb={3}
+			>
+				$2610.00
+			</Typography>
 
-export default CheckoutSummary;
+			<TextField
+				placeholder="Voucher"
+				variant="outlined"
+				size="small"
+				fullWidth
+			/>
+			<Button
+				variant="outlined"
+				color="primary"
+				fullWidth
+				sx={{ mt: '1rem', mb: '30px' }}
+			>
+				Apply Voucher
+			</Button>
+		</Card1>
+	)
+}
+
+export default CheckoutSummary
