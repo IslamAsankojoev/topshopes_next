@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { CSSProperties, FC, Fragment, useCallback, useState } from 'react'
 import { FlexBox } from '../flex-box'
 import { IProduct } from 'shared/types/product.types'
+import { ICartItem } from 'store/cart/cart.interface'
 
 const StyledBazaarCard = styled(BazaarCard)(() => ({
 	height: '100%',
@@ -87,11 +88,13 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 		discount,
 	} = props.product
 
-	const { state, dispatch } = useAppContext()
 	const [openModal, setOpenModal] = useState(false)
 	const wishListItems = useTypedSelector((state) => state.wishStore.items)
-	const { toggleWish } = useActions()
+	const cartItems = useTypedSelector((state) => state.cartStore.cart)
+	const { toggleWish, addToCart, removeFromCart } = useActions()
 	const inWishList = wishListItems.some((item) => item.id === id)
+
+	const cartItem = cartItems.find((item) => item.id === id)
 
 	const toggleIsFavorite = () => {
 		toggleWish({ id, title, price, imgUrl, rating, discount })
@@ -99,13 +102,29 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 	const toggleDialog = useCallback(() => setOpenModal((open) => !open), [])
 
-	const cartItem: CartItem | undefined = state.cart.find(
-		(item) => item.id === id
+	// const handleCartAmountChange = useCallback(
+	// 	(product) => () =>
+	// 		dispatch({ type: 'CHANGE_CART_AMOUNT', payload: product }),
+	// 	[]
+	// )
+
+	// const handleAddToCart = useCallback(
+	// 	(product) => () => dispatch({ type: 'ADD_TO_CART', payload: product }),
+	// 	[]
+	// )
+
+	// const handleRemoveFromCart = useCallback(
+	// 	(product) => () => dispatch({ type: 'REMOVE_FROM_CART', payload: product }),
+	// 	[]
+	// )
+
+	const handleAddToCart = useCallback(
+		(product: ICartItem) => () => addToCart(product),
+		[]
 	)
 
-	const handleCartAmountChange = useCallback(
-		(product) => () =>
-			dispatch({ type: 'CHANGE_CART_AMOUNT', payload: product }),
+	const handleRemoveFromCart = useCallback(
+		(product: ICartItem) => () => removeFromCart(product),
 		[]
 	)
 
@@ -201,12 +220,11 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							color="primary"
 							variant="outlined"
 							sx={{ padding: '3px' }}
-							onClick={handleCartAmountChange({
+							onClick={handleAddToCart({
 								id,
+								title,
 								price,
 								imgUrl,
-								name: title,
-								qty: (cartItem?.qty || 0) + 1,
 							})}
 						>
 							<Add fontSize="small" />
@@ -222,12 +240,11 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 									color="primary"
 									variant="outlined"
 									sx={{ padding: '3px' }}
-									onClick={handleCartAmountChange({
+									onClick={handleRemoveFromCart({
 										id,
+										title,
 										price,
 										imgUrl,
-										name: title,
-										qty: (cartItem?.qty || 0) - 1,
 									})}
 								>
 									<Remove fontSize="small" />

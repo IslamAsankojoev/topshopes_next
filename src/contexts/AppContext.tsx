@@ -16,7 +16,7 @@ export type CartItem = {
 }
 
 type cartActionType = {
-	type: 'CHANGE_CART_AMOUNT' | 'SET_CART'
+	type: 'CHANGE_CART_AMOUNT' | 'SET_CART' | 'ADD_TO_CART' | 'REMOVE_FROM_CART'
 	payload: CartItem | CartItem[]
 }
 type ActionType = cartActionType
@@ -61,6 +61,16 @@ const reducer = (state: initialState, action: ActionType) => {
 				return { ...state, cart: newCart }
 			}
 
+			return { ...state, cart: [...cartList, payload] }
+
+		case 'ADD_TO_CART':
+			if (exist) {
+				const newCart = cartList?.map((item) =>
+					item.id === payload.id ? { ...item, qty: item.qty + 1 } : item
+				)
+				localStorage.setItem('cart', JSON.stringify(newCart))
+				return { ...state, cart: newCart }
+			}
 			return { ...state, cart: [...cartList, payload] }
 
 		case 'SET_CART':

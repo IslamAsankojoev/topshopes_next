@@ -1,5 +1,6 @@
 import { Grid } from '@mui/material'
 import CheckoutNavLayout from 'components/layouts/CheckoutNavLayout'
+
 import PaymentForm from 'pages-sections/payment/PaymentForm'
 import PaymentSummary from 'pages-sections/payment/PaymentSummary'
 import { NextPageAuth } from 'shared/types/auth.types'

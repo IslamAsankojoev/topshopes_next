@@ -7,9 +7,12 @@ import BazaarRating from 'components/BazaarRating'
 import LazyImage from 'components/LazyImage'
 import { H1, H2, H3, H6 } from 'components/Typography'
 import { CartItem, useAppContext } from 'contexts/AppContext'
+import { useActions } from 'hooks/useActions'
+import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useCallback, useState } from 'react'
+import { ICartItem } from 'store/cart/cart.interface'
 // import ImageViewer from "react-simple-image-viewer";
 import { FlexBox, FlexRowCenter } from '../flex-box'
 
@@ -26,14 +29,17 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 	const routerId = router.query.id as string
 
 	const [selectedImage, setSelectedImage] = useState(0)
-	const [isViewerOpen, setIsViewerOpen] = useState(false)
-	const [currentImage, setCurrentImage] = useState(0)
+	// const [isViewerOpen, setIsViewerOpen] = useState(false)
+	// const [currentImage, setCurrentImage] = useState(0)
 
-	const { state, dispatch } = useAppContext()
-	const cartList: CartItem[] = state.cart
+	const cartList: ICartItem[] = useTypedSelector(
+		(state) => state.cartStore.cart
+	)
 	const cartItem = cartList.find(
 		(item) => item.id === id || item.id === routerId
 	)
+
+	const { addToCart, removeFromCart } = useActions()
 
 	const handleImageClick = (ind: number) => () => {
 		setSelectedImage(ind)
@@ -49,21 +55,39 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 	//   setIsViewerOpen(false);
 	// };
 
-	const handleCartAmountChange = useCallback(
-		(amount) => () => {
-			dispatch({
-				type: 'CHANGE_CART_AMOUNT',
-				payload: {
-					price,
-					qty: amount,
-					name: title,
-					imgUrl: imgGroup[0],
-					id: id || routerId,
-				},
-			})
-		},
-		[]
-	)
+	// const handleCartAmountChange = useCallback(
+	// 	(amount) => () => {
+	// 		dispatch({
+	// 			type: 'CHANGE_CART_AMOUNT',
+	// 			payload: {
+	// 				price,
+	// 				qty: amount,
+	// 				name: title,
+	// 				imgUrl: imgGroup[0],
+	// 				id: id || routerId,
+	// 			},
+	// 		})
+	// 	},
+	// 	[]
+	// )
+
+	const handleAddToCart = useCallback(() => {
+		addToCart({
+			price,
+			title,
+			imgUrl: imgGroup[0],
+			id: id || routerId,
+		})
+	}, [])
+
+	const handleRemoveFromCart = useCallback(() => {
+		removeFromCart({
+			price,
+			title,
+			imgUrl: imgGroup[0],
+			id: id || routerId,
+		})
+	}, [])
 
 	return (
 		<Box width="100%">
@@ -148,7 +172,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 						<BazaarButton
 							color="primary"
 							variant="contained"
-							onClick={handleCartAmountChange(1)}
+							onClick={handleAddToCart}
 							sx={{ mb: 4.5, px: '1.75rem', height: 40 }}
 						>
 							Add to Cart
@@ -160,7 +184,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 								sx={{ p: 1 }}
 								color="primary"
 								variant="outlined"
-								onClick={handleCartAmountChange(cartItem?.qty - 1)}
+								onClick={handleRemoveFromCart}
 							>
 								<Remove fontSize="small" />
 							</BazaarButton>
@@ -174,7 +198,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 								sx={{ p: 1 }}
 								color="primary"
 								variant="outlined"
-								onClick={handleCartAmountChange(cartItem?.qty + 1)}
+								onClick={handleAddToCart}
 							>
 								<Add fontSize="small" />
 							</BazaarButton>

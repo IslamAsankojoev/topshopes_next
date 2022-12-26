@@ -10,8 +10,11 @@ import ShoppingBagOutlined from 'components/icons/ShoppingBagOutlined'
 import LazyImage from 'components/LazyImage'
 import { H5, Tiny } from 'components/Typography'
 import { CartItem, useAppContext } from 'contexts/AppContext'
+import { useActions } from 'hooks/useActions'
+import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
 import React, { useCallback } from 'react'
+import { ICartItem } from 'store/cart/cart.interface'
 
 // =========================================================
 type MiniCartProps = { toggleSidenav?: () => void }
@@ -19,22 +22,35 @@ type MiniCartProps = { toggleSidenav?: () => void }
 
 const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 	const { palette } = useTheme()
-	const { state, dispatch } = useAppContext()
-	const cartList = state.cart
+	const {
+		cart: cartList,
+		total_price,
+		total_items,
+	} = useTypedSelector((state) => state.cartStore)
+	const { addToCart, removeFromCart, trashFromCart } = useActions()
 
-	const handleCartAmountChange = useCallback(
-		(amount, product) => () => {
-			dispatch({
-				type: 'CHANGE_CART_AMOUNT',
-				payload: { ...product, qty: amount },
-			})
+	// handle add to cart
+
+	const handleAddToCart = useCallback(
+		(item: ICartItem) => () => {
+			addToCart(item)
 		},
 		[]
 	)
 
-	const getTotalPrice = () => {
-		return cartList.reduce((accum, item) => accum + item.price * item.qty, 0)
-	}
+	const handleRemoveFromCart = useCallback(
+		(item: ICartItem) => () => {
+			removeFromCart(item)
+		},
+		[]
+	)
+
+	const handleTrashFromCart = useCallback(
+		(item: ICartItem) => () => {
+			trashFromCart(item)
+		},
+		[]
+	)
 
 	return (
 		<Box width="380px">
@@ -80,7 +96,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 					</FlexBox>
 				)}
 
-				{cartList?.map((item: CartItem) => (
+				{cartList?.map((item: ICartItem) => (
 					<FlexBox
 						py={2}
 						px={2.5}
@@ -92,7 +108,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							<BazaarButton
 								color="primary"
 								variant="outlined"
-								onClick={handleCartAmountChange(item.qty + 1, item)}
+								onClick={handleAddToCart(item)}
 								sx={{ height: '32px', width: '32px', borderRadius: '300px' }}
 							>
 								<Add fontSize="small" />
@@ -106,7 +122,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 								color="primary"
 								variant="outlined"
 								disabled={item.qty === 1}
-								onClick={handleCartAmountChange(item.qty - 1, item)}
+								onClick={handleRemoveFromCart(item)}
 								sx={{ height: '32px', width: '32px', borderRadius: '300px' }}
 							>
 								<Remove fontSize="small" />
@@ -119,7 +135,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 									mx={2}
 									width={76}
 									height={76}
-									alt={item.name}
+									alt={item.title}
 									src={item.imgUrl || '/assets/images/products/iphone-x.png'}
 								/>
 							</a>
@@ -129,7 +145,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							<Link href={`/product/${item.id}`}>
 								<a>
 									<H5 className="title" fontSize="14px">
-										{item.name}
+										{item.title}
 									</H5>
 								</a>
 							</Link>
@@ -144,14 +160,14 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 								color="primary.main"
 								mt={0.5}
 							>
-								${(item.qty * item.price).toFixed(2)}
+								${(item.qty * Number(item.price)).toFixed(2)}
 							</Box>
 						</Box>
 
 						<BazaarIconButton
 							ml={2.5}
 							size="small"
-							onClick={handleCartAmountChange(0, item)}
+							onClick={handleTrashFromCart(item)}
 						>
 							<Close fontSize="small" />
 						</BazaarIconButton>
@@ -169,7 +185,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							sx={{ mb: '0.75rem', height: '40px' }}
 							onClick={toggleSidenav}
 						>
-							Checkout Now (${getTotalPrice().toFixed(2)})
+							Checkout Now (${total_price.toFixed(2)})
 						</BazaarButton>
 					</Link>
 

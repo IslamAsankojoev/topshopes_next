@@ -6,16 +6,19 @@ import ProductCard7 from 'components/product-cards/ProductCard7'
 import SEO from 'components/SEO'
 import { Span } from 'components/Typography'
 import { CartItem, useAppContext } from 'contexts/AppContext'
+
+import countryList from 'data/countryList'
+import { useActions } from 'hooks/useActions'
+import { useTypedSelector } from 'hooks/useTypedSelector'
 import { NextPage } from 'next'
 import Link from 'next/link'
+import { ICartItem } from 'store/cart/cart.interface'
 
 const Cart: NextPage = () => {
-	const { state } = useAppContext()
-	const cartList: CartItem[] = state.cart
-
-	const getTotalPrice = () => {
-		return cartList.reduce((accum, item) => accum + item.price * item.qty, 0)
-	}
+	const { cart, total_items, total_price } = useTypedSelector(
+		(state) => state.cartStore
+	)
+	const cartList: ICartItem[] = cart
 
 	return (
 		<ShopLayout1>
@@ -28,6 +31,7 @@ const Cart: NextPage = () => {
 								<ProductCard7 key={item.id} {...item} />
 							))}
 						</Grid>
+
 
 						<Grid item md={4} xs={12}>
 							<Card sx={{ padding: 3 }}>
