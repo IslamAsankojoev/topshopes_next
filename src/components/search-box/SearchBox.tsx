@@ -117,7 +117,7 @@ const SearchBox: FC = () => {
 				}}
 			/>
 
-			{!!resultList.length && (
+			{!!resultList?.length && (
 				<SearchResultCard elevation={2}>
 					{resultList?.map((item) => (
 						<Link href={`/product/search/${item}`} key={item} passHref>

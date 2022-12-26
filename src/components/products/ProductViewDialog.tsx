@@ -79,7 +79,10 @@ const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
 				<ContentWrapper>
 					<Grid container spacing={3}>
 						<Grid item md={6} xs={12}>
-							<Carousel totalSlides={product.imgGroup.length} visibleSlides={1}>
+							<Carousel
+								totalSlides={product.imgGroup?.length}
+								visibleSlides={1}
+							>
 								{product.imgGroup?.map((item: string, index: number) => (
 									<BazaarImage
 										key={index}

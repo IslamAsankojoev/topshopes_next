@@ -46,8 +46,8 @@ const ProductReviews: NextPageAuth<ProductReviewsProps> = ({ reviews }) => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={reviews.length}
-								numSelected={selected.length}
+								rowCount={reviews?.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 
@@ -63,7 +63,7 @@ const ProductReviews: NextPageAuth<ProductReviewsProps> = ({ reviews }) => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(reviews.length / rowsPerPage)}
+						count={Math.ceil(reviews?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>

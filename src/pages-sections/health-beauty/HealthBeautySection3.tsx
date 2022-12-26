@@ -36,7 +36,7 @@ const HealthBeautySection3: FC<Props> = ({ productsData }) => {
 			<Carousel
 				infinite={true}
 				visibleSlides={visibleSlides}
-				totalSlides={productsData.length}
+				totalSlides={productsData?.length}
 				sx={{
 					'& #backArrowButton, #backForwardButton': {
 						color: palette.primary.main,

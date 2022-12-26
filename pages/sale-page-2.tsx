@@ -40,7 +40,11 @@ const SalePage2: NextPage = () => {
 
 				<FlexBetween flexWrap="wrap" my={8}>
 					<Span>
-						{renderProductCount(page, PRODUCT_PER_PAGE, productDatabase.length)}
+						{renderProductCount(
+							page,
+							PRODUCT_PER_PAGE,
+							productDatabase?.length
+						)}
 					</Span>
 
 					<Pagination
@@ -48,7 +52,7 @@ const SalePage2: NextPage = () => {
 						color="primary"
 						variant="outlined"
 						onChange={handlePageChange}
-						count={Math.ceil(productDatabase.length / PRODUCT_PER_PAGE)}
+						count={Math.ceil(productDatabase?.length / PRODUCT_PER_PAGE)}
 					/>
 				</FlexBetween>
 			</Container>

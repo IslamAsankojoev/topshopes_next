@@ -69,7 +69,7 @@ const PagesList: NextPageAuth = () => {
 								orderBy={orderBy}
 								heading={tableHeading}
 								rowCount={pages?.length}
-								numSelected={selected.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 

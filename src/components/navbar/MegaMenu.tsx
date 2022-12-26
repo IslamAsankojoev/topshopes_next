@@ -56,7 +56,7 @@ const gridSize = (length: number) => {
 
 const MegaMenu: FC<MegaMenuProps> = ({ title, menuList }) => {
 	// get grid size the basis of menu list
-	const grid = gridSize(menuList.length)
+	const grid = gridSize(menuList?.length)
 
 	return (
 		<Wrapper>

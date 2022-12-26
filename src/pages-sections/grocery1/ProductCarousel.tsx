@@ -38,7 +38,7 @@ const ProductCarousel: FC<ProductCarouselProps> = ({ products, title }) => {
 
 			<Carousel
 				infinite={true}
-				totalSlides={products.length}
+				totalSlides={products?.length}
 				visibleSlides={visibleSlides}
 				sx={{
 					'& #backArrowButton, #backForwardButton': {

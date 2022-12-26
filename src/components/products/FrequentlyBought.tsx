@@ -34,7 +34,7 @@ const FrequentlyBought: FC<FrequentlyBoughtProps> = ({ productsData }) => {
 							}}
 							{...item}
 						/>
-						{ind < productsData.length - 1 && (
+						{ind < productsData?.length - 1 && (
 							<FlexRowCenter>
 								<H2 color="grey.600" mx={1}>
 									+

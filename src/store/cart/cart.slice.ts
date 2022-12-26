@@ -25,7 +25,7 @@ const cartSlice = createSlice({
 				(acc, item) => acc + item.qty * parseInt(item.price),
 				0
 			)
-			state.total_items = state.cart.length
+			state.total_items = state.cart?.length
 			localStorage.setItem('cart', JSON.stringify(state.cart))
 		},
 		removeFromCart: (state, { payload }: PayloadAction<ICartItem>) => {
@@ -43,7 +43,7 @@ const cartSlice = createSlice({
 				(acc, item) => acc + item.qty * parseInt(item.price),
 				0
 			)
-			state.total_items = state.cart.length
+			state.total_items = state.cart?.length
 			localStorage.setItem('cart', JSON.stringify(state.cart))
 		},
 		trashFromCart: (state, { payload }: PayloadAction<ICartItem>) => {
@@ -52,7 +52,7 @@ const cartSlice = createSlice({
 				(acc, item) => acc + item.qty * parseInt(item.price),
 				0
 			)
-			state.total_items = state.cart.length
+			state.total_items = state.cart?.length
 			localStorage.setItem('cart', JSON.stringify(state.cart))
 		},
 	},

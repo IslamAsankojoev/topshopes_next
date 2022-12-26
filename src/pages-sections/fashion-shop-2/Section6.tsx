@@ -34,7 +34,7 @@ const Section6: FC<Section6Props> = ({ products }) => {
 				</H2>
 
 				<Carousel
-					totalSlides={products.length}
+					totalSlides={products?.length}
 					visibleSlides={visibleSlides}
 					sx={carouselStyled}
 				>

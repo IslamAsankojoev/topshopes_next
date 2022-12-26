@@ -8,7 +8,7 @@ interface Props {
 }
 const Section2: FC<Props> = ({ featuredCategories }) => {
 	const firstItem = featuredCategories[0]
-	const featured = featuredCategories.slice(1, featuredCategories.length)
+	const featured = featuredCategories.slice(1, featuredCategories?.length)
 	return (
 		<Container sx={{ mb: '4rem' }}>
 			<CategorySectionHeader title="Featured Categories" />

@@ -30,7 +30,7 @@ const Section1: FC<Props> = ({ topPickList, mainCarousel }) => {
 				<Grid item md={5} xs={12}>
 					<Carousel
 						visibleSlides={1}
-						totalSlides={mainCarousel.length}
+						totalSlides={mainCarousel?.length}
 						leftButtonStyle={{ ...arrowButtonStyle, [left]: 8 }}
 						rightButtonStyle={{ ...arrowButtonStyle, [right]: 8 }}
 					>

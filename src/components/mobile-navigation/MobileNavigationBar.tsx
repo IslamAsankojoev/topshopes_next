@@ -17,7 +17,7 @@ const MobileNavigationBar: FC = () => {
 			{list?.map((item) => (
 				<StyledNavLink href={item.href} key={item.title}>
 					{item.title === 'Cart' ? (
-						<Badge badgeContent={state.cart.length} color="primary">
+						<Badge badgeContent={state.cart?.length} color="primary">
 							<item.icon fontSize="small" sx={iconStyle} />
 						</Badge>
 					) : (

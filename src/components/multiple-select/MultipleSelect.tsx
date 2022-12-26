@@ -57,9 +57,9 @@ const MultipleSelect: React.FC<MultipleSelectProps> = (props) => {
 				? e.target.value.split(',')
 				: e.target.value
 
-		if (e.target.value.length > 3) {
+		if (e.target.value?.length > 3) {
 			e.target.value.pop()
-		} else if (e.target.value.length === 0) {
+		} else if (e.target.value?.length === 0) {
 			return
 		}
 

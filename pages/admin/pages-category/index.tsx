@@ -66,7 +66,7 @@ const PageCategoryList: NextPageAuth = () => {
 								orderBy={orderBy}
 								heading={tableHeading}
 								rowCount={pageCategory?.length}
-								numSelected={selected.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 

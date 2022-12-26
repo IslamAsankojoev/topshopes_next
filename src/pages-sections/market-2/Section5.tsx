@@ -69,7 +69,7 @@ const Section5: FC<Section5Props> = ({ products }) => {
 
 				<Grid item md={9} xs={12}>
 					<Carousel
-						totalSlides={products.length}
+						totalSlides={products?.length}
 						visibleSlides={visibleSlides}
 						sx={carouselStyled}
 					>

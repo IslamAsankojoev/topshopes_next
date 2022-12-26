@@ -16,7 +16,7 @@ const Section4: FC<Props> = ({ dealOfTheWeek }) => {
 	const { settings } = useSettings()
 	const [currentSlide, setCurrentSlide] = useState(0)
 
-	const totalSlides = dealOfTheWeek.length / 4
+	const totalSlides = dealOfTheWeek?.length / 4
 	const firstIndex = currentSlide * 4
 	const lastIndex = firstIndex + 4
 

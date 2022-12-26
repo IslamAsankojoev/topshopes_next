@@ -25,7 +25,7 @@ const GiftShopTopSales: FC<Props> = ({ productsData }) => {
 			<Carousel
 				infinite={true}
 				visibleSlides={visibleSlides}
-				totalSlides={productsData.length}
+				totalSlides={productsData?.length}
 				sx={{
 					'& .carousel__slider': { paddingBottom: '15px' },
 					'& #backArrowButton, #backForwardButton': {

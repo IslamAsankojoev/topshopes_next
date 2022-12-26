@@ -11,7 +11,7 @@ type Props = {
 // =============================================================
 
 const Section6: FC<Props> = ({ trendingItems }) => {
-	const trendings = trendingItems.slice(1, trendingItems.length)
+	const trendings = trendingItems.slice(1, trendingItems?.length)
 
 	return (
 		<CategorySectionCreator title="Trending Items">

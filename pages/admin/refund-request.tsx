@@ -50,8 +50,8 @@ const RefundRequest: NextPageAuth<RefundRequestProps> = ({ requests }) => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={requests.length}
-								numSelected={selected.length}
+								rowCount={requests?.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 
@@ -67,7 +67,7 @@ const RefundRequest: NextPageAuth<RefundRequestProps> = ({ requests }) => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(requests.length / rowsPerPage)}
+						count={Math.ceil(requests?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>

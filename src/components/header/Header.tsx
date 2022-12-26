@@ -122,7 +122,7 @@ const Header: FC<HeaderProps> = ({
 						<PersonOutline />
 					</Box>
 
-					<Badge badgeContent={cart.length} color="primary">
+					<Badge badgeContent={cart?.length} color="primary">
 						<Box
 							ml={2.5}
 							p={1.25}

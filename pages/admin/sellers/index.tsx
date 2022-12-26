@@ -57,8 +57,8 @@ const SellerList: NextPageAuth<SellerListProps> = ({ sellers }) => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={sellers.length}
-								numSelected={selected.length}
+								rowCount={sellers?.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 
@@ -74,7 +74,7 @@ const SellerList: NextPageAuth<SellerListProps> = ({ sellers }) => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(sellers.length / rowsPerPage)}
+						count={Math.ceil(sellers?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>

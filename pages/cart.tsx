@@ -6,10 +6,10 @@ import ProductCard7 from 'components/product-cards/ProductCard7'
 import SEO from 'components/SEO'
 import { Span } from 'components/Typography'
 import { CartItem, useAppContext } from 'contexts/AppContext'
+
 import countryList from 'data/countryList'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
-
 import { NextPage } from 'next'
 import Link from 'next/link'
 import { ICartItem } from 'store/cart/cart.interface'

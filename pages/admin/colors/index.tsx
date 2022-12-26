@@ -62,8 +62,8 @@ const ColorList: NextPageAuth = () => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={colors.length}
-								numSelected={selected.length}
+								rowCount={colors?.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 
@@ -84,7 +84,7 @@ const ColorList: NextPageAuth = () => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(colors.length / rowsPerPage)}
+						count={Math.ceil(colors?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>

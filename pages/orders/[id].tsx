@@ -113,7 +113,7 @@ const OrderDetails: NextPageAuth = () => {
 									</Box>
 								)}
 							</Box>
-							{ind < stepIconList.length - 1 && (
+							{ind < stepIconList?.length - 1 && (
 								<Box
 									className="line"
 									bgcolor={ind < statusIndex ? 'primary.main' : 'grey.300'}
@@ -177,7 +177,7 @@ const OrderDetails: NextPageAuth = () => {
 				</TableRow>
 
 				<Box py={1}>
-					{order.items.length &&
+					{order.items?.length &&
 						order.items?.map((item) => (
 							<FlexBox
 								px={2}

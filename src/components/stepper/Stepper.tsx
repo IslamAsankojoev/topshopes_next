@@ -51,7 +51,7 @@ const Stepper: React.FC<StepperProps> = ({
 							},
 						}}
 					/>
-					{ind < stepperList.length - 1 && (
+					{ind < stepperList?.length - 1 && (
 						<Box
 							width="50px"
 							height="4px"

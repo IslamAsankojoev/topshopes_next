@@ -55,8 +55,8 @@ const EarningHistory: NextPageAuth<EarningHistoryProps> = ({ earnings }) => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={earnings.length}
-								numSelected={selected.length}
+								rowCount={earnings?.length}
+								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
 
@@ -100,7 +100,7 @@ const EarningHistory: NextPageAuth<EarningHistoryProps> = ({ earnings }) => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(earnings.length / rowsPerPage)}
+						count={Math.ceil(earnings?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>
