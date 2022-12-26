@@ -4,6 +4,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import { Avatar, Box, Button, Grid, TextField } from '@mui/material'
+import { AuthService } from 'api/services/auth/auth.service'
 import Card1 from 'components/Card1'
 import { FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
@@ -15,6 +16,7 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
+import { useMutation } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { formData } from 'utils/formData'
 import { getLocalStorage } from 'utils/local-storage/localStorage'
@@ -27,7 +29,16 @@ const ProfileEditor: NextPageAuth = () => {
 	const { avatar, ...initialData } = getLocalStorage('user') || initialValues
 
 	const { push } = useRouter()
-	const { update } = useActions()
+
+	const { mutateAsync } = useMutation(
+		'update profile',
+		(values: FormData) => AuthService.update(values),
+		{
+			onSuccess: () => {
+				push('/profile')
+			},
+		}
+	)
 
 	const handleFileChange = (e) => {
 		const file = e.target.files[0]
@@ -39,10 +50,7 @@ const ProfileEditor: NextPageAuth = () => {
 
 	const handleFormSubmit = async (values: any) => {
 		if (file) values.avatar = file
-		console.log(values)
-		await update(formData(values))
-
-		push('/profile')
+		mutateAsync(formData(values))
 	}
 
 	return user ? (

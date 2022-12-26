@@ -19,9 +19,30 @@ import { CategoriesService } from 'api/services/categories/category.service'
 import { ColorsService } from 'api/services/colors/colors.service'
 import { SizesService } from 'api/services/sizes/sizes.service'
 import { BrandsService } from 'api/services/brands/brand.service'
+import ProductImages, { IProductImage } from 'components/Gallery/ProductImages'
+import { ImagesService } from 'api/services/images/images.service'
 
 const EditProduct: NextPageAuth = () => {
+	const {
+		query: { id },
+	} = useRouter()
+
 	// getting all dependencies for selects
+	const {
+		data: images,
+		isLoading: imagesLoading,
+		refetch,
+	} = useQuery('product images', () => ProductsService.get(id as string), {
+		enabled: !!id,
+	})
+	const { mutateAsync: imageCreateMutateAsync } = useMutation(
+		'product image create',
+		(image: File) => ImagesService.create({ image: image, id: id })
+	)
+	const { mutateAsync: imageDeleteMutateAsync } = useMutation(
+		'product images delete',
+		(id: string) => ImagesService.delete(id)
+	)
 
 	const {
 		'0': Categories,
@@ -46,10 +67,6 @@ const EditProduct: NextPageAuth = () => {
 			queryFn: BrandsService.getList,
 		},
 	])
-
-	const {
-		query: { id },
-	} = useRouter()
 
 	// product fetch
 	const {
@@ -118,6 +135,12 @@ const EditProduct: NextPageAuth = () => {
 					update={true}
 				/>
 			) : null}
+			<ProductImages
+				images={images}
+				add={imageCreateMutateAsync}
+				remove={imageDeleteMutateAsync}
+				refetch={refetch}
+			/>
 		</Box>
 	) : null
 }
