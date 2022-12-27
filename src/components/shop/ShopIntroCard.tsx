@@ -6,25 +6,36 @@ import InstagramFilled from 'components/icons/InstagramFilled'
 import TwitterFilled from 'components/icons/TwitterFilled'
 import YoutubeFilled from 'components/icons/YoutubeFilled'
 import { H3, Small, Span } from 'components/Typography'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { IShop } from 'shared/types/shop.types'
 
 // =======================================================
 type ShopIntroCardProps = {}
 // =======================================================
 
-const ShopIntroCard: React.FC<ShopIntroCardProps> = () => {
+const ShopIntroCard: React.FC<IShop> = ({
+	name,
+	cover_picture,
+	email,
+	id,
+	phone,
+	profile_picture,
+	socialLinks,
+	verified,
+	slug,
+}) => {
 	return (
 		<Card sx={{ mb: 4, pb: 2.5 }}>
 			<Box
 				height="202px"
 				sx={{
-					background: 'url(/assets/images/banners/shop-cover.png) center/cover',
+					background: `url(${cover_picture}) center/cover`,
 				}}
 			/>
 
 			<FlexBox mt={-8} px={3.75} flexWrap="wrap">
 				<Avatar
-					src="/assets/images/faces/propic.png"
+					src={profile_picture}
 					sx={{
 						mr: '37px',
 						width: '120px',
@@ -50,19 +61,19 @@ const ShopIntroCard: React.FC<ShopIntroCardProps> = () => {
 							bgcolor="secondary.main"
 						>
 							<H3 fontWeight="600" color="grey.100">
-								Scarlett Beauty
+								{name}
 							</H3>
 						</Box>
 
 						<FlexBox my={1} gap={1.5}>
 							{socialLinks?.map((item, ind) => (
 								<a
-									href={item.url}
+									href={item.link}
 									target="_blank"
 									rel="noreferrer noopener"
 									key={ind}
 								>
-									<item.icon sx={{ fontSize: 27 }} />
+									{item.name}
 								</a>
 							))}
 						</FlexBox>
@@ -102,11 +113,11 @@ const ShopIntroCard: React.FC<ShopIntroCardProps> = () => {
 	)
 }
 
-const socialLinks = [
-	{ icon: FacebookFilled, url: 'https://facebook.com' },
-	{ icon: TwitterFilled, url: 'https://twitter.com' },
-	{ icon: YoutubeFilled, url: 'https://youtube.com' },
-	{ icon: InstagramFilled, url: 'https://instagram.com' },
-]
+// const socialLinks = [
+// 	{ icon: FacebookFilled, url: 'https://facebook.com' },
+// 	{ icon: TwitterFilled, url: 'https://twitter.com' },
+// 	{ icon: YoutubeFilled, url: 'https://youtube.com' },
+// 	{ icon: InstagramFilled, url: 'https://instagram.com' },
+// ]
 
 export default ShopIntroCard

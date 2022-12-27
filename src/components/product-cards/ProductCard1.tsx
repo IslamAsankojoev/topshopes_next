@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Add, Favorite, Remove, RemoveRedEye } from '@mui/icons-material'
+import { Add, Close, Favorite, Remove, RemoveRedEye } from '@mui/icons-material'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
 import { Box, Button, Chip, IconButton, styled } from '@mui/material'
 import BazaarCard from 'components/BazaarCard'
@@ -13,8 +13,10 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
 import { CSSProperties, FC, Fragment, useCallback, useState } from 'react'
 import { FlexBox } from '../flex-box'
-import { IProduct } from 'shared/types/product.types'
+import { IProduct, IProductVariant } from 'shared/types/product.types'
 import { ICartItem } from 'store/cart/cart.interface'
+import Variables from 'components/products/Variables'
+import BazaarButton from 'components/BazaarButton'
 
 const StyledBazaarCard = styled(BazaarCard)(() => ({
 	height: '100%',
@@ -82,10 +84,15 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const {
 		id,
 		title,
-		price,
+		brand,
+		category,
+		published,
 		rating,
-		thumbnail: imgUrl,
-		discount,
+		reviews,
+		shop,
+		slug,
+		unit,
+		variants,
 	} = props.product
 
 	const [openModal, setOpenModal] = useState(false)
@@ -95,9 +102,16 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const inWishList = wishListItems.some((item) => item.id === id)
 
 	const cartItem = cartItems.find((item) => item.id === id)
+	const [selectedImage, setSelectedImage] = useState<string>(
+		variants[0].thumbnail
+	)
+	const [selectedVariant, setSelectedVariant] = useState<IProductVariant>(
+		variants[0]
+	)
+	const [openVariants, setOpenVariants] = useState<boolean>(false)
 
 	const toggleIsFavorite = () => {
-		toggleWish({ id, title, price, imgUrl, rating, discount })
+		toggleWish({ id, title, variants, rating })
 	}
 
 	const toggleDialog = useCallback(() => setOpenModal((open) => !open), [])
@@ -131,8 +145,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	return (
 		<StyledBazaarCard hoverEffect={props.hoverEffect}>
 			<ImageWrapper>
-				{!!discount && (
-					<StyledChip color="primary" size="small" label={`${discount}% off`} />
+				{!!variants[0].discount && (
+					<StyledChip
+						color="primary"
+						size="small"
+						label={`${variants[0].discount}% off`}
+					/>
 				)}
 
 				<HoverIconWrapper className="hover-box">
@@ -151,8 +169,8 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				<Link href={`/product/${id}`}>
 					<a>
 						<LazyImage
-							loader={() => imgUrl}
-							src={imgUrl}
+							loader={() => selectedImage}
+							src={selectedImage}
 							width={0}
 							height={0}
 							layout="responsive"
@@ -165,7 +183,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 			<ProductViewDialog
 				openDialog={openModal}
 				handleCloseDialog={toggleDialog}
-				product={{ title, price, id, imgGroup: [imgUrl, imgUrl] }}
+				product={{
+					title,
+					price: selectedVariant?.price,
+					id,
+					imgGroup: [variants[0].thumbnail, variants[0].images],
+				}}
 			/>
 
 			<ContentWrapper>
@@ -198,12 +221,16 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
 							<Box fontWeight="600" color="primary.main">
-								${(+price - (+price * discount) / 100).toFixed(2)}
+								$
+								{(
+									+selectedVariant?.price -
+									(+selectedVariant?.price * selectedVariant?.discount) / 100
+								).toFixed(2)}
 							</Box>
 
-							{!!discount && (
+							{!!selectedVariant?.discount && (
 								<Box color="grey.600" fontWeight="600">
-									<del>{Number(price)?.toFixed(2)}</del>
+									<del>{Number(selectedVariant?.price)?.toFixed(2)}</del>
 								</Box>
 							)}
 						</FlexBox>
@@ -220,17 +247,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							color="primary"
 							variant="outlined"
 							sx={{ padding: '3px' }}
-							onClick={handleAddToCart({
-								id,
-								title,
-								price,
-								imgUrl,
-							})}
+							onClick={() => setOpenVariants(true)}
 						>
 							<Add fontSize="small" />
 						</Button>
 
-						{!!cartItem?.qty && (
+						{/* {!!cartItem?.qty && (
 							<Fragment>
 								<Box color="text.primary" fontWeight="600">
 									{cartItem?.qty}
@@ -243,16 +265,76 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 									onClick={handleRemoveFromCart({
 										id,
 										title,
-										price,
-										imgUrl,
+										price: variants[0].price,
+										imgUrl: variants[0].thumbnail,
 									})}
 								>
 									<Remove fontSize="small" />
 								</Button>
 							</Fragment>
-						)}
+						)} */}
 					</FlexBox>
 				</FlexBox>
+				{openVariants ? (
+					<Box
+						sx={{
+							// padding: '10px',
+							position: 'absolute',
+							bottom: '0',
+							left: '0',
+							width: '100%',
+							// height: '50%',
+							backgroundColor: 'rgba(255,255,255,1)',
+							zIndex: '10',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							boxShadow: '-2px 0px 14px -4px rgba(0,0,0,0.300)',
+						}}
+					>
+						{
+							<FlexBox alignItems="center" gap={1} mt={0.5} width={'100%'}>
+								<Box
+									fontWeight="600"
+									color="primary.main"
+									sx={{
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'column',
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}
+								>
+									<Variables
+										setVariant={setSelectedVariant}
+										setImage={setSelectedImage}
+										product={props.product}
+										variant={selectedVariant}
+									/>
+									<BazaarButton
+										color="primary"
+										disabled={!selectedVariant}
+										variant="contained"
+										// onClick={}
+										sx={{ px: '1.75rem', height: 40, width: '100%' }}
+									>
+										Add to Cart
+									</BazaarButton>
+								</Box>
+							</FlexBox>
+						}
+						<IconButton
+							sx={{
+								position: 'absolute',
+								top: '10px',
+								right: '10px',
+							}}
+							onClick={() => setOpenVariants(false)}
+						>
+							<Close />
+						</IconButton>
+					</Box>
+				) : null}
 			</ContentWrapper>
 		</StyledBazaarCard>
 	)

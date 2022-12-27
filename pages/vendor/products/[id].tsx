@@ -11,7 +11,7 @@ import { IProduct } from '../../../src/shared/types/product.types'
 import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
 import { formData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
-import { checkChangeThumbnail } from 'pages-sections/admin/products/productFormHelper'
+// import { checkChangeThumbnail } from 'pages-sections/admin/products/productFormHelper'
 import { productFormValidationSchema } from './validationSchema'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { ProductsService } from 'api/services/products/product.service'
@@ -98,7 +98,7 @@ const EditProduct: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct) => {
-		await mutateAsync(formData(checkChangeThumbnail(data)))
+		await mutateAsync(formData(data))
 	}
 
 	if (
