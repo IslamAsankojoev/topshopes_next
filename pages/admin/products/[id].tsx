@@ -11,12 +11,10 @@ import { IProduct } from '../../../src/shared/types/product.types'
 import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
 import { formData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
-import { checkChangeThumbnail } from 'pages-sections/admin/products/productFormHelper'
 import { productFormValidationSchema } from './productFormValidationSchema'
 import { NextPageAuth } from 'shared/types/auth.types'
 
 const EditProduct: NextPageAuth = () => {
-	// getting all dependencies for selects
 	const fetch = useProductFetch()
 	const {
 		query: { id },
@@ -53,7 +51,7 @@ const EditProduct: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
-		await mutateAsync(formData(checkChangeThumbnail(data)))
+		await mutateAsync(formData(data))
 		if (!redirect) push('/admin/products/')
 	}
 
@@ -80,7 +78,7 @@ const EditProduct: NextPageAuth = () => {
 		</Box>
 	) : null
 }
-EditProduct.isOnlyUser = true
+EditProduct.isOnlyAdmin = true
 
 EditProduct.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

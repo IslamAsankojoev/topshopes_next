@@ -99,7 +99,7 @@ const ProductList: NextPageAuth = () => {
 	)
 }
 
-ProductList.isOnlyUser = true
+ProductList.isOnlyAdmin = true
 
 ProductList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
