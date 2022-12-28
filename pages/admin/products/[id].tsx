@@ -9,13 +9,14 @@ import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
 import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
 import { useRouter } from 'next/router'
+
 import { productFormValidationSchema } from 'pages-sections/admin/products/productFormValidationSchema'
+
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct } from 'shared/types/product.types'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 
 const EditProduct: NextPageAuth = () => {
-	// getting all dependencies for selects
 	const fetch = useProductFetch()
 	const {
 		query: { id },
@@ -89,7 +90,7 @@ const EditProduct: NextPageAuth = () => {
 		</Box>
 	) : null
 }
-EditProduct.isOnlyUser = true
+EditProduct.isOnlyAdmin = true
 
 EditProduct.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

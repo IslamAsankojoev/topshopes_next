@@ -4,6 +4,8 @@ import {
 	Person,
 	Place,
 	Logout,
+	Store,
+	Widgets,
 } from '@mui/icons-material'
 import ShoppingBagOutlined from '@mui/icons-material/ShoppingBagOutlined'
 import { Card, styled, Typography } from '@mui/material'
@@ -96,6 +98,17 @@ const Navigations = () => {
 				//   icon: CreditCard,
 				//   count: 4,
 				// },
+			],
+		},
+		{
+			title: 'SHOP PANEL',
+			list: [
+				{ href: '/vendor/shop-settings', title: 'Shop settings', icon: Store },
+				{
+					href: '/vendor/products',
+					title: 'Products',
+					icon: Widgets,
+				},
 			],
 		},
 	]

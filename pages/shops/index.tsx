@@ -1,22 +1,34 @@
 import { Container, Grid, Pagination } from '@mui/material'
+import { ShopService } from 'api/services/shop/shop.service'
 import { FlexBetween } from 'components/flex-box'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import Navbar from 'components/navbar/Navbar'
 import ShopCard1 from 'components/shop/ShopCard1'
 import { H2, Span } from 'components/Typography'
+import { useQuery } from 'react-query'
+import { IShop } from 'shared/types/shop.types'
 
 const ShopList = () => {
+	const { data: shops, isLoading } = useQuery(
+		'get all shops',
+		ShopService.getList,
+		{
+			select: (data: IShop[]) => data,
+		}
+	)
+
 	return (
 		<ShopLayout1>
 			<Container sx={{ mt: 4, mb: 6 }}>
 				<H2 mb={3}>All Shops</H2>
 
 				<Grid container spacing={3}>
-					{shopList?.map((item, ind) => (
-						<Grid item lg={4} sm={6} xs={12} key={ind}>
-							<ShopCard1 {...item} />
-						</Grid>
-					))}
+					{shops?.length > 0 &&
+						shops?.map((item, ind) => (
+							<Grid item lg={4} sm={6} xs={12} key={ind}>
+								<ShopCard1 {...item} />
+							</Grid>
+						))}
 				</Grid>
 
 				<FlexBetween flexWrap="wrap" mt={4}>

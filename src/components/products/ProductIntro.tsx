@@ -11,24 +11,42 @@ import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { IProduct, IProductVariant } from 'shared/types/product.types'
 import { ICartItem } from 'store/cart/cart.interface'
 // import ImageViewer from "react-simple-image-viewer";
 import { FlexBox, FlexRowCenter } from '../flex-box'
+import Variables from './Variables'
 
 // ================================================================
 type ProductIntroProps = {
-	product: { [key: string]: any }
+	product: IProduct
 }
 // ================================================================
 
 const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
-	const { id, price, title, imgGroup } = product
+	const {
+		brand,
+		category,
+		id,
+		published,
+		rating,
+		reviews,
+		shop,
+		slug,
+		title,
+		unit,
+		variants,
+	} = product
 
 	const router = useRouter()
 	const routerId = router.query.id as string
 
-	const [selectedImage, setSelectedImage] = useState(0)
+	const [selectedImage, setSelectedImage] = useState(variants[0].thumbnail)
+	const [selectedVariant, setSelectedVariant] = useState<IProductVariant>(
+		variants[0]
+	)
+
 	// const [isViewerOpen, setIsViewerOpen] = useState(false)
 	// const [currentImage, setCurrentImage] = useState(0)
 
@@ -41,9 +59,9 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 
 	const { addToCart, removeFromCart } = useActions()
 
-	const handleImageClick = (ind: number) => () => {
-		setSelectedImage(ind)
-	}
+	// const handleImageClick = (ind: number) => () => {
+	// 	setSelectedImage(ind)
+	// }
 
 	// const openImageViewer = useCallback((index) => {
 	//   setCurrentImage(index);
@@ -72,21 +90,11 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 	// )
 
 	const handleAddToCart = useCallback(() => {
-		addToCart({
-			price,
-			title,
-			imgUrl: imgGroup[0],
-			id: id || routerId,
-		})
+		// addToCart({})
 	}, [])
 
 	const handleRemoveFromCart = useCallback(() => {
-		removeFromCart({
-			price,
-			title,
-			imgUrl: imgGroup[0],
-			id: id || routerId,
-		})
+		// removeFromCart({})
 	}, [])
 
 	return (
@@ -100,7 +108,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 							height={300}
 							loading="eager"
 							objectFit="contain"
-							src={product.imgGroup[selectedImage]}
+							src={selectedImage}
 							// onClick={() => openImageViewer(imgGroup.indexOf(imgGroup[selectedImage]))}
 						/>
 						{/* {isViewerOpen && (
@@ -116,7 +124,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
             )} */}
 					</FlexBox>
 
-					<FlexBox overflow="auto">
+					{/* <FlexBox overflow="auto">
 						{imgGroup?.map((url, ind) => (
 							<FlexRowCenter
 								key={ind}
@@ -137,7 +145,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 								<BazaarAvatar src={url} variant="square" height={40} />
 							</FlexRowCenter>
 						))}
-					</FlexBox>
+					</FlexBox> */}
 				</Grid>
 
 				<Grid item md={6} xs={12} alignItems="center">
@@ -163,21 +171,32 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 
 					<Box mb={3}>
 						<H2 color="primary.main" mb={0.5} lineHeight="1">
-							${Number(price).toFixed(2)}
+							${Number(variants[0].price).toFixed(2)}
 						</H2>
-						<Box color="inherit">Stock Available</Box>
 					</Box>
 
-					{!cartItem?.qty ? (
-						<BazaarButton
-							color="primary"
-							variant="contained"
-							onClick={handleAddToCart}
-							sx={{ mb: 4.5, px: '1.75rem', height: 40 }}
-						>
-							Add to Cart
-						</BazaarButton>
-					) : (
+					<Variables
+						product={product}
+						setVariant={setSelectedVariant}
+						setImage={setSelectedImage}
+						variant={selectedVariant}
+					/>
+
+					{/* {!cartItem?.qty ? ( */}
+					<BazaarButton
+						color="primary"
+						disabled={
+							!selectedVariant ||
+							selectedVariant.status === 'unavailable' ||
+							selectedVariant.status === 'coming_soon'
+						}
+						variant="contained"
+						onClick={handleAddToCart}
+						sx={{ mb: 4.5, px: '1.75rem', height: 40 }}
+					>
+						Add to Cart
+					</BazaarButton>
+					{/* ) : (
 						<FlexBox alignItems="center" mb={4.5}>
 							<BazaarButton
 								size="small"
@@ -203,7 +222,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 								<Add fontSize="small" />
 							</BazaarButton>
 						</FlexBox>
-					)}
+					)} */}
 
 					<FlexBox alignItems="center" mb={2}>
 						<Box>Sold By:</Box>

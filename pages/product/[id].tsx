@@ -1,4 +1,5 @@
 import { Box, Container, styled, Tab, Tabs } from '@mui/material'
+import { axiosClassic } from 'api/interceptor'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import Navbar from 'components/navbar/Navbar'
 import AvailableShops from 'components/products/AvailableShops'
@@ -8,9 +9,11 @@ import ProductIntro from 'components/products/ProductIntro'
 import ProductReview from 'components/products/ProductReview'
 import RelatedProducts from 'components/products/RelatedProducts'
 import { H2 } from 'components/Typography'
+import { getAllProductsUrl, getProductsUrl } from 'config/api.config'
 import bazaarReactDatabase from 'data/bazaar-react-database'
 import { GetStaticPaths } from 'next'
 import { FC, useEffect, useState } from 'react'
+import { IProduct } from 'shared/types/product.types'
 import {
 	getFrequentlyBought,
 	getRelatedProducts,
@@ -32,13 +35,14 @@ const StyledTabs = styled(Tabs)(({ theme }) => ({
 type ProductDetailsProps = {
 	frequentlyBought?: any[]
 	relatedProducts?: any[]
+	product?: IProduct
 }
 // ===============================================================
 
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
-	const { frequentlyBought, relatedProducts } = props
+	const { frequentlyBought, relatedProducts, product } = props
 
-	const [product, setProduct] = useState(bazaarReactDatabase[2])
+	// const [product, setProduct] = useState(bazaarReactDatabase[2])
 	const [selectedOption, setSelectedOption] = useState(0)
 	// const [relatedProducts, setRelatedProducts] = useState([]);
 	// const [frequentlyBought, setFrequentlyBought] = useState([]);
@@ -88,23 +92,27 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 	)
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-	const paths = bazaarReactDatabase
-		.slice(0, 2)
-		?.map((pro) => ({ params: { id: pro.id } }))
+// export const getStaticPaths: GetStaticPaths = async () => {
+// 	const paths = bazaarReactDatabase
+// 		.slice(0, 2)
+// 		?.map((pro) => ({ params: { id: pro.id } }))
 
-	return {
-		paths: [], //indicates that no page needs be created at build time
-		fallback: 'blocking', //indicates the type of fallback
-	}
-}
+// 	return {
+// 		paths: [], //indicates that no page needs be created at build time
+// 		fallback: 'blocking', //indicates the type of fallback
+// 	}
+// }
 
-export async function getStaticProps() {
+export async function getServerSideProps(ctx) {
+	const { id } = ctx.params
+
+	const { data: product } = await axiosClassic.get(getAllProductsUrl(id))
+
 	const frequentlyBought = await getFrequentlyBought()
 	const relatedProducts = await getRelatedProducts()
 
 	return {
-		props: { frequentlyBought, relatedProducts },
+		props: { frequentlyBought, relatedProducts, product },
 	}
 }
 

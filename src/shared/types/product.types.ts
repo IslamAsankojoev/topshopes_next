@@ -7,16 +7,24 @@ export type IProduct = {
 	shop: string
 	slug: string
 	title: string
+	brand: IBrand
+	category: ICategory
+	rating: number
 	unit: string
-	rating: number | string
-
+	published: boolean
 	variants: IProductVariant[]
+	reviews: IReview[]
 }
 
-export type IColors = {
+export type IColor = {
 	id: number
 	name: string
 	color: string
+}
+
+export interface ISize {
+	id: number
+	name: string
 }
 
 export type ICategory = {
@@ -37,4 +45,30 @@ export type IBrand = {
 	image: string
 	featured: boolean
 	type: number
+}
+
+export type IProductVariant = {
+	size: ISize
+	color: IColor
+	stock: number
+	status: 'available' | 'unavailable' | 'coming_soon'
+	price: string
+	discount: 0
+	product: string
+	thumbnail: string
+	images: IImage[]
+}
+
+export type IImage = {
+	product_variant: string
+	image: string
+}
+
+export type IReview = {
+	id: string
+	customer: string
+	product: string
+	rating: number
+	published: boolean
+	comment: string
 }

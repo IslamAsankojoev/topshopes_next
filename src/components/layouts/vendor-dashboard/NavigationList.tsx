@@ -76,7 +76,6 @@ export const navigations = [
 		children: [
 			{ name: 'Product List', path: '/vendor/products' },
 			{ name: 'Create Product', path: '/vendor/products/create' },
-			{ name: 'Size', path: '/vendor/sizes' },
 		],
 	},
 	// {
