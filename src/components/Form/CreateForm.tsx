@@ -44,6 +44,10 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 				acc[field.name] = yup.string().required('Required')
 				return acc
 			}
+			if (field.type === 'multiple-select' && field.required) {
+				acc[field.name] = yup.array().min(1).required('required')
+				return acc
+			}
 			return acc
 		}, {})
 	)

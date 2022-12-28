@@ -1,23 +1,20 @@
+import { IProductVariant } from 'shared/types/product-variant.types';
+
 export type IProduct = {
+	brand: IBrand
 	id: string
-	slug: string
-	shop: string
-	title: string
-	brand: string
-	price: string
-	size: string[]
-	colors: IColors[]
-	discount: number
-	thumbnail: string
-	images: string[]
-	categories: ICategory[]
-	status: string
-	rating: number
-	unit: string
 	published: boolean
+	shop: string
+	slug: string
+	title: string
+	unit: string
+	rating: number | string
+
+	variants: IProductVariant[]
 }
 
 export type IColors = {
+	id: number
 	name: string
 	color: string
 }

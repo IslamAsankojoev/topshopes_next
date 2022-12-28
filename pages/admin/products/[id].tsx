@@ -3,17 +3,16 @@ import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { AdminProductsService } from '../../../src/api/services-admin/products/products.service'
-import Loading from '../../../src/components/Loading'
+import { AdminProductsService } from 'api/services-admin/products/products.service'
+import Loading from 'components/Loading'
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
-import { IProduct } from '../../../src/shared/types/product.types'
-import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
-import { formData } from '../../../src/utils/formData'
+import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
 import { useRouter } from 'next/router'
-import { checkChangeThumbnail } from 'pages-sections/admin/products/productFormHelper'
-import { productFormValidationSchema } from './productFormValidationSchema'
+import { productFormValidationSchema } from 'pages-sections/admin/products/productFormValidationSchema'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { IProduct } from 'shared/types/product.types'
+import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 
 const EditProduct: NextPageAuth = () => {
 	// getting all dependencies for selects
@@ -27,6 +26,7 @@ const EditProduct: NextPageAuth = () => {
 		data: product,
 		isLoading,
 		isError,
+		refetch,
 	} = useQuery(
 		'product admin get',
 		() => AdminProductsService.get(id as string),
@@ -39,7 +39,7 @@ const EditProduct: NextPageAuth = () => {
 	// product mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'product admin update',
-		(data: FormData) => AdminProductsService.update(id as string, data),
+		(data: IProduct) => AdminProductsService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -53,7 +53,7 @@ const EditProduct: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
-		await mutateAsync(formData(checkChangeThumbnail(data)))
+		await mutateAsync(data)
 		if (!redirect) push('/admin/products/')
 	}
 
@@ -65,17 +65,26 @@ const EditProduct: NextPageAuth = () => {
 		<Box py={4}>
 			<H3 mb={2}>Edit Product</H3>
 			{product ? (
-				<ProductForm
-					initialValues={{
-						...product,
-						brand: product?.brand?.id,
-						shop: product?.shop?.id,
-					}}
-					validationSchema={productFormValidationSchema}
-					handleFormSubmit={handleFormSubmit}
-					productFetch={fetch}
-					update={true}
-				/>
+				<>
+					<ProductForm
+						initialValues={{
+							...product,
+							brand: product?.brand?.id,
+							shop: product?.shop?.id,
+						}}
+						validationSchema={productFormValidationSchema}
+						handleFormSubmit={handleFormSubmit}
+						productFetch={fetch}
+						update={true}
+						includeShop
+					/>
+
+					<ProductVariantList
+						refetch={refetch}
+						product={product}
+						fetch={fetch}
+					/>
+				</>
 			) : null}
 		</Box>
 	) : null

@@ -6,14 +6,13 @@ import {
 	ImageListItem,
 	ImageListItemBar,
 } from '@mui/material'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import { Close, Delete } from '@mui/icons-material'
 import { toast } from 'react-toastify'
 
 interface IProductImages {
 	images: IProductImage[]
-	refetch: () => void
 	remove: (id: string) => void
 	add: (image: File) => void
 }
@@ -23,12 +22,13 @@ export type IProductImage = {
 	product: string
 }
 
-const ProductImages: FC<IProductImages> = ({
-	images,
-	refetch,
-	remove,
-	add,
-}) => {
+const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
+	// const getImgUrl = (img: File | Blob | string) => {
+	// 	if (typeof img == typeof Blob || typeof File)
+	// 		return URL.createObjectURL(img)
+	// 	return img
+	// }
+
 	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		if ([...e.target.files]?.length > 5) {
 			toast.error('You can upload max 5 images')
@@ -38,13 +38,11 @@ const ProductImages: FC<IProductImages> = ({
 
 		await images.forEach(async (image) => {
 			await add(image)
-			refetch()
 		})
 	}
 
 	const handleRemove = async (id: string) => {
 		await remove(id)
-		refetch()
 	}
 
 	return (

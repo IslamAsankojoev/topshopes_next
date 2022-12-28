@@ -2,6 +2,8 @@ export const API_URL = `${process.env.SERVER_URL}/api/`
 
 export const getAuthUrl = (string: string) => `auth/${string}`
 export const getProductsUrl = (string: string) => `products/${string}`
+export const getProductVariantsUrl = (string: string) =>
+	`products/variants/${string}`
 export const getShopsProductsUrl = (string: string) =>
 	`shops/products/${string}`
 export const getColorsUrl = (string: string) =>
@@ -16,7 +18,9 @@ export const getBrandsUrl = (string: string) => `shops/brand/${string}`
 export const getAddressesUrl = (string: string) => `profile/address/${string}`
 export const getShopUrl = (string: string) => `shop/${string}`
 export const getImagesUrl = (string: string) =>
-	`products/variants/images/${string}`
+	`admin/products/variants/images/${string}`
+
+
 
 export const getBrandsUrlAdmin = (string: string) => `admin/brand/${string}`
 export const getBrandsTypesUrlAdmin = (string: string) =>
@@ -25,6 +29,8 @@ export const getCategoriesUrlAdmin = (string: string) =>
 	`admin/categories/${string}`
 export const getProductsUrlAdmin = (string: string) =>
 	`admin/products/${string}`
+export const getProductVariantsUrlAdmin = (string: string) =>
+	`admin/products/variants/${string}`
 export const getShopsUrlAdmin = (string: string) => `admin/shops/${string}`
 export const getPagesUrlAdmin = (string: string) => `admin/pages/${string}`
 export const getPageCategoryUrlAdmin = (string: string) =>

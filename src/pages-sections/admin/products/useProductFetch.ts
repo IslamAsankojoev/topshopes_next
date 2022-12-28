@@ -1,17 +1,19 @@
 import { useQuery } from 'react-query'
-import { CategoriesService } from '../../../api/services-admin/categories/category.service'
-import { SizesService } from '../../../api/services/sizes/sizes.service'
-import { ColorsService } from '../../../api/services/colors/colors.service'
-import { ShopsService } from '../../../api/services-admin/shops/shops.service'
-import { ICategory } from '../../../shared/types/product.types'
-import { IShop } from '../../../shared/types/shop.types'
+import { CategoriesService } from 'api/services-admin/categories/category.service'
+import { SizesService } from 'api/services/sizes/sizes.service'
+import { ColorsService } from 'api/services/colors/colors.service'
+import { ShopsService } from 'api/services-admin/shops/shops.service'
+import { ICategory, IColors } from 'shared/types/product.types'
+import { IShop } from 'shared/types/shop.types'
 import { BrandsService } from 'api/services-admin/brands/brand.service'
+import { ISize } from 'shared/types/size.types'
+import { IBrand } from 'shared/types/brand.types'
 
 export interface ProductFetchTypes {
 	categories: ICategory[]
-	brands: { id: string; name: string; image: string }[]
-	colors: { id: string; name: string }[]
-	size: { id: string; name: string }[]
+	brands: IBrand[]
+	colors: IColors[]
+	size: ISize[]
 	shops?: IShop[]
 	isLoading: boolean
 }

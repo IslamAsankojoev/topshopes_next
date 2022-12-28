@@ -1,22 +1,24 @@
 import { Box, Divider } from '@mui/material'
 import { FlexBetween } from 'components/flex-box'
 import { Paragraph, Span } from 'components/Typography'
+import { useTypedSelector } from 'hooks/useTypedSelector'
 import React, { FC } from 'react'
 
 const CheckoutSummary2: FC = () => {
+	const { items } = useTypedSelector((state) => state.wishStore)
 	return (
 		<Box>
 			<Paragraph color="secondary.900" fontWeight={700} mb={2}>
 				Your order
 			</Paragraph>
 
-			{cartList.map((item) => (
-				<FlexBetween mb={1.5} key={item.name}>
+			{items?.map((item) => (
+				<FlexBetween mb={1.5} key={item.title}>
 					<Paragraph>
 						<Span fontWeight="700" fontSize="14px">
-							{item.quantity}
+							{item.qty}
 						</Span>{' '}
-						x {item.name}
+						x {item.title}
 					</Paragraph>
 					<Paragraph>${Number(item.price).toFixed(2)}</Paragraph>
 				</FlexBetween>

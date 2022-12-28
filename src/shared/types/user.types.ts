@@ -1,4 +1,4 @@
-import { IOrder, IOrderShort } from './order.types'
+import { IOrderShort } from './order.types'
 
 export interface IUser {
 	id: string
@@ -10,6 +10,7 @@ export interface IUser {
 	verified: boolean
 	orders: IOrderShort[]
 	addresses: IAddress[]
+	is_superuser: boolean
 }
 
 export interface IAddress {

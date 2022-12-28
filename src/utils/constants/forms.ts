@@ -277,3 +277,47 @@ export const siteSettingsFormEdit = [
 	},
 ]
 
+
+export const productVariantFormCreate = [
+	{
+		name: 'price',
+		label: 'price',
+		type: 'number',
+		placeholder: 'Enter price',
+		required: true,
+	},
+	{
+		name: 'discount',
+		label: 'discount',
+		type: 'number',
+		placeholder: 'Enter discount',
+		required: true,
+	},
+	{
+		name: 'status',
+		label: 'status',
+		type: 'select',
+		placeholder: 'Enter status',
+		allNames: [
+			{id: 'available', name: 'available'}, 
+			{id: 'unavailable', name: 'unavailable'}, 
+			{id: 'coming_soon', name: 'coming soon'}
+		],
+		required: true,
+	},
+	{
+		name: 'stock',
+		label: 'stock',
+		type: 'number',
+		placeholder: 'Enter stock',
+		required: true,
+	},
+	{
+		name: 'thumbnail',
+		label: 'thumbnail',
+		type: 'file',
+		placeholder: 'Enter thumbnail',
+		required: true,
+		fullWidth: true
+	},
+]

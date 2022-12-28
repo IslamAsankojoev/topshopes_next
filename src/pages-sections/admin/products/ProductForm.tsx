@@ -15,6 +15,7 @@ import { Assign, ObjectShape } from 'yup/lib/object'
 import MultipleSelect from '../../../components/multiple-select/MultipleSelect'
 import styled from '@emotion/styled'
 import { ProductFetchTypes } from './useProductFetch'
+import { IBrand, ICategory } from 'shared/types/product.types'
 
 // ================================================================
 type ProductFormProps = {
@@ -37,7 +38,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	} = props
 
 	//data fetching
-	const { categories, size, colors, brands, shops } = productFetch
+	const { brands, shops, categories } = productFetch
 
 	// states
 	const [imageState, setImageState] = React.useState(
@@ -82,93 +83,11 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						/>
 					</Grid>
 
-					<Grid item sm={6} xs={12}>
-						<MultipleSelect
-							allNames={categories}
-							defaultValues={values.categories}
-							onChange={(selected) => setFieldValue('categories', selected)}
-							label={'Categories'}
-							helperText={touched.categories && (errors.categories as string)}
-							error={!!touched.categories && !!errors.categories}
-						/>
-					</Grid>
-
-					<Grid item sm={imageState ? 6 : 12} xs={12}>
-						<DropZone
-							name={'thumbnail'}
-							onBlur={handleBlur}
-							onChange={(file: File[]) => {
-								setFieldValue('thumbnail', file[0])
-								setImageState(URL.createObjectURL(file[0]))
-							}}
-							multiple={false}
-							accept={'image/*,.web'}
-						/>
-						{!!touched.thumbnail && !!errors.thumbnail ? (
-							<h2 style={{ color: 'red', textAlign: 'center' }}>
-								{touched.thumbnail && errors.thumbnail}
-							</h2>
-						) : null}
-					</Grid>
-
 					{imageState ? (
 						<Grid sx={{ width: '100%', height: '100%' }} item sm={6} xs={12}>
 							<PrevImg src={imageState} alt={'picture'} />
 						</Grid>
 					) : null}
-
-					<Grid sm={6} item xs={12}>
-						<MultipleSelect
-							allNames={size}
-							defaultValues={values.sizes}
-							onChange={(selected) => setFieldValue('sizes', selected)}
-							label={'Sizes'}
-							helperText={touched.sizes && (errors.sizes as string)}
-							error={!!touched.sizes && !!errors.sizes}
-						/>
-					</Grid>
-
-					<Grid item sm={6} xs={12}>
-						<MultipleSelect
-							allNames={colors}
-							defaultValues={values.colors}
-							onChange={(selected) => setFieldValue('colors', selected)}
-							label={'Colors'}
-							helperText={touched.colors && (errors.colors as string)}
-							error={!!touched.colors && !!errors.colors}
-						/>
-					</Grid>
-					<Grid item sm={6} xs={12}>
-						<TextField
-							fullWidth
-							name="rating"
-							label="Rating"
-							color="info"
-							size="medium"
-							placeholder="Rating"
-							onBlur={handleBlur}
-							value={values.rating}
-							onChange={handleChange}
-							error={!!touched.rating && !!errors.rating}
-							helperText={touched.rating && errors.rating}
-						/>
-					</Grid>
-					<Grid item sm={6} xs={12}>
-						<TextField
-							fullWidth
-							name="price"
-							color="info"
-							size="medium"
-							type="number"
-							onBlur={handleBlur}
-							value={values.price}
-							label="Regular Price"
-							onChange={handleChange}
-							placeholder="Regular Price"
-							error={!!touched.price && !!errors.price}
-							helperText={touched.price && errors.price}
-						/>
-					</Grid>
 
 					<Grid item sm={6} xs={12}>
 						<TextField
@@ -185,23 +104,29 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							helperText={touched.unit && errors.unit}
 						/>
 					</Grid>
+
 					<Grid item sm={6} xs={12}>
 						<TextField
+							select
 							fullWidth
-							type={'number'}
 							color="info"
 							size="medium"
-							name="discount"
-							label="Discount"
+							name="category"
 							onBlur={handleBlur}
+							placeholder="Category"
 							onChange={handleChange}
-							placeholder="Discount"
-							value={values.discount}
-							error={!!touched.discount && !!errors.discount}
-							helperText={touched.discount && errors.discount}
-						/>
+							value={values.category}
+							label="Select Category"
+							error={!!touched.category && !!errors.category}
+							helperText={touched.category && errors.category}
+						>
+							{categories?.map((category: ICategory) => (
+								<MenuItem key={category.name} value={category.id}>
+									{category.name}
+								</MenuItem>
+							))}
+						</TextField>
 					</Grid>
-
 					<Grid item sm={6} xs={12}>
 						<TextField
 							select
@@ -217,7 +142,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							error={!!touched.brand && !!errors.brand}
 							helperText={touched.brand && errors.brand}
 						>
-							{brands?.map((brand) => (
+							{brands?.map((brand: IBrand) => (
 								<MenuItem key={brand.name} value={brand.id}>
 									{brand.name}
 								</MenuItem>
