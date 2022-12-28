@@ -1,7 +1,11 @@
+import { IProductVariant } from 'shared/types/product-variant.types';
+
 export type IProduct = {
+	brand: IBrand
 	id: string
-	slug: string
+	published: boolean
 	shop: string
+	slug: string
 	title: string
 	brand: IBrand
 	category: ICategory

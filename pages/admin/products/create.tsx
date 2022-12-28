@@ -3,7 +3,7 @@ import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
-import { productFormValidationSchema } from './productFormValidationSchema'
+import { productFormValidationSchema } from '../../../src/pages-sections/admin/products/productFormValidationSchema'
 import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
 import Loading from '../../../src/components/Loading'
 import { toast } from 'react-toastify'
@@ -12,48 +12,64 @@ import { useRouter } from 'next/router'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { useMutation, useQueries } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
+import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useActions } from 'hooks/useActions'
+import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
+import { ImagesService } from 'api/services/images/images.service'
 
 const initialValues = {
 	title: '',
-	categories: [],
-	colors: [],
-	discount: 0,
-	price: '0',
 	published: false,
-	rating: '',
+	category: '',
 	shop: '',
-	sizes: [],
 	brand: '',
-	thumbnail: '',
 	unit: '',
 }
 
 const CreateProduct: NextPageAuth = () => {
+	// states
+	const { variants } = useTypedSelector((state) => state.productVariantsStore)
+	const { setVariants } = useActions()
+
 	// getting all dependencies for selects
 	const fetch = useProductFetch()
 
 	const { push } = useRouter()
 
-	// create product
-	const { isLoading: mutationLoading, mutateAsync } = useMutation(
-		'product admin create',
-		(data: FormData) => AdminProductsService.create(data),
-		{
-			onSuccess: () => {
-				toast.success('success')
-				push('/admin/products/')
-			},
-			onError: (e: any) => {
-				toast.error(e.message)
-			},
-		}
-	)
-
+	// fetching
 	const handleFormSubmit = async (data: FormData) => {
-		await mutateAsync(formData(data))
+		try {
+			// create product
+			const productResponse = await AdminProductsService.create(data)
+
+			// create variants with new product
+			for (let i of variants) {
+				const variantResponse = await ProductVariantAdminService.create(
+					formData({
+						...i.variants,
+						product: productResponse.id,
+					})
+				)
+				// create images with new variant
+				for (let j of i.images) {
+					const imagesResponse = await ImagesService.create({
+						product_variant: variantResponse.id,
+						image: j.image,
+					})
+				}
+			}
+			// push('/admin/products/')
+		} catch (e) {
+			console.log(e)
+		}
 	}
 
-	if (fetch.isLoading || mutationLoading) {
+	React.useEffect(() => {
+		setVariants([])
+	}, [])
+
+	if (fetch.isLoading) {
 		return <Loading />
 	}
 
@@ -69,6 +85,7 @@ const CreateProduct: NextPageAuth = () => {
 				update={false}
 				includeShop={true}
 			/>
+			<ProductVariantList create={true} product={variants} fetch={fetch} />
 		</Box>
 	) : null
 }

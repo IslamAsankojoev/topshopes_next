@@ -2,6 +2,7 @@ import { Button, MenuItem, Switch, TextField } from '@mui/material'
 import { FC, useState } from 'react'
 import styles from './Field.module.scss'
 import dynamic from 'next/dynamic'
+import MultipleSelect from 'components/multiple-select/MultipleSelect'
 const DynamicTextEditor = dynamic(
 	() => import('components/TextEditor/TextEditor'),
 	{ ssr: false }
@@ -29,6 +30,18 @@ const Field: FC<any> = (props) => {
 					</MenuItem>
 				))}
 			</TextField>
+		)
+	}
+	if (type == 'multiple-select') {
+		return (
+			<MultipleSelect
+				allNames={other.allNames}
+				defaultValues={other.allNames[0]?.id}
+				onChange={(selected) => other.setFieldValue(other.name, selected)}
+				label={other.name}
+				helperText={other.touched.sizes && (other.errors.sizes as string)}
+				error={!!other.touched.sizes && !!other.errors.sizes}
+			/>
 		)
 	}
 

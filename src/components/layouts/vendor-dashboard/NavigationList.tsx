@@ -47,14 +47,14 @@ export const navigations = [
 		path: '/admin/customers',
 	},
 
-	{
-		name: 'Refunds',
-		icon: duotone.Refund,
-		children: [
-			{ name: 'Refund Request', path: '/admin/refund-request' },
-			{ name: 'Refund Settings', path: '/admin/refund-setting' },
-		],
-	},
+	// {
+	// 	name: 'Refunds',
+	// 	icon: duotone.Refund,
+	// 	children: [
+	// 		{ name: 'Refund Request', path: '/admin/refund-request' },
+	// 		{ name: 'Refund Settings', path: '/admin/refund-setting' },
+	// 	],
+	// },
 
 	{
 		name: 'Sellers',
@@ -78,22 +78,22 @@ export const navigations = [
 			{ name: 'Create Product', path: '/vendor/products/create' },
 		],
 	},
-	{
-		name: 'Earnings',
-		icon: duotone.ProjectChart,
-		children: [
-			{ name: 'Earning History', path: '/vendor/earning-history' },
-			{ name: 'Payouts', path: '/vendor/payouts' },
-			{ name: 'Payout Request', path: '/vendor/payout-requests' },
-			{ name: 'Payout Settings', path: '/vendor/payout-settings' },
-		],
-	},
+	// {
+	// 	name: 'Earnings',
+	// 	icon: duotone.ProjectChart,
+	// 	children: [
+	// 		{ name: 'Earning History', path: '/vendor/earning-history' },
+	// 		{ name: 'Payouts', path: '/vendor/payouts' },
+	// 		{ name: 'Payout Request', path: '/vendor/payout-requests' },
+	// 		{ name: 'Payout Settings', path: '/vendor/payout-settings' },
+	// 	],
+	// },
 
-	{
-		name: 'Refund Request',
-		icon: duotone.Refund,
-		path: '/vendor/refund-request',
-	},
+	// {
+	// 	name: 'Refund Request',
+	// 	icon: duotone.Refund,
+	// 	path: '/vendor/refund-request',
+	// },
 
 	{
 		name: 'Reviews',
@@ -107,11 +107,11 @@ export const navigations = [
 		path: '/vendor/shop-settings',
 	},
 
-	{
-		name: 'Support Tickets',
-		icon: duotone.ElementHub,
-		path: '/vendor/support-tickets',
-	},
+	// {
+	// 	name: 'Support Tickets',
+	// 	icon: duotone.ElementHub,
+	// 	path: '/vendor/support-tickets',
+	// },
 
 	{
 		name: 'Account Setting',
