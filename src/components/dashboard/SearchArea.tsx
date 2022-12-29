@@ -6,7 +6,7 @@ import React, { FC } from 'react'
 
 // ===============================================================
 type SearchAreaProps = {
-	buttonText: string
+	buttonText?: string
 	handleSearch: () => void
 	searchPlaceholder: string
 	handleBtnClick: () => void
@@ -21,22 +21,23 @@ const SearchArea: FC<SearchAreaProps> = (props) => {
 		<FlexBox mb={2} gap={2} justifyContent="space-between" flexWrap="wrap">
 			<SearchInput placeholder={searchPlaceholder} />
 
-			<Button
-				color="info"
-				fullWidth={downSM}
-				variant="contained"
-				startIcon={<Add />}
-				sx={{ minHeight: 44 }}
-				onClick={props.handleBtnClick}
-			>
-				{buttonText}
-			</Button>
+			{buttonText ? (
+				<Button
+					color="info"
+					fullWidth={downSM}
+					variant="contained"
+					startIcon={<Add />}
+					sx={{ minHeight: 44 }}
+					onClick={props.handleBtnClick}
+				>
+					{buttonText}
+				</Button>
+			) : null}
 		</FlexBox>
 	)
 }
 
 SearchArea.defaultProps = {
-	buttonText: 'Add Product',
 	searchPlaceholder: 'Search Product...',
 }
 

@@ -22,7 +22,7 @@ const cartSlice = createSlice({
 				state.cart = [...state.cart, { ...payload, qty: 1 }]
 			}
 			state.total_price = state.cart.reduce(
-				(acc, item) => acc + item.qty * parseInt(item.price),
+				(acc, item) => acc + item.qty * parseInt(item.variants[0].price),
 				0
 			)
 			state.total_items = state.cart?.length
@@ -40,7 +40,7 @@ const cartSlice = createSlice({
 				}
 			}
 			state.total_price = state.cart.reduce(
-				(acc, item) => acc + item.qty * parseInt(item.price),
+				(acc, item) => acc + item.qty * parseInt(item.variants[0].price),
 				0
 			)
 			state.total_items = state.cart?.length
@@ -49,7 +49,7 @@ const cartSlice = createSlice({
 		trashFromCart: (state, { payload }: PayloadAction<ICartItem>) => {
 			state.cart = state.cart.filter((x) => x.id !== payload.id)
 			state.total_price = state.cart.reduce(
-				(acc, item) => acc + item.qty * parseInt(item.price),
+				(acc, item) => acc + item.qty * parseInt(item.variants[0].price),
 				0
 			)
 			state.total_items = state.cart?.length

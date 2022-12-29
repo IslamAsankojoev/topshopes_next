@@ -9,7 +9,7 @@ import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { IColors } from 'shared/types/product.types'
+import { IColor } from 'shared/types/product.types'
 import { colorEditForm } from 'utils/constants/forms'
 
 const UpdateColors: NextPageAuth = () => {
@@ -21,7 +21,7 @@ const UpdateColors: NextPageAuth = () => {
 	// color mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'color admin update',
-		(data: IColors) => ColorsService.update(id as string, data),
+		(data: IColor) => ColorsService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -43,7 +43,7 @@ const UpdateColors: NextPageAuth = () => {
 		}
 	)
 
-	const handleFormSubmit = async (data: IColors) => {
+	const handleFormSubmit = async (data: IColor) => {
 		await mutateAsync(data)
 	}
 

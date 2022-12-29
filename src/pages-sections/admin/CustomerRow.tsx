@@ -6,7 +6,7 @@ import { FlexBox } from 'components/flex-box'
 import { Paragraph } from 'components/Typography'
 import currency from 'currency.js'
 import { useRouter } from 'next/router'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import { IUser } from 'shared/types/user.types'
 import {
@@ -31,9 +31,8 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 		id,
 	} = customer
 
-	// state
 	const { push } = useRouter()
-	const [publish, setProductPublish] = useState(verified)
+	const [publish, setProductPublish] = useState<boolean>(verified)
 
 	const { mutateAsync } = useMutation(
 		'update user verified',

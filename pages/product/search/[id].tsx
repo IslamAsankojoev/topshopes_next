@@ -116,9 +116,9 @@ const ProductSearchResult = () => {
 						<ProductFilterCard />
 					</Grid>
 
-					<Grid item md={9} xs={12}>
+					{/* <Grid item md={9} xs={12}>
 						{view === 'grid' ? <ProductCard1List /> : <ProductCard9List />}
-					</Grid>
+					</Grid> */}
 				</Grid>
 			</Container>
 		</ShopLayout1>

@@ -1,9 +1,11 @@
 
+import { IShop } from './shop.types'
+
+
 export type IProduct = {
 	brand: IBrand
 	id: string
-	published: boolean
-	shop: string
+	shop: IShop
 	slug: string
 	title: string
 	category: ICategory

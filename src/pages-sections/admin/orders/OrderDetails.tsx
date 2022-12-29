@@ -60,7 +60,7 @@ const OrderDetails = () => {
 		isLoading,
 		refetch,
 	}: { data: IOrder; isLoading: any; refetch: () => void } = useQuery(
-		'get one order',
+		'get one vendor order',
 		() => OrdersService.get(id as string),
 		{
 			enabled: !!id,

@@ -1,9 +1,10 @@
 import { Avatar, Box, Theme, useMediaQuery } from '@mui/material'
 import { FlexBetween } from 'components/flex-box'
 import Scrollbar from 'components/Scrollbar'
+import { useTypedSelector } from 'hooks/useTypedSelector'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FC, useState } from 'react'
+import { FC, useLayoutEffect, useState } from 'react'
 import LayoutDrawer from '../LayoutDrawer'
 import {
 	BadgeValue,
@@ -39,6 +40,8 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 		setSidebarCompact,
 	} = props
 
+	const user = useTypedSelector((state) => state.userStore.user)
+	const [accessNavs, setAccessNavs] = useState<any>([])
 	const router = useRouter()
 	const [onHover, setOnHover] = useState(false)
 	const downLg = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
@@ -54,6 +57,15 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 		router.push(path)
 		setShowMobileSideBar()
 	}
+
+	// handle check admin permission
+	useLayoutEffect(() => {
+		if (!user?.is_superuser) {
+			setAccessNavs(navigations?.filter((nav) => nav.role === 'vendor'))
+		} else {
+			setAccessNavs(navigations)
+		}
+	}, [])
 
 	const renderLevels = (data: any) => {
 		return data?.map((item: any, index: any) => {
@@ -138,7 +150,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 			}}
 		>
 			<NavWrapper compact={sidebarCompact}>
-				{renderLevels(navigations)}
+				{renderLevels(accessNavs)}
 			</NavWrapper>
 		</Scrollbar>
 	)

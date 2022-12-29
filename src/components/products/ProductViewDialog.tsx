@@ -16,6 +16,8 @@ import { FlexBox } from 'components/flex-box'
 import { H1, H2, H3, H6, Paragraph } from 'components/Typography'
 import { useAppContext } from 'contexts/AppContext'
 import { FC, useCallback } from 'react'
+import { IProduct, IProductVariant } from 'shared/types/product.types'
+import Variables from './Variables'
 
 const ContentWrapper = styled(Box)(({ theme }) => ({
 	'& .carousel:hover': {
@@ -41,32 +43,44 @@ const ContentWrapper = styled(Box)(({ theme }) => ({
 
 // =====================================================
 type ProductViewDialogProps = {
-	product: any
+	product: IProduct
 	openDialog: boolean
 	handleCloseDialog: () => void
+	setVariant?: (variant: any) => void
+	setImage?: (image: any) => void
+	variant?: IProductVariant
+	image?: string
 }
 // =====================================================
 
 const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
-	const { product, openDialog, handleCloseDialog } = props
+	const {
+		product,
+		openDialog,
+		handleCloseDialog,
+		setImage,
+		setVariant,
+		variant,
+		image,
+	} = props
 
 	const { state, dispatch } = useAppContext()
 	const cartItem = state.cart.find((item) => item.id === product.id)
 
-	const handleCartAmountChange = useCallback(
-		(amount) => () => {
-			dispatch({
-				type: 'CHANGE_CART_AMOUNT',
-				payload: {
-					...product,
-					qty: amount,
-					name: product.title,
-					imgUrl: product.imgGroup[0],
-				},
-			})
-		},
-		[dispatch, product]
-	)
+	// const handleCartAmountChange = useCallback(
+	// 	(amount) => () => {
+	// 		dispatch({
+	// 			type: 'CHANGE_CART_AMOUNT',
+	// 			payload: {
+	// 				...product,
+	// 				qty: amount,
+	// 				name: product.title,
+	// 				imgUrl: product.imgGroup[0],
+	// 			},
+	// 		})
+	// 	},
+	// 	[dispatch, product]
+	// )
 
 	return (
 		<Dialog
@@ -79,33 +93,43 @@ const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
 				<ContentWrapper>
 					<Grid container spacing={3}>
 						<Grid item md={6} xs={12}>
-							<Carousel
-								totalSlides={product.imgGroup?.length}
+							{/* <Carousel
+								totalSlides={
+									[variant?.thumbnail, variant?.images?.map((el) => el.image)]
+										?.length
+								}
 								visibleSlides={1}
 							>
-								{product.imgGroup?.map((item: string, index: number) => (
-									<BazaarImage
-										key={index}
-										src={item}
-										sx={{
-											mx: 'auto',
-											width: '100%',
-											objectFit: 'contain',
-											height: { sm: 400, xs: 250 },
-										}}
-									/>
+								{[
+									variant?.thumbnail,
+									variant?.images?.map((el) => el.image),
+								]?.map((item: string, index: number) => (
+									
 								))}
-							</Carousel>
+							</Carousel> */}
+							<BazaarImage
+								src={image}
+								sx={{
+									mx: 'auto',
+									width: '100%',
+									objectFit: 'contain',
+									height: { sm: 400, xs: 250 },
+								}}
+							/>
 						</Grid>
 
 						<Grid item md={6} xs={12} alignSelf="center">
-							<H2>{product.title}</H2>
+							<H2>{product?.title}</H2>
 
 							<Paragraph py={1} color="grey.500" fontWeight={600} fontSize={13}>
 								CATEGORY: Cosmetic
 							</Paragraph>
 
-							<H1 color="primary.main">${Number(product.price).toFixed(2)}</H1>
+							<H1 color="primary.main">
+								{Number(variant?.price || product.variants[0]?.price).toFixed(
+									2
+								)}
+							</H1>
 
 							<FlexBox alignItems="center" gap={1}>
 								<BazaarRating
@@ -124,13 +148,30 @@ const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
 							</Paragraph>
 
 							<Divider sx={{ mb: 2 }} />
+							<Variables
+								product={product}
+								setVariant={setVariant}
+								setImage={setImage}
+								variant={variant}
+							/>
 
-							{!cartItem?.qty ? (
+							<BazaarButton
+								color="primary"
+								disabled={!variant}
+								variant="contained"
+								// onClick={handleAddToCart}
+								sx={{ px: '1.75rem', height: 40 }}
+							>
+								Add to Cart
+							</BazaarButton>
+							{/* {!cartItem?.qty ? (
+
+
 								<BazaarButton
 									size="large"
 									color="primary"
 									variant="contained"
-									onClick={handleCartAmountChange(1)}
+									// onClick={}
 									sx={{ height: 45 }}
 								>
 									Add to Cart
@@ -142,7 +183,7 @@ const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
 										color="primary"
 										variant="outlined"
 										sx={{ p: '.6rem', height: 45 }}
-										onClick={handleCartAmountChange(cartItem?.qty - 1)}
+										// onClick={}
 									>
 										<Remove fontSize="small" />
 									</BazaarButton>
@@ -151,17 +192,19 @@ const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
 										{cartItem?.qty.toString().padStart(2, '0')}
 									</H3>
 
+								
+
 									<BazaarButton
 										size="small"
 										color="primary"
 										variant="outlined"
 										sx={{ p: '.6rem', height: 45 }}
-										onClick={handleCartAmountChange(cartItem?.qty + 1)}
+										// onClick={}
 									>
 										<Add fontSize="small" />
 									</BazaarButton>
 								</FlexBox>
-							)}
+							)} */}
 						</Grid>
 					</Grid>
 				</ContentWrapper>

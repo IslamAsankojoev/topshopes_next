@@ -171,7 +171,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 
 					<Box mb={3}>
 						<H2 color="primary.main" mb={0.5} lineHeight="1">
-							${Number(variants[0].price).toFixed(2)}
+							{Number(selectedVariant?.price || variants[0]?.price).toFixed(2)}
 						</H2>
 					</Box>
 
@@ -192,7 +192,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 						}
 						variant="contained"
 						onClick={handleAddToCart}
-						sx={{ mb: 4.5, px: '1.75rem', height: 40 }}
+						sx={{ mb: 4.5, px: '1.75rem', height: 40, color: 'white' }}
 					>
 						Add to Cart
 					</BazaarButton>
