@@ -28,6 +28,7 @@ const productVariantsSlice = createSlice({
             // задать id варианта и его обновленные данные
             state.variants = state.variants.map(variant => {
                 if (variant?.id == payload.id) {
+                    // что бы вытащить прошлый thumbnail если нету в пришедших данных
                     const imgCheck = 
                     payload.data.variant?.thumbnail 
                         ?payload.data.variant?.thumbnail 

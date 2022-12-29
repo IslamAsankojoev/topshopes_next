@@ -126,7 +126,7 @@ const VariantCard = styled(Card)`
 	display: grid !important;
 	grid-gap: 20px 0 !important;
 	padding: 20px 10px !important;
-	box-shadow: 0px 0px 5px black !important;
+	box-shadow: 0px 1px 3px rgb(3 0 71 / 30%) !important;
 	border: none !important;
 	position: relative !important;
 
