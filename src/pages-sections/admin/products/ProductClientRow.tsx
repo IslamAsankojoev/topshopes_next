@@ -75,7 +75,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 			<StyledTableCell align="left">
 				<Avatar
-					src={brand.image}
+					src={brand?.image}
 					sx={{ width: 55, height: 'auto', borderRadius: 0 }}
 				/>
 			</StyledTableCell>

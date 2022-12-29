@@ -76,6 +76,15 @@ const Field: FC<any> = (props) => {
 		return <TextField {...other} type="radio" fullWidth />
 	}
 	if (type == 'file') {
+		const getImgUrl = (img: File | Blob | string | any) => {
+			if (!img) return false
+
+			if (typeof img != 'string') {
+				return URL.createObjectURL(img)
+			}
+			return img
+		}
+
 		const [fileLocaleUrl, setFileLocaleUrl] = useState(null)
 
 		const handleFileChange = (e) => {
@@ -94,7 +103,7 @@ const Field: FC<any> = (props) => {
 						className={styles.uploadImage}
 						src={
 							fileLocaleUrl ||
-							other.defaultData[other.name] ||
+							getImgUrl(other.defaultData[other.name]) ||
 							'/assets/images/placeholder.jpg'
 						}
 						alt="Uploaded image"

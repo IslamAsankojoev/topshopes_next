@@ -17,7 +17,7 @@ import { IProduct } from 'shared/types/product.types'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 
 const EditProduct: NextPageAuth = () => {
-	const fetch = useProductFetch()
+	const fetch = useProductFetch(true)
 	const {
 		query: { id },
 	} = useRouter()
@@ -42,8 +42,9 @@ const EditProduct: NextPageAuth = () => {
 		'product admin update',
 		(data: IProduct) => AdminProductsService.update(id as string, data),
 		{
-			onSuccess: () => {
+			onSuccess: async () => {
 				toast.success('success')
+				await refetch()
 			},
 			onError: (e: any) => {
 				toast.error(e.message)
@@ -72,6 +73,7 @@ const EditProduct: NextPageAuth = () => {
 							...product,
 							brand: product?.brand?.id,
 							shop: product?.shop?.id,
+							category: product?.category.id,
 						}}
 						validationSchema={productFormValidationSchema}
 						handleFormSubmit={handleFormSubmit}
@@ -94,10 +96,6 @@ EditProduct.isOnlyAdmin = true
 
 EditProduct.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-
-export const getServerSideProps = async ({ query }) => {
-	return { props: { query } }
 }
 
 export default EditProduct

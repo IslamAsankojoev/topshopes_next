@@ -64,7 +64,6 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 
 	const {
 		errors,
-		touched,
 		values,
 		setFieldValue,
 		handleBlur,
@@ -85,6 +84,7 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 				formData.append(key, values[key])
 			}
 		}, formData)
+
 		handleFormSubmit(formData, values)
 	}
 
@@ -109,7 +109,7 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 							allNames={field?.allNames || []}
 						/>
 						<span style={{ color: 'red', fontWeight: '600' }}>
-							{!!errors[field.name] && !!touched[field.name] && 'required'}
+							{!!errors[field.name] && 'required'}
 						</span>
 					</Grid>
 				))}

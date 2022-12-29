@@ -16,6 +16,7 @@ import MultipleSelect from '../../../components/multiple-select/MultipleSelect'
 import styled from '@emotion/styled'
 import { ProductFetchTypes } from './useProductFetch'
 import { IBrand, ICategory } from 'shared/types/product.types'
+import { FlexBox } from 'components/flex-box'
 
 // ================================================================
 type ProductFormProps = {
@@ -41,12 +42,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	const { brands, shops, categories } = productFetch
 
 	// states
-	const [imageState, setImageState] = React.useState(
-		initialValues.thumbnail ? initialValues.thumbnail : null
-	)
-	const [images, setImages] = React.useState(
-		initialValues.images ? initialValues.images : null
-	)
 	const [redirect, setRedirect] = React.useState<boolean>(false)
 
 	const {
@@ -56,7 +51,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		handleBlur,
 		handleChange,
 		handleSubmit,
-		setFieldValue,
 	} = useFormik({
 		initialValues,
 		onSubmit: () => handleFormSubmit(values, redirect),
@@ -82,12 +76,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							helperText={touched.title && errors.title}
 						/>
 					</Grid>
-
-					{imageState ? (
-						<Grid sx={{ width: '100%', height: '100%' }} item sm={6} xs={12}>
-							<PrevImg src={imageState} alt={'picture'} />
-						</Grid>
-					) : null}
 
 					<Grid item sm={6} xs={12}>
 						<TextField
@@ -151,7 +139,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 					</Grid>
 
 					{props.includeShop ? (
-						<Grid item sm={6} xs={12}>
+						<Grid item xs={12}>
 							<TextField
 								select
 								fullWidth
@@ -176,24 +164,25 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 					) : null}
 
 					<Grid item xs={12}>
-						{update ? (
+						<FlexBox
+							flexWrap={'wrap'}
+							justifyContent={'flex-end'}
+							sx={{ gridGap: '10px' }}
+						>
+							{update ? (
+								<Button variant="contained" color="info" type="submit">
+									Save and exit
+								</Button>
+							) : null}
 							<Button
-								sx={{ m: '0 20px' }}
+								onClick={() => setRedirect(true)}
 								variant="contained"
 								color="info"
 								type="submit"
 							>
-								Save and exit
+								{update ? 'Save product' : 'Create product'}
 							</Button>
-						) : null}
-						<Button
-							onClick={() => setRedirect(true)}
-							variant="contained"
-							color="info"
-							type="submit"
-						>
-							{update ? 'Save product' : 'Create product'}
-						</Button>
+						</FlexBox>
 					</Grid>
 				</Grid>
 			</form>

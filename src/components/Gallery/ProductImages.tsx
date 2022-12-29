@@ -8,27 +8,26 @@ import {
 } from '@mui/material'
 import { FC } from 'react'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
-import { Close, Delete } from '@mui/icons-material'
+import { Close } from '@mui/icons-material'
 import { toast } from 'react-toastify'
+import { IImage } from 'shared/types/product.types'
 
 interface IProductImages {
-	images: IProductImage[]
-	remove: (id: string) => void
+	images: IImage[]
+	remove: (item: IImage | File) => void
 	add: (image: File) => void
-	refetch?: () => void
-}
-export type IProductImage = {
-	id: string
-	image: string
-	product: string
+	productVariant?: string
+
 }
 
 const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
-	// const getImgUrl = (img: File | Blob | string) => {
-	// 	if (typeof img == typeof Blob || typeof File)
-	// 		return URL.createObjectURL(img)
-	// 	return img
-	// }
+	const getImgUrl = (img: File | Blob | string | any) => {
+		if (!img) return false
+		if (typeof img != 'string') {
+			return URL.createObjectURL(img)
+		}
+		return img
+	}
 
 	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		if ([...e.target.files]?.length > 5) {
@@ -37,13 +36,13 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 		const images = [...e.target.files].slice(0, 5)
 		if (!images) return
 
-		await images.forEach(async (image) => {
-			await add(image)
-		})
+		for (let img of images) {
+			await add(img)
+		}
 	}
 
-	const handleRemove = async (id: string) => {
-		await remove(id)
+	const handleRemove = async (item: IImage) => {
+		await remove(item)
 	}
 
 	return (
@@ -51,13 +50,16 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 			<h3>Product images</h3>
 			{images?.length > 0 ? (
 				<ImageList cols={5}>
-					{images.map((item) => (
+					{images.map((item: IImage) => (
 						<Card variant="outlined" sx={{ border: '1px solid #EAEAEA' }}>
-							<ImageListItem key={item.image} sx={{ height: '100%!important' }}>
+							<ImageListItem
+								key={getImgUrl(item.image) + 'img'}
+								sx={{ height: '100%!important' }}
+							>
 								<img
-									src={`${item.image}`}
+									src={`${getImgUrl(item.image)}`}
 									height={248}
-									alt={item.id}
+									alt={`${getImgUrl(item.image)}`}
 									loading="lazy"
 								/>
 								<ImageListItemBar
@@ -68,8 +70,7 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 									actionIcon={
 										<IconButton
 											color="error"
-											onClick={() => handleRemove(item.id)}
-											aria-label={`info about ${item.id}`}
+											onClick={() => handleRemove(item)}
 										>
 											<Close color="error" />
 										</IconButton>
