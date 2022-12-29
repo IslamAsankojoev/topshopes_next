@@ -42,8 +42,9 @@ const EditProduct: NextPageAuth = () => {
 		'product admin update',
 		(data: IProduct) => AdminProductsService.update(id as string, data),
 		{
-			onSuccess: () => {
+			onSuccess: async () => {
 				toast.success('success')
+				await refetch()
 			},
 			onError: (e: any) => {
 				toast.error(e.message)

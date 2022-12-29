@@ -116,6 +116,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					product: productId as string,
 				})
 			)
+			// создаем изображения после создания варианта
 			for (let img of imagesList) {
 				await ImagesService.create(
 					formData({
@@ -144,7 +145,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 			return
 		}
 
-		// если уже есть вариант
+		// если уже есть вариант сразу отправляем запрос
 		await ImagesService.create(
 			formData({
 				image,
@@ -156,7 +157,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 
 	const imageRemove = async (image: IImage) => {
 		if (!create && !createPage) {
-			// если уже есть изображение
+			// если уже есть изображение сразу отправляем запрос
 			await ImagesService.delete(image.id as string)
 			refetch && (await refetch())
 		}

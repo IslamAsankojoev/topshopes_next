@@ -42,12 +42,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	const { brands, shops, categories } = productFetch
 
 	// states
-	const [imageState, setImageState] = React.useState(
-		initialValues.thumbnail ? initialValues.thumbnail : null
-	)
-	const [images, setImages] = React.useState(
-		initialValues.images ? initialValues.images : null
-	)
 	const [redirect, setRedirect] = React.useState<boolean>(false)
 
 	const {
@@ -57,7 +51,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		handleBlur,
 		handleChange,
 		handleSubmit,
-		setFieldValue,
 	} = useFormik({
 		initialValues,
 		onSubmit: () => handleFormSubmit(values, redirect),
@@ -83,12 +76,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							helperText={touched.title && errors.title}
 						/>
 					</Grid>
-
-					{imageState ? (
-						<Grid sx={{ width: '100%', height: '100%' }} item sm={6} xs={12}>
-							<PrevImg src={imageState} alt={'picture'} />
-						</Grid>
-					) : null}
 
 					<Grid item sm={6} xs={12}>
 						<TextField
