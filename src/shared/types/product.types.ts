@@ -1,4 +1,3 @@
-import { IProductVariant } from 'shared/types/product-variant.types';
 
 export type IProduct = {
 	brand: IBrand
@@ -7,11 +6,9 @@ export type IProduct = {
 	shop: string
 	slug: string
 	title: string
-	brand: IBrand
 	category: ICategory
 	rating: number
 	unit: string
-	published: boolean
 	variants: IProductVariant[]
 	reviews: IReview[]
 }
@@ -48,6 +45,7 @@ export type IBrand = {
 }
 
 export type IProductVariant = {
+	id: string
 	size: ISize
 	color: IColor
 	stock: number
@@ -60,8 +58,9 @@ export type IProductVariant = {
 }
 
 export type IImage = {
+	id: number | string
 	product_variant: string
-	image: string
+	image: string | File
 }
 
 export type IReview = {

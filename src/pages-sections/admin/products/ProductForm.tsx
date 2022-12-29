@@ -16,6 +16,7 @@ import MultipleSelect from '../../../components/multiple-select/MultipleSelect'
 import styled from '@emotion/styled'
 import { ProductFetchTypes } from './useProductFetch'
 import { IBrand, ICategory } from 'shared/types/product.types'
+import { FlexBox } from 'components/flex-box'
 
 // ================================================================
 type ProductFormProps = {
@@ -151,7 +152,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 					</Grid>
 
 					{props.includeShop ? (
-						<Grid item sm={6} xs={12}>
+						<Grid item xs={12}>
 							<TextField
 								select
 								fullWidth
@@ -176,24 +177,25 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 					) : null}
 
 					<Grid item xs={12}>
-						{update ? (
+						<FlexBox
+							flexWrap={'wrap'}
+							justifyContent={'flex-end'}
+							sx={{ gridGap: '10px' }}
+						>
+							{update ? (
+								<Button variant="contained" color="info" type="submit">
+									Save and exit
+								</Button>
+							) : null}
 							<Button
-								sx={{ m: '0 20px' }}
+								onClick={() => setRedirect(true)}
 								variant="contained"
 								color="info"
 								type="submit"
 							>
-								Save and exit
+								{update ? 'Save product' : 'Create product'}
 							</Button>
-						) : null}
-						<Button
-							onClick={() => setRedirect(true)}
-							variant="contained"
-							color="info"
-							type="submit"
-						>
-							{update ? 'Save product' : 'Create product'}
-						</Button>
+						</FlexBox>
 					</Grid>
 				</Grid>
 			</form>

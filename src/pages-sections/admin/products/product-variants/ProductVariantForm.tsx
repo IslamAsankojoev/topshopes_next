@@ -7,6 +7,7 @@ import {
 	Typography,
 } from '@mui/material'
 import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
+import { ImagesService } from 'api/services/images/images.service'
 import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
 import CreateForm from 'components/Form/CreateForm'
 import ProductImages from 'components/Gallery/ProductImages'
@@ -15,21 +16,26 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import React, { FC, Fragment, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
-import { IProductVariant } from 'shared/types/product-variant.types'
-import { IColors } from 'shared/types/product.types'
-import { ISize } from 'shared/types/size.types'
+import {
+	IImage,
+	IProductVariant,
+	IColor,
+	ISize,
+} from 'shared/types/product.types'
 import { productVariantFormCreate } from 'utils/constants/forms'
 import { formData } from 'utils/formData'
 
 // ==================================================================
 type ProductVariantFormProps = {
 	initialValues: IProductVariant | any
-	colors: IColors[]
+	colors: IColor[]
 	sizes: ISize[]
-	refetch?: () => void
+	variantId?: string | number
 	productId?: string
 	create?: boolean
 	createPage?: boolean
+	images?: IImage[]
+	refetch?: () => void
 }
 // ==================================================================
 
@@ -48,28 +54,21 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 	productId,
 	createPage,
 	create,
+	variantId,
+	images,
 }) => {
 	// states
 	const { user } = useTypedSelector((state) => state.userStore)
-	const { variants } = useTypedSelector((state) => state.productVariantsStore)
+	const { imgIdCounter } = useTypedSelector(
+		(state) => state.productVariantsStore
+	)
 	const [addCardForm, setAddCardForm] = useState<boolean>(false)
+	const [imagesList, setImagesList] = useState<any[]>(images || [])
 
 	// actions
-	const { setVariants } = useActions()
+	const { updateVariant, addVariant, imgIdCounterIncrement } = useActions()
 
-	// mutations
-	const { mutateAsync: createAsync } = useMutation(
-		'product-variant create',
-		(data: FormData | IProductVariant) =>
-			adminCheckFetch(user?.is_superuser).create(data),
-		{
-			onSuccess: () => {
-				refetch && refetch()
-				toast.success('product variant created successfully')
-				setAddCardForm(false)
-			},
-		}
-	)
+	// variant mutations
 	const { mutateAsync: updateAsync } = useMutation(
 		'product-variant update',
 		(data: FormData | IProductVariant) =>
@@ -91,42 +90,87 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 		data: FormData,
 		clearData: IProductVariant | any
 	) => {
-		// if there is already a product
-		if (productId) {
-			await createAsync(
-				formData({ ...clearData, product: productId as string })
-			)
+		// если еще нет продукта
+		if (create && createPage) {
+			// create variant
+			addVariant({ variant: clearData, images: imagesList })
 			setAddCardForm(false)
 			return
 		}
-		// if there is no product yet
-		if (create && createPage) {
-			// create variant
-			setVariants([...variants, { variants: clearData, images: [] }])
+		if (createPage) {
+			// update variant
+			updateVariant({
+				id: variantId,
+				data: { variant: clearData, images: imagesList },
+			})
 			setAddCardForm(false)
 			return
 		}
 
-		if (createPage) {
-			// update variant
-			setVariants(
-				variants.map((variant) => {
-					if (
-						JSON.stringify(variant.variants) == JSON.stringify(initialValues)
-					) {
-						return {
-							variants: { ...clearData, product: productId },
-							images: [],
-						}
-					}
-					return variant
+		// если уже есть продукт
+		if (productId) {
+			// create variant
+			const variantResponse = await adminCheckFetch(user?.is_superuser).create(
+				formData({
+					...clearData,
+					product: productId as string,
 				})
 			)
+			for (let img of imagesList) {
+				await ImagesService.create(
+					formData({
+						product_variant: variantResponse.id,
+						image: img.image,
+					})
+				)
+			}
 			setAddCardForm(false)
+			refetch && (await refetch())
 			return
 		}
+		// update variant
 		await updateAsync(data)
+		refetch && (await refetch())
 	}
+
+	const imageAdd = async (image: IImage | File) => {
+		if (create || createPage) {
+			console.log(imgIdCounter)
+			imgIdCounterIncrement()
+			setImagesList((imgs) => [
+				...imgs,
+				{ image, id: imgs.length + imgIdCounter },
+			])
+			return
+		}
+
+		// если уже есть вариант
+		await ImagesService.create(
+			formData({
+				image,
+				product_variant: variantId,
+			})
+		)
+		refetch && (await refetch())
+	}
+
+	const imageRemove = async (image: IImage) => {
+		if (!create && !createPage) {
+			// если уже есть изображение
+			await ImagesService.delete(image.id as string)
+			refetch && (await refetch())
+		}
+		const imgs = []
+		for (let img of imagesList) {
+			if (img.id === image.id) continue
+			imgs.push(img)
+		}
+		setImagesList(imgs)
+	}
+
+	React.useEffect(() => {
+		setImagesList(images || [])
+	}, [images])
 
 	return (
 		<Fragment>
@@ -156,7 +200,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 			<Dialog open={addCardForm} onClose={() => setAddCardForm(false)}>
 				<DialogContent>
 					<Typography variant="h6" mb={3}>
-						Add New Address Information
+						Variant details
 					</Typography>
 
 					<CreateForm
@@ -187,6 +231,11 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 							...productVariantFormCreate,
 						]}
 						handleFormSubmit={handleFormSubmit}
+					/>
+					<ProductImages
+						images={imagesList}
+						add={imageAdd}
+						remove={imageRemove}
 					/>
 				</DialogContent>
 			</Dialog>

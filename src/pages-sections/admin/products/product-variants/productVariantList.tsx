@@ -4,10 +4,16 @@ import Card1 from 'components/Card1'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import { H6, Paragraph } from 'components/Typography'
 import React from 'react'
-import { IProductVariant } from 'shared/types/product-variant.types'
+import { IProductVariant } from 'shared/types/product.types'
 import ProductVariantForm from './ProductVariantForm'
 import { ProductFetchTypes } from 'pages-sections/admin/products/useProductFetch'
 import { IProduct } from 'shared/types/product.types'
+import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
+import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import { toast } from 'react-toastify'
+import { useActions } from 'hooks/useActions'
+import styled from '@emotion/styled'
 
 type Props = {
 	refetch?: () => void
@@ -16,14 +22,37 @@ type Props = {
 	create?: boolean
 }
 
+const adminCheckFetch = (admin = false) => {
+	if (admin) {
+		return ProductVariantAdminService
+	}
+	return ProductVariantService
+}
+
 const ProductVariantList: React.FC<Props> = ({
 	refetch,
 	fetch,
 	product,
 	create,
 }) => {
-	const variantCheck = (data) => (create ? data.variants : data)
-	const variantList = (data) => (create ? data : data.variants)
+	// actions
+	const { removeVariant } = useActions()
+
+	// states
+	const { user } = useTypedSelector((state) => state.userStore)
+
+	// functions
+	const variantCheck = (data) => (create ? data?.variant : data)
+	const variantList = (data) => (create ? data : data?.variants)
+
+	const deleteVariant = async (item: IProductVariant) => {
+		if (create) {
+			removeVariant(item.id)
+			return
+		}
+		await adminCheckFetch(user.is_superuser).delete(item?.id)
+		refetch && (await refetch())
+	}
 
 	return (
 		<Card1 sx={{ mb: 3, mt: 3 }}>
@@ -42,47 +71,60 @@ const ProductVariantList: React.FC<Props> = ({
 			<Grid sx={{ bgcolor: 'white' }} container spacing={3}>
 				{variantList(product)?.map((variant: IProductVariant, ind: number) => (
 					<Grid item md={4} sm={6} xs={12} key={ind + 'product variant'}>
-						<Card
-							sx={{
-								padding: 2,
-								border: '1px solid',
-								position: 'relative',
-								backgroundColor: 'grey.100',
-							}}
-						>
-							<FlexBox
-								justifyContent="flex-end"
-								sx={{ position: 'absolute', top: 5, right: 5 }}
-							>
-								<ProductVariantForm
-									refetch={refetch}
-									colors={fetch.colors}
-									sizes={fetch.size}
-									initialValues={variantCheck(variant)}
-									createPage={create}
-								/>
-								<IconButton
-									size="small"
-									color="error"
-									// onClick={(e) => deleteAddress(e, item.id)}
-								>
-									<DeleteOutline sx={{ fontSize: 20 }} />
-								</IconButton>
-							</FlexBox>
+						<VariantCard>
+							<img src={variantCheck(variant)?.thumbnail} alt={'thumbnail'} />
 
-							<H6 mb={0.5}>price: {variantCheck(variant).price}</H6>
-							<Paragraph color="grey.700">
-								discount: {variantCheck(variant).discount}
-							</Paragraph>
-							<Paragraph color="grey.700">
-								stock: {variantCheck(variant).stock}
-							</Paragraph>
-						</Card>
+							<FlexBox justifyContent={'space-between'}>
+								<div>
+									<H6 mb={0.5}>price: {variantCheck(variant)?.price}</H6>
+									<Paragraph color="grey.700">
+										discount: {variantCheck(variant)?.discount}
+									</Paragraph>
+									<Paragraph color="grey.700">
+										stock: {variantCheck(variant)?.stock}
+									</Paragraph>
+								</div>
+								<FlexBox alignItems={'center'}>
+									<ProductVariantForm
+										refetch={refetch}
+										colors={fetch.colors}
+										sizes={fetch.size}
+										initialValues={variantCheck(variant)}
+										createPage={create}
+										variantId={variant?.id}
+										images={variant?.images}
+									/>
+									<IconButton
+										size="small"
+										color="error"
+										onClick={(e) => deleteVariant(variant)}
+									>
+										<DeleteOutline sx={{ fontSize: 20 }} />
+									</IconButton>
+								</FlexBox>
+							</FlexBox>
+						</VariantCard>
 					</Grid>
 				))}
 			</Grid>
 		</Card1>
 	)
 }
+
+const VariantCard = styled(Card)`
+	display: grid;
+	grid-gap: 20px 0;
+	padding: 20px 10px;
+	border: 1px solid;
+	position: relative;
+
+	img {
+		margin: 0 auto;
+		max-width: 300px;
+		height: 250px;
+		width: 100%;
+		object-fit: cover;
+	}
+`
 
 export default ProductVariantList

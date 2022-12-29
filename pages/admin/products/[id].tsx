@@ -72,6 +72,7 @@ const EditProduct: NextPageAuth = () => {
 							...product,
 							brand: product?.brand?.id,
 							shop: product?.shop?.id,
+							category: product?.category.id,
 						}}
 						validationSchema={productFormValidationSchema}
 						handleFormSubmit={handleFormSubmit}

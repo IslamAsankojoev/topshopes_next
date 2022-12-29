@@ -17,6 +17,7 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useActions } from 'hooks/useActions'
 import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
 import { ImagesService } from 'api/services/images/images.service'
+import { getErrorMessage } from 'utils/getErrorMessage'
 
 const initialValues = {
 	title: '',
@@ -47,21 +48,23 @@ const CreateProduct: NextPageAuth = () => {
 			for (let i of variants) {
 				const variantResponse = await ProductVariantAdminService.create(
 					formData({
-						...i.variants,
+						...i.variant,
 						product: productResponse.id,
 					})
 				)
 				// create images with new variant
-				for (let j of i.images) {
-					const imagesResponse = await ImagesService.create({
-						product_variant: variantResponse.id,
-						image: j.image,
-					})
+				for (let j of i?.images) {
+					await ImagesService.create(
+						formData({
+							product_variant: variantResponse.id,
+							image: j.image,
+						})
+					)
 				}
 			}
-			// push('/admin/products/')
+			push('/admin/products/')
 		} catch (e) {
-			console.log(e)
+			toast.error('product: ' + getErrorMessage(e))
 		}
 	}
 
