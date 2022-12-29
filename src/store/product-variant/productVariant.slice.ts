@@ -28,7 +28,14 @@ const productVariantsSlice = createSlice({
             // задать id варианта и его обновленные данные
             state.variants = state.variants.map(variant => {
                 if (variant?.id == payload.id) {
-                    return {...variant, ...payload.data}
+                    const imgCheck = 
+                    payload.data.variant?.thumbnail 
+                        ?payload.data.variant?.thumbnail 
+                        :variant.variant.thumbnail
+                    return {
+                        ...variant, 
+                        images: payload.data.images, 
+                        variant: {...payload.data.variant, thumbnail: imgCheck} }
                 }
                 return variant
             })

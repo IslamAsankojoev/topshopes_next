@@ -17,7 +17,7 @@ import ProductVariantList from 'pages-sections/admin/products/product-variants/p
 import { ProductsService } from 'api/services/products/product.service'
 
 const EditProduct: NextPageAuth = () => {
-	const fetch = useProductFetch()
+	const fetch = useProductFetch(false)
 
 	const {
 		query: { id },

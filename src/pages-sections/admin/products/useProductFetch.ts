@@ -49,28 +49,24 @@ export const useProductFetch = (isAdmin = false) => {
 		}
 	)
 
-	
+	if (isAdmin) {
+		
+	}
 	const { data: shops, isLoading: shopsLoading } = useQuery(
 		'shops get',
-		() => {
-			if (isAdmin){
-				ShopsService.getList
-			}
-			return null
-		},
+		isAdmin ?ShopsService.getList :null,
 		{
 			refetchOnWindowFocus: false,
 			retry: 1,
 		}
 	)
-	
 
 	const result: ProductFetchTypes = {
 		categories,
 		brands,
 		size,
 		colors,
-		shops: isAdmin ?shops :null,
+		shops,
 		isLoading:
 			categoriesLoading ||
 			brandsLoading ||

@@ -90,6 +90,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 		data: FormData,
 		clearData: IProductVariant | any
 	) => {
+		console.log(clearData)
 		// если еще нет продукта
 		if (create && createPage) {
 			// create variant

@@ -29,6 +29,14 @@ const adminCheckFetch = (admin = false) => {
 	return ProductVariantService
 }
 
+const getImgUrl = (img: File | Blob | string | any) => {
+	if (!img) return '#'
+	if (typeof img != 'string') {
+		return URL.createObjectURL(img)
+	}
+	return img
+}
+
 const ProductVariantList: React.FC<Props> = ({
 	refetch,
 	fetch,
@@ -72,7 +80,10 @@ const ProductVariantList: React.FC<Props> = ({
 				{variantList(product)?.map((variant: IProductVariant, ind: number) => (
 					<Grid item md={4} sm={6} xs={12} key={ind + 'product variant'}>
 						<VariantCard>
-							<img src={variantCheck(variant)?.thumbnail} alt={'thumbnail'} />
+							<img
+								src={getImgUrl(variantCheck(variant)?.thumbnail)}
+								alt={'thumbnail'}
+							/>
 
 							<FlexBox justifyContent={'space-between'}>
 								<div>

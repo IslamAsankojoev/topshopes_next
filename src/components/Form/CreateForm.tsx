@@ -85,6 +85,7 @@ const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
 				formData.append(key, values[key])
 			}
 		}, formData)
+
 		handleFormSubmit(formData, values)
 	}
 
