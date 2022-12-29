@@ -2,91 +2,75 @@ import { Box } from '@mui/material'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
-import React, { ReactElement, useEffect } from 'react'
-import { productFormValidationSchema } from './validationSchema'
+import React, { ReactElement } from 'react'
+import { productFormValidationSchemaVendor } from '../../../src/pages-sections/admin/products/productFormValidationSchema'
 import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
 import Loading from '../../../src/components/Loading'
 import { toast } from 'react-toastify'
 import { formData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
-import { useMutation, useQueries } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
+import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useActions } from 'hooks/useActions'
+import { ImagesService } from 'api/services/images/images.service'
+import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
+import { getErrorMessage } from 'utils/getErrorMessage'
 import { ProductsService } from 'api/services/products/product.service'
-import { CategoriesService } from 'api/services/categories/category.service'
-import { ColorsService } from 'api/services/colors/colors.service'
-import { SizesService } from 'api/services/sizes/sizes.service'
-import { BrandsService } from 'api/services/brands/brand.service'
 
 const initialValues = {
 	title: '',
-	categories: [],
-	colors: [],
-	discount: 0,
-	price: '0',
 	published: false,
-	rating: '',
-	sizes: [],
+	category: '',
 	brand: '',
-	thumbnail: '',
 	unit: '',
 }
 
 const CreateProduct: NextPageAuth = () => {
+	// states
+	const { variants } = useTypedSelector((state) => state.productVariantsStore)
+	const { setVariants } = useActions()
+
 	// getting all dependencies for selects
-	const {
-		'0': Categories,
-		'1': Colors,
-		'2': Sizes,
-		'3': Brands,
-	} = useQueries([
-		{
-			queryKey: 'product categories fetch',
-			queryFn: CategoriesService.getList,
-		},
-		{
-			queryKey: 'product colors fetch',
-			queryFn: ColorsService.getList,
-		},
-		{
-			queryKey: 'product sizes fetch',
-			queryFn: SizesService.getList,
-		},
-		{
-			queryKey: 'product brands fetch',
-			queryFn: BrandsService.getList,
-		},
-	])
+	const fetch = useProductFetch(true)
 
 	const { push } = useRouter()
 
-	// create product
-	const { isLoading: mutationLoading, mutateAsync } = useMutation(
-		'product admin create',
-		(data: FormData) => ProductsService.create(data),
-		{
-			onSuccess: () => {
-				toast.success('success')
-				push('/vendor/products/')
-			},
-			onError: (e: any) => {
-				toast.error(e.message)
-			},
-		}
-	)
+	// fetching
+	const handleFormSubmit = async (data: FormData) => {
+		try {
+			// create product
+			const productResponse = await ProductsService.create(data)
 
-	const handleFormSubmit = async (data) => {
-		// console.log(data)
-		const { shop, ...rest } = data
-		await mutateAsync(formData(rest))
+			// create variants with new product
+			for (let i of variants) {
+				const variantResponse = await ProductVariantService.create(
+					formData({
+						...i.variant,
+						product: productResponse.id,
+					})
+				)
+				// create images with new variant
+				for (let j of i?.images) {
+					await ImagesService.create(
+						formData({
+							product_variant: variantResponse.id,
+							image: j.image,
+						})
+					)
+				}
+			}
+			push('/admin/products/')
+		} catch (e) {
+			toast.error('product: ' + getErrorMessage(e))
+		}
 	}
 
-	if (
-		Categories.isLoading ||
-		Colors.isLoading ||
-		Sizes.isLoading ||
-		Brands.isLoading ||
-		mutationLoading
-	) {
+	React.useEffect(() => {
+		setVariants([])
+	}, [])
+
+	if (fetch.isLoading) {
 		return <Loading />
 	}
 
@@ -95,23 +79,13 @@ const CreateProduct: NextPageAuth = () => {
 			<H3 mb={2}>Add New Product</H3>
 
 			<ProductForm
-				productFetch={{
-					categories: Categories.data,
-					colors: Colors.data,
-					size: Sizes.data,
-					brands: Brands.data,
-					isLoading:
-						Categories.isLoading ||
-						Colors.isLoading ||
-						Sizes.isLoading ||
-						Brands.isLoading,
-				}}
+				productFetch={fetch}
 				initialValues={initialValues}
-				validationSchema={productFormValidationSchema}
+				validationSchema={productFormValidationSchemaVendor}
 				handleFormSubmit={handleFormSubmit}
 				update={false}
-				includeShop={false}
 			/>
+			<ProductVariantList create={true} product={variants} fetch={fetch} />
 		</Box>
 	) : null
 }

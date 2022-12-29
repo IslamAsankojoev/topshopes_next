@@ -112,11 +112,12 @@ const ProductVariantList: React.FC<Props> = ({
 }
 
 const VariantCard = styled(Card)`
-	display: grid;
-	grid-gap: 20px 0;
-	padding: 20px 10px;
-	border: 1px solid;
-	position: relative;
+	display: grid !important;
+	grid-gap: 20px 0 !important;
+	padding: 20px 10px !important;
+	box-shadow: 0px 0px 5px black !important;
+	border: none !important;
+	position: relative !important;
 
 	img {
 		margin: 0 auto;

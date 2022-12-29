@@ -34,7 +34,7 @@ const CreateProduct: NextPageAuth = () => {
 	const { setVariants } = useActions()
 
 	// getting all dependencies for selects
-	const fetch = useProductFetch()
+	const fetch = useProductFetch(true)
 
 	const { push } = useRouter()
 

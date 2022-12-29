@@ -17,7 +17,7 @@ import { IProduct } from 'shared/types/product.types'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 
 const EditProduct: NextPageAuth = () => {
-	const fetch = useProductFetch()
+	const fetch = useProductFetch(true)
 	const {
 		query: { id },
 	} = useRouter()
@@ -96,10 +96,6 @@ EditProduct.isOnlyAdmin = true
 
 EditProduct.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-
-export const getServerSideProps = async ({ query }) => {
-	return { props: { query } }
 }
 
 export default EditProduct
