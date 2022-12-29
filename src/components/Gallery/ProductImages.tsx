@@ -15,6 +15,7 @@ interface IProductImages {
 	images: IProductImage[]
 	remove: (id: string) => void
 	add: (image: File) => void
+	refetch?: () => void
 }
 export type IProductImage = {
 	id: string

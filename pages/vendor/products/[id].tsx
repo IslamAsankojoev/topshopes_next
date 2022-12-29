@@ -12,7 +12,7 @@ import { useProductFetch } from '../../../src/pages-sections/admin/products/useP
 import { formData } from '../../../src/utils/formData'
 import { useRouter } from 'next/router'
 // import { checkChangeThumbnail } from 'pages-sections/admin/products/productFormHelper'
-import { productFormValidationSchema } from './validationSchema'
+import { productFormValidationSchema } from '../../../src/components/validationSchema'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { ProductsService } from 'api/services/products/product.service'
 import { CategoriesService } from 'api/services/categories/category.service'

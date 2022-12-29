@@ -30,7 +30,7 @@ const tableHeading = [
 
 const OrderList: NextPageAuth = () => {
 	const { data: orders, isLoading } = useQuery(
-		'orders admin get',
+		'orders vendor get',
 		OrdersService.getList,
 		{
 			onError: (e: any) => {
@@ -59,7 +59,6 @@ const OrderList: NextPageAuth = () => {
 
 			<SearchArea
 				handleSearch={() => {}}
-				// buttonText="Add New Order"
 				handleBtnClick={() => {}}
 				searchPlaceholder="Search Order..."
 			/>

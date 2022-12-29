@@ -1,13 +1,11 @@
-import { IProductVariant } from 'shared/types/product-variant.types';
+import { IShop } from './shop.types'
 
 export type IProduct = {
 	brand: IBrand
 	id: string
-	published: boolean
-	shop: string
+	shop: IShop
 	slug: string
 	title: string
-	brand: IBrand
 	category: ICategory
 	rating: number
 	unit: string

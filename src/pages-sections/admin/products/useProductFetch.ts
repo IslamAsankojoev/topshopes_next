@@ -3,16 +3,16 @@ import { CategoriesService } from 'api/services-admin/categories/category.servic
 import { SizesService } from 'api/services/sizes/sizes.service'
 import { ColorsService } from 'api/services/colors/colors.service'
 import { ShopsService } from 'api/services-admin/shops/shops.service'
-import { ICategory, IColors } from 'shared/types/product.types'
+import { ICategory, IColor } from 'shared/types/product.types'
 import { IShop } from 'shared/types/shop.types'
 import { BrandsService } from 'api/services-admin/brands/brand.service'
-import { ISize } from 'shared/types/size.types'
+import { ISize } from 'shared/types/product.types'
 import { IBrand } from 'shared/types/brand.types'
 
 export interface ProductFetchTypes {
 	categories: ICategory[]
 	brands: IBrand[]
-	colors: IColors[]
+	colors: IColor[]
 	size: ISize[]
 	shops?: IShop[]
 	isLoading: boolean

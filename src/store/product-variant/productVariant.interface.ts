@@ -1,6 +1,5 @@
-import { IProductVariant } from 'shared/types/product-variant.types';
-
+import { IProductVariant } from 'shared/types/product.types'
 
 export interface IProductVariantInitialState {
-    variants: {variants: IProductVariant, images: any[]}[]
+	variants: { variants: IProductVariant; images: any[] }[]
 }

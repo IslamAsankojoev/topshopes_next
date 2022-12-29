@@ -17,13 +17,14 @@ import TooltipList from '../../../components/tooltip/TooltipList'
 import { ProductsService } from 'api/services/products/product.service'
 import { useMutation } from 'react-query'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
+import { IProduct } from 'shared/types/product.types'
 
 // ========================================================================
-type ProductRowProps = { product: any; refetch: () => void }
+type ProductRowProps = { product: IProduct; refetch: () => void }
 // ========================================================================
 
 const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
-	const { categories, title, price, thumbnail, brand, id, published } = product
+	const { category, title, brand, id, published, variants } = product
 
 	// state
 	const router = useRouter()
@@ -63,7 +64,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
 				<FlexBox alignItems="center" gap={1.5}>
-					<Avatar src={thumbnail} sx={{ borderRadius: '8px' }} />
+					<Avatar src={variants[0]?.thumbnail} sx={{ borderRadius: '8px' }} />
 					<Box>
 						<Paragraph>{title}</Paragraph>
 					</Box>
@@ -71,28 +72,20 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="left">
-				<TooltipList
-					list={categories?.length > 1 ? categories?.map((c) => c.name) : null}
-				>
-					<CategoryWrapper>
-						{categories?.length
-							? categories?.length > 1
-								? categories[0].name + '...'
-								: categories[0].name
-							: null}
-					</CategoryWrapper>
-				</TooltipList>
+				<Box>
+					<Paragraph>{category?.name}</Paragraph>
+				</Box>
 			</StyledTableCell>
 
 			<StyledTableCell align="left">
 				<Avatar
-					src={brand.image}
+					src={brand?.image}
 					sx={{ width: 55, height: 'auto', borderRadius: 0 }}
 				/>
 			</StyledTableCell>
 
 			<StyledTableCell align="left">
-				{currency(price, { separator: ',' }).format()}
+				{currency(variants[0]?.price, { separator: ',' }).format()}
 			</StyledTableCell>
 
 			<StyledTableCell align="left">

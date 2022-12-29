@@ -42,22 +42,35 @@ const Wrapper = styled(Card)(() => ({
 // ===========================================================
 
 const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
-	const { thumbnail: imgUrl, title, price, rating, id, discount: off } = product
+	const {
+		brand,
+		category,
+		id,
+		published,
+		rating,
+		reviews,
+		shop,
+		slug,
+		title,
+		unit,
+		variants,
+	} = product
+
 	const { state, dispatch } = useAppContext()
 	const cartItem: CartItem | undefined = state.cart.find(
 		(item) => item.id === id
 	)
 
-	const handleCartAmountChange = useCallback(
-		(amount) => () => {
-			dispatch({
-				type: 'CHANGE_CART_AMOUNT',
-				payload: { name: title, qty: amount, price: +price, imgUrl, id },
-			})
-		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[]
-	)
+	// const handleCartAmountChange = useCallback(
+	// 	(amount) => () => {
+	// 		dispatch({
+	// 			type: 'CHANGE_CART_AMOUNT',
+	// 			payload: { name: title, qty: amount, price: +price, imgUrl, id },
+	// 		})
+	// 	},
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// 	[]
+	// )
 
 	return (
 		<Wrapper>
@@ -71,7 +84,7 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 			<Grid container spacing={1}>
 				<Grid item sm={3} xs={12}>
 					<Box position="relative">
-						{!!off && (
+						{/* {!!off && (
 							<Chip
 								size="small"
 								color="primary"
@@ -85,9 +98,9 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 									position: 'absolute',
 								}}
 							/>
-						)}
+						)} */}
 
-						<Image src={imgUrl} alt={title} width="100%" />
+						{/* <Image src={imgUrl} alt={title} width="100%" /> */}
 					</Box>
 				</Grid>
 
@@ -110,14 +123,14 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 
 						<FlexBox mt={1} mb={2} alignItems="center">
 							<H5 fontWeight={600} color="primary.main" mr={1}>
-								${(+price - (+price * off) / 100).toFixed(2)}
+								{/* ${(+price - (+price * off) / 100).toFixed(2)} */}
 							</H5>
 
-							{off && (
+							{/* {off && (
 								<Span fontWeight="600" color="grey.600">
 									<del>${Number(price)?.toFixed(2)}</del>
 								</Span>
-							)}
+							)} */}
 						</FlexBox>
 
 						<FlexBox>
@@ -126,7 +139,7 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 									color="primary"
 									variant="contained"
 									sx={{ height: 32 }}
-									onClick={handleCartAmountChange(1)}
+									// onClick={handleCartAmountChange(1)}
 								>
 									Add To Cart
 								</Button>
@@ -138,7 +151,7 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 										color="primary"
 										variant="outlined"
 										sx={{ padding: '5px' }}
-										onClick={handleCartAmountChange(cartItem.qty + 1)}
+										// onClick={handleCartAmountChange(cartItem.qty + 1)}
 									>
 										<Add fontSize="small" />
 									</Button>
@@ -151,7 +164,7 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 										color="primary"
 										variant="outlined"
 										sx={{ padding: '5px' }}
-										onClick={handleCartAmountChange(cartItem.qty - 1)}
+										// onClick={handleCartAmountChange(cartItem.qty - 1)}
 									>
 										<Remove fontSize="small" />
 									</Button>

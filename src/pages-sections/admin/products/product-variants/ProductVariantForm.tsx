@@ -15,16 +15,14 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import React, { FC, Fragment, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
-import { IProductVariant } from 'shared/types/product-variant.types'
-import { IColors } from 'shared/types/product.types'
-import { ISize } from 'shared/types/size.types'
+import { IProductVariant, IColor, ISize } from 'shared/types/product.types'
 import { productVariantFormCreate } from 'utils/constants/forms'
 import { formData } from 'utils/formData'
 
 // ==================================================================
 type ProductVariantFormProps = {
 	initialValues: IProductVariant | any
-	colors: IColors[]
+	colors: IColor[]
 	sizes: ISize[]
 	refetch?: () => void
 	productId?: string
