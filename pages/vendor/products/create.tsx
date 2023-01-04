@@ -4,7 +4,7 @@ import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
 
 import React, { ReactElement, useEffect } from 'react'
-import { productFormValidationSchema } from '../../../src/components/validationSchema'
+import { productFormValidationSchemaVendor } from '../../../src/components/validationSchema'
 import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
 import Loading from '../../../src/components/Loading'
 import { toast } from 'react-toastify'

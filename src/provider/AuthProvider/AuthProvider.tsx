@@ -22,7 +22,7 @@ const AuthProvider: React.FC<any> = ({
 			try {
 				const refresh = Cookie.get('refresh')
 				if (pathname === '/login' || pathname === '/signup') {
-					if (refresh) {
+					if ((isOnlyUser && refresh) || (isOnlyAdmin && refresh)) {
 						const res = await AuthService.refresh()
 						if (res) push('/profile')
 					}
@@ -39,7 +39,7 @@ const AuthProvider: React.FC<any> = ({
 				const refresh = Cookie.get('refresh')
 
 				if (!refresh && isOnlyUser) logout()
-				if (refresh) {
+				if ((isOnlyUser && refresh) || (isOnlyAdmin && refresh)) {
 					const res = await AuthService.refresh()
 					if (res) profile()
 				}

@@ -7,7 +7,7 @@ import Head from 'next/head'
 import Router from 'next/router'
 import nProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { Fragment, ReactElement, ReactNode, useEffect } from 'react'
+import { Fragment, ReactElement, ReactNode, useEffect, useState } from 'react'
 import 'simplebar/dist/simplebar.min.css'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -17,6 +17,7 @@ import '../src/fake-db'
 
 import '../global.scss'
 import { TypeComponentAuthFields } from 'shared/types/auth.types'
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 
 type MyAppProps = AppProps & {
 	Component: NextPage & {
@@ -33,9 +34,20 @@ Router.events.on('routeChangeError', () => nProgress.done())
 // small change
 nProgress.configure({ showSpinner: false })
 
+const config = {
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+			retry: 1,
+			cacheTime: 0,
+		},
+	},
+}
+
 const App = ({ Component, pageProps }: TypeAppProps) => {
 	const AnyComponent = Component as any
 	const getLayout = AnyComponent.getLayout ?? ((page) => page)
+	const [queryClient] = useState(() => new QueryClient())
 
 	useEffect(() => {
 		// Remove the server-side injected CSS.
@@ -60,11 +72,15 @@ const App = ({ Component, pageProps }: TypeAppProps) => {
 			</Head>
 
 			<SettingsProvider Component={Component} pageProps={pageProps}>
-				<AppProvider>
-					<MuiTheme>
-						<RTL>{getLayout(<AnyComponent {...pageProps} />)}</RTL>
-					</MuiTheme>
-				</AppProvider>
+				<QueryClientProvider client={queryClient}>
+					<Hydrate state={pageProps.dehydratedState}>
+						<AppProvider>
+							<MuiTheme>
+								<RTL>{getLayout(<AnyComponent {...pageProps} />)}</RTL>
+							</MuiTheme>
+						</AppProvider>
+					</Hydrate>
+				</QueryClientProvider>
 			</SettingsProvider>
 		</Fragment>
 	)

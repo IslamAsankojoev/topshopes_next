@@ -102,10 +102,9 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				>
 					<Edit />
 				</StyledIconButton>
-
-				<StyledIconButton onClick={onDelete}>
+				{/* <StyledIconButton onClick={onDelete}>
 					<Delete />
-				</StyledIconButton>
+				</StyledIconButton> */}
 			</StyledTableCell>
 		</StyledTableRow>
 	)

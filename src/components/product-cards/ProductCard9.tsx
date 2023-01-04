@@ -46,7 +46,6 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 		brand,
 		category,
 		id,
-		published,
 		rating,
 		reviews,
 		shop,

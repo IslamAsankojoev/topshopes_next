@@ -87,13 +87,13 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 		title,
 		brand,
 		category,
-		published,
 		rating,
 		reviews,
 		shop,
 		slug,
 		unit,
 		variants,
+		published,
 	} = props.product
 
 	const [openModal, setOpenModal] = useState(false)

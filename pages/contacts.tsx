@@ -8,7 +8,7 @@ import { GetStaticProps, NextPage } from 'next'
 import { axiosClassic } from 'api/interceptor'
 
 export const getStaticProps: GetStaticProps = async () => {
-	const { data } = await axiosClassic.get('/settings/1/')
+	const { data } = await axiosClassic.get('/settings/')
 	return { props: { map: data.map }, revalidate: 86400 }
 }
 

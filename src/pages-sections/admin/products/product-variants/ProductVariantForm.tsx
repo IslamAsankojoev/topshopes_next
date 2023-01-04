@@ -37,6 +37,7 @@ type ProductVariantFormProps = {
 	createPage?: boolean
 	images?: IImage[]
 	refetch?: () => void
+	isAdmin?: boolean
 }
 // ==================================================================
 
@@ -57,6 +58,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 	create,
 	variantId,
 	images,
+	isAdmin,
 }) => {
 	// states
 	const { user } = useTypedSelector((state) => state.userStore)
@@ -182,6 +184,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					color="primary"
 					variant="outlined"
 					sx={{ p: '2px 20px' }}
+					disabled={isAdmin}
 					onClick={() =>
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 					}

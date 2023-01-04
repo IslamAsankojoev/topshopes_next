@@ -14,7 +14,7 @@ export const navigations = [
 		icon: duotone.Products,
 		children: [
 			{ name: 'Product List', path: '/admin/products' },
-			{ name: 'Create Product', path: '/admin/products/create' },
+			// { name: 'Create Product', path: '/admin/products/create' },
 			{ name: 'Category', path: '/admin/categories' },
 			{ name: 'Brand', path: '/admin/brands' },
 			{ name: 'Brand Type', path: '/admin/brands-types' },

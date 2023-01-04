@@ -10,7 +10,7 @@ import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
 import { useRouter } from 'next/router'
 
 // import { checkChangeThumbnail } from 'pages-sections/admin/products/productFormHelper'
-import { productFormValidationSchema } from '../../../src/components/validationSchema'
+import { productFormValidationSchemaVendor } from '../../../src/components/validationSchema'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct } from 'shared/types/product.types'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
@@ -81,6 +81,7 @@ const EditProduct: NextPageAuth = () => {
 						refetch={refetch}
 						product={product}
 						fetch={fetch}
+						isAdmin={false}
 					/>
 				</>
 			) : null}

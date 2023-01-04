@@ -36,7 +36,6 @@ const ProductCard7: React.FC<ICartItem> = (product) => {
 		brand,
 		category,
 		id,
-		published,
 		title,
 		rating,
 		reviews,

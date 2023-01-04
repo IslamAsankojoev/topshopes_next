@@ -1,6 +1,4 @@
-
 import { IShop } from './shop.types'
-
 
 export type IProduct = {
 	brand: IBrand
@@ -13,6 +11,7 @@ export type IProduct = {
 	unit: string
 	variants: IProductVariant[]
 	reviews: IReview[]
+	published: boolean
 }
 
 export type IColor = {

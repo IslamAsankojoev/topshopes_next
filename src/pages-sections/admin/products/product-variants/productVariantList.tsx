@@ -20,6 +20,7 @@ type Props = {
 	fetch: ProductFetchTypes
 	product: IProduct | { variants: IProductVariant[] }[] | any
 	create?: boolean
+	isAdmin?: boolean
 }
 
 const adminCheckFetch = (admin = false) => {
@@ -42,6 +43,7 @@ const ProductVariantList: React.FC<Props> = ({
 	fetch,
 	product,
 	create,
+	isAdmin,
 }) => {
 	// actions
 	const { removeVariant } = useActions()
@@ -74,6 +76,7 @@ const ProductVariantList: React.FC<Props> = ({
 					productId={product?.id}
 					createPage={create}
 					create={true}
+					isAdmin={isAdmin}
 				/>
 			</FlexBetween>
 			<Grid sx={{ bgcolor: 'white' }} container spacing={3}>
@@ -110,7 +113,7 @@ const ProductVariantList: React.FC<Props> = ({
 										color="error"
 										onClick={(e) => deleteVariant(variant)}
 									>
-										<DeleteOutline sx={{ fontSize: 20 }} />
+										{!isAdmin ? <DeleteOutline sx={{ fontSize: 20 }} /> : null}
 									</IconButton>
 								</FlexBox>
 							</FlexBox>

@@ -44,18 +44,12 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	// states
 	const [redirect, setRedirect] = React.useState<boolean>(false)
 
-	const {
-		values,
-		errors,
-		touched,
-		handleBlur,
-		handleChange,
-		handleSubmit,
-	} = useFormik({
-		initialValues,
-		onSubmit: () => handleFormSubmit(values, redirect),
-		validationSchema: validationSchema,
-	})
+	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+		useFormik({
+			initialValues,
+			onSubmit: () => handleFormSubmit(values, redirect),
+			validationSchema: validationSchema,
+		})
 
 	return (
 		<Card sx={{ p: 6 }}>
@@ -170,14 +164,14 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							sx={{ gridGap: '10px' }}
 						>
 							{update ? (
-								<Button variant="contained" color="info" type="submit">
+								<Button variant="contained" color="primary" type="submit">
 									Save and exit
 								</Button>
 							) : null}
 							<Button
 								onClick={() => setRedirect(true)}
 								variant="contained"
-								color="info"
+								color="primary"
 								type="submit"
 							>
 								{update ? 'Save product' : 'Create product'}
