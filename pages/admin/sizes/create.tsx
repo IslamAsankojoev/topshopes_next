@@ -8,7 +8,7 @@ import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { ISize } from 'shared/types/size.types'
+import { ISize } from 'shared/types/product.types'
 import { SizesService } from '../../../src/api/services/sizes/sizes.service'
 import { sizeEditForm } from '../../../src/utils/constants/forms'
 

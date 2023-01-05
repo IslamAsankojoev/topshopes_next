@@ -31,24 +31,33 @@ const Wrapper = styled(Card)(({ theme }) => ({
 
 // =========================================================
 
-const ProductCard7: React.FC<ICartItem> = ({
-	id,
-	title,
-	qty,
-	price,
-	imgUrl,
-}) => {
+const ProductCard7: React.FC<ICartItem> = (product) => {
+	const {
+		brand,
+		category,
+		id,
+		published,
+		title,
+		rating,
+		reviews,
+		shop,
+		slug,
+		unit,
+		variants,
+		children,
+		qty,
+	} = product
 	const { addToCart, removeFromCart, trashFromCart } = useActions()
 
 	const handleAddToCart = useCallback(() => {
-		addToCart({ id, title, price, imgUrl })
+		addToCart(product)
 	}, [])
 
 	const handleRemoveFromCart = useCallback(() => {
-		removeFromCart({ id, title, price, imgUrl })
+		removeFromCart(product)
 	}, [])
 	const handleTrashFromCart = useCallback(() => {
-		trashFromCart({ id, title, price, imgUrl })
+		trashFromCart()
 	}, [])
 
 	return (
@@ -58,7 +67,7 @@ const ProductCard7: React.FC<ICartItem> = ({
 				width={140}
 				height={140}
 				display="block"
-				src={imgUrl || '/assets/images/products/iphone-xi.png'}
+				src={variants[0]?.thumbnail || '/assets/images/products/iphone-xi.png'}
 			/>
 
 			<IconButton
@@ -80,11 +89,11 @@ const ProductCard7: React.FC<ICartItem> = ({
 
 				<FlexBox gap={1} flexWrap="wrap" alignItems="center">
 					<Span color="grey.600">
-						${Number(price).toFixed(2)} x {qty}
+						${Number(variants[0]?.price).toFixed(2)} x {qty}
 					</Span>
 
 					<Span fontWeight={600} color="primary.main">
-						${(Number(price) * qty).toFixed(2)}
+						${(Number(variants[0]?.price) * qty).toFixed(2)}
 					</Span>
 				</FlexBox>
 

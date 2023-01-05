@@ -1,11 +1,12 @@
 import duotone from 'components/icons/duotone'
 
 export const navigations = [
-	{ type: 'label', label: 'Admin' },
+	{ type: 'label', label: 'Admin', role: 'admin' },
 	{
 		name: 'Dashboard',
 		icon: duotone.Dashboard,
 		path: '/vendor/dashboard',
+		role: 'admin',
 	},
 
 	{
@@ -21,6 +22,7 @@ export const navigations = [
 			{ name: 'Color', path: '/admin/colors' },
 			{ name: 'Size', path: '/admin/sizes' },
 		],
+		role: 'admin',
 	},
 
 	{
@@ -30,21 +32,14 @@ export const navigations = [
 			{ name: 'Pages List', path: '/admin/pages-list' },
 			{ name: 'Pages Category', path: '/admin/pages-category' },
 		],
-	},
-
-	{
-		name: 'Orders',
-		icon: duotone.Order,
-		children: [
-			{ name: 'Order List', path: '/admin/orders' },
-			{ name: 'Order Details', path: '/admin/orders/1' },
-		],
+		role: 'admin',
 	},
 
 	{
 		name: 'Customers',
 		icon: duotone.Customers,
 		path: '/admin/customers',
+		role: 'admin',
 	},
 
 	// {
@@ -67,16 +62,23 @@ export const navigations = [
 			{ name: 'Payouts', path: '/admin/payouts' },
 			{ name: 'Payout Request', path: '/admin/payout-request' },
 		],
+		role: 'admin',
 	},
-
-	{ type: 'label', label: 'Vendor' },
+	{ type: 'label', label: 'Store', role: 'vendor' },
 	{
-		name: 'Shop Products',
+		name: 'Products',
 		icon: duotone.Products,
 		children: [
 			{ name: 'Product List', path: '/vendor/products' },
 			{ name: 'Create Product', path: '/vendor/products/create' },
 		],
+		role: 'vendor',
+	},
+	{
+		name: 'Orders',
+		icon: duotone.Order,
+		path: '/vendor/orders',
+		role: 'vendor',
 	},
 	// {
 	// 	name: 'Earnings',
@@ -99,12 +101,14 @@ export const navigations = [
 		name: 'Reviews',
 		icon: duotone.Review,
 		path: '/vendor/reviews',
+		role: 'vendor',
 	},
 
 	{
 		name: 'Shop Setting',
 		icon: duotone.SiteSetting,
 		path: '/vendor/shop-settings',
+		role: 'vendor',
 	},
 
 	// {
@@ -117,17 +121,19 @@ export const navigations = [
 		name: 'Account Setting',
 		icon: duotone.AccountSetting,
 		path: '/vendor/account-setting',
+		role: 'vendor',
 	},
 
 	{
 		name: 'Site Setting',
 		icon: duotone.SiteSetting,
 		path: '/vendor/site-settings',
+		role: 'admin',
 	},
-
 	{
 		name: 'Logout',
 		icon: duotone.Session,
 		path: '/vendor/dashboard-version-2',
+		role: 'vendor',
 	},
 ]

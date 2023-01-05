@@ -16,11 +16,11 @@ const CheckoutSummary2: FC = () => {
 				<FlexBetween mb={1.5} key={item.title}>
 					<Paragraph>
 						<Span fontWeight="700" fontSize="14px">
-							{item.qty}
+							{/* {item.qty} */}
 						</Span>{' '}
 						x {item.title}
 					</Paragraph>
-					<Paragraph>${Number(item.price).toFixed(2)}</Paragraph>
+					{/* <Paragraph>${Number(item.price).toFixed(2)}</Paragraph> */}
 				</FlexBetween>
 			))}
 

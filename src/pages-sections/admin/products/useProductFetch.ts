@@ -3,9 +3,11 @@ import { CategoriesService } from 'api/services-admin/categories/category.servic
 import { SizesService } from 'api/services/sizes/sizes.service'
 import { ColorsService } from 'api/services/colors/colors.service'
 import { ShopsService } from 'api/services-admin/shops/shops.service'
+
 import { ICategory, IColor, ISize } from 'shared/types/product.types'
 import { IShop } from 'shared/types/shop.types'
 import { BrandsService } from 'api/services-admin/brands/brand.service'
+
 import { IBrand } from 'shared/types/brand.types'
 
 

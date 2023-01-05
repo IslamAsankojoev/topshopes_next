@@ -9,8 +9,8 @@ import { Box } from '@mui/material'
 import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
 import { useRouter } from 'next/router'
 
-import { productFormValidationSchemaVendor } from 'pages-sections/admin/products/productFormValidationSchema'
-
+// import { checkChangeThumbnail } from 'pages-sections/admin/products/productFormHelper'
+import { productFormValidationSchema } from '../../../src/components/validationSchema'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct } from 'shared/types/product.types'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'

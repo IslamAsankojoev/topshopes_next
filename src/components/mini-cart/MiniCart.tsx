@@ -138,7 +138,10 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 									width={76}
 									height={76}
 									alt={item.title}
-									src={item.imgUrl || '/assets/images/products/iphone-x.png'}
+									src={
+										item?.variants[0]?.thumbnail ||
+										'/assets/images/products/iphone-x.png'
+									}
 								/>
 							</a>
 						</Link>
@@ -153,7 +156,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							</Link>
 
 							<Tiny color="grey.600">
-								${Number(item.price).toFixed(2)} x {item.qty}
+								${Number(item?.variants[0]?.price).toFixed(2)} x {item.qty}
 							</Tiny>
 
 							<Box
@@ -162,7 +165,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 								color="primary.main"
 								mt={0.5}
 							>
-								${(item.qty * Number(item.price)).toFixed(2)}
+								${(item.qty * Number(item?.variants[0]?.price)).toFixed(2)}
 							</Box>
 						</Box>
 

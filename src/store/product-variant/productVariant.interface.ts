@@ -10,3 +10,4 @@ export interface IProductVariantInitialState {
     imgIdCounter: number
     idCounter: number
 }
+

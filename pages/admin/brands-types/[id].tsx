@@ -30,8 +30,7 @@ const CreateBrandType: NextPageAuth = () => {
 	// brand type update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'brandTypes admin update',
-		(data: IBrandTypes) =>
-			BrandTypesService.updateBrandTypes(id as string, data),
+		(data: IBrandTypes) => BrandTypesService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')

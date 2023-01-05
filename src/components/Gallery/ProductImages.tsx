@@ -17,6 +17,7 @@ interface IProductImages {
 	remove: (item: IImage | File) => void
 	add: (image: File) => void
 	productVariant?: string
+
 }
 
 const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {

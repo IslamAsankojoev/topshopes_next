@@ -103,7 +103,7 @@ const Navigations = () => {
 		{
 			title: 'SHOP PANEL',
 			list: [
-				{ href: '/vendor/shop-settings', title: 'Shop settings', icon: Store },
+				{ href: '/vendor/shop-settings', title: 'Store', icon: Store },
 				{
 					href: '/vendor/products',
 					title: 'Products',

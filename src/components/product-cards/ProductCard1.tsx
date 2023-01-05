@@ -47,6 +47,7 @@ const StyledChip = styled(Chip)(() => ({
 	fontWeight: 600,
 	fontSize: '10px',
 	position: 'absolute',
+	color: 'white',
 }))
 
 const HoverIconWrapper = styled(Box)(({ theme }) => ({
@@ -132,13 +133,10 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	// 	[]
 	// )
 
-	const handleAddToCart = useCallback(
-		(product: ICartItem) => () => addToCart(product),
-		[]
-	)
+	const handleAddToCart = useCallback(() => addToCart(props.product), [])
 
 	const handleRemoveFromCart = useCallback(
-		(product: ICartItem) => () => removeFromCart(product),
+		() => removeFromCart(props.product),
 		[]
 	)
 
@@ -183,12 +181,11 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 			<ProductViewDialog
 				openDialog={openModal}
 				handleCloseDialog={toggleDialog}
-				product={{
-					title,
-					price: selectedVariant?.price,
-					id,
-					imgGroup: [variants[0]?.thumbnail, variants[0]?.images],
-				}}
+				product={props.product}
+				variant={selectedVariant}
+				setVariant={setSelectedVariant}
+				setImage={setSelectedImage}
+				image={selectedImage}
 			/>
 
 			<ContentWrapper>
@@ -196,16 +193,31 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 					<Box flex="1 1 0" minWidth="0px" mr={1}>
 						<Link href={`/product/${id}`}>
 							<a>
-								<H3
-									mb={1}
-									title={title}
-									fontSize="14px"
-									fontWeight="600"
-									className="title"
-									color="text.secondary"
+								<span
+									style={{
+										fontSize: '1.1rem',
+										fontWeight: 600,
+										color: '#000',
+										display: 'block',
+									}}
 								>
 									{title}
-								</H3>
+								</span>
+							</a>
+						</Link>
+
+						<Link href={`/shops/${shop.id}`}>
+							<a>
+								<span
+									style={{
+										fontSize: '0.8rem',
+										fontWeight: 400,
+										color: 'grey',
+										display: 'block',
+									}}
+								>
+									{shop.name}
+								</span>
 							</a>
 						</Link>
 
@@ -221,16 +233,21 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
 							<Box fontWeight="600" color="primary.main">
-								$
 								{(
-									+selectedVariant?.price -
-									(+selectedVariant?.price * selectedVariant?.discount) / 100
+									(+props.product.variants[0]?.price || +variants[0]?.price) -
+									((+props.product.variants[0]?.price || +variants[0]?.price) *
+										props.product.variants[0]?.discount) /
+										100
 								).toFixed(2)}
 							</Box>
 
 							{!!selectedVariant?.discount && (
 								<Box color="grey.600" fontWeight="600">
-									<del>{Number(selectedVariant?.price)?.toFixed(2)}</del>
+									<del>
+										{Number(
+											selectedVariant?.price || variants[0]?.price
+										)?.toFixed(2)}
+									</del>
 								</Box>
 							)}
 						</FlexBox>
@@ -275,7 +292,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						)} */}
 					</FlexBox>
 				</FlexBox>
-				{openVariants ? (
+				{
 					<Box
 						sx={{
 							// padding: '10px',
@@ -287,6 +304,9 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							backgroundColor: 'rgba(255,255,255,1)',
 							zIndex: '10',
 							display: 'flex',
+							opacity: openVariants ? '1' : '0',
+							transform: openVariants ? 'translateY(0)' : 'translateY(100%)',
+							transition: 'all 0.2s ease',
 							alignItems: 'center',
 							justifyContent: 'center',
 							boxShadow: '-2px 0px 14px -4px rgba(0,0,0,0.300)',
@@ -310,15 +330,22 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 										setImage={setSelectedImage}
 										product={props.product}
 										variant={selectedVariant}
+										max={3}
 									/>
 									<BazaarButton
 										color="primary"
 										disabled={!selectedVariant}
 										variant="contained"
-										// onClick={}
-										sx={{ px: '1.75rem', height: 40, width: '100%' }}
+										onClick={handleAddToCart}
+										sx={{
+											px: '1.75rem',
+											height: 40,
+											width: '100%',
+											color: 'white',
+										}}
 									>
-										Add to Cart
+										Add to Cart{' '}
+										{selectedVariant ? ` - ${selectedVariant?.price}` : null}
 									</BazaarButton>
 								</Box>
 							</FlexBox>
@@ -334,7 +361,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							<Close />
 						</IconButton>
 					</Box>
-				) : null}
+				}
 			</ContentWrapper>
 		</StyledBazaarCard>
 	)
