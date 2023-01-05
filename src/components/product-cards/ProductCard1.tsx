@@ -104,7 +104,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 	const cartItem = cartItems.find((item) => item.id === id)
 	const [selectedImage, setSelectedImage] = useState<string>(
-		variants[0].thumbnail
+		variants[0]?.thumbnail
 	)
 	const [selectedVariant, setSelectedVariant] = useState<IProductVariant>(
 		variants[0]
@@ -143,7 +143,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	return (
 		<StyledBazaarCard hoverEffect={props.hoverEffect}>
 			<ImageWrapper>
-				{!!variants[0].discount && (
+				{!!variants[0]?.discount && (
 					<StyledChip
 						color="primary"
 						size="small"

@@ -55,8 +55,15 @@ const ShopSettings: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	// shop fetching
-	const { data: shop, isLoading } = useQuery('shop get', ShopService.getList, {
-		select: (data) => data[0],
+	const {
+		data: shop,
+		isLoading,
+		refetch,
+	} = useQuery('shop get', ShopService.getList, {
+		select: (data) => {
+			const { products, socialLinks, ...shopData } = data
+			return shopData
+		},
 	})
 
 	// shop mutation
@@ -66,7 +73,7 @@ const ShopSettings: NextPageAuth = () => {
 		{
 			onSuccess: () => {
 				toast.success('shop successfully created')
-				push('vendor/products')
+				push('/vendor/products')
 			},
 		}
 	)
@@ -77,17 +84,17 @@ const ShopSettings: NextPageAuth = () => {
 		{
 			onSuccess: () => {
 				toast.success('shop successfully updated')
-				push('vendor/products')
+				push('/vendor/products')
 			},
 		}
 	)
 
 	// images
 	const [coverPicture, setCoverPicture] = React.useState(
-		shop?.length ? shop?.cover_picture : ''
+		shop?.cover_picture || ''
 	)
 	const [profilePicture, setProfilePicture] = React.useState(
-		shop?.length ? shop?.profile_picture : ''
+		shop?.profile_picture || ''
 	)
 
 	// submiting
@@ -104,6 +111,14 @@ const ShopSettings: NextPageAuth = () => {
 		createAsync(formData(values))
 	}
 
+	const handleDelete = async () => {
+		if (!window.confirm('Are you sure you want to delete this store?')) return
+
+		ShopService.delete(null)
+		toast.success('shop successfully deleted')
+		push('/vendor/products')
+	}
+
 	const {
 		values,
 		errors,
@@ -116,12 +131,13 @@ const ShopSettings: NextPageAuth = () => {
 	} = useFormik({
 		initialValues: shop || initialValues,
 		onSubmit: handleFormSubmit,
-		validationSchema: validationSchema,
+		validationSchema,
 	})
 
 	// if (isLoading) {
 	// 	return <Loading />
 	// }
+
 	React.useEffect(() => {
 		if (shop) {
 			setValues(shop)
@@ -254,17 +270,32 @@ const ShopSettings: NextPageAuth = () => {
 								<PrevImg src={profilePicture} alt={'picture'} />
 							</Grid>
 						) : null}
-					</Grid>
+						{shop ? (
+							<Grid item sm={6} xs={12}>
+								<Button
+									sx={{ m: '20px 0' }}
+									color="error"
+									variant="contained"
+									onClick={handleDelete}
+									fullWidth
+								>
+									Delete shop
+								</Button>
+							</Grid>
+						) : null}
 
-					<Button
-						sx={{ m: '20px 0' }}
-						fullWidth
-						type="submit"
-						color="info"
-						variant="contained"
-					>
-						Save Changes
-					</Button>
+						<Grid item sm={6} xs={12}>
+							<Button
+								sx={{ m: '20px 0' }}
+								type="submit"
+								color="info"
+								variant="contained"
+								fullWidth
+							>
+								Save Changes
+							</Button>
+						</Grid>
+					</Grid>
 				</form>
 
 				{/* <Divider sx={{ my: 4 }} />

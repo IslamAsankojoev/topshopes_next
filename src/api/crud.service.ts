@@ -54,9 +54,9 @@ export const CRUDservice = (
 				throw error
 			}
 		},
-		delete: async (id: string) => {
+		delete: async (id: string | null) => {
 			try {
-				const response = await makeRequest(auth).delete(url(`${id}/`))
+				const response = await makeRequest(auth).delete(url(id ?`${id}/` :''))
 				return response.data
 			} catch (error) {
 				toast.error(`${toastText || 'error'}: ${getErrorMessage(error)}`)
