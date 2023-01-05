@@ -1,4 +1,4 @@
-import { getShopsUrl, getShopUrl } from './../../../config/api.config'
+import { getShopUrl } from './../../../config/api.config'
 import { CRUDservice } from './../../crud.service'
 
-export const ShopService = CRUDservice(getShopsUrl, 'Shop', false)
+export const ShopService = CRUDservice(getShopUrl, 'Shop')

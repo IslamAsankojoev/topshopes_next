@@ -60,7 +60,7 @@ const CreateProduct: NextPageAuth = () => {
 					)
 				}
 			}
-			push('/admin/products/')
+			push('/vendor/products/')
 		} catch (e) {
 			toast.error('product: ' + getErrorMessage(e))
 		}

@@ -68,10 +68,10 @@ export const useProductFetch = (isAdmin = false) => {
 		colors,
 		shops,
 		isLoading:
-			categoriesLoading ||
-			brandsLoading ||
-			sizeLoading ||
-			colorsLoading ||
+			categoriesLoading &&
+			brandsLoading &&
+			sizeLoading &&
+			colorsLoading &&
 			shopsLoading,
 	}
 
