@@ -27,13 +27,13 @@ const tableHeading = [
 
 type CustomerListProps = { customers: IUser[] }
 
-const CustomerList: NextPageAuth<CustomerListProps> = ({ customers }) => {
+const CustomerList: NextPageAuth<CustomerListProps> = () => {
 	const { push } = useRouter()
 	const {
 		data: Users,
 		isLoading,
 		refetch,
-	} = useQuery('get users all', UsersService.getList)
+	} = useQuery({ queryKey: 'get users all', queryFn: UsersService.getList })
 
 	const {
 		order,
@@ -51,7 +51,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = ({ customers }) => {
 
 			<SearchArea
 				handleSearch={() => {}}
-				buttonText="Add Users"
+				// buttonText="Add Users"
 				handleBtnClick={() => {
 					push('/admin/customers/create')
 				}}
@@ -67,7 +67,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = ({ customers }) => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={customers?.length}
+								rowCount={Users?.length}
 								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
@@ -88,7 +88,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = ({ customers }) => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(customers?.length / rowsPerPage)}
+						count={Math.ceil(Users?.length / rowsPerPage)}
 					/>
 				</Stack>
 			</Card>
@@ -100,11 +100,6 @@ CustomerList.isOnlyUser = true
 
 CustomerList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-	const customers = await api.customers()
-	return { props: { customers } }
 }
 
 export default CustomerList

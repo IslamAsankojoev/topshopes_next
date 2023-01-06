@@ -5,7 +5,10 @@ import { ProductForm } from 'pages-sections/admin'
 
 import React, { ReactElement, useEffect } from 'react'
 import { productFormValidationSchemaVendor } from '../../../src/components/validationSchema'
-import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
+import {
+	ProductFetchTypes,
+	useProductFetch,
+} from '../../../src/pages-sections/admin/products/useProductFetch'
 import Loading from '../../../src/components/Loading'
 import { toast } from 'react-toastify'
 import { formData } from '../../../src/utils/formData'
@@ -18,6 +21,12 @@ import { ImagesService } from 'api/services/images/images.service'
 import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
 import { getErrorMessage } from 'utils/getErrorMessage'
 import { ProductsService } from 'api/services/products/product.service'
+import { useQueries, useQuery } from 'react-query'
+import { CategoriesService } from 'api/services/categories/category.service'
+import { BrandsService } from 'api/services/brands/brand.service'
+import { SizesService } from 'api/services/sizes/sizes.service'
+import { ColorsService } from 'api/services/colors/colors.service'
+import { ShopsService } from 'api/services-admin/shops/shops.service'
 
 const initialValues = {
 	title: '',
@@ -31,6 +40,30 @@ const CreateProduct: NextPageAuth = () => {
 	// states
 	const { variants } = useTypedSelector((state) => state.productVariantsStore)
 	const { setVariants } = useActions()
+
+	const {
+		'0': { data: categories, isLoading: categoriesLoading },
+		'1': { data: brands, isLoading: brandsLoading },
+		'2': { data: sizes, isLoading: sizesLoading },
+		'3': { data: colors, isLoading: colorsLoading },
+	} = useQueries([
+		{
+			queryKey: 'categories get',
+			queryFn: CategoriesService.getList,
+		},
+		{
+			queryKey: 'brands get',
+			queryFn: BrandsService.getList,
+		},
+		{
+			queryKey: 'sizes get',
+			queryFn: SizesService.getList,
+		},
+		{
+			queryKey: 'colors get',
+			queryFn: ColorsService.getList,
+		},
+	])
 
 	// getting all dependencies for selects
 	const fetch = useProductFetch(false)
@@ -80,7 +113,14 @@ const CreateProduct: NextPageAuth = () => {
 			<H3 mb={2}>Add New Product</H3>
 
 			<ProductForm
-				productFetch={fetch}
+				productFetch={{
+					categories,
+					brands,
+					sizes,
+					colors,
+					isLoading:
+						categoriesLoading || sizesLoading || brandsLoading || colorsLoading,
+				}}
 				initialValues={initialValues}
 				validationSchema={productFormValidationSchemaVendor}
 				handleFormSubmit={handleFormSubmit}

@@ -10,12 +10,11 @@ import { BrandsService } from 'api/services-admin/brands/brand.service'
 
 import { IBrand } from 'shared/types/brand.types'
 
-
 export interface ProductFetchTypes {
 	categories: ICategory[]
 	brands: IBrand[]
 	colors: IColor[]
-	size: ISize[]
+	sizes: ISize[]
 	shops?: IShop[]
 	isLoading: boolean
 }
@@ -34,7 +33,7 @@ export const useProductFetch = (isAdmin = false) => {
 			retry: 1,
 		}
 	)
-	const { data: size, isLoading: sizeLoading } = useQuery(
+	const { data: sizes, isLoading: sizeLoading } = useQuery(
 		'sizes get',
 		SizesService.getList,
 		{
@@ -52,11 +51,10 @@ export const useProductFetch = (isAdmin = false) => {
 	)
 
 	if (isAdmin) {
-		
 	}
 	const { data: shops, isLoading: shopsLoading } = useQuery(
 		'shops get',
-		isAdmin ?ShopsService.getList :null,
+		isAdmin ? ShopsService.getList : null,
 		{
 			refetchOnWindowFocus: false,
 			retry: 1,
@@ -66,7 +64,7 @@ export const useProductFetch = (isAdmin = false) => {
 	const result: ProductFetchTypes = {
 		categories,
 		brands,
-		size,
+		sizes,
 		colors,
 		shops,
 		isLoading:

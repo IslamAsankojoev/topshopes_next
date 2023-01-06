@@ -71,7 +71,7 @@ const ProductVariantList: React.FC<Props> = ({
 				<ProductVariantForm
 					refetch={refetch}
 					colors={fetch.colors}
-					sizes={fetch.size}
+					sizes={fetch.sizes}
 					initialValues={{}}
 					productId={product?.id}
 					createPage={create}
@@ -102,7 +102,7 @@ const ProductVariantList: React.FC<Props> = ({
 									<ProductVariantForm
 										refetch={refetch}
 										colors={fetch.colors}
-										sizes={fetch.size}
+										sizes={fetch.sizes}
 										initialValues={variantCheck(variant)}
 										createPage={create}
 										variantId={variant?.id}

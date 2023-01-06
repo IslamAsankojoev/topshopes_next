@@ -53,6 +53,7 @@ export type IProductVariant = {
 	status: 'available' | 'unavailable' | 'coming_soon'
 	price: string
 	discount: 0
+	discount_price: string
 	product: string
 	thumbnail: string
 	images: IImage[]
