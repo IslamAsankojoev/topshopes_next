@@ -47,7 +47,7 @@ const config = {
 const App = ({ Component, pageProps }: TypeAppProps) => {
 	const AnyComponent = Component as any
 	const getLayout = AnyComponent.getLayout ?? ((page) => page)
-	const [queryClient] = useState(() => new QueryClient())
+	const [queryClient] = useState(() => new QueryClient(config))
 
 	useEffect(() => {
 		// Remove the server-side injected CSS.

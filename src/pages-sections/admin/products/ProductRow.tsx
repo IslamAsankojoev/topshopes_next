@@ -37,9 +37,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 			onError: (e: unknown) => {
 				refetch()
 			},
-			onSuccess: () => {
-				toast.success('Product updated')
-			},
+			onSuccess: () => {},
 		}
 	)
 

@@ -147,7 +147,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 					<StyledChip
 						color="primary"
 						size="small"
-						label={`${variants[0].discount}% off`}
+						label={`${variants[0]?.discount}% off`}
 					/>
 				)}
 
@@ -239,12 +239,9 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
 							<Box fontWeight="600" color="primary.main">
-								{(
-									(+props.product.variants[0]?.price || +variants[0]?.price) -
-									((+props.product.variants[0]?.price || +variants[0]?.price) *
-										props.product.variants[0]?.discount) /
-										100
-								).toFixed(2)}
+								{Number(
+									+selectedVariant?.price || +variants[0]?.price
+								)?.toFixed()}
 							</Box>
 
 							{!!selectedVariant?.discount && (

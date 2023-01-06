@@ -31,10 +31,10 @@ const Variables: FC<VariablesProps> = ({
 	max = 7,
 }) => {
 	const sizes = [
-		...new Set(product.variants.map((variant) => variant.size.name)),
+		...new Set(product.variants.map((variant) => variant.size?.name)),
 	]
 	const colors = [
-		...new Set(product.variants.map((variant) => variant.color.color)),
+		...new Set(product.variants.map((variant) => variant.color?.color)),
 	]
 	const [currentColor, setCurrentColor] = useState<IColor>(
 		product?.variants[0]?.color

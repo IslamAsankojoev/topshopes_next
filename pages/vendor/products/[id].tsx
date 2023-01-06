@@ -2,7 +2,7 @@ import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQueries, useQuery } from 'react-query'
 import Loading from 'components/Loading'
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
@@ -13,9 +13,37 @@ import { IProduct } from 'shared/types/product.types'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 import { ProductsService } from 'api/services/products/product.service'
 import { productFormValidationSchemaVendor } from 'pages-sections/admin/products/productFormValidationSchema'
+import { CategoriesService } from 'api/services/categories/category.service'
+import { BrandsService } from 'api/services/brands/brand.service'
+import { ColorsService } from 'api/services/colors/colors.service'
+import { SizesService } from 'api/services/sizes/sizes.service'
 
 const EditProduct: NextPageAuth = () => {
-	const fetch = useProductFetch(false)
+	const {
+		'0': { data: categories, isLoading: categoriesLoading },
+		'1': { data: brands, isLoading: brandsLoading },
+		'2': { data: sizes, isLoading: sizesLoading },
+		'3': { data: colors, isLoading: colorsLoading },
+	} = useQueries([
+		{
+			queryKey: 'categories get',
+			queryFn: CategoriesService.getList,
+		},
+		{
+			queryKey: 'brands get',
+			queryFn: BrandsService.getList,
+		},
+		{
+			queryKey: 'sizes get',
+			queryFn: SizesService.getList,
+		},
+		{
+			queryKey: 'colors get',
+			queryFn: ColorsService.getList,
+		},
+	])
+
+	// const fetch = useProductFetch(false)
 
 	const {
 		query: { id },
@@ -38,7 +66,7 @@ const EditProduct: NextPageAuth = () => {
 		(data: IProduct) => ProductsService.update(id as string, data),
 		{
 			onSuccess: async () => {
-				toast.success('success')
+				toast.success('updated')
 				await refetch()
 			},
 			onError: (e: any) => {
@@ -50,11 +78,12 @@ const EditProduct: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
+		// console.log(data)
 		await mutateAsync(data)
 		if (!redirect) push('/vendor/products/')
 	}
 
-	if (isLoading || fetch.isLoading || mutationLoading) {
+	if (isLoading || mutationLoading) {
 		return <Loading />
 	}
 
@@ -67,18 +96,38 @@ const EditProduct: NextPageAuth = () => {
 						initialValues={{
 							...product,
 							brand: product?.brand?.id,
-							category: product?.category.id,
+							category: product?.category?.id,
 						}}
 						validationSchema={productFormValidationSchemaVendor}
 						handleFormSubmit={handleFormSubmit}
-						productFetch={fetch}
+						productFetch={{
+							categories,
+							brands,
+							sizes,
+							colors,
+							isLoading:
+								categoriesLoading ||
+								brandsLoading ||
+								sizesLoading ||
+								colorsLoading,
+						}}
 						update={true}
 					/>
 
 					<ProductVariantList
 						refetch={refetch}
 						product={product}
-						fetch={fetch}
+						fetch={{
+							categories,
+							brands,
+							sizes,
+							colors,
+							isLoading:
+								categoriesLoading ||
+								brandsLoading ||
+								sizesLoading ||
+								colorsLoading,
+						}}
 						isAdmin={false}
 					/>
 				</>
