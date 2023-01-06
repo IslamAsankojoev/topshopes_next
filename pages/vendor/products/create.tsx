@@ -3,6 +3,8 @@ import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
 
+import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
+import Loading from 'components/Loading'
 import React, { ReactElement, useEffect } from 'react'
 import { productFormValidationSchemaVendor } from '../../../src/components/validationSchema'
 import {
@@ -11,7 +13,7 @@ import {
 } from '../../../src/pages-sections/admin/products/useProductFetch'
 import Loading from '../../../src/components/Loading'
 import { toast } from 'react-toastify'
-import { formData } from '../../../src/utils/formData'
+import { formData } from 'utils/formData'
 import { useRouter } from 'next/router'
 import { NextPageAuth } from 'shared/types/auth.types'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
@@ -21,6 +23,7 @@ import { ImagesService } from 'api/services/images/images.service'
 import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
 import { getErrorMessage } from 'utils/getErrorMessage'
 import { ProductsService } from 'api/services/products/product.service'
+import { productFormValidationSchemaVendor } from 'pages-sections/admin/products/productFormValidationSchema'
 import { useQueries, useQuery } from 'react-query'
 import { CategoriesService } from 'api/services/categories/category.service'
 import { BrandsService } from 'api/services/brands/brand.service'
@@ -94,7 +97,7 @@ const CreateProduct: NextPageAuth = () => {
 					)
 				}
 			}
-			push('/admin/products/')
+			push('/vendor/products/')
 		} catch (e) {
 			toast.error('product: ' + getErrorMessage(e))
 		}

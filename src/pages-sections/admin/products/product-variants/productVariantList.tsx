@@ -8,12 +8,14 @@ import { IProductVariant } from 'shared/types/product.types'
 import ProductVariantForm from './ProductVariantForm'
 import { ProductFetchTypes } from 'pages-sections/admin/products/useProductFetch'
 import { IProduct } from 'shared/types/product.types'
-import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
-import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
 import { useTypedSelector } from 'hooks/useTypedSelector'
-import { toast } from 'react-toastify'
 import { useActions } from 'hooks/useActions'
 import styled from '@emotion/styled'
+import {
+	adminCheckFetch,
+	getImgUrl,
+	getVariantInfo,
+} from './productVariantHelper'
 
 type Props = {
 	refetch?: () => void
@@ -21,21 +23,6 @@ type Props = {
 	product: IProduct | { variants: IProductVariant[] }[] | any
 	create?: boolean
 	isAdmin?: boolean
-}
-
-const adminCheckFetch = (admin = false) => {
-	if (admin) {
-		return ProductVariantAdminService
-	}
-	return ProductVariantService
-}
-
-const getImgUrl = (img: File | Blob | string | any) => {
-	if (!img) return '#'
-	if (typeof img != 'string') {
-		return URL.createObjectURL(img)
-	}
-	return img
 }
 
 const ProductVariantList: React.FC<Props> = ({
@@ -92,7 +79,18 @@ const ProductVariantList: React.FC<Props> = ({
 								<div>
 									<H6 mb={0.5}>price: {variantCheck(variant)?.price}</H6>
 									<Paragraph color="grey.700">
+										size:{' '}
+										{getVariantInfo(variantCheck(variant)?.size, fetch.size)}
+									</Paragraph>
+									<Paragraph color="grey.700">
+										color:{' '}
+										{getVariantInfo(variantCheck(variant)?.color, fetch.colors)}
+									</Paragraph>
+									<Paragraph color="grey.700">
 										discount: {variantCheck(variant)?.discount}
+									</Paragraph>
+									<Paragraph color="grey.700">
+										status: {variantCheck(variant)?.status}
 									</Paragraph>
 									<Paragraph color="grey.700">
 										stock: {variantCheck(variant)?.stock}

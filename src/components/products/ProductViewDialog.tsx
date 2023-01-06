@@ -11,11 +11,10 @@ import {
 import BazaarButton from 'components/BazaarButton'
 import BazaarImage from 'components/BazaarImage'
 import BazaarRating from 'components/BazaarRating'
-import Carousel from 'components/carousel/Carousel'
 import { FlexBox } from 'components/flex-box'
-import { H1, H2, H3, H6, Paragraph } from 'components/Typography'
+import { H1, H2, H6, Paragraph } from 'components/Typography'
 import { useAppContext } from 'contexts/AppContext'
-import { FC, useCallback } from 'react'
+import { FC } from 'react'
 import { IProduct, IProductVariant } from 'shared/types/product.types'
 import Variables from './Variables'
 
@@ -43,7 +42,7 @@ const ContentWrapper = styled(Box)(({ theme }) => ({
 
 // =====================================================
 type ProductViewDialogProps = {
-	product: IProduct
+	product: IProduct | any
 	openDialog: boolean
 	handleCloseDialog: () => void
 	setVariant?: (variant: any) => void
