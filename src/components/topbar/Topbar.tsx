@@ -15,6 +15,7 @@ import { useRouter } from 'next/router'
 import { ISiteSettings } from 'shared/types/site-settings.types'
 import { useQuery } from 'react-query'
 import { axiosClassic } from 'api/interceptor'
+import { SiteSettings } from 'utils/constants/site-settings'
 
 const TopbarWrapper = styled(Box, {
 	shouldForwardProp: (props) => props !== 'bgColor',
@@ -55,7 +56,7 @@ type TopbarProps = {
 
 const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 	const { data: settings } = useQuery('get site settings', () =>
-		axiosClassic.get('/settings/')
+		axiosClassic.get('/settings/').then((response) => response.data)
 	)
 	const { replace, asPath, locale } = useRouter()
 
@@ -95,12 +96,16 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 
 					<FlexBox alignItems="center">
 						<CallOutlined fontSize="small" />
-						<Span className="title">{settings?.data?.header_phone}</Span>
+						<Span className="title">
+							{settings?.header_phone || SiteSettings.header_phone}
+						</Span>
 					</FlexBox>
 
 					<FlexBox alignItems="center" ml={2.5}>
 						<MailOutline fontSize="small" />
-						<Span className="title">{settings?.data?.support_email}</Span>
+						<Span className="title">
+							{settings?.support_email || SiteSettings.support_email}
+						</Span>
 					</FlexBox>
 				</FlexBox>
 

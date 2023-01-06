@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { ISiteSettings } from 'shared/types/site-settings.types'
+import { SiteSettings } from 'utils/constants/site-settings'
 
 // styled component
 const StyledLink = styled('a')(({ theme }) => ({
@@ -26,9 +27,9 @@ const StyledLink = styled('a')(({ theme }) => ({
 	'&:hover': { color: theme.palette.grey[100] },
 }))
 
-const Footer: FC<{ siteSettings?: ISiteSettings }> = ({ siteSettings }) => {
+const Footer: FC = () => {
 	const { data: settings } = useQuery('get site settings', () =>
-		axiosClassic.get('/settings/')
+		axiosClassic.get('/settings/').then((response) => response.data)
 	)
 
 	return (
@@ -45,8 +46,8 @@ const Footer: FC<{ siteSettings?: ISiteSettings }> = ({ siteSettings }) => {
 								</Link>
 
 								<Paragraph mb={2.5} color="grey.500">
-									{siteSettings?.short_description ||
-										settings?.data?.short_description}
+									{settings?.short_description ||
+										SiteSettings.short_description}
 								</Paragraph>
 
 								{/* <AppStore /> */}
@@ -103,22 +104,25 @@ const Footer: FC<{ siteSettings?: ISiteSettings }> = ({ siteSettings }) => {
 									Contact Us
 								</Box>
 								<Box py={0.6} color="grey.500">
-									{settings?.data?.short_description}
+									{settings?.short_description ||
+										SiteSettings.short_description}
 								</Box>
 								<Box py={0.6} color="grey.500">
-									Address: {settings?.data?.address}
+									Address: {settings?.address || SiteSettings.address}
 								</Box>
 								<Box py={0.6} color="grey.500">
-									Email: {siteSettings?.email || settings?.data?.email}
+									Email: {settings?.email || SiteSettings.email}
 								</Box>
 								<Box py={0.6} mb={2} color="grey.500">
-									Phone: {settings?.data?.footer_phone}
+									Phone: {settings?.footer_phone || SiteSettings.footer_phone}
 								</Box>
 
 								<FlexBox className="flex" mx={-0.625}>
 									{iconList?.map((item, ind) => (
 										<a
-											href={settings?.data[item.key]}
+											href={
+												settings ? settings[item.key] : SiteSettings[item.key]
+											}
 											target="_blank"
 											rel="noreferrer noopenner"
 											key={ind}
