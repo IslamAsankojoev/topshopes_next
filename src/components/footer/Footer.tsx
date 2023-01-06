@@ -28,7 +28,7 @@ const StyledLink = styled('a')(({ theme }) => ({
 
 const Footer: FC<{ siteSettings?: ISiteSettings }> = ({ siteSettings }) => {
 	const { data: settings } = useQuery('get site settings', () =>
-		axiosClassic.get('/settings/1/')
+		axiosClassic.get('/settings/')
 	)
 
 	return (

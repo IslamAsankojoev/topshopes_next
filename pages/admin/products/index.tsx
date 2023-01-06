@@ -25,7 +25,6 @@ const tableHeading = [
 ]
 
 const ProductList: NextPageAuth = () => {
-	const { push } = useRouter()
 	const {
 		data: products,
 		isLoading,
@@ -52,8 +51,7 @@ const ProductList: NextPageAuth = () => {
 
 			<SearchArea
 				handleSearch={() => {}}
-				buttonText="Add Product"
-				handleBtnClick={() => push('/admin/products/create')}
+				handleBtnClick={() => {}}
 				searchPlaceholder="Search Product..."
 			/>
 

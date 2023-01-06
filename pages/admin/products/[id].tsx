@@ -86,6 +86,7 @@ const EditProduct: NextPageAuth = () => {
 						refetch={refetch}
 						product={product}
 						fetch={fetch}
+						isAdmin={true}
 					/>
 				</>
 			) : null}

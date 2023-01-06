@@ -1,6 +1,4 @@
-
 import { IShop } from './shop.types'
-
 
 export type IProduct = {
 	brand: IBrand

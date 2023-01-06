@@ -29,7 +29,6 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 		brand,
 		category,
 		id,
-		published,
 		rating,
 		reviews,
 		shop,
