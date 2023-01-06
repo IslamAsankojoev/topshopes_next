@@ -6,12 +6,7 @@ import { ProductForm } from 'pages-sections/admin'
 import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
 import Loading from 'components/Loading'
 import React, { ReactElement, useEffect } from 'react'
-import { productFormValidationSchemaVendor } from '../../../src/components/validationSchema'
-import {
-	ProductFetchTypes,
-	useProductFetch,
-} from '../../../src/pages-sections/admin/products/useProductFetch'
-import Loading from '../../../src/components/Loading'
+import { ProductFetchTypes } from '../../../src/pages-sections/admin/products/useProductFetch'
 import { toast } from 'react-toastify'
 import { formData } from 'utils/formData'
 import { useRouter } from 'next/router'
