@@ -46,7 +46,6 @@ const ShopPage = ({ query }) => {
 	const { data: products } = useQuery(['shop products'], () =>
 		ShopsProductsService.getList(query)
 	)
-	console.log(products)
 
 	// mui settings
 	const [view, setView] = useState('grid')

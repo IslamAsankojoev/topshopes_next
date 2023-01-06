@@ -8,13 +8,11 @@ import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
 import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
 import { useRouter } from 'next/router'
-
-// import { checkChangeThumbnail } from 'pages-sections/admin/products/productFormHelper'
-import { productFormValidationSchema } from '../../../src/components/validationSchema'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct } from 'shared/types/product.types'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 import { ProductsService } from 'api/services/products/product.service'
+import { productFormValidationSchemaVendor } from 'pages-sections/admin/products/productFormValidationSchema'
 
 const EditProduct: NextPageAuth = () => {
 	const fetch = useProductFetch(false)

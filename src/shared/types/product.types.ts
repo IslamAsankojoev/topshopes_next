@@ -13,6 +13,7 @@ export type IProduct = {
 	unit: string
 	variants: IProductVariant[]
 	reviews: IReview[]
+	published: boolean
 }
 
 export type IColor = {

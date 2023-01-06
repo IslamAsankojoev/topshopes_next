@@ -87,7 +87,6 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 		title,
 		brand,
 		category,
-		published,
 		rating,
 		reviews,
 		shop,
@@ -97,7 +96,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	} = props.product
 
 	const [openModal, setOpenModal] = useState(false)
-	const wishListItems = useTypedSelector((state) => state.wishStore.items)
+	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
 	const cartItems = useTypedSelector((state) => state.cartStore.cart)
 	const { toggleWish, addToCart, removeFromCart } = useActions()
 	const inWishList = wishListItems.some((item) => item.id === id)
@@ -181,7 +180,13 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 			<ProductViewDialog
 				openDialog={openModal}
 				handleCloseDialog={toggleDialog}
-				product={props.product}
+				product={{
+					title,
+					price: selectedVariant?.price,
+					id,
+					imgGroup: [variants[0]?.thumbnail, variants[0]?.images],
+					variants,
+				}}
 				variant={selectedVariant}
 				setVariant={setSelectedVariant}
 				setImage={setSelectedImage}

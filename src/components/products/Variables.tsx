@@ -37,10 +37,10 @@ const Variables: FC<VariablesProps> = ({
 		...new Set(product.variants.map((variant) => variant.color.color)),
 	]
 	const [currentColor, setCurrentColor] = useState<IColor>(
-		product.variants[0].color
+		product?.variants[0]?.color
 	)
 	const [currentSize, setCurrentSize] = useState<ISize>(
-		product.variants[0].size
+		product?.variants[0]?.size
 	)
 
 	const setCurrentVariant = (color: IColor, size: ISize) => {
@@ -71,7 +71,7 @@ const Variables: FC<VariablesProps> = ({
 	}
 
 	useEffect(() => {
-		setCurrentImage(currentColor || product.variants[0].color)
+		setCurrentImage(currentColor || product.variants[0]?.color)
 	}, [currentColor])
 
 	useEffect(() => {
