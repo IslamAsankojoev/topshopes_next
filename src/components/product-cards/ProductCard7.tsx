@@ -36,7 +36,7 @@ const ProductCard7: React.FC<ICartItem> = (product) => {
 		brand,
 		category,
 		id,
-		title,
+		name,
 		rating,
 		reviews,
 		shop,
@@ -62,7 +62,7 @@ const ProductCard7: React.FC<ICartItem> = (product) => {
 	return (
 		<Wrapper>
 			<Image
-				alt={title}
+				alt={name}
 				width={140}
 				height={140}
 				display="block"
@@ -81,7 +81,7 @@ const ProductCard7: React.FC<ICartItem> = (product) => {
 				<Link href={`/product/${id}`}>
 					<a>
 						<Span ellipsis fontWeight="600" fontSize={18}>
-							{title}
+							{name}
 						</Span>
 					</a>
 				</Link>

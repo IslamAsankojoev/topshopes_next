@@ -13,12 +13,12 @@ const CheckoutSummary2: FC = () => {
 			</Paragraph>
 
 			{items?.map((item) => (
-				<FlexBetween mb={1.5} key={item.title}>
+				<FlexBetween mb={1.5} key={item.name}>
 					<Paragraph>
 						<Span fontWeight="700" fontSize="14px">
 							{/* {item.qty} */}
 						</Span>{' '}
-						x {item.title}
+						x {item.name}
 					</Paragraph>
 					{/* <Paragraph>${Number(item.price).toFixed(2)}</Paragraph> */}
 				</FlexBetween>
