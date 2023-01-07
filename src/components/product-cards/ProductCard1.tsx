@@ -1,34 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Add, Close, Favorite, Remove, RemoveRedEye } from '@mui/icons-material'
+import { Favorite } from '@mui/icons-material'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
-import { Box, Button, Chip, IconButton, styled } from '@mui/material'
+import { Box, Chip, IconButton, styled } from '@mui/material'
 import BazaarCard from 'components/BazaarCard'
 import BazaarRating from 'components/BazaarRating'
 import LazyImage from 'components/LazyImage'
+import { Span } from 'components/Typography'
 import ProductViewDialog from 'components/products/ProductViewDialog'
-import { H3, Span } from 'components/Typography'
-import { CartItem, useAppContext } from 'contexts/AppContext'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
-import {
-	CSSProperties,
-	FC,
-	Fragment,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from 'react'
+import { CSSProperties, FC, useCallback, useRef, useState } from 'react'
+import { IProductPreview } from 'shared/types/product.types'
+
 import { FlexBox } from '../flex-box'
-import {
-	IProduct,
-	IProductPreview,
-	IProductVariant,
-} from 'shared/types/product.types'
-import { ICartItem } from 'store/cart/cart.interface'
-import Variables from 'components/products/Variables'
-import BazaarButton from 'components/BazaarButton'
 
 const StyledBazaarCard = styled(BazaarCard)(() => ({
 	height: '100%',
@@ -185,7 +170,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						</Link>
 
 						{!props.hideRating ? (
-							<BazaarRating value={rating || 0} color="warn" readOnly />
+							<BazaarRating value={Number(rating) || 0} color="warn" readOnly />
 						) : null}
 
 						{props.showProductSize ? (

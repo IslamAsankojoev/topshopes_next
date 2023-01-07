@@ -6,6 +6,9 @@ export type ICartInitial = {
 	total_items: number
 }
 
-export type ICartItem = IProduct & {
+export type ICartItem = Omit<
+	IProduct,
+	'id' | 'brand' | 'shop' | 'unit' | 'reviews' | 'published'
+> & {
 	qty?: number
 }

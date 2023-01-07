@@ -30,6 +30,7 @@
 		"@mui/material": "^5.0.4",
 		"@mui/styles": "^5.0.2",
 		"@mui/system": "^5.10.7",
+		"@trivago/prettier-plugin-sort-imports": "^4.0.0",
 		"@types/axios": "^0.14.0",
 		"@types/draft-js": "^0.11.10",
 		"@types/draftjs-to-html": "^0.8.1",
