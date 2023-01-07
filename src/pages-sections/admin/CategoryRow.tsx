@@ -42,7 +42,7 @@ const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 	}
 
 	const handleEdit = () => {
-		push(getCategoriesUrl(id))
+		push(`/admin/categories/${id}/`)
 	}
 
 	return (
