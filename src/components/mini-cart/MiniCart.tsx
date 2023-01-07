@@ -5,10 +5,10 @@ import { useTheme } from '@mui/material/styles'
 import BazaarAvatar from 'components/BazaarAvatar'
 import BazaarButton from 'components/BazaarButton'
 import BazaarIconButton from 'components/BazaarIconButton'
-import { FlexBox } from 'components/flex-box'
-import ShoppingBagOutlined from 'components/icons/ShoppingBagOutlined'
 import LazyImage from 'components/LazyImage'
 import { H5, Tiny } from 'components/Typography'
+import { FlexBox } from 'components/flex-box'
+import ShoppingBagOutlined from 'components/icons/ShoppingBagOutlined'
 import { CartItem, useAppContext } from 'contexts/AppContext'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
@@ -102,7 +102,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 					<FlexBox
 						py={2}
 						px={2.5}
-						key={item.id}
+						key={item.slug}
 						alignItems="center"
 						borderBottom={`1px solid ${palette.divider}`}
 					>
@@ -131,7 +131,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							</BazaarButton>
 						</FlexBox>
 
-						<Link href={`/product/${item.id}`}>
+						<Link href={`/product/${item.slug}`}>
 							<a>
 								<BazaarAvatar
 									mx={2}
@@ -147,7 +147,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 						</Link>
 
 						<Box flex="1 1 0">
-							<Link href={`/product/${item.id}`}>
+							<Link href={`/product/${item.slug}`}>
 								<a>
 									<H5 className="title" fontSize="14px">
 										{item.name}
