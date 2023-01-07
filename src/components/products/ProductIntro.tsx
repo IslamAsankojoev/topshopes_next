@@ -225,9 +225,9 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 
 					<FlexBox alignItems="center" mb={2}>
 						<Box>Sold By:</Box>
-						<Link href="/shops/fdfdsa">
+						<Link href={`/shops/${shop.slug}`}>
 							<a>
-								<H6 ml={1}>Mobile Store</H6>
+								<H6 ml={1}>{shop.name}</H6>
 							</a>
 						</Link>
 					</FlexBox>

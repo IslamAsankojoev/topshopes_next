@@ -21,7 +21,11 @@ import {
 	useState,
 } from 'react'
 import { FlexBox } from '../flex-box'
-import { IProduct, IProductVariant } from 'shared/types/product.types'
+import {
+	IProduct,
+	IProductPreview,
+	IProductVariant,
+} from 'shared/types/product.types'
 import { ICartItem } from 'store/cart/cart.interface'
 import Variables from 'components/products/Variables'
 import BazaarButton from 'components/BazaarButton'
@@ -81,7 +85,7 @@ const ContentWrapper = styled(Box)(() => ({
 
 // ========================================================
 type ProductCard1Props = {
-	product: IProduct
+	product: IProductPreview
 	hideRating?: boolean
 	hoverEffect?: boolean
 	style?: CSSProperties
@@ -91,64 +95,47 @@ type ProductCard1Props = {
 
 const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const {
-		id,
 		name,
-		brand,
-		category,
 		rating,
-		reviews,
 		shop,
 		slug,
-		unit,
-		variants,
-		published,
+		discount,
+		discount_price,
+		price,
+		thumbnail,
 	} = props.product
 
 	const CurrentCard = useRef(null)
 	const [openModal, setOpenModal] = useState(false)
 	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
-	const cartItems = useTypedSelector((state) => state.cartStore.cart)
-	const { toggleWish, addToCart, removeFromCart } = useActions()
-	const inWishList = wishListItems.find((item) => item.id === id)
-
-	const cartItem = cartItems.find((item) => item.id === id)
-	const [selectedImage, setSelectedImage] = useState<string>(
-		variants[0]?.thumbnail
-	)
-	const [selectedVariant, setSelectedVariant] = useState<IProductVariant>(
-		variants[0]
-	)
-	const [openVariants, setOpenVariants] = useState<boolean>(false)
+	const { toggleWish } = useActions()
+	const inWishList = wishListItems.find((item) => item.slug === slug)
 
 	const toggleIsFavorite = () => {
-		toggleWish({ id, title: name, variants, rating })
+		toggleWish(props.product)
 	}
 
 	const toggleDialog = useCallback(() => setOpenModal((open) => !open), [])
 
-	const handleAddToCart = useCallback(() => addToCart(props.product), [])
+	// const handleAddToCart = useCallback(() => addToCart(props.product), [])
 
-	const handleRemoveFromCart = useCallback(
-		() => removeFromCart(props.product),
-		[]
-	)
+	// const handleRemoveFromCart = useCallback(
+	// 	() => removeFromCart(props.product),
+	// 	[]
+	// )
 
 	return (
 		<StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}>
 			<ImageWrapper>
-				{!!variants[0]?.discount && (
-					<StyledChip
-						color="primary"
-						size="small"
-						label={`${variants[0]?.discount}% off`}
-					/>
+				{!!discount && (
+					<StyledChip color="primary" size="small" label={`${discount}% off`} />
 				)}
 
 				<Link href={`/product/${slug}`}>
 					<a>
 						<LazyImage
-							loader={() => selectedImage}
-							src={selectedImage}
+							loader={() => thumbnail}
+							src={thumbnail}
 							width={0}
 							height={0}
 							layout="responsive"
@@ -161,17 +148,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 			<ProductViewDialog
 				openDialog={openModal}
 				handleCloseDialog={toggleDialog}
-				product={{
-					title: name,
-					price: selectedVariant?.price,
-					id,
-					imgGroup: [variants[0]?.thumbnail, variants[0]?.images],
-					variants,
-				}}
-				variant={selectedVariant}
-				setVariant={setSelectedVariant}
-				setImage={setSelectedImage}
-				image={selectedImage}
+				product={props.product}
 			/>
 
 			<ContentWrapper>
@@ -219,18 +196,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
 							<Box fontWeight="600" color="primary.main">
-								{Number(
-									+selectedVariant?.price || +variants[0]?.price
-								)?.toFixed()}
+								{Number(price)?.toFixed()}
 							</Box>
 
-							{!!selectedVariant?.discount && (
+							{!!discount && (
 								<Box color="grey.600" fontWeight="600">
-									<del>
-										{Number(
-											selectedVariant?.price || variants[0]?.price
-										)?.toFixed(2)}
-									</del>
+									<del>{Number(discount_price)?.toFixed(2)}</del>
 								</Box>
 							)}
 						</FlexBox>
@@ -241,11 +212,11 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						alignItems="center"
 						className="add-cart"
 						flexDirection="column-reverse"
-						justifyContent={!!cartItem?.qty ? 'space-between' : 'flex-start'}
+						justifyContent={'flex-start'}
 					>
-						<IconButton onClick={toggleDialog}>
+						{/* <IconButton onClick={toggleDialog}>
 							<RemoveRedEye color="disabled" fontSize="small" />
-						</IconButton>
+						</IconButton> */}
 						<IconButton onClick={toggleIsFavorite}>
 							{inWishList ? (
 								<Favorite color="primary" fontSize="small" />
@@ -255,27 +226,6 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						</IconButton>
 					</FlexBox>
 				</FlexBox>
-				{
-					<Box
-						sx={{
-							// padding: '10px',
-							position: 'absolute',
-							bottom: '0',
-							left: '0',
-							width: '100%',
-							// height: '50%',
-							backgroundColor: 'rgba(255,255,255,1)',
-							zIndex: '10',
-							display: 'flex',
-							opacity: openVariants ? '1' : '0',
-							transform: openVariants ? 'translateY(0)' : 'translateY(100%)',
-							transition: 'all 0.2s ease',
-							alignItems: 'center',
-							justifyContent: 'center',
-							boxShadow: '-2px 0px 14px -4px rgba(0,0,0,0.300)',
-						}}
-					></Box>
-				}
 			</ContentWrapper>
 		</StyledBazaarCard>
 	)

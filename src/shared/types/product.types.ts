@@ -14,6 +14,16 @@ export type IProduct = {
 	published: boolean
 }
 
+export type IProductPreview = Omit<
+	IProduct,
+	'brand' | 'unit' | 'variants' | 'reviews' | 'id'
+> & {
+	thumbnail: string
+	discount_price: string
+	price: string
+	discount: string
+}
+
 export type IColor = {
 	id: number
 	name: string

@@ -1,4 +1,4 @@
-import { IProduct } from './product.types'
+import { IProduct, IProductPreview } from './product.types'
 
 export interface IShop {
 	id: string
@@ -12,7 +12,7 @@ export interface IShop {
 	cover_picture: string
 	profile_picture: string
 	socialLinks: ILinks[]
-	products: IProduct[]
+	products: IProductPreview[]
 }
 
 export interface ILinks {

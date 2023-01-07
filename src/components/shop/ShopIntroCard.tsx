@@ -17,6 +17,7 @@ const ShopIntroCard: React.FC<IShop> = ({
 	name,
 	cover_picture,
 	email,
+	address,
 	id,
 	phone,
 	profile_picture,
@@ -90,14 +91,12 @@ const ShopIntroCard: React.FC<IShop> = ({
 
 							<FlexBox color="grey.600" gap={1} mb={1} maxWidth={270}>
 								<Place fontSize="small" sx={{ fontSize: 18, mt: '3px' }} />
-								<Span color="grey.600">
-									845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark
-								</Span>
+								<Span color="grey.600">{address}</Span>
 							</FlexBox>
 
 							<FlexBox color="grey.600" gap={1} mb={1}>
 								<Call fontSize="small" sx={{ fontSize: 18, mt: '2px' }} />
-								<Span color="grey.600">(613) 343-9004</Span>
+								<Span color="grey.600">{phone}</Span>
 							</FlexBox>
 						</Box>
 

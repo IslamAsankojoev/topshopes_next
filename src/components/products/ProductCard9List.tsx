@@ -3,14 +3,16 @@ import { FlexBetween } from 'components/flex-box'
 import ProductCard9 from 'components/product-cards/ProductCard9'
 import productDatabase from 'data/product-database'
 import React from 'react'
-import { IProduct } from 'shared/types/product.types'
+import { IProduct, IProductPreview } from 'shared/types/product.types'
 import { Span } from '../Typography'
 
 // ==========================================================
 type ProductCard9ListProps = {}
 // ==========================================================
 
-const ProductCard9List: React.FC<{ products: IProduct[] }> = ({ products }) => {
+const ProductCard9List: React.FC<{ products: IProductPreview[] }> = ({
+	products,
+}) => {
 	return (
 		<div>
 			{products?.map((item, ind) => (

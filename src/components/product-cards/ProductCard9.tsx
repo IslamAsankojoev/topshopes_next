@@ -16,7 +16,7 @@ import { H5, Span } from 'components/Typography'
 import { CartItem, useAppContext } from 'contexts/AppContext'
 import Link from 'next/link'
 import React, { useCallback } from 'react'
-import { IProduct } from 'shared/types/product.types'
+import { IProduct, IProductPreview } from 'shared/types/product.types'
 
 // styled components
 const Wrapper = styled(Card)(() => ({
@@ -41,24 +41,10 @@ const Wrapper = styled(Card)(() => ({
 // }
 // ===========================================================
 
-const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
-	const {
-		brand,
-		category,
-		id,
-		rating,
-		reviews,
-		shop,
-		slug,
-		name,
-		unit,
-		variants,
-	} = product
+const ProductCard9: React.FC<{ product: IProductPreview }> = ({ product }) => {
+	const { category, rating, shop, slug, name } = product
 
 	const { state, dispatch } = useAppContext()
-	const cartItem: CartItem | undefined = state.cart.find(
-		(item) => item.id === id
-	)
 
 	// const handleCartAmountChange = useCallback(
 	// 	(amount) => () => {
@@ -110,7 +96,7 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 						height="100%"
 						p={2}
 					>
-						<Link href={`/product/${id}`}>
+						<Link href={`/product/${slug}`}>
 							<a>
 								<H5 fontWeight="600" my="0.5rem">
 									{name}
@@ -133,7 +119,7 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 						</FlexBox>
 
 						<FlexBox>
-							{!cartItem?.qty && (
+							{/* {!cartItem?.qty && (
 								<Button
 									color="primary"
 									variant="contained"
@@ -168,7 +154,7 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 										<Remove fontSize="small" />
 									</Button>
 								</FlexBetween>
-							)}
+							)} */}
 						</FlexBox>
 					</FlexBox>
 				</Grid>
