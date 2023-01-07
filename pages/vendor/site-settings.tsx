@@ -13,14 +13,15 @@ import { ISiteSettings } from 'shared/types/site-settings.types'
 import { siteSettingsFormEdit } from 'utils/constants/forms'
 
 const SiteSettings: NextPageAuth = () => {
-	const { data, isLoading } = useQuery('site-settings admin get', () =>
-		SiteSettingsService.get('1')
+	const { data, isLoading } = useQuery(
+		'site-settings admin get',
+		SiteSettingsService.getList
 	)
 
 	// site settings mutate
 	const { mutateAsync } = useMutation(
 		'site-settings admin update',
-		(data: FormData) => SiteSettingsService.update('1', data),
+		(data: FormData) => SiteSettingsService.update('', data),
 		{
 			onSuccess: () => {
 				toast.success('settings saved successfully')

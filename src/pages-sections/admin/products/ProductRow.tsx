@@ -24,7 +24,7 @@ type ProductRowProps = { product: IProduct; refetch: () => void }
 // ========================================================================
 
 const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
-	const { category, title, brand, id, published, variants } = product
+	const { category, name, brand, id, published, variants, slug } = product
 
 	// state
 	const router = useRouter()
@@ -64,7 +64,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				<FlexBox alignItems="center" gap={1.5}>
 					<Avatar src={variants[0]?.thumbnail} sx={{ borderRadius: '8px' }} />
 					<Box>
-						<Paragraph>{title}</Paragraph>
+						<Paragraph>{name}</Paragraph>
 					</Box>
 				</FlexBox>
 			</StyledTableCell>
@@ -96,7 +96,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 			<StyledTableCell align="center">
 				<StyledIconButton
-					onClick={() => router.push(`${router.pathname}/${id}`)}
+					onClick={() => router.push(`${router.pathname}/${slug}`)}
 				>
 					<Edit />
 				</StyledIconButton>

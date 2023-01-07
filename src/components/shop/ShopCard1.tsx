@@ -95,7 +95,7 @@ const ShopCard1: React.FC<IShop> = (props) => {
 						borderColor: 'grey.100',
 					}}
 				/>
-				<Link href={`shops/${id}`}>
+				<Link href={`shops/${slug}`}>
 					<a>
 						<IconButton sx={{ my: 0.5 }}>
 							<East

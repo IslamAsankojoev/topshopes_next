@@ -11,7 +11,15 @@ import { CartItem, useAppContext } from 'contexts/AppContext'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
-import { CSSProperties, FC, Fragment, useCallback, useState } from 'react'
+import {
+	CSSProperties,
+	FC,
+	Fragment,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
 import { FlexBox } from '../flex-box'
 import { IProduct, IProductVariant } from 'shared/types/product.types'
 import { ICartItem } from 'store/cart/cart.interface'
@@ -96,11 +104,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 		published,
 	} = props.product
 
+	const CurrentCard = useRef(null)
 	const [openModal, setOpenModal] = useState(false)
 	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
 	const cartItems = useTypedSelector((state) => state.cartStore.cart)
 	const { toggleWish, addToCart, removeFromCart } = useActions()
-	const inWishList = wishListItems.some((item) => item.id === id)
+	const inWishList = wishListItems.find((item) => item.id === id)
 
 	const cartItem = cartItems.find((item) => item.id === id)
 	const [selectedImage, setSelectedImage] = useState<string>(
@@ -117,22 +126,6 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 	const toggleDialog = useCallback(() => setOpenModal((open) => !open), [])
 
-	// const handleCartAmountChange = useCallback(
-	// 	(product) => () =>
-	// 		dispatch({ type: 'CHANGE_CART_AMOUNT', payload: product }),
-	// 	[]
-	// )
-
-	// const handleAddToCart = useCallback(
-	// 	(product) => () => dispatch({ type: 'ADD_TO_CART', payload: product }),
-	// 	[]
-	// )
-
-	// const handleRemoveFromCart = useCallback(
-	// 	(product) => () => dispatch({ type: 'REMOVE_FROM_CART', payload: product }),
-	// 	[]
-	// )
-
 	const handleAddToCart = useCallback(() => addToCart(props.product), [])
 
 	const handleRemoveFromCart = useCallback(
@@ -141,7 +134,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	)
 
 	return (
-		<StyledBazaarCard hoverEffect={props.hoverEffect}>
+		<StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}>
 			<ImageWrapper>
 				{!!variants[0]?.discount && (
 					<StyledChip
@@ -151,20 +144,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 					/>
 				)}
 
-				<HoverIconWrapper className="hover-box">
-					<IconButton onClick={toggleDialog}>
-						<RemoveRedEye color="disabled" fontSize="small" />
-					</IconButton>
-					<IconButton onClick={toggleIsFavorite}>
-						{inWishList ? (
-							<Favorite color="primary" fontSize="small" />
-						) : (
-							<FavoriteBorder fontSize="small" color="disabled" />
-						)}
-					</IconButton>
-				</HoverIconWrapper>
-
-				<Link href={`/product/${id}`}>
+				<Link href={`/product/${slug}`}>
 					<a>
 						<LazyImage
 							loader={() => selectedImage}
@@ -197,7 +177,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 			<ContentWrapper>
 				<FlexBox>
 					<Box flex="1 1 0" minWidth="0px" mr={1}>
-						<Link href={`/product/${id}`}>
+						<Link href={`/product/${slug}`}>
 							<a>
 								<span
 									style={{
@@ -212,7 +192,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							</a>
 						</Link>
 
-						<Link href={`/shops/${shop.id}`}>
+						<Link href={`/shops/${shop.slug}`}>
 							<a>
 								<span
 									style={{
@@ -263,36 +243,16 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						flexDirection="column-reverse"
 						justifyContent={!!cartItem?.qty ? 'space-between' : 'flex-start'}
 					>
-						<Button
-							color="primary"
-							variant="outlined"
-							sx={{ padding: '3px' }}
-							onClick={() => setOpenVariants(true)}
-						>
-							<Add fontSize="small" />
-						</Button>
-
-						{/* {!!cartItem?.qty && (
-							<Fragment>
-								<Box color="text.primary" fontWeight="600">
-									{cartItem?.qty}
-								</Box>
-
-								<Button
-									color="primary"
-									variant="outlined"
-									sx={{ padding: '3px' }}
-									onClick={handleRemoveFromCart({
-										id,
-										title,
-										price: variants[0].price,
-										imgUrl: variants[0].thumbnail,
-									})}
-								>
-									<Remove fontSize="small" />
-								</Button>
-							</Fragment>
-						)} */}
+						<IconButton onClick={toggleDialog}>
+							<RemoveRedEye color="disabled" fontSize="small" />
+						</IconButton>
+						<IconButton onClick={toggleIsFavorite}>
+							{inWishList ? (
+								<Favorite color="primary" fontSize="small" />
+							) : (
+								<FavoriteBorder fontSize="small" color="disabled" />
+							)}
+						</IconButton>
 					</FlexBox>
 				</FlexBox>
 				{
@@ -314,56 +274,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							justifyContent: 'center',
 							boxShadow: '-2px 0px 14px -4px rgba(0,0,0,0.300)',
 						}}
-					>
-						{
-							<FlexBox alignItems="center" gap={1} mt={0.5} width={'100%'}>
-								<Box
-									fontWeight="600"
-									color="primary.main"
-									sx={{
-										width: '100%',
-										display: 'flex',
-										flexDirection: 'column',
-										alignItems: 'center',
-										justifyContent: 'center',
-									}}
-								>
-									<Variables
-										setVariant={setSelectedVariant}
-										setImage={setSelectedImage}
-										product={props.product}
-										variant={selectedVariant}
-										max={3}
-									/>
-									<BazaarButton
-										color="primary"
-										disabled={!selectedVariant}
-										variant="contained"
-										onClick={handleAddToCart}
-										sx={{
-											px: '1.75rem',
-											height: 40,
-											width: '100%',
-											color: 'white',
-										}}
-									>
-										Add to Cart{' '}
-										{selectedVariant ? ` - ${selectedVariant?.price}` : null}
-									</BazaarButton>
-								</Box>
-							</FlexBox>
-						}
-						<IconButton
-							sx={{
-								position: 'absolute',
-								top: '10px',
-								right: '10px',
-							}}
-							onClick={() => setOpenVariants(false)}
-						>
-							<Close />
-						</IconButton>
-					</Box>
+					></Box>
 				}
 			</ContentWrapper>
 		</StyledBazaarCard>

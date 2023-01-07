@@ -50,7 +50,7 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 		reviews,
 		shop,
 		slug,
-		title,
+		name,
 		unit,
 		variants,
 	} = product
@@ -113,7 +113,7 @@ const ProductCard9: React.FC<{ product: IProduct }> = ({ product }) => {
 						<Link href={`/product/${id}`}>
 							<a>
 								<H5 fontWeight="600" my="0.5rem">
-									{title}
+									{name}
 								</H5>
 							</a>
 						</Link>

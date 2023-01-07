@@ -137,7 +137,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 									mx={2}
 									width={76}
 									height={76}
-									alt={item.title}
+									alt={item.name}
 									src={
 										item?.variants[0]?.thumbnail ||
 										'/assets/images/products/iphone-x.png'
@@ -150,7 +150,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							<Link href={`/product/${item.id}`}>
 								<a>
 									<H5 className="title" fontSize="14px">
-										{item.title}
+										{item.name}
 									</H5>
 								</a>
 							</Link>
