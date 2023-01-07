@@ -80,7 +80,7 @@ const ProductVariantList: React.FC<Props> = ({
 									<H6 mb={0.5}>price: {variantCheck(variant)?.price}</H6>
 									<Paragraph color="grey.700">
 										size:{' '}
-										{getVariantInfo(variantCheck(variant)?.size, fetch.sizes)}
+										{getVariantInfo(variantCheck(variant)?.size, fetch?.sizes)}
 									</Paragraph>
 									<Paragraph color="grey.700">
 										color:{' '}

@@ -6,13 +6,26 @@ import ContactsForm from '../src/pages-sections/contacts/ContactsForm'
 import styled from '@emotion/styled'
 import { GetStaticProps, NextPage } from 'next'
 import { axiosClassic } from 'api/interceptor'
+import { dehydrate, QueryClient, useQuery } from 'react-query'
+import { SiteSettings } from 'utils/constants/site-settings'
 
 export const getStaticProps: GetStaticProps = async () => {
-	const { data } = await axiosClassic.get('/settings/')
-	return { props: { map: data.map }, revalidate: 86400 }
+	const queryClient = new QueryClient()
+
+	await queryClient.prefetchQuery(['get site settings'], () =>
+		axiosClassic.get('/settings/').then((response) => response.data)
+	)
+	return {
+		props: {
+			dehydratedState: dehydrate(queryClient),
+		},
+	}
 }
 
-const ContactsPage: NextPage<{ map: string; data: any }> = ({ map }) => {
+const ContactsPage: NextPage<{ map: string; data: any }> = () => {
+	const { data: settings } = useQuery('get site settings', () =>
+		axiosClassic.get('/settings/').then((response) => response.data)
+	)
 	return (
 		<ShopLayout1>
 			<SEO title="Contacts" />
@@ -20,7 +33,7 @@ const ContactsPage: NextPage<{ map: string; data: any }> = ({ map }) => {
 				<Wrapper>
 					<ContactsInfo>
 						<iframe
-							src={map}
+							src={settings ? settings['map'] : SiteSettings['map']}
 							width="100%"
 							height="100%"
 							style={{ border: 0 }}

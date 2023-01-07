@@ -9,5 +9,6 @@ export interface ISiteSettings {
     twitter: string;
     youtube: string;
     gmail: string;
+    map: string;
     instagram: string;
 }

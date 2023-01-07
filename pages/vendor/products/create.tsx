@@ -2,7 +2,6 @@ import { Box } from '@mui/material'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
-
 import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
 import Loading from 'components/Loading'
 import React, { ReactElement, useEffect } from 'react'
@@ -19,12 +18,6 @@ import { ProductVariantService } from 'api/services/product-variants/product-var
 import { getErrorMessage } from 'utils/getErrorMessage'
 import { ProductsService } from 'api/services/products/product.service'
 import { productFormValidationSchemaVendor } from 'pages-sections/admin/products/productFormValidationSchema'
-import { useQueries, useQuery } from 'react-query'
-import { CategoriesService } from 'api/services/categories/category.service'
-import { BrandsService } from 'api/services/brands/brand.service'
-import { SizesService } from 'api/services/sizes/sizes.service'
-import { ColorsService } from 'api/services/colors/colors.service'
-import { ShopsService } from 'api/services-admin/shops/shops.service'
 
 const initialValues = {
 	title: '',
@@ -38,30 +31,6 @@ const CreateProduct: NextPageAuth = () => {
 	// states
 	const { variants } = useTypedSelector((state) => state.productVariantsStore)
 	const { setVariants } = useActions()
-
-	const {
-		'0': { data: categories, isLoading: categoriesLoading },
-		'1': { data: brands, isLoading: brandsLoading },
-		'2': { data: sizes, isLoading: sizesLoading },
-		'3': { data: colors, isLoading: colorsLoading },
-	} = useQueries([
-		{
-			queryKey: 'categories get',
-			queryFn: CategoriesService.getList,
-		},
-		{
-			queryKey: 'brands get',
-			queryFn: BrandsService.getList,
-		},
-		{
-			queryKey: 'sizes get',
-			queryFn: SizesService.getList,
-		},
-		{
-			queryKey: 'colors get',
-			queryFn: ColorsService.getList,
-		},
-	])
 
 	// getting all dependencies for selects
 	const fetch = useProductFetch(false)
@@ -111,14 +80,7 @@ const CreateProduct: NextPageAuth = () => {
 			<H3 mb={2}>Add New Product</H3>
 
 			<ProductForm
-				productFetch={{
-					categories,
-					brands,
-					sizes,
-					colors,
-					isLoading:
-						categoriesLoading || sizesLoading || brandsLoading || colorsLoading,
-				}}
+				productFetch={fetch}
 				initialValues={initialValues}
 				validationSchema={productFormValidationSchemaVendor}
 				handleFormSubmit={handleFormSubmit}

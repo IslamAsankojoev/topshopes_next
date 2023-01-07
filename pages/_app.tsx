@@ -1,3 +1,4 @@
+import React from 'react'
 import RTL from 'components/RTL'
 import { AppProvider } from 'contexts/AppContext'
 import SettingsProvider from 'contexts/SettingContext'
@@ -47,7 +48,7 @@ const config = {
 const App = ({ Component, pageProps }: TypeAppProps) => {
 	const AnyComponent = Component as any
 	const getLayout = AnyComponent.getLayout ?? ((page) => page)
-	const [queryClient] = useState(() => new QueryClient(config))
+	const [queryClient] = React.useState(() => new QueryClient(config))
 
 	useEffect(() => {
 		// Remove the server-side injected CSS.
