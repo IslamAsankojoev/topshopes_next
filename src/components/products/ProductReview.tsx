@@ -1,17 +1,40 @@
 import { Rating } from '@mui/lab'
 import { Box, Button, TextField } from '@mui/material'
+import { instance } from 'api/interceptor'
+import { ReviewService } from 'api/services/review/Review.service'
 import { FlexBox } from 'components/flex-box'
 import { H2, H5 } from 'components/Typography'
 import { useFormik } from 'formik'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useRouter } from 'next/router'
 import React from 'react'
+import { useMutation } from 'react-query'
+import { toast } from 'react-toastify'
+import { IProduct, IReview } from 'shared/types/product.types'
 import * as yup from 'yup'
 import ProductComment from './ProductComment'
 
-export interface ProductReviewProps {}
+export interface ProductReviewProps {
+	product: IProduct
+}
 
-const ProductReview: React.FC<ProductReviewProps> = () => {
+const ProductReview: React.FC<ProductReviewProps> = ({ product }) => {
+	const { user } = useTypedSelector((state) => state.userStore)
+
+	const { mutateAsync } = useMutation(
+		'send a comment',
+		(values: IReview) => ReviewService.create(product.slug, values),
+		{
+			onSuccess: () => {
+				toast.success('comment sent successfully')
+			},
+		}
+	)
+
 	const handleFormSubmit = async (values: any, { resetForm }: any) => {
-		resetForm()
+		console.log({ product_variant: product?.variants[0].id, ...values })
+		mutateAsync({ product_variant: product?.variants[0].id, ...values })
+		// resetForm()
 	}
 
 	const {
@@ -40,51 +63,55 @@ const ProductReview: React.FC<ProductReviewProps> = () => {
 				Write a Review for this product
 			</H2>
 
-			<form onSubmit={handleSubmit}>
-				<Box mb={2.5}>
-					<FlexBox mb={1.5} gap={0.5}>
-						<H5 color="grey.700">Your Rating</H5>
-						<H5 color="error.main">*</H5>
-					</FlexBox>
+			{user ? (
+				<form onSubmit={handleSubmit}>
+					<Box mb={2.5}>
+						<FlexBox mb={1.5} gap={0.5}>
+							<H5 color="grey.700">Your Rating</H5>
+							<H5 color="error.main">*</H5>
+						</FlexBox>
 
-					<Rating
-						color="warn"
-						size="medium"
-						value={values.rating}
-						onChange={(_, value: any) => setFieldValue('rating', value)}
-					/>
-				</Box>
+						<Rating
+							color="warn"
+							size="medium"
+							value={values.rating}
+							onChange={(_, value: any) => setFieldValue('rating', value)}
+						/>
+					</Box>
 
-				<Box mb={3}>
-					<FlexBox mb={1.5} gap={0.5}>
-						<H5 color="grey.700">Your Review</H5>
-						<H5 color="error.main">*</H5>
-					</FlexBox>
+					<Box mb={3}>
+						<FlexBox mb={1.5} gap={0.5}>
+							<H5 color="grey.700">Your Review</H5>
+							<H5 color="error.main">*</H5>
+						</FlexBox>
 
-					<TextField
-						rows={8}
-						multiline
-						fullWidth
-						name="comment"
-						variant="outlined"
-						onBlur={handleBlur}
-						value={values.comment}
-						onChange={handleChange}
-						placeholder="Write a review here..."
-						error={!!touched.comment && !!errors.comment}
-						helperText={touched.comment && errors.comment}
-					/>
-				</Box>
+						<TextField
+							rows={8}
+							multiline
+							fullWidth
+							name="comment"
+							variant="outlined"
+							onBlur={handleBlur}
+							value={values.comment}
+							onChange={handleChange}
+							placeholder="Write a review here..."
+							error={!!touched.comment && !!errors.comment}
+							helperText={touched.comment && errors.comment}
+						/>
+					</Box>
 
-				<Button
-					variant="contained"
-					color="primary"
-					type="submit"
-					disabled={!(dirty && isValid)}
-				>
-					Submit
-				</Button>
-			</form>
+					<Button
+						variant="contained"
+						color="primary"
+						type="submit"
+						disabled={!(dirty && isValid)}
+					>
+						Submit
+					</Button>
+				</form>
+			) : (
+				<h3>User not found</h3>
+			)}
 		</Box>
 	)
 }

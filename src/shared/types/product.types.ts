@@ -72,4 +72,5 @@ export type IReview = {
 	rating: number
 	published: boolean
 	comment: string
+	product_variant?: string | number
 }

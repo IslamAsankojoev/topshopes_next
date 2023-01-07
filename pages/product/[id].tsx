@@ -79,7 +79,7 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 
 				<Box mb={6}>
 					{selectedOption === 0 && <ProductDescription />}
-					{selectedOption === 1 && <ProductReview />}
+					{selectedOption === 1 && <ProductReview product={product} />}
 				</Box>
 
 				{/* {frequentlyBought && <FrequentlyBought productsData={frequentlyBought} />}
@@ -106,7 +106,6 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 export async function getServerSideProps(ctx) {
 	try {
 		const { id } = ctx.params
-
 		const { data: product } = await axiosClassic.get(getAllProductsUrl(id))
 
 		const frequentlyBought = await getFrequentlyBought()

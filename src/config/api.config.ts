@@ -22,6 +22,8 @@ export const getImagesUrl = (string: string) => `products/variants/images/${stri
 
 export const getAllProductsUrl = (string: string) => `shops/products/${string}`
 export const getShopsUrl = (string: string) => `shops/${string}`
+export const getReviewUrl = (string: string) => `shops/products/${string}/review/`
+
 
 // Admin
 export const getBrandsUrlAdmin = (string: string) => `admin/brand/${string}`
