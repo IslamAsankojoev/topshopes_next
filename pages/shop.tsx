@@ -25,16 +25,22 @@ import { dehydrate, QueryClient, useQuery } from 'react-query'
 
 // ===================================================
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-	const queryClient = new QueryClient()
-	await queryClient.fetchQuery(['shop products'], () =>
-		ShopsProductsService.getList(query as Record<string, string | number>)
-	)
+	try {
+		const queryClient = new QueryClient()
+		await queryClient.fetchQuery(['shop products'], () =>
+			ShopsProductsService.getList(query as Record<string, string | number>)
+		)
 
-	return {
-		props: {
-			query,
-			dehydratedState: dehydrate(queryClient),
-		},
+		return {
+			props: {
+				query,
+				dehydratedState: dehydrate(queryClient),
+			},
+		}
+	} catch {
+		return {
+			props: {},
+		}
 	}
 }
 // ===================================================

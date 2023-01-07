@@ -10,15 +10,20 @@ import { dehydrate, QueryClient, useQuery } from 'react-query'
 import { SiteSettings } from 'utils/constants/site-settings'
 
 export const getStaticProps: GetStaticProps = async () => {
-	const queryClient = new QueryClient()
-
-	await queryClient.prefetchQuery(['get site settings'], () =>
-		axiosClassic.get('/settings/').then((response) => response.data)
-	)
-	return {
-		props: {
-			dehydratedState: dehydrate(queryClient),
-		},
+	try {
+		const queryClient = new QueryClient()
+		await queryClient.prefetchQuery(['get site settings'], () =>
+			axiosClassic.get('/settings/').then((response) => response.data)
+		)
+		return {
+			props: {
+				dehydratedState: dehydrate(queryClient),
+			},
+		}
+	} catch {
+		return {
+			props: {},
+		}
 	}
 }
 
@@ -33,7 +38,7 @@ const ContactsPage: NextPage<{ map: string; data: any }> = () => {
 				<Wrapper>
 					<ContactsInfo>
 						<iframe
-							src={settings?.map || SiteSettings['map']}
+							src={settings?.['map'] || SiteSettings['map']}
 							width="100%"
 							height="100%"
 							style={{ border: 0 }}
