@@ -33,7 +33,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 		reviews,
 		shop,
 		slug,
-		title,
+		name,
 		unit,
 		variants,
 	} = product
@@ -103,7 +103,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 					<FlexBox justifyContent="center" mb={6}>
 						<LazyImage
 							width={300}
-							alt={title}
+							alt={name}
 							height={300}
 							loading="eager"
 							objectFit="contain"
@@ -148,7 +148,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 				</Grid>
 
 				<Grid item md={6} xs={12} alignItems="center">
-					<H1 mb={2}>{title}</H1>
+					<H1 mb={2}>{name}</H1>
 
 					<FlexBox alignItems="center" mb={2}>
 						<Box>Brand:</Box>
