@@ -104,15 +104,19 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 // }
 
 export async function getServerSideProps(ctx) {
-	const { id } = ctx.params
+	try {
+		const { id } = ctx.params
 
-	const { data: product } = await axiosClassic.get(getAllProductsUrl(id))
+		const { data: product } = await axiosClassic.get(getAllProductsUrl(id))
 
-	const frequentlyBought = await getFrequentlyBought()
-	const relatedProducts = await getRelatedProducts()
+		const frequentlyBought = await getFrequentlyBought()
+		const relatedProducts = await getRelatedProducts()
 
-	return {
-		props: { frequentlyBought, relatedProducts, product },
+		return {
+			props: { frequentlyBought, relatedProducts, product },
+		}
+	} catch {
+		return { props: {} }
 	}
 }
 

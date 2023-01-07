@@ -1,4 +1,5 @@
 export const getErrorMessage = (e: any) => {
+	if (!e?.message && !e?.response?.data) return 'undefined'
 
 	const errorData = e?.response?.data
 	const errorMessageCheck = errorData[Object?.keys(errorData)[0]]

@@ -106,56 +106,60 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 }
 
 export async function getServerSideProps() {
-	// =========
-	const queryClient = new QueryClient()
-	await queryClient.fetchQuery(['shop products'], () =>
-		ShopsProductsService.getList()
-	)
-	// =========
+	try {
+		// =========
+		const queryClient = new QueryClient()
+		await queryClient.fetchQuery(['shop products'], () =>
+			ShopsProductsService.getList()
+		)
+		// =========
 
-	const carList = await api.getCarList()
-	const carBrands = await api.getCarBrands()
-	const moreItems = await api.getMoreItems()
-	const mobileList = await api.getMobileList()
-	const opticsList = await api.getOpticsList()
-	const mobileShops = await api.getMobileShops()
-	const opticsShops = await api.getOpticsShops()
-	const serviceList = await api.getServiceList()
-	const mobileBrands = await api.getMobileBrands()
-	const flashDealsData = await api.getFlashDeals()
-	const opticsBrands = await api.getOpticsBrands()
-	const bottomCategories = await api.getCategories()
-	const topCategories = await api.getTopCategories()
-	const topRatedBrands = await api.getTopRatedBrand()
-	const mainCarouselData = await api.getMainCarousel()
-	const newArrivalsList = await api.getNewArrivalList()
-	const bigDiscountList = await api.getBigDiscountList()
-	const topRatedProducts = await api.getTopRatedProduct()
+		const carList = await api.getCarList()
+		const carBrands = await api.getCarBrands()
+		const moreItems = await api.getMoreItems()
+		const mobileList = await api.getMobileList()
+		const opticsList = await api.getOpticsList()
+		const mobileShops = await api.getMobileShops()
+		const opticsShops = await api.getOpticsShops()
+		const serviceList = await api.getServiceList()
+		const mobileBrands = await api.getMobileBrands()
+		const flashDealsData = await api.getFlashDeals()
+		const opticsBrands = await api.getOpticsBrands()
+		const bottomCategories = await api.getCategories()
+		const topCategories = await api.getTopCategories()
+		const topRatedBrands = await api.getTopRatedBrand()
+		const mainCarouselData = await api.getMainCarousel()
+		const newArrivalsList = await api.getNewArrivalList()
+		const bigDiscountList = await api.getBigDiscountList()
+		const topRatedProducts = await api.getTopRatedProduct()
 
-	return {
-		props: {
-			carList,
-			carBrands,
-			moreItems,
-			mobileList,
-			opticsList,
-			serviceList,
-			mobileShops,
-			opticsShops,
-			mobileBrands,
-			opticsBrands,
-			topCategories,
-			flashDealsData,
-			topRatedBrands,
-			newArrivalsList,
-			bigDiscountList,
-			mainCarouselData,
-			topRatedProducts,
-			bottomCategories,
-			// =========
-			dehydratedState: dehydrate(queryClient),
-			// =========
-		},
+		return {
+			props: {
+				carList,
+				carBrands,
+				moreItems,
+				mobileList,
+				opticsList,
+				serviceList,
+				mobileShops,
+				opticsShops,
+				mobileBrands,
+				opticsBrands,
+				topCategories,
+				flashDealsData,
+				topRatedBrands,
+				newArrivalsList,
+				bigDiscountList,
+				mainCarouselData,
+				topRatedProducts,
+				bottomCategories,
+				// =========
+				dehydratedState: dehydrate(queryClient),
+				// =========
+			},
+		}
+	} catch {
+		return { props: {} }
 	}
 }
 
