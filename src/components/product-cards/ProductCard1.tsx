@@ -84,7 +84,7 @@ type ProductCard1Props = {
 const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const {
 		id,
-		title,
+		name,
 		brand,
 		category,
 		rating,
@@ -112,7 +112,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const [openVariants, setOpenVariants] = useState<boolean>(false)
 
 	const toggleIsFavorite = () => {
-		toggleWish({ id, title, variants, rating })
+		toggleWish({ id, title: name, variants, rating })
 	}
 
 	const toggleDialog = useCallback(() => setOpenModal((open) => !open), [])
@@ -172,7 +172,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							width={0}
 							height={0}
 							layout="responsive"
-							alt={title}
+							alt={name}
 						/>
 					</a>
 				</Link>
@@ -182,7 +182,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				openDialog={openModal}
 				handleCloseDialog={toggleDialog}
 				product={{
-					title,
+					title: name,
 					price: selectedVariant?.price,
 					id,
 					imgGroup: [variants[0]?.thumbnail, variants[0]?.images],
@@ -207,7 +207,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 										display: 'block',
 									}}
 								>
-									{title}
+									{name}
 								</span>
 							</a>
 						</Link>

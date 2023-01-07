@@ -33,7 +33,7 @@ const ContactsPage: NextPage<{ map: string; data: any }> = () => {
 				<Wrapper>
 					<ContactsInfo>
 						<iframe
-							src={settings ? settings['map'] : SiteSettings['map']}
+							src={settings['map'] || SiteSettings['map']}
 							width="100%"
 							height="100%"
 							style={{ border: 0 }}

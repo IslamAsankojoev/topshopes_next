@@ -5,7 +5,7 @@ export type IProduct = {
 	id: string
 	shop: IShop
 	slug: string
-	title: string
+	name: string
 	category: ICategory
 	rating: number
 	unit: string

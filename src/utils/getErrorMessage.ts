@@ -1,5 +1,4 @@
 export const getErrorMessage = (e: any) => {
-	// console.dir(e)
 
 	const errorData = e?.response?.data
 	const errorMessageCheck = errorData[Object?.keys(errorData)[0]]
