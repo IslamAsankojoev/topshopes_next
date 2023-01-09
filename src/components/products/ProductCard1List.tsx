@@ -4,10 +4,10 @@ import ProductCard1 from 'components/product-cards/ProductCard1'
 import { Span } from 'components/Typography'
 import productDatabase from 'data/product-database'
 import React, { Fragment } from 'react'
-import { IProduct } from 'shared/types/product.types'
+import { IProduct, IProductPreview } from 'shared/types/product.types'
 
 // ========================================================
-type ProductCard1ListProps = { products: IProduct[] }
+type ProductCard1ListProps = { products: IProductPreview[] }
 // ========================================================
 
 const ProductCard1List: React.FC<ProductCard1ListProps> = ({ products }) => {

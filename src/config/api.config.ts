@@ -16,9 +16,10 @@ export const getPostsUrl = (string: string) => `posts/${string}`
 export const getOrdersUrl = (string: string) => `shop/orders/${string}`
 export const getBrandsUrl = (string: string) => `shops/brand/${string}`
 export const getAddressesUrl = (string: string) => `profile/address/${string}`
-export const getShopUrl = (string: string) => `shop/${string}`
+export const getShopUrl = (string: string) => `shops/${string}`
 
-export const getImagesUrl = (string: string) => `products/variants/images/${string}`
+export const getImagesUrl = (string: string) =>
+	`products/variants/images/${string}`
 
 export const getAllProductsUrl = (string: string) => `shops/products/${string}`
 export const getShopsUrl = (string: string) => `shops/${string}`

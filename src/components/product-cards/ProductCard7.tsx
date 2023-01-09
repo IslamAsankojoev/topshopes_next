@@ -2,8 +2,8 @@
 import { Add, Close, Remove } from '@mui/icons-material'
 import { Button, Card, IconButton, styled } from '@mui/material'
 import Image from 'components/BazaarImage'
-import { FlexBox } from 'components/flex-box'
 import { Span } from 'components/Typography'
+import { FlexBox } from 'components/flex-box'
 import { useAppContext } from 'contexts/AppContext'
 import { useActions } from 'hooks/useActions'
 import Link from 'next/link'
@@ -32,20 +32,7 @@ const Wrapper = styled(Card)(({ theme }) => ({
 // =========================================================
 
 const ProductCard7: React.FC<ICartItem> = (product) => {
-	const {
-		brand,
-		category,
-		id,
-		name,
-		rating,
-		reviews,
-		shop,
-		slug,
-		unit,
-		variants,
-		children,
-		qty,
-	} = product
+	const { category, name, rating, slug, variants, children, qty } = product
 	const { addToCart, removeFromCart, trashFromCart } = useActions()
 
 	const handleAddToCart = useCallback(() => {
@@ -78,7 +65,7 @@ const ProductCard7: React.FC<ICartItem> = (product) => {
 			</IconButton>
 
 			<FlexBox p={2} rowGap={2} width="100%" flexDirection="column">
-				<Link href={`/product/${id}`}>
+				<Link href={`/product/${slug}`}>
 					<a>
 						<Span ellipsis fontWeight="600" fontSize={18}>
 							{name}

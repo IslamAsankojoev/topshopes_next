@@ -1,5 +1,5 @@
-import { IProduct } from 'shared/types/product.types';
+import { IProductPreview } from 'shared/types/product.types'
 
 export interface IInitialState {
-  items: IProduct[];
+	items: IProductPreview[]
 }

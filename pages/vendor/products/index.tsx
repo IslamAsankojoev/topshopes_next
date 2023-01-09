@@ -1,13 +1,13 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { ProductsService } from 'api/services/products/product.service'
+import Loading from 'components/Loading'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Loading from 'components/Loading'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { useRouter } from 'next/router'
 import { ProductRow } from 'pages-sections/admin'
@@ -19,7 +19,6 @@ import { NextPageAuth } from 'shared/types/auth.types'
 const tableHeading = [
 	{ id: 'name', label: 'Name', align: 'left' },
 	{ id: 'category', label: 'Category', align: 'left' },
-	{ id: 'brand', label: 'Brand', align: 'left' },
 	{ id: 'price', label: 'Price', align: 'left' },
 	{ id: 'published', label: 'Published', align: 'left' },
 	{ id: 'action', label: 'Action', align: 'center' },

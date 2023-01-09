@@ -1,10 +1,10 @@
 import { Container, Grid, Pagination } from '@mui/material'
 import { ShopService } from 'api/services/shop/shop.service'
+import { H2, Span } from 'components/Typography'
 import { FlexBetween } from 'components/flex-box'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import Navbar from 'components/navbar/Navbar'
 import ShopCard1 from 'components/shop/ShopCard1'
-import { H2, Span } from 'components/Typography'
 import { useQuery } from 'react-query'
 import { IShop } from 'shared/types/shop.types'
 

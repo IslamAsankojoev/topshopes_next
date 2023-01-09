@@ -15,7 +15,11 @@ import { FlexBox } from 'components/flex-box'
 import { H1, H2, H6, Paragraph } from 'components/Typography'
 import { useAppContext } from 'contexts/AppContext'
 import { FC } from 'react'
-import { IProduct, IProductVariant } from 'shared/types/product.types'
+import {
+	IProduct,
+	IProductPreview,
+	IProductVariant,
+} from 'shared/types/product.types'
 import Variables from './Variables'
 
 const ContentWrapper = styled(Box)(({ theme }) => ({
@@ -42,29 +46,16 @@ const ContentWrapper = styled(Box)(({ theme }) => ({
 
 // =====================================================
 type ProductViewDialogProps = {
-	product: IProduct | any
+	product: IProductPreview
 	openDialog: boolean
 	handleCloseDialog: () => void
-	setVariant?: (variant: any) => void
-	setImage?: (image: any) => void
-	variant?: IProductVariant
-	image?: string
 }
 // =====================================================
 
 const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
-	const {
-		product,
-		openDialog,
-		handleCloseDialog,
-		setImage,
-		setVariant,
-		variant,
-		image,
-	} = props
+	const { product, openDialog, handleCloseDialog } = props
 
 	const { state, dispatch } = useAppContext()
-	const cartItem = state.cart.find((item) => item.id === product.id)
 
 	// const handleCartAmountChange = useCallback(
 	// 	(amount) => () => {
@@ -107,7 +98,7 @@ const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
 								))}
 							</Carousel> */}
 							<BazaarImage
-								src={image}
+								src={product?.thumbnail}
 								sx={{
 									mx: 'auto',
 									width: '100%',
@@ -118,17 +109,13 @@ const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
 						</Grid>
 
 						<Grid item md={6} xs={12} alignSelf="center">
-							<H2>{product?.title}</H2>
+							<H2>{product?.name}</H2>
 
 							<Paragraph py={1} color="grey.500" fontWeight={600} fontSize={13}>
 								CATEGORY: Cosmetic
 							</Paragraph>
 
-							<H1 color="primary.main">
-								{Number(variant?.price || product.variants[0]?.price).toFixed(
-									2
-								)}
-							</H1>
+							<H1 color="primary.main">{Number(product?.price).toFixed(2)}</H1>
 
 							<FlexBox alignItems="center" gap={1}>
 								<BazaarRating
@@ -147,16 +134,9 @@ const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
 							</Paragraph>
 
 							<Divider sx={{ mb: 2 }} />
-							<Variables
-								product={product}
-								setVariant={setVariant}
-								setImage={setImage}
-								variant={variant}
-							/>
 
 							<BazaarButton
 								color="primary"
-								disabled={!variant}
 								variant="contained"
 								// onClick={handleAddToCart}
 								sx={{ px: '1.75rem', height: 40 }}
