@@ -16,25 +16,26 @@ import ProductComment from './ProductComment'
 
 export interface ProductReviewProps {
 	product: IProduct
+	refetch: () => void
 }
 
-const ProductReview: React.FC<ProductReviewProps> = ({ product }) => {
+const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 	const { user } = useTypedSelector((state) => state.userStore)
 
 	const { mutateAsync } = useMutation(
 		'send a comment',
 		(values: IReview) => ReviewService.create(product.slug, values),
 		{
-			onSuccess: () => {
-				toast.success('comment sent successfully')
+			onSuccess: async () => {
+				await refetch()
+				await toast.success('comment sent successfully')
 			},
 		}
 	)
 
 	const handleFormSubmit = async (values: any, { resetForm }: any) => {
-		console.log({ product_variant: product?.variants[0].id, ...values })
 		mutateAsync({ product_variant: product?.variants[0].id, ...values })
-		// resetForm()
+		resetForm()
 	}
 
 	const {
@@ -55,8 +56,8 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product }) => {
 
 	return (
 		<Box>
-			{commentList?.map((item, ind) => (
-				<ProductComment {...item} key={ind} />
+			{product?.reviews?.map((item, ind) => (
+				<ProductComment {...item} key={item.id} />
 			))}
 
 			<H2 fontWeight="600" mt={7} mb={2.5}>
@@ -146,7 +147,6 @@ const commentList = [
 const initialValues = {
 	rating: 0,
 	comment: '',
-	date: new Date().toISOString(),
 }
 
 const reviewSchema = yup.object().shape({

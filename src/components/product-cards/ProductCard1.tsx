@@ -112,12 +112,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const inWishList = wishListItems.find((item) => item.id === id)
 
 	const cartItem = cartItems.find((item) => item.id === id)
-	const [selectedImage, setSelectedImage] = useState<string>(
-		variants[0]?.thumbnail
-	)
-	const [selectedVariant, setSelectedVariant] = useState<IProductVariant>(
-		variants[0]
-	)
+	// const [selectedImage, setSelectedImage] = useState<string>(
+	// 	props.product?.thumbnail
+	// )
+	// const [selectedVariant, setSelectedVariant] = useState<IProductVariant>(
+	// 	variants[0]
+	// )
 	const [openVariants, setOpenVariants] = useState<boolean>(false)
 
 	const toggleIsFavorite = () => {
@@ -136,19 +136,25 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	return (
 		<StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}>
 			<ImageWrapper>
-				{!!variants[0]?.discount && (
+				{/* {!!variants[0]?.discount && (
 					<StyledChip
 						color="primary"
 						size="small"
 						label={`${variants[0]?.discount}% off`}
 					/>
-				)}
+				)} */}
 
 				<Link href={`/product/${slug}`}>
 					<a>
 						<LazyImage
-							loader={() => selectedImage}
-							src={selectedImage}
+							// loader={() => selectedImage}
+							// src={selectedImage}
+							loader={() =>
+								'https://static.wikia.nocookie.net/bleach/images/8/8d/572Kenpachi_profile.png/revision/latest?cb=20210417222326&path-prefix=en'
+							}
+							src={
+								'https://static.wikia.nocookie.net/bleach/images/8/8d/572Kenpachi_profile.png/revision/latest?cb=20210417222326&path-prefix=en'
+							}
 							width={0}
 							height={0}
 							layout="responsive"
@@ -158,7 +164,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				</Link>
 			</ImageWrapper>
 
-			<ProductViewDialog
+			{/* <ProductViewDialog
 				openDialog={openModal}
 				handleCloseDialog={toggleDialog}
 				product={{
@@ -172,7 +178,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				setVariant={setSelectedVariant}
 				setImage={setSelectedImage}
 				image={selectedImage}
-			/>
+			/> */}
 
 			<ContentWrapper>
 				<FlexBox>
@@ -218,7 +224,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						) : null}
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
-							<Box fontWeight="600" color="primary.main">
+							{/* <Box fontWeight="600" color="primary.main">
 								{Number(
 									+selectedVariant?.price || +variants[0]?.price
 								)?.toFixed()}
@@ -232,7 +238,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 										)?.toFixed(2)}
 									</del>
 								</Box>
-							)}
+							)} */}
 						</FlexBox>
 					</Box>
 

@@ -1,5 +1,6 @@
 import { Box, Container, styled, Tab, Tabs } from '@mui/material'
 import { axiosClassic } from 'api/interceptor'
+import { ShopsProductsService } from 'api/services/products/product.service'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import Navbar from 'components/navbar/Navbar'
 import AvailableShops from 'components/products/AvailableShops'
@@ -13,6 +14,7 @@ import { getAllProductsUrl, getProductsUrl } from 'config/api.config'
 import bazaarReactDatabase from 'data/bazaar-react-database'
 import { GetStaticPaths } from 'next'
 import { FC, useEffect, useState } from 'react'
+import { dehydrate, QueryClient, useQuery } from 'react-query'
 import { IProduct } from 'shared/types/product.types'
 import {
 	getFrequentlyBought,
@@ -36,11 +38,18 @@ type ProductDetailsProps = {
 	frequentlyBought?: any[]
 	relatedProducts?: any[]
 	product?: IProduct
+	id?: string | number
 }
 // ===============================================================
 
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
-	const { frequentlyBought, relatedProducts, product } = props
+	const { id } = props
+
+	const {
+		data: product,
+		refetch,
+		isLoading,
+	} = useQuery(['product detail'], () => ShopsProductsService.get(id as string))
 
 	// const [product, setProduct] = useState(bazaarReactDatabase[2])
 	const [selectedOption, setSelectedOption] = useState(0)
@@ -79,7 +88,9 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 
 				<Box mb={6}>
 					{selectedOption === 0 && <ProductDescription />}
-					{selectedOption === 1 && <ProductReview product={product} />}
+					{selectedOption === 1 && (
+						<ProductReview product={product} refetch={refetch} />
+					)}
 				</Box>
 
 				{/* {frequentlyBought && <FrequentlyBought productsData={frequentlyBought} />}
@@ -106,13 +117,26 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 export async function getServerSideProps(ctx) {
 	try {
 		const { id } = ctx.params
-		const { data: product } = await axiosClassic.get(getAllProductsUrl(id))
+
+		// =========
+		const queryClient = new QueryClient()
+		await queryClient.fetchQuery(['product detail'], () =>
+			ShopsProductsService.get(id)
+		)
+		// =========
 
 		const frequentlyBought = await getFrequentlyBought()
 		const relatedProducts = await getRelatedProducts()
 
 		return {
-			props: { frequentlyBought, relatedProducts, product },
+			props: {
+				frequentlyBought,
+				relatedProducts,
+				id,
+				// =========
+				dehydratedState: dehydrate(queryClient),
+				// =========
+			},
 		}
 	} catch {
 		return { props: {} }
