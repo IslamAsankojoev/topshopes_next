@@ -80,6 +80,7 @@ type ProductCard1Props = {
 
 const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const {
+		id,
 		name,
 		rating,
 		shop,
@@ -97,7 +98,6 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const { toggleWish } = useActions()
 	const inWishList = wishListItems.find((item) => item.slug === slug)
 
-
 	const toggleIsFavorite = () => {
 		toggleWish(props.product)
 	}
@@ -114,17 +114,19 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	return (
 		<StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}>
 			<ImageWrapper>
-
 				{!!discount && (
 					<StyledChip color="primary" size="small" label={`${discount}% off`} />
 				)}
 
-				<Link href={`/product/${slug}`}>
+				<Link href={`/product/${slug}/?trueID=${id}`}>
 					<a>
 						<LazyImage
-							loader={() => thumbnail}
-							src={thumbnail}
-
+							loader={() =>
+								'https://static.wikia.nocookie.net/bleach/images/8/8d/572Kenpachi_profile.png/revision/latest?cb=20210417222326&path-prefix=en'
+							}
+							src={
+								'https://static.wikia.nocookie.net/bleach/images/8/8d/572Kenpachi_profile.png/revision/latest?cb=20210417222326&path-prefix=en'
+							}
 							width={0}
 							height={0}
 							layout="responsive"
@@ -134,17 +136,10 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				</Link>
 			</ImageWrapper>
 
-			{/* <ProductViewDialog
-				openDialog={openModal}
-				handleCloseDialog={toggleDialog}
-				product={props.product}
-			/>
-
-
 			<ContentWrapper>
 				<FlexBox>
 					<Box flex="1 1 0" minWidth="0px" mr={1}>
-						<Link href={`/product/${slug}`}>
+						<Link href={`/product/${slug}/?trueID=${id}`}>
 							<a>
 								<span
 									style={{
@@ -159,7 +154,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							</a>
 						</Link>
 
-						<Link href={`/shops/${shop.slug}`}>
+						<Link
+							href={{
+								pathname: `/shops/${shop.slug}`,
+								query: { trueID: shop.id },
+							}}
+						>
 							<a>
 								<span
 									style={{
@@ -193,10 +193,9 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 								<Box color="grey.600" fontWeight="600">
 									<del>{Number(discount_price)?.toFixed(2)}</del>
 								</Box>
-							)} */}
+							)}
 						</FlexBox>
 					</Box>
-
 					<FlexBox
 						width="30px"
 						alignItems="center"

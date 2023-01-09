@@ -16,7 +16,7 @@ export type IProduct = {
 
 export type IProductPreview = Omit<
 	IProduct,
-	'brand' | 'unit' | 'variants' | 'reviews' | 'id'
+	'brand' | 'unit' | 'variants' | 'reviews'
 > & {
 	thumbnail: string
 	discount_price: string
