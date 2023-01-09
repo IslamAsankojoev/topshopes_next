@@ -154,7 +154,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 
 					<FlexBox alignItems="center" mb={2}>
 						<Box>Brand:</Box>
-						<H6 ml={1}>Xiaomi</H6>
+						<H6 ml={1}>{brand}</H6>
 					</FlexBox>
 
 					<FlexBox alignItems="center" mb={2}>

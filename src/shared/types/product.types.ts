@@ -44,6 +44,7 @@ export type ICategory = {
 	parent: string
 	description: string
 	featured: boolean
+	attributes: IProductAttribute[]
 }
 
 export type IBrand = {
@@ -67,6 +68,7 @@ export type IProductVariant = {
 	product: string
 	thumbnail: string
 	images: IImage[]
+	attribute_values: IProductAttributeValue[]
 }
 
 export type IImage = {
@@ -83,4 +85,17 @@ export type IReview = {
 	published: boolean
 	comment: string
 	product_variant?: string | number
+}
+
+export type IProductAttribute = {
+	id: number
+	name: string
+	category: string
+}
+
+export type IProductAttributeValue = {
+	id: number
+	attribute: number
+	value: string
+	product_variant: number
 }

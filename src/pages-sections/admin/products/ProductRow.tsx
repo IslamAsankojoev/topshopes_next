@@ -1,30 +1,31 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { Avatar, Box, Tooltip } from '@mui/material'
+import { AdminProductsService } from 'api/services-admin/products/products.service'
+import { ProductsService } from 'api/services/products/product.service'
 import BazaarSwitch from 'components/BazaarSwitch'
-import { FlexBox } from 'components/flex-box'
 import { Paragraph, Small } from 'components/Typography'
+import { FlexBox } from 'components/flex-box'
 import currency from 'currency.js'
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
+import { useMutation } from 'react-query'
+import { toast } from 'react-toastify'
+import { IProduct, IProductPreview } from 'shared/types/product.types'
+
+import TooltipList from '../../../components/tooltip/TooltipList'
 import {
 	CategoryWrapper,
 	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,
 } from '../StyledComponents'
-import { toast } from 'react-toastify'
-import TooltipList from '../../../components/tooltip/TooltipList'
-import { ProductsService } from 'api/services/products/product.service'
-import { useMutation } from 'react-query'
-import { AdminProductsService } from 'api/services-admin/products/products.service'
-import { IProduct } from 'shared/types/product.types'
 
 // ========================================================================
-type ProductRowProps = { product: IProduct; refetch: () => void }
+type ProductRowProps = { product: IProductPreview; refetch: () => void }
 // ========================================================================
 
 const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
-	const { category, name, brand, id, published, variants, slug } = product
+	const { category, name, published, slug, price, thumbnail } = product
 
 	// state
 	const router = useRouter()
@@ -32,7 +33,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 	const { mutateAsync } = useMutation(
 		'update shop product',
-		() => AdminProductsService.update(id, { published: !productPublish }),
+		() => AdminProductsService.update(slug, { published: !productPublish }),
 		{
 			onError: (e: unknown) => {
 				refetch()
@@ -45,7 +46,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 	const onDelete = async () => {
 		if (window.confirm('Are you sure you want to delete this product?')) {
 			try {
-				await AdminProductsService.delete(id)
+				await AdminProductsService.delete(slug)
 				refetch()
 			} catch (e: unknown) {
 				toast.error('An error has occurred')
@@ -62,7 +63,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
 				<FlexBox alignItems="center" gap={1.5}>
-					<Avatar src={variants[0]?.thumbnail} sx={{ borderRadius: '8px' }} />
+					<Avatar src={thumbnail} sx={{ borderRadius: '8px' }} />
 					<Box>
 						<Paragraph>{name}</Paragraph>
 					</Box>
@@ -75,15 +76,15 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				</Box>
 			</StyledTableCell>
 
-			<StyledTableCell align="left">
+			{/* <StyledTableCell align="left">
 				<Avatar
 					src={brand?.image}
 					sx={{ width: 55, height: 'auto', borderRadius: 0 }}
 				/>
-			</StyledTableCell>
+			</StyledTableCell> */}
 
 			<StyledTableCell align="left">
-				{currency(variants[0]?.price, { separator: ',' }).format()}
+				{currency(price, { separator: ',' }).format()}
 			</StyledTableCell>
 
 			<StyledTableCell align="left">
