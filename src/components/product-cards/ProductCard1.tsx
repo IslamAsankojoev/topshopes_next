@@ -93,8 +93,10 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const CurrentCard = useRef(null)
 	const [openModal, setOpenModal] = useState(false)
 	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
+
 	const { toggleWish } = useActions()
 	const inWishList = wishListItems.find((item) => item.slug === slug)
+
 
 	const toggleIsFavorite = () => {
 		toggleWish(props.product)
@@ -112,6 +114,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	return (
 		<StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}>
 			<ImageWrapper>
+
 				{!!discount && (
 					<StyledChip color="primary" size="small" label={`${discount}% off`} />
 				)}
@@ -121,6 +124,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						<LazyImage
 							loader={() => thumbnail}
 							src={thumbnail}
+
 							width={0}
 							height={0}
 							layout="responsive"
@@ -130,11 +134,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				</Link>
 			</ImageWrapper>
 
-			<ProductViewDialog
+			{/* <ProductViewDialog
 				openDialog={openModal}
 				handleCloseDialog={toggleDialog}
 				product={props.product}
 			/>
+
 
 			<ContentWrapper>
 				<FlexBox>
@@ -188,7 +193,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 								<Box color="grey.600" fontWeight="600">
 									<del>{Number(discount_price)?.toFixed(2)}</del>
 								</Box>
-							)}
+							)} */}
 						</FlexBox>
 					</Box>
 
