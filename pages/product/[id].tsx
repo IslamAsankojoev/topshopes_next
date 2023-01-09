@@ -12,7 +12,7 @@ import ProductReview from 'components/products/ProductReview'
 import RelatedProducts from 'components/products/RelatedProducts'
 import { getAllProductsUrl, getProductsUrl } from 'config/api.config'
 import bazaarReactDatabase from 'data/bazaar-react-database'
-import { GetStaticPaths } from 'next'
+import { GetServerSideProps } from 'next'
 import { FC, useEffect, useState } from 'react'
 import { dehydrate, QueryClient, useQuery } from 'react-query'
 import { IProduct } from 'shared/types/product.types'
@@ -20,6 +20,7 @@ import {
 	getFrequentlyBought,
 	getRelatedProducts,
 } from 'utils/api/related-products'
+import { useRouter } from 'next/router'
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,
@@ -38,18 +39,19 @@ type ProductDetailsProps = {
 	frequentlyBought?: any[]
 	relatedProducts?: any[]
 	product?: IProduct
-	id?: string | number
 }
 // ===============================================================
 
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
-	const { id } = props
+	const { query } = useRouter()
 
 	const {
 		data: product,
 		refetch,
 		isLoading,
-	} = useQuery(['product detail'], () => ShopsProductsService.get(id as string))
+	} = useQuery(['product detail'], () =>
+		ShopsProductsService.get(query.id as string)
+	)
 
 	// const [product, setProduct] = useState(bazaarReactDatabase[2])
 	const [selectedOption, setSelectedOption] = useState(0)
@@ -114,14 +116,14 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 // 	}
 // }
 
-export async function getServerSideProps(ctx) {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
-		const { id } = ctx.params
+		const { id } = ctx.query
 
 		// =========
 		const queryClient = new QueryClient()
 		await queryClient.fetchQuery(['product detail'], () =>
-			ShopsProductsService.get(id)
+			ShopsProductsService.get(id as string)
 		)
 		// =========
 
@@ -132,7 +134,6 @@ export async function getServerSideProps(ctx) {
 			props: {
 				frequentlyBought,
 				relatedProducts,
-				id,
 				// =========
 				dehydratedState: dehydrate(queryClient),
 				// =========
