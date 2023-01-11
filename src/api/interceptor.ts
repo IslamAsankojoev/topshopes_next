@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { API_URL } from 'config/api.config'
 import Cookie from 'js-cookie'
+
 import { removeToken } from './services/auth/auth.helpers'
 import { AuthService } from './services/auth/auth.service'
 
@@ -48,3 +49,10 @@ instance.interceptors.response.use(
 		throw error
 	}
 )
+
+export const makeRequest = (auth: boolean = false) => {
+	if (auth) {
+		return instance
+	}
+	return axiosClassic
+}

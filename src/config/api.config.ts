@@ -5,8 +5,6 @@ export const getAuthUrl = (string: string) => `auth/${string}`
 export const getProductsUrl = (string: string) => `products/${string}`
 export const getProductVariantsUrl = (string: string) =>
 	`products/variants/${string}`
-export const getShopsProductsUrl = (string: string) =>
-	`shops/products/${string}`
 export const getColorsUrl = (string: string) =>
 	`products/variants/colors/${string}`
 export const getSizeUrl = (string: string) =>
@@ -21,10 +19,13 @@ export const getShopUrl = (string: string) => `shops/${string}`
 export const getImagesUrl = (string: string) =>
 	`products/variants/images/${string}`
 
+export const getShopProductsUrl = (string: string) =>
+	`shops/${string}/products/`
+
 export const getAllProductsUrl = (string: string) => `shops/products/${string}`
 export const getShopsUrl = (string: string) => `shops/${string}`
-export const getReviewUrl = (string: string) => `shops/products/${string}/review/`
-
+export const getReviewUrl = (string: string) =>
+	`shops/products/${string}/review/`
 
 // Admin
 export const getBrandsUrlAdmin = (string: string) => `admin/brand/${string}`

@@ -10,11 +10,16 @@ import ShopIntroCard from 'components/shop/ShopIntroCard'
 import Sidenav from 'components/sidenav/Sidenav'
 import useWindowSize from 'hooks/useWindowSize'
 import { FC } from 'react'
+import { useQuery } from 'react-query'
 import { IShop } from 'shared/types/shop.types'
 
 const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 	const width = useWindowSize()
 	const isTablet = width < 1025
+
+	const { data: products, isLoading } = useQuery(['shop products'], () =>
+		ShopService.getShopProducts(shop.id)
+	)
 
 	return (
 		<ShopLayout1>
@@ -45,7 +50,7 @@ const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 							</Sidenav>
 						)}
 
-						<ProductCardList products={shop?.products} />
+						<ProductCardList products={products} />
 					</Grid>
 				</Grid>
 			</Container>

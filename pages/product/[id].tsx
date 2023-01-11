@@ -35,19 +35,25 @@ const StyledTabs = styled(Tabs)(({ theme }) => ({
 
 // ===============================================================
 type ProductDetailsProps = {
-	product?: IProduct
+	data?: IProduct
 	id?: string | number
 }
 // ===============================================================
 
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
-	const { id, product } = props
+	const { id, data } = props
 
-	// const {
-	// 	data: product,
-	// 	refetch,
-	// 	isLoading,
-	// } = useQuery(['product detail'], () => ShopsProductsService.get(id as string))
+	const {
+		data: product = data,
+		refetch,
+		isLoading,
+	} = useQuery(
+		['product detail'],
+		() => ShopsProductsService.get(id as string),
+		{
+			enabled: !!id,
+		}
+	)
 
 	// const [product, setProduct] = useState(bazaarReactDatabase[2])
 	const [selectedOption, setSelectedOption] = useState(0)
@@ -115,19 +121,16 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
 		const { trueID } = ctx.query
-		const data = ShopsProductsService.get(trueID as string)
-		// const queryClient = new QueryClient()
-		// await queryClient.fetchQuery(['product detail'], () =>
+		const queryClient = new QueryClient()
 
-		// )
+		await queryClient.prefetchQuery(['product detail'], () =>
+			ShopsProductsService.get(trueID as string)
+		)
 
 		return {
 			props: {
 				id: trueID,
-				// =========
-				// dehydratedState: dehydrate(queryClient),
-				product: data,
-				// =========
+				dehydratedState: dehydrate(queryClient),
 			},
 		}
 	} catch {

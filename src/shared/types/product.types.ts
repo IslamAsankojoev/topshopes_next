@@ -79,12 +79,13 @@ export type IImage = {
 
 export type IReview = {
 	id: string
-	customer: string
-	product: string
+	product_variant: string
+	user: { first_name: string; last_name: string; avatar: string }
 	rating: number
-	published: boolean
 	comment: string
-	product_variant?: string | number
+	created_at: string
+	product: number
+	shop: string
 }
 
 export type IProductAttribute = {
@@ -95,7 +96,7 @@ export type IProductAttribute = {
 
 export type IProductAttributeValue = {
 	id: number
-	attribute: number
+	attribute: { id: number; name: string }
 	value: string
 	product_variant: number
 }

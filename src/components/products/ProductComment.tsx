@@ -1,25 +1,13 @@
 import { Box } from '@mui/material'
 import BazaarAvatar from 'components/BazaarAvatar'
 import BazaarRating from 'components/BazaarRating'
-import { FlexBox } from 'components/flex-box'
 import { H5, H6, Paragraph, Span } from 'components/Typography'
+import { FlexBox } from 'components/flex-box'
 import { FC } from 'react'
+import { IReview } from 'shared/types/product.types'
 import { getDateDifference } from 'utils/utils'
 
-// ===========================================================
-type ProductCommentProps = {
-	id: string
-	product_variant: string
-	user: { first_name: string; last_name: string; avatar: string }
-	rating: number
-	comment: string
-	created_at: string
-	product: number
-	shop: string
-}
-// ===========================================================
-
-const ProductComment: FC<ProductCommentProps> = (props) => {
+const ProductComment: FC<IReview> = (props) => {
 	const { product_variant, user, rating, comment, created_at } = props
 
 	return (
@@ -35,7 +23,6 @@ const ProductComment: FC<ProductCommentProps> = (props) => {
 					</FlexBox>
 				</Box>
 			</FlexBox>
-
 			<Paragraph color="grey.700">{comment}</Paragraph>
 		</Box>
 	)
