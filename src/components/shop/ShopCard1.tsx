@@ -1,15 +1,15 @@
 import { Call, East, Place } from '@mui/icons-material'
 import {
-	alpha,
 	Avatar,
 	Box,
 	Card,
 	IconButton,
 	Rating,
+	alpha,
 	styled,
 } from '@mui/material'
-import { FlexBetween, FlexBox } from 'components/flex-box'
 import { H3, Span } from 'components/Typography'
+import { FlexBetween, FlexBox } from 'components/flex-box'
 import Link from 'next/link'
 import React from 'react'
 import { IShop } from 'shared/types/shop.types'
@@ -95,7 +95,7 @@ const ShopCard1: React.FC<IShop> = (props) => {
 						borderColor: 'grey.100',
 					}}
 				/>
-				<Link href={`shops/${slug}`}>
+				<Link href={`shops/${id}`}>
 					<a>
 						<IconButton sx={{ my: 0.5 }}>
 							<East

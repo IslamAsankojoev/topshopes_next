@@ -27,18 +27,7 @@ type ProductIntroProps = {
 // ================================================================
 
 const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
-	const {
-		brand,
-		category,
-		id,
-		rating,
-		reviews,
-		shop,
-		slug,
-		name,
-		unit,
-		variants,
-	} = product
+	const { brand, id, shop, name, variants, rating } = product
 
 	const router = useRouter()
 	const routerId = router.query.id as string
@@ -60,36 +49,6 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 
 	const { addToCart, removeFromCart } = useActions()
 
-	// const handleImageClick = (ind: number) => () => {
-	// 	setSelectedImage(ind)
-	// }
-
-	// const openImageViewer = useCallback((index) => {
-	//   setCurrentImage(index);
-	//   setIsViewerOpen(true);
-	// }, []);
-
-	// const closeImageViewer = () => {
-	//   setCurrentImage(0);
-	//   setIsViewerOpen(false);
-	// };
-
-	// const handleCartAmountChange = useCallback(
-	// 	(amount) => () => {
-	// 		dispatch({
-	// 			type: 'CHANGE_CART_AMOUNT',
-	// 			payload: {
-	// 				price,
-	// 				qty: amount,
-	// 				name: title,
-	// 				imgUrl: imgGroup[0],
-	// 				id: id || routerId,
-	// 			},
-	// 		})
-	// 	},
-	// 	[]
-	// )
-
 	const handleAddToCart = useCallback(() => {
 		// addToCart({})
 	}, [])
@@ -102,51 +61,28 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 		<Box width="100%">
 			<Grid container spacing={3} justifyContent="space-around">
 				<Grid item md={6} xs={12} alignItems="center">
-					<FlexBox justifyContent="center" mb={6}>
-						<LazyImage
-							width={300}
-							alt={name}
-							height={300}
-							loading="eager"
-							objectFit="contain"
-							src={selectedImage}
-							// onClick={() => openImageViewer(imgGroup.indexOf(imgGroup[selectedImage]))}
-						/>
-						{/* {isViewerOpen && (
-              <ImageViewer
-                src={imgGroup}
-                onClose={closeImageViewer}
-                currentIndex={currentImage}
-                backgroundStyle={{
-                  backgroundColor: "rgba(0,0,0,0.9)",
-                  zIndex: 1501,
-                }}
-              />
-            )} */}
+					<FlexBox
+						justifyContent="center"
+						mb={6}
+						sx={{
+							position: 'relative',
+						}}
+					>
+						<div
+							style={{
+								width: '300px',
+								height: '300px',
+							}}
+						>
+							<LazyImage
+								alt={name}
+								layout="fill"
+								loading="eager"
+								objectFit="contain"
+								src={selectedImage || variants[0].thumbnail}
+							/>
+						</div>
 					</FlexBox>
-
-					{/* <FlexBox overflow="auto">
-						{imgGroup?.map((url, ind) => (
-							<FlexRowCenter
-								key={ind}
-								width={64}
-								height={64}
-								minWidth={64}
-								bgcolor="white"
-								border="1px solid"
-								borderRadius="10px"
-								ml={ind === 0 ? 'auto' : 0}
-								style={{ cursor: 'pointer' }}
-								onClick={handleImageClick(ind)}
-								mr={ind === imgGroup?.length - 1 ? 'auto' : '10px'}
-								borderColor={
-									selectedImage === ind ? 'primary.main' : 'grey.400'
-								}
-							>
-								<BazaarAvatar src={url} variant="square" height={40} />
-							</FlexRowCenter>
-						))}
-					</FlexBox> */}
 				</Grid>
 
 				<Grid item md={6} xs={12} alignItems="center">
@@ -154,7 +90,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 
 					<FlexBox alignItems="center" mb={2}>
 						<Box>Brand:</Box>
-						<H6 ml={1}>{brand}</H6>
+						<H6 ml={1}>{brand.name}</H6>
 					</FlexBox>
 
 					<FlexBox alignItems="center" mb={2}>
@@ -163,7 +99,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 							<BazaarRating
 								color="warn"
 								fontSize="1.25rem"
-								value={4}
+								value={rating}
 								readOnly
 							/>
 						</Box>
@@ -187,43 +123,16 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 					<BazaarButton
 						color="primary"
 						disabled={
-							!selectedVariant ||
-							selectedVariant.status === 'unavailable' ||
-							selectedVariant.status === 'coming_soon'
+							!selectedVariant || selectedVariant.status === 'unavailable'
 						}
 						variant="contained"
-						onClick={handleAddToCart}
+						onClick={() => {
+							console.log(selectedVariant)
+						}}
 						sx={{ mb: 4.5, px: '1.75rem', height: 40, color: 'white' }}
 					>
 						Add to Cart
 					</BazaarButton>
-					{/* ) : (
-						<FlexBox alignItems="center" mb={4.5}>
-							<BazaarButton
-								size="small"
-								sx={{ p: 1 }}
-								color="primary"
-								variant="outlined"
-								onClick={handleRemoveFromCart}
-							>
-								<Remove fontSize="small" />
-							</BazaarButton>
-
-							<H3 fontWeight="600" mx={2.5}>
-								{cartItem?.qty.toString().padStart(2, '0')}
-							</H3>
-
-							<BazaarButton
-								size="small"
-								sx={{ p: 1 }}
-								color="primary"
-								variant="outlined"
-								onClick={handleAddToCart}
-							>
-								<Add fontSize="small" />
-							</BazaarButton>
-						</FlexBox>
-					)} */}
 
 					<FlexBox alignItems="center" mb={2}>
 						<Box>Sold By:</Box>

@@ -14,7 +14,7 @@ import { getAllProductsUrl, getProductsUrl } from 'config/api.config'
 import bazaarReactDatabase from 'data/bazaar-react-database'
 import { GetServerSideProps } from 'next'
 import { FC, useEffect, useState } from 'react'
-import { dehydrate, QueryClient, useQuery } from 'react-query'
+import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProduct } from 'shared/types/product.types'
 import {
 	getFrequentlyBought,
@@ -36,21 +36,24 @@ const StyledTabs = styled(Tabs)(({ theme }) => ({
 
 // ===============================================================
 type ProductDetailsProps = {
-	frequentlyBought?: any[]
-	relatedProducts?: any[]
-	product?: IProduct
+	data?: IProduct
+	id?: string | number
 }
 // ===============================================================
 
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
-	const { query } = useRouter()
+	const { id, data } = props
 
 	const {
-		data: product,
+		data: product = data,
 		refetch,
 		isLoading,
-	} = useQuery(['product detail'], () =>
-		ShopsProductsService.get(query.id as string)
+	} = useQuery(
+		['product detail'],
+		() => ShopsProductsService.get(id as string),
+		{
+			enabled: !!id,
+		}
 	)
 
 	// const [product, setProduct] = useState(bazaarReactDatabase[2])
@@ -118,25 +121,16 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
-		const { id } = ctx.query
-
-		// =========
+		const { trueID } = ctx.query
 		const queryClient = new QueryClient()
-		await queryClient.fetchQuery(['product detail'], () =>
-			ShopsProductsService.get(id as string)
+		await queryClient.prefetchQuery(['product detail'], () =>
+			ShopsProductsService.get(trueID as string)
 		)
-		// =========
-
-		const frequentlyBought = await getFrequentlyBought()
-		const relatedProducts = await getRelatedProducts()
 
 		return {
 			props: {
-				frequentlyBought,
-				relatedProducts,
-				// =========
+				id: trueID,
 				dehydratedState: dehydrate(queryClient),
-				// =========
 			},
 		}
 	} catch {
