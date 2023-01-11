@@ -48,10 +48,17 @@ const UpdatePages: NextPageAuth = () => {
 	)
 
 	const handleFormSubmit = async (_: any, values: IPages) => {
-		console.log(values)
+		const clearData = {}
+
+		for (let key in values) {
+			if (!!values[key]) {
+				clearData[key] = values[key]
+			}
+		}
+
 		await mutateAsync(
 			formData({
-				...values,
+				...clearData,
 				content: JSON.stringify({ data: values.content }),
 			})
 		)

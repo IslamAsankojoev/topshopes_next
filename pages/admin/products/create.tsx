@@ -15,12 +15,14 @@ import { NextPageAuth } from 'shared/types/auth.types'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useActions } from 'hooks/useActions'
-import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
 import { ImagesService } from 'api/services/images/images.service'
 import { getErrorMessage } from 'utils/getErrorMessage'
+import { AttributesService } from 'api/services/attributes/attributes.service'
+import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
+import { ProductsService } from 'api/services/products/product.service'
 
 const initialValues = {
-	title: '',
+	name: '',
 	published: false,
 	category: '',
 	shop: '',
@@ -42,11 +44,11 @@ const CreateProduct: NextPageAuth = () => {
 	const handleFormSubmit = async (data: FormData) => {
 		try {
 			// create product
-			const productResponse = await AdminProductsService.create(data)
+			const productResponse = await ProductsService.create(data)
 
 			// create variants with new product
 			for (let i of variants) {
-				const variantResponse = await ProductVariantAdminService.create(
+				const variantResponse = await ProductVariantService.create(
 					formData({
 						...i.variant,
 						product: productResponse.id,
@@ -60,6 +62,22 @@ const CreateProduct: NextPageAuth = () => {
 							image: j.image,
 						})
 					)
+				}
+
+				// create attributes with new variant
+				for (let attribute of i?.attribute_values) {
+					if (attribute?.available) {
+						await AttributesService.update(attribute.attributeId as string, {
+							product_variant: variantResponse.id,
+							attribute: attribute.attributeId,
+							value: attribute.attributeValue,
+						})
+					} else {
+						await AttributesService.create(variantResponse.id as string, {
+							attribute: attribute.attributeNameId,
+							value: attribute.value || attribute.attributeValue,
+						})
+					}
 				}
 			}
 			push('/admin/products/')

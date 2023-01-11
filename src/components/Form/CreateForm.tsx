@@ -5,7 +5,16 @@ import { ErrorMessage, Form, useFormik } from 'formik'
 import { useEffect } from 'react'
 import { formData } from 'utils/formData'
 
-const CreateForm = ({ fields, handleFormSubmit, defaultData }) => {
+interface CreateFormProps {
+	fields: Record<string, any>
+	handleFormSubmit: (formData: FormData, values: Record<string, any>) => void
+	defaultData: Record<string, any>
+}
+const CreateForm: React.FC<CreateFormProps> = ({
+	fields,
+	handleFormSubmit,
+	defaultData,
+}) => {
 	// write validation schema for each field by iterating over fields
 	const validate = yup.object().shape(
 		fields.reduce((acc, field) => {

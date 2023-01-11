@@ -12,7 +12,7 @@ import Youtube from 'components/icons/Youtube'
 import { Paragraph } from 'components/Typography'
 import Link from 'next/link'
 import { FC } from 'react'
-import { useQuery } from 'react-query'
+import { useQueries, useQuery } from 'react-query'
 import { ISiteSettings } from 'shared/types/site-settings.types'
 import { SiteSettings } from 'utils/constants/site-settings'
 
@@ -31,6 +31,23 @@ const Footer: FC = () => {
 	const { data: settings } = useQuery('get site settings', () =>
 		axiosClassic.get('/settings/').then((response) => response.data)
 	)
+
+	const { '0': about, '1': customer } = useQueries([
+		{
+			queryKey: ['about us'],
+			queryFn: () =>
+				axiosClassic
+					.get('/pages/categories/about-us/')
+					.then((response) => response.data),
+		},
+		{
+			queryKey: ['customer care'],
+			queryFn: () =>
+				axiosClassic
+					.get('/pages/categories/customer-care/')
+					.then((response) => response.data),
+		},
+	])
 
 	return (
 		<footer>
@@ -61,13 +78,13 @@ const Footer: FC = () => {
 									lineHeight="1"
 									color="white"
 								>
-									About Us
+									{about.data?.title}
 								</Box>
 
 								<div>
-									{aboutLinks?.map((item, ind) => (
-										<Link href="/" key={ind} passHref>
-											<StyledLink>{item}</StyledLink>
+									{about.data?.pages?.map((item) => (
+										<Link href={`/page/${item.id}`} key={item.id} passHref>
+											<StyledLink>{item.title}</StyledLink>
 										</Link>
 									))}
 								</div>
@@ -81,13 +98,13 @@ const Footer: FC = () => {
 									lineHeight="1"
 									color="white"
 								>
-									Customer Care
+									{customer.data?.title}
 								</Box>
 
 								<div>
-									{customerCareLinks?.map((item, ind) => (
-										<Link href="/" key={ind} passHref>
-											<StyledLink>{item}</StyledLink>
+									{customer.data?.pages?.map((item) => (
+										<Link href={`/page/${item.id}`} key={item.id} passHref>
+											<StyledLink>{item.title}</StyledLink>
 										</Link>
 									))}
 								</div>

@@ -16,7 +16,7 @@ export type IProduct = {
 
 export type IProductPreview = Omit<
 	IProduct,
-	'brand' | 'unit' | 'variants' | 'reviews' | 'id'
+	'brand' | 'unit' | 'variants' | 'reviews'
 > & {
 	thumbnail: string
 	discount_price: string
@@ -94,8 +94,9 @@ export type IProductAttribute = {
 }
 
 export type IProductAttributeValue = {
-	id: number
-	attribute: number
-	value: string
-	product_variant: number
+	available?: boolean
+	id: string | number, 
+	attribute: {name: string, id: number}, 
+	value: string, 
+	product_variant: string | number
 }

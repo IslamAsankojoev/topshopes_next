@@ -7,6 +7,7 @@ import {
 	Typography,
 } from '@mui/material'
 import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
+import { AttributesService } from 'api/services/attributes/attributes.service'
 import { ImagesService } from 'api/services/images/images.service'
 import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
 import CreateForm from 'components/Form/CreateForm'
@@ -21,16 +22,17 @@ import {
 	IProductVariant,
 	IColor,
 	ISize,
+	IProductAttributeValue,
 } from 'shared/types/product.types'
 
 import { productVariantFormCreate } from 'utils/constants/forms'
 import { formData } from 'utils/formData'
+import ProductAttributes from './productVariantAttribute'
 
 // ==================================================================
 type ProductVariantFormProps = {
 	initialValues: IProductVariant | any
-	colors: IColor[]
-	sizes: ISize[]
+	attributes: IProductAttributeValue[]
 	variantId?: string | number
 	productId?: string
 	create?: boolean
@@ -50,8 +52,7 @@ const adminCheckFetch = (admin = false) => {
 
 const ProductVariantForm: FC<ProductVariantFormProps> = ({
 	initialValues,
-	colors,
-	sizes,
+	attributes,
 	refetch,
 	productId,
 	createPage,
@@ -62,14 +63,15 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 }) => {
 	// states
 	const { user } = useTypedSelector((state) => state.userStore)
-	const { imgIdCounter } = useTypedSelector(
+	const { imgIdCounter, newAttributes } = useTypedSelector(
 		(state) => state.productVariantsStore
 	)
 	const [addCardForm, setAddCardForm] = useState<boolean>(false)
 	const [imagesList, setImagesList] = useState<any[]>(images || [])
 
 	// actions
-	const { updateVariant, addVariant, imgIdCounterIncrement } = useActions()
+	const { updateVariant, addVariant, imgIdCounterIncrement, setNewAttributes } =
+		useActions()
 
 	// variant mutations
 	const { mutateAsync: updateAsync } = useMutation(
@@ -96,9 +98,15 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 		// если еще нет продукта
 		if (create && createPage) {
 			// create variant
-			addVariant({ variant: clearData, images: imagesList })
+			addVariant({
+				variant: clearData,
+				images: imagesList,
+				attribute_values: newAttributes,
+			})
+
 			setImagesList([])
 			setAddCardForm(false)
+			setNewAttributes([])
 			return
 		}
 		if (createPage) {
@@ -107,6 +115,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				id: variantId,
 				data: { variant: clearData, images: imagesList },
 			})
+
 			setAddCardForm(false)
 			return
 		}
@@ -129,12 +138,38 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					})
 				)
 			}
+
+			for (let attribute of newAttributes) {
+				await AttributesService.create(variantResponse.id, {
+					attribute: attribute.attributeNameId,
+					value: attribute.value,
+				})
+			}
+
+			setNewAttributes([])
 			setAddCardForm(false)
 			refetch && (await refetch())
 			return
 		}
+
 		// update variant
 		await updateAsync(data)
+		for (let attribute of newAttributes) {
+			if (attribute?.available) {
+				await AttributesService.update(attribute.attributeId as string, {
+					product_variant: variantId,
+					attribute: attribute.attributeId,
+					value: attribute.value,
+				})
+			} else {
+				await AttributesService.create(variantId as string, {
+					attribute: attribute.attributeNameId,
+					value: attribute.value,
+				})
+			}
+		}
+
+		setNewAttributes([])
 		refetch && (await refetch())
 	}
 
@@ -184,10 +219,10 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					color="primary"
 					variant="outlined"
 					sx={{ p: '2px 20px' }}
-					disabled={isAdmin}
 					onClick={() =>
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 					}
+					disabled={isAdmin}
 				>
 					Add New Variant
 				</Button>
@@ -210,34 +245,17 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					</Typography>
 
 					<CreateForm
-						defaultData={{
-							...initialValues,
-							color: createPage
-								? initialValues?.color
-								: initialValues?.color?.id,
-							size: createPage ? initialValues?.size : initialValues?.size?.id,
-						}}
-						fields={[
-							{
-								name: 'size',
-								label: 'size',
-								type: 'select',
-								allNames: sizes,
-								placeholder: 'Enter discount',
-								required: true,
-							},
-							{
-								name: 'color',
-								label: 'color',
-								type: 'select',
-								allNames: colors,
-								placeholder: 'Enter colors',
-								required: true,
-							},
-							...productVariantFormCreate,
-						]}
+						defaultData={initialValues}
+						fields={productVariantFormCreate}
 						handleFormSubmit={handleFormSubmit}
 					/>
+
+					<ProductAttributes
+						variantId={variantId}
+						attributes={attributes}
+						handleFormSubmit={() => null}
+					/>
+
 					<ProductImages
 						images={imagesList}
 						add={imageAdd}
