@@ -12,7 +12,7 @@ import ProductReview from 'components/products/ProductReview'
 import RelatedProducts from 'components/products/RelatedProducts'
 import { getAllProductsUrl, getProductsUrl } from 'config/api.config'
 import bazaarReactDatabase from 'data/bazaar-react-database'
-import { GetServerSideProps, GetStaticPaths } from 'next'
+import { GetServerSideProps } from 'next'
 import { FC, useEffect, useState } from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProduct } from 'shared/types/product.types'
@@ -20,6 +20,7 @@ import {
 	getFrequentlyBought,
 	getRelatedProducts,
 } from 'utils/api/related-products'
+import { useRouter } from 'next/router'
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,
@@ -122,7 +123,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
 		const { trueID } = ctx.query
 		const queryClient = new QueryClient()
-
 		await queryClient.prefetchQuery(['product detail'], () =>
 			ShopsProductsService.get(trueID as string)
 		)
