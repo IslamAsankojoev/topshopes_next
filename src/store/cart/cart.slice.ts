@@ -69,14 +69,14 @@ const cartSlice = createSlice({
 					return x
 				} else if (
 					x.id === payload.id &&
-					x.variants[0].id !== payload.variants[0].id
+					x.variants[0]?.id !== payload.variants[0]?.id
 				) {
 					return x
 				}
 			})
 			state.total_price = state.cart.reduce(
 				(acc, item) =>
-					acc + item.qty * parseInt(item.variants[0].overall_price),
+					acc + item.qty * parseInt(item.variants[0]?.overall_price),
 				0
 			)
 			state.total_items = state.cart?.length
@@ -86,7 +86,7 @@ const cartSlice = createSlice({
 			state.cart = payload
 			state.total_price = state.cart?.reduce(
 				(acc, item) =>
-					acc + item.qty * parseInt(item.variants[0].overall_price),
+					acc + item.qty * Number(item?.variants?.[0]?.overall_price),
 				0
 			)
 			state.total_items = state.cart?.length
