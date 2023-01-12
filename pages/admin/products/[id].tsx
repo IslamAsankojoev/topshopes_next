@@ -1,20 +1,18 @@
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import { H3 } from 'components/Typography'
-import { ProductForm } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { Box } from '@mui/material'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
 import Loading from 'components/Loading'
-import { toast } from 'react-toastify'
-import { Box } from '@mui/material'
-import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
+import { H3 } from 'components/Typography'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { useRouter } from 'next/router'
-
+import { ProductForm } from 'pages-sections/admin'
+import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 import { productFormValidationSchema } from 'pages-sections/admin/products/productFormValidationSchema'
-
+import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
+import React, { ReactElement } from 'react'
+import { useMutation, useQuery } from 'react-query'
+import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct } from 'shared/types/product.types'
-import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 
 const EditProduct: NextPageAuth = () => {
 	const fetch = useProductFetch(true)

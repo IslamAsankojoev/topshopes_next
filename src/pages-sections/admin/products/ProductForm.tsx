@@ -1,16 +1,17 @@
+import styled from '@emotion/styled'
 import { Button, Card, Grid, MenuItem, TextField } from '@mui/material'
+import { CategoriesService } from 'api/services/categories/category.service'
 import DropZone from 'components/DropZone'
+import { FlexBox } from 'components/flex-box'
 import { useFormik } from 'formik'
+import { useActions } from 'hooks/useActions'
 import React, { FC } from 'react'
+import { useQuery } from 'react-query'
+import { IBrand, ICategory } from 'shared/types/product.types'
 import * as yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
-import styled from '@emotion/styled'
+
 import { ProductFetchTypes } from './useProductFetch'
-import { IBrand, ICategory } from 'shared/types/product.types'
-import { FlexBox } from 'components/flex-box'
-import { useQuery } from 'react-query'
-import { CategoriesService } from 'api/services/categories/category.service'
-import { useActions } from 'hooks/useActions'
 
 // ================================================================
 type ProductFormProps = {
@@ -44,7 +45,11 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
 		useFormik({
 			initialValues,
-			onSubmit: () => handleFormSubmit(values, redirect),
+			onSubmit: () => {
+				const { reviews, shop, variants, ...other } = values
+				const clearData = props.includeShop ? { ...other, shop } : other
+				handleFormSubmit(clearData, redirect)
+			},
 			validationSchema: validationSchema,
 		})
 
