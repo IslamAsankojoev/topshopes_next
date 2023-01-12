@@ -47,6 +47,15 @@ const AttributeSelect: FC<AttributeSelectProps> = ({
 		])
 	}, [selectedAttribute])
 
+	useEffect(() => {
+		setSelectedAttribute(
+			variant?.attribute_values.find(
+				(attribute_value: any) =>
+					attribute_value.attribute.name === attribute_name
+			)?.value
+		)
+	}, [])
+
 	return (
 		<Card
 			style={{

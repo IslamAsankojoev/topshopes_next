@@ -87,7 +87,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 		slug,
 		discount,
 		discount_price,
-		price,
+		overall_price,
 		thumbnail,
 	} = props.product
 
@@ -196,7 +196,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
 							<Box fontWeight="600" color="primary.main">
-								{Number(price)?.toFixed()}
+								{Number(overall_price)?.toFixed()}
 							</Box>
 
 							{!!discount && (

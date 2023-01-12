@@ -20,7 +20,7 @@ export type IProductPreview = Omit<
 > & {
 	thumbnail: string
 	discount_price: string
-	price: string
+	overall_price: string
 	discount: string
 }
 
@@ -61,8 +61,8 @@ export type IProductVariant = {
 	size: ISize
 	color: IColor
 	stock: number
-	status: 'available' | 'unavailable' | 'coming_soon'
-	price: string
+	status: 'available' | 'unavailable'
+	overall_price: string
 	discount: 0
 	discount_price: string
 	product: string

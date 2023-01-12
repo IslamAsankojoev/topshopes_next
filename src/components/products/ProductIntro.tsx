@@ -60,9 +60,17 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 	return (
 		<Box width="100%">
 			<Grid container spacing={3} justifyContent="space-around">
-				<Grid item md={6} xs={12} alignItems="center">
+				<Grid
+					item
+					md={6}
+					xs={12}
+					alignItems="center"
+					justifyContent="center"
+					display="flex"
+				>
 					<FlexBox
 						justifyContent="center"
+						alignItems="center"
 						mb={6}
 						sx={{
 							position: 'relative',
@@ -108,9 +116,22 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 
 					<Box mb={3}>
 						<H2 color="primary.main" mb={0.5} lineHeight="1">
-							{Number(selectedVariant?.price || variants[0]?.price).toFixed(2)}
+							{Number(
+								selectedVariant?.overall_price || variants[0]?.overall_price
+							).toFixed(2)}
 						</H2>
 					</Box>
+
+					<FlexBox alignItems="center" mb={2}>
+						<Box>Status:</Box>
+						<H6
+							ml={1}
+							textTransform="capitalize"
+							color={selectedVariant?.status === 'available' ? 'green' : 'red'}
+						>
+							{selectedVariant?.status || 'unavailable'}
+						</H6>
+					</FlexBox>
 
 					<Variables
 						product={product}

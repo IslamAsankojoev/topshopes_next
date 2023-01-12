@@ -2,7 +2,6 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { FC } from 'react'
-
 import { TypeComponentAuthFields } from 'shared/types/auth.types'
 
 const CheckRole: FC<TypeComponentAuthFields> = ({

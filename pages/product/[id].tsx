@@ -13,6 +13,7 @@ import RelatedProducts from 'components/products/RelatedProducts'
 import { getAllProductsUrl, getProductsUrl } from 'config/api.config'
 import bazaarReactDatabase from 'data/bazaar-react-database'
 import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProduct } from 'shared/types/product.types'
@@ -20,7 +21,6 @@ import {
 	getFrequentlyBought,
 	getRelatedProducts,
 } from 'utils/api/related-products'
-import { useRouter } from 'next/router'
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,
@@ -88,7 +88,7 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 					onChange={handleOptionClick}
 				>
 					<Tab className="inner-tab" label="Description" />
-					<Tab className="inner-tab" label="Review (3)" />
+					<Tab className="inner-tab" label={`Review ${data?.reviews.length}`} />
 				</StyledTabs>
 
 				<Box mb={6}>

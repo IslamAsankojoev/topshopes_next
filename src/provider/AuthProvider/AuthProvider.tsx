@@ -1,12 +1,12 @@
+import { removeToken } from 'api/services/auth/auth.helpers'
+import { AuthService } from 'api/services/auth/auth.service'
 import { useActions } from 'hooks/useActions'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import Cookie from 'js-cookie'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React from 'react'
-import Cookie from 'js-cookie'
-import { useTypedSelector } from 'hooks/useTypedSelector'
-import dynamic from 'next/dynamic'
 import { getLocalStorage } from 'utils/local-storage/localStorage'
-import { AuthService } from 'api/services/auth/auth.service'
-import { removeToken } from 'api/services/auth/auth.helpers'
 
 const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false })
 
@@ -22,7 +22,7 @@ const AuthProvider: React.FC<any> = ({
 			try {
 				const refresh = Cookie.get('refresh')
 				if (pathname === '/login' || pathname === '/signup') {
-					if ((isOnlyUser && refresh) || (isOnlyAdmin && refresh)) {
+					if (refresh) {
 						const res = await AuthService.refresh()
 						if (res) push('/profile')
 					}
