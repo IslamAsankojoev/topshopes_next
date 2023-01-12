@@ -17,7 +17,7 @@ const CreateCategory: NextPageAuth = () => {
 	// category create
 	const { isLoading, mutateAsync } = useMutation(
 		'category admin create',
-		(data) => UsersService.create(data),
+		(data: FormData) => UsersService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('User created successfully')
@@ -29,7 +29,7 @@ const CreateCategory: NextPageAuth = () => {
 		}
 	)
 
-	const handleFormSubmit = async (data) => {
+	const handleFormSubmit = async (data: FormData) => {
 		await mutateAsync(data)
 	}
 

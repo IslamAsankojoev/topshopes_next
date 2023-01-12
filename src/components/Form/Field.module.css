@@ -1,0 +1,18 @@
+.file {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.uploadImage {
+  width: 300px;
+  height: 160px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 5px;
+}
+
+.uploadButton {
+  transform: translate(-50%, -50%);
+}/*# sourceMappingURL=Field.module.css.map */

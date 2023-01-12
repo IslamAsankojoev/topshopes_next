@@ -30,7 +30,7 @@ const UpdatePageCategory: NextPageAuth = () => {
 	// PageCategory mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'pageCategory admin update',
-		(data: IPagesCategory) => PageCategoryService.update(id as string, data),
+		(data: FormData) => PageCategoryService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -42,7 +42,7 @@ const UpdatePageCategory: NextPageAuth = () => {
 		}
 	)
 
-	const handleFormSubmit = async (data: IPagesCategory) => {
+	const handleFormSubmit = async (data: FormData) => {
 		await mutateAsync(data)
 	}
 

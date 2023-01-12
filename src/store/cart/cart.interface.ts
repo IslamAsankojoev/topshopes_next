@@ -8,7 +8,7 @@ export type ICartInitial = {
 
 export type ICartItem = Omit<
 	IProduct,
-	'brand' | 'shop' | 'unit' | 'reviews' | 'published' | 'slug'
+	'brand' | 'shop' | 'unit' | 'reviews' | 'published'
 > & {
 	qty?: number
 }
