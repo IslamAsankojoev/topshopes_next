@@ -18,7 +18,7 @@ const CreateBrand: NextPageAuth = () => {
 	// brand create
 	const { isLoading, mutateAsync } = useMutation(
 		'brand admin create',
-		(data: IBrand) => BrandsService.create(data),
+		(data: FormData) => BrandsService.create(data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -30,7 +30,7 @@ const CreateBrand: NextPageAuth = () => {
 		}
 	)
 
-	const handleFormSubmit = async (data: IBrand) => {
+	const handleFormSubmit = async (data: FormData) => {
 		await mutateAsync(data)
 	}
 

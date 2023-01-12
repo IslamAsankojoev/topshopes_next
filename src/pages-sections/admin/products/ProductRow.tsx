@@ -25,7 +25,7 @@ type ProductRowProps = { product: IProductPreview; refetch: () => void }
 // ========================================================================
 
 const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
-	const { category, name, published, slug, price, thumbnail, id } = product
+	const { category, name, published, overall_price, thumbnail, id } = product
 
 	// state
 	const router = useRouter()
@@ -86,7 +86,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="left">
-				{currency(price, { separator: ',' }).format()}
+				{currency(overall_price, { separator: ',' }).format()}
 			</StyledTableCell>
 
 			<StyledTableCell align="left">

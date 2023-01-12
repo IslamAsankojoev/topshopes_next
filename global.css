@@ -1,3 +1,21 @@
 .Toastify__toast-theme--dark {
   background-color: #1e2128;
-}/*# sourceMappingURL=global.css?.map */
+}
+
+.EditorToolbar .rdw-option-wrapper,
+.EditorToolbar .rdw-dropdown-wrapper {
+  box-shadow: none;
+  border: none;
+  background-color: #f0f0f0;
+}
+.EditorToolbar .rdw-option-wrapper:hover,
+.EditorToolbar .rdw-dropdown-wrapper:hover {
+  border: none;
+  box-shadow: none;
+}
+.EditorToolbar .rdw-option-active {
+  background-color: #323747;
+}
+.EditorToolbar .rdw-option-active img {
+  filter: invert(1);
+}/*# sourceMappingURL=global.css.map */
