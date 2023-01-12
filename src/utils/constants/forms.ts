@@ -20,7 +20,7 @@ export const categoryEditForm = [
 		label: 'icon',
 		type: 'file',
 		placeholder: 'Enter icon',
-		required: false,
+		required: true,
 	},
 	{
 		name: 'image',
@@ -78,6 +78,16 @@ export const sizeEditForm = [
 ]
 
 export const brandTypeEditForm = [
+	{
+		name: 'name',
+		label: 'name',
+		type: 'text',
+		placeholder: 'Enter name',
+		required: true,
+	},
+]
+
+export const attributeEditForm = [
 	{
 		name: 'name',
 		label: 'name',

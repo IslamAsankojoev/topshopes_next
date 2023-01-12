@@ -16,6 +16,7 @@ export const navigations = [
 			{ name: 'Product List', path: '/admin/products' },
 			// { name: 'Create Product', path: '/admin/products/create' },
 			{ name: 'Category', path: '/admin/categories' },
+			{ name: 'Attributes', path: '/admin/attributes' },
 			{ name: 'Brand', path: '/admin/brands' },
 			{ name: 'Brand Type', path: '/admin/brands-types' },
 			{ name: 'Review', path: '/admin/product-reviews' },

@@ -1,4 +1,5 @@
 import { Box } from '@mui/material'
+import { AttributesServiceAdmin } from 'api/services-admin/attributes/attributes.service'
 import { CategoriesService } from 'api/services-admin/categories/category.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
@@ -13,6 +14,7 @@ import { NextPageAuth } from 'shared/types/auth.types'
 import { ICategory } from 'shared/types/product.types'
 
 import { categoryEditForm } from 'utils/constants/forms'
+import { formData } from 'utils/formData'
 
 const CreateCategory: NextPageAuth = () => {
 	const {
@@ -29,10 +31,15 @@ const CreateCategory: NextPageAuth = () => {
 		}
 	)
 
+	const { data: attributes } = useQuery(
+		'attributes get',
+		AttributesServiceAdmin.getList
+	)
+
 	// category update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'category admin create',
-		(data: ICategory) => CategoriesService.update(id as string, data),
+		(data: FormData) => CategoriesService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success('success')
@@ -44,8 +51,15 @@ const CreateCategory: NextPageAuth = () => {
 		}
 	)
 
-	const handleFormSubmit = async (data: ICategory) => {
-		await mutateAsync(data)
+	const handleFormSubmit = async (_: any, data: ICategory) => {
+		const clearData = {}
+		for (let key in data) {
+			if (data[key]) {
+				clearData[key] = data[key]
+			}
+		}
+
+		await mutateAsync(formData(clearData))
 	}
 
 	if (isLoading || mutationLoading) {
@@ -57,7 +71,17 @@ const CreateCategory: NextPageAuth = () => {
 			<H3 mb={2}>Edit Category</H3>
 			<CreateForm
 				defaultData={category}
-				fields={categoryEditForm}
+				fields={[
+					...categoryEditForm,
+					{
+						name: 'attributes',
+						label: 'attributes',
+						type: 'multiple-select',
+						placeholder: 'Enter attributes',
+						allNames: attributes,
+						required: true,
+					},
+				]}
 				handleFormSubmit={handleFormSubmit}
 			/>
 		</Box>

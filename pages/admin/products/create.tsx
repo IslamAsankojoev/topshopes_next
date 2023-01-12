@@ -42,9 +42,15 @@ const CreateProduct: NextPageAuth = () => {
 
 	// fetching
 	const handleFormSubmit = async (data: FormData) => {
+		if (!variants?.length) {
+			toast.error('you must create at least one variant to create a product')
+			return
+		}
+		let productId = null
 		try {
 			// create product
 			const productResponse = await ProductsService.create(data)
+			productId = productResponse.id
 
 			// create variants with new product
 			for (let i of variants) {
@@ -70,18 +76,21 @@ const CreateProduct: NextPageAuth = () => {
 						await AttributesService.update(attribute.attributeId as string, {
 							product_variant: variantResponse.id,
 							attribute: attribute.attributeId,
-							value: attribute.attributeValue,
+							value: attribute?.attributeValue || attribute?.value,
 						})
 					} else {
 						await AttributesService.create(variantResponse.id as string, {
 							attribute: attribute.attributeNameId,
-							value: attribute.value || attribute.attributeValue,
+							value: attribute?.attributeValue || attribute?.value,
 						})
 					}
 				}
 			}
 			push('/admin/products/')
 		} catch (e) {
+			if (productId) {
+				await ProductsService.delete(productId)
+			}
 			toast.error('product: ' + getErrorMessage(e))
 		}
 	}
@@ -89,10 +98,6 @@ const CreateProduct: NextPageAuth = () => {
 	React.useEffect(() => {
 		setVariants([])
 	}, [])
-
-	if (fetch.isLoading) {
-		return <Loading />
-	}
 
 	return fetch ? (
 		<Box py={4}>

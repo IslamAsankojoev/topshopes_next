@@ -44,3 +44,5 @@ export const getPageCategoryUrlAdmin = (string: string) =>
 export const getUsersUrlAdmin = (string: string) => `admin/users/${string}`
 export const getSiteSettingsUrlAdmin = (string: string) =>
 	`admin/settings/${string}`
+export const getAttributesUrlAdmin = (string: string) => `admin/attributes/${string}`
+

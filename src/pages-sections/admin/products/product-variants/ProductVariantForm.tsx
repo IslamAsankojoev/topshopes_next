@@ -155,6 +155,8 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 		// update variant
 		await updateAsync(data)
 		for (let attribute of newAttributes) {
+			if (!attribute) continue
+
 			if (attribute?.available) {
 				await AttributesService.update(attribute.attributeId as string, {
 					product_variant: variantId,

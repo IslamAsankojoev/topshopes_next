@@ -7,6 +7,7 @@ export interface IProductVariantInitialState {
         variant: IProductVariant, 
         images: {image: File | string, product_variant?: number, id?: string | number}[]
         attribute_values: {
+            value?: string
             available: boolean
             attributeId: string | number, 
             attributeNameId: string | number,

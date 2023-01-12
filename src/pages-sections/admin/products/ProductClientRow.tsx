@@ -25,7 +25,7 @@ type ProductRowProps = { product: IProductPreview; refetch: () => void }
 // ========================================================================
 
 const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
-	const { category, name, published, slug, thumbnail, price } = product
+	const { category, name, published, slug, thumbnail, price, id } = product
 
 	// state
 	const router = useRouter()
@@ -46,7 +46,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 	const onDelete = async () => {
 		if (window.confirm('Are you sure you want to delete this product?')) {
 			try {
-				await ProductsService.delete(slug)
+				await ProductsService.delete(id)
 				refetch()
 			} catch (e: unknown) {
 				toast.error('An error has occurred')
@@ -93,7 +93,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 			<StyledTableCell align="center">
 				<StyledIconButton
-					onClick={() => router.push(`${router.pathname}/${slug}`)}
+					onClick={() => router.push(`${router.pathname}/${id}`)}
 				>
 					<Edit />
 				</StyledIconButton>

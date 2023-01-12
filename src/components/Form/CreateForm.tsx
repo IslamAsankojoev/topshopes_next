@@ -7,7 +7,7 @@ import { formData } from 'utils/formData'
 
 interface CreateFormProps {
 	fields: Record<string, any>
-	handleFormSubmit: (formData: FormData, values: Record<string, any>) => void
+	handleFormSubmit: (formData: FormData, values?: Record<string, any>) => void
 	defaultData: Record<string, any>
 }
 const CreateForm: React.FC<CreateFormProps> = ({
@@ -81,9 +81,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 	} = useFormik({
 		validationSchema: validate,
 		initialValues: clearFileFlieds(defaultData || {}),
-		onSubmit: () => {
-			handleFormSubmitForm()
-		},
+		onSubmit: () => handleFormSubmitForm(),
 	})
 
 	const handleFormSubmitForm = () => {
