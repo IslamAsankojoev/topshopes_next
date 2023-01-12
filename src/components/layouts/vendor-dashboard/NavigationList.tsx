@@ -20,12 +20,11 @@ export const navigations = [
 			{ name: 'Brand', path: '/admin/brands' },
 			{ name: 'Brand Type', path: '/admin/brands-types' },
 			{ name: 'Review', path: '/admin/product-reviews' },
-			{ name: 'Color', path: '/admin/colors' },
-			{ name: 'Size', path: '/admin/sizes' },
+			// { name: 'Color', path: '/admin/colors' },
+			// { name: 'Size', path: '/admin/sizes' },
 		],
 		role: 'admin',
 	},
-
 	{
 		name: 'Pages',
 		icon: duotone.Pager,

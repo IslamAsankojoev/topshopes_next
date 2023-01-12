@@ -1,13 +1,6 @@
-import { getErrorMessage } from 'utils/getErrorMessage'
+import { axiosClassic, instance, makeRequest } from 'api/interceptor'
 import { toast } from 'react-toastify'
-import { axiosClassic, instance } from 'api/interceptor'
-
-const makeRequest = (auth: boolean) => {
-	if (auth) {
-		return instance
-	}
-	return axiosClassic
-}
+import { getErrorMessage } from 'utils/getErrorMessage'
 
 export const CRUDservice = (
 	url: (id?: string) => string,

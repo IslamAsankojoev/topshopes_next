@@ -2,8 +2,8 @@ import { Rating } from '@mui/lab'
 import { Box, Button, TextField } from '@mui/material'
 import { instance } from 'api/interceptor'
 import { ReviewService } from 'api/services/review/Review.service'
-import { FlexBox } from 'components/flex-box'
 import { H2, H5 } from 'components/Typography'
+import { FlexBox } from 'components/flex-box'
 import { useFormik } from 'formik'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useRouter } from 'next/router'
@@ -12,6 +12,7 @@ import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { IProduct, IReview } from 'shared/types/product.types'
 import * as yup from 'yup'
+
 import ProductComment from './ProductComment'
 
 export interface ProductReviewProps {
@@ -24,7 +25,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 
 	const { mutateAsync } = useMutation(
 		'send a comment',
-		(values: IReview) => ReviewService.create(product.slug, values),
+		(values: IReview) => ReviewService.create(product.id, values),
 		{
 			onSuccess: async () => {
 				await refetch()

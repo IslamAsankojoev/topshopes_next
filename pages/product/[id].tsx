@@ -49,6 +49,7 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 	// 	isLoading,
 	// } = useQuery(['product detail'], () => ShopsProductsService.get(id as string))
 
+
 	// const [product, setProduct] = useState(bazaarReactDatabase[2])
 	const [selectedOption, setSelectedOption] = useState(0)
 	// const [relatedProducts, setRelatedProducts] = useState([]);
@@ -120,6 +121,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		// await queryClient.fetchQuery(['product detail'], () =>
 
 		// )
+
 
 		return {
 			props: {

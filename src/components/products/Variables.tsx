@@ -14,11 +14,18 @@ import {
 	IProductVariant,
 } from 'shared/types/product.types'
 
+import AttributeSelect from './AttributeSelect'
+
 type VariablesProps = {
 	product: IProduct
 	setVariant: (product: IProductVariant) => void
 	setImage?: (image: string) => void
 	variant?: IProductVariant
+}
+
+type SelectedAttribute = {
+	name: string
+	value: any
 }
 
 const Variables: FC<VariablesProps> = ({
@@ -27,17 +34,80 @@ const Variables: FC<VariablesProps> = ({
 	setImage,
 	variant,
 }) => {
-	const [attributesValues, setAttributesValues] = useState<
-		IProductAttributeValue[]
+	const [attributes, setAttributes] = useState<any>([])
+	const [selectedAttributes, setSelectedAttributes] = useState<
+		SelectedAttribute[]
 	>([])
 
 	useEffect(() => {
-		if (variant) {
-			console.log(product.variants)
-		}
-	}, [variant])
+		const attributes = new Map()
 
-	return <></>
+		product.variants.forEach((variant) => {
+			variant.attribute_values.forEach((attribute_value) => {
+				if (!attributes.has(attribute_value.attribute.name)) {
+					attributes.set(attribute_value.attribute.name, new Set())
+				}
+				attributes
+					.get(attribute_value.attribute.name)
+					.add(attribute_value.value)
+			})
+		})
+		setAttributes(attributes)
+	}, [])
+
+	useEffect(() => {
+		setVariant(
+			product.variants.find((variant) =>
+				selectedAttributes.every((attribute) =>
+					variant.attribute_values.find(
+						(attribute_value) =>
+							attribute_value.attribute.name === attribute.name &&
+							attribute_value.value === attribute.value
+					)
+				)
+			)
+		)
+		setImage(
+			product.variants.find((variant) =>
+				selectedAttributes.every((attribute) =>
+					variant.attribute_values.find(
+						(attribute_value) =>
+							attribute_value.attribute.name === attribute.name &&
+							attribute_value.value === attribute.value
+					)
+				)
+			)?.thumbnail
+		)
+	}, [selectedAttributes])
+
+	useEffect(() => {
+		console.log(product.variants)
+	}, [product])
+	return (
+		<div
+			style={{
+				display: 'flex',
+				flexWrap: 'wrap',
+			}}
+		>
+			{[...attributes.keys()].map((attribute) => {
+				return (
+					<FormControl
+						key={attribute}
+						sx={{ display: 'block', marginBottom: 1, marginRight: 1 }}
+					>
+						<AttributeSelect
+							variants={product.variants}
+							variant={variant}
+							attribute_name={attribute}
+							attribute_values={[...attributes.get(attribute)]}
+							setSelectedAttributes={setSelectedAttributes}
+						/>
+					</FormControl>
+				)
+			})}
+		</div>
+	)
 }
 
 export default Variables

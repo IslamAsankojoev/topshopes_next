@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { getLocalStorage } from 'utils/local-storage/localStorage'
+
 import { logout, profile, update } from './user.actions'
 import { IInitialState } from './user.interface'
 

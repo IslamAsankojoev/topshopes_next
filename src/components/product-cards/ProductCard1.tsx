@@ -117,8 +117,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				{!!discount && (
 					<StyledChip color="primary" size="small" label={`${discount}% off`} />
 				)}
-
-				<Link href={`/product/${slug}/?trueID=${id}`}>
+				<Link
+					href={{
+						pathname: '/product/[id]',
+						query: { trueID: id, id: slug },
+					}}
+				>
 					<a>
 						<LazyImage
 							loader={() =>
@@ -127,8 +131,8 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							src={
 								'https://static.wikia.nocookie.net/bleach/images/8/8d/572Kenpachi_profile.png/revision/latest?cb=20210417222326&path-prefix=en'
 							}
-							width={0}
-							height={0}
+							width={200}
+							height={200}
 							layout="responsive"
 							alt={name}
 						/>
@@ -139,7 +143,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 			<ContentWrapper>
 				<FlexBox>
 					<Box flex="1 1 0" minWidth="0px" mr={1}>
-						<Link href={`/product/${slug}/?trueID=${id}`}>
+						<Link
+							href={{
+								pathname: '/product/[id]',
+								query: { trueID: id, id: slug },
+							}}
+						>
 							<a>
 								<span
 									style={{
@@ -156,7 +165,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<Link
 							href={{
-								pathname: `/shops/${shop.slug}`,
+								pathname: `/shops/${shop.id}`,
 								query: { trueID: shop.id },
 							}}
 						>
