@@ -1,15 +1,16 @@
-import { useActions } from 'hooks/useActions';
-import React from 'react';
-import { getLocalStorage } from 'utils/local-storage/localStorage';
+import { useActions } from 'hooks/useActions'
+import React from 'react'
+import { getLocalStorage } from 'utils/local-storage/localStorage'
 
 const WishCartProvider: React.FC = ({ children }) => {
-  const { setWishList } = useActions();
+	const { setWishList, setCart } = useActions()
 
-  React.useEffect(() => {
-    setWishList(getLocalStorage('wishlist') || []);
-  }, [setWishList]);
+	React.useEffect(() => {
+		setWishList(getLocalStorage('wishlist') || [])
+		setCart(getLocalStorage('cart') || [])
+	}, [setWishList, setCart])
 
-  return <>{children}</>;
-};
+	return <>{children}</>
+}
 
-export default WishCartProvider;
+export default WishCartProvider

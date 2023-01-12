@@ -164,12 +164,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							</a>
 						</Link>
 
-						<Link
-							href={{
-								pathname: `/shops/${shop.id}`,
-								query: { trueID: shop.id },
-							}}
-						>
+						<Link href={`/shops/${shop.id}`}>
 							<a>
 								<span
 									style={{
