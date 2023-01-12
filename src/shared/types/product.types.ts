@@ -95,8 +95,9 @@ export type IProductAttribute = {
 }
 
 export type IProductAttributeValue = {
-	id: number
-	attribute: { id: number; name: string }
-	value: string
-	product_variant: number
+	available?: boolean
+	id: string | number, 
+	attribute: {name: string, id: number}, 
+	value: string, 
+	product_variant: string | number
 }

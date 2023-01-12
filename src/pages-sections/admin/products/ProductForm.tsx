@@ -1,22 +1,16 @@
-import {
-	Button,
-	Card,
-	Grid,
-	ImageList,
-	ImageListItem,
-	MenuItem,
-	TextField,
-} from '@mui/material'
+import { Button, Card, Grid, MenuItem, TextField } from '@mui/material'
 import DropZone from 'components/DropZone'
 import { useFormik } from 'formik'
 import React, { FC } from 'react'
 import * as yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
-import MultipleSelect from '../../../components/multiple-select/MultipleSelect'
 import styled from '@emotion/styled'
 import { ProductFetchTypes } from './useProductFetch'
 import { IBrand, ICategory } from 'shared/types/product.types'
 import { FlexBox } from 'components/flex-box'
+import { useQuery } from 'react-query'
+import { CategoriesService } from 'api/services/categories/category.service'
+import { useActions } from 'hooks/useActions'
 
 // ================================================================
 type ProductFormProps = {
@@ -44,12 +38,32 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	// states
 	const [redirect, setRedirect] = React.useState<boolean>(false)
 
+	// actions
+	const { setCurrentCategory } = useActions()
+
 	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
 		useFormik({
 			initialValues,
 			onSubmit: () => handleFormSubmit(values, redirect),
 			validationSchema: validationSchema,
 		})
+
+	const categoryHandler: any = async (
+		e: React.ChangeEvent<HTMLSelectElement>
+	) => {
+		if (
+			!window.confirm(
+				'all already existing attributes will be removed, do you agree with that?'
+			)
+		)
+			return
+
+		handleChange(e)
+	}
+
+	React.useEffect(() => {
+		setCurrentCategory(values.category)
+	}, [values.category])
 
 	return (
 		<Card sx={{ p: 6 }}>
@@ -58,16 +72,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 					<Grid item sm={6} xs={12}>
 						<TextField
 							fullWidth
-							name="title"
-							label="Title"
+							name="name"
+							label="Name"
 							color="info"
 							size="medium"
-							placeholder="Title"
-							value={values.title}
+							placeholder="Name"
+							value={values.name}
 							onBlur={handleBlur}
 							onChange={handleChange}
-							error={!!touched.title && !!errors.title}
-							helperText={touched.title && errors.title}
+							error={!!touched.name && !!errors.name}
+							helperText={touched.name && errors.name}
 						/>
 					</Grid>
 
@@ -96,7 +110,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							name="category"
 							onBlur={handleBlur}
 							placeholder="Category"
-							onChange={handleChange}
+							onChange={categoryHandler}
 							value={values.category}
 							label="Select Category"
 							error={!!touched.category && !!errors.category}
@@ -156,6 +170,24 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							</TextField>
 						</Grid>
 					) : null}
+
+					<Grid item xs={12}>
+						<TextField
+							multiline
+							rows={4}
+							fullWidth
+							name="description"
+							label="Description"
+							color="info"
+							size="medium"
+							placeholder="Description"
+							value={values.description}
+							onBlur={handleBlur}
+							onChange={handleChange}
+							error={!!touched.description && !!errors.description}
+							helperText={touched.description && errors.description}
+						/>
+					</Grid>
 
 					<Grid item xs={12}>
 						<FlexBox

@@ -6,8 +6,10 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState: IProductVariantInitialState = {
 	variants: [],
+    newAttributes: [],
     idCounter: 0,
-    imgIdCounter: 0
+    imgIdCounter: 0,
+    currentCategory: '', 
 }
 
 const productVariantsSlice = createSlice({
@@ -35,6 +37,7 @@ const productVariantsSlice = createSlice({
                         :variant.variant.thumbnail
                     return {
                         ...variant, 
+                        attribute_values: variant.attribute_values,
                         images: payload.data.images, 
                         variant: {...payload.data.variant, thumbnail: imgCheck} }
                 }
@@ -73,49 +76,67 @@ const productVariantsSlice = createSlice({
                 }
                 return variant
             })
-            // state.imgIdCounter = state.imgIdCounter + 1
         },
 
-        // updateVariantImages: (
-        //     state, 
-        //     {payload}: {
-        //         payload: {image: File, variantId: number | string, imgId: number | string}
-        //     }) => {
-        //     // задать id варианта и id изображение потом новое изображение
-        //     state.variants = state.variants.map(variant => {
-        //         if (variant?.id == payload.variantId) {
-        //             return {
-        //                 ...variant, 
-        //                 images: variant.images.map(image => {
-        //                     if (image.id == payload.imgId) return {...image, image: payload.image}
-        //                     return image
-        //                 })
-        //             }
-        //         }
-        //         return variant
-        //     })
-        // },
+        setNewAttributes: (state, {payload}) => {
+            state.newAttributes =  payload
+        },
 
-        // removeVariantImages: (
-        //     state, 
-        //     {payload}: {
-        //         payload: { variantId: number | string, imgId: number | string}
-        //     }) => {
-        //     const arr = []
-        //     for (let variant of state.variants) {
-        //         if (payload.variantId == variant?.id) {
-        //             const images = []
-        //             for (let img of variant.images) {
-        //                 if (img.id == payload.imgId) continue;
-        //                 images.push(img)
-        //             }
-        //             arr.push({...variant, images: images})
-        //         }
-        //         arr.push(variant)
-        //     }
-        //     state.variants = arr
-        // }
+        addAttributeValues: (
+            state, 
+            {payload}: {
+                payload: {attribute: any, variantId: number | string}
+            }) => {
+            // задать id варианта и новый атрибут
+            state.variants = state.variants.map(variant => {
+                if (variant?.id == payload.variantId) {
+                    return {
+                        ...variant, 
+                        attribute_values: variant?.attribute_values.map(attribute => {
+                            if (payload.attribute.attributeId == attribute.attributeId) {
+                                return payload.attribute
+                            }
+                            return attribute
+                        })
+                    }
+                }
+                return variant
+            })
+        },
 
+        updateAttribute: (state, {payload}: 
+            {
+                payload: {
+                    variantId: string | number, 
+                    attributeId: number | string, 
+                    newValue: string | any
+                }
+            }) => {
+            state.variants = state.variants.map(variant => {
+                if (variant?.id == payload.variantId) {
+                    return {
+                        ...variant, 
+                        attribute_values: variant.attribute_values.map(attribute => {
+                            if (
+                                payload.attributeId == attribute.attributeId 
+                                && attribute.attributeValue != payload.newValue) {
+                                return {...attribute, value: payload.newValue}
+                            }
+                            return attribute
+                        })
+                    }
+                }
+                return variant
+            })
+        },
+
+
+        setCurrentCategory: (state, {payload}) => {
+            state.currentCategory =  payload
+            state.variants = state.variants.map(variant => {
+                return {...variant, attribute_values: []}
+            })
+        },
     },
 })
 

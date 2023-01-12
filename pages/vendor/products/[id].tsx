@@ -50,13 +50,8 @@ const EditProduct: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
-		// console.log(data)
 		await mutateAsync(data)
 		if (!redirect) push('/vendor/products/')
-	}
-
-	if (isLoading || mutationLoading) {
-		return <Loading />
 	}
 
 	return !isError && fetch ? (
@@ -68,7 +63,6 @@ const EditProduct: NextPageAuth = () => {
 						initialValues={{
 							...product,
 							brand: product?.brand?.id,
-							category: product?.category?.id,
 						}}
 						validationSchema={productFormValidationSchemaVendor}
 						handleFormSubmit={handleFormSubmit}

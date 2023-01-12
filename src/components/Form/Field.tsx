@@ -33,14 +33,18 @@ const Field: FC<any> = (props) => {
 		)
 	}
 	if (type == 'multiple-select') {
+		console.log(other.defaultData[other.name])
 		return (
 			<MultipleSelect
 				allNames={other.allNames}
-				defaultValues={other.allNames[0]?.id}
-				onChange={(selected) => other.setFieldValue(other.name, selected)}
+				defaultValues={other.defaultData[other.name]}
+				onChange={(selected) =>
+					other.setFieldValue(
+						other.name,
+						selected.map((id) => (isNaN(id) ? id : +id))
+					)
+				}
 				label={other.name}
-				helperText={other.touched.sizes && (other.errors.sizes as string)}
-				error={!!other.touched.sizes && !!other.errors.sizes}
 			/>
 		)
 	}
