@@ -11,11 +11,9 @@ import { IProduct } from 'shared/types/product.types'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useActions } from 'hooks/useActions'
 import styled from '@emotion/styled'
-import {
-	adminCheckFetch,
-	getImgUrl,
-	getVariantInfo,
-} from './productVariantHelper'
+import { adminCheckFetch, getImgUrl } from './productVariantHelper'
+import { useQuery } from 'react-query'
+import { CategoriesService } from 'api/services/categories/category.service'
 
 type Props = {
 	refetch?: () => void
@@ -37,10 +35,37 @@ const ProductVariantList: React.FC<Props> = ({
 
 	// states
 	const { user } = useTypedSelector((state) => state.userStore)
+	const { currentCategory } = useTypedSelector(
+		(state) => state.productVariantsStore
+	)
 
 	// functions
 	const variantCheck = (data) => (create ? data?.variant : data)
 	const variantList = (data) => (create ? data : data?.variants)
+
+	const getAllattributes = (
+		variantAttributes: any,
+		categoryAttributes: any
+	) => {
+		if (variantAttributes?.length === categoryAttributes?.length) {
+			return variantAttributes
+		}
+
+		return categoryAttributes?.map((attribute) => {
+			if (!variantAttributes?.length) {
+				return attribute
+			}
+			for (let i of variantAttributes) {
+				if (
+					i?.attribute?.name === attribute?.name ||
+					i?.attributeName === attribute?.name
+				) {
+					return i
+				}
+			}
+			return attribute
+		})
+	}
 
 	const deleteVariant = async (item: IProductVariant) => {
 		if (create) {
@@ -51,14 +76,26 @@ const ProductVariantList: React.FC<Props> = ({
 		refetch && (await refetch())
 	}
 
+	// fetching
+	const { data: category, refetch: categoryRefetch } = useQuery(
+		'category get',
+		() => CategoriesService.get(currentCategory),
+		{
+			enabled: !!currentCategory,
+		}
+	)
+
+	React.useEffect(() => {
+		if (currentCategory) categoryRefetch()
+	}, [currentCategory])
+
 	return (
 		<Card1 sx={{ mb: 3, mt: 3 }}>
 			<FlexBetween>
 				<h2>Product Variants</h2>
 				<ProductVariantForm
+					attributes={category?.attributes}
 					refetch={refetch}
-					colors={fetch.colors}
-					sizes={fetch.sizes}
 					initialValues={{}}
 					productId={product?.id}
 					createPage={create}
@@ -79,14 +116,6 @@ const ProductVariantList: React.FC<Props> = ({
 								<div>
 									<H6 mb={0.5}>price: {variantCheck(variant)?.price}</H6>
 									<Paragraph color="grey.700">
-										size:{' '}
-										{getVariantInfo(variantCheck(variant)?.size, fetch?.sizes)}
-									</Paragraph>
-									<Paragraph color="grey.700">
-										color:{' '}
-										{getVariantInfo(variantCheck(variant)?.color, fetch.colors)}
-									</Paragraph>
-									<Paragraph color="grey.700">
 										discount: {variantCheck(variant)?.discount}
 									</Paragraph>
 									<Paragraph color="grey.700">
@@ -98,9 +127,11 @@ const ProductVariantList: React.FC<Props> = ({
 								</div>
 								<FlexBox alignItems={'center'}>
 									<ProductVariantForm
+										attributes={getAllattributes(
+											variant.attribute_values,
+											category?.attributes
+										)}
 										refetch={refetch}
-										colors={fetch.colors}
-										sizes={fetch.sizes}
 										initialValues={variantCheck(variant)}
 										createPage={create}
 										variantId={variant?.id}

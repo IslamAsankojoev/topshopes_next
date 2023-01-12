@@ -25,7 +25,7 @@ type ProductRowProps = { product: IProductPreview; refetch: () => void }
 // ========================================================================
 
 const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
-	const { category, name, published, slug, price, thumbnail } = product
+	const { category, name, published, slug, price, thumbnail, id } = product
 
 	// state
 	const router = useRouter()
@@ -33,7 +33,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 	const { mutateAsync } = useMutation(
 		'update shop product',
-		() => AdminProductsService.update(slug, { published: !productPublish }),
+		() => AdminProductsService.update(id, { published: !productPublish }),
 		{
 			onError: (e: unknown) => {
 				refetch()
@@ -46,7 +46,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 	const onDelete = async () => {
 		if (window.confirm('Are you sure you want to delete this product?')) {
 			try {
-				await AdminProductsService.delete(slug)
+				await AdminProductsService.delete(id)
 				refetch()
 			} catch (e: unknown) {
 				toast.error('An error has occurred')
@@ -76,12 +76,14 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				</Box>
 			</StyledTableCell>
 
-			{/* <StyledTableCell align="left">
+			<StyledTableCell align="left">
 				<Avatar
-					src={brand?.image}
+					src={
+						'https://static.wikia.nocookie.net/bleach/images/8/8d/572Kenpachi_profile.png/revision/latest?cb=20210417222326&path-prefix=en'
+					}
 					sx={{ width: 55, height: 'auto', borderRadius: 0 }}
 				/>
-			</StyledTableCell> */}
+			</StyledTableCell>
 
 			<StyledTableCell align="left">
 				{currency(price, { separator: ',' }).format()}
@@ -97,13 +99,13 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 			<StyledTableCell align="center">
 				<StyledIconButton
-					onClick={() => router.push(`${router.pathname}/${slug}`)}
+					onClick={() => router.push(`${router.pathname}/${id}`)}
 				>
 					<Edit />
 				</StyledIconButton>
-				{/* <StyledIconButton onClick={onDelete}>
+				<StyledIconButton onClick={onDelete}>
 					<Delete />
-				</StyledIconButton> */}
+				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>
 	)

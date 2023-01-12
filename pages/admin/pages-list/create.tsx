@@ -61,7 +61,7 @@ const CreatePages: NextPageAuth = () => {
 						type: 'select',
 						placeholder: 'Enter category',
 						allNames: categories?.map((c) => ({ id: c?.id, name: c?.title })),
-						require: true,
+						required: true,
 						fullWidth: true,
 					},
 				]}

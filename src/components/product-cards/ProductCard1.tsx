@@ -117,7 +117,6 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				{!!discount && (
 					<StyledChip color="primary" size="small" label={`${discount}% off`} />
 				)}
-
 				<Link
 					href={{
 						pathname: '/product/[id]',

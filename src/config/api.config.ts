@@ -14,6 +14,7 @@ export const getPostsUrl = (string: string) => `posts/${string}`
 export const getOrdersUrl = (string: string) => `shop/orders/${string}`
 export const getBrandsUrl = (string: string) => `shops/brand/${string}`
 export const getAddressesUrl = (string: string) => `profile/address/${string}`
+export const getAttrubutesUrl = (string: string) => `products/variants/attributes/${string}`
 export const getShopUrl = (string: string) => `shops/${string}`
 
 export const getImagesUrl = (string: string) =>
@@ -44,3 +45,5 @@ export const getPageCategoryUrlAdmin = (string: string) =>
 export const getUsersUrlAdmin = (string: string) => `admin/users/${string}`
 export const getSiteSettingsUrlAdmin = (string: string) =>
 	`admin/settings/${string}`
+export const getAttributesUrlAdmin = (string: string) => `admin/attributes/${string}`
+

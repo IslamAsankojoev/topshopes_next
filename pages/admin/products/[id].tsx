@@ -59,7 +59,7 @@ const EditProduct: NextPageAuth = () => {
 		if (!redirect) push('/admin/products/')
 	}
 
-	if (isLoading || fetch.isLoading || mutationLoading) {
+	if (mutationLoading) {
 		return <Loading />
 	}
 
