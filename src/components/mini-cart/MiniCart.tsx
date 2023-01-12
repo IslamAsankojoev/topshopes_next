@@ -102,7 +102,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 					<FlexBox
 						py={2}
 						px={2.5}
-						key={item.slug}
+						key={item.id}
 						alignItems="center"
 						borderBottom={`1px solid ${palette.divider}`}
 					>
@@ -131,7 +131,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							</BazaarButton>
 						</FlexBox>
 
-						<Link href={`/product/${item.slug}`}>
+						<Link href={`/product/${item.id}`}>
 							<a>
 								<BazaarAvatar
 									mx={2}
@@ -147,7 +147,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 						</Link>
 
 						<Box flex="1 1 0">
-							<Link href={`/product/${item.slug}`}>
+							<Link href={`/product/${item.id}`}>
 								<a>
 									<H5 className="title" fontSize="14px">
 										{item.name}
@@ -156,7 +156,8 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							</Link>
 
 							<Tiny color="grey.600">
-								${Number(item?.variants[0]?.price).toFixed(2)} x {item.qty}
+								${Number(item?.variants[0]?.overall_price).toFixed(2)} x{' '}
+								{item.qty}
 							</Tiny>
 
 							<Box
@@ -165,7 +166,10 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 								color="primary.main"
 								mt={0.5}
 							>
-								${(item.qty * Number(item?.variants[0]?.price)).toFixed(2)}
+								$
+								{(item.qty * Number(item?.variants[0]?.overall_price)).toFixed(
+									2
+								)}
 							</Box>
 						</Box>
 

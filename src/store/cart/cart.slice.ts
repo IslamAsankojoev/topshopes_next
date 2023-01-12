@@ -13,43 +13,69 @@ const cartSlice = createSlice({
 	initialState,
 	reducers: {
 		addToCart: (state, { payload }: PayloadAction<ICartItem>) => {
-			const exist = state.cart.find((x) => x.slug === payload.slug)
+			console.log(payload)
+			const exist = state.cart.find(
+				(x) =>
+					x.id === payload.id && x.variants[0].id === payload.variants[0].id
+			)
 			if (exist) {
 				state.cart = state.cart.map((x) =>
-					x.slug === payload.slug ? { ...exist, qty: exist.qty + 1 } : x
+					x.id === payload.id && x.variants[0].id === payload.variants[0].id
+						? { ...exist, qty: exist.qty + 1 }
+						: x
 				)
 			} else {
 				state.cart = [...state.cart, { ...payload, qty: 1 }]
 			}
 			state.total_price = state.cart.reduce(
-				(acc, item) => acc + item.qty * parseInt(item.variants[0].price),
+				(acc, item) =>
+					acc + item.qty * parseInt(item.variants[0].overall_price),
 				0
 			)
 			state.total_items = state.cart?.length
 			localStorage.setItem('cart', JSON.stringify(state.cart))
 		},
 		removeFromCart: (state, { payload }: PayloadAction<ICartItem>) => {
-			const exist = state.cart.find((x) => x.slug === payload.slug)
+			const exist = state.cart.find(
+				(x) =>
+					x.id === payload.id && x.variants[0].id === payload.variants[0].id
+			)
 			if (exist) {
 				if (exist.qty > 1) {
 					state.cart = state.cart.map((x) =>
-						x.slug === payload.slug ? { ...exist, qty: exist.qty - 1 } : x
+						x.id === payload.id && x.variants[0].id === payload.variants[0].id
+							? { ...exist, qty: exist.qty - 1 }
+							: x
 					)
 				} else {
-					state.cart = state.cart.filter((x) => x.slug !== payload.slug)
+					state.cart = state.cart.filter(
+						(x) =>
+							x.id === payload.id && x.variants[0].id === payload.variants[0].id
+					)
 				}
 			}
 			state.total_price = state.cart.reduce(
-				(acc, item) => acc + item.qty * parseInt(item.variants[0].price),
+				(acc, item) =>
+					acc + item.qty * parseInt(item.variants[0].overall_price),
 				0
 			)
 			state.total_items = state.cart?.length
 			localStorage.setItem('cart', JSON.stringify(state.cart))
 		},
 		trashFromCart: (state, { payload }: PayloadAction<ICartItem>) => {
-			state.cart = state.cart.filter((x) => x.slug !== payload.slug)
+			state.cart = state.cart.filter((x) => {
+				if (x.id !== payload.id) {
+					return x
+				} else if (
+					x.id === payload.id &&
+					x.variants[0].id !== payload.variants[0].id
+				) {
+					return x
+				}
+			})
 			state.total_price = state.cart.reduce(
-				(acc, item) => acc + item.qty * parseInt(item.variants[0].price),
+				(acc, item) =>
+					acc + item.qty * parseInt(item.variants[0].overall_price),
 				0
 			)
 			state.total_items = state.cart?.length

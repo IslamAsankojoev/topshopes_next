@@ -44,18 +44,14 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 		(state) => state.cartStore.cart
 	)
 	const cartItem = cartList.find(
-		(item) => item.slug === id || item.slug === routerId
+		(item) => item.id === id || item.id === routerId
 	)
 
-	const { addToCart, removeFromCart } = useActions()
+	const { addToCart } = useActions()
 
-	const handleAddToCart = useCallback(() => {
-		// addToCart({})
-	}, [])
-
-	const handleRemoveFromCart = useCallback(() => {
-		// removeFromCart({})
-	}, [])
+	const handleAddToCart = () => {
+		addToCart({ ...product, variants: [selectedVariant] })
+	}
 
 	return (
 		<Box width="100%">
@@ -147,9 +143,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 							!selectedVariant || selectedVariant.status === 'unavailable'
 						}
 						variant="contained"
-						onClick={() => {
-							console.log(selectedVariant)
-						}}
+						onClick={handleAddToCart}
 						sx={{ mb: 4.5, px: '1.75rem', height: 40, color: 'white' }}
 					>
 						Add to Cart

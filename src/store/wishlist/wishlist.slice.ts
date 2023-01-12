@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IInitialState } from './wishlist.interface'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import { IProductPreview } from 'shared/types/product.types'
+
+import { IInitialState } from './wishlist.interface'
 
 const initialState: IInitialState = {
 	items: [],
@@ -12,16 +13,14 @@ export const wishlistSlice = createSlice({
 	initialState,
 	reducers: {
 		toggleWish: (state, action: PayloadAction<IProductPreview>) => {
-			const exist = state.items.find(
-				(item) => item.slug === action.payload.slug
-			)
+			const exist = state.items.find((item) => item.id === action.payload.id)
 			if (!exist) {
 				state.items.push(action.payload)
 				localStorage.setItem('wishlist', JSON.stringify(state.items))
 				toast.success(`Added to wishlist ${action.payload.name}`)
 			} else {
 				state.items = state.items.filter(
-					(item) => item.slug !== action.payload.slug
+					(item) => item.id !== action.payload.id
 				)
 				localStorage.setItem('wishlist', JSON.stringify(state.items))
 				toast.error('Removed from wishlist')
