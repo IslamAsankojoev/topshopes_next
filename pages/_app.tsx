@@ -93,10 +93,10 @@ const App = ({ Component, pageProps }: TypeAppProps) => {
 // be server-side rendered.
 //
 // App.getInitialProps = async (appContext) => {
-//   // calls page's `getInitialProps` and fills `appProps.pageProps`
-//   const appProps = await App.getInitialProps(appContext);
+// 	// calls page's `getInitialProps` and fills `appProps.pageProps`
+// 	const appProps = await App.getInitialProps(appContext)
 
-//   return { ...appProps };
-// };
+// 	return { ...appProps }
+// }
 
 export default App
