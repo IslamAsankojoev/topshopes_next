@@ -1,7 +1,7 @@
 import FilterList from '@mui/icons-material/FilterList'
 import { Container, Grid, IconButton } from '@mui/material'
 import { axiosClassic } from 'api/interceptor'
-import { ShopService } from 'api/services/shop/shop.service'
+import { ShopsService } from 'api/services/shop/shop.service'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import Navbar from 'components/navbar/Navbar'
 import ProductCardList from 'components/products/ProductCard1List'
@@ -18,7 +18,7 @@ const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 	const isTablet = width < 1025
 
 	const { data: products, isLoading } = useQuery(['shop products'], () =>
-		ShopService.getShopProducts(shop.id)
+		ShopsService.getShopProducts(shop.id)
 	)
 
 	return (
@@ -62,7 +62,7 @@ export default Shop
 
 export const getServerSideProps = async (context) => {
 	const { id } = context.query
-	const shop = await ShopService.get(id)
+	const shop = await ShopsService.get(id)
 
 	return {
 		props: {

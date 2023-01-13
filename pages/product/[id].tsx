@@ -91,7 +91,7 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 				<Box mb={6}>
 					{selectedOption === 0 && <ProductDescription />}
 					{selectedOption === 1 && (
-						<ProductReview product={product} refetch={() => null} />
+						<ProductReview product={product} refetch={refetch} />
 					)}
 				</Box>
 
