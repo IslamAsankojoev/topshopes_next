@@ -20,7 +20,7 @@ const getGiftShopProducts = async () => {
   return response.data;
 };
 
-const getGiftShopServiceList = async () => {
+const getGiftShopsServiceList = async () => {
   const response = await axios.get("/api/gift-shop/service-list");
   return response.data;
 };
@@ -36,6 +36,6 @@ export default {
   getGiftShopProducts,
   getTopSailedProducts,
   getGiftShopNavigation,
-  getGiftShopServiceList,
+  getGiftShopsServiceList,
   getGiftShopTopCategories,
 };

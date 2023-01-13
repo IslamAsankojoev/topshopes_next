@@ -1,12 +1,11 @@
 import styled from '@emotion/styled'
 import { Button, Card, Grid, MenuItem, TextField } from '@mui/material'
-import { CategoriesService } from 'api/services/categories/category.service'
-import DropZone from 'components/DropZone'
 import { FlexBox } from 'components/flex-box'
 import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { FC } from 'react'
-import { useQuery } from 'react-query'
 import { IBrand, ICategory } from 'shared/types/product.types'
 import * as yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
@@ -32,6 +31,8 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		productFetch,
 		update,
 	} = props
+
+	const { push } = useRouter()
 
 	//data fetching
 	const { brands, shops, categories } = productFetch
@@ -201,9 +202,23 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							sx={{ gridGap: '10px' }}
 						>
 							{update ? (
-								<Button variant="contained" color="primary" type="submit">
-									Save and exit
-								</Button>
+								<>
+									<Button
+										onClick={() =>
+											push({
+												pathname: '/product/[id]',
+												query: { trueID: values.id, id: values.slug },
+											})
+										}
+										variant="contained"
+										color="secondary"
+									>
+										Go to view
+									</Button>
+									<Button variant="contained" color="primary" type="submit">
+										Save and exit
+									</Button>
+								</>
 							) : null}
 							<Button
 								onClick={() => setRedirect(true)}

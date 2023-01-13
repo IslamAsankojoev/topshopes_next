@@ -1,12 +1,10 @@
 import { Rating } from '@mui/lab'
 import { Box, Button, TextField } from '@mui/material'
-import { instance } from 'api/interceptor'
 import { ReviewService } from 'api/services/review/Review.service'
 import { H2, H5 } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import { useFormik } from 'formik'
 import { useTypedSelector } from 'hooks/useTypedSelector'
-import { useRouter } from 'next/router'
 import React from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
@@ -14,6 +12,7 @@ import { IProduct, IReview } from 'shared/types/product.types'
 import * as yup from 'yup'
 
 import ProductComment from './ProductComment'
+import Link from 'next/link'
 
 export interface ProductReviewProps {
 	product: IProduct
@@ -112,7 +111,9 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 					</Button>
 				</form>
 			) : (
-				<h3>User not found</h3>
+				<h3>
+					<Link href={'/login'}>log in</Link> to write a review
+				</h3>
 			)}
 		</Box>
 	)

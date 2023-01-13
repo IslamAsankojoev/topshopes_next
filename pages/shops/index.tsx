@@ -1,5 +1,5 @@
 import { Container, Grid, Pagination } from '@mui/material'
-import { ShopService } from 'api/services/shop/shop.service'
+import { ShopsService } from 'api/services/shop/shop.service'
 import { H2, Span } from 'components/Typography'
 import { FlexBetween } from 'components/flex-box'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
@@ -11,7 +11,7 @@ import { IShop } from 'shared/types/shop.types'
 const ShopList = () => {
 	const { data: shops, isLoading } = useQuery(
 		'get all shops',
-		ShopService.getList,
+		ShopsService.getList,
 		{
 			select: (data: IShop[]) => data,
 		}

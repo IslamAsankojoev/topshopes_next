@@ -103,7 +103,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 							<BazaarRating
 								color="warn"
 								fontSize="1.25rem"
-								value={rating}
+								value={Number(rating)}
 								readOnly
 							/>
 						</Box>

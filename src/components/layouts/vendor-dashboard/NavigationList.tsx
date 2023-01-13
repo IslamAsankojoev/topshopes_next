@@ -36,6 +36,13 @@ export const navigations = [
 	},
 
 	{
+		name: 'Site Setting',
+		icon: duotone.SiteSetting,
+		path: '/admin/site-settings',
+		role: 'admin',
+	},
+
+	{
 		name: 'Customers',
 		icon: duotone.Customers,
 		path: '/admin/customers',
@@ -124,12 +131,6 @@ export const navigations = [
 		role: 'vendor',
 	},
 
-	{
-		name: 'Site Setting',
-		icon: duotone.SiteSetting,
-		path: '/vendor/site-settings',
-		role: 'admin',
-	},
 	{
 		name: 'Logout',
 		icon: duotone.Session,

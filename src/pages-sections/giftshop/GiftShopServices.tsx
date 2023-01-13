@@ -36,7 +36,7 @@ const IconBox = styled(FlexBox)(({ theme }) => ({
 type Props = { serviceData: any[] }
 // ==================================================
 
-const GiftShopServices: FC<Props> = ({ serviceData = [] }) => {
+const GiftShopsServices: FC<Props> = ({ serviceData = [] }) => {
 	const { palette } = useTheme()
 	const servicesData = serviceData.slice(0, 3)
 
@@ -70,4 +70,4 @@ const GiftShopServices: FC<Props> = ({ serviceData = [] }) => {
 	)
 }
 
-export default GiftShopServices
+export default GiftShopsServices
