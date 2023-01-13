@@ -3,7 +3,6 @@ import { Box, Button, Card, Grid, TextField } from '@mui/material'
 import { ShopService } from 'api/services/shop/shop.service'
 import DropZone from 'components/DropZone'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Loading from 'components/Loading'
 import { H3, Paragraph } from 'components/Typography'
 import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
@@ -55,11 +54,7 @@ const ShopSettings: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	// shop fetching
-	const {
-		data: shop,
-		isLoading,
-		refetch,
-	} = useQuery('shop get', ShopService.getList, {
+	const { data: shop, isLoading } = useQuery('shop get', ShopService.getList, {
 		select: (data) => {
 			const { products, socialLinks, ...shopData } = data
 			return shopData
@@ -292,45 +287,11 @@ const ShopSettings: NextPageAuth = () => {
 								variant="contained"
 								fullWidth
 							>
-								Save Changes
+								{shop ? 'Save Changes' : 'Create Shop'}
 							</Button>
 						</Grid>
 					</Grid>
 				</form>
-
-				{/* <Divider sx={{ my: 4 }} />
-
-				<Paragraph fontWeight={700} mb={2}>
-					Shop Page Settings
-				</Paragraph>
-
-				<Stack spacing={3} mb={3}>
-					<DropZone
-						onChange={(files) => console.log(files)}
-						title="Main Banner (1920 x 360) *"
-						imageSize="We had to limit height to maintian consistancy. Some device both side of the banner might cropped for height limitation."
-					/>
-
-					<TextField
-						select
-						fullWidth
-						color="info"
-						size="medium"
-						name="features"
-						placeholder="Product Features"
-						label="Product Features"
-						defaultValue="electronics"
-					>
-						<MenuItem value="electronics">Electronics</MenuItem>
-						<MenuItem value="fashion">Fashion</MenuItem>
-					</TextField>
-
-					<DropZone
-						onChange={(files) => console.log(files)}
-						title="All products page banner * (Recommended size 1025x120)"
-						imageSize="We had to limit height to maintian consistancy. Some device both side of the banner might cropped for height limitation."
-					/>
-				</Stack> */}
 
 				{/* <Box mb={4}>
 					{links?.map((item) => (
@@ -355,10 +316,6 @@ const ShopSettings: NextPageAuth = () => {
 						Add Link
 					</Button>
 				</Box> */}
-
-				{/* <Button color="info" variant="contained">
-					Save Changes
-				</Button> */}
 			</Card>
 		</Box>
 	) : null

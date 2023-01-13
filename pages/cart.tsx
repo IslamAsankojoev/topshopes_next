@@ -23,7 +23,7 @@ const Cart: NextPage = () => {
 	return (
 		<ShopLayout1>
 			<Container sx={{ my: 4 }}>
-				<Box mb={3} display={{ sm: 'block', xs: 'none' }}>
+				<Box mb={3} display={{ sm: 'block' }}>
 					<SEO title="Cart" />
 					<Grid container spacing={3}>
 						<Grid item md={8} xs={12}>
@@ -31,7 +31,6 @@ const Cart: NextPage = () => {
 								<ProductCard7 key={item.id} {...item} />
 							))}
 						</Grid>
-
 						<Grid item md={4} xs={12}>
 							<Card sx={{ padding: 3 }}>
 								<FlexBetween mb={2}>
