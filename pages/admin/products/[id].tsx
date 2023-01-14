@@ -47,11 +47,12 @@ const EditProduct: NextPageAuth = () => {
 		}
 	)
 
-	const { push } = useRouter()
+	const { push, replace, asPath } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
 		await mutateAsync(data)
 		if (!redirect) push('/admin/products/')
+		replace(asPath, asPath, { shallow: true })
 	}
 
 	if (mutationLoading) {
@@ -64,12 +65,7 @@ const EditProduct: NextPageAuth = () => {
 			{product ? (
 				<>
 					<ProductForm
-						initialValues={{
-							...product,
-							brand: product?.brand?.id,
-							shop: product?.shop?.id,
-							category: product?.category?.id,
-						}}
+						initialValues={product}
 						validationSchema={productFormValidationSchema}
 						handleFormSubmit={handleFormSubmit}
 						update={true}

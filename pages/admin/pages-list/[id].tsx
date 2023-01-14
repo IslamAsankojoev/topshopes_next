@@ -52,14 +52,22 @@ const UpdatePages: NextPageAuth = () => {
 	)
 
 	const getValues = (values: Record<string, any>) => {
-		setCategoryValue(values?.category)
+		setCategoryValue(values?.category_search)
 	}
 
 	const handleFormSubmit = async (_: any, values: IPages) => {
 		const { image, ...other } = values
 		const clearData = image
-			? { ...values, content: JSON.stringify({ data: values.content }) }
-			: { ...other, content: JSON.stringify({ data: values.content }) }
+			? {
+					...values,
+					category: values.category?.id,
+					content: JSON.stringify({ data: values.content }),
+			  }
+			: {
+					...other,
+					category: values.category?.id,
+					content: JSON.stringify({ data: values.content }),
+			  }
 		await mutateAsync(formData(clearData))
 	}
 

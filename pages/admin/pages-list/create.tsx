@@ -48,6 +48,7 @@ const CreatePages: NextPageAuth = () => {
 		await mutateAsync(
 			formData({
 				...values,
+				category: values.category?.id,
 				content: JSON.stringify({ data: values.content }),
 			})
 		)

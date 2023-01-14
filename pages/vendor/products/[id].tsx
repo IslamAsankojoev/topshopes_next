@@ -21,7 +21,6 @@ const EditProduct: NextPageAuth = () => {
 	// product fetch
 	const {
 		data: product,
-		isLoading,
 		isError,
 		refetch,
 	} = useQuery('product get', () => ProductsService.get(id as string), {
@@ -44,11 +43,12 @@ const EditProduct: NextPageAuth = () => {
 		}
 	)
 
-	const { push } = useRouter()
+	const { push, replace, asPath } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
 		await mutateAsync(data)
 		if (!redirect) push('/vendor/products/')
+		replace(asPath, asPath, { shallow: true })
 	}
 
 	return !isError && fetch ? (
@@ -57,10 +57,7 @@ const EditProduct: NextPageAuth = () => {
 			{product ? (
 				<>
 					<ProductForm
-						initialValues={{
-							...product,
-							brand: product?.brand?.id,
-						}}
+						initialValues={product}
 						validationSchema={productFormValidationSchemaVendor}
 						handleFormSubmit={handleFormSubmit}
 						update={true}

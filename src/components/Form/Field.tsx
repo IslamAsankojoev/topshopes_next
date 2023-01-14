@@ -50,15 +50,53 @@ const Field: FC<any> = (props) => {
 						label: string | number
 					}
 				) => {
-					other.setFieldValue(other.name, newValue?.id)
+					other.setFieldValue(other.name, newValue)
 				}}
 				disablePortal
 				options={other.allNames}
+				getOptionLabel={(option: {
+					id: string | number
+					name: string | number
+				}) => option?.name}
 				sx={{ width: 300 }}
 				renderInput={(params) => (
 					<TextField
 						onChange={({ target }) =>
-							other.setFieldValue(other.name, target.value)
+							other.setFieldValue(other.name + '_search', target.value)
+						}
+						{...params}
+					/>
+				)}
+			/>
+		)
+	}
+
+	if (type == 'autocomplete-multiple') {
+		return (
+			<Autocomplete
+				{...other}
+				multiple
+				onChange={(
+					_: any,
+					newValue: {
+						id: string | number
+						label: string | number
+					}
+				) => {
+					other.setFieldValue(other.name, newValue)
+				}}
+				disablePortal
+				filterSelectedOptions
+				options={other.allNames}
+				getOptionLabel={(option: {
+					id: string | number
+					name: string | number
+				}) => option?.name}
+				sx={{ width: 300 }}
+				renderInput={(params) => (
+					<TextField
+						onChange={({ target }) =>
+							other.setFieldValue(other.name + '_search', target.value)
 						}
 						{...params}
 					/>

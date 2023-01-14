@@ -16,11 +16,18 @@ import { ICategory } from 'shared/types/product.types'
 import { categoryEditForm } from 'utils/constants/forms'
 import { formData } from 'utils/formData'
 
+import React from 'react'
+import useDebounce from 'hooks/useDebounce'
+
 const CreateCategory: NextPageAuth = () => {
 	const {
 		push,
 		query: { id },
 	} = useRouter()
+
+	//states
+	const [attributeSearch, setAttributeSearch] = React.useState('')
+	const debounceValue = useDebounce(attributeSearch)
 
 	// category fetch
 	const { data: category, isLoading } = useQuery(
@@ -32,8 +39,8 @@ const CreateCategory: NextPageAuth = () => {
 	)
 
 	const { data: attributes } = useQuery(
-		'attributes get',
-		() => AttributesServiceAdmin.getList(),
+		`attributes get search=${debounceValue}`,
+		() => AttributesServiceAdmin.getList({ search: debounceValue }),
 		{ select: (data) => data?.results }
 	)
 
@@ -60,7 +67,16 @@ const CreateCategory: NextPageAuth = () => {
 			}
 		}
 
-		await mutateAsync(formData(clearData))
+		await mutateAsync(
+			formData({
+				...clearData,
+				attributes: data?.attributes?.map((attr) => attr.id),
+			})
+		)
+	}
+
+	const getValues = (values) => {
+		setAttributeSearch(values.attributes_search)
 	}
 
 	if (isLoading || mutationLoading) {
@@ -77,13 +93,14 @@ const CreateCategory: NextPageAuth = () => {
 					{
 						name: 'attributes',
 						label: 'attributes',
-						type: 'multiple-select',
+						type: 'autocomplete-multiple',
 						placeholder: 'Enter attributes',
 						allNames: attributes,
 						required: true,
 					},
 				]}
 				handleFormSubmit={handleFormSubmit}
+				getValues={getValues}
 			/>
 		</Box>
 	)

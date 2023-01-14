@@ -29,8 +29,8 @@ export const useProductFetch = (
 	) => {
 
 	const { data: categories, isLoading: categoriesLoading } = useQuery(
-		'categories get',
-		() => CategoriesService.getList({search: categoriesSearch}),
+		`categories get search=${categoriesSearch}`,
+		() => CategoriesService.getList({search: categoriesSearch || ''}),
 		{ 
 			refetchOnWindowFocus: false, 
 			retry: 0,
@@ -39,8 +39,8 @@ export const useProductFetch = (
 	)
 
 	const { data: brands, isLoading: brandsLoading } = useQuery(
-		'brands get',
-		() => BrandsService.getList({search: brandsSearch}),
+		`brands get search=${brandsSearch}`,
+		() => BrandsService.getList({search: brandsSearch || ''}),
 		{
 			refetchOnWindowFocus: false,
 			retry: 0,
@@ -49,7 +49,7 @@ export const useProductFetch = (
 	)
 
 	const { data: shops, isLoading: shopsLoading } = useQuery(
-		'shops get',
+		`shops get search=${shopsSearch}`,
 		isAdmin ? () => ShopsService.getList({search: shopsSearch || ''}) : null,
 		{
 			refetchOnWindowFocus: false,

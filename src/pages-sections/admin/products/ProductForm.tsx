@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Button, Card, Grid, MenuItem, TextField } from '@mui/material'
+import { Autocomplete, Button, Card, Grid, TextField } from '@mui/material'
 import { FlexBox } from 'components/flex-box'
 import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
@@ -10,7 +10,7 @@ import { IBrand, ICategory } from 'shared/types/product.types'
 import * as yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
 
-import { ProductFetchTypes, useProductFetch } from './useProductFetch'
+import { useProductFetch } from './useProductFetch'
 
 // ================================================================
 type ProductFormProps = {
@@ -30,42 +30,66 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	// states
 	const [redirect, setRedirect] = React.useState<boolean>(false)
 
+	const [categoriesSearch, setCategoriesSearch] = React.useState<string>('')
+	const [brandsSearch, setBrandsSearch] = React.useState<string>('')
+	const [shopsSearch, setShopsSearch] = React.useState<string>('')
+
 	// actions
 	const { setCurrentCategory } = useActions()
 
-	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-		useFormik({
-			initialValues,
-			onSubmit: () => {
-				const { reviews, shop, variants, ...other } = values
-				const clearData = props.includeShop ? { ...other, shop } : other
-				handleFormSubmit(clearData, redirect)
-			},
-			validationSchema: validationSchema,
-		})
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		setFieldValue,
+	} = useFormik({
+		initialValues,
+		onSubmit: () => {
+			const { reviews, shop, variants, category, brand, ...other } = values
+			const clearData = props.includeShop
+				? { ...other, shop: shop?.id, category: category?.id, brand: brand?.id }
+				: { ...other, category: category?.id, brand: brand?.id }
+			handleFormSubmit(clearData, redirect)
+		},
+		validationSchema: validationSchema,
+	})
 
 	//data fetching
 	const { brands, shops, categories } = useProductFetch(props.includeShop, {
-		categoriesSearch: '',
-		brandsSearch: '',
-		shopsSearch: '',
+		categoriesSearch,
+		brandsSearch,
+		shopsSearch,
 	})
 
-	const categoryHandler: any = async (
-		e: React.ChangeEvent<HTMLSelectElement>
-	) => {
-		if (
-			!window.confirm(
-				'all already existing attributes will be removed, do you agree with that?'
-			)
-		)
-			return
-
-		handleChange(e)
+	const autocompleteProps = {
+		category: {
+			name: 'category',
+			options: categories || [],
+			getOptionLabel: (option) => option?.name || '',
+			error: !!touched.category && !!errors.category,
+			helperText: touched.category && errors.category,
+		},
+		brand: {
+			name: 'brand',
+			options: brands || [],
+			getOptionLabel: (option) => option?.name || '',
+			error: !!touched.brand && !!errors.brand,
+			helperText: touched.brand && errors.brand,
+		},
+		shop: {
+			name: 'shop',
+			options: shops || [],
+			getOptionLabel: (option) => option?.name || '',
+			error: !!touched.shop && !!errors.shop,
+			helperText: touched.shop && errors.shop,
+		},
 	}
 
 	React.useEffect(() => {
-		setCurrentCategory(values.category)
+		setCurrentCategory(values.category?.id || '')
 	}, [values.category])
 
 	return (
@@ -105,72 +129,97 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 					</Grid>
 
 					<Grid item sm={6} xs={12}>
-						<TextField
-							select
+						<Autocomplete
+							{...autocompleteProps.category}
 							fullWidth
 							color="info"
 							size="medium"
-							name="category"
-							onBlur={handleBlur}
 							placeholder="Category"
-							onChange={categoryHandler}
 							value={values.category}
-							label="Select Category"
-							error={!!touched.category && !!errors.category}
-							helperText={touched.category && errors.category}
-						>
-							{categories?.map((category: ICategory) => (
-								<MenuItem key={category.name} value={category.id}>
-									{category.name}
-								</MenuItem>
-							))}
-						</TextField>
+							onChange={(
+								_: any,
+								newValue: { id: string | number; label: string } | null
+							) => {
+								if (
+									!window.confirm(
+										'all already existing attributes will be removed, do you agree with that?'
+									)
+								) {
+									return
+								}
+								setFieldValue('category', newValue)
+							}}
+							onBlur={handleBlur}
+							renderInput={(params) => (
+								<TextField
+									error={autocompleteProps.category.error}
+									helperText={autocompleteProps.category.helperText}
+									{...params}
+									onChange={({ target }) => {
+										setCategoriesSearch(target.value)
+									}}
+									label="Select Category"
+								/>
+							)}
+						/>
 					</Grid>
 					<Grid item sm={6} xs={12}>
-						<TextField
-							select
+						<Autocomplete
+							{...autocompleteProps.brand}
 							fullWidth
 							color="info"
 							size="medium"
-							name="brand"
 							onBlur={handleBlur}
+							onChange={(
+								_: any,
+								newValue: { id: string | number; label: string } | null
+							) => {
+								setFieldValue('brand', newValue)
+							}}
 							placeholder="Brands"
-							onChange={handleChange}
 							value={values.brand}
-							label="Select Brand"
-							error={!!touched.brand && !!errors.brand}
-							helperText={touched.brand && errors.brand}
-						>
-							{brands?.map((brand: IBrand) => (
-								<MenuItem key={brand.name} value={brand.id}>
-									{brand.name}
-								</MenuItem>
-							))}
-						</TextField>
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									error={autocompleteProps.brand.error}
+									helperText={autocompleteProps.brand.helperText}
+									onChange={({ target }) => {
+										setBrandsSearch(target.value)
+									}}
+									label="Select Brand"
+								/>
+							)}
+						/>
 					</Grid>
 
 					{props.includeShop ? (
 						<Grid item xs={12}>
-							<TextField
-								select
+							<Autocomplete
+								{...autocompleteProps.shop}
 								fullWidth
 								color="info"
 								size="medium"
-								name="shop"
 								onBlur={handleBlur}
 								placeholder="Shop"
-								onChange={handleChange}
 								value={values.shop}
-								label="Select Shop"
-								error={!!touched.shop && !!errors.shop}
-								helperText={touched.shop && errors.shop}
-							>
-								{shops?.map((shop) => (
-									<MenuItem key={shop.name} value={shop.id}>
-										{shop.name}
-									</MenuItem>
-								))}
-							</TextField>
+								onChange={(
+									_: any,
+									newValue: { id: string | number; label: string } | null
+								) => {
+									setFieldValue('shop', newValue)
+								}}
+								renderInput={(params) => (
+									<TextField
+										{...params}
+										error={autocompleteProps.shop.error}
+										helperText={autocompleteProps.shop.helperText}
+										onChange={({ target }) => {
+											setShopsSearch(target.value)
+										}}
+										label="Select Shop"
+									/>
+								)}
+							/>
 						</Grid>
 					) : null}
 
@@ -232,15 +281,5 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		</Card>
 	)
 }
-const PrevImg = styled.img`
-	max-width: 408px;
-	max-height: 220px;
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
-	border-radius: 10px;
-
-	margin: auto;
-`
 
 export default ProductForm

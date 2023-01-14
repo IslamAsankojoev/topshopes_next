@@ -50,7 +50,7 @@ const ShopPage = ({ query }) => {
 	const router = useRouter()
 
 	const { data: products } = useQuery(['shop products'], () =>
-		ShopsProductsService.getList(query)
+		ShopsProductsService.getList({ query })
 	)
 
 	// mui settings
