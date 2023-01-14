@@ -1,14 +1,15 @@
 import { Container, Grid } from '@mui/material'
-import ShopLayout2 from 'components/layouts/ShopLayout2'
 import SEO from 'components/SEO'
+import ShopLayout2 from 'components/layouts/ShopLayout2'
 import Cookies from 'js-cookie'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import CheckoutForm2 from 'pages-sections/checkout/CheckoutForm2'
 import CheckoutSummary2 from 'pages-sections/checkout/CheckoutSummary2'
 import React from 'react'
+import { NextPageAuth } from 'shared/types/auth.types'
 
-const CheckoutAlternative: NextPage = () => {
+const CheckoutAlternative: NextPageAuth = () => {
 	const { push } = useRouter()
 	const token = Cookies.get('refresh')
 
@@ -35,5 +36,7 @@ const CheckoutAlternative: NextPage = () => {
 		</ShopLayout2>
 	)
 }
+
+CheckoutAlternative.isOnlyUser = true
 
 export default CheckoutAlternative

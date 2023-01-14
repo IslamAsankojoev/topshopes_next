@@ -11,7 +11,7 @@ module.exports = {
 		localeDetection: false,
 	},
 	images: {
-		domains: ['localhost'],
+		domains: ['localhost', '192.168.0.125'],
 	},
 	trailingSlash: true,
 	env: {

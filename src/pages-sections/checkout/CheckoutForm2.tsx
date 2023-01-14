@@ -12,17 +12,23 @@ import {
 } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import IconButton from '@mui/material/IconButton'
+import { instance } from 'api/interceptor'
 import { AddressesService } from 'api/services/addresses/addresses.service'
+import { OrdersService } from 'api/services/orders/orders.service'
+import axios from 'axios'
 import Card1 from 'components/Card1'
-import { FlexBetween, FlexBox } from 'components/flex-box'
 import { H6, Paragraph } from 'components/Typography'
+import { FlexBetween, FlexBox } from 'components/flex-box'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { method } from 'lodash'
 import { useRouter } from 'next/router'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
+import { ResponseList } from 'shared/types/response.types'
 import { IAddress } from 'shared/types/user.types'
+import { ICartItem } from 'store/cart/cart.interface'
+
 import EditAddressForm from './EditAddressForm'
 import NewAddressForm from './NewAddressForm'
 
@@ -52,8 +58,11 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 
 const CheckoutForm2: FC = () => {
 	// states
+
+	const { cart } = useTypedSelector((state) => state.cartStore)
 	const [selectedAddress, setSelectedAddress] = useState<string>('')
-	const [paymentMethod, setPaymentMethod] = useState('')
+	// const [paymentMethod, setPaymentMethod] = useState('')
+	const [orderStack, setOrderStack] = useState<ICartItem[]>(cart)
 
 	// hooks
 	const router = useRouter()
@@ -64,7 +73,10 @@ const CheckoutForm2: FC = () => {
 	// address fetching
 	const { data: addresses, refetch } = useQuery(
 		'address get',
-		AddressesService.getList
+		AddressesService.getList,
+		{
+			select: (data: ResponseList<IAddress>) => data.results,
+		}
 	)
 
 	// address mutation
@@ -78,6 +90,7 @@ const CheckoutForm2: FC = () => {
 			},
 		}
 	)
+
 	const { mutateAsync: updateAsync } = useMutation(
 		'address update',
 		({ id, data }: { id: string; data: IAddress }) =>
@@ -91,8 +104,20 @@ const CheckoutForm2: FC = () => {
 	)
 
 	// handlers
-	const handleFormSubmit = async (values: any) => {
-		// router.push('/payment')
+	const { mutateAsync: orderAsync } = useMutation(
+		'order create',
+		(data: ICartItem) => {
+			return instance.post(`/products/variants/${data?.variants[0]?.id}/buy/`, {
+				quantity: data?.qty,
+				address: selectedAddress,
+			})
+		}
+	)
+
+	const handleFormSubmit = async () => {
+		orderStack.forEach((item) => {
+			orderAsync(item)
+		})
 	}
 
 	const handleFieldValueChange = (id: string) => () => {
@@ -112,7 +137,7 @@ const CheckoutForm2: FC = () => {
 		<>
 			<Card1 sx={{ mb: 3 }}>
 				<FlexBetween>
-					<Heading number={1} title="Delivery Address" />
+					<Heading number={1} title="Select Delivery Address" />
 					<NewAddressForm mutateAsync={createAsync} />
 				</FlexBetween>
 
@@ -156,13 +181,23 @@ const CheckoutForm2: FC = () => {
 						</Grid>
 					))}
 				</Grid>
+				<Button
+					fullWidth
+					type="submit"
+					color="primary"
+					variant="contained"
+					sx={{ mt: 3 }}
+					onClick={handleFormSubmit}
+				>
+					Place Order
+				</Button>
 			</Card1>
 
-			<Card1 sx={{ mb: 3 }}>
+			{/* <Card1 sx={{ mb: 3 }}>
 				<Heading number={2} title="Payment Details" />
 
-				<FormControl>
-					<RadioGroup
+				<FormControl> */}
+			{/* <RadioGroup
 						value={paymentMethod}
 						defaultValue={payment_methods[0]?.name}
 						onChange={({ target }) => setPaymentMethod(target.value)}
@@ -175,27 +210,17 @@ const CheckoutForm2: FC = () => {
 								label={method.name}
 							/>
 						))}
-					</RadioGroup>
-				</FormControl>
-
-				<Button
-					fullWidth
-					type="submit"
-					color="primary"
-					variant="contained"
-					sx={{ mt: 3 }}
-				>
-					Place Order
-				</Button>
-			</Card1>
+					</RadioGroup> */}
+			{/* </FormControl>
+			</Card1> */}
 		</>
 	)
 }
 
-const payment_methods: { id: string; name: string }[] = [
-	{ id: 'cash_on_dilivery', name: 'cash on dilivery' },
-	{ id: 'credit_card', name: 'credit card' },
-]
+// const payment_methods: { id: string; name: string }[] = [
+// 	{ id: 'cash_on_dilivery', name: 'cash on dilivery' },
+// 	{ id: 'credit_card', name: 'credit card' },
+// ]
 
 // const addressList2 = [
 // 	{

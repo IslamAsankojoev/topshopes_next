@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Favorite } from '@mui/icons-material'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
-import { Box, Chip, IconButton, styled } from '@mui/material'
+import { Box, Chip, IconButton, Typography, styled } from '@mui/material'
 import BazaarCard from 'components/BazaarCard'
 import BazaarRating from 'components/BazaarRating'
 import LazyImage from 'components/LazyImage'
@@ -89,6 +89,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 		discount_price,
 		overall_price,
 		thumbnail,
+		category,
 	} = props.product
 
 	const CurrentCard = useRef(null)
@@ -172,6 +173,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 								</span>
 							</a>
 						</Link>
+						<Typography color="primary">{category}</Typography>
 
 						{!props.hideRating ? (
 							<BazaarRating value={Number(rating) || 0} color="warn" readOnly />

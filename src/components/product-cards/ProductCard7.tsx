@@ -43,7 +43,7 @@ const ProductCard7: React.FC<ICartItem> = (product) => {
 		removeFromCart(product)
 	}, [])
 	const handleTrashFromCart = useCallback(() => {
-		trashFromCart()
+		trashFromCart(product)
 	}, [])
 
 	return (

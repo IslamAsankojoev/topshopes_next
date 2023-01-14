@@ -1,54 +1,58 @@
+import styled from '@emotion/styled'
+import { Grid } from '@mui/material'
+import { Container } from '@mui/system'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import React from 'react'
-import SEO from '../src/components/SEO'
-import { Container } from '@mui/system'
-import styled from '@emotion/styled'
 
+import SEO from '../src/components/SEO'
+
+// aboutUsTopshopes.webp
 const AboutPage: React.FC = () => {
 	return (
 		<ShopLayout1>
 			<SEO title="About" />
-			<Wrapper sx={{ pb: '1rem' }}>
-				<h2>What is an online marketplace?</h2>
-				<p>There are two key features that define an online marketplace:</p>
-				<List>
-					<li>
-						There are <span>many sellers and buyers</span> trading through the
-						same website.
-					</li>
-					<li>
-						Buyers are able to{' '}
-						<span>purchase products without leaving the site</span> (or app).
-					</li>
-				</List>
-				<p>
-					This excludes price comparison sites like Shopping.com. Although they
-					have products from many sellers, you cannot make a purchase without
-					leaving the site. They are advertising channels rather than an online
-					marketplace.
-				</p>
-				<p>
-					It also excludes sites where you sell used products directly to the
-					company operating the site, such as decluttr and ubup. As you can only
-					sell directly to the company, there is only one buyer. They are
-					sourcing products from consumers to resell themselves (often through
-					online marketplaces!)
-				</p>
-				<p>
-					For this article, we have focused on the type of marketplace website
-					that meet two further criteria:
-				</p>
-				<List>
-					<li>
-						There are <span>many sellers and buyers</span> trading through the
-						same website.
-					</li>
-					<li>
-						Buyers are able to{' '}
-						<span>purchase products without leaving the site</span> (or app).
-					</li>
-				</List>
-			</Wrapper>
+			<Container sx={{ pb: '2rem', pt: '2rem' }}>
+				<Grid container spacing={2}>
+					<Grid item xs={12} sm={6}>
+						<img
+							src={'/assets/images/aboutUsTopshopes.png'}
+							alt="aboutUsTopshopes"
+							width={'100%'}
+						/>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<List>
+							<h2>Topshopes</h2>
+							<p>
+								Topshopes первая крупнейшая платформа электронной коммерции в
+								Центральной Азии со штаб-квартирой в Бишкеке, Кыргызстан. Fed
+								Иншаат и Текстиль San. И внешний Tic.ООО.STI.
+								<br /> Основан под названием.
+							</p>{' '}
+							<p>
+								Topshopes – это торговый сайт, который начал свою деятельность с
+								2022 года и доступен для всех. Благодаря большому ассортименту
+								предлагаемых товаров и услуг он превратился в большой
+								маркетплейлист.
+							</p>{' '}
+							<p>
+								Существует множество категорий, включая косметику, моду,
+								электронику, мебель и предметы домашнего ухода. Благодаря новым
+								технологиям, мы оцифровываем свою торговую площадку .<br /> Наш
+								маркетплейс объединяет тысячи предприятий, ведет цифровую
+								трансформацию , исследований и разработок.
+							</p>{' '}
+							<p>
+								Мы укрепляем нашу технологическую компани конструктивным
+								образом.
+								<br /> Внедряя инновации в систему электронной коммерции в
+								Бишкеке.
+							</p>{' '}
+							<p>Добро пожаловать на наш маркетплейс Topshopes</p>
+						</List>
+					</Grid>
+				</Grid>
+			</Container>
 		</ShopLayout1>
 	)
 }

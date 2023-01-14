@@ -11,7 +11,13 @@ export interface IOrder {
 	created_at?: string
 }
 
-export type IOrderStatus = 'PENDING' | 'DELIVERED' | 'CANCELLED' | 'PROCESSING'
+export type IOrderStatus =
+	| 'pending'
+	| 'paid'
+	| 'delivering'
+	| 'delivered'
+	| 'received'
+	| 'canceled'
 
 export interface IOrderShort {
 	id: string
