@@ -5,7 +5,6 @@ import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
@@ -29,9 +28,19 @@ const tableHeading = [
 ]
 
 const OrderList: NextPageAuth = () => {
+	const [searchValue, setSearchValue] = React.useState('')
+	const [currentPage, setCurrentPage] = React.useState(1)
+
+	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+
 	const { data: orders, isLoading } = useQuery(
-		'orders admin get',
-		OrdersService.getList,
+		`orders admin get search=${searchValue} page=${currentPage}`,
+		() =>
+			OrdersService.getList({
+				search: searchValue,
+				page: currentPage,
+				page_size: 20,
+			}),
 		{
 			onError: (e: any) => {
 				toast.error(e.message)
@@ -45,21 +54,22 @@ const OrderList: NextPageAuth = () => {
 		selected,
 		rowsPerPage,
 		filteredList,
-		handleChangePage,
 		handleRequestSort,
 	} = useMuiTable({
-		listData: orders,
+		listData: orders?.results,
 		defaultSort: 'purchaseDate',
 		defaultOrder: 'desc',
 	})
 
-	return !isLoading ? (
+	return (
 		<Box py={4}>
 			<H3 mb={2}>Orders</H3>
 
 			<SearchArea
-				handleSearch={() => {}}
-				// buttonText="Add New Order"
+				handleSearch={(value) => {
+					setCurrentPage(1)
+					setSearchValue(value)
+				}}
 				handleBtnClick={() => {}}
 				searchPlaceholder="Search Order..."
 			/>
@@ -73,7 +83,7 @@ const OrderList: NextPageAuth = () => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={orders?.length}
+								rowCount={orders?.count}
 								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
@@ -90,12 +100,13 @@ const OrderList: NextPageAuth = () => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(orders?.length / rowsPerPage)}
+						count={Math.ceil(orders?.count / 20)}
+						page={currentPage}
 					/>
 				</Stack>
 			</Card>
 		</Box>
-	) : null
+	)
 }
 
 OrderList.isOnlyUser = true

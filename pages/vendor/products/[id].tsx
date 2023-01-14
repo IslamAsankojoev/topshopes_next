@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 import { ProductForm } from 'pages-sections/admin'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 import { productFormValidationSchemaVendor } from 'pages-sections/admin/products/productFormValidationSchema'
-import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
 import React, { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
@@ -15,8 +14,6 @@ import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct } from 'shared/types/product.types'
 
 const EditProduct: NextPageAuth = () => {
-	const fetch = useProductFetch(false)
-
 	const {
 		query: { id },
 	} = useRouter()
@@ -24,7 +21,6 @@ const EditProduct: NextPageAuth = () => {
 	// product fetch
 	const {
 		data: product,
-		isLoading,
 		isError,
 		refetch,
 	} = useQuery('product get', () => ProductsService.get(id as string), {
@@ -47,11 +43,12 @@ const EditProduct: NextPageAuth = () => {
 		}
 	)
 
-	const { push } = useRouter()
+	const { push, replace, asPath } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
 		await mutateAsync(data)
 		if (!redirect) push('/vendor/products/')
+		replace(asPath, asPath, { shallow: true })
 	}
 
 	return !isError && fetch ? (
@@ -60,20 +57,15 @@ const EditProduct: NextPageAuth = () => {
 			{product ? (
 				<>
 					<ProductForm
-						initialValues={{
-							...product,
-							brand: product?.brand?.id,
-						}}
+						initialValues={product}
 						validationSchema={productFormValidationSchemaVendor}
 						handleFormSubmit={handleFormSubmit}
-						productFetch={fetch}
 						update={true}
 					/>
 
 					<ProductVariantList
 						refetch={refetch}
 						product={product}
-						fetch={fetch}
 						isAdmin={false}
 					/>
 				</>

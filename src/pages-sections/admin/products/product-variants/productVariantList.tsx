@@ -17,7 +17,6 @@ import { CategoriesService } from 'api/services/categories/category.service'
 
 type Props = {
 	refetch?: () => void
-	fetch: ProductFetchTypes
 	product: IProduct | { variants: IProductVariant[] }[] | any
 	create?: boolean
 	isAdmin?: boolean
@@ -25,7 +24,6 @@ type Props = {
 
 const ProductVariantList: React.FC<Props> = ({
 	refetch,
-	fetch,
 	product,
 	create,
 	isAdmin,

@@ -27,26 +27,17 @@ const PageCategoryList: NextPageAuth = () => {
 		data: pageCategory,
 		isLoading,
 		refetch,
-	} = useQuery<any>('page-category admin get', PageCategoryService.getList)
+	} = useQuery<any>(`page-category admin get`, () =>
+		PageCategoryService.getList()
+	)
 
-	const {
-		order,
-		orderBy,
-		selected,
-		rowsPerPage,
-		filteredList,
-		handleChangePage,
-		handleRequestSort,
-	} = useMuiTable({ listData: pageCategory })
-
-	if (isLoading) {
-		return <Loading />
-	}
+	const { order, orderBy, selected, filteredList, handleRequestSort } =
+		useMuiTable({ listData: pageCategory?.results })
 
 	return (
 		<Box py={4}>
 			<H3 mb={2}>Page Category</H3>
-
+			{isLoading ? <Loading /> : null}
 			<SearchArea
 				handleSearch={() => {}}
 				buttonText="Add page category"
@@ -54,6 +45,7 @@ const PageCategoryList: NextPageAuth = () => {
 					push('/admin/pages-category/create')
 				}}
 				searchPlaceholder="Search page category..."
+				searchOff={true}
 			/>
 
 			<Card>
@@ -65,7 +57,7 @@ const PageCategoryList: NextPageAuth = () => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={pageCategory?.length}
+								rowCount={pageCategory?.count}
 								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
@@ -83,13 +75,6 @@ const PageCategoryList: NextPageAuth = () => {
 						</Table>
 					</TableContainer>
 				</Scrollbar>
-
-				<Stack alignItems="center" my={4}>
-					<TablePagination
-						onChange={handleChangePage}
-						count={Math.ceil(pageCategory?.length / rowsPerPage)}
-					/>
-				</Stack>
 			</Card>
 		</Box>
 	)

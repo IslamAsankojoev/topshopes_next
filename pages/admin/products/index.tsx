@@ -25,37 +25,42 @@ const tableHeading = [
 ]
 
 const ProductList: NextPageAuth = () => {
+	const [searchValue, setSearchValue] = React.useState('')
+	const [currentPage, setCurrentPage] = React.useState(1)
+
+	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+
 	const {
 		data: products,
 		isLoading,
 		refetch,
-	} = useQuery('products admin get', AdminProductsService.getList)
+	} = useQuery(`products admin search=${searchValue} page=${currentPage}`, () =>
+		AdminProductsService.getList({
+			search: searchValue,
+			page: currentPage,
+			page_size: 20,
+		})
+	)
 
-	const {
-		order,
-		orderBy,
-		selected,
-		rowsPerPage,
-		filteredList,
-		handleChangePage,
-		handleRequestSort,
-	} = useMuiTable({ listData: products })
-
-	if (isLoading) {
-		return <Loading />
-	}
+	const { order, orderBy, selected, filteredList, handleRequestSort } =
+		useMuiTable({ listData: products?.results })
 
 	return (
 		<Box py={4}>
 			<H3 mb={2}>Product List</H3>
 
 			<SearchArea
-				handleSearch={() => {}}
+				handleSearch={(value: string) => {
+					setCurrentPage(1)
+					setSearchValue(value)
+				}}
 				handleBtnClick={() => {}}
 				searchPlaceholder="Search Product..."
 			/>
 
-			{products?.length ? (
+			{isLoading ? <Loading /> : null}
+
+			{products?.count ? (
 				<Card>
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 900 }}>
@@ -65,7 +70,7 @@ const ProductList: NextPageAuth = () => {
 									hideSelectBtn
 									orderBy={orderBy}
 									heading={tableHeading}
-									rowCount={products?.length}
+									rowCount={products?.count}
 									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
@@ -86,7 +91,8 @@ const ProductList: NextPageAuth = () => {
 					<Stack alignItems="center" my={4}>
 						<TablePagination
 							onChange={handleChangePage}
-							count={Math.ceil(products?.length / rowsPerPage)}
+							count={Math.ceil(products?.count / 20)}
+							page={currentPage}
 						/>
 					</Stack>
 				</Card>

@@ -26,21 +26,26 @@ const tableHeading = [
 
 const ProductList: NextPageAuth = () => {
 	const { push } = useRouter()
+
+	const [searchValue, setSearchValue] = React.useState('')
+	const [currentPage, setCurrentPage] = React.useState(1)
+
+	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+
 	const {
 		data: products,
 		isLoading,
 		refetch,
-	} = useQuery('products admin get', ProductsService.getList)
+	} = useQuery(`products search=${searchValue} page=${currentPage}`, () =>
+		ProductsService.getList({
+			search: searchValue,
+			page: currentPage,
+			page_size: 20,
+		})
+	)
 
-	const {
-		order,
-		orderBy,
-		selected,
-		rowsPerPage,
-		filteredList,
-		handleChangePage,
-		handleRequestSort,
-	} = useMuiTable({ listData: products })
+	const { order, orderBy, selected, filteredList, handleRequestSort } =
+		useMuiTable({ listData: products?.results })
 
 	if (isLoading) {
 		return <Loading />
@@ -51,13 +56,16 @@ const ProductList: NextPageAuth = () => {
 			<H3 mb={2}>Product List</H3>
 
 			<SearchArea
-				handleSearch={() => {}}
+				handleSearch={(value: string) => {
+					setCurrentPage(1)
+					setSearchValue(value)
+				}}
 				buttonText="Add Product"
 				handleBtnClick={() => push('/vendor/products/create')}
 				searchPlaceholder="Search Product..."
 			/>
 
-			{products?.length ? (
+			{products?.count ? (
 				<Card>
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 900 }}>
@@ -67,7 +75,7 @@ const ProductList: NextPageAuth = () => {
 									hideSelectBtn
 									orderBy={orderBy}
 									heading={tableHeading}
-									rowCount={products?.length}
+									rowCount={products?.count}
 									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
@@ -88,7 +96,7 @@ const ProductList: NextPageAuth = () => {
 					<Stack alignItems="center" my={4}>
 						<TablePagination
 							onChange={handleChangePage}
-							count={Math.ceil(products?.length / rowsPerPage)}
+							count={Math.ceil(products?.count / 20)}
 						/>
 					</Stack>
 				</Card>

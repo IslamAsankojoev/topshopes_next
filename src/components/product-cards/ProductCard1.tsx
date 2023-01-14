@@ -126,12 +126,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				>
 					<a>
 						<LazyImage
-							loader={() =>
-								'https://static.wikia.nocookie.net/bleach/images/8/8d/572Kenpachi_profile.png/revision/latest?cb=20210417222326&path-prefix=en'
-							}
-							src={
-								'https://static.wikia.nocookie.net/bleach/images/8/8d/572Kenpachi_profile.png/revision/latest?cb=20210417222326&path-prefix=en'
-							}
+							src={thumbnail}
 							width={200}
 							height={200}
 							layout="responsive"

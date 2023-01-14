@@ -1,4 +1,5 @@
 export type IPages = {
+	category?: any
     id: string
     title: string
     content: any

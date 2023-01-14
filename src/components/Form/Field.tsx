@@ -1,4 +1,10 @@
-import { Button, MenuItem, Switch, TextField } from '@mui/material'
+import {
+	Autocomplete,
+	Button,
+	MenuItem,
+	Switch,
+	TextField,
+} from '@mui/material'
 import { FC, useState } from 'react'
 import styles from './Field.module.scss'
 import dynamic from 'next/dynamic'
@@ -32,6 +38,73 @@ const Field: FC<any> = (props) => {
 			</TextField>
 		)
 	}
+
+	if (type == 'autocomplete') {
+		return (
+			<Autocomplete
+				{...other}
+				onChange={(
+					_: any,
+					newValue: {
+						id: string | number
+						label: string | number
+					}
+				) => {
+					other.setFieldValue(other.name, newValue)
+				}}
+				disablePortal
+				options={other.allNames}
+				getOptionLabel={(option: {
+					id: string | number
+					name: string | number
+				}) => option?.name}
+				sx={{ width: 300 }}
+				renderInput={(params) => (
+					<TextField
+						onChange={({ target }) =>
+							other.setFieldValue(other.name + '_search', target.value)
+						}
+						{...params}
+					/>
+				)}
+			/>
+		)
+	}
+
+	if (type == 'autocomplete-multiple') {
+		return (
+			<Autocomplete
+				{...other}
+				multiple
+				onChange={(
+					_: any,
+					newValue: {
+						id: string | number
+						label: string | number
+					}
+				) => {
+					other.setFieldValue(other.name, newValue)
+				}}
+				disablePortal
+				filterSelectedOptions
+				options={other.allNames}
+				getOptionLabel={(option: {
+					id: string | number
+					name: string | number
+				}) => option?.name}
+				sx={{ width: 300 }}
+				renderInput={(params) => (
+					<TextField
+						onChange={({ target }) =>
+							other.setFieldValue(other.name + '_search', target.value)
+						}
+						{...params}
+					/>
+				)}
+			/>
+		)
+	}
+
 	if (type == 'multiple-select') {
 		console.log(other.defaultData[other.name])
 		return (

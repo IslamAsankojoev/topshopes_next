@@ -29,9 +29,19 @@ const tableHeading = [
 ]
 
 const OrderList: NextPageAuth = () => {
+	const [searchValue, setSearchValue] = React.useState('')
+	const [currentPage, setCurrentPage] = React.useState(1)
+
+	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+
 	const { data: orders, isLoading } = useQuery(
-		'orders vendor get',
-		OrdersService.getList,
+		`orders get search=${searchValue} page=${currentPage}`,
+		() =>
+			OrdersService.getList({
+				search: searchValue,
+				page: currentPage,
+				page_size: 20,
+			}),
 		{
 			onError: (e: any) => {
 				toast.error(e.message)
@@ -39,26 +49,22 @@ const OrderList: NextPageAuth = () => {
 		}
 	)
 
-	const {
-		order,
-		orderBy,
-		selected,
-		rowsPerPage,
-		filteredList,
-		handleChangePage,
-		handleRequestSort,
-	} = useMuiTable({
-		listData: orders,
-		defaultSort: 'purchaseDate',
-		defaultOrder: 'desc',
-	})
+	const { order, orderBy, selected, filteredList, handleRequestSort } =
+		useMuiTable({
+			listData: orders?.results,
+			defaultSort: 'purchaseDate',
+			defaultOrder: 'desc',
+		})
 
-	return !isLoading ? (
+	return (
 		<Box py={4}>
 			<H3 mb={2}>Orders</H3>
 
 			<SearchArea
-				handleSearch={() => {}}
+				handleSearch={(value) => {
+					setCurrentPage(1)
+					setSearchValue(value)
+				}}
 				handleBtnClick={() => {}}
 				searchPlaceholder="Search Order..."
 			/>
@@ -89,12 +95,13 @@ const OrderList: NextPageAuth = () => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(orders?.length / rowsPerPage)}
+						count={Math.ceil(orders?.count / 20)}
+						page={currentPage}
 					/>
 				</Stack>
 			</Card>
 		</Box>
-	) : null
+	)
 }
 
 OrderList.isOnlyUser = true

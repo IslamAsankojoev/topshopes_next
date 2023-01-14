@@ -10,11 +10,11 @@ import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { useRouter } from 'next/router'
-import { CategoryRow } from 'pages-sections/admin'
 import PagesRow from 'pages-sections/admin/PagesRow'
 import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
+import React from 'react'
 
 // table column list
 const tableHeading = [
@@ -30,21 +30,10 @@ const PagesList: NextPageAuth = () => {
 		data: pages,
 		refetch,
 		isLoading,
-	} = useQuery('get categories admin', PagesService.getList)
+	} = useQuery(`categories admin`, () => PagesService.getList())
 
-	const {
-		order,
-		orderBy,
-		selected,
-		rowsPerPage,
-		filteredList,
-		handleChangePage,
-		handleRequestSort,
-	} = useMuiTable({ listData: pages })
-
-	if (isLoading) {
-		return <Loading />
-	}
+	const { order, orderBy, selected, filteredList, handleRequestSort } =
+		useMuiTable({ listData: pages?.results })
 
 	return (
 		<Box py={4}>
@@ -57,7 +46,10 @@ const PagesList: NextPageAuth = () => {
 					push('/admin/pages-list/create')
 				}}
 				searchPlaceholder="Search pages..."
+				searchOff={true}
 			/>
+
+			{isLoading ? <Loading /> : null}
 
 			<Card>
 				<Scrollbar>
@@ -68,7 +60,7 @@ const PagesList: NextPageAuth = () => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={pages?.length}
+								rowCount={pages?.count}
 								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
@@ -86,13 +78,6 @@ const PagesList: NextPageAuth = () => {
 						</Table>
 					</TableContainer>
 				</Scrollbar>
-
-				<Stack alignItems="center" my={4}>
-					<TablePagination
-						onChange={handleChangePage}
-						count={Math.ceil(pages?.length / rowsPerPage)}
-					/>
-				</Stack>
 			</Card>
 		</Box>
 	)

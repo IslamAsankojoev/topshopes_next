@@ -26,32 +26,33 @@ const tableHeading = [
 const BrandsList: NextPageAuth = () => {
 	const { push } = useRouter()
 
-	const {
-		data: brands,
-		isLoading,
-		refetch,
-	} = useQuery<IBrand[]>('get brands admin', BrandsService.getList)
+	const [searchValue, setSearchValue] = React.useState('')
+	const [currentPage, setCurrentPage] = React.useState(1)
 
-	const {
-		order,
-		orderBy,
-		selected,
-		rowsPerPage,
-		filteredList,
-		handleChangePage,
-		handleRequestSort,
-	} = useMuiTable({ listData: brands as any })
+	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
-	if (isLoading) {
-		return <Loading />
-	}
+	const { data: brands, refetch } = useQuery(
+		`get brands admin search=${searchValue} page=${currentPage}`,
+		() =>
+			BrandsService.getList({
+				search: searchValue,
+				page: currentPage,
+				page_size: 20,
+			})
+	)
+
+	const { order, orderBy, selected, filteredList, handleRequestSort } =
+		useMuiTable({ listData: brands?.results })
 
 	return (
 		<Box py={4}>
 			<H3 mb={2}>Product Brands</H3>
 
 			<SearchArea
-				handleSearch={() => {}}
+				handleSearch={(value) => {
+					setCurrentPage(1)
+					setSearchValue(value)
+				}}
 				buttonText="Add Brand"
 				handleBtnClick={() => {
 					push('/admin/brands/create')
@@ -90,7 +91,8 @@ const BrandsList: NextPageAuth = () => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(brands?.length / rowsPerPage)}
+						count={Math.ceil(brands?.count / 20)}
+						page={currentPage}
 					/>
 				</Stack>
 			</Card>

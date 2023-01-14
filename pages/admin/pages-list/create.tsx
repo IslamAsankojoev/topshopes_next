@@ -3,7 +3,6 @@ import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCa
 import { PagesService } from 'api/services-admin/pages/pages.service'
 import CreateForm from 'components/Form/CreateForm'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
@@ -14,9 +13,12 @@ import { IPages } from 'shared/types/pages.types'
 import { pageEditForm } from 'utils/constants/forms'
 import React from 'react'
 import { formData } from 'utils/formData'
+import useDebounce from 'hooks/useDebounce'
 
 const CreatePages: NextPageAuth = () => {
 	const { push } = useRouter()
+	const [categoriesSearch, setCategoriesSearch] = React.useState()
+	const debounceValue = useDebounce(categoriesSearch)
 
 	// pages create
 	const { isLoading, mutateAsync } = useMutation(
@@ -33,20 +35,34 @@ const CreatePages: NextPageAuth = () => {
 		}
 	)
 
-	const { data: categories, isLoading: categoryLoading } = useQuery(
-		'categoryPage admin get',
-		PageCategoryService.getList
+	const { data: categories } = useQuery(
+		`categoryPage admin get search=${debounceValue}`,
+		() => PageCategoryService.getList({ search: debounceValue, page_size: 30 })
 	)
+
+	const getValues = (values: Record<string, any>) => {
+		setCategoriesSearch(values?.category)
+	}
 
 	const handleFormSubmit = async (_: any, values: IPages) => {
 		await mutateAsync(
-			formData({ ...values, content: JSON.stringify({ data: values.content }) })
+			formData({
+				...values,
+				category: values.category?.id,
+				content: JSON.stringify({ data: values.content }),
+			})
 		)
 	}
 
-	if (isLoading || categoryLoading) {
-		return <Loading />
-	}
+	// if (isLoading || categoryLoading) {
+	// 	return <Loading />
+	// }
+
+	// const { image, ...other } = values
+	// const clearData = image
+	// 	? { ...values, content: JSON.stringify({ data: values.content }) }
+	// 	: { ...values, content: JSON.stringify({ data: values.content }) }
+	// await mutateAsync(formData())
 
 	return (
 		<Box py={4}>
@@ -58,14 +74,18 @@ const CreatePages: NextPageAuth = () => {
 					{
 						name: 'category',
 						label: 'Category',
-						type: 'select',
+						type: 'autocomplete',
 						placeholder: 'Enter category',
-						allNames: categories?.map((c) => ({ id: c?.id, name: c?.title })),
+						allNames: categories?.results?.map((c) => ({
+							id: c?.id,
+							label: c?.title,
+						})),
 						required: true,
 						fullWidth: true,
 					},
 				]}
 				handleFormSubmit={handleFormSubmit}
+				getValues={getValues}
 			/>
 		</Box>
 	)

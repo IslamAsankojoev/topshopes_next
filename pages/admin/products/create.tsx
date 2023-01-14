@@ -4,7 +4,6 @@ import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { productFormValidationSchema } from '../../../src/pages-sections/admin/products/productFormValidationSchema'
-import { useProductFetch } from '../../../src/pages-sections/admin/products/useProductFetch'
 import Loading from '../../../src/components/Loading'
 import { toast } from 'react-toastify'
 import { formData } from '../../../src/utils/formData'
@@ -34,9 +33,6 @@ const CreateProduct: NextPageAuth = () => {
 	// states
 	const { variants } = useTypedSelector((state) => state.productVariantsStore)
 	const { setVariants } = useActions()
-
-	// getting all dependencies for selects
-	const fetch = useProductFetch(true)
 
 	const { push } = useRouter()
 
@@ -104,14 +100,13 @@ const CreateProduct: NextPageAuth = () => {
 			<H3 mb={2}>Add New Product</H3>
 
 			<ProductForm
-				productFetch={fetch}
 				initialValues={initialValues}
 				validationSchema={productFormValidationSchema}
 				handleFormSubmit={handleFormSubmit}
 				update={false}
 				includeShop={true}
 			/>
-			<ProductVariantList create={true} product={variants} fetch={fetch} />
+			<ProductVariantList create={true} product={variants} />
 		</Box>
 	) : null
 }

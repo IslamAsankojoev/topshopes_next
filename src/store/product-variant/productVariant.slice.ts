@@ -132,7 +132,7 @@ const productVariantsSlice = createSlice({
 
 
         setCurrentCategory: (state, {payload}) => {
-            state.currentCategory =  payload
+            state.currentCategory = payload
             state.variants = state.variants.map(variant => {
                 return {...variant, attribute_values: []}
             })

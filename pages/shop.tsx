@@ -51,6 +51,7 @@ const ShopPage = ({ query }) => {
 	// fetching
 	const router = useRouter()
 
+
 	const {
 		data: { results, count },
 	} = useQuery(['shop products'], () => ShopsProductsService.getList(query), {
@@ -179,10 +180,10 @@ const ShopPage = ({ query }) => {
 }
 
 const sortOptions = [
-	{ label: 'Relevance', value: 'Relevance' },
-	{ label: 'Date', value: 'Date' },
-	{ label: 'Price Low to High', value: 'Price Low to High' },
-	{ label: 'Price High to Low', value: 'Price High to Low' },
+	{ label: 'All', value: '#' },
+	{ label: 'Novelties', value: '-created_at' },
+	{ label: 'Price Low to High', value: '-overall_price' },
+	{ label: 'Price High to Low', value: 'overall_price' },
 ]
 
 export default ShopPage

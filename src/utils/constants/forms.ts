@@ -29,7 +29,14 @@ export const categoryEditForm = [
 		placeholder: 'Enter image',
 		required: true,
 	},
-
+	{
+		name: 'attributes_search',
+		label: '',
+		type: 'text',
+		placeholder: '',
+		required: false,
+	},
+	
 	// {
 	// 	name: 'featured',
 	// 	label: 'Featured',
@@ -121,6 +128,14 @@ export const pageEditForm = [
 		type: 'text',
 		placeholder: 'Enter title',
 		required: true,
+		fullWidth: true
+	},
+	{
+		name: 'category_search',
+		label: 'title',
+		type: 'text',
+		placeholder: 'Enter title',
+		required: false,
 		fullWidth: true
 	},
 	{
