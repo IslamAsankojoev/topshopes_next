@@ -11,17 +11,19 @@ import {
 } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { ShopsProductsService } from 'api/services/shops-products/ShopsProducts.service'
+import { H5, Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import ProductCard1List from 'components/products/ProductCard1List'
 import ProductCard9List from 'components/products/ProductCard9List'
 import ProductFilterCard from 'components/products/ProductFilterCard'
 import Sidenav from 'components/sidenav/Sidenav'
-import { H5, Paragraph } from 'components/Typography'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
-import { dehydrate, QueryClient, useQuery } from 'react-query'
+import { QueryClient, dehydrate, useQuery } from 'react-query'
+import { IProductPreview } from 'shared/types/product.types'
+import { ResponseList } from 'shared/types/response.types'
 
 // ===================================================
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
@@ -49,9 +51,12 @@ const ShopPage = ({ query }) => {
 	// fetching
 	const router = useRouter()
 
-	const { data: products } = useQuery(['shop products'], () =>
-		ShopsProductsService.getList(query)
-	)
+	const {
+		data: { results, count },
+	} = useQuery(['shop products'], () => ShopsProductsService.getList(query), {
+		enabled: !!query,
+		select: (data: ResponseList<IProductPreview>) => data,
+	})
 
 	// mui settings
 	const [view, setView] = useState('grid')
@@ -159,11 +164,11 @@ const ShopPage = ({ query }) => {
 					</Grid>
 
 					<Grid item md={9} xs={12}>
-						{products?.length ? (
+						{results?.length ? (
 							view === 'grid' ? (
-								<ProductCard1List products={products} />
+								<ProductCard1List products={results} count={count} />
 							) : (
-								<ProductCard9List products={products} />
+								<ProductCard9List products={results} />
 							)
 						) : null}
 					</Grid>

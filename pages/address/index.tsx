@@ -1,12 +1,12 @@
 import { Delete, Edit, Place } from '@mui/icons-material'
 import { Button, IconButton, Pagination, Typography } from '@mui/material'
 import { AddressesService } from 'api/services/addresses/addresses.service'
+import Loading from 'components/Loading'
+import TableRow from 'components/TableRow'
 import { FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
-import Loading from 'components/Loading'
-import TableRow from 'components/TableRow'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
@@ -19,7 +19,9 @@ const AddressList: NextPageAuth = () => {
 		data: addresses,
 		isLoading,
 		refetch,
-	} = useQuery('address get', AddressesService.getList)
+	} = useQuery('address get', AddressesService.getList, {
+		select: (data) => data.results,
+	})
 
 	const handleDelete = async (id: string) => {
 		await AddressesService.delete(id as string)

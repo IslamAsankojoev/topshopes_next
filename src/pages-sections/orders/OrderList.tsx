@@ -1,10 +1,13 @@
 import { Pagination } from '@mui/material'
 import { OrdersService } from 'api/services/orders/orders.service'
-import { FlexBox } from 'components/flex-box'
 import TableRow from 'components/TableRow'
 import { H5 } from 'components/Typography'
+import { FlexBox } from 'components/flex-box'
 import { FC, Fragment } from 'react'
 import { useQuery } from 'react-query'
+import { IOrder, IOrderShort } from 'shared/types/order.types'
+import { ResponseList } from 'shared/types/response.types'
+
 import OrderRow from './OrderRow'
 
 // ============================================================
@@ -12,7 +15,13 @@ type OrderListProps = {}
 // ============================================================
 
 const OrderList: FC<OrderListProps> = () => {
-	const { isLoading, data: orders } = useQuery('orders', OrdersService.getList)
+	const { isLoading, data: orders } = useQuery(
+		'orders',
+		OrdersService.getList,
+		{
+			select: (data: ResponseList<IOrderShort>) => data.results,
+		}
+	)
 
 	return (
 		!isLoading && (

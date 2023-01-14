@@ -1,5 +1,10 @@
 import { makeRequest } from 'api/interceptor'
-import { getShopProductsUrl, getShopsUrl, getShopUrl } from 'config/api.config'
+import {
+	getShopOrdersUrl,
+	getShopProductsUrl,
+	getShopUrl,
+	getShopsUrl,
+} from 'config/api.config'
 import { toast } from 'react-toastify'
 
 import { CRUDservice } from './../../crud.service'
@@ -9,6 +14,14 @@ export const ShopsService = {
 	getShopProducts: async (id: string) => {
 		try {
 			const response = await makeRequest().get(getShopProductsUrl(id))
+			return response.data
+		} catch (error) {
+			throw error
+		}
+	},
+	getShopOrders: async (id: string) => {
+		try {
+			const response = await makeRequest().get(getShopOrdersUrl(id))
 			return response.data
 		} catch (error) {
 			throw error

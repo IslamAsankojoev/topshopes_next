@@ -1,12 +1,10 @@
-import ShopLayout1 from 'components/layouts/ShopLayout1'
+import { ShopsProductsService } from 'api/services/shops-products/ShopsProducts.service'
 import SEO from 'components/SEO'
 import Setting from 'components/Setting'
+import ShopLayout1 from 'components/layouts/ShopLayout1'
+import Models from 'models'
 import { GetServerSideProps, NextPage } from 'next'
 import Section1 from 'pages-sections/market-1/Section1'
-import Section10 from 'pages-sections/market-1/Section10'
-import Section11 from 'pages-sections/market-1/Section11'
-import Section12 from 'pages-sections/market-1/Section12'
-import Section13 from 'pages-sections/market-1/Section13'
 import Section2 from 'pages-sections/market-1/Section2'
 import Section3 from 'pages-sections/market-1/Section3'
 import Section4 from 'pages-sections/market-1/Section4'
@@ -14,10 +12,14 @@ import Section5 from 'pages-sections/market-1/Section5'
 import Section6 from 'pages-sections/market-1/Section6'
 import Section7 from 'pages-sections/market-1/Section7'
 import Section8 from 'pages-sections/market-1/Section8'
-import Models from 'models'
+import Section10 from 'pages-sections/market-1/Section10'
+import Section11 from 'pages-sections/market-1/Section11'
+import Section12 from 'pages-sections/market-1/Section12'
+import Section13 from 'pages-sections/market-1/Section13'
+import { QueryClient, dehydrate, useQuery } from 'react-query'
+import { IProductPreview } from 'shared/types/product.types'
+import { ResponseList } from 'shared/types/response.types'
 import api from 'utils/api/market-1'
-import { dehydrate, QueryClient, useQuery } from 'react-query'
-import { ShopsProductsService } from 'api/services/shops-products/ShopsProducts.service'
 
 // =================================================================
 type MarketProps = {
@@ -43,8 +45,16 @@ type MarketProps = {
 // =================================================================
 
 const MarketShop: NextPage<MarketProps> = (props) => {
-	const { data: products } = useQuery(['shop products'], () =>
-		ShopsProductsService.getList()
+	const { data: products } = useQuery(
+		['shop products'],
+		() =>
+			ShopsProductsService.getList({
+				page: 1,
+				page_size: 6,
+			}),
+		{
+			select: (data: ResponseList<IProductPreview>) => data.results,
+		}
 	)
 	return (
 		<ShopLayout1>

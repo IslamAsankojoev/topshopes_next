@@ -1,6 +1,11 @@
-import { Box, styled } from '@mui/material'
+import { Box, Link, MenuItem, styled } from '@mui/material'
+import { CategoriesService } from 'api/services/categories/category.service'
 import navigations from 'data/navigations'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
+import { useQuery } from 'react-query'
+import { ICategory } from 'shared/types/product.types'
+import { ResponseList } from 'shared/types/response.types'
+
 import CategoryMenuItem from './CategoryMenuItem'
 import MegaMenu1 from './mega-menu/MegaMenu1'
 import MegaMenu2 from './mega-menu/MegaMenu2'
@@ -33,24 +38,58 @@ type CategoryMenuCardProps = {
 const CategoryMenuCard: FC<CategoryMenuCardProps> = (props) => {
 	const { open, position } = props
 
+	const { data: categories = [] } = useQuery(
+		'categories',
+		CategoriesService.getList,
+		{
+			select: (data: ResponseList<ICategory>) => data.results,
+		}
+	)
+
 	const megaMenu: any = { MegaMenu1, MegaMenu2 }
 
-	return (
-		<Wrapper open={open} position={position}>
-			{navigations?.map((item) => {
-				let MegaMenu = megaMenu[item.menuComponent]
+	useEffect(() => {
+		console.log('categories', categories)
+	}, [categories])
 
+	return (
+		<Wrapper
+			open={open}
+			position={position}
+			style={{
+				width: '100%',
+			}}
+		>
+			{categories?.map((item) => {
 				return (
-					<CategoryMenuItem
-						key={item.title}
-						href={item.href}
-						icon={item.icon}
-						title={item.title}
-						caret={!!item.menuData}
-					>
-						<MegaMenu data={item.menuData || {}} />
-					</CategoryMenuItem>
+					<MenuItem>
+						<Link
+							href={`/shop/?category=${item.id}`}
+							style={{
+								width: '100%',
+								color: 'black',
+								textDecoration: 'none',
+								fontSize: '16px',
+								fontWeight: 400,
+							}}
+							key={item.id}
+						>
+							{item.name}
+						</Link>
+					</MenuItem>
 				)
+				// let MegaMenu = megaMenu[item.menuComponent]
+				// return (
+				// 	<CategoryMenuItem
+				// 		key={item.name}
+				// 		href={item.id}
+				// 		icon={item.icon}
+				// 		title={item.name}
+				// 		caret={false}
+				// 	>
+				// 		{/* <MegaMenu data={{}} /> */}
+				// 	</CategoryMenuItem>
+				// )
 			})}
 		</Wrapper>
 	)
