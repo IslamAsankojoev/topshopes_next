@@ -73,7 +73,7 @@ const CheckoutForm2: FC = () => {
 	// address fetching
 	const { data: addresses, refetch } = useQuery(
 		'address get',
-		AddressesService.getList,
+		() => AddressesService.getList(),
 		{
 			select: (data: ResponseList<IAddress>) => data.results,
 		}
@@ -115,9 +115,10 @@ const CheckoutForm2: FC = () => {
 	)
 
 	const handleFormSubmit = async () => {
-		orderStack.forEach((item) => {
+		await orderStack.forEach((item) => {
 			orderAsync(item)
 		})
+		router.push('/orders/')
 	}
 
 	const handleFieldValueChange = (id: string) => () => {

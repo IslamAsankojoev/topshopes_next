@@ -19,7 +19,7 @@ const AddressList: NextPageAuth = () => {
 		data: addresses,
 		isLoading,
 		refetch,
-	} = useQuery('address get', AddressesService.getList, {
+	} = useQuery('address get', () => AddressesService.getList(), {
 		select: (data) => data.results,
 	})
 

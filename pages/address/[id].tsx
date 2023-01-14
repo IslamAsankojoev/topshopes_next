@@ -2,10 +2,10 @@ import Place from '@mui/icons-material/Place'
 import { Box, Button, Grid, TextField } from '@mui/material'
 import { AddressesService } from 'api/services/addresses/addresses.service'
 import Card1 from 'components/Card1'
+import Loading from 'components/Loading'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
-import Loading from 'components/Loading'
 import { Formik } from 'formik'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -30,7 +30,6 @@ const AddressEditor: NextPageAuth = () => {
 
 	// handle form submit
 	const handleFormSubmit = async (values: any) => {
-		console.log(values)
 		await AddressesService.update(id as string, values)
 
 		push('/address')

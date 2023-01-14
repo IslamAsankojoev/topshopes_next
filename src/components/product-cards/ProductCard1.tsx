@@ -10,7 +10,14 @@ import ProductViewDialog from 'components/products/ProductViewDialog'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
-import { CSSProperties, FC, useCallback, useRef, useState } from 'react'
+import {
+	CSSProperties,
+	FC,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
 import { IProductPreview } from 'shared/types/product.types'
 
 import { FlexBox } from '../flex-box'
@@ -159,7 +166,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							</a>
 						</Link>
 
-						<Link href={`/shops/${shop.id}`}>
+						<Link href={`/shops/${shop?.id}`}>
 							<a>
 								<span
 									style={{
@@ -169,7 +176,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 										display: 'block',
 									}}
 								>
-									{shop.name}
+									{shop?.name}
 								</span>
 							</a>
 						</Link>

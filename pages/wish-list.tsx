@@ -30,7 +30,7 @@ const WishList: NextPageAuth = () => {
 				{wihListItems
 					?.map((item: IProductPreview | any) => (
 						<Grid item lg={4} sm={6} xs={6} key={item.id}>
-							<ProductCard1 product={{ ...item, thumbnail: item.imgUrl }} />
+							<ProductCard1 product={{ ...item }} />
 						</Grid>
 					))
 					.reverse()}

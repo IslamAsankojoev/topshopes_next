@@ -11,6 +11,8 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { OrdersService } from 'api/services/orders/orders.service'
+import TableRow from 'components/TableRow'
+import { H5, H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import Delivery from 'components/icons/Delivery'
@@ -18,8 +20,6 @@ import PackageBox from 'components/icons/PackageBox'
 import TruckFilled from 'components/icons/TruckFilled'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
-import TableRow from 'components/TableRow'
-import { H5, H6, Paragraph } from 'components/Typography'
 import productDatabase from 'data/product-database'
 import { format } from 'date-fns'
 import { useTypedSelector } from 'hooks/useTypedSelector'
@@ -30,7 +30,7 @@ import React from 'react'
 import { Fragment } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { IOrder } from 'shared/types/order.types'
+import { IOrder, IOrderStatus } from 'shared/types/order.types'
 
 const StyledFlexbox = styled(FlexBetween)(({ theme }) => ({
 	flexWrap: 'wrap',
@@ -46,8 +46,6 @@ const StyledFlexbox = styled(FlexBetween)(({ theme }) => ({
 	},
 }))
 
-type OrderStatus = 'PENDING' | 'PROCESSING' | 'DELIVERED' | 'CANCELLED'
-
 const OrderDetails: NextPageAuth = () => {
 	const router = useRouter()
 
@@ -60,9 +58,16 @@ const OrderDetails: NextPageAuth = () => {
 		}
 	)
 
-	const orderStatus: OrderStatus = order?.status || 'PENDING'
+	const orderStatus: IOrderStatus = order?.status || 'pending'
 
-	const orderStatusList = ['PENDING', 'PROCESSING', 'DELIVERED', 'CANCELED']
+	const orderStatusList: IOrderStatus[] = [
+		'pending',
+		'paid',
+		'canceled',
+		'delivered',
+		'delivering',
+		'received',
+	]
 	const stepIconList = [PackageBox, TruckFilled, Delivery]
 
 	const statusIndex = orderStatusList.indexOf(orderStatus)

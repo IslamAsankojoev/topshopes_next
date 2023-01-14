@@ -40,17 +40,13 @@ const CategoryMenuCard: FC<CategoryMenuCardProps> = (props) => {
 
 	const { data: categories = [] } = useQuery(
 		'categories',
-		CategoriesService.getList,
+		() => CategoriesService.getList(),
 		{
 			select: (data: ResponseList<ICategory>) => data.results,
 		}
 	)
 
 	const megaMenu: any = { MegaMenu1, MegaMenu2 }
-
-	useEffect(() => {
-		console.log('categories', categories)
-	}, [categories])
 
 	return (
 		<Wrapper

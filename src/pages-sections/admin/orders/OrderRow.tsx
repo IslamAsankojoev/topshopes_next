@@ -2,13 +2,14 @@ import { Delete, RemoveRedEye } from '@mui/icons-material'
 import currency from 'currency.js'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
+import { IOrder } from 'shared/types/order.types'
+
 import {
 	StatusWrapper,
 	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,
 } from '../StyledComponents'
-import { IOrder } from 'shared/types/order.types'
 
 // ========================================================================
 type OrderRowProps = { order: IOrder }

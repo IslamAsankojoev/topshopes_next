@@ -7,7 +7,7 @@ import React, { Fragment } from 'react'
 import { IProduct, IProductPreview } from 'shared/types/product.types'
 
 // ========================================================
-type ProductCard1ListProps = { products: IProductPreview[]; count: number }
+type ProductCard1ListProps = { products: IProductPreview[]; count?: number }
 // ========================================================
 
 const ProductCard1List: React.FC<ProductCard1ListProps> = ({

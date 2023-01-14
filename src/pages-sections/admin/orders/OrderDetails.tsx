@@ -11,8 +11,8 @@ import {
 	TextField,
 } from '@mui/material'
 import { OrdersService } from 'api/services/orders/orders.service'
-import { FlexBetween, FlexBox } from 'components/flex-box'
 import { H5, H6, Paragraph, Span } from 'components/Typography'
+import { FlexBetween, FlexBox } from 'components/flex-box'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMutation, useQuery } from 'react-query'
@@ -119,10 +119,14 @@ const OrderDetails = () => {
 							value={order.status}
 							onChange={handleChangeStatus}
 						>
-							<MenuItem value="PENDING">PENDING</MenuItem>
-							<MenuItem value="PROCESSING">PROCESSING</MenuItem>
-							<MenuItem value="DELIVERED">DELIVERED</MenuItem>
-							<MenuItem value="CANCELLED">CANCELLED</MenuItem>
+							{/* "pending" | "paid" | "delivering" | "delivered" | "received" | "canceled" */}
+
+							<MenuItem value="pending">pending</MenuItem>
+							<MenuItem value="paid">paid</MenuItem>
+							<MenuItem value="delivering">delivering</MenuItem>
+							<MenuItem value="delivered">delivered</MenuItem>
+							<MenuItem value="received">received</MenuItem>
+							<MenuItem value="canceled">canceled</MenuItem>
 						</TextField>
 					</FlexBox>
 

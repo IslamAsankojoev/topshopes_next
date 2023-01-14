@@ -1,11 +1,11 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import Scrollbar from 'components/Scrollbar'
+import SearchInput from 'components/SearchInput'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Scrollbar from 'components/Scrollbar'
-import SearchInput from 'components/SearchInput'
 import useMuiTable from 'hooks/useMuiTable'
 import {
 	StatusWrapper,
@@ -61,9 +61,9 @@ const SupportTickets: NextPageAuth = () => {
 										</StyledTableCell>
 
 										<StyledTableCell align="left">
-											<StatusWrapper status={ticket.type}>
+											{/* <StatusWrapper status={ticket.type}>
 												{ticket.type}
-											</StatusWrapper>
+											</StatusWrapper> */}
 										</StyledTableCell>
 
 										<StyledTableCell align="left">

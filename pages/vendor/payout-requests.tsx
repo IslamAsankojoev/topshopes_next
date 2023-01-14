@@ -1,10 +1,10 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import {
 	StatusWrapper,
@@ -62,9 +62,9 @@ const PayoutRequests: NextPageAuth = () => {
 											{payout.amount}
 										</StyledTableCell>
 										<StyledTableCell align="center">
-											<StatusWrapper status={payout.status}>
+											{/* <StatusWrapper status={payout.status}>
 												{payout.status}
-											</StatusWrapper>
+											</StatusWrapper> */}
 										</StyledTableCell>
 										<StyledTableCell align="center">
 											{payout.message}

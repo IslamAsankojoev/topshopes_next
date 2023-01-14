@@ -1,10 +1,9 @@
 import { Box } from '@mui/material'
 import { SiteSettingsService } from 'api/services-admin/site-settings/siteSettings.service'
 import CreateForm from 'components/Form/CreateForm'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
-
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import React, { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
@@ -13,9 +12,8 @@ import { ISiteSettings } from 'shared/types/site-settings.types'
 import { siteSettingsFormEdit } from 'utils/constants/forms'
 
 const SiteSettings: NextPageAuth = () => {
-	const { data, isLoading } = useQuery(
-		'site-settings admin get',
-		SiteSettingsService.getList
+	const { data, isLoading } = useQuery('site-settings admin get', () =>
+		SiteSettingsService.getList()
 	)
 
 	// site settings mutate

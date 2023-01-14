@@ -1,17 +1,17 @@
 import {
+	BordersProps,
+	SpacingProps,
 	bgcolor,
 	borderRadius,
-	BordersProps,
 	compose,
 	spacing,
-	SpacingProps,
 	styled,
 } from '@mui/system'
 import NextImage, { ImageProps } from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const checkDomen = (url: string) => {
-	return url.startsWith('http' || 'https')
+	return url?.startsWith('http' || 'https')
 		? url
 		: `${process.env.SERVER_URL}/media/${url}/`
 }

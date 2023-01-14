@@ -1,11 +1,11 @@
 import { RemoveRedEye } from '@mui/icons-material'
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import currency from 'currency.js'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
@@ -17,6 +17,7 @@ import {
 } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { IOrderStatus } from 'shared/types/order.types'
 import api from 'utils/api/dashboard'
 
 // table column list
@@ -91,11 +92,11 @@ const PayoutRequests: NextPageAuth<PayoutRequestsProps> = ({ requests }) => {
 											{request.date}
 										</StyledTableCell>
 
-										<StyledTableCell align="center">
-											<StatusWrapper status={request.status}>
+										{/* <StyledTableCell align="center">
+											<StatusWrapper status={request.status as IOrderStatus}>
 												{request.status}
 											</StatusWrapper>
-										</StyledTableCell>
+										</StyledTableCell> */}
 
 										<StyledTableCell align="center">
 											<StyledIconButton>

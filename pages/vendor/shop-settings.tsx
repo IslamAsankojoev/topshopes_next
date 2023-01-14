@@ -2,8 +2,8 @@ import styled from '@emotion/styled'
 import { Box, Button, Card, Grid, TextField } from '@mui/material'
 import { ShopService } from 'api/services/shop/shop.service'
 import DropZone from 'components/DropZone'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3, Paragraph } from 'components/Typography'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
@@ -54,12 +54,16 @@ const ShopSettings: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	// shop fetching
-	const { data: shop, isLoading } = useQuery('shop get', ShopService.getList, {
-		select: (data) => {
-			const { products, socialLinks, ...shopData } = data
-			return shopData
-		},
-	})
+	const { data: shop, isLoading } = useQuery(
+		'shop get',
+		() => ShopService.getList(),
+		{
+			select: (data) => {
+				const { products, socialLinks, ...shopData } = data
+				return shopData
+			},
+		}
+	)
 
 	// shop mutation
 	const { mutateAsync: createAsync } = useMutation(

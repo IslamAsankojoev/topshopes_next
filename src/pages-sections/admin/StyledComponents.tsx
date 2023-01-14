@@ -1,4 +1,5 @@
-import { Box, IconButton, styled, TableCell, TableRow } from '@mui/material'
+import { Box, IconButton, TableCell, TableRow, styled } from '@mui/material'
+import { IOrderStatus } from 'shared/types/order.types'
 
 // styled components
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -32,39 +33,39 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 	'& .MuiSvgIcon-root': { fontSize: 19 },
 	':hover': { color: theme.palette.info.main },
 }))
-type StatusType = {
-	status: 'PENDING' | 'PROCESSING' | 'DELIVERED' | 'CANCELLED'
-}
+type StatusType = {} & IOrderStatus
 
-const StatusWrapper = styled(Box)<StatusType>(({ theme, status }) => {
-	let color = theme.palette.secondary.main
-	let backgroundColor = theme.palette.secondary[100]
+const StatusWrapper = styled(Box)<{ status: StatusType }>(
+	({ theme, status }) => {
+		let color = theme.palette.secondary.main
+		let backgroundColor = theme.palette.secondary[100]
 
-	if (status === 'DELIVERED') {
-		color = theme.palette.success.main
-		backgroundColor = theme.palette.success[100]
+		if (status === 'pending') {
+			color = theme.palette.success.main
+			backgroundColor = theme.palette.success[100]
+		}
+
+		if (status === 'canceled') {
+			color = theme.palette.error.main
+			backgroundColor = theme.palette.error[100]
+		}
+
+		if (status === 'delivering') {
+			color = theme.palette.warning.main
+			backgroundColor = theme.palette.warning[100]
+		}
+
+		return {
+			color,
+			fontSize: 12,
+			fontWeight: 600,
+			backgroundColor,
+			borderRadius: '8px',
+			padding: '3px 12px',
+			display: 'inline-flex',
+		}
 	}
-
-	if (status === 'CANCELLED') {
-		color = theme.palette.error.main
-		backgroundColor = theme.palette.error[100]
-	}
-
-	if (status === 'PROCESSING') {
-		color = theme.palette.warning.main
-		backgroundColor = theme.palette.warning[100]
-	}
-
-	return {
-		color,
-		fontSize: 12,
-		fontWeight: 600,
-		backgroundColor,
-		borderRadius: '8px',
-		padding: '3px 12px',
-		display: 'inline-flex',
-	}
-})
+)
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export {

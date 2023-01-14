@@ -17,7 +17,7 @@ type OrderListProps = {}
 const OrderList: FC<OrderListProps> = () => {
 	const { isLoading, data: orders } = useQuery(
 		'orders',
-		OrdersService.getList,
+		() => OrdersService.getList(),
 		{
 			select: (data: ResponseList<IOrderShort>) => data.results,
 		}
