@@ -5,10 +5,17 @@ import { Box, Card, MenuItem, TextField } from '@mui/material'
 import TouchRipple from '@mui/material/ButtonBase'
 import { styled } from '@mui/material/styles'
 import { debounce } from '@mui/material/utils'
+import { CategoriesService } from 'api/services/categories/category.service'
+import { ShopsProductsService } from 'api/services/shops-products/ShopsProducts.service'
 import BazaarMenu from 'components/BazaarMenu'
 import { FlexBox } from 'components/flex-box'
+import useDebounce from 'hooks/useDebounce'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { useQuery } from 'react-query'
+import { ICategory, IProductPreview } from 'shared/types/product.types'
+import { ResponseList } from 'shared/types/response.types'
 
 // styled components
 // also used in the GrocerySearchBox component
@@ -36,23 +43,47 @@ const DropDownHandler = styled(FlexBox)(({ theme }) => ({
 }))
 
 const SearchBox: FC = () => {
-	const [category, setCategory] = useState('All Categories')
+	const { push } = useRouter()
+	const [category, setCategory] = useState({ id: '', name: 'All Catigories' })
+
 	const [resultList, setResultList] = useState<string[]>([])
+	const [search, setSearch] = useState<string>('')
+	const debounceValue = useDebounce(search)
+
+	const { data: products } = useQuery(
+		[`search products search=${debounceValue}`],
+		() => ShopsProductsService.getList({ search: debounceValue, page_size: 6 }),
+		{
+			enabled: !!search,
+			select: (data: ResponseList<IProductPreview>) => data.results,
+		}
+	)
+
 	const parentRef = useRef()
 
+	const { data: categories = [] } = useQuery(
+		'categories',
+		() => CategoriesService.getList(),
+		{
+			select: (data: ResponseList<ICategory>) => data.results,
+		}
+	)
+
 	const handleCategoryChange = (cat: any) => () => setCategory(cat)
+	const hanldeSearch = (e) => {
+		e.persist()
+		setSearch(e.target.value)
+	}
 
-	const search = debounce((e) => {
-		const value = e.target?.value
-
-		if (!value) setResultList([])
-		else setResultList(dummySearchResult)
-	}, 200)
-
-	const hanldeSearch = useCallback((event) => {
-		event.persist()
-		search(event)
-	}, [])
+	const submitHandler = (e) => {
+		e.preventDefault()
+		push('shop', {
+			query: {
+				category: category.id,
+				search,
+			},
+		})
+	}
 
 	const handleDocumentClick = () => setResultList([])
 
@@ -75,16 +106,25 @@ const SearchBox: FC = () => {
 					alignItems="center"
 					component={TouchRipple}
 				>
-					{category}
+					{category?.name}
 					<KeyboardArrowDownOutlined fontSize="small" color="inherit" />
 				</DropDownHandler>
 			}
 		>
-			{categories?.map((item) => (
-				<MenuItem key={item} onClick={handleCategoryChange(item)}>
-					{item}
+			<>
+				<MenuItem
+					key={'all'}
+					onClick={handleCategoryChange({ id: '', name: 'All Catigories' })}
+				>
+					All Catigories
 				</MenuItem>
-			))}
+
+				{categories?.map((item) => (
+					<MenuItem key={item?.id} onClick={handleCategoryChange(item)}>
+						{item?.name}
+					</MenuItem>
+				))}
+			</>
 		</BazaarMenu>
 	)
 
@@ -96,50 +136,49 @@ const SearchBox: FC = () => {
 			mx="auto"
 			{...{ ref: parentRef }}
 		>
-			<TextField
-				fullWidth
-				variant="outlined"
-				placeholder="Searching for..."
-				onChange={hanldeSearch}
-				InputProps={{
-					sx: {
-						height: 44,
-						paddingRight: 0,
-						borderRadius: 300,
-						color: 'grey.700',
-						overflow: 'hidden',
-						'&:hover .MuiOutlinedInput-notchedOutline': {
-							borderColor: 'primary.main',
+			<form onSubmit={submitHandler}>
+				<TextField
+					fullWidth
+					variant="outlined"
+					placeholder="Searching for..."
+					value={search}
+					onChange={hanldeSearch}
+					InputProps={{
+						sx: {
+							height: 44,
+							paddingRight: 0,
+							borderRadius: 300,
+							color: 'grey.700',
+							overflow: 'hidden',
+							'&:hover .MuiOutlinedInput-notchedOutline': {
+								borderColor: 'primary.main',
+							},
 						},
-					},
-					endAdornment: categoryDropdown,
-					startAdornment: <SearchOutlinedIcon fontSize="small" />,
-				}}
-			/>
+						endAdornment: categoryDropdown,
+						startAdornment: <SearchOutlinedIcon fontSize="small" />,
+					}}
+				/>
 
-			{!!resultList?.length && (
-				<SearchResultCard elevation={2}>
-					{resultList?.map((item) => (
-						<Link href={`/product/search/${item}`} key={item} passHref>
-							<MenuItem key={item}>{item}</MenuItem>
-						</Link>
-					))}
-				</SearchResultCard>
-			)}
+				{!!resultList?.length && (
+					<SearchResultCard elevation={2}>
+						{products?.map((item) => (
+							<Link
+								href={{
+									pathname: `/product/[id]`,
+									query: { trueID: item.id, id: item.slug },
+								}}
+								key={item.id}
+								passHref
+							>
+								<MenuItem>{item.name}</MenuItem>
+							</Link>
+						))}
+					</SearchResultCard>
+				)}
+			</form>
 		</Box>
 	)
 }
-
-const categories = [
-	'All Categories',
-	'Car',
-	'Clothes',
-	'Electronics',
-	'Laptop',
-	'Desktop',
-	'Camera',
-	'Toys',
-]
 
 const dummySearchResult = [
 	'Macbook Air 13',

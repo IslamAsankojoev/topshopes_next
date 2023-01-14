@@ -40,7 +40,7 @@ const CategoryMenuCard: FC<CategoryMenuCardProps> = (props) => {
 
 	const { data: categories = [] } = useQuery(
 		'categories',
-		CategoriesService.getList,
+		() => CategoriesService.getList(),
 		{
 			select: (data: ResponseList<ICategory>) => data.results,
 		}

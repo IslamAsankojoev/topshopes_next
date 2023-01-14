@@ -54,6 +54,7 @@ const Header: FC<HeaderProps> = ({
 	const theme = useTheme()
 	const [dialogOpen, setDialogOpen] = useState(false)
 	const [sidenavOpen, setSidenavOpen] = useState(false)
+
 	const isMobile = useMediaQuery(theme.breakpoints.down('xs'))
 	const downMd = useMediaQuery(theme.breakpoints.down(1150))
 
