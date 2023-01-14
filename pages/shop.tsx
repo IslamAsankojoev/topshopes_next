@@ -51,13 +51,14 @@ const ShopPage = ({ query }) => {
 	// fetching
 	const router = useRouter()
 
-
-	const {
-		data: { results, count },
-	} = useQuery(['shop products'], () => ShopsProductsService.getList(query), {
-		enabled: !!query,
-		select: (data: ResponseList<IProductPreview>) => data,
-	})
+	const { data: products } = useQuery(
+		['shop products'],
+		() => ShopsProductsService.getList(query),
+		{
+			enabled: !!query,
+			select: (data: ResponseList<IProductPreview>) => data,
+		}
+	)
 
 	// mui settings
 	const [view, setView] = useState('grid')
@@ -165,11 +166,14 @@ const ShopPage = ({ query }) => {
 					</Grid>
 
 					<Grid item md={9} xs={12}>
-						{results?.length ? (
+						{products?.count ? (
 							view === 'grid' ? (
-								<ProductCard1List products={results} count={count} />
+								<ProductCard1List
+									products={products.results}
+									count={products.count}
+								/>
 							) : (
-								<ProductCard9List products={results} />
+								<ProductCard9List products={products.results} />
 							)
 						) : null}
 					</Grid>
