@@ -48,10 +48,6 @@ const CategoryMenuCard: FC<CategoryMenuCardProps> = (props) => {
 
 	const megaMenu: any = { MegaMenu1, MegaMenu2 }
 
-	useEffect(() => {
-		console.log('categories', categories)
-	}, [categories])
-
 	return (
 		<Wrapper
 			open={open}

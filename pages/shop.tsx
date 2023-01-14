@@ -24,6 +24,7 @@ import { useCallback, useState } from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProductPreview } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'
+import React from 'react'
 
 // ===================================================
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
@@ -50,7 +51,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 const ShopPage = ({ query }) => {
 	// fetching
 	const router = useRouter()
-
 	const { data: products } = useQuery(
 		['shop products'],
 		() => ShopsProductsService.getList(query),
@@ -67,8 +67,9 @@ const ShopPage = ({ query }) => {
 
 	// ordering
 	const filterHandler = (params: Record<string, string | number>) => {
-		router.push(router.asPath, {
-			query: { ...router.query, ...params },
+		router.push({
+			pathname: router.pathname,
+			query: { ...router.query, ...params, page: 1 },
 		})
 	}
 
@@ -112,6 +113,7 @@ const ShopPage = ({ query }) => {
 								size="small"
 								variant="outlined"
 								placeholder="Short by"
+								value={router?.query?.ordering}
 								defaultValue={sortOptions[0].value}
 								sx={{ flex: '1 1 0', minWidth: '150px' }}
 								onChange={({ target }) =>
@@ -186,8 +188,8 @@ const ShopPage = ({ query }) => {
 const sortOptions = [
 	{ label: 'All', value: '#' },
 	{ label: 'Novelties', value: '-created_at' },
-	{ label: 'Price Low to High', value: '-overall_price' },
-	{ label: 'Price High to Low', value: 'overall_price' },
+	{ label: 'Price Low to High', value: 'overall_price' },
+	{ label: 'Price High to Low', value: '-overall_price' },
 ]
 
 export default ShopPage
