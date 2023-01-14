@@ -15,32 +15,46 @@ export interface ProductFetchTypes {
 	isLoading: boolean
 }
 
-export const useProductFetch = (isAdmin = false) => {
+interface ProductFetchProps {
+	isAdmin: boolean
+	search: {
+		categoriesSearch: string
+		brandsSearch: string
+		shopsSearch?: string
+	}
+}
+export const useProductFetch = (
+	isAdmin = false, 
+	{categoriesSearch, brandsSearch, shopsSearch}: Record<string, string>
+	) => {
 
 	const { data: categories, isLoading: categoriesLoading } = useQuery(
 		'categories get',
-		CategoriesService.getList,
+		() => CategoriesService.getList({search: categoriesSearch}),
 		{ 
 			refetchOnWindowFocus: false, 
-			retry: 0 
+			retry: 0,
+			select: (data) => data?.results
 		}
 	)
 
 	const { data: brands, isLoading: brandsLoading } = useQuery(
 		'brands get',
-		BrandsService.getList,
+		() => BrandsService.getList({search: brandsSearch}),
 		{
 			refetchOnWindowFocus: false,
 			retry: 0,
+			select: (data) => data?.results
 		}
 	)
 
 	const { data: shops, isLoading: shopsLoading } = useQuery(
 		'shops get',
-		isAdmin ? ShopsService.getList : null,
+		isAdmin ? () => ShopsService.getList({search: shopsSearch || ''}) : null,
 		{
 			refetchOnWindowFocus: false,
 			retry: 0,
+			select: (data) => data?.results
 		}
 	)
 

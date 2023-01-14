@@ -2,7 +2,6 @@ import { Box } from '@mui/material'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
 import { ProductForm } from 'pages-sections/admin'
-import { useProductFetch } from 'pages-sections/admin/products/useProductFetch'
 import Loading from 'components/Loading'
 import React, { ReactElement, useEffect } from 'react'
 import { ProductFetchTypes } from '../../../src/pages-sections/admin/products/useProductFetch'
@@ -32,9 +31,6 @@ const CreateProduct: NextPageAuth = () => {
 	// states
 	const { variants } = useTypedSelector((state) => state.productVariantsStore)
 	const { setVariants } = useActions()
-
-	// getting all dependencies for selects
-	const fetch = useProductFetch(false)
 
 	const { push } = useRouter()
 
@@ -104,13 +100,12 @@ const CreateProduct: NextPageAuth = () => {
 			<H3 mb={2}>Add New Product</H3>
 
 			<ProductForm
-				productFetch={fetch}
 				initialValues={initialValues}
 				validationSchema={productFormValidationSchemaVendor}
 				handleFormSubmit={handleFormSubmit}
 				update={false}
 			/>
-			<ProductVariantList create={true} product={variants} fetch={fetch} />
+			<ProductVariantList create={true} product={variants} />
 		</Box>
 	) : null
 }

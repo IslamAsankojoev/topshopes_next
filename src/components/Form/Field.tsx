@@ -1,4 +1,10 @@
-import { Button, MenuItem, Switch, TextField } from '@mui/material'
+import {
+	Autocomplete,
+	Button,
+	MenuItem,
+	Switch,
+	TextField,
+} from '@mui/material'
 import { FC, useState } from 'react'
 import styles from './Field.module.scss'
 import dynamic from 'next/dynamic'
@@ -32,6 +38,35 @@ const Field: FC<any> = (props) => {
 			</TextField>
 		)
 	}
+
+	if (type == 'autocomplete') {
+		return (
+			<Autocomplete
+				{...other}
+				onChange={(
+					_: any,
+					newValue: {
+						id: string | number
+						label: string | number
+					}
+				) => {
+					other.setFieldValue(other.name, newValue?.id)
+				}}
+				disablePortal
+				options={other.allNames}
+				sx={{ width: 300 }}
+				renderInput={(params) => (
+					<TextField
+						onChange={({ target }) =>
+							other.setFieldValue(other.name, target.value)
+						}
+						{...params}
+					/>
+				)}
+			/>
+		)
+	}
+
 	if (type == 'multiple-select') {
 		console.log(other.defaultData[other.name])
 		return (

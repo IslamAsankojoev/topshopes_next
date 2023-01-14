@@ -4,16 +4,19 @@ import * as yup from 'yup'
 import { ErrorMessage, Form, useFormik } from 'formik'
 import { useEffect } from 'react'
 import { formData } from 'utils/formData'
+import React from 'react'
 
 interface CreateFormProps {
 	fields: Record<string, any>
 	handleFormSubmit: (formData?: FormData, values?: Record<string, any>) => void
 	defaultData: Record<string, any>
+	getValues?: (values: Record<string, any>) => void
 }
 const CreateForm: React.FC<CreateFormProps> = ({
 	fields,
 	handleFormSubmit,
 	defaultData,
+	getValues,
 }) => {
 	// write validation schema for each field by iterating over fields
 	const validate = yup.object().shape(
@@ -53,6 +56,10 @@ const CreateForm: React.FC<CreateFormProps> = ({
 				acc[field.name] = yup.string().required('Required')
 				return acc
 			}
+			if (field.type === 'autocomplete' && field.required) {
+				acc[field.name] = yup.string().required('Required')
+				return acc
+			}
 			if (field.type === 'multiple-select' && field.required) {
 				acc[field.name] = yup.array().min(1).required('required')
 				return acc
@@ -83,6 +90,10 @@ const CreateForm: React.FC<CreateFormProps> = ({
 		initialValues: clearFileFlieds(defaultData || {}),
 		onSubmit: () => handleFormSubmitForm(),
 	})
+
+	React.useEffect(() => {
+		if (getValues) getValues(values)
+	}, [values])
 
 	const handleFormSubmitForm = () => {
 		const formData = new FormData()

@@ -11,9 +11,9 @@ import { IShop } from 'shared/types/shop.types'
 const ShopList = () => {
 	const { data: shops, isLoading } = useQuery(
 		'get all shops',
-		ShopsService.getList,
+		() => ShopsService.getList(),
 		{
-			select: (data: IShop[]) => data,
+			select: (data) => data.results,
 		}
 	)
 

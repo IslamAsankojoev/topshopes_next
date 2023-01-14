@@ -34,7 +34,8 @@ const CreateCategory: NextPageAuth = () => {
 
 	const { data: attributes } = useQuery(
 		'attributes get',
-		AttributesServiceAdmin.getList
+		() => AttributesServiceAdmin.getList(),
+		{ select: (data) => data?.results }
 	)
 
 	const handleFormSubmit = async (_: any, data: ICategory) => {

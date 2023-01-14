@@ -1,4 +1,4 @@
-import { axiosClassic, instance, makeRequest } from 'api/interceptor'
+import { makeRequest } from 'api/interceptor'
 import { toast } from 'react-toastify'
 import { getErrorMessage } from 'utils/getErrorMessage'
 
@@ -8,9 +8,9 @@ export const CRUDservice = (
 	auth: boolean = true
 ) => {
 	return {
-		getList: async () => {
+		getList: async (params?: Record<string, string | number>) => {
 			try {
-				const response = await makeRequest(auth).get(url(''))
+				const response = await makeRequest(auth).get(url(''), {params})
 				return response.data
 			} catch (error) {
 				toast.error(`${toastText || 'error'}: ${getErrorMessage(error)}`)

@@ -16,6 +16,7 @@ import { IUser } from 'shared/types/user.types'
 import { useQuery } from 'react-query'
 import { UsersService } from 'api/services-admin/users/users.service'
 import { useRouter } from 'next/router'
+import React from 'react'
 
 const tableHeading = [
 	{ id: 'first_name', label: 'First name', align: 'left' },
@@ -29,28 +30,34 @@ type CustomerListProps = { customers: IUser[] }
 
 const CustomerList: NextPageAuth<CustomerListProps> = () => {
 	const { push } = useRouter()
-	const {
-		data: Users,
-		isLoading,
-		refetch,
-	} = useQuery({ queryKey: 'get users all', queryFn: UsersService.getList })
 
-	const {
-		order,
-		orderBy,
-		selected,
-		rowsPerPage,
-		filteredList,
-		handleChangePage,
-		handleRequestSort,
-	} = useMuiTable({ listData: Users })
+	const [searchValue, setSearchValue] = React.useState('')
+	const [currentPage, setCurrentPage] = React.useState(1)
 
-	return !isLoading ? (
+	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+
+	const { data: users, refetch } = useQuery(
+		`get users all search=${searchValue} page=${currentPage}`,
+		() =>
+			UsersService.getList({
+				search: searchValue,
+				page: currentPage,
+				page_size: 20,
+			})
+	)
+
+	const { order, orderBy, selected, filteredList, handleRequestSort } =
+		useMuiTable({ listData: users?.results })
+
+	return (
 		<Box py={4}>
 			<H3 mb={2}>Users</H3>
 
 			<SearchArea
-				handleSearch={() => {}}
+				handleSearch={(value) => {
+					setCurrentPage(1)
+					setSearchValue(value)
+				}}
 				// buttonText="Add Users"
 				handleBtnClick={() => {
 					push('/admin/customers/create')
@@ -67,7 +74,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 								hideSelectBtn
 								orderBy={orderBy}
 								heading={tableHeading}
-								rowCount={Users?.length}
+								rowCount={users?.count}
 								numSelected={selected?.length}
 								onRequestSort={handleRequestSort}
 							/>
@@ -88,12 +95,13 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(Users?.length / rowsPerPage)}
+						count={Math.ceil(users?.count / 20)}
+						page={currentPage}
 					/>
 				</Stack>
 			</Card>
 		</Box>
-	) : null
+	)
 }
 
 CustomerList.isOnlyUser = true

@@ -10,32 +10,22 @@ import { IBrand, ICategory } from 'shared/types/product.types'
 import * as yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
 
-import { ProductFetchTypes } from './useProductFetch'
+import { ProductFetchTypes, useProductFetch } from './useProductFetch'
 
 // ================================================================
 type ProductFormProps = {
 	initialValues: any
 	handleFormSubmit: (values: any, redirect?: boolean) => void
 	validationSchema: yup.ObjectSchema<Assign<ObjectShape, any>>
-	productFetch: ProductFetchTypes
 	update?: boolean
 	includeShop?: boolean
 }
 // ================================================================
 
 const ProductForm: FC<ProductFormProps> = (props) => {
-	const {
-		initialValues,
-		validationSchema,
-		handleFormSubmit,
-		productFetch,
-		update,
-	} = props
+	const { initialValues, validationSchema, handleFormSubmit, update } = props
 
 	const { push } = useRouter()
-
-	//data fetching
-	const { brands, shops, categories } = productFetch
 
 	// states
 	const [redirect, setRedirect] = React.useState<boolean>(false)
@@ -53,6 +43,13 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 			},
 			validationSchema: validationSchema,
 		})
+
+	//data fetching
+	const { brands, shops, categories } = useProductFetch(props.includeShop, {
+		categoriesSearch: '',
+		brandsSearch: '',
+		shopsSearch: '',
+	})
 
 	const categoryHandler: any = async (
 		e: React.ChangeEvent<HTMLSelectElement>

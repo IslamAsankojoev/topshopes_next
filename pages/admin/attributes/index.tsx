@@ -25,32 +25,33 @@ const tableHeading = [
 const AttributesList: NextPageAuth = () => {
 	const { push } = useRouter()
 
-	const {
-		data: attributes,
-		isLoading,
-		refetch,
-	} = useQuery<any>('get attributes admin', AttributesServiceAdmin.getList)
+	const [searchValue, setSearchValue] = React.useState('')
+	const [currentPage, setCurrentPage] = React.useState(1)
 
-	const {
-		order,
-		orderBy,
-		selected,
-		rowsPerPage,
-		filteredList,
-		handleChangePage,
-		handleRequestSort,
-	} = useMuiTable({ listData: attributes })
+	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
-	if (isLoading) {
-		return <Loading />
-	}
+	const { data: attributes, refetch } = useQuery<any>(
+		`get attributes admin search=${searchValue} page=${currentPage}`,
+		() =>
+			AttributesServiceAdmin.getList({
+				search: searchValue,
+				page: currentPage,
+				page_size: 20,
+			})
+	)
+
+	const { order, orderBy, selected, filteredList, handleRequestSort } =
+		useMuiTable({ listData: attributes?.results })
 
 	return (
 		<Box py={4}>
 			<H3 mb={2}>Product Attributes</H3>
 
 			<SearchArea
-				handleSearch={() => {}}
+				handleSearch={(value) => {
+					setCurrentPage(1)
+					setSearchValue(value)
+				}}
 				buttonText="Add attributes"
 				handleBtnClick={() => {
 					push('/admin/attributes/create')
@@ -89,7 +90,8 @@ const AttributesList: NextPageAuth = () => {
 				<Stack alignItems="center" my={4}>
 					<TablePagination
 						onChange={handleChangePage}
-						count={Math.ceil(attributes?.length / rowsPerPage)}
+						count={Math.ceil(attributes?.count / 20)}
+						page={currentPage}
 					/>
 				</Stack>
 			</Card>

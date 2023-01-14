@@ -12,14 +12,18 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IPages } from 'shared/types/pages.types'
 import { pageEditForm } from 'utils/constants/forms'
-import React from 'react'
+import React, { useState } from 'react'
 import { formData } from 'utils/formData'
+import useDebounce from 'hooks/useDebounce'
 
 const UpdatePages: NextPageAuth = () => {
 	const {
 		push,
 		query: { id },
 	} = useRouter()
+
+	const [categoryValue, setCategoryValue] = React.useState()
+	const debounceValue = useDebounce(categoryValue)
 
 	// page fetching
 	const { data: page, isLoading } = useQuery(
@@ -42,29 +46,24 @@ const UpdatePages: NextPageAuth = () => {
 		}
 	)
 
-	const { data: categories, isLoading: categoryLoading } = useQuery(
-		'categoryPage admin get',
-		PageCategoryService.getList
+	const { data: categories } = useQuery(
+		`categoryPage admin get search=${debounceValue}`,
+		() => PageCategoryService.getList({ page_size: 30, search: debounceValue })
 	)
 
-	const handleFormSubmit = async (_: any, values: IPages) => {
-		const clearData = {}
-
-		for (let key in values) {
-			if (!!values[key]) {
-				clearData[key] = values[key]
-			}
-		}
-
-		await mutateAsync(
-			formData({
-				...clearData,
-				content: JSON.stringify({ data: values.content }),
-			})
-		)
+	const getValues = (values: Record<string, any>) => {
+		setCategoryValue(values?.category)
 	}
 
-	if (isLoading || categoryLoading || mutationLoading) {
+	const handleFormSubmit = async (_: any, values: IPages) => {
+		const { image, ...other } = values
+		const clearData = image
+			? { ...values, content: JSON.stringify({ data: values.content }) }
+			: { ...other, content: JSON.stringify({ data: values.content }) }
+		await mutateAsync(formData(clearData))
+	}
+
+	if (isLoading || mutationLoading) {
 		return <Loading />
 	}
 
@@ -78,16 +77,18 @@ const UpdatePages: NextPageAuth = () => {
 					{
 						name: 'category',
 						label: 'Category',
-						type: 'select',
+						type: 'autocomplete',
 						placeholder: 'Enter category',
-						allNames: categories?.map((c) => {
-							return { id: c?.id, name: c?.title }
-						}),
+						allNames: categories?.results?.map((c) => ({
+							id: c?.id,
+							label: c?.title,
+						})),
 						required: true,
 						fullWidth: true,
 					},
 				]}
 				handleFormSubmit={handleFormSubmit}
+				getValues={getValues}
 			/>
 		</Box>
 	)
