@@ -43,10 +43,9 @@ const DropDownHandler = styled(FlexBox)(({ theme }) => ({
 }))
 
 const SearchBox: FC = () => {
-	const { push } = useRouter()
 	const [category, setCategory] = useState({ id: '', name: 'All Catigories' })
 
-	const [resultList, setResultList] = useState<string[]>([])
+	const [resultList, setResultList] = useState([])
 	const [search, setSearch] = useState<string>('')
 	const debounceValue = useDebounce(search)
 
@@ -56,31 +55,39 @@ const SearchBox: FC = () => {
 		{
 			enabled: !!search,
 			select: (data: ResponseList<IProductPreview>) => data.results,
+			onSuccess: (data) => setResultList(data || []),
 		}
 	)
 
 	const parentRef = useRef()
 
-	const { data: categories = [] } = useQuery(
+	const { data: categories } = useQuery(
 		'categories',
 		() => CategoriesService.getList(),
 		{
-			select: (data: ResponseList<ICategory>) => data.results,
+			select: (data: ResponseList<ICategory>) => [
+				{ id: 'all', name: 'All Catigories' },
+				...data?.results,
+			],
 		}
 	)
 
 	const handleCategoryChange = (cat: any) => () => setCategory(cat)
-	const hanldeSearch = (e) => {
-		e.persist()
-		setSearch(e.target.value)
+	const hanldeSearch = ({ target }) => {
+		setSearch(target.value)
 	}
+
+	const { push, query } = useRouter()
 
 	const submitHandler = (e) => {
 		e.preventDefault()
-		push('shop', {
+		push({
+			pathname: '/shop',
 			query: {
-				category: category.id,
+				...query,
 				search,
+				page: 1,
+				category: category.id,
 			},
 		})
 	}
@@ -111,20 +118,11 @@ const SearchBox: FC = () => {
 				</DropDownHandler>
 			}
 		>
-			<>
-				<MenuItem
-					key={'all'}
-					onClick={handleCategoryChange({ id: '', name: 'All Catigories' })}
-				>
-					All Catigories
+			{categories?.map((item) => (
+				<MenuItem key={item?.id} onClick={handleCategoryChange(item)}>
+					{item?.name}
 				</MenuItem>
-
-				{categories?.map((item) => (
-					<MenuItem key={item?.id} onClick={handleCategoryChange(item)}>
-						{item?.name}
-					</MenuItem>
-				))}
-			</>
+			))}
 		</BazaarMenu>
 	)
 
