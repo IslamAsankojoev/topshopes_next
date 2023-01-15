@@ -10,21 +10,77 @@ import {
 	Theme,
 } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { ShopsProductsService } from 'api/services/shops-products/ShopsProducts.service'
+import { H5, Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
-import Navbar from 'components/navbar/Navbar'
 import ProductCard1List from 'components/products/ProductCard1List'
 import ProductCard9List from 'components/products/ProductCard9List'
 import ProductFilterCard from 'components/products/ProductFilterCard'
 import Sidenav from 'components/sidenav/Sidenav'
-import { H5, Paragraph } from 'components/Typography'
+import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
+import { QueryClient, dehydrate, useQuery } from 'react-query'
+import { IProductPreview } from 'shared/types/product.types'
+import { ResponseList } from 'shared/types/response.types'
 
-const ProductSearchResult = () => {
+// ===================================================
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	try {
+		const { id, ...other } = ctx.query
+
+		const queryClient = new QueryClient()
+		await queryClient.fetchQuery(`shop products`, () =>
+			ShopsProductsService.getList({
+				...other,
+				search: id as string,
+			})
+		)
+
+		return {
+			props: {
+				dehydratedState: dehydrate(queryClient),
+				ctx,
+			},
+		}
+	} catch {
+		return {
+			props: {},
+		}
+	}
+}
+// ===================================================
+
+const ShopPage = ({ ctx }) => {
+	// fetching
+	const router = useRouter()
+
+	const { ...other } = ctx?.query
+	const { data: products } = useQuery(
+		`shop products`,
+		() =>
+			ShopsProductsService.getList({
+				...other,
+				search: ctx?.query?.id as string,
+			}),
+		{
+			enabled: !!ctx?.query,
+			select: (data: ResponseList<IProductPreview>) => data,
+		}
+	)
+	console.log(ctx)
+	// mui settings
 	const [view, setView] = useState('grid')
 	const downMd = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
-
 	const toggleView = useCallback((v) => () => setView(v), [])
+
+	// ordering
+	const filterHandler = (params: Record<string, string | number>) => {
+		router.push(router.asPath, {
+			query: { ...router.query, ...params },
+		})
+	}
 
 	return (
 		<ShopLayout1>
@@ -45,8 +101,8 @@ const ProductSearchResult = () => {
 					}}
 				>
 					<Box>
-						<H5>Searching for “ mobile phone ”</H5>
-						<Paragraph color="grey.600">48 results found</Paragraph>
+						<H5>Shop page</H5>
+						{/* <Paragraph color="grey.600">48 results found</Paragraph> */}
 					</Box>
 
 					<FlexBox
@@ -68,6 +124,9 @@ const ProductSearchResult = () => {
 								placeholder="Short by"
 								defaultValue={sortOptions[0].value}
 								sx={{ flex: '1 1 0', minWidth: '150px' }}
+								onChange={({ target }) =>
+									filterHandler({ ordering: target.value })
+								}
 							>
 								{sortOptions?.map((item) => (
 									<MenuItem value={item.value} key={item.value}>
@@ -116,9 +175,18 @@ const ProductSearchResult = () => {
 						<ProductFilterCard />
 					</Grid>
 
-					{/* <Grid item md={9} xs={12}>
-						{view === 'grid' ? <ProductCard1List /> : <ProductCard9List />}
-					</Grid> */}
+					<Grid item md={9} xs={12}>
+						{products?.count ? (
+							view === 'grid' ? (
+								<ProductCard1List
+									products={products.results}
+									count={products.count}
+								/>
+							) : (
+								<ProductCard9List products={products.results} />
+							)
+						) : null}
+					</Grid>
 				</Grid>
 			</Container>
 		</ShopLayout1>
@@ -126,10 +194,10 @@ const ProductSearchResult = () => {
 }
 
 const sortOptions = [
-	{ label: 'Relevance', value: 'Relevance' },
-	{ label: 'Date', value: 'Date' },
-	{ label: 'Price Low to High', value: 'Price Low to High' },
-	{ label: 'Price High to Low', value: 'Price High to Low' },
+	{ label: 'All', value: '#' },
+	{ label: 'Novelties', value: '-created_at' },
+	{ label: 'Price Low to High', value: '-overall_price' },
+	{ label: 'Price High to Low', value: 'overall_price' },
 ]
 
-export default ProductSearchResult
+export default ShopPage
