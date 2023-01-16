@@ -2,18 +2,18 @@ import { Box } from '@mui/material'
 import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
 import { PagesService } from 'api/services-admin/pages/pages.service'
 import CreateForm from 'components/Form/CreateForm'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import useDebounce from 'hooks/useDebounce'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
+import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IPages } from 'shared/types/pages.types'
 import { pageEditForm } from 'utils/constants/forms'
-import React from 'react'
 import { formData } from 'utils/formData'
-import useDebounce from 'hooks/useDebounce'
 
 const CreatePages: NextPageAuth = () => {
 	const { push } = useRouter()
@@ -78,7 +78,7 @@ const CreatePages: NextPageAuth = () => {
 						placeholder: 'Enter category',
 						allNames: categories?.results?.map((c) => ({
 							id: c?.id,
-							label: c?.title,
+							name: c?.title,
 						})),
 						required: true,
 						fullWidth: true,

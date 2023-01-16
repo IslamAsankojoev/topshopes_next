@@ -2,11 +2,12 @@ import { Box } from '@mui/material'
 import { AttributesServiceAdmin } from 'api/services-admin/attributes/attributes.service'
 import { CategoriesService } from 'api/services-admin/categories/category.service'
 import CreateForm from 'components/Form/CreateForm'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import useDebounce from 'hooks/useDebounce'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
@@ -16,6 +17,10 @@ import { formData } from 'utils/formData'
 
 const CreateCategory: NextPageAuth = () => {
 	const { push } = useRouter()
+
+	//states
+	const [attributeSearch, setAttributeSearch] = React.useState('')
+	const debounceValue = useDebounce(attributeSearch)
 
 	// category create
 	const { isLoading, mutateAsync } = useMutation(
@@ -33,8 +38,8 @@ const CreateCategory: NextPageAuth = () => {
 	)
 
 	const { data: attributes } = useQuery(
-		'attributes get',
-		() => AttributesServiceAdmin.getList(),
+		`attributes get search=${debounceValue}`,
+		() => AttributesServiceAdmin.getList({ search: debounceValue }),
 		{ select: (data) => data?.results }
 	)
 
@@ -46,7 +51,16 @@ const CreateCategory: NextPageAuth = () => {
 			}
 		}
 
-		await mutateAsync(formData(clearData))
+		await mutateAsync(
+			formData({
+				...clearData,
+				attributes: data?.attributes?.map((attr) => attr.id),
+			})
+		)
+	}
+
+	const getValues = (values) => {
+		setAttributeSearch(values.attributes_search)
 	}
 
 	if (isLoading) {
@@ -63,13 +77,14 @@ const CreateCategory: NextPageAuth = () => {
 					{
 						name: 'attributes',
 						label: 'attributes',
-						type: 'multiple-select',
+						type: 'autocomplete-multiple',
 						placeholder: 'Enter attributes',
 						allNames: attributes,
 						required: true,
 					},
 				]}
 				handleFormSubmit={handleFormSubmit}
+				getValues={getValues}
 			/>
 		</Box>
 	)
