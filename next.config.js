@@ -2,6 +2,7 @@
 const languages = ['ru', 'kg', 'tr', 'en', 'pl']
 
 module.exports = {
+	distDir: 'build',
 	devIndicators: {
 		buildActivity: false,
 	},
