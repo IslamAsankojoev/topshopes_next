@@ -2,19 +2,19 @@ import { Box } from '@mui/material'
 import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
 import { PagesService } from 'api/services-admin/pages/pages.service'
 import CreateForm from 'components/Form/CreateForm'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import useDebounce from 'hooks/useDebounce'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
+import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IPages } from 'shared/types/pages.types'
 import { pageEditForm } from 'utils/constants/forms'
-import React, { useState } from 'react'
 import { formData } from 'utils/formData'
-import useDebounce from 'hooks/useDebounce'
 
 const UpdatePages: NextPageAuth = () => {
 	const {
@@ -79,7 +79,11 @@ const UpdatePages: NextPageAuth = () => {
 		<Box py={4}>
 			<H3 mb={2}>Add New Page</H3>
 			<CreateForm
-				defaultData={{ ...page, content: page?.content?.data }}
+				defaultData={{
+					...page,
+					content: page?.content?.data,
+					category: { id: page?.category.id, name: page?.category.title },
+				}}
 				fields={[
 					...pageEditForm,
 					{
