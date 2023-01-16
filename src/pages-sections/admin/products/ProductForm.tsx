@@ -136,8 +136,9 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							size="medium"
 							placeholder="Category"
 							value={values.category}
+							// @ts-ignore
 							onChange={(
-								_: any,
+								event: any,
 								newValue: { id: string | number; label: string } | null
 							) => {
 								if (
@@ -170,6 +171,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							color="info"
 							size="medium"
 							onBlur={handleBlur}
+							// @ts-ignore
 							onChange={(
 								_: any,
 								newValue: { id: string | number; label: string } | null
@@ -202,6 +204,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 								onBlur={handleBlur}
 								placeholder="Shop"
 								value={values.shop}
+								// @ts-ignore
 								onChange={(
 									_: any,
 									newValue: { id: string | number; label: string } | null
