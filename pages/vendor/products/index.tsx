@@ -32,24 +32,18 @@ const ProductList: NextPageAuth = () => {
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
-	const {
-		data: products,
-		isLoading,
-		refetch,
-	} = useQuery(`products search=${searchValue} page=${currentPage}`, () =>
-		ProductsService.getList({
-			search: searchValue,
-			page: currentPage,
-			page_size: 20,
-		})
+	const { data: products, refetch } = useQuery(
+		`products search=${searchValue} page=${currentPage}`,
+		() =>
+			ProductsService.getList({
+				search: searchValue,
+				page: currentPage,
+				page_size: 20,
+			})
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
 		useMuiTable({ listData: products?.results })
-
-	if (isLoading) {
-		return <Loading />
-	}
 
 	return (
 		<Box py={4}>
