@@ -6,17 +6,15 @@ WORKDIR /frontend
 
 COPY package.json ./
 
-RUN npm install -g npm@9.2.0
-
-RUN npm install --force
+RUN yarn install
 
 FROM node:16-alpine
 
 WORKDIR /frontend
 
 COPY --from=builder /frontend/node_modules ./node_modules
-COPY --from=builder /frontend/package.json ./package.json
+COPY --from=builder /frontend/package.json ./
 
 COPY . .
 
-RUN npm run build
+RUN yarn build
