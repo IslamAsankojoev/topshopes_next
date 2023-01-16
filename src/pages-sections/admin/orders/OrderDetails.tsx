@@ -119,14 +119,14 @@ const OrderDetails = () => {
 							value={order.status}
 							onChange={handleChangeStatus}
 						>
-							{/* "pending" | "paid" | "delivering" | "delivered" | "received" | "canceled" */}
+							{/* "pending" | "paid" | "delivering" | "delivered" | "received" | "cancelled" */}
 
 							<MenuItem value="pending">pending</MenuItem>
 							<MenuItem value="paid">paid</MenuItem>
 							<MenuItem value="delivering">delivering</MenuItem>
 							<MenuItem value="delivered">delivered</MenuItem>
 							<MenuItem value="received">received</MenuItem>
-							<MenuItem value="canceled">canceled</MenuItem>
+							<MenuItem value="cancelled">cancelled</MenuItem>
 						</TextField>
 					</FlexBox>
 

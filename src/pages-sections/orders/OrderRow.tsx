@@ -37,7 +37,7 @@ const OrderRow: FC<IOrderShort> = ({
 			case 'delivered':
 				return 'success'
 
-			case 'canceled':
+			case 'cancelled':
 				return 'error'
 
 			default:
