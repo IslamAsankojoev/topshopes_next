@@ -3392,7 +3392,7 @@ is-core-module@^2.11.0, is-core-module@^2.9.0:
 
 is-date-object@^1.0.1, is-date-object@^1.0.5:
   version "1.0.5"
-  resolved "https://registry.npmjs.org/is-date-object/-/is-date-object-1.0.5.tgz"
+  resolved "https://registry.yarnpkg.com/is-date-object/-/is-date-object-1.0.5.tgz#0841d5536e724c25597bf6ea62e1bd38298df31f"
   integrity sha512-9YQaSxsAiSwcvS33MBk3wTCVnWK+HhF8VZR2jRxehM16QcVOdHqPn4VPHmRK4lSr38n9JriurInLcP90xsYNfQ==
   dependencies:
     has-tostringtag "^1.0.0"
