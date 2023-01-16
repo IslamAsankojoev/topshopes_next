@@ -84,7 +84,6 @@ const SearchBox: FC = () => {
 		push({
 			pathname: '/shop',
 			query: {
-				...query,
 				search,
 				page: 1,
 				category: category.id,

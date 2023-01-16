@@ -8,15 +8,15 @@ import {
 	IconButton,
 	Paper,
 	Popper,
-	styled,
 	SvgIconProps,
 	Tab,
+	styled,
 } from '@mui/material'
+import { H6, Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import CartCheck from 'components/icons/CartCheck'
 import CartX from 'components/icons/CartX'
 import TruckFast from 'components/icons/TruckFast'
-import { H6, Paragraph } from 'components/Typography'
 import { formatDistance } from 'date-fns'
 import { FC, SyntheticEvent, useState } from 'react'
 
@@ -89,7 +89,7 @@ const ListItemWrapper = styled(FlexBox)(({ theme }) => ({
 }))
 
 const NotificationsPopover: FC = () => {
-	const [open, setOpen] = useState(false)
+	const [open, setOpen] = useState<boolean>(false)
 	const [tabValue, setTabValue] = useState('1')
 	const [anchorEl, setAnchorEl] = useState(null)
 
@@ -129,6 +129,8 @@ const NotificationsPopover: FC = () => {
 						overflow: 'hidden',
 						top: '10px !important',
 					}}
+					onResize={undefined}
+					onResizeCapture={undefined}
 				>
 					{({ TransitionProps }) => (
 						<Fade {...TransitionProps} timeout={150}>

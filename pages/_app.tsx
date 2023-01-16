@@ -1,4 +1,3 @@
-import React from 'react'
 import RTL from 'components/RTL'
 import { AppProvider } from 'contexts/AppContext'
 import SettingsProvider from 'contexts/SettingContext'
@@ -8,17 +7,17 @@ import Head from 'next/head'
 import Router from 'next/router'
 import nProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import React from 'react'
 import { Fragment, ReactElement, ReactNode, useEffect, useState } from 'react'
-import 'simplebar/dist/simplebar.min.css'
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import 'react-toastify/dist/ReactToastify.css'
-
+import { TypeComponentAuthFields } from 'shared/types/auth.types'
+import 'simplebar/dist/simplebar.min.css'
 import MuiTheme from 'theme/MuiTheme'
 import OpenGraphTags from 'utils/OpenGraphTags'
-import '../src/fake-db'
 
 import '../global.scss'
-import { TypeComponentAuthFields } from 'shared/types/auth.types'
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
+import '../src/fake-db'
 
 type MyAppProps = AppProps & {
 	Component: NextPage & {
@@ -26,7 +25,12 @@ type MyAppProps = AppProps & {
 	}
 }
 
-type TypeAppProps = MyAppProps & TypeComponentAuthFields
+type TypeAppProps = MyAppProps &
+	TypeComponentAuthFields & {
+		pageProps: {
+			dehydratedState: unknown
+		}
+	}
 
 //Binding events.
 Router.events.on('routeChangeStart', () => nProgress.start())

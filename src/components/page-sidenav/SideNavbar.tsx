@@ -93,7 +93,7 @@ const SideNavbar: FC<SideNavbarProps> = (props) => {
 	}
 
 	return (
-		<Scrollbar autoHide={false} style={{ maxHeight: sidebarHeight }}>
+		<Scrollbar autoHide={false} sx={{ maxHeight: sidebarHeight }}>
 			<NavbarRoot isfixed={isFixed} sidebarstyle={sidebarStyle}>
 				{navList?.map((item, ind) => {
 					return (

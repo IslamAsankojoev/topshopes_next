@@ -6,9 +6,9 @@ import {
 	Drawer,
 	IconButton,
 } from '@mui/material'
-import NavLink from 'components/nav-link/NavLink'
 import Scrollbar from 'components/Scrollbar'
 import { H6 } from 'components/Typography'
+import NavLink from 'components/nav-link/NavLink'
 import navbarNavigations from 'data/navbarNavigations'
 import { FC, Fragment, useState } from 'react'
 
@@ -100,7 +100,7 @@ const MobileMenu: FC = () => {
 				sx={{ zIndex: 15001 }}
 			>
 				<Box sx={{ width: '100vw', height: '100%', position: 'relative' }}>
-					<Scrollbar autoHide={false} style={{ height: '100vh' }}>
+					<Scrollbar autoHide={false} sx={{ height: '100vh' }}>
 						<Box
 							maxWidth={500}
 							margin="auto"

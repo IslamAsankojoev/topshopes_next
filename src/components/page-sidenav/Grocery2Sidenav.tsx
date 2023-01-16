@@ -1,12 +1,12 @@
 import { Box, useTheme } from '@mui/material'
+import BazaarCard from 'components/BazaarCard'
+import Scrollbar from 'components/Scrollbar'
+import { Span } from 'components/Typography'
 import Accordion from 'components/accordion/Accordion'
 import AccordionHeader from 'components/accordion/AccordionHeader'
-import BazaarCard from 'components/BazaarCard'
 import { FlexBox } from 'components/flex-box'
 import appIcons from 'components/icons'
 import NavLink from 'components/nav-link/NavLink'
-import Scrollbar from 'components/Scrollbar'
-import { Span } from 'components/Typography'
 import { FC, Fragment, useEffect, useState } from 'react'
 
 // ===========================================================
@@ -49,7 +49,7 @@ const Grocery2SideNav: FC<GrocerySidenavProps> = ({ groceryNavigation }) => {
 
 	return (
 		<Scrollbar
-			style={{
+			sx={{
 				boxShadow: shadows[1],
 				marginTop: scrolled ? 24 : 0,
 				transition: 'all 0.4s ease-in-out',
