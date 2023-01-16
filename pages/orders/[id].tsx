@@ -63,7 +63,7 @@ const OrderDetails: NextPageAuth = () => {
 	const orderStatusList: IOrderStatus[] = [
 		'pending',
 		'paid',
-		'canceled',
+		'cancelled',
 		'delivered',
 		'delivering',
 		'received',

@@ -17,7 +17,7 @@ export type IOrderStatus =
 	| 'delivering'
 	| 'delivered'
 	| 'received'
-	| 'canceled'
+	| 'cancelled'
 
 export interface IOrderShort {
 	id: string
