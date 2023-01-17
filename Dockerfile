@@ -1,35 +1,17 @@
-FROM node:17.7.2-alpine AS deps
-RUN apk add --no-cache libc6-compat
-WORKDIR /topshopes_next
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+FROM node:alpine as base
+WORKDIR /frontend
+COPY package*.json ./
+COPY yarn.lock ./
 
-# Rebuild the source code only when needed
-FROM node:alpine AS builder
-WORKDIR /topshopes_next
+FROM base as pre-prod
 COPY . .
-COPY --from=deps /topshopes_next/node_modules ./node_modules
+RUN yarn install --forzen-lockfile
 RUN yarn build
 
-# Production image, copy all the files and run next
-FROM node:alpine AS runner
-WORKDIR /topshopes_next
+FROM node:alpine as prod
 
-ENV NODE_ENV production
-
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-
-# You only need to copy next.config.js if you are NOT using the default configuration
-COPY --from=builder /topshopes_next/next.config.js ./
-COPY --from=builder /topshopes_next/public ./public
-COPY --from=builder --chown=nextjs:nodejs /topshopes_next/build ./build
-COPY --from=builder /topshopes_next/node_modules ./node_modules
-COPY --from=builder /topshopes_next/package.json ./package.json
-COPY --from=builder --chown=nextjs:nodejs /topshopes_next/build/static ./build/static
-
-USER nextjs
-
-EXPOSE 3000
-
-CMD ["yarn", "run", "dev"]
+WORKDIR /frontend
+COPY --from=pre-prod /frontend/public ./public
+COPY --from=pre-prod /frontend/build ./build
+COPY --from=pre-prod /frontend/node_modules ./node_modules
+CMD ["node_modules/.bin/next", "start"]
