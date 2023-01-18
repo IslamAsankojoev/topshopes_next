@@ -19,10 +19,12 @@ export const getStaticProps: GetStaticProps = async () => {
 			props: {
 				dehydratedState: dehydrate(queryClient),
 			},
+			revalidate: 10
 		}
 	} catch {
 		return {
 			props: {},
+			revalidate: 10
 		}
 	}
 }

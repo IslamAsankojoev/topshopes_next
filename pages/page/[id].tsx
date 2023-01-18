@@ -1,7 +1,9 @@
+import styled from '@emotion/styled'
 import { Container } from '@mui/material'
 import { axiosClassic } from 'api/interceptor'
-import ShopLayout1 from 'components/layouts/ShopLayout1'
+import LazyImage from 'components/LazyImage'
 import Loading from 'components/Loading'
+import ShopLayout1 from 'components/layouts/ShopLayout1'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useQuery } from 'react-query'
@@ -26,10 +28,23 @@ const Page = () => {
 		<ShopLayout1>
 			{isLoading ? <Loading /> : null}
 			<Container sx={{ mt: 4, mb: 6 }}>
+				<Img>
+					<img src={page?.image} />
+				</Img>
+				<h2>{page?.title}</h2>
 				<div dangerouslySetInnerHTML={{ __html: page?.content?.data }}></div>
 			</Container>
 		</ShopLayout1>
 	)
 }
+
+const Img = styled.div`
+	width: 100%;
+
+	img {
+		width: auto;
+		max-height: 300px;
+	}
+`
 
 export default Page

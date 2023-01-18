@@ -6,8 +6,8 @@ import { FC, useEffect, useState } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
-import styles from './TextEditor.module.scss'
 import { ITextEditor } from './TextEditor.interface'
+import styles from './TextEditor.module.scss'
 
 const TextEditor: FC<ITextEditor> = ({
 	placeholder,
@@ -21,7 +21,15 @@ const TextEditor: FC<ITextEditor> = ({
 
 	useEffect(() => {
 		if (!isUpdated) {
-			const defaultValue = value ? value : ''
+			const defaultValue = value
+				? value
+				: `
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>`
 			const blocksFromHtml = htmlToDraft(defaultValue)
 			const contentState = ContentState.createFromBlockArray(
 				blocksFromHtml.contentBlocks,
@@ -30,6 +38,7 @@ const TextEditor: FC<ITextEditor> = ({
 			const newEditorState = EditorState.createWithContent(contentState)
 			setEditorState(newEditorState)
 		}
+		console.log(value)
 	}, [value, isUpdated])
 
 	const onEditorStateChange = (editorState: EditorState) => {

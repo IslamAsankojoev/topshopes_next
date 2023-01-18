@@ -1,9 +1,10 @@
 import styled from '@emotion/styled'
-import Icon from '../../components/icons/FaIcon/Icon'
 import { Button, TextField } from '@mui/material'
 import React from 'react'
 import { toast } from 'react-toastify'
+
 import { sendMessage } from '../../components/bot/TelegramBotMeassage'
+import Icon from '../../components/icons/FaIcon/Icon'
 
 interface formDataType {
 	username: string
@@ -88,12 +89,11 @@ const ContactsForm = () => {
 					/>
 				</DoubleInput>
 				<TextField
-					inputProps={{ pattern: '/[^0-9 ]/g' }}
 					variant={'standard'}
-					inputMode={'decimal'}
 					name={'phone'}
 					onChange={onChange}
 					value={formData.phone}
+					fullWidth
 					required
 					label={'Phone Number'}
 				/>

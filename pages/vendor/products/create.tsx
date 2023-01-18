@@ -1,23 +1,24 @@
 import { Box } from '@mui/material'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import { H3 } from 'components/Typography'
-import { ProductForm } from 'pages-sections/admin'
-import Loading from 'components/Loading'
-import React, { ReactElement, useEffect } from 'react'
-import { ProductFetchTypes } from '../../../src/pages-sections/admin/products/useProductFetch'
-import { toast } from 'react-toastify'
-import { formData } from 'utils/formData'
-import { useRouter } from 'next/router'
-import { NextPageAuth } from 'shared/types/auth.types'
-import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
-import { useTypedSelector } from 'hooks/useTypedSelector'
-import { useActions } from 'hooks/useActions'
+import { AttributesService } from 'api/services/attributes/attributes.service'
 import { ImagesService } from 'api/services/images/images.service'
 import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
-import { getErrorMessage } from 'utils/getErrorMessage'
 import { ProductsService } from 'api/services/products/product.service'
+import Loading from 'components/Loading'
+import { H3 } from 'components/Typography'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import { useActions } from 'hooks/useActions'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useRouter } from 'next/router'
+import { ProductForm } from 'pages-sections/admin'
+import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 import { productFormValidationSchemaVendor } from 'pages-sections/admin/products/productFormValidationSchema'
-import { AttributesService } from 'api/services/attributes/attributes.service'
+import React, { ReactElement, useEffect } from 'react'
+import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
+import { formData } from 'utils/formData'
+import { getErrorMessage } from 'utils/getErrorMessage'
+
+import { ProductFetchTypes } from '../../../src/pages-sections/admin/products/useProductFetch'
 
 const initialValues = {
 	title: '',
@@ -84,9 +85,11 @@ const CreateProduct: NextPageAuth = () => {
 
 			push('/vendor/products/')
 		} catch (e) {
+			console.log(e)
 			if (productId) {
 				await ProductsService.delete(productId)
 			}
+			toast.error('Продукт не был создан')
 			toast.error('product: ' + getErrorMessage(e))
 		}
 	}
@@ -97,7 +100,7 @@ const CreateProduct: NextPageAuth = () => {
 
 	return fetch ? (
 		<Box py={4}>
-			<H3 mb={2}>Add New Product</H3>
+			<H3 mb={2}>Добавить новый продукт</H3>
 
 			<ProductForm
 				initialValues={initialValues}

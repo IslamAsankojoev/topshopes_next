@@ -44,11 +44,9 @@ type ProductDetailsProps = {
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
 	const { id } = props
 
-	const {
-		data: product,
-		refetch,
-		isLoading,
-	} = useQuery(['product detail'], () => ShopsProductsService.get(id as string))
+	const { data: product, refetch } = useQuery([`product detail id=${id}`], () =>
+		ShopsProductsService.get(id as string)
+	)
 
 	// const [product, setProduct] = useState(bazaarReactDatabase[2])
 	const [selectedOption, setSelectedOption] = useState(0)
@@ -120,7 +118,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
 		const { trueID } = ctx.query
 		const queryClient = new QueryClient()
-		await queryClient.fetchQuery(['product detail'], () =>
+		await queryClient.fetchQuery([`product detail id=${trueID}`], () =>
 			ShopsProductsService.get(trueID as string)
 		)
 

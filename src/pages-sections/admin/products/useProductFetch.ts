@@ -1,12 +1,12 @@
 import { useQuery } from 'react-query'
-import { CategoriesService } from 'api/services-admin/categories/category.service'
 import { ShopsService } from 'api/services-admin/shops/shops.service'
 
 import { ICategory } from 'shared/types/product.types'
 import { IShop } from 'shared/types/shop.types'
-import { BrandsService } from 'api/services-admin/brands/brand.service'
 
 import { IBrand } from 'shared/types/brand.types'
+import { CategoriesService } from 'api/services/categories/category.service'
+import { BrandsService } from 'api/services/brands/brand.service'
 
 export interface ProductFetchTypes {
 	categories: ICategory[]
