@@ -18,15 +18,15 @@ import React, { FC, Fragment, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import {
-	IImage,
-	IProductVariant,
 	IColor,
-	ISize,
+	IImage,
 	IProductAttributeValue,
+	IProductVariant,
+	ISize,
 } from 'shared/types/product.types'
-
 import { productVariantFormCreate } from 'utils/constants/forms'
 import { formData } from 'utils/formData'
+
 import ProductAttributes from './productVariantAttribute'
 
 // ==================================================================
@@ -140,6 +140,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 			}
 
 			for (let attribute of newAttributes) {
+				if (!attribute.value) continue
 				await AttributesService.create(variantResponse.id, {
 					attribute: attribute.attributeNameId,
 					value: attribute.value,
@@ -161,7 +162,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				await AttributesService.update(attribute.attributeId as string, {
 					product_variant: variantId,
 					attribute: attribute.attributeId,
-					value: attribute.value,
+					value: attribute.value || 'without',
 				})
 			} else {
 				await AttributesService.create(variantId as string, {

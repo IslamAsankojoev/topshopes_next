@@ -98,7 +98,7 @@ const ProfileEditor: NextPageAuth = () => {
 						<input
 							onChange={(e) => handleFileChange(e)}
 							id="profile-image"
-							accept="image/*"
+							accept="image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp"
 							type="file"
 						/>
 					</Box>

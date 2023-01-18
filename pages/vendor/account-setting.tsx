@@ -3,8 +3,8 @@ import { Avatar, Badge, Box, Button, Card, Grid, SxProps } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 import { UsersService } from 'api/services-admin/users/users.service'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { H3 } from 'components/Typography'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import countryList from 'data/countryList'
 import { Formik } from 'formik'
 import { useActions } from 'hooks/useActions'
@@ -40,7 +40,7 @@ const UploadButton: FC<UploadButtonProps> = ({ id, style = {} }) => {
 			<input
 				id={id}
 				type="file"
-				accept="image/*"
+				accept="image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp"
 				className="hidden"
 				onChange={(e) => console.log(e.target.files)}
 				style={{ display: 'none' }}
@@ -135,7 +135,7 @@ const AccountSetting: NextPageAuth = () => {
 						<input
 							onChange={(e) => handleFileChange(e)}
 							id="profile-image"
-							accept="image/*"
+							accept="image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp"
 							type="file"
 						/>
 					</Box>

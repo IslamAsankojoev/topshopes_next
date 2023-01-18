@@ -1,8 +1,8 @@
 export const SiteSettings = {
     email: 'example@gmail.com',
     support_email: 'example_support@gmail.com',
-    header_phone: '+996 (999)-99-99-99',
-    footer_phone: '+996 (999)-99-99-99',
+    header_phone: '+000 (000)-00-00-00',
+    footer_phone: '+000 (000)-00-00-00',
     short_description: 'Lorem ipsum beleker berbeym suraba menden suraba menden',
     address: 'example-219',
     facebook: '#',

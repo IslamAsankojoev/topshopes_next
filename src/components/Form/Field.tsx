@@ -5,10 +5,12 @@ import {
 	Switch,
 	TextField,
 } from '@mui/material'
-import { FC, useState } from 'react'
-import styles from './Field.module.scss'
-import dynamic from 'next/dynamic'
 import MultipleSelect from 'components/multiple-select/MultipleSelect'
+import dynamic from 'next/dynamic'
+import { FC, useState } from 'react'
+
+import styles from './Field.module.scss'
+
 const DynamicTextEditor = dynamic(
 	() => import('components/TextEditor/TextEditor'),
 	{ ssr: false }
@@ -196,7 +198,7 @@ const Field: FC<any> = (props) => {
 							hidden
 							name={other.name}
 							onChange={(e) => handleFileChange(e)}
-							accept="image/*"
+							accept="image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp"
 							type="file"
 						/>
 					</Button>

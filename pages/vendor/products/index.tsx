@@ -47,16 +47,16 @@ const ProductList: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Product List</H3>
+			<H3 mb={2}>Список продуктов</H3>
 
 			<SearchArea
 				handleSearch={(value: string) => {
 					setCurrentPage(1)
 					setSearchValue(value)
 				}}
-				buttonText="Add Product"
+				buttonText="Добавить продукт"
 				handleBtnClick={() => push('/vendor/products/create')}
-				searchPlaceholder="Search Product..."
+				searchPlaceholder="Искать продукты..."
 			/>
 
 			{products?.count ? (
