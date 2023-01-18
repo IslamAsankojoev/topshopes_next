@@ -21,10 +21,10 @@ import Sidenav from 'components/sidenav/Sidenav'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
+import React from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProductPreview } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'
-import React from 'react'
 
 // ===================================================
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
@@ -61,9 +61,9 @@ const ShopPage = ({ query }) => {
 	)
 
 	// mui settings
-	const [view, setView] = useState('grid')
+	// const [view, setView] = useState('grid')
 	const downMd = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
-	const toggleView = useCallback((v) => () => setView(v), [])
+	// const toggleView = useCallback((v) => () => setView(v), [])
 
 	// ordering
 	const filterHandler = (params: Record<string, string | number>) => {
@@ -129,23 +129,17 @@ const ShopPage = ({ query }) => {
 						</FlexBox>
 
 						<FlexBox alignItems="center" my="0.25rem">
-							<Paragraph color="grey.600" mr={1}>
+							{/* <Paragraph color="grey.600" mr={1}>
 								View:
-							</Paragraph>
+							</Paragraph> */}
 
-							<IconButton onClick={toggleView('grid')}>
-								<Apps
-									color={view === 'grid' ? 'primary' : 'inherit'}
-									fontSize="small"
-								/>
-							</IconButton>
+							{/* <IconButton onClick={toggleView('grid')}>
+								<Apps color={'primary'} fontSize="small" />
+							</IconButton> */}
 
-							<IconButton onClick={toggleView('list')}>
-								<ViewList
-									color={view === 'list' ? 'primary' : 'inherit'}
-									fontSize="small"
-								/>
-							</IconButton>
+							{/* <IconButton onClick={toggleView('list')}>
+								<ViewList color={'inherit'} fontSize="small" />
+							</IconButton> */}
 
 							{downMd && (
 								<Sidenav
@@ -169,14 +163,10 @@ const ShopPage = ({ query }) => {
 
 					<Grid item md={9} xs={12}>
 						{products?.count ? (
-							view === 'grid' ? (
-								<ProductCard1List
-									products={products.results}
-									count={products.count}
-								/>
-							) : (
-								<ProductCard9List products={products.results} />
-							)
+							<ProductCard1List
+								products={products.results}
+								count={products.count}
+							/>
 						) : null}
 					</Grid>
 				</Grid>
