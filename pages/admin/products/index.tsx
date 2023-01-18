@@ -18,7 +18,7 @@ import { NextPageAuth } from 'shared/types/auth.types'
 const tableHeading = [
 	{ id: 'name', label: 'Name', align: 'left' },
 	{ id: 'category', label: 'Category', align: 'left' },
-	{ id: 'brand', label: 'Brand', align: 'left' },
+	// { id: 'brand', label: 'Brand', align: 'left' },
 	{ id: 'price', label: 'Price', align: 'left' },
 	{ id: 'published', label: 'Published', align: 'left' },
 	{ id: 'action', label: 'Action', align: 'center' },

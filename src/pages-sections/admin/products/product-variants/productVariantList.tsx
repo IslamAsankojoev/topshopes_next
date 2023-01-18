@@ -1,5 +1,5 @@
-import { DeleteOutline } from '@mui/icons-material'
-import { Card, Grid, IconButton } from '@mui/material'
+import { Close, DeleteOutline } from '@mui/icons-material'
+import { Button, Card, Grid, IconButton, Typography } from '@mui/material'
 import Card1 from 'components/Card1'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import { H6, Paragraph } from 'components/Typography'
@@ -14,6 +14,8 @@ import styled from '@emotion/styled'
 import { adminCheckFetch, getImgUrl } from './productVariantHelper'
 import { useQuery } from 'react-query'
 import { CategoriesService } from 'api/services/categories/category.service'
+import LazyImage from 'components/LazyImage'
+import Lodash from 'lodash'
 
 type Props = {
 	refetch?: () => void
@@ -102,51 +104,89 @@ const ProductVariantList: React.FC<Props> = ({
 				/>
 			</FlexBetween>
 			<Grid sx={{ bgcolor: 'white' }} container spacing={3}>
-				{variantList(product)?.map((variant: IProductVariant, ind: number) => (
-					<Grid item md={4} sm={6} xs={12} key={ind + 'product variant'}>
-						<VariantCard>
-							<img
-								src={getImgUrl(variantCheck(variant)?.thumbnail)}
-								alt={'thumbnail'}
-							/>
+				{Lodash.sortBy(variantList(product), 'id')?.map(
+					(variant: IProductVariant, ind: number) => (
+						<Grid item md={3} sm={4} xs={12} key={ind + 'product variant'}>
+							<VariantCard>
+								<LazyImage
+									width={150}
+									height={200}
+									objectFit={'contain'}
+									objectPosition={'center'}
+									src={getImgUrl(variantCheck(variant)?.thumbnail)}
+									alt={'thumbnail'}
+								/>
 
-							<FlexBox justifyContent={'space-between'}>
-								<div>
-									<H6 mb={0.5}>price: {variantCheck(variant)?.price}</H6>
-									<Paragraph color="grey.700">
-										discount: {variantCheck(variant)?.discount}
-									</Paragraph>
-									<Paragraph color="grey.700">
-										status: {variantCheck(variant)?.status}
-									</Paragraph>
-									<Paragraph color="grey.700">
-										stock: {variantCheck(variant)?.stock}
-									</Paragraph>
-								</div>
-								<FlexBox alignItems={'center'}>
-									<ProductVariantForm
-										attributes={getAllattributes(
-											variant.attribute_values,
-											category?.attributes
+								<FlexBox
+									justifyContent={'space-between'}
+									sx={{
+										padding: '1rem',
+									}}
+								>
+									<div>
+										<Paragraph fontSize={16} color="grey.500">
+											Variant Details - {variantCheck(variant)?.id}
+										</Paragraph>
+										<H6 mb={0.5} fontSize={14}>
+											price: {variantCheck(variant)?.price}
+										</H6>
+										<Paragraph fontSize={14} color="grey.700">
+											discount: {variantCheck(variant)?.discount}
+										</Paragraph>
+										<Paragraph fontSize={14} color="grey.700">
+											status: {variantCheck(variant)?.status}
+										</Paragraph>
+										<Paragraph fontSize={14} color="grey.700">
+											stock: {variantCheck(variant)?.stock}
+										</Paragraph>
+										<br />
+										<Paragraph fontSize={16} color="grey.500">
+											Attributes
+										</Paragraph>
+										{variantCheck(variant)?.attribute_values?.map(
+											(attribute: any, ind: number) => (
+												<Paragraph color="grey.700" key={ind + 'attribute'}>
+													{attribute?.attribute?.name ||
+														attribute?.attributeName}
+													:{attribute?.value || attribute?.attributeValue}
+												</Paragraph>
+											)
 										)}
-										refetch={refetch}
-										initialValues={variantCheck(variant)}
-										createPage={create}
-										variantId={variant?.id}
-										images={variant?.images}
-									/>
-									<IconButton
-										size="small"
-										color="error"
-										onClick={(e) => deleteVariant(variant)}
-									>
-										{!isAdmin ? <DeleteOutline sx={{ fontSize: 20 }} /> : null}
-									</IconButton>
+									</div>
+									<FlexBox alignItems={'center'}>
+										<ProductVariantForm
+											attributes={getAllattributes(
+												variant.attribute_values,
+												category?.attributes
+											)}
+											refetch={refetch}
+											initialValues={variantCheck(variant)}
+											createPage={create}
+											variantId={variant?.id}
+											images={variant?.images}
+										/>
+										{!isAdmin ? (
+											<Button
+												sx={{
+													position: 'absolute',
+													top: '0px',
+													right: '0px',
+													borderRadius: '0 0 0 10px',
+												}}
+												variant="contained"
+												size="small"
+												color="error"
+												onClick={(e) => deleteVariant(variant)}
+											>
+												<Close />
+											</Button>
+										) : null}
+									</FlexBox>
 								</FlexBox>
-							</FlexBox>
-						</VariantCard>
-					</Grid>
-				))}
+							</VariantCard>
+						</Grid>
+					)
+				)}
 			</Grid>
 		</Card1>
 	)

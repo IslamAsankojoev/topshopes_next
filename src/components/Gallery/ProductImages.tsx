@@ -17,7 +17,6 @@ interface IProductImages {
 	remove: (item: IImage | File) => void
 	add: (image: File) => void
 	productVariant?: string
-
 }
 
 const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
@@ -46,7 +45,7 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 	}
 
 	return (
-		<Card sx={{ p: 6, mt: 2 }}>
+		<div style={{ padding: 6, marginTop: 2 }}>
 			<h3>Product images</h3>
 			{images?.length > 0 ? (
 				<ImageList cols={5}>
@@ -97,7 +96,7 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 					type="file"
 				/>
 			</Button>
-		</Card>
+		</div>
 	)
 }
 

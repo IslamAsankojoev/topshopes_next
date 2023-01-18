@@ -62,6 +62,7 @@ export const primary = {
 	300: '#ff9100',
 	200: '#ffaa00', // Line Stroke
 	100: '#FFD8C2',
+	contrastText: '#FFFFFF',
 }
 
 export const secondary = {

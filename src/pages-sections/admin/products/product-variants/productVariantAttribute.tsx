@@ -127,8 +127,8 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 		setNewAttributes(attrValues)
 	}
 
-	return (
-		<Card sx={{ p: 6, mt: 2 }}>
+	return attributeFields.length > 0 ? (
+		<div>
 			<h3>Attributes</h3>
 
 			<form onSubmit={handleSubmit}>
@@ -151,8 +151,8 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 					))}
 				</Grid>
 			</form>
-		</Card>
-	)
+		</div>
+	) : null
 }
 
 export default ProductAttributes

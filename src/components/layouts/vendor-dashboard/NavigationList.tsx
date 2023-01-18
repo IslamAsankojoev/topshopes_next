@@ -43,9 +43,16 @@ export const navigations = [
 	},
 
 	{
-		name: 'Customers',
+		name: 'Members',
 		icon: duotone.Customers,
 		path: '/admin/customers',
+		role: 'admin',
+	},
+
+	{
+		name: 'Sellers',
+		icon: duotone.Seller,
+		path: '/admin/sellers',
 		role: 'admin',
 	},
 

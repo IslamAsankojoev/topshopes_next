@@ -18,18 +18,11 @@ const TextEditor: FC<ITextEditor> = ({
 	const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
 	const [isUpdated, setIsUpdated] = useState(false)
+	const [isFocused, setIsFocused] = useState(false)
 
 	useEffect(() => {
 		if (!isUpdated) {
-			const defaultValue = value
-				? value
-				: `
-			<p></p>
-			<p></p>
-			<p></p>
-			<p></p>
-			<p></p>
-			<p></p>`
+			const defaultValue = value ? value : ``
 			const blocksFromHtml = htmlToDraft(defaultValue)
 			const contentState = ContentState.createFromBlockArray(
 				blocksFromHtml.contentBlocks,
@@ -55,11 +48,17 @@ const TextEditor: FC<ITextEditor> = ({
 
 				<div>
 					<Editor
+						onFocus={() => setIsFocused(true)}
+						onBlur={() => setIsFocused(false)}
 						toolbarClassName={'EditorToolbar'}
 						editorClassName={styles.editor}
 						editorState={editorState}
 						onEditorStateChange={onEditorStateChange}
 						spellCheck
+						wrapperClassName={
+							isFocused ? styles.wrapperFocused : styles.wrapper
+						}
+						placeholder={'Write something...'}
 						toolbar={{
 							options: [
 								'inline',

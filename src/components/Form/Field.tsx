@@ -1,12 +1,17 @@
 import {
 	Autocomplete,
 	Button,
+	Grid,
 	MenuItem,
+	styled,
 	Switch,
 	TextField,
 } from '@mui/material'
+import DropZone from 'components/DropZone'
+import LazyImage from 'components/LazyImage'
 import MultipleSelect from 'components/multiple-select/MultipleSelect'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { FC, useState } from 'react'
 
 import styles from './Field.module.scss'
@@ -166,18 +171,17 @@ const Field: FC<any> = (props) => {
 
 		const [fileLocaleUrl, setFileLocaleUrl] = useState(null)
 
-		const handleFileChange = (e) => {
-			const file = e.target.files[0]
+		const handleFileChange = (files) => {
+			const file = files[0]
 			if (file) {
-				setFileLocaleUrl(URL.createObjectURL(file))
-
+				setFileLocaleUrl(file && window.URL.createObjectURL(file))
 				other.setFieldValue(other.label, file)
 			}
 		}
 
 		return (
 			<>
-				<div className={styles.file}>
+				{/* <div className={styles.file}>
 					<img
 						className={styles.uploadImage}
 						src={
@@ -202,7 +206,49 @@ const Field: FC<any> = (props) => {
 							type="file"
 						/>
 					</Button>
-				</div>
+				</div> */}
+				<Grid
+					style={{
+						display: 'flex',
+						position: 'relative',
+					}}
+					container
+				>
+					<Grid
+						item
+						sm={getImgUrl(other.defaultData[other.name]) ? 6 : 12}
+						xs={12}
+					>
+						<h3 style={{ margin: 0 }}>{other.label}</h3>
+						<DropZone
+							name={other.name}
+							onChange={(e) => handleFileChange(e)}
+							multiple={false}
+							accept={
+								'image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'
+							}
+						/>
+					</Grid>
+					<Grid
+						display={'flex'}
+						item
+						sm={6}
+						xs={12}
+						position="relative"
+						marginTop={3}
+						justifyContent="center"
+						alignItems={'center'}
+					>
+						<Image
+							width={250}
+							height={250}
+							objectFit="contain"
+							objectPosition={'center center'}
+							src={fileLocaleUrl || getImgUrl(other.defaultData[other.name])}
+							alt={other.label}
+						/>
+					</Grid>
+				</Grid>
 			</>
 		)
 	}

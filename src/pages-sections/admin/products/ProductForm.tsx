@@ -244,7 +244,24 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						/>
 					</Grid>
 
-					<Grid item xs={12}>
+					<Grid
+						item
+						xs={12}
+						sx={{
+							position: 'fixed',
+							display: 'flex',
+							bottom: 0,
+							right: 0,
+							zIndex: 100,
+							padding: '10px!important',
+							backgroundColor: '#F7F9FC',
+							boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.18)',
+							'@media (max-width: 600px)': {
+								width: '100%',
+								justifyContent: 'center',
+							},
+						}}
+					>
 						<FlexBox
 							flexWrap={'wrap'}
 							justifyContent={'flex-end'}

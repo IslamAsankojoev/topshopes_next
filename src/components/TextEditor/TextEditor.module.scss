@@ -1,13 +1,26 @@
 .editor {
 	height: 100%;
+	min-height: 100px;
 	width: 100%;
 	background-color: rgb(253, 253, 253);
 	border: 1px solid #e9e9e9;
-	padding: 0 10px;
+	padding: 10px 10px;
 	cursor: text;
-	
+	border-radius: 7px;
+	div {
+		margin: 0 !important;
+	}
+}
+.editor:hover {
+	border: 1px solid black;
 }
 
 .editor-container {
 	margin: 20px 5px;
+}
+
+.wrapperFocused {
+	.editor {
+		border: 2px solid #4e97fd;
+	}
 }

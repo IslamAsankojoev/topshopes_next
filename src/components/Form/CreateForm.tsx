@@ -11,12 +11,14 @@ interface CreateFormProps {
 	handleFormSubmit: (formData?: FormData, values?: Record<string, any>) => void
 	defaultData: Record<string, any>
 	getValues?: (values: Record<string, any>) => void
+	children?: React.ReactNode
 }
 const CreateForm: React.FC<CreateFormProps> = ({
 	fields,
 	handleFormSubmit,
 	defaultData,
 	getValues,
+	children,
 }) => {
 	// write validation schema for each field by iterating over fields
 	const validate = yup.object().shape(
@@ -139,8 +141,34 @@ const CreateForm: React.FC<CreateFormProps> = ({
 						</Grid>
 					) : null
 				)}
-				<Grid item xs={12}>
-					<Button variant="contained" color="info" type="submit">
+				<Grid
+					sx={{
+						p: 4,
+					}}
+				>
+					{children}
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					sx={{
+						p: 4,
+						position: 'absolute',
+						bottom: 0,
+						right: 0,
+						background: '#fff',
+					}}
+				>
+					<Button
+						variant="contained"
+						color="primary"
+						type="submit"
+						size="medium"
+						sx={{
+							padding: '0.5rem 1.4rem',
+							fontSize: '1rem',
+						}}
+					>
 						Save
 					</Button>
 				</Grid>
