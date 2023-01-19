@@ -1,15 +1,16 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { OrdersService } from 'api/services/orders/orders.service'
+import Loading from 'components/Loading'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Loading from 'components/Loading'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { OrderRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
@@ -27,6 +28,14 @@ const tableHeading = [
 	{ id: 'status', label: 'Status', align: 'left' },
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 
 const OrderList: NextPageAuth = () => {
 	const [searchValue, setSearchValue] = React.useState('')
@@ -108,12 +117,6 @@ OrderList.isOnlyUser = true
 
 OrderList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-	const orders = await api.orders()
-
-	return { props: { orders } }
 }
 
 export default OrderList

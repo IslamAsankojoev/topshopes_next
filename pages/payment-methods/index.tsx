@@ -3,12 +3,23 @@ import CreditCard from '@mui/icons-material/CreditCard'
 import Delete from '@mui/icons-material/Delete'
 import Edit from '@mui/icons-material/Edit'
 import { Button, Card, IconButton, Pagination, Typography } from '@mui/material'
+import TableRow from 'components/TableRow'
+import { H5 } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
-import TableRow from 'components/TableRow'
-import { H5 } from 'components/Typography'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
+// =
 
 const AddressList = () => {
 	return (

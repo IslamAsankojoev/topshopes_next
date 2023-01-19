@@ -1,9 +1,18 @@
 import { Grid } from '@mui/material'
 import SEO from 'components/SEO'
 import CheckoutNavLayout from 'components/layouts/CheckoutNavLayout'
-import { NextPage } from 'next'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import CheckoutForm from 'pages-sections/checkout/CheckoutForm'
 import CheckoutSummary from 'pages-sections/checkout/CheckoutSummary'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 
 const Checkout: NextPage = () => {
 	return (

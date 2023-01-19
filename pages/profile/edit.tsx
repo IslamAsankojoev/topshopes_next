@@ -13,6 +13,8 @@ import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/N
 import { Formik } from 'formik'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -21,6 +23,14 @@ import { NextPageAuth } from 'shared/types/auth.types'
 import { formData } from 'utils/formData'
 import { getLocalStorage } from 'utils/local-storage/localStorage'
 import * as yup from 'yup'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 
 const ProfileEditor: NextPageAuth = () => {
 	const user = useTypedSelector((state) => state.userStore.user)

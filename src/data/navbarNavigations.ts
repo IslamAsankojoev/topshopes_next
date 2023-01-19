@@ -85,7 +85,7 @@ const megaMenus = [
 // MAIN NAVIGATION DATA
 const navbarNavigations = [
   {
-    title: 'Home',
+    title: 'home',
     megaMenu: false,
     megaMenuWithSub: false,
     url: '/',
@@ -105,19 +105,19 @@ const navbarNavigations = [
     // ],
   },
   {
-    title: 'Shop',
+    title: 'shop',
     megaMenu: false,
     megaMenuWithSub: false,
     url: '/shop',
   },
   {
-    title: 'About',
+    title: 'about',
     megaMenu: false,
     megaMenuWithSub: false,
     url: '/about',
   },
   {
-    title: 'Contacts',
+    title: 'contacts',
     megaMenu: false,
     megaMenuWithSub: false,
     url: '/contacts',

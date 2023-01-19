@@ -13,6 +13,7 @@ import RelatedProducts from 'components/products/RelatedProducts'
 import { getAllProductsUrl, getProductsUrl } from 'config/api.config'
 import bazaarReactDatabase from 'data/bazaar-react-database'
 import { GetServerSideProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
@@ -114,6 +115,8 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 // 	}
 // }
 
+// =
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
 		const { trueID } = ctx.query
@@ -127,11 +130,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 				id: trueID,
 				// =========
 				dehydratedState: dehydrate(queryClient),
+				...(await serverSideTranslations(ctx.locale as string, ['common'])),
 				// =========
 			},
 		}
 	} catch {
-		return { props: {} }
+		return {
+			props: {
+				...(await serverSideTranslations(ctx.locale as string, ['common'])),
+			},
+		}
 	}
 }
 

@@ -7,14 +7,25 @@ import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
 import { Formik } from 'formik'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { NextPageAuth } from 'shared/types/auth.types'
 import * as yup from 'yup'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
+// =
+
 const AddressCreate: NextPageAuth = () => {
 	const { push } = useRouter()
-	const { user } = useTypedSelector((state) => state.userStore)
+	const { user }: { user: any } = useTypedSelector((state) => state.userStore)
 
 	// handle form submit
 	const handleFormSubmit = async (values: any) => {

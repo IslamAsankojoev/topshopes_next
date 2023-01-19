@@ -19,15 +19,20 @@ import ProductCard9List from 'components/products/ProductCard9List'
 import ProductFilterCard from 'components/products/ProductFilterCard'
 import Sidenav from 'components/sidenav/Sidenav'
 import { GetServerSideProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
+import React from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProductPreview } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'
-import React from 'react'
 
 // ===================================================
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+	query,
+	locale,
+}) => {
 	try {
 		const queryClient = new QueryClient()
 		await queryClient.fetchQuery(['shop products'], () =>
@@ -38,11 +43,14 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 			props: {
 				query,
 				dehydratedState: dehydrate(queryClient),
+				...(await serverSideTranslations(locale as string, ['common', 'shop'])),
 			},
 		}
 	} catch {
 		return {
-			props: {},
+			props: {
+				...(await serverSideTranslations(locale as string, ['common', 'shop'])),
+			},
 		}
 	}
 }
@@ -60,10 +68,11 @@ const ShopPage = ({ query }) => {
 		}
 	)
 
+	const { t } = useTranslation('shop')
+
 	// mui settings
 	const [view, setView] = useState('grid')
 	const downMd = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
-	const toggleView = useCallback((v) => () => setView(v), [])
 
 	// ordering
 	const filterHandler = (params: Record<string, string | number>) => {
@@ -92,7 +101,7 @@ const ShopPage = ({ query }) => {
 					}}
 				>
 					<Box>
-						<H5>Shop page</H5>
+						<H5>{t('shopPage')}</H5>
 						{/* <Paragraph color="grey.600">48 results found</Paragraph> */}
 					</Box>
 
@@ -104,7 +113,7 @@ const ShopPage = ({ query }) => {
 					>
 						<FlexBox alignItems="center" gap={1} flex="1 1 0">
 							<Paragraph color="grey.600" whiteSpace="pre">
-								Short by:
+								{t('sort')}:
 							</Paragraph>
 
 							<TextField
@@ -112,7 +121,6 @@ const ShopPage = ({ query }) => {
 								fullWidth
 								size="small"
 								variant="outlined"
-								placeholder="Short by"
 								value={router?.query?.ordering}
 								defaultValue={sortOptions[0].value}
 								sx={{ flex: '1 1 0', minWidth: '150px' }}
@@ -122,31 +130,13 @@ const ShopPage = ({ query }) => {
 							>
 								{sortOptions?.map((item) => (
 									<MenuItem value={item.value} key={item.value}>
-										{item.label}
+										{t(item.label)}
 									</MenuItem>
 								))}
 							</TextField>
 						</FlexBox>
 
 						<FlexBox alignItems="center" my="0.25rem">
-							<Paragraph color="grey.600" mr={1}>
-								View:
-							</Paragraph>
-
-							<IconButton onClick={toggleView('grid')}>
-								<Apps
-									color={view === 'grid' ? 'primary' : 'inherit'}
-									fontSize="small"
-								/>
-							</IconButton>
-
-							<IconButton onClick={toggleView('list')}>
-								<ViewList
-									color={view === 'list' ? 'primary' : 'inherit'}
-									fontSize="small"
-								/>
-							</IconButton>
-
 							{downMd && (
 								<Sidenav
 									handle={
@@ -169,14 +159,7 @@ const ShopPage = ({ query }) => {
 
 					<Grid item md={9} xs={12}>
 						{products?.count ? (
-							view === 'grid' ? (
-								<ProductCard1List
-									products={products.results}
-									count={products.count}
-								/>
-							) : (
-								<ProductCard9List products={products.results} />
-							)
+							<ProductCard9List products={products.results} />
 						) : null}
 					</Grid>
 				</Grid>
@@ -186,10 +169,10 @@ const ShopPage = ({ query }) => {
 }
 
 const sortOptions = [
-	{ label: 'All', value: '#' },
-	{ label: 'Novelties', value: '-created_at' },
-	{ label: 'Price Low to High', value: 'overall_price' },
-	{ label: 'Price High to Low', value: '-overall_price' },
+	{ label: 'all', value: '#' },
+	{ label: 'novelties', value: '-created_at' },
+	{ label: 'priceLow', value: 'overall_price' },
+	{ label: 'priceHigh', value: '-overall_price' },
 ]
 
 export default ShopPage

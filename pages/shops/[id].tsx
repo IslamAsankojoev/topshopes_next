@@ -9,6 +9,7 @@ import ProductFilterCard from 'components/products/ProductFilterCard'
 import ShopIntroCard from 'components/shop/ShopIntroCard'
 import Sidenav from 'components/sidenav/Sidenav'
 import useWindowSize from 'hooks/useWindowSize'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { IShop } from 'shared/types/shop.types'
@@ -67,6 +68,10 @@ export const getServerSideProps = async (context) => {
 	return {
 		props: {
 			shop,
+			...(await serverSideTranslations(context.locale as string, [
+				'common',
+				'shop',
+			])),
 		},
 	}
 }

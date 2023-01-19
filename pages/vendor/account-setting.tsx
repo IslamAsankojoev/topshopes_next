@@ -9,10 +9,20 @@ import countryList from 'data/countryList'
 import { Formik } from 'formik'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import React, { FC, Fragment, ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 import * as yup from 'yup'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 
 // upload button
 type UploadButtonProps = { id: string; style?: SxProps }

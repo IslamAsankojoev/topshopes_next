@@ -50,6 +50,7 @@ const Header: FC<HeaderProps> = ({
 }) => {
 	const user = useTypedSelector((state) => state.userStore.user)
 	const cart = useTypedSelector((state) => state.cartStore.cart)
+	
 	const { push } = useRouter()
 	const theme = useTheme()
 	const [dialogOpen, setDialogOpen] = useState(false)

@@ -6,14 +6,16 @@ import ShoppingBagOutlined from 'components/icons/ShoppingBagOutlined'
 import User2 from 'components/icons/User2'
 import { useAppContext } from 'contexts/AppContext'
 import useWindowSize from 'hooks/useWindowSize'
+import { useTranslation } from 'next-i18next'
 import { FC, ReactNode, useEffect, useState } from 'react'
 import { layoutConstant } from 'utils/constants'
+
 import {
-	iconStyle,
 	StyledBox,
 	StyledDrawer,
 	StyledNavLink,
 	Wrapper,
+	iconStyle,
 } from './styles'
 
 // ===================================================
@@ -27,6 +29,8 @@ type Props = { children?: ReactNode }
  */
 
 const MobileNavigationBar2: FC<Props> = ({ children }) => {
+	const { t } = useTranslation('common')
+
 	const width = useWindowSize()
 	const { state } = useAppContext()
 	const [open, setOpen] = useState(false)
@@ -91,7 +95,7 @@ const MobileNavigationBar2: FC<Props> = ({ children }) => {
 								{item.title !== 'Cart' && (
 									<item.icon sx={iconStyle} fontSize="small" />
 								)}
-								{item.title}
+								{t(item.title)}
 							</StyledBox>
 						)
 					}
@@ -102,10 +106,10 @@ const MobileNavigationBar2: FC<Props> = ({ children }) => {
 }
 
 const list = [
-	{ title: 'Home', icon: Home, href: '/' },
-	{ title: 'Category', icon: CategoryOutlined },
-	{ title: 'Cart', icon: ShoppingBagOutlined, href: '/cart' },
-	{ title: 'Account', icon: User2, href: '/profile' },
+	{ title: 'home', icon: Home, href: '/' },
+	{ title: 'category', icon: CategoryOutlined },
+	{ title: 'cart', icon: ShoppingBagOutlined, href: '/cart' },
+	{ title: 'profile', icon: User2, href: '/profile' },
 ]
 
 export default MobileNavigationBar2

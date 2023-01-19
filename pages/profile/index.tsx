@@ -1,20 +1,29 @@
 import Person from '@mui/icons-material/Person'
 import { Avatar, Box, Button, Card, Grid, Typography } from '@mui/material'
+import TableRow from 'components/TableRow'
+import { H3, H5, Small } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
-import TableRow from 'components/TableRow'
-import { H3, H5, Small } from 'components/Typography'
 import { format } from 'date-fns'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 const Profile: NextPageAuth = () => {
 	const user = useTypedSelector((state) => state.userStore.user)
 
