@@ -20,14 +20,20 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 		return {
 			props: {
 				dehydratedState: dehydrate(queryClient),
-				...(await serverSideTranslations(locale as string, ['common'])),
+				...(await serverSideTranslations(locale as string, [
+					'common',
+					'contacts',
+				])),
 			},
 			revalidate: 10,
 		}
 	} catch {
 		return {
 			props: {
-				...(await serverSideTranslations(locale as string, ['common'])),
+				...(await serverSideTranslations(locale as string, [
+					'common',
+					'contacts',
+				])),
 			},
 			revalidate: 10,
 		}

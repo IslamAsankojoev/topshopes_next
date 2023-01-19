@@ -21,6 +21,7 @@ import { useRouter } from 'next/router'
 import Login from 'pages-sections/sessions/Login'
 import { FC, useState } from 'react'
 import { layoutConstant } from 'utils/constants'
+
 import SearchBox from '../search-box/SearchBox'
 
 // styled component
@@ -50,7 +51,7 @@ const Header: FC<HeaderProps> = ({
 }) => {
 	const user = useTypedSelector((state) => state.userStore.user)
 	const cart = useTypedSelector((state) => state.cartStore.cart)
-	
+
 	const { push } = useRouter()
 	const theme = useTheme()
 	const [dialogOpen, setDialogOpen] = useState(false)
@@ -106,8 +107,7 @@ const Header: FC<HeaderProps> = ({
 				</FlexBox>
 
 				<FlexBox justifyContent="center" flex="1 1 0">
-					{searchBoxType === 'type1' && <SearchBox />}
-					{searchBoxType === 'type2' && <GrocerySearchBox />}
+					<SearchBox />
 				</FlexBox>
 
 				<FlexBox

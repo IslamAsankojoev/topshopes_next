@@ -10,6 +10,7 @@ import { format } from 'date-fns'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { GetStaticProps, NextPage } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -25,6 +26,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	}
 }
 const Profile: NextPageAuth = () => {
+	const { t } = useTranslation('common')
 	const user = useTypedSelector((state) => state.userStore.user)
 
 	return (
@@ -32,12 +34,12 @@ const Profile: NextPageAuth = () => {
 			<CustomerDashboardLayout>
 				<UserDashboardHeader
 					icon={Person}
-					title="My Profile"
+					title={t('myProfile')}
 					navigation={<CustomerDashboardNavigation />}
 					button={
 						<Link href="/profile/edit" passHref>
 							<Button color="primary" sx={{ px: 4, bgcolor: 'primary.light' }}>
-								Edit Profile
+								{t('editProfile')}
 							</Button>
 						</Link>
 					}
@@ -108,14 +110,14 @@ const Profile: NextPageAuth = () => {
 				<TableRow sx={{ p: '0.75rem 1.5rem' }}>
 					<FlexBox flexDirection="column" p={1}>
 						<Small color="grey.600" mb={0.5} textAlign="left">
-							First Name
+							{t('firstName')}
 						</Small>
 						<span>{user.first_name}</span>
 					</FlexBox>
 
 					<FlexBox flexDirection="column" p={1}>
 						<Small color="grey.600" mb={0.5} textAlign="left">
-							Last Name
+							{t('lastName')}
 						</Small>
 						<span>{user.last_name || 'None'}</span>
 					</FlexBox>
@@ -129,7 +131,7 @@ const Profile: NextPageAuth = () => {
 
 					<FlexBox flexDirection="column" p={1}>
 						<Small color="grey.600" mb={0.5} textAlign="left">
-							Phone
+							{t('phone')}
 						</Small>
 						<span>{user.phone}</span>
 					</FlexBox>

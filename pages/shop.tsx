@@ -159,7 +159,10 @@ const ShopPage = ({ query }) => {
 
 					<Grid item md={9} xs={12}>
 						{products?.count ? (
-							<ProductCard9List products={products.results} />
+							<ProductCard1List
+								products={products.results}
+								count={products.count}
+							/>
 						) : null}
 					</Grid>
 				</Grid>

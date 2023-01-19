@@ -14,6 +14,7 @@ import { Formik } from 'formik'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -33,6 +34,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 
 const ProfileEditor: NextPageAuth = () => {
+	const { t } = useTranslation('common')
 	const user = useTypedSelector((state) => state.userStore.user)
 	const [file, setFile] = React.useState(null)
 	const [fileLocaleUrl, setFileLocaleUrl] = React.useState(null)
@@ -67,12 +69,12 @@ const ProfileEditor: NextPageAuth = () => {
 		<CustomerDashboardLayout>
 			<UserDashboardHeader
 				icon={Person}
-				title="Edit Profile"
+				title={t('editProfile')}
 				navigation={<CustomerDashboardNavigation />}
 				button={
 					<Link href="/profile" passHref>
 						<Button color="primary" sx={{ px: 4, bgcolor: 'primary.light' }}>
-							Back to Profile
+							{t('backProfile')}
 						</Button>
 					</Link>
 				}
@@ -135,7 +137,7 @@ const ProfileEditor: NextPageAuth = () => {
 										<TextField
 											fullWidth
 											name="first_name"
-											placeholder="First Name"
+											placeholder={t('firstName')}
 											onBlur={handleBlur}
 											onChange={handleChange}
 											value={values.first_name}
@@ -147,7 +149,7 @@ const ProfileEditor: NextPageAuth = () => {
 										<TextField
 											fullWidth
 											name="last_name"
-											placeholder="Last Name"
+											placeholder={t('lastName')}
 											onBlur={handleBlur}
 											onChange={handleChange}
 											value={values.last_name}
@@ -171,7 +173,7 @@ const ProfileEditor: NextPageAuth = () => {
 									<Grid item md={6} xs={12}>
 										<TextField
 											fullWidth
-											placeholder="Phone"
+											placeholder={t('phone')}
 											name="phone"
 											onBlur={handleBlur}
 											value={values.phone}
@@ -211,7 +213,7 @@ const ProfileEditor: NextPageAuth = () => {
 							</Box>
 							{/*// @ts-ignore*/}
 							<Button type="submit" variant="contained" color="primary">
-								Save Changes
+								{t('saveChanges')}
 							</Button>
 						</form>
 					)}

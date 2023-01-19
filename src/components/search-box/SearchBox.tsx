@@ -10,6 +10,7 @@ import { ShopsProductsService } from 'api/services/shops-products/ShopsProducts.
 import BazaarMenu from 'components/BazaarMenu'
 import { FlexBox } from 'components/flex-box'
 import useDebounce from 'hooks/useDebounce'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
@@ -43,7 +44,9 @@ const DropDownHandler = styled(FlexBox)(({ theme }) => ({
 }))
 
 const SearchBox: FC = () => {
-	const [category, setCategory] = useState({ id: '', name: 'All Catigories' })
+	const { t } = useTranslation('common')
+
+	const [category, setCategory] = useState({ id: '', name: t('allCategories') })
 
 	const [resultList, setResultList] = useState([])
 	const [search, setSearch] = useState<string>('')
@@ -66,7 +69,7 @@ const SearchBox: FC = () => {
 		() => CategoriesService.getList(),
 		{
 			select: (data: ResponseList<ICategory>) => [
-				{ id: 'all', name: 'All Catigories' },
+				{ id: 'all', name: t('allCategories') },
 				...data?.results,
 			],
 		}
@@ -93,6 +96,7 @@ const SearchBox: FC = () => {
 
 	const handleDocumentClick = () => setResultList([])
 
+	console.log(t('searchingFor'))
 	useEffect(() => {
 		window.addEventListener('click', handleDocumentClick)
 		return () => window.removeEventListener('click', handleDocumentClick)
@@ -137,7 +141,7 @@ const SearchBox: FC = () => {
 				<TextField
 					fullWidth
 					variant="outlined"
-					placeholder="Searching for..."
+					placeholder={t('searchingFor')}
 					value={search}
 					onChange={hanldeSearch}
 					InputProps={{

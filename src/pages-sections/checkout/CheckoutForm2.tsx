@@ -21,6 +21,7 @@ import { H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { method } from 'lodash'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
@@ -57,8 +58,9 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 }
 
 const CheckoutForm2: FC = () => {
-	// states
+	const { t } = useTranslation('common')
 
+	// states
 	const { cart } = useTypedSelector((state) => state.cartStore)
 	const [selectedAddress, setSelectedAddress] = useState<string>('')
 	// const [paymentMethod, setPaymentMethod] = useState('')
@@ -138,7 +140,7 @@ const CheckoutForm2: FC = () => {
 		<>
 			<Card1 sx={{ mb: 3 }}>
 				<FlexBetween>
-					<Heading number={1} title="Select Delivery Address" />
+					<Heading number={1} title={t('selectDelivery')} />
 					<NewAddressForm mutateAsync={createAsync} />
 				</FlexBetween>
 
@@ -190,7 +192,7 @@ const CheckoutForm2: FC = () => {
 					sx={{ mt: 3 }}
 					onClick={handleFormSubmit}
 				>
-					Place Order
+					{t('placeOrder')}
 				</Button>
 			</Card1>
 

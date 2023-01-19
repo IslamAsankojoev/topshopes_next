@@ -10,6 +10,7 @@ import countryList from 'data/countryList'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { GetStaticProps, NextPage } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { ICartItem } from 'store/cart/cart.interface'
@@ -23,6 +24,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 
 const Cart: NextPage = () => {
+	const { t } = useTranslation()
 	const { cart, total_items, total_price } = useTypedSelector(
 		(state) => state.cartStore
 	)
@@ -42,7 +44,7 @@ const Cart: NextPage = () => {
 						<Grid item md={4} xs={12}>
 							<Card sx={{ padding: 3 }}>
 								<FlexBetween mb={2}>
-									<Span color="grey.600">Total:</Span>
+									<Span color="grey.600">{t('total')}:</Span>
 
 									<Span fontSize={18} fontWeight={600} lineHeight="1">
 										${total_price.toFixed(2)}
@@ -51,18 +53,9 @@ const Cart: NextPage = () => {
 
 								<Divider sx={{ mb: 2 }} />
 
-								<Button
-									variant="outlined"
-									color="primary"
-									fullWidth
-									sx={{ my: 2 }}
-								>
-									Calculate Shipping
-								</Button>
-
 								<Link href="/checkout-alternative" passHref>
 									<Button variant="contained" color="primary" fullWidth>
-										Checkout Now
+										{t('checkoutNow')}
 									</Button>
 								</Link>
 							</Card>

@@ -7,6 +7,7 @@ import {
 	Typography,
 } from '@mui/material'
 import { useFormik } from 'formik'
+import { useTranslation } from 'next-i18next'
 import React, { FC, Fragment, useState } from 'react'
 import * as yup from 'yup'
 
@@ -31,6 +32,7 @@ type NewAddressFormProps = {
 // ==================================================================
 
 const NewAddressForm: FC<NewAddressFormProps> = ({ mutateAsync }) => {
+	const { t } = useTranslation('common')
 	const [addCardForm, setAddCardForm] = useState<boolean>(false)
 
 	const { handleChange, handleSubmit, errors, touched, values } = useFormik({
@@ -56,13 +58,13 @@ const NewAddressForm: FC<NewAddressFormProps> = ({ mutateAsync }) => {
 					addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 				}
 			>
-				Add New Address
+				{t('addAddress')}
 			</Button>
 
 			<Dialog open={addCardForm} onClose={() => setAddCardForm(false)}>
 				<DialogContent>
 					<Typography variant="h6" mb={3}>
-						Add New Address Information
+						{t('addAddress')}
 					</Typography>
 
 					<form onSubmit={handleSubmit}>
@@ -73,7 +75,7 @@ const NewAddressForm: FC<NewAddressFormProps> = ({ mutateAsync }) => {
 									type="text"
 									name="country"
 									value={values.country}
-									label="Enter uour country"
+									label={t('country')}
 									onChange={handleChange}
 									helperText={touched.country && errors.country}
 									error={touched.country && Boolean(errors.country)}
@@ -84,7 +86,7 @@ const NewAddressForm: FC<NewAddressFormProps> = ({ mutateAsync }) => {
 									fullWidth
 									type="text"
 									name="city"
-									label="Enter your city"
+									label={t('city')}
 									value={values.city}
 									onChange={handleChange}
 									helperText={touched.city && errors.city}
@@ -97,7 +99,7 @@ const NewAddressForm: FC<NewAddressFormProps> = ({ mutateAsync }) => {
 									fullWidth
 									type="text"
 									name="street"
-									label="Enter your street"
+									label={t('street')}
 									value={values.street}
 									onChange={handleChange}
 									helperText={touched.street && errors.street}
@@ -112,7 +114,7 @@ const NewAddressForm: FC<NewAddressFormProps> = ({ mutateAsync }) => {
 									name="phone"
 									value={values.phone}
 									onChange={handleChange}
-									label="Enter Your Phone"
+									label={t('phone')}
 									error={touched.phone && Boolean(errors.phone)}
 									helperText={touched.phone && errors.phone}
 								/>
@@ -120,7 +122,7 @@ const NewAddressForm: FC<NewAddressFormProps> = ({ mutateAsync }) => {
 
 							<Grid item sm={6} xs={12}>
 								<Button color="primary" variant="contained" type="submit">
-									Save
+									{t('save')}
 								</Button>
 							</Grid>
 						</Grid>

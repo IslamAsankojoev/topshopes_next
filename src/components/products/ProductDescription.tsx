@@ -1,25 +1,27 @@
-import { Box } from "@mui/material";
-import { H3 } from "components/Typography";
-import React from "react";
+import { Box } from '@mui/material'
+import { H3 } from 'components/Typography'
+import { useTranslation } from 'next-i18next'
+import React from 'react'
 
 // ======================================================
-type ProductDescriptionProps = {};
+type ProductDescriptionProps = {}
 // ======================================================
 
 const ProductDescription: React.FC<ProductDescriptionProps> = () => {
-  return (
-    <Box>
-      <H3 mb={2}>Specification:</H3>
-      <Box>
-        Brand: Beats <br />
-        Model: S450 <br />
-        Wireless Bluetooth Headset <br />
-        FM Frequency Response: 87.5 – 108 MHz <br />
-        Feature: FM Radio, Card Supported (Micro SD / TF) <br />
-        Made in China <br />
-      </Box>
-    </Box>
-  );
-};
+	const { t } = useTranslation('review')
+	return (
+		<Box>
+			<H3 mb={2}>{t('specification')}:</H3>
+			<Box>
+				{t('brand')}: Beats <br />
+				{t('model')}: S450 <br />
+				Wireless Bluetooth Headset <br />
+				FM Frequency Response: 87.5 – 108 MHz <br />
+				Feature: FM Radio, Card Supported (Micro SD / TF) <br />
+				Made in China <br />
+			</Box>
+		</Box>
+	)
+}
 
-export default ProductDescription;
+export default ProductDescription

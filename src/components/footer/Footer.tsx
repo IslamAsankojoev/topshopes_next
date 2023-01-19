@@ -3,13 +3,14 @@ import { axiosClassic } from 'api/interceptor'
 import AppStore from 'components/AppStore'
 import BazaarIconButton from 'components/BazaarIconButton'
 import Image from 'components/BazaarImage'
+import { Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import Facebook from 'components/icons/Facebook'
 import Google from 'components/icons/Google'
 import Instagram from 'components/icons/Instagram'
 import Twitter from 'components/icons/Twitter'
 import Youtube from 'components/icons/Youtube'
-import { Paragraph } from 'components/Typography'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC } from 'react'
 import { useQueries, useQuery } from 'react-query'
@@ -28,6 +29,7 @@ const StyledLink = styled('a')(({ theme }) => ({
 }))
 
 const Footer: FC = () => {
+	const { t } = useTranslation('common')
 	const { data: settings } = useQuery('get site settings', () =>
 		axiosClassic.get('/settings/').then((response) => response.data)
 	)
@@ -118,20 +120,21 @@ const Footer: FC = () => {
 									lineHeight="1"
 									color="white"
 								>
-									Contact Us
+									{t('contactUs')}
 								</Box>
 								<Box py={0.6} color="grey.500">
 									{settings?.short_description ||
 										SiteSettings.short_description}
 								</Box>
 								<Box py={0.6} color="grey.500">
-									Address: {settings?.address || SiteSettings.address}
+									{t('address')}: {settings?.address || SiteSettings.address}
 								</Box>
 								<Box py={0.6} color="grey.500">
 									Email: {settings?.email || SiteSettings.email}
 								</Box>
 								<Box py={0.6} mb={2} color="grey.500">
-									Phone: {settings?.footer_phone || SiteSettings.footer_phone}
+									{t('phone')}:{' '}
+									{settings?.footer_phone || SiteSettings.footer_phone}
 								</Box>
 
 								<FlexBox className="flex" mx={-0.625}>

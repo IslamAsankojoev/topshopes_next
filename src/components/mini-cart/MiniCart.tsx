@@ -12,6 +12,7 @@ import ShoppingBagOutlined from 'components/icons/ShoppingBagOutlined'
 import { CartItem, useAppContext } from 'contexts/AppContext'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import React, { useCallback } from 'react'
 import { ICartItem } from 'store/cart/cart.interface'
@@ -21,6 +22,7 @@ type MiniCartProps = { toggleSidenav?: () => void }
 // =========================================================
 
 const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
+	const { t } = useTranslation('common')
 	const { palette } = useTheme()
 	const {
 		cart: cartList,
@@ -68,7 +70,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 				>
 					<ShoppingBagOutlined color="inherit" />
 					<Box fontWeight={600} fontSize="16px" ml={1}>
-						{cartList?.length} item
+						{cartList?.length} {t('product')}
 					</Box>
 				</FlexBox>
 
@@ -93,7 +95,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							textAlign="center"
 							maxWidth="200px"
 						>
-							Your shopping bag is empty. Start shopping
+							{t('bagEmpty')}
 						</Box>
 					</FlexBox>
 				)}
@@ -194,7 +196,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							sx={{ mb: '0.75rem', height: '40px' }}
 							onClick={toggleSidenav}
 						>
-							Checkout Now (${total_price.toFixed(2)})
+							{t('checkoutNow')} (${total_price.toFixed(2)})
 						</BazaarButton>
 					</Link>
 
@@ -206,7 +208,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							sx={{ height: 40 }}
 							onClick={toggleSidenav}
 						>
-							View Cart
+							{t('viewCart')}
 						</BazaarButton>
 					</Link>
 				</Box>
