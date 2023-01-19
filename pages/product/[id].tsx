@@ -16,6 +16,7 @@ import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProduct } from 'shared/types/product.types'
 import {
@@ -43,6 +44,7 @@ type ProductDetailsProps = {
 // ===============================================================
 
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
+	const { t } = useTranslation('common')
 	const { id } = props
 
 	const { data: product, refetch } = useQuery([`product detail id=${id}`], () =>
@@ -80,10 +82,10 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 					indicatorColor="primary"
 					onChange={handleOptionClick}
 				>
-					<Tab className="inner-tab" label="Description" />
+					<Tab className="inner-tab" label={t('description')} />
 					<Tab
 						className="inner-tab"
-						label={`Review ${product?.reviews.length}`}
+						label={`${t('review')} ${product?.reviews.length}`}
 					/>
 				</StyledTabs>
 
