@@ -166,14 +166,14 @@ export async function getServerSideProps({ locale }) {
 				bottomCategories,
 				// =========
 				dehydratedState: dehydrate(queryClient),
-				...(await serverSideTranslations(locale as string, ['common'])),
+				...(await serverSideTranslations(locale as string, ['common', 'home'])),
 				// =========
 			},
 		}
 	} catch {
 		return {
 			props: {
-				...(await serverSideTranslations(locale as string, ['common'])),
+				...(await serverSideTranslations(locale as string, ['common', 'home'])),
 			},
 		}
 	}

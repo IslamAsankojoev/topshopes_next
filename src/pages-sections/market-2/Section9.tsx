@@ -1,12 +1,13 @@
 import { Box, Button, Container } from '@mui/material'
+import { H2, Paragraph } from 'components/Typography'
 import Carousel from 'components/carousel/Carousel'
 import { carouselStyled } from 'components/carousel/CarouselStyled'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import ProductCard20 from 'components/product-cards/ProductCard20'
-import { H2, Paragraph } from 'components/Typography'
 import useWindowSize from 'hooks/useWindowSize'
 import shuffle from 'lodash/shuffle'
 import Models from 'models'
+import { useTranslation } from 'next-i18next'
 import { FC, useEffect, useState } from 'react'
 
 // ======================================================================
@@ -14,6 +15,7 @@ type Section9Props = { products: Models['Product'][] }
 // ======================================================================
 
 const Section9: FC<Section9Props> = ({ products }) => {
+	const { t } = useTranslation('common')
 	const width = useWindowSize()
 	const [visibleSlides, setVisibleSlides] = useState(4)
 	const [selected, setSelected] = useState('new')
@@ -72,7 +74,7 @@ const Section9: FC<Section9Props> = ({ products }) => {
 						color={activeColor('view')}
 						onClick={handleSelected('view')}
 					>
-						View All
+						{t('viewAll')}
 					</Button>
 				</FlexBox>
 			</FlexBetween>
