@@ -13,7 +13,7 @@ import SEO from '../src/components/SEO'
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale as string, ['about'])),
+			...(await serverSideTranslations(locale as string, ['about', 'common'])),
 		},
 	}
 }

@@ -10,6 +10,7 @@ import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { OrderRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
@@ -20,13 +21,13 @@ import api from 'utils/api/dashboard'
 
 // table column list
 const tableHeading = [
-	{ id: 'id', label: 'Order ID', align: 'left' },
-	{ id: 'qty', label: 'Qty', align: 'left' },
-	{ id: 'delivered_at', label: 'delivered_at', align: 'left' },
-	{ id: 'billingAddress', label: 'Billing Address', align: 'left' },
-	{ id: 'amount', label: 'Amount', align: 'left' },
-	{ id: 'status', label: 'Status', align: 'left' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'id', label: 'orderId', align: 'left' },
+	{ id: 'qty', label: 'qty', align: 'left' },
+	{ id: 'delivered_at', label: 'deliveredAt', align: 'left' },
+	{ id: 'billingAddress', label: 'billingAddress', align: 'left' },
+	{ id: 'amount', label: 'amount', align: 'left' },
+	{ id: 'status', label: 'status', align: 'left' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -38,6 +39,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 
 const OrderList: NextPageAuth = () => {
+	const { t } = useTranslation('common')
 	const [searchValue, setSearchValue] = React.useState('')
 	const [currentPage, setCurrentPage] = React.useState(1)
 
@@ -67,7 +69,7 @@ const OrderList: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Orders</H3>
+			<H3 mb={2}>{t('orders')}</H3>
 
 			<SearchArea
 				handleSearch={(value) => {
@@ -75,7 +77,7 @@ const OrderList: NextPageAuth = () => {
 					setSearchValue(value)
 				}}
 				handleBtnClick={() => {}}
-				searchPlaceholder="Search Order..."
+				searchPlaceholder={t('searchOrder')}
 			/>
 
 			<Card>

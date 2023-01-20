@@ -13,43 +13,15 @@ import {
 import { OrdersService } from 'api/services/orders/orders.service'
 import { H5, H6, Paragraph, Span } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { IOrder, IOrderItem } from 'shared/types/order.types'
 
-// list data
-const products = [
-	{
-		price: '$250',
-		published: true,
-		id: '#6ed34Edf65d',
-		category: 'Gadgets',
-		name: 'Samsung Galaxy-M1',
-		brand: '/assets/images/brands/samsung.png',
-		image: '/assets/images/products/samsung.png',
-	},
-	{
-		price: '$10',
-		published: true,
-		id: '#6ed34Edf65d',
-		category: 'Grocery',
-		name: 'Tomatto',
-		brand: '/assets/images/brands/brokshire.png',
-		image: '/assets/images/products/tomato.png',
-	},
-	{
-		price: '$24',
-		published: false,
-		id: '#6ed34Edf65d',
-		category: 'Beauty',
-		name: 'Boston Round Cream Pack',
-		brand: '/assets/images/brands/levis.png',
-		image: '/assets/images/products/beauty-cream.png',
-	},
-]
-
 const OrderDetails = () => {
+	const { t } = useTranslation('common')
+
 	const {
 		push,
 		query: { id },
@@ -87,11 +59,11 @@ const OrderDetails = () => {
 				<Card sx={{ p: 3 }}>
 					<FlexBox alignItems="center" gap={4}>
 						<Paragraph>
-							<Span color="grey.600">Order ID:</Span> {id.slice(0, 8)}
+							<Span color="grey.600">{t('orderId')}:</Span> {id?.slice(0, 8)}
 						</Paragraph>
 
 						<Paragraph>
-							<Span color="grey.600">Placed on:</Span> 01 Jan, 2021
+							<Span color="grey.600">{t('placedOn')}:</Span> 01 Jan, 2021
 						</Paragraph>
 					</FlexBox>
 
@@ -110,13 +82,13 @@ const OrderDetails = () => {
 							fullWidth
 							color="info"
 							size="medium"
-							label={order.status}
+							label={order?.status}
 							inputProps={{
 								IconComponent: () => (
 									<KeyboardArrowDown sx={{ color: 'grey.600', mr: 1 }} />
 								),
 							}}
-							value={order.status}
+							value={order?.status}
 							onChange={handleChangeStatus}
 						>
 							{/* "pending" | "paid" | "delivering" | "delivered" | "received" | "cancelled" */}
@@ -130,7 +102,7 @@ const OrderDetails = () => {
 						</TextField>
 					</FlexBox>
 
-					{order.items?.map((item: IOrderItem, index) => (
+					{order?.items?.map((item: IOrderItem, index) => (
 						<Box
 							my={2}
 							gap={2}
@@ -147,11 +119,11 @@ const OrderDetails = () => {
 								/>
 
 								<Box>
-									<H6 mb={1}>{item.product_name}</H6>
+									<H6 mb={1}>{item?.product_name}</H6>
 
 									<FlexBox alignItems="center" gap={1}>
 										<Paragraph fontSize={14} color="grey.600">
-											{item.product_price} x
+											{item?.product_price} x
 										</Paragraph>
 
 										<Box maxWidth={60}>
@@ -189,12 +161,12 @@ const OrderDetails = () => {
 						sx={{ mb: 4 }}
 					/> */}
 					<Paragraph color="grey.900">
-						<Span color="grey.600">Shipping Address:</Span>{' '}
-						{order.shipping_address}
+						<Span color="grey.600">{t('shippingAddress')}:</Span>{' '}
+						{order?.shipping_address}
 					</Paragraph>
 
 					<Paragraph color="grey.900">
-						<Span color="grey.600">Customer’s Note:</Span>{' '}
+						<Span color="grey.600">{t('customerNote')}:</Span>{' '}
 						{'Please deliver ASAP'}
 					</Paragraph>
 
@@ -208,19 +180,19 @@ const OrderDetails = () => {
 			<Grid item md={6} xs={12}>
 				<Card sx={{ px: 3, py: 4 }}>
 					<H5 mt={0} mb={2}>
-						Total Summary
+						{t('totalSummary')}
 					</H5>
 
 					<FlexBetween mb={1.5}>
-						<Paragraph color="grey.600">Subtotal:</Paragraph>
+						<Paragraph color="grey.600">{t('subtotal')}:</Paragraph>
 						<H6>$335</H6>
 					</FlexBetween>
 
 					<FlexBetween mb={1.5}>
-						<Paragraph color="grey.600">Shipping fee:</Paragraph>
+						<Paragraph color="grey.600">{t('shipping')}:</Paragraph>
 
 						<FlexBox alignItems="center" gap={1} maxWidth={100}>
-							<Paragraph>$</Paragraph>
+							<Paragraph>c</Paragraph>
 							<TextField
 								color="info"
 								defaultValue={10}
@@ -231,7 +203,7 @@ const OrderDetails = () => {
 					</FlexBetween>
 
 					<FlexBetween mb={1.5}>
-						<Paragraph color="grey.600">Discount:</Paragraph>
+						<Paragraph color="grey.600">{t('discount')}:</Paragraph>
 
 						<FlexBox alignItems="center" gap={1} maxWidth={100}>
 							<Paragraph>$</Paragraph>
@@ -241,15 +213,15 @@ const OrderDetails = () => {
 								type="number"
 								fullWidth
 							/> */}
-							{order.discount}
+							{order?.discount}
 						</FlexBox>
 					</FlexBetween>
 
 					<Divider sx={{ my: 2 }} />
 
 					<FlexBetween mb={2}>
-						<H6>Total</H6>
-						<H6>{order.total_price}c</H6>
+						<H6>{t('total')}</H6>
+						<H6>{order?.total_price}c</H6>
 					</FlexBetween>
 
 					<Paragraph>Paid by Credit/Debit Card</Paragraph>
@@ -264,7 +236,7 @@ const OrderDetails = () => {
 						push('/admin/orders')
 					}}
 				>
-					Save Changes
+					{t('saveChanges')}
 				</Button>
 			</Grid>
 		</Grid>
