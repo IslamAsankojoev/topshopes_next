@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import { Button, TextField } from '@mui/material'
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { toast } from 'react-toastify'
 
@@ -13,6 +14,8 @@ interface formDataType {
 	message: string
 }
 const ContactsForm = () => {
+	const { t } = useTranslation('contacts')
+
 	const [formData, setFormData] = React.useState<formDataType>({
 		username: '',
 		email: '',
@@ -57,14 +60,14 @@ const ContactsForm = () => {
 			<Text>
 				<p>
 					<Icon size={'14px'} iconName={'FaMapMarkedAlt'} />
-					<span>Чуй 219</span>
+					<span>{t('address')}</span>
 				</p>
 				<p>
 					<Icon size={'14px'} iconName={'FaPhoneAlt'} />
 					<span>+996 550 022 101</span>
 				</p>
 			</Text>
-			<h2>If you have any questions, please feel free to contact us.</h2>
+			<h2>{t('question')}</h2>
 
 			<form onSubmit={onSubmit}>
 				<DoubleInput>
@@ -75,7 +78,7 @@ const ContactsForm = () => {
 						value={formData.username}
 						fullWidth
 						required
-						label={'Your name'}
+						label={t('name')}
 					/>
 					<TextField
 						variant={'standard'}
@@ -85,7 +88,7 @@ const ContactsForm = () => {
 						fullWidth
 						required
 						type={'email'}
-						label={'Your Email'}
+						label={t('email')}
 					/>
 				</DoubleInput>
 				<TextField
@@ -95,7 +98,7 @@ const ContactsForm = () => {
 					value={formData.phone}
 					fullWidth
 					required
-					label={'Phone Number'}
+					label={t('phone')}
 				/>
 				<TextField
 					variant={'standard'}
@@ -106,10 +109,10 @@ const ContactsForm = () => {
 					value={formData.message}
 					rows={5}
 					name={'message'}
-					label={'Your Message'}
+					label={t('message')}
 				/>
 				<Button type={'submit'} color={'secondary'} variant={'contained'}>
-					Ask a question
+					{t('ask')}
 				</Button>
 			</form>
 		</ContactForm>

@@ -1,9 +1,11 @@
-import Carousel from 'components/carousel/Carousel'
 import CategorySectionCreator from 'components/CategorySectionCreator'
+import Carousel from 'components/carousel/Carousel'
 import Light from 'components/icons/Light'
 import ProductCard3 from 'components/product-cards/ProductCard3'
 import useWindowSize from 'hooks/useWindowSize'
+import { useTranslation } from 'next-i18next'
 import React, { FC, useEffect, useState } from 'react'
+
 // common arrow button for slider
 export const arrowButtonStyle = { backgroundColor: 'white', color: '#2B3445' }
 
@@ -14,6 +16,7 @@ type Props = {
 // =================================================
 
 const Section2: FC<Props> = ({ flashDeals }) => {
+	const { t } = useTranslation('home')
 	const width = useWindowSize()
 	const [visibleSlides, setVisibleSlides] = useState(4)
 
@@ -27,7 +30,7 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 	return (
 		<CategorySectionCreator
 			icon={<Light color="primary" />}
-			title="Flash Deals"
+			title={t('flashDeals')}
 		>
 			<Carousel
 				infinite={true}

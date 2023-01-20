@@ -9,6 +9,7 @@ import {
 	Typography,
 } from '@mui/material'
 import { useFormik } from 'formik'
+import { useTranslation } from 'next-i18next'
 import React, { FC, Fragment, useState } from 'react'
 import { IAddress } from 'shared/types/user.types'
 import * as yup from 'yup'
@@ -31,6 +32,7 @@ const EditAddressForm: FC<EditAddressFormProps> = ({
 	mutateAsync,
 	address,
 }) => {
+	const { t } = useTranslation('common')
 	const [addCardForm, setAddCardForm] = useState<boolean>(false)
 
 	const { handleChange, handleSubmit, errors, touched, values } = useFormik({
@@ -57,7 +59,7 @@ const EditAddressForm: FC<EditAddressFormProps> = ({
 			<Dialog open={addCardForm} onClose={() => setAddCardForm(false)}>
 				<DialogContent>
 					<Typography variant="h6" mb={3}>
-						Update Address Information
+						{t('addressUpdate')}
 					</Typography>
 
 					<form onSubmit={handleSubmit}>
@@ -68,7 +70,7 @@ const EditAddressForm: FC<EditAddressFormProps> = ({
 									type="text"
 									name="country"
 									value={values.country}
-									label="Enter uour country"
+									label={t('country')}
 									onChange={handleChange}
 									helperText={touched.country && errors.country}
 									error={touched.country && Boolean(errors.country)}
@@ -79,7 +81,7 @@ const EditAddressForm: FC<EditAddressFormProps> = ({
 									fullWidth
 									type="text"
 									name="city"
-									label="Enter your city"
+									label={t('city')}
 									value={values.city}
 									onChange={handleChange}
 									helperText={touched.city && errors.city}
@@ -92,7 +94,7 @@ const EditAddressForm: FC<EditAddressFormProps> = ({
 									fullWidth
 									type="text"
 									name="street"
-									label="Enter your street"
+									label={t('street')}
 									value={values.street}
 									onChange={handleChange}
 									helperText={touched.street && errors.street}
@@ -107,7 +109,7 @@ const EditAddressForm: FC<EditAddressFormProps> = ({
 									name="phone"
 									value={values.phone}
 									onChange={handleChange}
-									label="Enter Your Phone"
+									label={t('phone')}
 									error={touched.phone && Boolean(errors.phone)}
 									helperText={touched.phone && errors.phone}
 								/>
@@ -115,7 +117,7 @@ const EditAddressForm: FC<EditAddressFormProps> = ({
 
 							<Grid item sm={6} xs={12}>
 								<Button color="primary" variant="contained" type="submit">
-									Save
+									{t('saveChanges')}
 								</Button>
 							</Grid>
 						</Grid>

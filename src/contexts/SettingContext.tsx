@@ -1,6 +1,8 @@
 import { Direction } from '@mui/material'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 import MainProvider from 'provider/MainProvider'
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import { ReactNode, createContext, useEffect, useState } from 'react'
 
 // ============================================================
 export type SettingsOptions = { direction: Direction }
@@ -29,6 +31,7 @@ const SettingsProvider = ({
 	pageProps,
 }: settingsProviderProps) => {
 	const [settings, setSettings] = useState(initialSettings)
+	const { locale } = useRouter()
 
 	const updateSettings = (updatedSetting: SettingsOptions) => {
 		setSettings(updatedSetting)
@@ -41,13 +44,16 @@ const SettingsProvider = ({
 	useEffect(() => {
 		if (!window) return null
 
+		if (!Cookies.get('i18nextLng')) {
+			Cookies.set('i18nextLng', locale)
+		}
+
 		const getItem = window.localStorage.getItem('bazaar_settings')
 
 		if (getItem) setSettings(JSON.parse(getItem))
 	}, [])
 
 	return (
-
 		<MainProvider Component={Component} pageProps={pageProps}>
 			<SettingsContext.Provider value={{ settings, updateSettings }}>
 				{children}

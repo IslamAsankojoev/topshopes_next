@@ -1,9 +1,10 @@
 import { Box } from '@mui/material'
-import Carousel from 'components/carousel/Carousel'
 import CategorySectionCreator from 'components/CategorySectionCreator'
+import Carousel from 'components/carousel/Carousel'
 import Light from 'components/icons/Light'
 import ProductCard1 from 'components/product-cards/ProductCard1'
 import useWindowSize from 'hooks/useWindowSize'
+import { useTranslation } from 'next-i18next'
 import { FC, useEffect, useState } from 'react'
 
 // =============================================================
@@ -11,6 +12,7 @@ type Props = { flashDeals: any[] }
 // =============================================================
 
 const Section2: FC<Props> = ({ flashDeals }) => {
+	const { t } = useTranslation('home')
 	const [visibleSlides, setVisibleSlides] = useState(4)
 	const width = useWindowSize()
 
@@ -24,7 +26,7 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 	return (
 		<CategorySectionCreator
 			icon={<Light color="primary" />}
-			title="Flash Deals"
+			title={t('flashDeals')}
 			seeMoreLink="#"
 		>
 			<Carousel

@@ -25,6 +25,8 @@ import { format } from 'date-fns'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import useWindowSize from 'hooks/useWindowSize'
 import { GetServerSideProps } from 'next'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { Fragment } from 'react'
@@ -45,6 +47,15 @@ const StyledFlexbox = styled(FlexBetween)(({ theme }) => ({
 		[theme.breakpoints.down('sm')]: { flex: 'unset', height: 50, minWidth: 4 },
 	},
 }))
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
+// =
 
 const OrderDetails: NextPageAuth = () => {
 	const router = useRouter()

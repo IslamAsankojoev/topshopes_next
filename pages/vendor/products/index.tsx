@@ -9,6 +9,8 @@ import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import useMuiTable from 'hooks/useMuiTable'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ProductRow } from 'pages-sections/admin'
 import ProductClientRow from 'pages-sections/admin/products/ProductClientRow'
@@ -23,6 +25,14 @@ const tableHeading = [
 	{ id: 'published', label: 'Published', align: 'left' },
 	{ id: 'action', label: 'Action', align: 'center' },
 ]
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 
 const ProductList: NextPageAuth = () => {
 	const { push } = useRouter()

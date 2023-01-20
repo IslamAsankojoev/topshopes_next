@@ -13,6 +13,8 @@ import RelatedProducts from 'components/products/RelatedProducts'
 import { getAllProductsUrl, getProductsUrl } from 'config/api.config'
 import bazaarReactDatabase from 'data/bazaar-react-database'
 import { GetServerSideProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
@@ -42,6 +44,7 @@ type ProductDetailsProps = {
 // ===============================================================
 
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
+	const { t } = useTranslation('common')
 	const { id } = props
 
 	const { data: product, refetch } = useQuery([`product detail id=${id}`], () =>
@@ -79,10 +82,10 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 					indicatorColor="primary"
 					onChange={handleOptionClick}
 				>
-					<Tab className="inner-tab" label="Description" />
+					<Tab className="inner-tab" label={t('description')} />
 					<Tab
 						className="inner-tab"
-						label={`Review ${product?.reviews.length}`}
+						label={`${t('review')} ${product?.reviews.length}`}
 					/>
 				</StyledTabs>
 
@@ -114,6 +117,8 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 // 	}
 // }
 
+// =
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
 		const { trueID } = ctx.query
@@ -127,11 +132,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 				id: trueID,
 				// =========
 				dehydratedState: dehydrate(queryClient),
+				...(await serverSideTranslations(ctx.locale as string, [
+					'common',
+					'review',
+				])),
 				// =========
 			},
 		}
 	} catch {
-		return { props: {} }
+		return {
+			props: {
+				...(await serverSideTranslations(ctx.locale as string, [
+					'common',
+					'review',
+				])),
+			},
+		}
 	}
 }
 

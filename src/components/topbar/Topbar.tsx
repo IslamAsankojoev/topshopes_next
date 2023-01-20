@@ -1,20 +1,20 @@
 import { CallOutlined, ExpandMore, MailOutline } from '@mui/icons-material'
 import { Box, Container, MenuItem, styled } from '@mui/material'
 import TouchRipple from '@mui/material/ButtonBase'
+import { axiosClassic } from 'api/interceptor'
 import Image from 'components/BazaarImage'
 import BazaarMenu from 'components/BazaarMenu'
+import { Span } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import NavLink from 'components/nav-link/NavLink'
-import { Span } from 'components/Typography'
-import Link from 'next/link'
-import { FC, useEffect, useState } from 'react'
-import { layoutConstant } from 'utils/constants'
-
 import { languages } from 'config/languages.config'
+import Cookies from 'js-cookie'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ISiteSettings } from 'shared/types/site-settings.types'
+import { FC, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { axiosClassic } from 'api/interceptor'
+import { ISiteSettings } from 'shared/types/site-settings.types'
+import { layoutConstant } from 'utils/constants'
 import { SiteSettings } from 'utils/constants/site-settings'
 
 const TopbarWrapper = styled(Box, {
@@ -64,7 +64,9 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 	const [language, setLanguage] = useState(locale)
 
 	const handleCurrencyClick = (curr: typeof currency) => () => setCurrency(curr)
+
 	const handleLanguageClick = (lang: typeof language) => () => {
+		Cookies.set('i18nextLng', lang)
 		replace(asPath, asPath, { locale: lang })
 	}
 

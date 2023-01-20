@@ -13,47 +13,20 @@ import {
 	Typography,
 } from '@mui/material'
 import { OrdersService } from 'api/services/orders/orders.service'
+import LazyImage from 'components/LazyImage'
 import { H3, H4, H5, H6, Paragraph, Span } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { IOrder, IOrderItem } from 'shared/types/order.types'
-import LazyImage from 'components/LazyImage'
+
 import { StatusWrapper } from '../StyledComponents'
 
-// list data
-const products = [
-	{
-		price: '$250',
-		published: true,
-		id: '#6ed34Edf65d',
-		category: 'Gadgets',
-		name: 'Samsung Galaxy-M1',
-		brand: '/assets/images/brands/samsung.png',
-		image: '/assets/images/products/samsung.png',
-	},
-	{
-		price: '$10',
-		published: true,
-		id: '#6ed34Edf65d',
-		category: 'Grocery',
-		name: 'Tomatto',
-		brand: '/assets/images/brands/brokshire.png',
-		image: '/assets/images/products/tomato.png',
-	},
-	{
-		price: '$24',
-		published: false,
-		id: '#6ed34Edf65d',
-		category: 'Beauty',
-		name: 'Boston Round Cream Pack',
-		brand: '/assets/images/brands/levis.png',
-		image: '/assets/images/products/beauty-cream.png',
-	},
-]
-
 const OrderDetails = () => {
+	const { t } = useTranslation('common')
+
 	const {
 		push,
 		query: { id },

@@ -131,7 +131,7 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<StyledIconButton onClick={() => router.push(`/admin/orders/${id}`)}>
+				<StyledIconButton onClick={() => router.push(`/vendor/orders/${id}`)}>
 					<RemoveRedEye />
 				</StyledIconButton>
 

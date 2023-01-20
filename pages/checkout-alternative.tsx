@@ -2,12 +2,21 @@ import { Container, Grid } from '@mui/material'
 import SEO from 'components/SEO'
 import ShopLayout2 from 'components/layouts/ShopLayout2'
 import Cookies from 'js-cookie'
-import { NextPage } from 'next'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import CheckoutForm2 from 'pages-sections/checkout/CheckoutForm2'
 import CheckoutSummary2 from 'pages-sections/checkout/CheckoutSummary2'
 import React from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 
 const CheckoutAlternative: NextPageAuth = () => {
 	const { push, asPath } = useRouter()

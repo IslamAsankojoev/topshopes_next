@@ -6,9 +6,18 @@ import MobileCategoryImageBox from 'components/mobile-category-nav/MobileCategor
 import MobileCategoryNavStyle from 'components/mobile-category-nav/MobileCategoryNavStyle'
 import MobileNavigationBar from 'components/mobile-navigation/MobileNavigationBar'
 import navigations from 'data/navigations'
-import { NextPage } from 'next'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { Fragment, useEffect, useState } from 'react'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 
 const MobileCategoryNav: NextPage = () => {
 	const [category, setCategory] = useState<any>(null)

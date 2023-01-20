@@ -1,10 +1,12 @@
 import { Box, Container, Grid } from '@mui/material'
 import BazaarCard from 'components/BazaarCard'
 import CategorySectionHeader from 'components/CategorySectionHeader'
+import { H3 } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import ProductCard1 from 'components/product-cards/ProductCard1'
-import { H3 } from 'components/Typography'
+import { useTranslation } from 'next-i18next'
 import { FC, useEffect, useState } from 'react'
+
 import ProductCategoryItem from './ProductCategoryItem'
 
 interface Props {
@@ -14,6 +16,7 @@ interface Props {
 	productList: any[]
 }
 const Section7: FC<Props> = (props) => {
+	const { t } = useTranslation('common')
 	const { productList, shops, brands, title } = props
 
 	const [type, setType] = useState('brands')
@@ -88,7 +91,7 @@ const Section7: FC<Props> = (props) => {
 					))}
 
 					<ProductCategoryItem
-						title={`View All ${type}`}
+						title={`${t('viewAll')} ${type}`}
 						isSelected={!!selected.match(`all-${type}`)}
 						onClick={handleCategoryClick(`all-${type}`)}
 						sx={{ mt: 8, bgcolor: selected.match(`all-${type}`) }}

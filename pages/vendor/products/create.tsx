@@ -8,6 +8,8 @@ import { H3 } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ProductForm } from 'pages-sections/admin'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
@@ -26,6 +28,14 @@ const initialValues = {
 	category: '',
 	brand: '',
 	unit: '',
+}
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
 }
 
 const CreateProduct: NextPageAuth = () => {

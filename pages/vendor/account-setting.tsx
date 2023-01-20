@@ -9,10 +9,21 @@ import countryList from 'data/countryList'
 import { Formik } from 'formik'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { GetStaticProps, NextPage } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import React, { FC, Fragment, ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 import * as yup from 'yup'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 
 // upload button
 type UploadButtonProps = { id: string; style?: SxProps }
@@ -59,6 +70,7 @@ const accountSchema = yup.object().shape({
 })
 
 const AccountSetting: NextPageAuth = () => {
+	const { t } = useTranslation('common')
 	const user = useTypedSelector((state) => state.userStore.user)
 	const [file, setFile] = React.useState(null)
 	const [fileLocaleUrl, setFileLocaleUrl] = React.useState(null)
@@ -99,7 +111,7 @@ const AccountSetting: NextPageAuth = () => {
 	return (
 		user && (
 			<Box py={4}>
-				<H3 mb={2}>Account Setting</H3>
+				<H3 mb={2}>{t('accountSettings')}</H3>
 
 				<Card sx={{ p: 4 }}>
 					<Avatar
@@ -163,7 +175,8 @@ const AccountSetting: NextPageAuth = () => {
 												color="info"
 												size="medium"
 												name="first_name"
-												label="First Name"
+												label={t('firstName')}
+												placeholder={t('firstName')}
 												onBlur={handleBlur}
 												onChange={handleChange}
 												value={values.first_name}
@@ -177,7 +190,8 @@ const AccountSetting: NextPageAuth = () => {
 												color="info"
 												size="medium"
 												name="last_name"
-												label="Last Name"
+												label={t('lastName')}
+												placeholder={t('lastName')}
 												onBlur={handleBlur}
 												onChange={handleChange}
 												value={values.last_name}
@@ -192,6 +206,7 @@ const AccountSetting: NextPageAuth = () => {
 												name="email"
 												type="email"
 												label="Email"
+												placeholder="Email"
 												size="medium"
 												onBlur={handleBlur}
 												value={values.email}
@@ -207,7 +222,8 @@ const AccountSetting: NextPageAuth = () => {
 												color="info"
 												size="medium"
 												name="phone"
-												label="Phone"
+												label={t('phone')}
+												placeholder={t('phone')}
 												onBlur={handleBlur}
 												value={values.phone}
 												onChange={handleChange}
@@ -222,7 +238,8 @@ const AccountSetting: NextPageAuth = () => {
 												color="info"
 												size="medium"
 												name="password"
-												label="Password"
+												label={t('password')}
+												placeholder={t('password')}
 												onBlur={handleBlur}
 												value={values.password}
 												onChange={handleChange}
@@ -270,7 +287,7 @@ const AccountSetting: NextPageAuth = () => {
 								</Box>
 
 								<Button type="submit" variant="contained" color="info">
-									Save Changes
+									{t('saveChanges')}
 								</Button>
 							</form>
 						)}

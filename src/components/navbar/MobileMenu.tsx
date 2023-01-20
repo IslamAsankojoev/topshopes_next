@@ -10,10 +10,12 @@ import Scrollbar from 'components/Scrollbar'
 import { H6 } from 'components/Typography'
 import NavLink from 'components/nav-link/NavLink'
 import navbarNavigations from 'data/navbarNavigations'
+import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useState } from 'react'
 
 const MobileMenu: FC = () => {
 	const [openDrawer, setOpenDrawer] = useState(false)
+	const { t } = useTranslation('common')
 
 	const updateNavigations = navbarNavigations.reduce((prev: any, curr: any) => {
 		const newArr = [...prev]
@@ -68,14 +70,14 @@ const MobileMenu: FC = () => {
 			if (item.extLink) {
 				return (
 					<H6 key={index} py={1}>
-						<NavLink href={item.url}>{item.title}</NavLink>
+						<NavLink href={item.url}>{t(item.title)}</NavLink>
 					</H6>
 				)
 			}
 
 			return (
 				<Box key={index} py={1}>
-					<NavLink href={item.url}>{item.title}</NavLink>
+					<NavLink href={item.url}>{t(item.title)}</NavLink>
 				</Box>
 			)
 		})

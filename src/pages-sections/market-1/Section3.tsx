@@ -1,9 +1,10 @@
 import BazaarCard from 'components/BazaarCard'
-import Carousel from 'components/carousel/Carousel'
 import CategorySectionCreator from 'components/CategorySectionCreator'
+import Carousel from 'components/carousel/Carousel'
 import Category from 'components/icons/Category'
 import ProductCard6 from 'components/product-cards/ProductCard6'
 import useWindowSize from 'hooks/useWindowSize'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
 
@@ -12,6 +13,7 @@ type Props = { categoryList: any[] }
 // =====================================================
 
 const Section3: FC<Props> = ({ categoryList }) => {
+	const { t } = useTranslation('home')
 	const [visibleSlides, setVisibleSlides] = useState(3)
 	const width = useWindowSize()
 
@@ -24,7 +26,7 @@ const Section3: FC<Props> = ({ categoryList }) => {
 	return (
 		<CategorySectionCreator
 			icon={<Category color="primary" />}
-			title="Top Categories"
+			title={t('topCategories')}
 			seeMoreLink="#"
 		>
 			<Carousel totalSlides={5} visibleSlides={visibleSlides}>

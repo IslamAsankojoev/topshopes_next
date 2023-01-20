@@ -1,8 +1,9 @@
 import { Box, Divider } from '@mui/material'
 import BazaarButton from 'components/BazaarButton'
 import Image from 'components/BazaarImage'
-import { FlexBox, FlexRowCenter } from 'components/flex-box'
 import { H6 } from 'components/Typography'
+import { FlexBox, FlexRowCenter } from 'components/flex-box'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import React, { FC, Fragment } from 'react'
 
@@ -14,6 +15,7 @@ type SocialButtonsProps = {
 }
 
 const SocialButtons: FC<SocialButtonsProps> = (props) => {
+	const { t } = useTranslation('common')
 	const { redirect = '/login', redirectText = 'Login' } = props
 
 	return (
@@ -25,7 +27,7 @@ const SocialButtons: FC<SocialButtonsProps> = (props) => {
 
 				<FlexBox justifyContent="center" mt={-1.625}>
 					<Box color="grey.600" bgcolor="background.paper" px={2}>
-						or
+						{t('or')}
 					</Box>
 				</FlexBox>
 			</Box>
@@ -45,7 +47,7 @@ const SocialButtons: FC<SocialButtonsProps> = (props) => {
       </BazaarButton> */}
 
 			<FlexRowCenter my="1.25rem">
-				<Box>Don&apos;t have account?</Box>
+				<Box>{t('dontHave')}</Box>
 				<Link href={redirect}>
 					<a>
 						<H6 ml={1} borderBottom="1px solid" borderColor="grey.900">

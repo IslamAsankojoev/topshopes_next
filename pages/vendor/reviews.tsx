@@ -9,13 +9,16 @@ import {
 	TableContainer,
 } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import Scrollbar from 'components/Scrollbar'
+import { H3, Paragraph, Small } from 'components/Typography'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import { FlexBox } from 'components/flex-box'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Scrollbar from 'components/Scrollbar'
-import { H3, Paragraph, Small } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import {
 	StyledIconButton,
 	StyledTableCell,
@@ -25,14 +28,24 @@ import React, { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 
 const tableHeading = [
-	{ id: 'name', label: 'Name', align: 'left' },
-	{ id: 'customer', label: 'Customer', align: 'left' },
-	{ id: 'comment', label: 'Comment', align: 'left' },
-	{ id: 'rating', label: 'Rating', align: 'left' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'name', label: 'name', align: 'left' },
+	{ id: 'customer', label: 'customer', align: 'left' },
+	{ id: 'comment', label: 'review', align: 'left' },
+	{ id: 'rating', label: 'rating', align: 'left' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common', 'store'])),
+		},
+	}
+}
+
 const Reviews: NextPageAuth = () => {
+	const { t } = useTranslation('store')
+
 	const {
 		order,
 		orderBy,
@@ -45,7 +58,7 @@ const Reviews: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Product Reviews</H3>
+			<H3 mb={2}>{t('productReviews')}</H3>
 
 			<Card>
 				<Scrollbar>

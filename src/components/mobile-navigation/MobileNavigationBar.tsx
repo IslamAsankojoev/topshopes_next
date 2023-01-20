@@ -5,12 +5,18 @@ import ShoppingBagOutlined from 'components/icons/ShoppingBagOutlined'
 import User2 from 'components/icons/User2'
 import { useAppContext } from 'contexts/AppContext'
 import useWindowSize from 'hooks/useWindowSize'
+import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
-import { iconStyle, StyledNavLink, Wrapper } from './styles'
+import { common } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+
+import { StyledNavLink, Wrapper, iconStyle } from './styles'
 
 const MobileNavigationBar: FC = () => {
 	const width = useWindowSize()
 	const { state } = useAppContext()
+
+	const { t } = useTranslation('common')
 
 	return width <= 900 ? (
 		<Wrapper>
@@ -24,7 +30,7 @@ const MobileNavigationBar: FC = () => {
 						<item.icon sx={iconStyle} fontSize="small" />
 					)}
 
-					{item.title}
+					{t(item.title)}
 				</StyledNavLink>
 			))}
 		</Wrapper>
@@ -32,10 +38,14 @@ const MobileNavigationBar: FC = () => {
 }
 
 const list = [
-	{ title: 'Home', icon: Home, href: '/' },
-	{ title: 'Category', icon: CategoryOutlined, href: '/mobile-category-nav' },
-	{ title: 'Cart', icon: ShoppingBagOutlined, href: '/cart' },
-	{ title: 'Account', icon: User2, href: '/profile' },
+	{ title: 'home', icon: Home, href: '/' },
+	{
+		title: 'categories',
+		icon: CategoryOutlined,
+		href: '/mobile-category-nav',
+	},
+	{ title: 'cart', icon: ShoppingBagOutlined, href: '/cart' },
+	{ title: 'profile', icon: User2, href: '/profile' },
 ]
 
 export default MobileNavigationBar

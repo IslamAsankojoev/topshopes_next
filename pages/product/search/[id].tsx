@@ -19,6 +19,7 @@ import ProductCard9List from 'components/products/ProductCard9List'
 import ProductFilterCard from 'components/products/ProductFilterCard'
 import Sidenav from 'components/sidenav/Sidenav'
 import { GetServerSideProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
@@ -41,12 +42,21 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		return {
 			props: {
 				dehydratedState: dehydrate(queryClient),
+				...(await serverSideTranslations(ctx.locale as string, [
+					'common',
+					'shop',
+				])),
 				ctx,
 			},
 		}
 	} catch {
 		return {
-			props: {},
+			props: {
+				...(await serverSideTranslations(ctx.locale as string, [
+					'common',
+					'shop',
+				])),
+			},
 		}
 	}
 }

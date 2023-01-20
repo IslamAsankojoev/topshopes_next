@@ -10,18 +10,24 @@ import {
 } from '@mui/material'
 import { BrandsService } from 'api/services/brands/brand.service'
 import { CategoriesService } from 'api/services/categories/category.service'
+import { H5, H6, Paragraph, Span } from 'components/Typography'
 import Accordion from 'components/accordion/Accordion'
 import AccordionHeader from 'components/accordion/AccordionHeader'
 import { FlexBetween, FlexBox } from 'components/flex-box'
-import { H5, H6, Paragraph, Span } from 'components/Typography'
 import { categories } from 'fake-db/server/dashboard/categories'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import { IBrand, ICategory } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'
+import { common } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 const ProductFilterCard = () => {
 	const router = useRouter()
+
+	const { t: commonT } = useTranslation('common')
+	const { t: shopT } = useTranslation('shop')
 
 	const { data: brandList } = useQuery(
 		'brandList',
@@ -42,7 +48,7 @@ const ProductFilterCard = () => {
 
 	return (
 		<Card sx={{ p: '18px 27px', overflow: 'auto' }} elevation={1}>
-			<H6 mb={1.25}>Categories</H6>
+			<H6 mb={1.25}>{commonT('categories')}</H6>
 
 			{categroyList?.map((item) => (
 				<Paragraph
@@ -72,7 +78,7 @@ const ProductFilterCard = () => {
 
 			<Divider sx={{ mt: 2, mb: 3 }} />
 
-			<H6 mb={2}>Price Range</H6>
+			<H6 mb={2}>{shopT('priceRange')}</H6>
 			<FlexBetween>
 				<TextField placeholder="0" type="number" size="small" fullWidth />
 				<H5 color="grey.600" px={1}>
@@ -83,8 +89,8 @@ const ProductFilterCard = () => {
 
 			<Divider sx={{ my: 3 }} />
 
-			<H6 mb={2}>Brands</H6>
-			{brandList?.map((item: IBrand) => (
+			<H6 mb={2}>{shopT('brands')}</H6>
+			{brandList?.map((item) => (
 				<FormControlLabel
 					key={item.id}
 					sx={{ display: 'flex' }}

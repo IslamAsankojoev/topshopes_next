@@ -1,17 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Add, Remove } from '@mui/icons-material'
 import { Box, Grid } from '@mui/material'
-import BazaarAvatar from 'components/BazaarAvatar'
 import BazaarButton from 'components/BazaarButton'
 import BazaarRating from 'components/BazaarRating'
 import LazyImage from 'components/LazyImage'
-import { H1, H2, H3, H6 } from 'components/Typography'
-import { CartItem, useAppContext } from 'contexts/AppContext'
+import { H1, H2, H6 } from 'components/Typography'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { IProduct, IProductVariant } from 'shared/types/product.types'
 import { ICartItem } from 'store/cart/cart.interface'
 
@@ -27,6 +25,7 @@ type ProductIntroProps = {
 // ================================================================
 
 const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
+	const { t } = useTranslation('common')
 	const { brand, id, shop, name, variants, rating } = product
 
 	const router = useRouter()
@@ -93,12 +92,12 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 					<H1 mb={2}>{name}</H1>
 
 					<FlexBox alignItems="center" mb={2}>
-						<Box>Brand:</Box>
+						<Box>{t('brand')}:</Box>
 						<H6 ml={1}>{brand.name}</H6>
 					</FlexBox>
 
 					<FlexBox alignItems="center" mb={2}>
-						<Box lineHeight="1">Rated:</Box>
+						<Box lineHeight="1">{t('rated')}:</Box>
 						<Box mx={1} lineHeight="1">
 							<BazaarRating
 								color="warn"
@@ -119,7 +118,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 					</Box>
 
 					<FlexBox alignItems="center" mb={2}>
-						<Box>Status:</Box>
+						<Box>{t('status')}:</Box>
 						<H6
 							ml={1}
 							textTransform="capitalize"
@@ -146,11 +145,11 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 						onClick={handleAddToCart}
 						sx={{ mb: 4.5, px: '1.75rem', height: 40, color: 'white' }}
 					>
-						Add to Cart
+						{t('addCart')}
 					</BazaarButton>
 
 					<FlexBox alignItems="center" mb={2}>
-						<Box>Sold By:</Box>
+						<Box>{t('soldBy')}:</Box>
 						<Link href={`/shops/${shop.id}`}>
 							<a>
 								<H6 ml={1}>{shop.name}</H6>

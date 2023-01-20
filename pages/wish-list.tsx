@@ -7,17 +7,30 @@ import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
 import ProductCard1 from 'components/product-cards/ProductCard1'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { GetStaticProps, NextPage } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct, IProductPreview } from 'shared/types/product.types'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
+// =
+
 const WishList: NextPageAuth = () => {
+	const { t } = useTranslation('common')
 	const wihListItems = useTypedSelector((state) => state.wishStore.items)
 	return (
 		<CustomerDashboardLayout>
-			<SEO title="Wishlist" />
+			<SEO title={t('wishlist')} />
 			<UserDashboardHeader
 				icon={Favorite}
-				title="My Wish List"
+				title={t('myWishlist')}
 				navigation={<CustomerDashboardNavigation />}
 				// button={
 				//   <Button color="primary" sx={{ px: 4, bgcolor: 'primary.light' }}>
