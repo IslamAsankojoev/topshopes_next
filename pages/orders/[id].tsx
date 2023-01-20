@@ -48,7 +48,7 @@ const StyledFlexbox = styled(FlexBetween)(({ theme }) => ({
 	},
 }))
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps = async ({ locale }) => {
 	return {
 		props: {
 			...(await serverSideTranslations(locale as string, ['common'])),

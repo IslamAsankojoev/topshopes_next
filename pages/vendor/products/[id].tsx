@@ -15,7 +15,7 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct } from 'shared/types/product.types'
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps = async ({ locale }) => {
 	return {
 		props: {
 			...(await serverSideTranslations(locale as string, ['common'])),

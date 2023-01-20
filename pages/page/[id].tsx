@@ -11,7 +11,7 @@ import React from 'react'
 import { useQuery } from 'react-query'
 import { IPages } from 'shared/types/pages.types'
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps = async ({ locale }) => {
 	return {
 		props: {
 			...(await serverSideTranslations(locale as string, ['common'])),

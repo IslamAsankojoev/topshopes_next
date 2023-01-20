@@ -17,7 +17,7 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import * as yup from 'yup'
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps = async ({ locale }) => {
 	return {
 		props: {
 			...(await serverSideTranslations(locale as string, ['common'])),
