@@ -44,7 +44,21 @@ const Login = () => {
 	const { t } = useTranslation('common')
 	const [passwordVisibility, setPasswordVisibility] = useState(false)
 	const { profile } = useActions()
-	const { push } = useRouter()
+	const router = useRouter()
+
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		resetForm,
+	} = useFormik({
+		initialValues,
+		onSubmit: () => handleFormSubmit(),
+		validationSchema: formSchema,
+	})
 
 	const togglePasswordVisibility = useCallback(() => {
 		setPasswordVisibility((visible) => !visible)
@@ -55,15 +69,12 @@ const Login = () => {
 	const handleFormSubmit = async () => {
 		await mutateAsync()
 		await profile()
-		push('/profile')
+		resetForm()
 	}
 
-	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-		useFormik({
-			initialValues,
-			onSubmit: handleFormSubmit,
-			validationSchema: formSchema,
-		})
+	React.useEffect(() => {
+		console.log(router)
+	}, [router])
 
 	return (
 		<Wrapper elevation={3} passwordVisibility={passwordVisibility}>
@@ -122,8 +133,7 @@ const Login = () => {
 						fullWidth
 						color="primary"
 						variant="contained"
-						// @ts-ignore
-						onClick={handleSubmit}
+						onClick={() => handleSubmit()}
 						sx={{
 							mb: '1.65rem',
 							height: 44,
@@ -133,20 +143,6 @@ const Login = () => {
 					>
 						{t('login')}
 					</BazaarButton>
-					{/* <BazaarButton
-            fullWidth
-            color="primary"
-            variant="contained"
-            // @ts-ignore
-            onClick={handleSubmit}
-            sx={{
-              mb: '1.65rem',
-              height: 44,
-              borderRadius: '0px 5px 5px 0px',
-              border: '1px solid white',
-            }}>
-            Register
-          </BazaarButton> */}
 				</Grid>
 			</form>
 

@@ -1,4 +1,11 @@
-import { Button, Card, Grid, TextField } from '@mui/material'
+import {
+	Button,
+	Card,
+	Grid,
+	InputAdornment,
+	TextField,
+	Typography,
+} from '@mui/material'
 import { useActions } from 'hooks/useActions'
 import * as yup from 'yup'
 import React from 'react'
@@ -127,8 +134,8 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 		setNewAttributes(attrValues)
 	}
 
-	return (
-		<Card sx={{ p: 6, mt: 2 }}>
+	return attributeFields.length > 0 ? (
+		<div>
 			<h3>Attributes</h3>
 
 			<form onSubmit={handleSubmit}>
@@ -138,7 +145,20 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 							<TextField
 								fullWidth
 								name={field.name}
-								label={field.name}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<Typography
+												fontWeight="700"
+												color="black"
+												textTransform="capitalize"
+												fontSize="16"
+											>
+												{field.label}
+											</Typography>
+										</InputAdornment>
+									),
+								}}
 								color="info"
 								size="medium"
 								placeholder={'Enter attribute'}
@@ -151,8 +171,8 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 					))}
 				</Grid>
 			</form>
-		</Card>
-	)
+		</div>
+	) : null
 }
 
 export default ProductAttributes

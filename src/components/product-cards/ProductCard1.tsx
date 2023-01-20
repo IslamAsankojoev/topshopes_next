@@ -130,6 +130,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						pathname: '/product/[id]',
 						query: { trueID: id, id: slug },
 					}}
+					as={`/product/${slug}`}
 				>
 					<a>
 						<LazyImage
@@ -151,6 +152,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 								pathname: '/product/[id]',
 								query: { trueID: id, id: slug },
 							}}
+							as={`/product/${slug}`}
 						>
 							<a>
 								<span

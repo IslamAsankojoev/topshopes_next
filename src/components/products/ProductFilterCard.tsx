@@ -4,57 +4,77 @@ import {
 	Checkbox,
 	Divider,
 	FormControlLabel,
+	Link,
 	Rating,
 	TextField,
 } from '@mui/material'
+import { BrandsService } from 'api/services/brands/brand.service'
+import { CategoriesService } from 'api/services/categories/category.service'
 import { H5, H6, Paragraph, Span } from 'components/Typography'
 import Accordion from 'components/accordion/Accordion'
 import AccordionHeader from 'components/accordion/AccordionHeader'
 import { FlexBetween, FlexBox } from 'components/flex-box'
+import { categories } from 'fake-db/server/dashboard/categories'
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
+import { IBrand, ICategory } from 'shared/types/product.types'
+import { ResponseList } from 'shared/types/response.types'
 import { common } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 const ProductFilterCard = () => {
+	const router = useRouter()
+
 	const { t: commonT } = useTranslation('common')
 	const { t: shopT } = useTranslation('shop')
+
+	const { data: brandList } = useQuery(
+		'brandList',
+		() => BrandsService.getList(),
+		{
+			select: (data: ResponseList<IBrand>) => data.results,
+		}
+	)
+
+	const { data: categroyList } = useQuery(
+		'categroyList',
+		() => CategoriesService.getList(),
+
+		{
+			select: (data: ResponseList<ICategory>) => data.results,
+		}
+	)
 
 	return (
 		<Card sx={{ p: '18px 27px', overflow: 'auto' }} elevation={1}>
 			<H6 mb={1.25}>{commonT('categories')}</H6>
 
-			{categroyList?.map((item) =>
-				item.subCategories ? (
-					<Accordion key={item.title} expanded>
-						<AccordionHeader px={0} py={0.75} color="grey.600">
-							<Span sx={{ cursor: 'pointer', mr: '9px' }}>{item.title}</Span>
-						</AccordionHeader>
+			{categroyList?.map((item) => (
+				<Paragraph
+					py={0.75}
+					fontSize="16px"
+					color="grey.800"
+					key={item.name}
+					className="cursor-pointer"
+				>
+					<Link
+						href={`/shop/?category=${item.id}`}
+						sx={{
+							fontWeight: router.query.category === item.id ? '700' : '500',
+							color:
+								router.query.category === item.id ? 'primary.main' : 'inherit',
+							textDecoration: 'none',
 
-						{item.subCategories?.map((name) => (
-							<Paragraph
-								pl="22px"
-								py={0.75}
-								key={name}
-								fontSize="14px"
-								color="grey.600"
-								sx={{ cursor: 'pointer' }}
-							>
-								{name}
-							</Paragraph>
-						))}
-					</Accordion>
-				) : (
-					<Paragraph
-						py={0.75}
-						fontSize="14px"
-						color="grey.600"
-						key={item.title}
-						className="cursor-pointer"
+							'&:hover': {
+								color: 'primary.main',
+							},
+						}}
 					>
-						{item.title}
-					</Paragraph>
-				)
-			)}
+						{item.name}
+					</Link>
+				</Paragraph>
+			))}
 
 			<Divider sx={{ mt: 2, mb: 3 }} />
 
@@ -72,9 +92,9 @@ const ProductFilterCard = () => {
 			<H6 mb={2}>{shopT('brands')}</H6>
 			{brandList?.map((item) => (
 				<FormControlLabel
-					key={item}
+					key={item.id}
 					sx={{ display: 'flex' }}
-					label={<Span color="inherit">{item}</Span>}
+					label={<Span color="inherit">{item.name}</Span>}
 					control={<Checkbox size="small" color="secondary" />}
 				/>
 			))}
@@ -124,17 +144,17 @@ const ProductFilterCard = () => {
 	)
 }
 
-const categroyList = [
-	{
-		title: 'Bath Preparations',
-		subCategories: ['Bubble Bath', 'Bath Capsules', 'Others'],
-	},
-	{ title: 'Eye Makeup Preparations' },
-	{ title: 'Fragrance' },
-	{ title: 'Hair Preparations' },
-]
+// const categroyList = [
+// 	{
+// 		title: 'Bath Preparations',
+// 		subCategories: ['Bubble Bath', 'Bath Capsules', 'Others'],
+// 	},
+// 	{ title: 'Eye Makeup Preparations' },
+// 	{ title: 'Fragrance' },
+// 	{ title: 'Hair Preparations' },
+// ]
 
-const brandList = ['Maccs', 'Karts', 'Baars', 'Bukks', 'Luasis']
+// const brandList = ['Maccs', 'Karts', 'Baars', 'Bukks', 'Luasis']
 const otherOptions = ['On Sale', 'In Stock', 'Featured']
 const colorList = [
 	'#1C1C1C',

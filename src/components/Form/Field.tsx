@@ -1,12 +1,19 @@
 import {
 	Autocomplete,
 	Button,
+	Grid,
+	InputAdornment,
 	MenuItem,
+	styled,
 	Switch,
 	TextField,
+	Typography,
 } from '@mui/material'
+import DropZone from 'components/DropZone'
+import LazyImage from 'components/LazyImage'
 import MultipleSelect from 'components/multiple-select/MultipleSelect'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { FC, useState } from 'react'
 
 import styles from './Field.module.scss'
@@ -19,19 +26,116 @@ const DynamicTextEditor = dynamic(
 const Field: FC<any> = (props) => {
 	const { type, ...other } = props
 
+	if (type == 'number') {
+		return (
+			<TextField
+				{...other}
+				label=""
+				InputProps={{
+					inputMode: 'numeric',
+					pattern: '[0-9]*' as any,
+					startAdornment: (
+						<InputAdornment position="start">
+							<Typography
+								fontWeight="700"
+								color="grey.800"
+								textTransform="capitalize"
+								fontSize="16"
+							>
+								{other.label}
+							</Typography>
+						</InputAdornment>
+					),
+				}}
+			/>
+		)
+	}
+
 	if (type == 'text') {
-		return <TextField {...other} />
+		return (
+			<TextField
+				{...other}
+				label=""
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<Typography
+								fontWeight="700"
+								color="grey.800"
+								textTransform="capitalize"
+								fontSize="16"
+							>
+								{other.label}
+							</Typography>
+						</InputAdornment>
+					),
+				}}
+			/>
+		)
 	}
 	if (type == 'text-multiline') {
-		return <TextField {...other} multiline rows={4} />
+		return (
+			<TextField
+				label={
+					<Typography
+						fontWeight="700"
+						color="grey.800"
+						textTransform="capitalize"
+						fontSize="16"
+					>
+						{other.label}
+					</Typography>
+				}
+				{...other}
+				multiline
+				rows={4}
+			/>
+		)
 	}
 	if (type == 'color') {
-		return <input {...other} type={'color'} />
+		return (
+			<input
+				{...other}
+				type={'color'}
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<Typography
+								fontWeight="700"
+								color="grey.800"
+								textTransform="capitalize"
+								fontSize="16"
+							>
+								{other.label}
+							</Typography>
+						</InputAdornment>
+					),
+				}}
+			/>
+		)
 	}
 
 	if (type == 'select') {
 		return (
-			<TextField {...other} select>
+			<TextField
+				{...other}
+				select
+				label=""
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<Typography
+								fontWeight="700"
+								color="grey.800"
+								textTransform="capitalize"
+								fontSize="16"
+							>
+								{other.label}
+							</Typography>
+						</InputAdornment>
+					),
+				}}
+			>
 				{other.allNames?.map((select: { id: string; name: string }) => (
 					<MenuItem key={select.name} value={select.id}>
 						{select.name}
@@ -45,6 +149,21 @@ const Field: FC<any> = (props) => {
 		return (
 			<Autocomplete
 				{...other}
+				label=""
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<Typography
+								fontWeight="700"
+								color="grey.800"
+								textTransform="capitalize"
+								fontSize="16"
+							>
+								{other.label}
+							</Typography>
+						</InputAdornment>
+					),
+				}}
 				onChange={(
 					_: any,
 					newValue: {
@@ -97,6 +216,16 @@ const Field: FC<any> = (props) => {
 				sx={{ width: 300 }}
 				renderInput={(params) => (
 					<TextField
+						label={
+							<Typography
+								fontWeight="700"
+								color="grey.800"
+								textTransform="capitalize"
+								fontSize="16"
+							>
+								{other.label}
+							</Typography>
+						}
 						onChange={({ target }) =>
 							other.setFieldValue(other.name + '_search', target.value)
 						}
@@ -141,7 +270,27 @@ const Field: FC<any> = (props) => {
 		)
 	}
 	if (type == 'select') {
-		return <TextField {...other} select />
+		return (
+			<TextField
+				{...other}
+				select
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<Typography
+								fontWeight="700"
+								color="grey.800"
+								textTransform="capitalize"
+								fontSize="16"
+							>
+								{other.label}
+							</Typography>
+						</InputAdornment>
+					),
+				}}
+				label=""
+			/>
+		)
 	}
 	if (type == 'checkbox') {
 		return (
@@ -152,32 +301,52 @@ const Field: FC<any> = (props) => {
 		)
 	}
 	if (type == 'radio') {
-		return <TextField {...other} type="radio" fullWidth />
+		return (
+			<TextField
+				{...other}
+				type="radio"
+				fullWidth
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<Typography
+								fontWeight="700"
+								color="grey.800"
+								textTransform="capitalize"
+								fontSize="16"
+							>
+								{other.label}
+							</Typography>
+						</InputAdornment>
+					),
+				}}
+				label=""
+			/>
+		)
 	}
 	if (type == 'file') {
 		const getImgUrl = (img: File | Blob | string | any) => {
 			if (!img) return false
 
 			if (typeof img != 'string') {
-				return URL.createObjectURL(img)
+				return URL?.createObjectURL(img)
 			}
 			return img
 		}
 
 		const [fileLocaleUrl, setFileLocaleUrl] = useState(null)
 
-		const handleFileChange = (e) => {
-			const file = e.target.files[0]
+		const handleFileChange = (files) => {
+			const file = files[0]
 			if (file) {
-				setFileLocaleUrl(URL.createObjectURL(file))
-
-				other.setFieldValue(other.label, file)
+				setFileLocaleUrl(file && window?.URL?.createObjectURL(file))
+				other?.setFieldValue(other?.label, file)
 			}
 		}
 
 		return (
 			<>
-				<div className={styles.file}>
+				{/* <div className={styles.file}>
 					<img
 						className={styles.uploadImage}
 						src={
@@ -202,7 +371,65 @@ const Field: FC<any> = (props) => {
 							type="file"
 						/>
 					</Button>
-				</div>
+				</div> */}
+				<Grid
+					style={{
+						display: 'flex',
+						position: 'relative',
+					}}
+					width="100%"
+					container
+				>
+					<Grid
+						item
+						sm={
+							fileLocaleUrl || getImgUrl(other?.defaultData[other?.name])
+								? 6
+								: 12
+						}
+						xs={12}
+					>
+						<h3 style={{ margin: 0, textTransform: 'capitalize' }}>
+							{other?.label}
+						</h3>
+						<DropZone
+							error={other.error}
+							helperText={other.helperText}
+							style={{
+								borderColor: 'red!important',
+							}}
+							name={other?.name}
+							onChange={(e) => handleFileChange(e)}
+							multiple={false}
+							accept={
+								'image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'
+							}
+						/>
+					</Grid>
+					{fileLocaleUrl || getImgUrl(other?.defaultData[other?.name]) ? (
+						<Grid
+							display="flex"
+							item
+							sm={6}
+							xs={12}
+							position="relative"
+							marginTop={3}
+							justifyContent="center"
+							alignItems="center"
+						>
+							<Image
+								width={250}
+								height={250}
+								objectFit="contain"
+								objectPosition="center"
+								src={
+									fileLocaleUrl || getImgUrl(other?.defaultData[other?.name])
+								}
+								alt={other?.label}
+							/>
+						</Grid>
+					) : null}
+				</Grid>
 			</>
 		)
 	}

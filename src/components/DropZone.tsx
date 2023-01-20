@@ -9,10 +9,18 @@ export interface DropZoneProps extends ComponentPropsWithoutRef<'input'> {
 	onChange?: (files: []) => void
 	title?: string
 	imageSize?: string
+	error?: boolean
+	helperText?: boolean
 }
 
 const DropZone: React.FC<DropZoneProps> = (props) => {
-	const { onChange, title: titleProps, ...other } = props
+	const {
+		helperText = '',
+		error = false,
+		onChange,
+		title: titleProps,
+		...other
+	} = props
 	const [title, setTitle] = React.useState(titleProps)
 
 	const onDrop = useCallback((acceptedFiles) => {
@@ -26,15 +34,15 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 		onDrop,
 		multiple: true,
 		accept: '.jpeg,.jpg,.png,.gif',
-		maxFiles: 10,
+		maxFiles: 5,
 	})
 
 	return (
 		<Box
-			py={4}
+			py={2}
 			px={{ md: 10, xs: 4 }}
 			display="flex"
-			minHeight="200px"
+			minHeight="100px"
 			alignItems="center"
 			borderRadius="10px"
 			border="1.5px dashed"
@@ -42,7 +50,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 			borderColor="grey.300"
 			justifyContent="center"
 			textAlign="center"
-			bgcolor={isDragActive ? 'grey.200' : 'grey.100'}
+			bgcolor={error ? '#fff7f7' : 'grey.100'}
 			sx={{
 				transition: 'all 250ms ease-in-out',
 				outline: 'none',
@@ -70,11 +78,18 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 			<Button
 				type="button"
 				variant="outlined"
-				color="info"
-				sx={{ px: 4, my: 4 }}
+				color={error ? 'error' : 'info'}
+				sx={{ px: 4, my: 1 }}
 			>
 				Select image
 			</Button>
+			<p
+				style={{
+					color: 'red',
+				}}
+			>
+				{helperText}
+			</p>
 		</Box>
 	)
 }

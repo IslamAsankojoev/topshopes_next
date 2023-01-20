@@ -71,7 +71,7 @@ const ShopPage = ({ query }) => {
 	const { t } = useTranslation('shop')
 
 	// mui settings
-	const [view, setView] = useState('grid')
+	// const [view, setView] = useState('grid')
 	const downMd = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
 	// ordering

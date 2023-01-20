@@ -28,7 +28,11 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 	if (user?.is_superuser) return <Children />
 
 	if (isOnlyAdmin) {
-		console.log('isOnlyAdmin')
+		router.pathname !== '/login' &&
+			router.replace(`/login/?redirect=${router.asPath}`)
+		return null
+	}
+	if (!user?.is_superuser && isOnlyAdmin) {
 		router.pathname !== '/404' && router.replace('/404')
 		return null
 	}
@@ -37,7 +41,8 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 
 	if (isUser && isOnlyUser) return <Children />
 	else {
-		router.pathname !== '/login' && router.replace('/login')
+		router.pathname !== '/login' &&
+			router.replace(`/login/?redirect=${router.asPath}`)
 		return null
 	}
 }

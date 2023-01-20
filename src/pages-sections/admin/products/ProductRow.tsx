@@ -7,7 +7,7 @@ import { Paragraph, Small } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import currency from 'currency.js'
 import { useRouter } from 'next/router'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { IProduct, IProductPreview } from 'shared/types/product.types'
@@ -19,6 +19,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from '../StyledComponents'
+import LazyImage from 'components/LazyImage'
 
 // ========================================================================
 type ProductRowProps = { product: IProductPreview; refetch: () => void }
@@ -59,11 +60,20 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 		mutateAsync()
 	}
 
+	useEffect(() => {
+		console.log(thumbnail)
+	}, [thumbnail])
+
 	return (
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
 				<FlexBox alignItems="center" gap={1.5}>
-					<Avatar src={thumbnail} sx={{ borderRadius: '8px' }} />
+					<LazyImage
+						src={thumbnail}
+						sx={{ borderRadius: '8px' }}
+						width={50}
+						height={50}
+					/>
 					<Box>
 						<Paragraph>{name}</Paragraph>
 					</Box>
@@ -76,14 +86,14 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				</Box>
 			</StyledTableCell>
 
-			<StyledTableCell align="left">
+			{/* <StyledTableCell align="left">
 				<Avatar
 					src={
 						'https://static.wikia.nocookie.net/bleach/images/8/8d/572Kenpachi_profile.png/revision/latest?cb=20210417222326&path-prefix=en'
 					}
 					sx={{ width: 55, height: 'auto', borderRadius: 0 }}
 				/>
-			</StyledTableCell>
+			</StyledTableCell> */}
 
 			<StyledTableCell align="left">
 				{currency(overall_price, { separator: ',' }).format()}

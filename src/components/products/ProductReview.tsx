@@ -7,6 +7,7 @@ import { useFormik } from 'formik'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
@@ -23,6 +24,8 @@ export interface ProductReviewProps {
 const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 	const { t } = useTranslation('review')
 	const { user } = useTypedSelector((state) => state.userStore)
+
+	const router = useRouter()
 
 	const { mutateAsync } = useMutation(
 		'send a comment',

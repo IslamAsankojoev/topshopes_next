@@ -121,7 +121,10 @@ export async function getServerSideProps({ locale }) {
 		// =========
 		const queryClient = new QueryClient()
 		await queryClient.fetchQuery(['shop products'], () =>
-			ShopsProductsService.getList()
+			ShopsProductsService.getList({
+				page: 1,
+				page_size: 6,
+			})
 		)
 		// =========
 

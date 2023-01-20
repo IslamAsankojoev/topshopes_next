@@ -2,20 +2,6 @@ import { IUser } from 'shared/types/user.types'
 
 export const categoryEditForm = [
 	{
-		name: 'name',
-		label: 'name',
-		type: 'text',
-		placeholder: 'Enter name',
-		required: true,
-	},
-	{
-		name: 'description',
-		label: 'description',
-		type: 'text',
-		placeholder: 'Enter description',
-		required: true,
-	},
-	{
 		name: 'icon',
 		label: 'icon',
 		type: 'file',
@@ -30,13 +16,27 @@ export const categoryEditForm = [
 		required: true,
 	},
 	{
+		name: 'name',
+		label: 'name',
+		type: 'text',
+		placeholder: 'Enter name',
+		required: true,
+	},
+	{
+		name: 'description',
+		label: 'description',
+		type: 'text',
+		placeholder: 'Enter description',
+		required: true,
+	},
+	{
 		name: 'attributes_search',
 		label: '',
 		type: 'text',
 		placeholder: '',
 		required: false,
 	},
-	
+
 	// {
 	// 	name: 'featured',
 	// 	label: 'Featured',
@@ -59,17 +59,17 @@ export const categoryEditForm = [
 ]
 export const brandEditForm = [
 	{
-		name: 'name',
-		label: 'name',
-		type: 'text',
-		placeholder: 'Enter name',
-		required: true,
-	},
-	{
 		name: 'image',
 		label: 'image',
 		type: 'file',
 		placeholder: 'Upload image',
+		required: true,
+	},
+	{
+		name: 'name',
+		label: 'name',
+		type: 'text',
+		placeholder: 'Enter name',
 		required: true,
 	},
 ]
@@ -123,12 +123,18 @@ export const colorEditForm = [
 
 export const pageEditForm = [
 	{
+		name: 'image',
+		label: 'Image',
+		type: 'file',
+		placeholder: 'Enter image',
+	},
+	{
 		name: 'title',
 		label: 'Title',
 		type: 'text',
 		placeholder: 'Enter title',
 		required: true,
-		fullWidth: true
+		fullWidth: true,
 	},
 	{
 		name: 'category_search',
@@ -136,20 +142,14 @@ export const pageEditForm = [
 		type: 'text',
 		placeholder: 'Enter title',
 		required: false,
-		fullWidth: true
+		fullWidth: true,
 	},
 	{
 		name: 'content',
 		label: 'Content',
 		type: 'textEditor',
 		placeholder: 'Enter content',
-		fullWidth: true
-	},
-	{
-		name: 'image',
-		label: 'Image',
-		type: 'file',
-		placeholder: 'Enter image',
+		fullWidth: true,
 	},
 ]
 
@@ -164,6 +164,13 @@ export const pageCategoryEditForm = [
 ]
 
 export const userEditForm = [
+	{
+		name: 'avatar',
+		label: 'avatar',
+		type: 'file',
+		placeholder: 'Upload avatar',
+		required: false,
+	},
 	{
 		name: 'first_name',
 		label: 'first_name',
@@ -192,13 +199,7 @@ export const userEditForm = [
 		placeholder: 'Enter phone',
 		required: true,
 	},
-	{
-		name: 'avatar',
-		label: 'avatar',
-		type: 'file',
-		placeholder: 'Upload avatar',
-		required: false,
-	},
+
 	{
 		name: 'password',
 		label: 'password',
@@ -243,7 +244,7 @@ export const siteSettingsFormEdit = [
 		type: 'text-multiline',
 		placeholder: 'Enter short description',
 		required: true,
-		fullWidth: true
+		fullWidth: true,
 	},
 	{
 		name: 'address',
@@ -251,7 +252,7 @@ export const siteSettingsFormEdit = [
 		type: 'text',
 		placeholder: 'Enter address',
 		required: true,
-		fullWidth: true
+		fullWidth: true,
 	},
 	{
 		name: 'facebook',
@@ -302,8 +303,15 @@ export const siteSettingsFormEdit = [
 	},
 ]
 
-
 export const productVariantFormCreate = [
+	{
+		name: 'thumbnail',
+		label: 'thumbnail',
+		type: 'file',
+		placeholder: 'Enter thumbnail',
+		required: true,
+		fullWidth: true,
+	},
 	{
 		name: 'price',
 		label: 'price',
@@ -324,9 +332,9 @@ export const productVariantFormCreate = [
 		type: 'select',
 		placeholder: 'Enter status',
 		allNames: [
-			{id: 'available', name: 'available'}, 
-			{id: 'unavailable', name: 'unavailable'}, 
-			{id: 'coming_soon', name: 'coming soon'}
+			{ id: 'available', name: 'available' },
+			{ id: 'unavailable', name: 'unavailable' },
+			{ id: 'coming_soon', name: 'coming soon' },
 		],
 		required: true,
 	},
@@ -336,13 +344,5 @@ export const productVariantFormCreate = [
 		type: 'number',
 		placeholder: 'Enter stock',
 		required: true,
-	},
-	{
-		name: 'thumbnail',
-		label: 'thumbnail',
-		type: 'file',
-		placeholder: 'Enter thumbnail',
-		required: true,
-		fullWidth: true
 	},
 ]

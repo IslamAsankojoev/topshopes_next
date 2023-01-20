@@ -43,9 +43,16 @@ export const navigations = [
 	},
 
 	{
-		name: 'Customers',
+		name: 'Members',
 		icon: duotone.Customers,
 		path: '/admin/customers',
+		role: 'admin',
+	},
+
+	{
+		name: 'Sellers',
+		icon: duotone.Seller,
+		path: '/admin/sellers',
 		role: 'admin',
 	},
 
@@ -128,13 +135,6 @@ export const navigations = [
 		name: 'Account Setting',
 		icon: duotone.AccountSetting,
 		path: '/vendor/account-setting',
-		role: 'vendor',
-	},
-
-	{
-		name: 'Logout',
-		icon: duotone.Session,
-		path: '/vendor/dashboard-version-2',
 		role: 'vendor',
 	},
 ]

@@ -39,6 +39,7 @@ const AuthProvider: React.FC<any> = ({
 				const refresh = Cookie.get('refresh')
 
 				if (!refresh && isOnlyUser) logout()
+				if (!refresh && isOnlyAdmin) logout()
 				if ((isOnlyUser && refresh) || (isOnlyAdmin && refresh)) {
 					const res = await AuthService.refresh()
 					if (res) profile()

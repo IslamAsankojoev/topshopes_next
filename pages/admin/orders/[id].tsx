@@ -8,7 +8,9 @@ import { NextPageAuth } from 'shared/types/auth.types'
 const OrderEdit: NextPageAuth = () => {
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Order Details</H3>
+			<H3 mb={2} textAlign="center">
+				Order Details
+			</H3>
 
 			<OrderDetails />
 		</Box>

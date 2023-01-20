@@ -1,8 +1,11 @@
-import { ModeEditOutline } from '@mui/icons-material'
+import { Close, ModeEditOutline } from '@mui/icons-material'
 import {
 	Button,
+	Container,
 	Dialog,
 	DialogContent,
+	DialogTitle,
+	Grid,
 	IconButton,
 	Typography,
 } from '@mui/material'
@@ -230,40 +233,73 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					Add New Variant
 				</Button>
 			) : (
-				<IconButton
-					size="small"
-					sx={{ mr: 1 }}
+				<Button
+					size="medium"
+					variant="contained"
+					sx={{
+						fontSize: '16px',
+						position: 'absolute',
+						bottom: '20px',
+						right: '20px',
+						boxShadow: '0px 0px 0px rgba(0, 0, 0, 0.25)',
+						'&:hover': {
+							boxShadow: '0px 0px 0px rgba(0, 0, 0, 0.25)',
+							transform: 'scale(1.05)',
+							backgroundColor: '#E4E9EE',
+						},
+					}}
 					onClick={() =>
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 					}
 				>
-					<ModeEditOutline sx={{ fontSize: 20 }} />
-				</IconButton>
+					Edit
+				</Button>
 			)}
 
-			<Dialog open={addCardForm} onClose={() => setAddCardForm(false)}>
+			<Dialog
+				open={addCardForm}
+				fullScreen
+				onClose={() => setAddCardForm(false)}
+			>
 				<DialogContent>
-					<Typography variant="h6" mb={3}>
-						Variant details
-					</Typography>
+					<Container>
+						<Typography variant="h6" mb={3}>
+							Variant details
+						</Typography>
 
-					<CreateForm
-						defaultData={initialValues}
-						fields={productVariantFormCreate}
-						handleFormSubmit={handleFormSubmit}
-					/>
+						<CreateForm
+							defaultData={initialValues}
+							fields={productVariantFormCreate}
+							handleFormSubmit={handleFormSubmit}
+							actionButtons={
+								<Fragment>
+									<Button
+										onClick={() => setAddCardForm(false)}
+										variant="contained"
+										color="error"
+										size="medium"
+									>
+										Cancel
+									</Button>
+								</Fragment>
+							}
+							children={
+								<Fragment>
+									<ProductAttributes
+										variantId={variantId}
+										attributes={attributes}
+										handleFormSubmit={() => null}
+									/>
 
-					<ProductAttributes
-						variantId={variantId}
-						attributes={attributes}
-						handleFormSubmit={() => null}
-					/>
-
-					<ProductImages
-						images={imagesList}
-						add={imageAdd}
-						remove={imageRemove}
-					/>
+									<ProductImages
+										images={imagesList}
+										add={imageAdd}
+										remove={imageRemove}
+									/>
+								</Fragment>
+							}
+						/>
+					</Container>
 				</DialogContent>
 			</Dialog>
 		</Fragment>

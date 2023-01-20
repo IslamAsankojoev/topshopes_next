@@ -59,6 +59,7 @@ const Header: FC<HeaderProps> = ({
 
 	const isMobile = useMediaQuery(theme.breakpoints.down('xs'))
 	const downMd = useMediaQuery(theme.breakpoints.down(1150))
+	const router = useRouter()
 
 	const toggleDialog = () => setDialogOpen(!dialogOpen)
 
@@ -70,6 +71,10 @@ const Header: FC<HeaderProps> = ({
 	}
 
 	const toggleSidenav = () => setSidenavOpen(!sidenavOpen)
+
+	const handleLogin = () => {
+		push(`/login/?redirect=${router.asPath}`)
+	}
 
 	return (
 		<HeaderWrapper className={clsx(className)}>
@@ -119,7 +124,7 @@ const Header: FC<HeaderProps> = ({
 						p={1.25}
 						bgcolor="grey.200"
 						// @ts-ignore
-						onClick={user ? redirect : toggleDialog}
+						onClick={user ? redirect : handleLogin}
 					>
 						<PersonOutline />
 					</Box>
@@ -137,14 +142,14 @@ const Header: FC<HeaderProps> = ({
 					</Badge>
 				</FlexBox>
 
-				<Dialog
+				{/* <Dialog
 					open={dialogOpen}
 					fullWidth={isMobile}
 					scroll="body"
 					onClose={toggleDialog}
 				>
 					<Login />
-				</Dialog>
+				</Dialog> */}
 
 				<Drawer open={sidenavOpen} anchor="right" onClose={toggleSidenav}>
 					<MiniCart />

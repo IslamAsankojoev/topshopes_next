@@ -8,19 +8,22 @@ import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
+import lodash from 'lodash'
 import { GetStaticProps } from 'next'
 import { OrderRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { IOrder } from 'shared/types/order.types'
+import { ResponseList } from 'shared/types/response.types'
 import api from 'utils/api/dashboard'
 
 // table column list
 const tableHeading = [
 	{ id: 'id', label: 'Order ID', align: 'left' },
 	{ id: 'qty', label: 'Qty', align: 'left' },
-	{ id: 'delivered_at', label: 'delivered_at', align: 'left' },
+	{ id: 'created_at', label: 'Created_at', align: 'left' },
 	{ id: 'billingAddress', label: 'Billing Address', align: 'left' },
 	{ id: 'amount', label: 'Amount', align: 'left' },
 	{ id: 'status', label: 'Status', align: 'left' },
@@ -42,6 +45,15 @@ const OrderList: NextPageAuth = () => {
 				page_size: 20,
 			}),
 		{
+			select: (data: ResponseList<IOrder>) => {
+				return {
+					...data,
+					results: data.results.map((order: any) => ({
+						...order,
+						created_at: new Date(order.created_at).getTime(),
+					})),
+				}
+			},
 			onError: (e: any) => {
 				toast.error(e.message)
 			},
@@ -89,9 +101,11 @@ const OrderList: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList?.map((order, index) => (
-									<OrderRow order={order} key={index} />
-								))}
+								{lodash
+									.sortBy(filteredList, 'created_at')
+									?.map((order, index) => (
+										<OrderRow order={order} key={index} />
+									))}
 							</TableBody>
 						</Table>
 					</TableContainer>

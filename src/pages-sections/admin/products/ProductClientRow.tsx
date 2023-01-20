@@ -19,6 +19,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from '../StyledComponents'
+import LazyImage from 'components/LazyImage'
 
 // ========================================================================
 type ProductRowProps = { product: IProductPreview; refetch: () => void }
@@ -64,7 +65,12 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
 				<FlexBox alignItems="center" gap={1.5}>
-					<Avatar src={thumbnail} sx={{ borderRadius: '8px' }} />
+					<LazyImage
+						src={thumbnail}
+						width={50}
+						height={50}
+						sx={{ borderRadius: '8px' }}
+					/>
 					<Box>
 						<Paragraph>{name}</Paragraph>
 					</Box>

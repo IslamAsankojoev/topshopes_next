@@ -45,7 +45,7 @@ const config = {
 	defaultOptions: {
 		queries: {
 			refetchOnWindowFocus: false,
-			retry: 1,
+			retry: 0,
 			cacheTime: 0,
 		},
 	},
