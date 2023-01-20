@@ -77,6 +77,7 @@ export const secondary = {
 	900: '#0c0e30',
 	main: '#0F3460',
 	dark: '#0c0e30',
+	contrastText: '#FFFFFF',
 }
 
 export const error = {

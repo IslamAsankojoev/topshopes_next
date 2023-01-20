@@ -6,7 +6,13 @@ import { NextPageAuth } from 'shared/types/auth.types'
 
 const LoginPage: NextPageAuth = () => {
 	return (
-		<FlexRowCenter flexDirection="column" minHeight="100vh">
+		<FlexRowCenter
+			flexDirection="column"
+			minHeight="100vh"
+			sx={{
+				padding: '30px',
+			}}
+		>
 			<SEO title="Login" />
 			<Login />
 		</FlexRowCenter>

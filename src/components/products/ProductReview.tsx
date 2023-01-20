@@ -13,6 +13,7 @@ import * as yup from 'yup'
 
 import ProductComment from './ProductComment'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export interface ProductReviewProps {
 	product: IProduct
@@ -21,6 +22,8 @@ export interface ProductReviewProps {
 
 const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 	const { user } = useTypedSelector((state) => state.userStore)
+
+	const router = useRouter()
 
 	const { mutateAsync } = useMutation(
 		'send a comment',
@@ -112,7 +115,8 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 				</form>
 			) : (
 				<h3>
-					<Link href={'/login'}>log in</Link> to write a review
+					<Link href={`/login/?redirect=${router.asPath}`}>log in</Link> to
+					write a review
 				</h3>
 			)}
 		</Box>

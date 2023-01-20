@@ -31,7 +31,7 @@ const VendorDashboardLayout = ({ children }) => {
 
 	return (
 		<Fragment>
-			<ReloadButton />
+			{/* <ReloadButton /> */}
 			<DashboardSidebar
 				sidebarCompact={sidebarCompact}
 				showMobileSideBar={showMobileSideBar}

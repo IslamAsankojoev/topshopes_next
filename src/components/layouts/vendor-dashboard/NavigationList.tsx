@@ -137,11 +137,4 @@ export const navigations = [
 		path: '/vendor/account-setting',
 		role: 'vendor',
 	},
-
-	{
-		name: 'Logout',
-		icon: duotone.Session,
-		path: '/vendor/dashboard-version-2',
-		role: 'vendor',
-	},
 ]

@@ -1,6 +1,7 @@
 import {
 	Button,
 	Card,
+	Grid,
 	IconButton,
 	ImageList,
 	ImageListItem,
@@ -45,40 +46,54 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 	}
 
 	return (
-		<div style={{ padding: 6, marginTop: 2 }}>
+		<div>
 			<h3>Product images</h3>
 			{images?.length > 0 ? (
-				<ImageList cols={5}>
+				<Grid container gap={0}>
 					{images.map((item: IImage) => (
-						<Card variant="outlined" sx={{ border: '1px solid #EAEAEA' }}>
-							<ImageListItem
-								key={getImgUrl(item.image) + 'img'}
-								sx={{ height: '100%!important' }}
+						<Grid item xs={6} sm={6} md={6}>
+							<Card
+								variant="outlined"
+								sx={{ border: '1px solid #EAEAEA', margin: '5px' }}
 							>
-								<img
-									src={`${getImgUrl(item.image)}`}
-									height={248}
-									alt={`${getImgUrl(item.image)}`}
-									loading="lazy"
-								/>
-								<ImageListItemBar
-									sx={{
-										background: 'transparent',
+								<ImageListItem
+									key={getImgUrl(item.image) + 'img'}
+									style={{
+										height: '200px',
 									}}
-									position="top"
-									actionIcon={
-										<IconButton
-											color="error"
-											onClick={() => handleRemove(item)}
-										>
-											<Close color="error" />
-										</IconButton>
-									}
-								/>
-							</ImageListItem>
-						</Card>
+								>
+									<img
+										src={`${getImgUrl(item.image)}`}
+										alt={`${getImgUrl(item.image)}`}
+										loading="lazy"
+										width={200}
+										object-fit="contain"
+										object-position="center"
+									/>
+									<ImageListItemBar
+										sx={{
+											background: 'transparent',
+										}}
+										position="top"
+										actionIcon={
+											<Button
+												variant="contained"
+												color="error"
+												size="small"
+												sx={{
+													borderRadius: '0 0 0 10px',
+												}}
+												onClick={() => handleRemove(item)}
+											>
+												<Close />
+											</Button>
+										}
+									/>
+								</ImageListItem>
+							</Card>
+						</Grid>
 					))}
-				</ImageList>
+				</Grid>
 			) : null}
 			<br />
 			<Button

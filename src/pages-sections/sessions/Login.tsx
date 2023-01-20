@@ -6,7 +6,7 @@ import BazaarTextField from 'components/BazaarTextField'
 import { H3, Small } from 'components/Typography'
 import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
-import React, { FormEvent, useCallback, useState } from 'react'
+import React, { FormEvent, useCallback, useEffect, useState } from 'react'
 import * as yup from 'yup'
 import EyeToggleButton from './EyeToggleButton'
 import SocialButtons from './SocialButtons'
@@ -14,6 +14,7 @@ import { useRouter } from 'next/router'
 import { StyledNavLink } from 'components/mobile-navigation/styles'
 import { AuthService } from 'api/services/auth/auth.service'
 import { useMutation } from 'react-query'
+import { useAuthRedirect } from 'hooks/useAuthRedirect'
 
 const fbStyle = { background: '#3B5998', color: 'white' }
 const googleStyle = { background: '#4285F4', color: 'white' }
@@ -39,9 +40,24 @@ export const Wrapper = styled<React.FC<WrapperProps & CardProps>>(
 }))
 
 const Login = () => {
+	useAuthRedirect()
 	const [passwordVisibility, setPasswordVisibility] = useState(false)
 	const { profile } = useActions()
-	const { push } = useRouter()
+	const router = useRouter()
+
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		resetForm,
+	} = useFormik({
+		initialValues,
+		onSubmit: () => handleFormSubmit(),
+		validationSchema: formSchema,
+	})
 
 	const togglePasswordVisibility = useCallback(() => {
 		setPasswordVisibility((visible) => !visible)
@@ -52,15 +68,12 @@ const Login = () => {
 	const handleFormSubmit = async () => {
 		await mutateAsync()
 		await profile()
-		push('/profile')
+		resetForm()
 	}
 
-	const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-		useFormik({
-			initialValues,
-			onSubmit: handleFormSubmit,
-			validationSchema: formSchema,
-		})
+	useEffect(() => {
+		console.log(router)
+	}, [router])
 
 	return (
 		<Wrapper elevation={3} passwordVisibility={passwordVisibility}>
@@ -129,8 +142,7 @@ const Login = () => {
 						fullWidth
 						color="primary"
 						variant="contained"
-						// @ts-ignore
-						onClick={handleSubmit}
+						onClick={() => handleSubmit()}
 						sx={{
 							mb: '1.65rem',
 							height: 44,
@@ -140,20 +152,6 @@ const Login = () => {
 					>
 						Login
 					</BazaarButton>
-					{/* <BazaarButton
-            fullWidth
-            color="primary"
-            variant="contained"
-            // @ts-ignore
-            onClick={handleSubmit}
-            sx={{
-              mb: '1.65rem',
-              height: 44,
-              borderRadius: '0px 5px 5px 0px',
-              border: '1px solid white',
-            }}>
-            Register
-          </BazaarButton> */}
 				</Grid>
 			</form>
 

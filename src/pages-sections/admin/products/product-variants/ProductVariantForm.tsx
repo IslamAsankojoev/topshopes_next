@@ -241,6 +241,12 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 						position: 'absolute',
 						bottom: '20px',
 						right: '20px',
+						boxShadow: '0px 0px 0px rgba(0, 0, 0, 0.25)',
+						'&:hover': {
+							boxShadow: '0px 0px 0px rgba(0, 0, 0, 0.25)',
+							transform: 'scale(1.05)',
+							backgroundColor: '#E4E9EE',
+						},
 					}}
 					onClick={() =>
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
@@ -255,32 +261,6 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				fullScreen
 				onClose={() => setAddCardForm(false)}
 			>
-				<DialogTitle>
-					<Grid
-						item
-						xs={12}
-						sx={{
-							p: 4,
-							position: 'absolute',
-							bottom: 0,
-							right: 100,
-						}}
-					>
-						<Button
-							onClick={() => setAddCardForm(false)}
-							variant="contained"
-							color="error"
-							type="submit"
-							size="medium"
-							sx={{
-								padding: '0.5rem 1.4rem',
-								fontSize: '1rem',
-							}}
-						>
-							Cancel
-						</Button>
-					</Grid>
-				</DialogTitle>
 				<DialogContent>
 					<Container>
 						<Typography variant="h6" mb={3}>
@@ -291,6 +271,18 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 							defaultData={initialValues}
 							fields={productVariantFormCreate}
 							handleFormSubmit={handleFormSubmit}
+							actionButtons={
+								<Fragment>
+									<Button
+										onClick={() => setAddCardForm(false)}
+										variant="contained"
+										color="error"
+										size="medium"
+									>
+										Cancel
+									</Button>
+								</Fragment>
+							}
 							children={
 								<Fragment>
 									<ProductAttributes

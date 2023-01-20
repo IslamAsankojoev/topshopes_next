@@ -10,12 +10,12 @@ import React from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 
 const CheckoutAlternative: NextPageAuth = () => {
-	const { push } = useRouter()
+	const { push, asPath } = useRouter()
 	const token = Cookies.get('refresh')
 
 	React.useEffect(() => {
 		if (!token) {
-			push('/login')
+			push(`/login/?redirect=${asPath}`)
 		}
 	}, [])
 

@@ -1,5 +1,13 @@
 import styled from '@emotion/styled'
-import { Autocomplete, Button, Card, Grid, TextField } from '@mui/material'
+import {
+	Autocomplete,
+	Button,
+	Card,
+	Grid,
+	InputAdornment,
+	TextField,
+	Typography,
+} from '@mui/material'
 import { FlexBox } from 'components/flex-box'
 import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
@@ -100,7 +108,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						<TextField
 							fullWidth
 							name="name"
-							label="Name"
+							label={
+								<Typography
+									fontWeight="650"
+									color="grey.800"
+									textTransform="capitalize"
+									fontSize="16"
+								>
+									Name
+								</Typography>
+							}
 							color="info"
 							size="medium"
 							placeholder="Name"
@@ -118,7 +135,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							color="info"
 							size="medium"
 							name="unit"
-							label="Unit"
+							label={
+								<Typography
+									fontWeight="650"
+									color="grey.800"
+									textTransform="capitalize"
+									fontSize="16"
+								>
+									Unit
+								</Typography>
+							}
 							onBlur={handleBlur}
 							onChange={handleChange}
 							placeholder="Unit"
@@ -159,7 +185,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									onChange={({ target }) => {
 										setCategoriesSearch(target.value)
 									}}
-									label="Select Category"
+									label={
+										<Typography
+											fontWeight="650"
+											color="grey.800"
+											textTransform="capitalize"
+											fontSize="16"
+										>
+											Category
+										</Typography>
+									}
 								/>
 							)}
 						/>
@@ -188,7 +223,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									onChange={({ target }) => {
 										setBrandsSearch(target.value)
 									}}
-									label="Select Brand"
+									label={
+										<Typography
+											fontWeight="650"
+											color="grey.800"
+											textTransform="capitalize"
+											fontSize="16"
+										>
+											Brand
+										</Typography>
+									}
 								/>
 							)}
 						/>
@@ -232,7 +276,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							rows={4}
 							fullWidth
 							name="description"
-							label="Description"
+							label={
+								<Typography
+									fontWeight="650"
+									color="grey.800"
+									textTransform="capitalize"
+									fontSize="16"
+								>
+									Description
+								</Typography>
+							}
 							color="info"
 							size="medium"
 							placeholder="Description"
@@ -244,57 +297,60 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						/>
 					</Grid>
 
-					<Grid
-						item
-						xs={12}
-						sx={{
-							position: 'fixed',
-							display: 'flex',
-							bottom: 0,
-							right: 0,
-							zIndex: 100,
-							padding: '10px!important',
-							backgroundColor: '#F7F9FC',
-							boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.18)',
-							'@media (max-width: 600px)': {
-								width: '100%',
-								justifyContent: 'center',
-							},
-						}}
-					>
-						<FlexBox
-							flexWrap={'wrap'}
-							justifyContent={'flex-end'}
-							sx={{ gridGap: '10px' }}
+					<Grid item xs={12}>
+						<Card
+							sx={{
+								border: '1px solid #E4E7EB',
+								position: 'fixed',
+								display: 'flex',
+								bottom: 10,
+								right: 10,
+								zIndex: 100,
+								padding: '10px!important',
+								backgroundColor: '#F7F9FC',
+								'@media (max-width: 768px)': {
+									width: '95%',
+									justifyContent: 'center',
+								},
+							}}
 						>
-							{update ? (
-								<>
-									<Button
-										onClick={() =>
-											push({
-												pathname: '/product/[id]',
-												query: { trueID: values.id, id: values.slug },
-											})
-										}
-										variant="contained"
-										color="secondary"
-									>
-										Go to view
-									</Button>
-									<Button variant="contained" color="primary" type="submit">
-										Save and exit
-									</Button>
-								</>
-							) : null}
-							<Button
-								onClick={() => setRedirect(true)}
-								variant="contained"
-								color="primary"
-								type="submit"
+							<FlexBox
+								flexWrap={'wrap'}
+								justifyContent={'flex-end'}
+								sx={{ gridGap: '10px' }}
 							>
-								{update ? 'Save product' : 'Create product'}
-							</Button>
-						</FlexBox>
+								{update ? (
+									<>
+										<Button
+											onClick={() =>
+												push({
+													pathname: '/product/[id]',
+													query: { trueID: values.id, id: values.slug },
+												})
+											}
+											variant="contained"
+											color="secondary"
+										>
+											Go to view
+										</Button>
+										<Button variant="contained" color="primary" type="submit">
+											Save and exit
+										</Button>
+									</>
+								) : null}
+								<Button
+									onClick={() => setRedirect(true)}
+									variant="contained"
+									color="primary"
+									type="submit"
+									sx={{
+										px: 4,
+									}}
+								>
+									{update ? 'Save' : 'Create'}
+								</Button>
+							</FlexBox>
+						</Card>
 					</Grid>
 				</Grid>
 			</form>

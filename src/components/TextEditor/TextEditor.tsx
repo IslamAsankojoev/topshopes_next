@@ -59,18 +59,70 @@ const TextEditor: FC<ITextEditor> = ({
 							isFocused ? styles.wrapperFocused : styles.wrapper
 						}
 						placeholder={'Write something...'}
+						// toolbar={{
+						// 	options: [
+						// 		'inline',
+						// 		'blockType',
+						// 		'fontSize',
+						// 		'list',
+						// 		'textAlign',
+						// 		'colorPicker',
+						// 		'link',
+						// 		'emoji',
+						// 		'history',
+						// 	],
+						// }}
+						// add toolbar options with excludes
 						toolbar={{
 							options: [
 								'inline',
-								'blockType',
 								'fontSize',
+								'blockType',
 								'list',
 								'textAlign',
-								'colorPicker',
 								'link',
-								'emoji',
-								'history',
 							],
+							inline: {
+								options: ['bold', 'italic', 'underline', 'monospace'],
+								suppressContentEditableWarning: true,
+								suppressHydrationWarning: true,
+							},
+							blockType: {
+								options: [
+									'Normal',
+									'H1',
+									'H2',
+									'H3',
+									'H4',
+									'H5',
+									'H6',
+									'Blockquote',
+									'Code',
+								],
+								inDropdown: true,
+								suppressContentEditableWarning: true,
+								suppressHydrationWarning: true,
+							},
+							fontSize: {
+								options: [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72],
+								inDropdown: true,
+								suppressContentEditableWarning: true,
+								suppressHydrationWarning: true,
+							},
+							list: {
+								inDropdown: true,
+								suppressContentEditableWarning: true,
+								suppressHydrationWarning: true,
+							},
+							textAlign: {
+								inDropdown: true,
+								suppressContentEditableWarning: true,
+								suppressHydrationWarning: true,
+							},
+							link: {
+								suppressContentEditableWarning: true,
+								suppressHydrationWarning: true,
+							},
 						}}
 					/>
 				</div>
