@@ -90,7 +90,7 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 							<Image
 								display="block"
 								height="28px"
-								src="/assets/images/logo.svg"
+								src="/assets/images/logoWhite.svg"
 								alt="logo"
 							/>
 						</Link>
@@ -139,7 +139,7 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 						))}
 					</BazaarMenu>
 
-					<BazaarMenu
+					{/* <BazaarMenu
 						direction="right"
 						handler={
 							<TouchRipple className="handler">
@@ -157,7 +157,7 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 								<Span className="menuTitle">{item.title}</Span>
 							</MenuItem>
 						))}
-					</BazaarMenu>
+					</BazaarMenu> */}
 				</FlexBox>
 			</Container>
 		</TopbarWrapper>

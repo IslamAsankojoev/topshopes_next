@@ -116,7 +116,9 @@ const AccountSetting: NextPageAuth = () => {
 				<Card sx={{ p: 4 }}>
 					<Avatar
 						src={
-							fileLocaleUrl || user.avatar || '/assets/images/faces/ralph.png'
+							fileLocaleUrl ||
+							user.avatar ||
+							'/assets/images/avatars/001-man.svg'
 						}
 						sx={{ height: 64, width: 64 }}
 					/>

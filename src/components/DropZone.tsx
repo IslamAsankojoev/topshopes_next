@@ -40,9 +40,9 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 	return (
 		<Box
 			py={2}
-			px={{ md: 10, xs: 4 }}
 			display="flex"
-			minHeight="100px"
+			height="100%"
+			// minHeight="100px"
 			alignItems="center"
 			borderRadius="10px"
 			border="1.5px dashed"
@@ -86,6 +86,8 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 			<p
 				style={{
 					color: 'red',
+					margin: '0',
+					padding: '0',
 				}}
 			>
 				{helperText}

@@ -53,7 +53,7 @@ const Variables: FC<VariablesProps> = ({
 			})
 		})
 		setAttributes(attributes)
-	}, [])
+	}, [product])
 
 	useEffect(() => {
 		setVariant(
@@ -80,9 +80,6 @@ const Variables: FC<VariablesProps> = ({
 		)
 	}, [selectedAttributes])
 
-	useEffect(() => {
-		console.log(product.variants)
-	}, [product])
 	return (
 		<div
 			style={{

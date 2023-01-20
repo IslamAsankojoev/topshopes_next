@@ -106,7 +106,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 								readOnly
 							/>
 						</Box>
-						<H6 lineHeight="1">(50)</H6>
+						<H6 lineHeight="1">({rating})</H6>
 					</FlexBox>
 
 					<Box mb={3}>

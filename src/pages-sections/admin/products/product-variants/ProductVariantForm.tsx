@@ -261,9 +261,13 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				fullScreen
 				onClose={() => setAddCardForm(false)}
 			>
-				<DialogContent>
+				<DialogContent
+					sx={{
+						backgroundColor: '#F7F9FC',
+					}}
+				>
 					<Container>
-						<Typography variant="h6" mb={3}>
+						<Typography variant="h6" mb={3} textAlign="center">
 							Variant details
 						</Typography>
 

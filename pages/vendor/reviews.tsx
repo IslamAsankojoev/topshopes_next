@@ -26,6 +26,10 @@ import {
 } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { useQuery } from 'react-query'
+import { ShopsService } from 'api/services/shop/shop.service'
+import { ResponseList } from 'shared/types/response.types'
+import { IReview } from 'shared/types/product.types'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
@@ -45,6 +49,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const Reviews: NextPageAuth = () => {
 	const { t } = useTranslation('store')
+
+	const { data: listData } = useQuery(
+		'get shop reviews',
+		() => ShopsService.getShopReviews(),
+		{
+			select: (data: ResponseList<IReview>) => data.results,
+		}
+	)
 
 	const {
 		order,
@@ -74,15 +86,12 @@ const Reviews: NextPageAuth = () => {
 								onRequestSort={handleRequestSort}
 							/>
 
-							<TableBody>
-								{filteredList?.map((review, index) => (
+							{/* <TableBody>
+								{filteredList?.map((review: IReview, index) => (
 									<StyledTableRow tabIndex={-1} role="checkbox" key={index}>
 										<StyledTableCell align="left">
 											<FlexBox alignItems="center" gap={1.5}>
-												<Avatar
-													src={review.image}
-													sx={{ borderRadius: '8px' }}
-												/>
+												<Avatar src={review} sx={{ borderRadius: '8px' }} />
 												<Paragraph>{review.name}</Paragraph>
 											</FlexBox>
 										</StyledTableCell>
@@ -111,7 +120,7 @@ const Reviews: NextPageAuth = () => {
 										</StyledTableCell>
 									</StyledTableRow>
 								))}
-							</TableBody>
+							</TableBody> */}
 						</Table>
 					</TableContainer>
 				</Scrollbar>
@@ -135,62 +144,62 @@ Reviews.getLayout = function getLayout(page: ReactElement) {
 
 export default Reviews
 
-// list data
-const listData = [
-	{
-		rating: 5,
-		name: 'Samsung Galaxy-M1',
-		customer: 'Gage Pequette',
-		image: '/assets/images/products/samsung.png',
-		comment: '“But I must explain to you how all this of denouncing pleasure.”',
-	},
-	{
-		rating: 4,
-		name: 'Tomatto',
-		customer: 'Zachary Taylor',
-		image: '/assets/images/products/tomato.png',
-		comment: '“But I must explain to you how all this of denouncing pleasure.”',
-	},
-	{
-		rating: 5,
-		name: 'Boston Round Cream Pack',
-		customer: 'Ollie Casper',
-		image: '/assets/images/products/beauty-cream.png',
-		comment: '“But I must explain to you how all this of denouncing pleasure.”',
-	},
-	{
-		rating: 5,
-		name: 'Woman Party Dress',
-		customer: 'Tony Richardson',
-		image: '/assets/images/products/red-dress.png',
-		comment: '“But I must explain to you how all this of denouncing pleasure.”',
-	},
-	{
-		rating: 4,
-		name: 'White Tops',
-		customer: 'Zach Marshall',
-		image: '/assets/images/products/white-tops.png',
-		comment: '“But I must explain to you how all this of denouncing pleasure.”',
-	},
-	{
-		rating: 3,
-		name: 'Casual Shirt for Man',
-		customer: 'Ken Matthews',
-		image: '/assets/images/products/formal-shirt.png',
-		comment: '“But I must explain to you how all this of denouncing pleasure.”',
-	},
-	{
-		rating: 5,
-		name: 'Blue Premium T-shirt',
-		customer: 'Nathan Clark',
-		image: '/assets/images/products/blu-tshirt.png',
-		comment: '“But I must explain to you how all this of denouncing pleasure.”',
-	},
-	{
-		rating: 5,
-		name: 'Man Trowzer Pant',
-		customer: 'Bruce Reynolds',
-		image: '/assets/images/products/pnat.png',
-		comment: '“But I must explain to you how all this of denouncing pleasure.”',
-	},
-]
+// // list data
+// const listData = [
+// 	{
+// 		rating: 5,
+// 		name: 'Samsung Galaxy-M1',
+// 		customer: 'Gage Pequette',
+// 		image: '/assets/images/products/samsung.png',
+// 		comment: '“But I must explain to you how all this of denouncing pleasure.”',
+// 	},
+// 	{
+// 		rating: 4,
+// 		name: 'Tomatto',
+// 		customer: 'Zachary Taylor',
+// 		image: '/assets/images/products/tomato.png',
+// 		comment: '“But I must explain to you how all this of denouncing pleasure.”',
+// 	},
+// 	{
+// 		rating: 5,
+// 		name: 'Boston Round Cream Pack',
+// 		customer: 'Ollie Casper',
+// 		image: '/assets/images/products/beauty-cream.png',
+// 		comment: '“But I must explain to you how all this of denouncing pleasure.”',
+// 	},
+// 	{
+// 		rating: 5,
+// 		name: 'Woman Party Dress',
+// 		customer: 'Tony Richardson',
+// 		image: '/assets/images/products/red-dress.png',
+// 		comment: '“But I must explain to you how all this of denouncing pleasure.”',
+// 	},
+// 	{
+// 		rating: 4,
+// 		name: 'White Tops',
+// 		customer: 'Zach Marshall',
+// 		image: '/assets/images/products/white-tops.png',
+// 		comment: '“But I must explain to you how all this of denouncing pleasure.”',
+// 	},
+// 	{
+// 		rating: 3,
+// 		name: 'Casual Shirt for Man',
+// 		customer: 'Ken Matthews',
+// 		image: '/assets/images/products/formal-shirt.png',
+// 		comment: '“But I must explain to you how all this of denouncing pleasure.”',
+// 	},
+// 	{
+// 		rating: 5,
+// 		name: 'Blue Premium T-shirt',
+// 		customer: 'Nathan Clark',
+// 		image: '/assets/images/products/blu-tshirt.png',
+// 		comment: '“But I must explain to you how all this of denouncing pleasure.”',
+// 	},
+// 	{
+// 		rating: 5,
+// 		name: 'Man Trowzer Pant',
+// 		customer: 'Bruce Reynolds',
+// 		image: '/assets/images/products/pnat.png',
+// 		comment: '“But I must explain to you how all this of denouncing pleasure.”',
+// 	},
+// ]

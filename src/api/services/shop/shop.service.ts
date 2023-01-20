@@ -27,6 +27,14 @@ export const ShopsService = {
 			throw error
 		}
 	},
+	getShopReviews: async () => {
+		try {
+			const response = await makeRequest(true).get(getShopUrl('reviews/'))
+			return response.data
+		} catch (error) {
+			throw error
+		}
+	},
 }
 
 export const ShopService = CRUDservice(getShopUrl, 'Shop')

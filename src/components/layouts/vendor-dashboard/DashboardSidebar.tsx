@@ -163,7 +163,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 						alt="Logo"
 						width={60}
 						height={30}
-						src="/assets/images/logo.svg"
+						src="/assets/images/logoWhite.svg"
 						style={{ marginLeft: 8 }}
 					/>
 				</Box>
@@ -186,8 +186,8 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 				<Avatar
 					src={
 						COMPACT
-							? '/assets/images/bazaar-white-sm.svg'
-							: '/assets/images/logo.svg'
+							? '/assets/images/logoCompact.svg'
+							: '/assets/images/logoWhite.svg'
 					}
 					sx={{
 						borderRadius: 0,

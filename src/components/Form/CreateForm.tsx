@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { formData } from 'utils/formData'
 import React from 'react'
 import { FlexBox } from 'components/flex-box'
+import Card1 from 'components/Card1'
 
 interface CreateFormProps {
 	fields: Record<string, any>
@@ -130,7 +131,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 				alignItems: 'center',
 			}}
 		>
-			<Card
+			<Card1
 				sx={{
 					px: 6,
 					py: 3,
@@ -220,7 +221,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 						</Grid>
 					</Grid>
 				</form>
-			</Card>
+			</Card1>
 		</div>
 	) : null
 }

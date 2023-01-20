@@ -389,10 +389,8 @@ const Field: FC<any> = (props) => {
 						}
 						xs={12}
 					>
-						<h3 style={{ margin: 0, textTransform: 'capitalize' }}>
-							{other?.label}
-						</h3>
 						<DropZone
+							title={other?.label}
 							error={other.error}
 							helperText={other.helperText}
 							style={{
@@ -413,13 +411,11 @@ const Field: FC<any> = (props) => {
 							sm={6}
 							xs={12}
 							position="relative"
-							marginTop={3}
 							justifyContent="center"
 							alignItems="center"
 						>
 							<Image
-								width={250}
-								height={250}
+								layout="fill"
 								objectFit="contain"
 								objectPosition="center"
 								src={
