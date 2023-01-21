@@ -1,18 +1,32 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { SellerRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 import api from 'utils/api/dashboard'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	const sellers = await api.sellers()
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+			sellers,
+		},
+	}
+}
 // table column list
 const tableHeading = [
 	{ id: 'name', label: 'Seller Name', align: 'left' },
@@ -86,11 +100,6 @@ SellerList.isOnlyUser = true
 
 SellerList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-	const sellers = await api.sellers()
-	return { props: { sellers } }
 }
 
 export default SellerList

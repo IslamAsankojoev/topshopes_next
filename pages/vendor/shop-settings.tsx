@@ -41,7 +41,11 @@ const validationSchema = Yup.object().shape({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale as string, ['store', 'common'])),
+			...(await serverSideTranslations(locale as string, [
+				'store',
+				'common',
+				'admin',
+			])),
 		},
 	}
 }

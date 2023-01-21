@@ -3,6 +3,7 @@ import { Avatar, Box, Tooltip } from '@mui/material'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { ProductsService } from 'api/services/products/product.service'
 import BazaarSwitch from 'components/BazaarSwitch'
+import LazyImage from 'components/LazyImage'
 import { Paragraph, Small } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import currency from 'currency.js'
@@ -19,7 +20,6 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from '../StyledComponents'
-import LazyImage from 'components/LazyImage'
 
 // ========================================================================
 type ProductRowProps = { product: IProductPreview; refetch: () => void }
@@ -30,18 +30,6 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 	// state
 	const router = useRouter()
-	const [productPublish, setProductPublish] = useState<boolean>(published)
-
-	const { mutateAsync } = useMutation(
-		'update shop product',
-		() => AdminProductsService.update(id, { published: !productPublish }),
-		{
-			onError: (e: unknown) => {
-				refetch()
-			},
-			onSuccess: () => {},
-		}
-	)
 
 	//handlers
 	const onDelete = async () => {
@@ -54,10 +42,6 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				console.log(e)
 			}
 		}
-	}
-	const publishOnchange = async () => {
-		setProductPublish((prev) => !prev)
-		mutateAsync()
 	}
 
 	useEffect(() => {
@@ -97,14 +81,6 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 			<StyledTableCell align="left">
 				{currency(overall_price, { separator: ',' }).format()}
-			</StyledTableCell>
-
-			<StyledTableCell align="left">
-				<BazaarSwitch
-					color="info"
-					checked={productPublish}
-					onChange={publishOnchange}
-				/>
 			</StyledTableCell>
 
 			<StyledTableCell align="center">

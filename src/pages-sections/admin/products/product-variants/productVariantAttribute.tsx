@@ -6,12 +6,13 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material'
+import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
-import * as yup from 'yup'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { IProductAttributeValue } from 'shared/types/product.types'
-import { useFormik } from 'formik'
-import { useTypedSelector } from 'hooks/useTypedSelector'
+import * as yup from 'yup'
 
 interface ProductAttributesProps {
 	attributes: IProductAttributeValue[] | any
@@ -24,6 +25,7 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 	handleFormSubmit,
 	variantId,
 }) => {
+	const { t: adminT } = useTranslation('admin')
 	// states
 	const [attributeFields, setAttributeFields] = React.useState([])
 	const [defaultData, setDefaultData] = React.useState({})
@@ -136,7 +138,7 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 
 	return attributeFields.length > 0 ? (
 		<div>
-			<h3>Attributes</h3>
+			<h3>{adminT('attributes')}</h3>
 
 			<form onSubmit={handleSubmit}>
 				<Grid container spacing={3}>

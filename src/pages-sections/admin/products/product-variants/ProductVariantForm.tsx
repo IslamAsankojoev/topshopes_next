@@ -17,6 +17,7 @@ import CreateForm from 'components/Form/CreateForm'
 import ProductImages from 'components/Gallery/ProductImages'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
 import React, { FC, Fragment, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
@@ -64,6 +65,8 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 	images,
 	isAdmin,
 }) => {
+	const { t: commonT } = useTranslation('common')
+	const { t: adminT } = useTranslation('admin')
 	// states
 	const { user } = useTypedSelector((state) => state.userStore)
 	const { imgIdCounter, newAttributes } = useTypedSelector(
@@ -230,7 +233,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					}
 					disabled={isAdmin}
 				>
-					Add New Variant
+					{adminT('addVariant')}
 				</Button>
 			) : (
 				<Button
@@ -252,7 +255,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 					}
 				>
-					Edit
+					{adminT('edit')}
 				</Button>
 			)}
 
@@ -264,7 +267,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				<DialogContent>
 					<Container>
 						<Typography variant="h6" mb={3}>
-							Variant details
+							{adminT('variantDetails')}
 						</Typography>
 
 						<CreateForm
@@ -279,7 +282,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 										color="error"
 										size="medium"
 									>
-										Cancel
+										{adminT('cancel')}
 									</Button>
 								</Fragment>
 							}

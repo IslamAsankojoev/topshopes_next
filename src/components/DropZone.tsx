@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Divider } from '@mui/material'
+import { useTranslation } from 'next-i18next'
 import React, { ComponentPropsWithoutRef, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
+
 import { H5, Small } from './Typography'
 
 // @ts-ignore
@@ -14,6 +16,7 @@ export interface DropZoneProps extends ComponentPropsWithoutRef<'input'> {
 }
 
 const DropZone: React.FC<DropZoneProps> = (props) => {
+	const { t } = useTranslation('admin')
 	const {
 		helperText = '',
 		error = false,
@@ -59,7 +62,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 		>
 			<input {...other} {...getInputProps()} />
 			<H5 mb={1} color="grey.600">
-				{title || 'Drag & drop product image here'}
+				{title || t('dragAndDrop')}
 			</H5>
 
 			<Divider
@@ -71,7 +74,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 				}}
 			>
 				<Small color="text.disabled" px={1}>
-					OR
+					{t('or')}
 				</Small>
 			</Divider>
 
@@ -81,7 +84,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 				color={error ? 'error' : 'info'}
 				sx={{ px: 4, my: 1 }}
 			>
-				Select image
+				{t('selectImage')}
 			</Button>
 			<p
 				style={{

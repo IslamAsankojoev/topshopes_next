@@ -1,6 +1,7 @@
 import { Box, Grid } from '@mui/material'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Analytics from 'pages-sections/dashboard/Analytics'
 import Card1 from 'pages-sections/dashboard/Card1'
 import RecentPurchase from 'pages-sections/dashboard/RecentPurchase'
@@ -68,12 +69,23 @@ VendorDashboard.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	const cardList = await api.getAllCard()
 	const recentPurchase = await api.recentPurchase()
 	const stockOutProducts = await api.stockOutProducts()
 
-	return { props: { cardList, recentPurchase, stockOutProducts } }
+	return {
+		props: {
+			cardList,
+			recentPurchase,
+			stockOutProducts,
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
 }
 
 export default VendorDashboard

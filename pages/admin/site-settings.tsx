@@ -4,6 +4,9 @@ import CreateForm from 'components/Form/CreateForm'
 import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import React, { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
@@ -11,7 +14,19 @@ import { NextPageAuth } from 'shared/types/auth.types'
 import { ISiteSettings } from 'shared/types/site-settings.types'
 import { siteSettingsFormEdit } from 'utils/constants/forms'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 const SiteSettings: NextPageAuth = () => {
+	const { t } = useTranslation('admin')
 	const { data, isLoading } = useQuery('site-settings admin get', () =>
 		SiteSettingsService.getList()
 	)
@@ -38,7 +53,7 @@ const SiteSettings: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Site settings</H3>
+			<H3 mb={2}>{t('siteSetting')}</H3>
 			<CreateForm
 				defaultData={data}
 				fields={siteSettingsFormEdit}

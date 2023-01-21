@@ -5,6 +5,8 @@ import CreateForm from 'components/Form/CreateForm'
 import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import React from 'react'
@@ -15,7 +17,19 @@ import { IPages } from 'shared/types/pages.types'
 import { pageEditForm } from 'utils/constants/forms'
 import { formData } from 'utils/formData'
 
+export const getServerSideProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 const UpdatePages: NextPageAuth = () => {
+	const { t } = useTranslation('adminActions')
 	const {
 		push,
 		query: { id },
@@ -60,7 +74,7 @@ const UpdatePages: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Add New Page</H3>
+			<H3 mb={2}>{t('editPage')}</H3>
 			<CreateForm
 				defaultData={{
 					...page,

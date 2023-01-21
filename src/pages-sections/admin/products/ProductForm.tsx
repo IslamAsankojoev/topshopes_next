@@ -11,6 +11,7 @@ import {
 import { FlexBox } from 'components/flex-box'
 import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
@@ -31,6 +32,9 @@ type ProductFormProps = {
 // ================================================================
 
 const ProductForm: FC<ProductFormProps> = (props) => {
+	const { t: adminT } = useTranslation('admin')
+	const { t: commonT } = useTranslation('common')
+
 	const { initialValues, validationSchema, handleFormSubmit, update } = props
 
 	const { push } = useRouter()
@@ -115,12 +119,12 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									textTransform="capitalize"
 									fontSize="16"
 								>
-									Name
+									{commonT('name')}
 								</Typography>
 							}
 							color="info"
 							size="medium"
-							placeholder="Name"
+							placeholder={commonT('name')}
 							value={values.name}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -142,12 +146,12 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									textTransform="capitalize"
 									fontSize="16"
 								>
-									Unit
+									{commonT('unit')}
 								</Typography>
 							}
 							onBlur={handleBlur}
 							onChange={handleChange}
-							placeholder="Unit"
+							placeholder={commonT('unit')}
 							value={values.unit}
 							error={!!touched.unit && !!errors.unit}
 							helperText={touched.unit && errors.unit}
@@ -160,7 +164,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							fullWidth
 							color="info"
 							size="medium"
-							placeholder="Category"
+							placeholder={commonT('categories')}
 							value={values.category}
 							// @ts-ignore
 							onChange={(
@@ -192,7 +196,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 											textTransform="capitalize"
 											fontSize="16"
 										>
-											Category
+											{commonT('categories')}
 										</Typography>
 									}
 								/>
@@ -213,7 +217,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							) => {
 								setFieldValue('brand', newValue)
 							}}
-							placeholder="Brands"
+							placeholder={commonT('brand')}
 							value={values.brand}
 							renderInput={(params) => (
 								<TextField
@@ -230,7 +234,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 											textTransform="capitalize"
 											fontSize="16"
 										>
-											Brand
+											{commonT('brand')}
 										</Typography>
 									}
 								/>
@@ -246,7 +250,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 								color="info"
 								size="medium"
 								onBlur={handleBlur}
-								placeholder="Shop"
+								placeholder={commonT('shop')}
 								value={values.shop}
 								// @ts-ignore
 								onChange={(
@@ -263,7 +267,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 										onChange={({ target }) => {
 											setShopsSearch(target.value)
 										}}
-										label="Select Shop"
+										label={commonT('shop')}
 									/>
 								)}
 							/>
@@ -283,12 +287,12 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									textTransform="capitalize"
 									fontSize="16"
 								>
-									Description
+									{commonT('description')}
 								</Typography>
 							}
 							color="info"
 							size="medium"
-							placeholder="Description"
+							placeholder={commonT('description')}
 							value={values.description}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -331,10 +335,10 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 											variant="contained"
 											color="secondary"
 										>
-											Go to view
+											{adminT('goView')}
 										</Button>
 										<Button variant="contained" color="primary" type="submit">
-											Save and exit
+											{adminT('saveExit')}
 										</Button>
 									</>
 								) : null}
@@ -347,7 +351,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 										px: 4,
 									}}
 								>
-									{update ? 'Save' : 'Create'}
+									{update ? commonT('save') : adminT('createProduct')}
 								</Button>
 							</FlexBox>
 						</Card>

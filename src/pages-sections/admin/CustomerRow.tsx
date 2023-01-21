@@ -2,13 +2,14 @@ import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
 import { UsersService } from 'api/services-admin/users/users.service'
 import BazaarSwitch from 'components/BazaarSwitch'
-import { FlexBox } from 'components/flex-box'
 import { Paragraph } from 'components/Typography'
+import { FlexBox } from 'components/flex-box'
 import currency from 'currency.js'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import { IUser } from 'shared/types/user.types'
+
 import {
 	StyledIconButton,
 	StyledTableCell,
@@ -32,17 +33,6 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 	} = customer
 
 	const { push } = useRouter()
-	const [publish, setProductPublish] = useState<boolean>(verified)
-
-	const { mutateAsync } = useMutation(
-		'update user verified',
-		() => UsersService.update(id, { verified: !publish }),
-		{
-			onError: (e: unknown) => {
-				refetch()
-			},
-		}
-	)
 
 	//handlers
 	const onDelete = async () => {
@@ -54,10 +44,6 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 				console.log(e)
 			}
 		}
-	}
-	const publishOnchange = async () => {
-		setProductPublish(!publish)
-		mutateAsync()
 	}
 
 	return customer ? (
@@ -80,14 +66,6 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 			{/* <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
 				{currency(balance, { separator: ',' }).format()}
 			</StyledTableCell> */}
-
-			<StyledTableCell align="left">
-				<BazaarSwitch
-					color="info"
-					checked={publish}
-					onChange={publishOnchange}
-				/>
-			</StyledTableCell>
 
 			<StyledTableCell align="center">
 				<StyledIconButton

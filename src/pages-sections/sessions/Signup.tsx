@@ -2,21 +2,26 @@ import { Checkbox, FormControlLabel } from '@mui/material'
 import { AuthService } from 'api/services/auth/auth.service'
 import BazaarButton from 'components/BazaarButton'
 import BazaarTextField from 'components/BazaarTextField'
+import { H3, H6, Small } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import { StyledNavLink } from 'components/mobile-navigation/styles'
-import { H3, H6, Small } from 'components/Typography'
 import { useFormik } from 'formik'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { getErrorMessage } from 'utils/getErrorMessage'
 import * as yup from 'yup'
+
 import EyeToggleButton from './EyeToggleButton'
 import { Wrapper } from './Login'
 import SocialButtons from './SocialButtons'
 
 const Signup = () => {
+	const { t: commonT } = useTranslation('common')
+	const { t: authT } = useTranslation('auth')
+
 	const [passwordVisibility, setPasswordVisibility] = useState(false)
 	const { push, replace, asPath } = useRouter()
 
@@ -52,7 +57,7 @@ const Signup = () => {
 		<Wrapper elevation={3} passwordVisibility={passwordVisibility}>
 			<form>
 				<H3 textAlign="center" mb={1}>
-					Create Your Account
+					{authT('createYourAccount')}
 				</H3>
 				<Small
 					mb={4.5}
@@ -62,7 +67,7 @@ const Signup = () => {
 					color="grey.800"
 					textAlign="center"
 				>
-					Please fill all fields to continue
+					{authT('allFields')}
 				</Small>
 
 				<BazaarTextField
@@ -90,7 +95,7 @@ const Signup = () => {
 					onBlur={handleBlur}
 					value={values.phone}
 					onChange={handleChange}
-					label="Phone Number"
+					label={commonT('phone')}
 					placeholder="+996 707 777 777"
 					error={!!touched.phone && !!errors.phone}
 					helperText={touched.phone && errors.phone}
@@ -101,7 +106,7 @@ const Signup = () => {
 					fullWidth
 					size="small"
 					name="password"
-					label="Password"
+					label={commonT('password')}
 					variant="outlined"
 					autoComplete="on"
 					placeholder="*********"
@@ -127,7 +132,7 @@ const Signup = () => {
 					autoComplete="on"
 					name="re_password"
 					variant="outlined"
-					label="Retype Password"
+					label={commonT('retypePassword')}
 					placeholder="*********"
 					onBlur={handleBlur}
 					onChange={handleChange}
@@ -162,10 +167,9 @@ const Signup = () => {
 							alignItems="center"
 							justifyContent="flex-start"
 						>
-							By signing up, you agree to
 							<a href="/" target="_blank" rel="noreferrer noopener">
 								<H6 ml={1} borderBottom="1px solid" borderColor="grey.900">
-									Terms & Condtion
+									{authT('termsCondtion')}
 								</H6>
 							</a>
 						</FlexBox>
@@ -180,12 +184,12 @@ const Signup = () => {
 					variant="contained"
 					sx={{ height: 44 }}
 				>
-					Create Account
+					{authT('createAccount')}
 				</BazaarButton>
 			</form>
 
-			<SocialButtons redirect="/login" redirectText="Login" />
-			<StyledNavLink href="/">Go to Home</StyledNavLink>
+			<SocialButtons redirect="/login" redirectText={commonT('login')} />
+			<StyledNavLink href="/">{commonT('goHome')}</StyledNavLink>
 		</Wrapper>
 	)
 }
