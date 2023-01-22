@@ -54,7 +54,7 @@ const Reviews: NextPageAuth = () => {
 		'get shop reviews',
 		() => ShopsService.getShopReviews(),
 		{
-			select: (data: ResponseList<IReview>) => data.results,
+			select: (data: IReview[]) => data,
 		}
 	)
 
@@ -86,18 +86,26 @@ const Reviews: NextPageAuth = () => {
 								onRequestSort={handleRequestSort}
 							/>
 
-							{/* <TableBody>
+							<TableBody>
 								{filteredList?.map((review: IReview, index) => (
 									<StyledTableRow tabIndex={-1} role="checkbox" key={index}>
 										<StyledTableCell align="left">
 											<FlexBox alignItems="center" gap={1.5}>
-												<Avatar src={review} sx={{ borderRadius: '8px' }} />
-												<Paragraph>{review.name}</Paragraph>
+												<Avatar
+													src={
+														review?.user?.avatar ||
+														'/assets/images/avatars/001-man.svg'
+													}
+													sx={{ borderRadius: '8px' }}
+												/>
+												<Paragraph>
+													{review?.user?.first_name || review?.user?.email}
+												</Paragraph>
 											</FlexBox>
 										</StyledTableCell>
 
 										<StyledTableCell align="left">
-											{review.customer}
+											{review?.product}
 										</StyledTableCell>
 
 										<StyledTableCell align="left">
@@ -120,7 +128,7 @@ const Reviews: NextPageAuth = () => {
 										</StyledTableCell>
 									</StyledTableRow>
 								))}
-							</TableBody> */}
+							</TableBody>
 						</Table>
 					</TableContainer>
 				</Scrollbar>

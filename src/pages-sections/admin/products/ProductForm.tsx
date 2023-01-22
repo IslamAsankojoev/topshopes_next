@@ -341,7 +341,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 								<Button
 									onClick={() => setRedirect(true)}
 									variant="contained"
-									color="primary"
+									color="success"
 									type="submit"
 									sx={{
 										px: 4,

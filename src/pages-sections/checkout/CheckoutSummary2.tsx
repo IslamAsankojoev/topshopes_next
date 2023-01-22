@@ -29,7 +29,7 @@ const CheckoutSummary2: FC = () => {
 						)
 					</Paragraph>
 					<Paragraph>
-						${Number(item.variants[0].overall_price).toFixed(2)} x {item.qty}
+						${Number(item.variants[0].overall_price).toFixed(2)}c x {item.qty}
 					</Paragraph>
 				</FlexBetween>
 			))}

@@ -1,4 +1,5 @@
 import { IShop } from './shop.types'
+import { IUser } from './user.types'
 
 export type IProduct = {
 	brand: IBrand
@@ -22,6 +23,7 @@ export type IProductPreview = Omit<
 	discount_price: string
 	overall_price: string
 	discount: string
+	nodeRef?: any
 }
 
 export type IColor = {
@@ -75,16 +77,17 @@ export type IImage = {
 	id: number | string
 	product_variant: string
 	image: string | File
+	nodeRef?: any
 }
 
 export type IReview = {
 	id: string
 	product_variant: string
-	user: { first_name: string; last_name: string; avatar: string }
+	user: IUser
 	rating: number
 	comment: string
 	created_at: string
-	product: number
+	product: string
 	shop: string
 }
 

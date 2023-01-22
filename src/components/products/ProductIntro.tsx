@@ -114,6 +114,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 							{Number(
 								selectedVariant?.overall_price || variants[0]?.overall_price
 							).toFixed(2)}
+							c
 						</H2>
 					</Box>
 

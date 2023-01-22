@@ -1,5 +1,5 @@
 import { KeyboardArrowDown, PersonOutline } from '@mui/icons-material'
-import { Badge, Box, Dialog, Drawer, styled } from '@mui/material'
+import { Avatar, Badge, Box, Dialog, Drawer, styled } from '@mui/material'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
 import { useTheme } from '@mui/material/styles'
@@ -120,13 +120,27 @@ const Header: FC<HeaderProps> = ({
 					sx={{ display: { xs: 'none', md: 'flex' } }}
 				>
 					<Box
-						component={IconButton}
-						p={1.25}
+						p={0.5}
 						bgcolor="grey.200"
 						// @ts-ignore
+						sx={{
+							borderRadius: '50%',
+							cursor: 'pointer',
+							width: 44,
+							height: 44,
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
 						onClick={user ? redirect : handleLogin}
 					>
-						<PersonOutline />
+						{user ? (
+							<Avatar
+								src={user?.avatar || '/assets/images/avatars/001-man.svg'}
+							/>
+						) : (
+							<PersonOutline />
+						)}
 					</Box>
 
 					<Badge badgeContent={cart?.length} color="primary">

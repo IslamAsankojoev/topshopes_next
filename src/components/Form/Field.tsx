@@ -387,7 +387,11 @@ const Field: FC<any> = (props) => {
 								? 6
 								: 12
 						}
-						xs={12}
+						xs={
+							fileLocaleUrl || getImgUrl(other?.defaultData[other?.name])
+								? 6
+								: 12
+						}
 					>
 						<DropZone
 							title={other?.label}
@@ -409,7 +413,7 @@ const Field: FC<any> = (props) => {
 							display="flex"
 							item
 							sm={6}
-							xs={12}
+							xs={6}
 							position="relative"
 							justifyContent="center"
 							alignItems="center"

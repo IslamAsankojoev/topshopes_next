@@ -139,7 +139,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 					width: '100%',
 					maxWidth: maxFormWidth,
 					'@media (max-width: 600px)': {
-						px: 1,
+						px: 2,
 					},
 				}}
 			>
@@ -169,11 +169,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 								</Grid>
 							) : null
 						)}
-						<Grid
-							sx={{
-								p: 4,
-							}}
-						>
+						<Grid item xs={12}>
 							{children}
 						</Grid>
 						<Grid item xs={12}>
@@ -202,7 +198,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 									{actionButtons}
 									<Button
 										variant="contained"
-										color="primary"
+										color="success"
 										sx={{
 											px: 4,
 										}}

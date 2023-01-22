@@ -10,6 +10,8 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import { GetStaticProps, NextPage } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { createRef, useRef } from 'react'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct, IProductPreview } from 'shared/types/product.types'
 
@@ -40,13 +42,43 @@ const WishList: NextPageAuth = () => {
 			/>
 
 			<Grid container spacing={3}>
-				{wihListItems
-					?.map((item: IProductPreview | any) => (
-						<Grid item lg={4} sm={6} xs={6} key={item.id}>
-							<ProductCard1 product={{ ...item }} />
-						</Grid>
-					))
-					.reverse()}
+				<TransitionGroup component={null}>
+					{wihListItems
+						?.map((item: IProductPreview | any) => (
+							<CSSTransition
+								key={item.id}
+								timeout={230}
+								sx={{
+									'&.fade-enter': {
+										opacity: 0,
+										transform: 'scale(.8)',
+									},
+									'&.fade-enter-active': {
+										opacity: 1,
+										transform: 'scale(1)',
+										transition: 'all 230ms ease-in-out',
+									},
+									'&.fade-exit': {
+										opacity: 1,
+										transform: 'scale(1)',
+									},
+									'&.fade-exit-active': {
+										opacity: 0,
+										transform: 'scale(.8)',
+										transition: 'all 230ms ease-in-out',
+									},
+								}}
+								unmountOnExit
+								classNames="fade"
+								nodeRef={item.nodeRef}
+							>
+								<Grid item lg={4} sm={6} xs={6} ref={item.nodeRef}>
+									<ProductCard1 product={{ ...item }} />
+								</Grid>
+							</CSSTransition>
+						))
+						.reverse()}
+				</TransitionGroup>
 			</Grid>
 
 			<FlexBox justifyContent="center" mt={5}>

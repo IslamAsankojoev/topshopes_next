@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, Divider } from '@mui/material'
+import { Box, Button, Divider, Typography } from '@mui/material'
 import React, { ComponentPropsWithoutRef, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { H5, Small } from './Typography'
@@ -42,7 +42,6 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 			py={2}
 			display="flex"
 			height="100%"
-			// minHeight="100px"
 			alignItems="center"
 			borderRadius="10px"
 			border="1.5px dashed"
@@ -58,15 +57,22 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 			{...getRootProps()}
 		>
 			<input {...other} {...getInputProps()} />
-			<H5 mb={1} color="grey.600">
+			<Typography
+				mb={1}
+				color="black.900"
+				fontSize={12}
+				width={150}
+				textOverflow="ellipsis"
+				overflow="hidden"
+			>
 				{title || 'Drag & drop product image here'}
-			</H5>
+			</Typography>
 
 			<Divider
 				sx={{
 					'::before, ::after': {
 						borderColor: 'grey.300',
-						width: 70,
+						width: 40,
 					},
 				}}
 			>
@@ -79,7 +85,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 				type="button"
 				variant="outlined"
 				color={error ? 'error' : 'info'}
-				sx={{ px: 4, my: 1 }}
+				sx={{ px: 2.3, my: 1 }}
 			>
 				Select image
 			</Button>

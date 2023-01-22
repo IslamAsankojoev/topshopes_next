@@ -9,6 +9,8 @@ import {
 	IconButton,
 	Typography,
 } from '@mui/material'
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
+
 import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
 import { AttributesService } from 'api/services/attributes/attributes.service'
 import { ImagesService } from 'api/services/images/images.service'
@@ -222,15 +224,16 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 		<Fragment>
 			{create ? (
 				<Button
-					color="primary"
-					variant="outlined"
-					sx={{ p: '2px 20px' }}
+					color="success"
+					variant="contained"
+					sx={{ p: '7px 12px' }}
 					onClick={() =>
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 					}
 					disabled={isAdmin}
+					startIcon={<LibraryAddIcon />}
 				>
-					Add New Variant
+					Add Variant
 				</Button>
 			) : (
 				<Button
