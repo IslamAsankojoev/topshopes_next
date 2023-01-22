@@ -167,10 +167,13 @@ const Signup = () => {
 							alignItems="center"
 							justifyContent="flex-start"
 						>
-							<a href="/" target="_blank" rel="noreferrer noopener">
-								<H6 ml={1} borderBottom="1px solid" borderColor="grey.900">
-									{authT('termsCondtion')}
-								</H6>
+							<a
+								href="/"
+								target="_blank"
+								rel="noreferrer noopener"
+								style={{ textDecoration: 'underline' }}
+							>
+								{authT('termsCondtion')}
 							</a>
 						</FlexBox>
 					}

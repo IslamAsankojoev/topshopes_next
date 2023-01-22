@@ -8,6 +8,7 @@ import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { SellerRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
@@ -29,18 +30,19 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 // table column list
 const tableHeading = [
-	{ id: 'name', label: 'Seller Name', align: 'left' },
-	{ id: 'shopName', label: 'Shop Name', align: 'left' },
-	{ id: 'package', label: 'Current Package', align: 'left' },
-	{ id: 'balance', label: 'Current Balance', align: 'left' },
-	{ id: 'published', label: 'Shop Published', align: 'left' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'name', label: 'sellerName', align: 'left' },
+	{ id: 'shopName', label: 'shopName', align: 'left' },
+	{ id: 'package', label: 'currentPackage', align: 'left' },
+	{ id: 'balance', label: 'currentBalance', align: 'left' },
+	{ id: 'published', label: 'published', align: 'left' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
 type SellerListProps = { sellers: any[] }
 // =============================================================================
 
 const SellerList: NextPageAuth<SellerListProps> = ({ sellers }) => {
+	const { t } = useTranslation('admin')
 	const {
 		order,
 		orderBy,
@@ -53,13 +55,13 @@ const SellerList: NextPageAuth<SellerListProps> = ({ sellers }) => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Sellers</H3>
+			<H3 mb={2}>{t('sellers')}</H3>
 
 			<SearchArea
 				handleSearch={() => {}}
-				buttonText="Add New Seller"
+				buttonText={t('add')}
 				handleBtnClick={() => {}}
-				searchPlaceholder="Search Seller..."
+				searchPlaceholder={t('searchingFor')}
 			/>
 
 			<Card>
