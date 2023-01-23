@@ -71,6 +71,7 @@ export type IProductVariant = {
 	thumbnail: string
 	images: IImage[]
 	attribute_values: IProductAttributeValue[]
+	nodeRef: any
 }
 
 export type IImage = {

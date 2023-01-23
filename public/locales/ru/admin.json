@@ -58,10 +58,10 @@
 	"shopName": "Название магазина",
 	"shopSetting": "Настройка магазина",
 	"siteSetting": "Настройка сайта",
-	"status": "Положение дел",
+	"status": "Статус",
 	"stock": "запас",
 	"store": "Магазин",
 	"thumbnail": "изображение",
 	"title": "заглавие",
-	"variantDetails": "Сведения о варианте"
+	"variantDetails": "Вариант"
 }

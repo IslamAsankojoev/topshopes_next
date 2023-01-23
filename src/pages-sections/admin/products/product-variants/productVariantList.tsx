@@ -13,6 +13,7 @@ import { useTranslation } from 'next-i18next'
 import { ProductFetchTypes } from 'pages-sections/admin/products/useProductFetch'
 import React from 'react'
 import { useQuery } from 'react-query'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { IProductVariant } from 'shared/types/product.types'
 import { IProduct } from 'shared/types/product.types'
 
@@ -108,92 +109,130 @@ const ProductVariantList: React.FC<Props> = ({
 					isAdmin={isAdmin}
 				/>
 			</FlexBetween>
-			<Grid sx={{ bgcolor: 'white' }} container spacing={1.3}>
-				{Lodash.sortBy(variantList(product), 'id')?.map(
-					(variant: IProductVariant, ind: number) => (
-						<Grid item md={3} sm={4} xs={12} key={ind + 'product variant'}>
-							<VariantCard>
-								<LazyImage
-									width={150}
-									height={200}
-									objectFit={'contain'}
-									objectPosition={'center'}
-									src={getImgUrl(variantCheck(variant)?.thumbnail)}
-									alt={'thumbnail'}
-								/>
-
-								<FlexBox
-									justifyContent={'space-between'}
-									sx={{
-										padding: '1rem',
-									}}
-								>
-									<div>
-										<Paragraph fontSize={16} color="grey.500">
-											{adminT('variantDetails')} - {variantCheck(variant)?.id}
-										</Paragraph>
-										<H6 mb={0.5} fontSize={14}>
-											{commonT('price')}: {variantCheck(variant)?.price}
-										</H6>
-										<Paragraph fontSize={14} color="grey.700">
-											{commonT('discount')}: {variantCheck(variant)?.discount}
-										</Paragraph>
-										<Paragraph fontSize={14} color="grey.700">
-											{commonT('status')}: {variantCheck(variant)?.status}
-										</Paragraph>
-										<Paragraph fontSize={14} color="grey.700">
-											{commonT('stock')}: {variantCheck(variant)?.stock}
-										</Paragraph>
-										<br />
-										{variant?.attribute_values?.length > 0 && (
-											<Paragraph fontSize={16} color="grey.500">
-												{adminT('attributes')}
-											</Paragraph>
-										)}
-										{variantCheck(variant)?.attribute_values?.map(
-											(attribute: any, ind: number) => (
-												<Paragraph color="grey.700" key={ind + 'attribute'}>
-													{attribute?.attribute?.name ||
-														attribute?.attributeName}
-													:{attribute?.value || attribute?.attributeValue}
-												</Paragraph>
-											)
-										)}
-									</div>
-									<FlexBox alignItems={'center'}>
-										<ProductVariantForm
-											attributes={getAllattributes(
-												variant.attribute_values,
-												category?.attributes
-											)}
-											refetch={refetch}
-											initialValues={variantCheck(variant)}
-											createPage={create}
-											variantId={variant?.id}
-											images={variant?.images}
+			<Grid
+				sx={{
+					bgcolor: 'white',
+				}}
+				container
+				spacing={1.3}
+			>
+				<TransitionGroup component={null}>
+					{Lodash.sortBy(variantList(product), 'id')?.map(
+						(variant: IProductVariant, ind: number) => (
+							<CSSTransition
+								key={variant.id + 'product variant'}
+								timeout={200}
+								classNames="item"
+								unmountOnExit
+								sx={{
+									'&.item-enter': {
+										opacity: 0,
+										transform: 'scaleX(.5)',
+									},
+									'&.item-enter-active': {
+										opacity: 1,
+										transform: 'scaleX(1)',
+										transition: 'all 200ms ease-in-out',
+									},
+									'&.item-exit': {
+										opacity: 1,
+										transform: 'scaleX(1)',
+									},
+									'&.item-exit-active': {
+										opacity: 0,
+										transform: 'scaleX(.5)',
+										transition: 'all 200ms ease-in-out',
+									},
+								}}
+								nodeRef={variant.nodeRef}
+							>
+								<Grid item md={3} sm={4} xs={12} ref={variant.nodeRef}>
+									<VariantCard>
+										<LazyImage
+											width={150}
+											height={200}
+											objectFit={'contain'}
+											objectPosition={'center'}
+											src={getImgUrl(variantCheck(variant)?.thumbnail)}
+											alt={'thumbnail'}
 										/>
-										{!isAdmin ? (
-											<Button
-												sx={{
-													position: 'absolute',
-													top: '10px',
-													right: '10px',
-													padding: '4px',
-												}}
-												variant="contained"
-												size="small"
-												color="error"
-												onClick={(e) => deleteVariant(variant)}
-											>
-												<Close />
-											</Button>
-										) : null}
-									</FlexBox>
-								</FlexBox>
-							</VariantCard>
-						</Grid>
-					)
-				)}
+
+										<FlexBox
+											justifyContent={'space-between'}
+											sx={{
+												padding: '1rem',
+											}}
+										>
+											<div>
+												<Paragraph fontSize={16} color="grey.500">
+													{adminT('variantDetails')} -{' '}
+													{variantCheck(variant)?.id}
+												</Paragraph>
+												<H6 mb={0.5} fontSize={14}>
+													{commonT('price')}: {variantCheck(variant)?.price}
+												</H6>
+												<Paragraph fontSize={14} color="grey.700">
+													{commonT('discount')}:{' '}
+													{variantCheck(variant)?.discount}
+												</Paragraph>
+												<Paragraph fontSize={14} color="grey.700">
+													{commonT('status')}: {variantCheck(variant)?.status}
+												</Paragraph>
+												<Paragraph fontSize={14} color="grey.700">
+													{commonT('stock')}: {variantCheck(variant)?.stock}
+												</Paragraph>
+												<br />
+												{variant?.attribute_values?.length > 0 && (
+													<Paragraph fontSize={16} color="grey.500">
+														{adminT('attributes')}
+													</Paragraph>
+												)}
+												{variantCheck(variant)?.attribute_values?.map(
+													(attribute: any, ind: number) => (
+														<Paragraph color="grey.700" key={ind + 'attribute'}>
+															{attribute?.attribute?.name ||
+																attribute?.attributeName}
+															:{attribute?.value || attribute?.attributeValue}
+														</Paragraph>
+													)
+												)}
+											</div>
+											<FlexBox alignItems={'center'}>
+												<ProductVariantForm
+													attributes={getAllattributes(
+														variant.attribute_values,
+														category?.attributes
+													)}
+													refetch={refetch}
+													initialValues={variantCheck(variant)}
+													createPage={create}
+													variantId={variant?.id}
+													images={variant?.images}
+												/>
+												{!isAdmin ? (
+													<Button
+														sx={{
+															position: 'absolute',
+															top: '10px',
+															right: '10px',
+															padding: '4px',
+														}}
+														variant="contained"
+														size="small"
+														color="error"
+														onClick={(e) => deleteVariant(variant)}
+													>
+														<Close />
+													</Button>
+												) : null}
+											</FlexBox>
+										</FlexBox>
+									</VariantCard>
+								</Grid>
+							</CSSTransition>
+						)
+					)}
+				</TransitionGroup>
 			</Grid>
 		</Card1>
 	)
