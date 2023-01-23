@@ -1,1 +1,19 @@
-{"addNewAttribute":"Добавить новый атрибут","addNewBrand":"Добавить новый бренд","addNewBrandType":"Добавить новый тип бренда","addNewCategory":"Добавить новую категорию","addNewPage":"Добавить новую страницу","addNewPageCategory":"Добавить новую категорию страниц","addNewProduct":"Добавить новый продукт","editAttribute":"Изменить атрибут","editBrand":"Изменить бренд","editBrandType":"Изменить тип бренда","editCategory":"Изменить категорию","editPage":"Редактировать страницу","editPageCategory":"Изменить категорию страницы","editProduct":"Редактировать продукт","editUser":"Редактировать пользователя","orderDetail":"Детали заказа","searchingFor":"поиск..."}
+{
+	"addNewAttribute": "Добавить",
+	"addNewBrand": "Добавить",
+	"addNewBrandType": "Добавить",
+	"addNewCategory": "Добавить ",
+	"addNewPage": "Добавить",
+	"addNewPageCategory": "Добавить",
+	"addNewProduct": "Добавить",
+	"editAttribute": "Изменить атрибут",
+	"editBrand": "Изменить бренд",
+	"editBrandType": "Изменить тип бренда",
+	"editCategory": "Изменить категорию",
+	"editPage": "Редактировать страницу",
+	"editPageCategory": "Изменить категорию страницы",
+	"editProduct": "Редактировать продукт",
+	"editUser": "Редактировать пользователя",
+	"orderDetail": "Детали заказа",
+	"searchingFor": "поиск..."
+}
