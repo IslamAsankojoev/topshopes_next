@@ -1,4 +1,5 @@
 import { Button, Card, Grid, TextField } from '@mui/material'
+import Card1 from 'components/Card1'
 import { FlexBox } from 'components/flex-box'
 import { ErrorMessage, Form, useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
@@ -133,7 +134,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 				alignItems: 'center',
 			}}
 		>
-			<Card
+			<Card1
 				sx={{
 					px: 6,
 					py: 3,
@@ -141,7 +142,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 					width: '100%',
 					maxWidth: maxFormWidth,
 					'@media (max-width: 600px)': {
-						px: 1,
+						px: 2,
 					},
 				}}
 			>
@@ -171,11 +172,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 								</Grid>
 							) : null
 						)}
-						<Grid
-							sx={{
-								p: 4,
-							}}
-						>
+						<Grid item xs={12}>
 							{children}
 						</Grid>
 						<Grid item xs={12}>
@@ -204,7 +201,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 									{actionButtons}
 									<Button
 										variant="contained"
-										color="primary"
+										color="success"
 										sx={{
 											px: 4,
 										}}
@@ -223,7 +220,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 						</Grid>
 					</Grid>
 				</form>
-			</Card>
+			</Card1>
 		</div>
 	) : null
 }

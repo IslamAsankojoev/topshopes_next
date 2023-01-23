@@ -8,9 +8,8 @@ export interface IUser {
 	phone: string
 	avatar: string
 	verified: boolean
-	orders: IOrderShort[]
-	addresses: IAddress[]
 	is_superuser: boolean
+	is_seller: boolean
 }
 
 export interface IAddress {

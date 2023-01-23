@@ -87,6 +87,7 @@ const EditProduct: NextPageAuth = () => {
 						handleFormSubmit={handleFormSubmit}
 						update={true}
 						includeShop
+						refetch={refetch}
 					/>
 
 					<ProductVariantList

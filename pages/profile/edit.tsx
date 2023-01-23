@@ -84,7 +84,9 @@ const ProfileEditor: NextPageAuth = () => {
 				<FlexBox alignItems="flex-end" mb={3}>
 					<Avatar
 						src={
-							fileLocaleUrl || user.avatar || '/assets/images/faces/ralph.png'
+							fileLocaleUrl ||
+							user.avatar ||
+							'/assets/images/avatars/001-man.svg'
 						}
 						sx={{ height: 64, width: 64 }}
 					/>

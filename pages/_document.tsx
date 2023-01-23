@@ -19,9 +19,10 @@ export default class Bazaar extends Document {
 						rel="stylesheet"
 						href="https://fonts.googleapis.com/icon?family=Material+Icons"
 					/>
+					<meta name="google" content="notranslate" />
 				</Head>
 
-				<body>
+				<body className="notranslate">
 					<Main />
 					<NextScript />
 				</body>

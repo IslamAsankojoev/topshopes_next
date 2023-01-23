@@ -56,7 +56,10 @@ const Profile: NextPageAuth = () => {
 									alignItems: 'center',
 								}}
 							>
-								<Avatar src={user.avatar} sx={{ height: 64, width: 64 }} />
+								<Avatar
+									src={user.avatar || '/assets/images/avatars/001-man.svg'}
+									sx={{ height: 64, width: 64 }}
+								/>
 
 								<Box ml={1.5} flex="1 1 0">
 									<FlexBetween flexWrap="wrap">

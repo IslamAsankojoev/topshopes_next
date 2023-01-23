@@ -75,6 +75,7 @@ const EditProduct: NextPageAuth = () => {
 						validationSchema={productFormValidationSchemaVendor}
 						handleFormSubmit={handleFormSubmit}
 						update={true}
+						refetch={refetch}
 					/>
 
 					<ProductVariantList

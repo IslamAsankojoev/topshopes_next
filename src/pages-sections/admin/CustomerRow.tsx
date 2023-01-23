@@ -21,16 +21,7 @@ type CustomerRowProps = { customer: IUser; refetch: () => void }
 // ========================================================================
 
 const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
-	const {
-		addresses,
-		avatar,
-		email,
-		first_name,
-		last_name,
-		phone,
-		verified,
-		id,
-	} = customer
+	const { avatar, email, first_name, last_name, phone, verified, id } = customer
 
 	const { push } = useRouter()
 

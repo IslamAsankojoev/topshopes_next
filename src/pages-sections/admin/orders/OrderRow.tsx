@@ -20,7 +20,7 @@ import {
 type OrderRowProps = { order: IOrder }
 // ========================================================================
 
-const statuses: {
+export const statuses: {
 	name: IOrderStatus
 	// color: 'info' | 'warning' | 'success' | 'error' | 'grey' | 'primary'
 }[] = [

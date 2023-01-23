@@ -23,6 +23,7 @@ import {
 	getFrequentlyBought,
 	getRelatedProducts,
 } from 'utils/api/related-products'
+import { id } from 'date-fns/esm/locale'
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,
@@ -47,7 +48,7 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 	const { t } = useTranslation('common')
 	const { id } = props
 
-	const { data: product, refetch } = useQuery([`product detail id=${id}`], () =>
+	const { data: product, refetch } = useQuery([`product detail`, id], () =>
 		ShopsProductsService.get(id as string)
 	)
 
@@ -123,7 +124,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
 		const { trueID } = ctx.query
 		const queryClient = new QueryClient()
-		await queryClient.fetchQuery([`product detail id=${trueID}`], () =>
+		await queryClient.fetchQuery([`product detail`, trueID], () =>
 			ShopsProductsService.get(trueID as string)
 		)
 

@@ -16,6 +16,7 @@ import * as yup from 'yup'
 
 import EyeToggleButton from './EyeToggleButton'
 import SocialButtons from './SocialButtons'
+import { useAuthRedirect } from 'hooks/useAuthRedirect'
 
 const fbStyle = { background: '#3B5998', color: 'white' }
 const googleStyle = { background: '#4285F4', color: 'white' }
@@ -41,6 +42,7 @@ export const Wrapper = styled<React.FC<WrapperProps & CardProps>>(
 }))
 
 const Login = () => {
+	useAuthRedirect()
 	const { t } = useTranslation('common')
 	const [passwordVisibility, setPasswordVisibility] = useState(false)
 	const { profile } = useActions()

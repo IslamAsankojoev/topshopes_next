@@ -2,13 +2,13 @@ import { Box, Grid, styled } from '@mui/material'
 import AppStore from 'components/AppStore'
 import BazaarIconButton from 'components/BazaarIconButton'
 import BazaarImage from 'components/BazaarImage'
+import { Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import Facebook from 'components/icons/Facebook'
 import Google from 'components/icons/Google'
 import Instagram from 'components/icons/Instagram'
 import Twitter from 'components/icons/Twitter'
 import Youtube from 'components/icons/Youtube'
-import { Paragraph } from 'components/Typography'
 import Link from 'next/link'
 import React, { FC } from 'react'
 
@@ -40,7 +40,11 @@ const GrocerFooter: FC = () => {
 			>
 				<Link href="/">
 					<a>
-						<BazaarImage mb={2.5} src="/assets/images/logo.svg" alt="logo" />
+						<BazaarImage
+							mb={2.5}
+							src="/assets/images/logoWhite.svg"
+							alt="logo"
+						/>
 					</a>
 				</Link>
 

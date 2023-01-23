@@ -1,4 +1,5 @@
 import { Close, ModeEditOutline } from '@mui/icons-material'
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import {
 	Button,
 	Container,
@@ -121,7 +122,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				id: variantId,
 				data: { variant: clearData, images: imagesList },
 			})
-
+			setImagesList([])
 			setAddCardForm(false)
 			return
 		}
@@ -154,6 +155,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 			}
 
 			setNewAttributes([])
+			setImagesList([])
 			setAddCardForm(false)
 			refetch && (await refetch())
 			return
@@ -173,11 +175,11 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 			} else {
 				await AttributesService.create(variantId as string, {
 					attribute: attribute.attributeNameId,
-					value: attribute.value,
+					value: attribute.value || 'without',
 				})
 			}
 		}
-
+		setImagesList([])
 		setNewAttributes([])
 		refetch && (await refetch())
 	}
@@ -224,13 +226,14 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 		<Fragment>
 			{create ? (
 				<Button
-					color="primary"
-					variant="outlined"
-					sx={{ p: '2px 20px' }}
+					color="success"
+					variant="contained"
+					sx={{ p: '7px 12px' }}
 					onClick={() =>
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 					}
 					disabled={isAdmin}
+					startIcon={<LibraryAddIcon />}
 				>
 					{adminT('addVariant')}
 				</Button>
@@ -263,7 +266,11 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				fullScreen
 				onClose={() => setAddCardForm(false)}
 			>
-				<DialogContent>
+				<DialogContent
+					sx={{
+						backgroundColor: '#F7F9FC',
+					}}
+				>
 					<Container>
 						<Typography variant="h6" mb={3}>
 							{adminT('variantDetails')}

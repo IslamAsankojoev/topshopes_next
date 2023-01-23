@@ -87,7 +87,7 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 							<Image
 								display="block"
 								height="28px"
-								src="/assets/images/logo.svg"
+								src="/assets/images/logoWhite.svg"
 								alt="logo"
 							/>
 						</Link>

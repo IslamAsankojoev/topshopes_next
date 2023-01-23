@@ -4,7 +4,13 @@ import {
 	Button,
 	Card,
 	Divider,
+	FormControl,
 	Grid,
+	IconButton,
+	MenuItem,
+	Select,
+	TextField,
+	Typography,
 } from '@mui/material'
 import { OrdersService } from 'api/services/orders/orders.service'
 import LazyImage from 'components/LazyImage'
@@ -14,9 +20,12 @@ import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { IOrder } from 'shared/types/order.types'
+import { toast } from 'react-toastify'
+import { IOrder, IOrderItem, IOrderStatus } from 'shared/types/order.types'
 
 import { StatusWrapper } from '../StyledComponents'
+
+import { statuses } from './OrderRow'
 
 const OrderDetails = () => {
 	const { t } = useTranslation('common')
@@ -36,8 +45,30 @@ const OrderDetails = () => {
 		{
 			select: (data: IOrder) => data,
 			enabled: !!id,
+			onSuccess: (data) => {
+				setOrderStatus(data.status)
+			},
 		}
 	)
+
+	const [orderStatus, setOrderStatus] = React.useState<IOrderStatus>(
+		order?.status
+	)
+
+	const { mutateAsync: mutateStatus } = useMutation(
+		'order status update',
+		(stat: IOrderStatus) => OrdersService.update(order?.id, { status: stat }),
+		{
+			onSuccess: (data) => {
+				toast.success('Order status updated')
+				setOrderStatus(data.status)
+			},
+		}
+	)
+
+	const changeStatus = (selected) => {
+		mutateStatus(selected)
+	}
 
 	const { mutateAsync } = useMutation(
 		'change status order',
@@ -112,9 +143,39 @@ const OrderDetails = () => {
 									>
 										{id?.slice(0, 8)}
 									</Paragraph>
-									<StatusWrapper status={order?.status}>
-										{order?.status}
-									</StatusWrapper>
+									<FormControl variant="outlined">
+										<Select
+											className="order-status-admin"
+											sx={{
+												'& .MuiSelect-select': {
+													padding: '0px!important',
+													fontSize: '1rem',
+													fontWeight: 400,
+													color: 'text.primary',
+													backgroundColor: 'background.paper',
+													border: '0px solid!important',
+													borderColor: 'divider',
+													'& fieldset': {
+														display: 'none!important',
+													},
+												},
+											}}
+											disableUnderline={true}
+											value={orderStatus}
+											label=""
+											onChange={(e) => {
+												changeStatus(e.target.value)
+											}}
+										>
+											{statuses.map((status) => (
+												<MenuItem value={status?.name}>
+													<StatusWrapper status={status?.name}>
+														{status?.name}
+													</StatusWrapper>
+												</MenuItem>
+											))}
+										</Select>
+									</FormControl>
 								</FlexBox>
 							</Card>
 						</Grid>

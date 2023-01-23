@@ -108,7 +108,7 @@ const ProductVariantList: React.FC<Props> = ({
 					isAdmin={isAdmin}
 				/>
 			</FlexBetween>
-			<Grid sx={{ bgcolor: 'white' }} container spacing={3}>
+			<Grid sx={{ bgcolor: 'white' }} container spacing={1.3}>
 				{Lodash.sortBy(variantList(product), 'id')?.map(
 					(variant: IProductVariant, ind: number) => (
 						<Grid item md={3} sm={4} xs={12} key={ind + 'product variant'}>
@@ -177,6 +177,7 @@ const ProductVariantList: React.FC<Props> = ({
 													top: '0px',
 													right: '0px',
 													borderRadius: '0 0 0 10px',
+													padding: '2px',
 												}}
 												variant="contained"
 												size="small"

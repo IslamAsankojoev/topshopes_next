@@ -106,7 +106,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 								readOnly
 							/>
 						</Box>
-						<H6 lineHeight="1">(50)</H6>
+						<H6 lineHeight="1">({rating})</H6>
 					</FlexBox>
 
 					<Box mb={3}>
@@ -114,6 +114,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 							{Number(
 								selectedVariant?.overall_price || variants[0]?.overall_price
 							).toFixed(2)}
+							c
 						</H2>
 					</Box>
 

@@ -11,8 +11,8 @@ import {
 import BazaarButton from 'components/BazaarButton'
 import BazaarImage from 'components/BazaarImage'
 import BazaarRating from 'components/BazaarRating'
-import { FlexBox } from 'components/flex-box'
 import { H1, H2, H6, Paragraph } from 'components/Typography'
+import { FlexBox } from 'components/flex-box'
 import { useAppContext } from 'contexts/AppContext'
 import { FC } from 'react'
 import {
@@ -20,6 +20,7 @@ import {
 	IProductPreview,
 	IProductVariant,
 } from 'shared/types/product.types'
+
 import Variables from './Variables'
 
 const ContentWrapper = styled(Box)(({ theme }) => ({
@@ -116,7 +117,7 @@ const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
 							</Paragraph>
 
 							<H1 color="primary.main">
-								{Number(product?.overall_price).toFixed(2)}
+								{Number(product?.overall_price).toFixed(2)}c
 							</H1>
 
 							<FlexBox alignItems="center" gap={1}>

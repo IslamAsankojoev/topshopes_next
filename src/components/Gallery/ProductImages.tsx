@@ -12,6 +12,7 @@ import {
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 import { toast } from 'react-toastify'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { IImage } from 'shared/types/product.types'
 
 interface IProductImages {
@@ -49,72 +50,150 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 	}
 
 	return (
-		<div>
-			<h3>{t('productImg')}</h3>
-			{images?.length > 0 ? (
-				<Grid container gap={0}>
-					{images.map((item: IImage) => (
-						<Grid item xs={6} sm={6} md={6}>
-							<Card
-								variant="outlined"
-								sx={{ border: '1px solid #EAEAEA', margin: '5px' }}
-							>
-								<ImageListItem
-									key={getImgUrl(item.image) + 'img'}
-									style={{
-										height: '200px',
-									}}
-								>
-									<img
-										src={`${getImgUrl(item.image)}`}
-										alt={`${getImgUrl(item.image)}`}
-										loading="lazy"
-										width={200}
-										object-fit="contain"
-										object-position="center"
-									/>
-									<ImageListItemBar
-										sx={{
-											background: 'transparent',
-										}}
-										position="top"
-										actionIcon={
-											<Button
-												variant="contained"
-												color="error"
-												size="small"
-												sx={{
-													borderRadius: '0 0 0 10px',
-												}}
-												onClick={() => handleRemove(item)}
-											>
-												<Close />
-											</Button>
-										}
-									/>
-								</ImageListItem>
-							</Card>
-						</Grid>
-					))}
-				</Grid>
-			) : null}
+		<>
 			<br />
-			<Button
-				variant="contained"
-				color="info"
-				component="label"
-				startIcon={<AddToPhotosIcon />}
-			>
-				{t('addImage')}
-				<input
-					onChange={(e) => handleImageChange(e)}
-					hidden
-					accept="image/png, image/jpeg, image/jpg, image/webp"
-					multiple
-					type="file"
-				/>
-			</Button>
-		</div>
+			<h3>{t('productImg')}</h3>
+			<Grid container gap={0}>
+				<TransitionGroup component={null}>
+					{images.length > 0 &&
+						images.map((item, index) => {
+							return (
+								<CSSTransition
+									key={item.id}
+									timeout={130}
+									sx={{
+										'&.image-item-enter': {
+											opacity: 0,
+											maxWidth: '0px',
+											transform: 'scale(.5)',
+										},
+										'&.image-item-enter-active': {
+											opacity: 1,
+											maxWidth: '150px',
+											transform: 'scale(1)',
+											transition: 'all 130ms ease-in-out',
+										},
+										'&.image-item-exit': {
+											opacity: 1,
+											maxWidth: '150px',
+											transform: 'scale(1)',
+										},
+										'&.image-item-exit-active': {
+											opacity: 0,
+											maxWidth: '0px',
+											transform: 'scale(.5)',
+											transition: 'all 130ms ease-in-out',
+										},
+									}}
+									classNames="image-item"
+									unmountOnExit
+									nodeRef={item.nodeRef}
+								>
+									<Grid
+										ref={item.nodeRef}
+										item
+										xs={6}
+										sm={4}
+										md={4}
+										sx={{
+											minWidth: '150px',
+											minHeight: '150px',
+										}}
+									>
+										<Card
+											variant="outlined"
+											sx={{
+												border: '1px solid #EAEAEA',
+												margin: '5px',
+											}}
+										>
+											<ImageListItem
+												key={getImgUrl(item.image) + 'img'}
+												style={{
+													height: '150px',
+												}}
+											>
+												<img
+													src={`${getImgUrl(item.image)}`}
+													alt={`${getImgUrl(item.image)}`}
+													loading="lazy"
+													width={150}
+													height={150}
+													object-fit="contain"
+													object-position="center"
+												/>
+												<ImageListItemBar
+													sx={{
+														background: 'transparent',
+													}}
+													position="top"
+													actionIcon={
+														<Button
+															variant="contained"
+															color="error"
+															size="small"
+															sx={{
+																padding: '2px',
+																borderRadius: '0 0 0 10px',
+															}}
+															onClick={() => handleRemove(item)}
+														>
+															<Close />
+														</Button>
+													}
+												/>
+											</ImageListItem>
+										</Card>
+									</Grid>
+								</CSSTransition>
+							)
+						})}
+				</TransitionGroup>
+				<Grid
+					item
+					xs={6}
+					sm={4}
+					md={4}
+					sx={{
+						minHeight: '150px',
+						minWidth: '150px',
+					}}
+				>
+					<Card
+						sx={{
+							margin: '5px',
+						}}
+					>
+						<Button
+							fullWidth
+							variant="outlined"
+							color="info"
+							component="label"
+							startIcon={<AddToPhotosIcon />}
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								flexDirection: 'column',
+								borderStyle: 'dashed',
+								height: '100%',
+								minHeight: '150px',
+								backgroundColor: '#F7F9FC',
+							}}
+						>
+							{t('addImage')}
+							<input
+								onChange={(e) => handleImageChange(e)}
+								hidden
+								accept="image/png, image/jpeg, image/jpg, image/webp"
+								multiple
+								type="file"
+							/>
+						</Button>
+					</Card>
+				</Grid>
+			</Grid>
+		</>
 	)
 }
 

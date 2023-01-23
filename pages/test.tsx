@@ -33,9 +33,9 @@ const Test: React.FC = () => {
 					onChange={handleTextChange}
 					value={text}
 				/>
-				<Button variant="contained" color="dark" onClick={handleSubmit}>
+				{/* <Button variant="contained" color="dark" onClick={handleSubmit}>
 					Submit
-				</Button>
+				</Button> */}
 
 				<br />
 				<br />

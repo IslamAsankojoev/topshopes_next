@@ -104,6 +104,7 @@ export const success = {
 	800: '#20BE4A',
 	900: '#0b7724',
 	main: 'rgb(51, 208, 103)',
+	contrastText: '#FFFFFF',
 }
 
 export const blue = {

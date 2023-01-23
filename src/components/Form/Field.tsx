@@ -340,7 +340,7 @@ const Field: FC<any> = (props) => {
 			const file = files[0]
 			if (file) {
 				setFileLocaleUrl(file && window?.URL?.createObjectURL(file))
-				other?.setFieldValue(other?.label, file)
+				other?.setFieldValue(other?.name, file)
 			}
 		}
 
@@ -387,12 +387,14 @@ const Field: FC<any> = (props) => {
 								? 6
 								: 12
 						}
-						xs={12}
+						xs={
+							fileLocaleUrl || getImgUrl(other?.defaultData[other?.name])
+								? 6
+								: 12
+						}
 					>
-						<h3 style={{ margin: 0, textTransform: 'capitalize' }}>
-							{other?.label}
-						</h3>
 						<DropZone
+							title={other?.name}
 							error={other.error}
 							helperText={other.helperText}
 							style={{
@@ -411,15 +413,13 @@ const Field: FC<any> = (props) => {
 							display="flex"
 							item
 							sm={6}
-							xs={12}
+							xs={6}
 							position="relative"
-							marginTop={3}
 							justifyContent="center"
 							alignItems="center"
 						>
 							<Image
-								width={250}
-								height={250}
+								layout="fill"
 								objectFit="contain"
 								objectPosition="center"
 								src={

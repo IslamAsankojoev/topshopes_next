@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, Divider } from '@mui/material'
+import { Box, Button, Divider, Typography } from '@mui/material'
 import { useTranslation } from 'next-i18next'
 import React, { ComponentPropsWithoutRef, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
@@ -43,9 +43,8 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 	return (
 		<Box
 			py={2}
-			px={{ md: 10, xs: 4 }}
 			display="flex"
-			minHeight="100px"
+			height="100%"
 			alignItems="center"
 			borderRadius="10px"
 			border="1.5px dashed"
@@ -61,15 +60,22 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 			{...getRootProps()}
 		>
 			<input {...other} {...getInputProps()} />
-			<H5 mb={1} color="grey.600">
+			<Typography
+				mb={1}
+				color="black.900"
+				fontSize={12}
+				width={150}
+				textOverflow="ellipsis"
+				overflow="hidden"
+			>
 				{title || t('dragAndDrop')}
-			</H5>
+			</Typography>
 
 			<Divider
 				sx={{
 					'::before, ::after': {
 						borderColor: 'grey.300',
-						width: 70,
+						width: 40,
 					},
 				}}
 			>
@@ -82,13 +88,15 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 				type="button"
 				variant="outlined"
 				color={error ? 'error' : 'info'}
-				sx={{ px: 4, my: 1 }}
+				sx={{ px: 2.3, my: 1 }}
 			>
 				{t('selectImage')}
 			</Button>
 			<p
 				style={{
 					color: 'red',
+					margin: '0',
+					padding: '0',
 				}}
 			>
 				{helperText}
