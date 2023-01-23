@@ -32,7 +32,7 @@ type TableHeaderProps = {
 
 const TableHeader: FC<TableHeaderProps> = (props) => {
 	const { t: commonT } = useTranslation('common')
-	const { t: adminT } = useTranslation('common')
+	const { t: adminT } = useTranslation('admin')
 
 	const {
 		order,
