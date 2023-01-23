@@ -1,25 +1,39 @@
 import { Box } from '@mui/material'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import { H3 } from 'components/Typography'
-import { ProductForm } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
-import { productFormValidationSchema } from '../../../src/pages-sections/admin/products/productFormValidationSchema'
-import Loading from '../../../src/components/Loading'
-import { toast } from 'react-toastify'
-import { formData } from '../../../src/utils/formData'
-import { useRouter } from 'next/router'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
-import { useMutation, useQueries } from 'react-query'
-import { NextPageAuth } from 'shared/types/auth.types'
-import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
-import { useTypedSelector } from 'hooks/useTypedSelector'
-import { useActions } from 'hooks/useActions'
-import { ImagesService } from 'api/services/images/images.service'
-import { getErrorMessage } from 'utils/getErrorMessage'
 import { AttributesService } from 'api/services/attributes/attributes.service'
+import { ImagesService } from 'api/services/images/images.service'
 import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
 import { ProductsService } from 'api/services/products/product.service'
+import { H3 } from 'components/Typography'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import { useActions } from 'hooks/useActions'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useRouter } from 'next/router'
+import { ProductForm } from 'pages-sections/admin'
+import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
+import React, { ReactElement } from 'react'
+import { useMutation, useQueries } from 'react-query'
+import { toast } from 'react-toastify'
+import { NextPageAuth } from 'shared/types/auth.types'
+import { getErrorMessage } from 'utils/getErrorMessage'
 
+import Loading from '../../../src/components/Loading'
+import { productFormValidationSchema } from '../../../src/pages-sections/admin/products/productFormValidationSchema'
+import { formData } from '../../../src/utils/formData'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 const initialValues = {
 	name: '',
 	published: false,

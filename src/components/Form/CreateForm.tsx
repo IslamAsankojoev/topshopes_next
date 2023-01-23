@@ -1,12 +1,14 @@
 import { Button, Card, Grid, TextField } from '@mui/material'
-import Field from './Field'
-import * as yup from 'yup'
-import { ErrorMessage, Form, useFormik } from 'formik'
-import { useEffect } from 'react'
-import { formData } from 'utils/formData'
-import React from 'react'
-import { FlexBox } from 'components/flex-box'
 import Card1 from 'components/Card1'
+import { FlexBox } from 'components/flex-box'
+import { ErrorMessage, Form, useFormik } from 'formik'
+import { useTranslation } from 'next-i18next'
+import { useEffect } from 'react'
+import React from 'react'
+import { formData } from 'utils/formData'
+import * as yup from 'yup'
+
+import Field from './Field'
 
 interface CreateFormProps {
 	fields: Record<string, any>
@@ -26,6 +28,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 	maxFormWidth = '600px',
 	actionButtons,
 }) => {
+	const { t } = useTranslation('admin')
 	// write validation schema for each field by iterating over fields
 	const validate = yup.object().shape(
 		fields.reduce((acc, field) => {
@@ -152,10 +155,10 @@ const CreateForm: React.FC<CreateFormProps> = ({
 										type={field.type}
 										fullWidth
 										name={field.name}
-										label={field.name}
+										label={t(field.name)}
 										color="info"
 										size="medium"
-										placeholder={field.placeholder}
+										placeholder={t(field.placeholder)}
 										value={values[field.name]}
 										setFieldValue={setFieldValue}
 										onBlur={handleBlur}
@@ -210,7 +213,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 										}}
 										size="medium"
 									>
-										Save
+										{t('save')}
 									</Button>
 								</FlexBox>
 							</Card>

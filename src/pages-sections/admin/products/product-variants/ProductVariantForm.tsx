@@ -1,4 +1,5 @@
 import { Close, ModeEditOutline } from '@mui/icons-material'
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import {
 	Button,
 	Container,
@@ -9,8 +10,6 @@ import {
 	IconButton,
 	Typography,
 } from '@mui/material'
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
-
 import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
 import { AttributesService } from 'api/services/attributes/attributes.service'
 import { ImagesService } from 'api/services/images/images.service'
@@ -19,6 +18,7 @@ import CreateForm from 'components/Form/CreateForm'
 import ProductImages from 'components/Gallery/ProductImages'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
 import React, { FC, Fragment, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
@@ -66,6 +66,8 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 	images,
 	isAdmin,
 }) => {
+	const { t: commonT } = useTranslation('common')
+	const { t: adminT } = useTranslation('admin')
 	// states
 	const { user } = useTypedSelector((state) => state.userStore)
 	const { imgIdCounter, newAttributes } = useTypedSelector(
@@ -233,7 +235,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					disabled={isAdmin}
 					startIcon={<LibraryAddIcon />}
 				>
-					Add Variant
+					{adminT('addVariant')}
 				</Button>
 			) : (
 				<Button
@@ -255,7 +257,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 					}
 				>
-					Edit
+					{adminT('edit')}
 				</Button>
 			)}
 
@@ -270,8 +272,8 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					}}
 				>
 					<Container>
-						<Typography variant="h6" mb={3} textAlign="center">
-							Variant details
+						<Typography variant="h6" mb={3}>
+							{adminT('variantDetails')}
 						</Typography>
 
 						<CreateForm
@@ -286,7 +288,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 										color="error"
 										size="medium"
 									>
-										Cancel
+										{adminT('cancel')}
 									</Button>
 								</Fragment>
 							}

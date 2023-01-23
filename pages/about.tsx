@@ -8,6 +8,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import React from 'react'
 
+import gmailImg from '../public/assets/images/banner.png'
 import SEO from '../src/components/SEO'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -26,7 +27,7 @@ const AboutPage: React.FC = () => {
 		<ShopLayout1>
 			<SEO title="About" />
 			<Container sx={{ pb: '2rem', pt: '2rem' }}>
-				<Grid container spacing={{ xs: 2, md: 10 }} alignItems={'center'}>
+				<Grid container spacing={{ xs: 2, md: 10 }}>
 					<Grid item xs={12} sm={6} alignSelf={'center'}>
 						<img
 							src={'/assets/images/logo.svg'}
@@ -35,20 +36,14 @@ const AboutPage: React.FC = () => {
 						/>
 					</Grid>
 
-					<Grid item xs={12} sm={6}>
-						<List>
-							<h2>TopShopes</h2>
-							<p>{t('topshopes-data')}</p>
-						</List>
+					<Grid item xs={12} sm={6} alignSelf={'center'}>
+						<h1>TopShopes</h1>
+						<p>{t('topshopes-data')}</p>
 					</Grid>
 
 					<Grid item xs={12}>
 						<GmailDiv>
-							<img
-								src={'/assets/images/banner.png'}
-								alt="aboutUsTopshopes"
-								width={'100%'}
-							/>
+							<GmailImg></GmailImg>
 
 							<GmailForm>
 								<div>
@@ -70,11 +65,9 @@ const AboutPage: React.FC = () => {
 						</GmailDiv>
 					</Grid>
 
-					<Grid item xs={12} sm={6}>
-						<List>
-							<h2>{t('more-about-us')}</h2>
-							<p>{t('more-data')}</p>
-						</List>
+					<Grid item xs={12} sm={6} alignSelf={'center'}>
+						<h1>{t('more-about-us')}</h1>
+						<p>{t('more-data')}</p>
 					</Grid>
 					<Grid item xs={12} sm={6} alignSelf={'center'}>
 						<img
@@ -97,14 +90,18 @@ const GmailDiv = styled.div`
 
 	@media (max-width: 900px) {
 		grid-template-columns: 1fr;
-		grid-template-rows: 1fr 0.5fr;
-	}
-	@media (max-width: 530px) {
 		grid-template-rows: 0.5fr;
 		img {
 			display: none;
 		}
 	}
+`
+
+const GmailImg = styled.div`
+	height: 100%;
+	background: url(${gmailImg.src}) no-repeat;
+	background-size: cover;
+	background-position: center;
 `
 
 const GmailForm = styled.div`
@@ -126,6 +123,7 @@ const GmailForm = styled.div`
 	p {
 		margin-bottom: 30px;
 	}
+
 	label {
 		color: gray !important;
 	}
@@ -136,16 +134,6 @@ const GmailForm = styled.div`
 	}
 	span {
 		font-size: 10px;
-	}
-
-	@media (max-width: 1190px) {
-		padding: 20px 40px;
-	}
-	@media (max-width: 1000px) {
-		padding: 10px 40px;
-	}
-	@media (max-width: 900px) {
-		padding: 40px;
 	}
 `
 

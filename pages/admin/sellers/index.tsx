@@ -1,32 +1,48 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { SellerRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 import api from 'utils/api/dashboard'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	const sellers = await api.sellers()
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+			sellers,
+		},
+	}
+}
 // table column list
 const tableHeading = [
-	{ id: 'name', label: 'Seller Name', align: 'left' },
-	{ id: 'shopName', label: 'Shop Name', align: 'left' },
-	{ id: 'package', label: 'Current Package', align: 'left' },
-	{ id: 'balance', label: 'Current Balance', align: 'left' },
-	{ id: 'published', label: 'Shop Published', align: 'left' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'name', label: 'sellerName', align: 'left' },
+	{ id: 'shopName', label: 'shopName', align: 'left' },
+	{ id: 'package', label: 'currentPackage', align: 'left' },
+	{ id: 'balance', label: 'currentBalance', align: 'left' },
+	{ id: 'published', label: 'published', align: 'left' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
 type SellerListProps = { sellers: any[] }
 // =============================================================================
 
 const SellerList: NextPageAuth<SellerListProps> = ({ sellers }) => {
+	const { t } = useTranslation('admin')
 	const {
 		order,
 		orderBy,
@@ -39,13 +55,13 @@ const SellerList: NextPageAuth<SellerListProps> = ({ sellers }) => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Sellers</H3>
+			<H3 mb={2}>{t('sellers')}</H3>
 
 			<SearchArea
 				handleSearch={() => {}}
-				buttonText="Add New Seller"
+				buttonText={t('add')}
 				handleBtnClick={() => {}}
-				searchPlaceholder="Search Seller..."
+				searchPlaceholder={t('searchingFor')}
 			/>
 
 			<Card>
@@ -86,11 +102,6 @@ SellerList.isOnlyUser = true
 
 SellerList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-	const sellers = await api.sellers()
-	return { props: { sellers } }
 }
 
 export default SellerList

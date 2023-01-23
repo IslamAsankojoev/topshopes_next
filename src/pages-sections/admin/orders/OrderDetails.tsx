@@ -1,7 +1,5 @@
-import { Delete, KeyboardArrowDown } from '@mui/icons-material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import {
-	Avatar,
 	Box,
 	Button,
 	Card,
@@ -16,16 +14,17 @@ import {
 } from '@mui/material'
 import { OrdersService } from 'api/services/orders/orders.service'
 import LazyImage from 'components/LazyImage'
-import { H3, H4, H5, H6, Paragraph, Span } from 'components/Typography'
+import { H3, H6, Paragraph, Span } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMutation, useQuery } from 'react-query'
+import { toast } from 'react-toastify'
 import { IOrder, IOrderItem, IOrderStatus } from 'shared/types/order.types'
 
 import { StatusWrapper } from '../StyledComponents'
-import { toast } from 'react-toastify'
+
 import { statuses } from './OrderRow'
 
 const OrderDetails = () => {
@@ -206,27 +205,27 @@ const OrderDetails = () => {
 									}}
 								>
 									<FlexBetween my={1.5}>
-										<Paragraph color="grey.900">Phone:</Paragraph>
+										<Paragraph color="grey.900">{t('phone')}:</Paragraph>
 										<H6>{order?.address?.phone}</H6>
 									</FlexBetween>
 									<Divider />
 									<FlexBetween my={1.5}>
-										<Paragraph color="grey.900">Country:</Paragraph>
+										<Paragraph color="grey.900">{t('country')}:</Paragraph>
 										<H6>{order?.address?.country}</H6>
 									</FlexBetween>
 									<Divider />
 									<FlexBetween my={1.5}>
-										<Paragraph color="grey.900">City:</Paragraph>
+										<Paragraph color="grey.900">{t('city')}:</Paragraph>
 										<H6>{order?.address?.city}</H6>
 									</FlexBetween>
 									<Divider />
 									<FlexBetween my={1.5}>
-										<Paragraph color="grey.900">Street:</Paragraph>
+										<Paragraph color="grey.900">{t('street')}:</Paragraph>
 										<H6>{order?.address?.street}</H6>
 									</FlexBetween>
 									<Divider />
 									<FlexBetween my={1.5}>
-										<Paragraph color="grey.900">Date time:</Paragraph>
+										<Paragraph color="grey.900">{t('date')}:</Paragraph>
 										<H6> {new Date(order?.created_at).toLocaleString()}</H6>
 									</FlexBetween>
 								</FlexBox>
@@ -246,11 +245,11 @@ const OrderDetails = () => {
 						variant="contained"
 						color="error"
 						onClick={() => {
-							push('/admin/orders')
+							push('/vendor/orders')
 						}}
 					>
 						<ArrowBackIcon />
-						Back to Orders
+						{t('back')}
 					</Button>
 				</Grid>
 			</FlexBox>

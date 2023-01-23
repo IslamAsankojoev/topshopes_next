@@ -18,7 +18,11 @@ import { IProduct } from 'shared/types/product.types'
 export const getServerSideProps = async ({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale as string, ['common'])),
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
 		},
 	}
 }

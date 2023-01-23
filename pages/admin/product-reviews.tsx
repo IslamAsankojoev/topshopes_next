@@ -1,28 +1,30 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { ReviewRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 import api from 'utils/api/dashboard'
 
 const tableHeading = [
-	{ id: 'name', label: 'Name', align: 'left' },
-	{ id: 'customer', label: 'Customer', align: 'left' },
-	{ id: 'comment', label: 'Comment', align: 'left' },
-	{ id: 'published', label: 'Published', align: 'left' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'name', label: 'name', align: 'left' },
+	{ id: 'customer', label: 'customer', align: 'left' },
+	{ id: 'comment', label: 'review', align: 'left' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
 type ProductReviewsProps = { reviews: any[] }
 
 const ProductReviews: NextPageAuth<ProductReviewsProps> = ({ reviews }) => {
+	const { t: adminT } = useTranslation('admin')
 	const {
 		order,
 		orderBy,
@@ -35,7 +37,7 @@ const ProductReviews: NextPageAuth<ProductReviewsProps> = ({ reviews }) => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Product Reviews</H3>
+			<H3 mb={2}>{adminT('reviews')}</H3>
 
 			<Card>
 				<Scrollbar>
@@ -77,9 +79,18 @@ ProductReviews.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	const reviews = await api.reviews()
-	return { props: { reviews } }
+	return {
+		props: {
+			reviews,
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
 }
 
 export default ProductReviews

@@ -1,21 +1,23 @@
+import styled from '@emotion/styled'
 import { Close, DeleteOutline } from '@mui/icons-material'
 import { Button, Card, Grid, IconButton, Typography } from '@mui/material'
-import Card1 from 'components/Card1'
-import { FlexBetween, FlexBox } from 'components/flex-box'
-import { H6, Paragraph } from 'components/Typography'
-import React from 'react'
-import { IProductVariant } from 'shared/types/product.types'
-import ProductVariantForm from './ProductVariantForm'
-import { ProductFetchTypes } from 'pages-sections/admin/products/useProductFetch'
-import { IProduct } from 'shared/types/product.types'
-import { useTypedSelector } from 'hooks/useTypedSelector'
-import { useActions } from 'hooks/useActions'
-import styled from '@emotion/styled'
-import { adminCheckFetch, getImgUrl } from './productVariantHelper'
-import { useQuery } from 'react-query'
 import { CategoriesService } from 'api/services/categories/category.service'
+import Card1 from 'components/Card1'
 import LazyImage from 'components/LazyImage'
+import { H6, Paragraph } from 'components/Typography'
+import { FlexBetween, FlexBox } from 'components/flex-box'
+import { useActions } from 'hooks/useActions'
+import { useTypedSelector } from 'hooks/useTypedSelector'
 import Lodash from 'lodash'
+import { useTranslation } from 'next-i18next'
+import { ProductFetchTypes } from 'pages-sections/admin/products/useProductFetch'
+import React from 'react'
+import { useQuery } from 'react-query'
+import { IProductVariant } from 'shared/types/product.types'
+import { IProduct } from 'shared/types/product.types'
+
+import ProductVariantForm from './ProductVariantForm'
+import { adminCheckFetch, getImgUrl } from './productVariantHelper'
 
 type Props = {
 	refetch?: () => void
@@ -30,6 +32,9 @@ const ProductVariantList: React.FC<Props> = ({
 	create,
 	isAdmin,
 }) => {
+	const { t: adminT } = useTranslation('admin')
+	const { t: commonT } = useTranslation('common')
+
 	// actions
 	const { removeVariant } = useActions()
 
@@ -92,7 +97,7 @@ const ProductVariantList: React.FC<Props> = ({
 	return (
 		<Card1 sx={{ mb: 3, mt: 3 }}>
 			<FlexBetween>
-				<h2>Product Variants</h2>
+				<h2>{adminT('productVariants')}</h2>
 				<ProductVariantForm
 					attributes={category?.attributes}
 					refetch={refetch}
@@ -125,23 +130,23 @@ const ProductVariantList: React.FC<Props> = ({
 								>
 									<div>
 										<Paragraph fontSize={16} color="grey.500">
-											Variant Details - {variantCheck(variant)?.id}
+											{adminT('variantDetails')} - {variantCheck(variant)?.id}
 										</Paragraph>
 										<H6 mb={0.5} fontSize={14}>
-											price: {variantCheck(variant)?.price}
+											{commonT('price')}: {variantCheck(variant)?.price}
 										</H6>
 										<Paragraph fontSize={14} color="grey.700">
-											discount: {variantCheck(variant)?.discount}
+											{commonT('discount')}: {variantCheck(variant)?.discount}
 										</Paragraph>
 										<Paragraph fontSize={14} color="grey.700">
-											status: {variantCheck(variant)?.status}
+											{commonT('status')}: {variantCheck(variant)?.status}
 										</Paragraph>
 										<Paragraph fontSize={14} color="grey.700">
-											stock: {variantCheck(variant)?.stock}
+											{commonT('stock')}: {variantCheck(variant)?.stock}
 										</Paragraph>
 										<br />
 										<Paragraph fontSize={16} color="grey.500">
-											Attributes
+											{adminT('attributes')}
 										</Paragraph>
 										{variantCheck(variant)?.attribute_values?.map(
 											(attribute: any, ind: number) => (

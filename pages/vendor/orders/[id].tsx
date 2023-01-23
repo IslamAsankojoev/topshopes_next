@@ -11,7 +11,11 @@ import { NextPageAuth } from 'shared/types/auth.types'
 export const getServerSideProps = async ({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale as string, ['common'])),
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
 		},
 	}
 }

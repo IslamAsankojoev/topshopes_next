@@ -1,11 +1,14 @@
 import { Avatar, Box, Theme, useMediaQuery } from '@mui/material'
-import { FlexBetween } from 'components/flex-box'
 import Scrollbar from 'components/Scrollbar'
+import { FlexBetween } from 'components/flex-box'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useLayoutEffect, useState } from 'react'
+
 import LayoutDrawer from '../LayoutDrawer'
+
 import {
 	BadgeValue,
 	BulletIcon,
@@ -33,6 +36,7 @@ type DashboardSidebarProps = {
 // -----------------------------------------------------------------------------
 
 const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
+	const { t } = useTranslation('admin')
 	const {
 		sidebarCompact,
 		showMobileSideBar,
@@ -72,7 +76,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 			if (item.type === 'label')
 				return (
 					<ListLabel key={index} compact={COMPACT}>
-						{item.label}
+						{t(item.label)}
 					</ListLabel>
 				)
 
@@ -99,7 +103,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 								<span className="item-icon icon-text">{item.iconText}</span>
 							)}
 
-							<StyledText compact={COMPACT}>{item.name}</StyledText>
+							<StyledText compact={COMPACT}>{t(item.name)}</StyledText>
 
 							{/* <Box mx="auto" /> */}
 
@@ -126,7 +130,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 								<BulletIcon active={activeRoute(item.path)} />
 							)}
 
-							<StyledText compact={COMPACT}>{item.name}</StyledText>
+							<StyledText compact={COMPACT}>{t(item.name)}</StyledText>
 
 							{/* <Box mx="auto" /> */}
 

@@ -15,26 +15,32 @@ import { useRouter } from 'next/router'
 import { ProductRow } from 'pages-sections/admin'
 import ProductClientRow from 'pages-sections/admin/products/ProductClientRow'
 import React, { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 
 const tableHeading = [
-	{ id: 'name', label: 'Name', align: 'left' },
-	{ id: 'category', label: 'Category', align: 'left' },
-	{ id: 'price', label: 'Price', align: 'left' },
-	{ id: 'published', label: 'Published', align: 'left' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'name', label: 'name', align: 'left' },
+	{ id: 'category', label: 'category', align: 'left' },
+	{ id: 'price', label: 'price', align: 'left' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale as string, ['common'])),
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
 		},
 	}
 }
 
 const ProductList: NextPageAuth = () => {
+	const { t: adminT } = useTranslation('admin')
+	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
 
 	const [searchValue, setSearchValue] = React.useState('')
@@ -57,16 +63,16 @@ const ProductList: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Список продуктов</H3>
+			<H3 mb={2}>{adminT('products')}</H3>
 
 			<SearchArea
 				handleSearch={(value: string) => {
 					setCurrentPage(1)
 					setSearchValue(value)
 				}}
-				buttonText="Добавить продукт"
+				buttonText={t('addNewProduct')}
 				handleBtnClick={() => push('/vendor/products/create')}
-				searchPlaceholder="Искать продукты..."
+				searchPlaceholder={t('searchingFor')}
 			/>
 
 			{products?.count ? (

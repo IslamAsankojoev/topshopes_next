@@ -95,8 +95,6 @@ const SearchBox: FC = () => {
 	}
 
 	const handleDocumentClick = () => setResultList([])
-
-	console.log(t('searchingFor'))
 	useEffect(() => {
 		window.addEventListener('click', handleDocumentClick)
 		return () => window.removeEventListener('click', handleDocumentClick)

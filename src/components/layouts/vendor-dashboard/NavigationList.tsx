@@ -1,56 +1,56 @@
 import duotone from 'components/icons/duotone'
 
 export const navigations = [
-	{ type: 'label', label: 'Admin', role: 'admin' },
+	{ type: 'label', label: 'admin', role: 'admin' },
 	{
-		name: 'Dashboard',
+		name: 'dashboard',
 		icon: duotone.Dashboard,
 		path: '/vendor/dashboard',
 		role: 'admin',
 	},
 
 	{
-		name: 'All Products',
+		name: 'allProducts',
 		icon: duotone.Products,
 		children: [
-			{ name: 'Product List', path: '/admin/products' },
+			{ name: 'productList', path: '/admin/products' },
 			// { name: 'Create Product', path: '/admin/products/create' },
-			{ name: 'Category', path: '/admin/categories' },
-			{ name: 'Attributes', path: '/admin/attributes' },
-			{ name: 'Brand', path: '/admin/brands' },
-			{ name: 'Brand Type', path: '/admin/brands-types' },
-			{ name: 'Review', path: '/admin/product-reviews' },
+			{ name: 'category', path: '/admin/categories' },
+			{ name: 'attributes', path: '/admin/attributes' },
+			{ name: 'brand', path: '/admin/brands' },
+			{ name: 'brandType', path: '/admin/brands-types' },
+			{ name: 'reviews', path: '/admin/product-reviews' },
 			// { name: 'Color', path: '/admin/colors' },
 			// { name: 'Size', path: '/admin/sizes' },
 		],
 		role: 'admin',
 	},
 	{
-		name: 'Pages',
+		name: 'pages',
 		icon: duotone.Pager,
 		children: [
-			{ name: 'Pages List', path: '/admin/pages-list' },
-			{ name: 'Pages Category', path: '/admin/pages-category' },
+			{ name: 'pageList', path: '/admin/pages-list' },
+			{ name: 'pagesCategory', path: '/admin/pages-category' },
 		],
 		role: 'admin',
 	},
 
 	{
-		name: 'Site Setting',
+		name: 'siteSetting',
 		icon: duotone.SiteSetting,
 		path: '/admin/site-settings',
 		role: 'admin',
 	},
 
 	{
-		name: 'Members',
+		name: 'members',
 		icon: duotone.Customers,
 		path: '/admin/customers',
 		role: 'admin',
 	},
 
 	{
-		name: 'Sellers',
+		name: 'sellers',
 		icon: duotone.Seller,
 		path: '/admin/sellers',
 		role: 'admin',
@@ -78,18 +78,18 @@ export const navigations = [
 	// 	],
 	// 	role: 'admin',
 	// },
-	{ type: 'label', label: 'Store', role: 'vendor' },
+	{ type: 'label', label: 'store', role: 'vendor' },
 	{
-		name: 'Products',
+		name: 'products',
 		icon: duotone.Products,
 		children: [
-			{ name: 'Product List', path: '/vendor/products' },
-			{ name: 'Create Product', path: '/vendor/products/create' },
+			{ name: 'productList', path: '/vendor/products' },
+			{ name: 'createProduct', path: '/vendor/products/create' },
 		],
 		role: 'vendor',
 	},
 	{
-		name: 'Orders',
+		name: 'orders',
 		icon: duotone.Order,
 		path: '/vendor/orders',
 		role: 'vendor',
@@ -112,14 +112,14 @@ export const navigations = [
 	// },
 
 	{
-		name: 'Reviews',
+		name: 'reviews',
 		icon: duotone.Review,
 		path: '/vendor/reviews',
 		role: 'vendor',
 	},
 
 	{
-		name: 'Shop Setting',
+		name: 'shopSetting',
 		icon: duotone.SiteSetting,
 		path: '/vendor/shop-settings',
 		role: 'vendor',
@@ -132,7 +132,7 @@ export const navigations = [
 	// },
 
 	{
-		name: 'Account Setting',
+		name: 'accountSetting',
 		icon: duotone.AccountSetting,
 		path: '/vendor/account-setting',
 		role: 'vendor',

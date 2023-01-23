@@ -9,6 +9,9 @@ import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import useMuiTable from 'hooks/useMuiTable'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import PagesRow from 'pages-sections/admin/PagesRow'
 import { ReactElement } from 'react'
@@ -16,15 +19,28 @@ import React from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 // table column list
 const tableHeading = [
-	{ id: 'title', label: 'Title', align: 'left' },
-	{ id: 'image', label: 'Image', align: 'left' },
-	{ id: 'dateUpdated', label: 'Date updated', align: 'left' },
-	{ id: 'actions', label: 'actions', align: 'left' },
+	{ id: 'title', label: 'name', align: 'left' },
+	{ id: 'image', label: 'thumbnail', align: 'left' },
+	{ id: 'dateUpdated', label: 'date', align: 'left' },
+	{ id: 'actions', label: 'action', align: 'left' },
 ]
 
 const PagesList: NextPageAuth = () => {
+	const { t: adminT } = useTranslation('admin')
+	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
 	const {
 		data: pages,
@@ -37,15 +53,15 @@ const PagesList: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Pages list</H3>
+			<H3 mb={2}>{adminT('pageList')}</H3>
 
 			<SearchArea
 				handleSearch={() => {}}
-				buttonText="Add Page"
+				buttonText={t('addNewPage')}
 				handleBtnClick={() => {
 					push('/admin/pages-list/create')
 				}}
-				searchPlaceholder="Search pages..."
+				searchPlaceholder={t('searhingFor')}
 				searchOff={true}
 			/>
 

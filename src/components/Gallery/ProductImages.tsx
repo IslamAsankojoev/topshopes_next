@@ -1,3 +1,5 @@
+import { Close } from '@mui/icons-material'
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import {
 	Button,
 	Card,
@@ -7,12 +9,11 @@ import {
 	ImageListItem,
 	ImageListItemBar,
 } from '@mui/material'
+import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
-import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
-import { Close } from '@mui/icons-material'
 import { toast } from 'react-toastify'
-import { IImage } from 'shared/types/product.types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { IImage } from 'shared/types/product.types'
 
 interface IProductImages {
 	images: IImage[]
@@ -22,6 +23,8 @@ interface IProductImages {
 }
 
 const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
+	const { t } = useTranslation('admin')
+
 	const getImgUrl = (img: File | Blob | string | any) => {
 		if (!img) return false
 		if (typeof img != 'string') {
@@ -49,7 +52,7 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 	return (
 		<>
 			<br />
-			<h3>Product images</h3>
+			<h3>{t('productImg')}</h3>
 			<Grid container gap={0}>
 				<TransitionGroup component={null}>
 					{images.length > 0 &&
@@ -178,7 +181,7 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 								backgroundColor: '#F7F9FC',
 							}}
 						>
-							add image
+							{t('addImage')}
 							<input
 								onChange={(e) => handleImageChange(e)}
 								hidden

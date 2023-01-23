@@ -2,6 +2,7 @@ import { Avatar, Box, IconButton, Menu, MenuItem, styled } from '@mui/material'
 import { H6, Small } from 'components/Typography'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
@@ -12,6 +13,7 @@ const Divider = styled(Box)(({ theme }) => ({
 }))
 
 const AccountPopover = () => {
+	const { t } = useTranslation('admin')
 	const user = useTypedSelector((state) => state.userStore.user)
 	const [anchorEl, setAnchorEl] = useState(null)
 	const open = Boolean(anchorEl)
@@ -93,25 +95,25 @@ const AccountPopover = () => {
 							push('/profile')
 						}}
 					>
-						Profile
+						{t('profile')}
 					</MenuItem>
 					<MenuItem
 						onClick={() => {
 							push('/orders')
 						}}
 					>
-						My Orders
+						{t('myOrders')}
 					</MenuItem>
 					<MenuItem
 						onClick={() => {
 							push('/profile/edit')
 						}}
 					>
-						Settings
+						{t('settings')}
 					</MenuItem>
 
 					<Divider />
-					<MenuItem onClick={handleLogout}>Logout</MenuItem>
+					<MenuItem onClick={handleLogout}>{t('logout')}</MenuItem>
 				</Menu>
 			</Box>
 		)

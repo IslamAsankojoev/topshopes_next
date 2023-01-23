@@ -42,7 +42,11 @@ const tableHeading = [
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale as string, ['common', 'store'])),
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'store',
+				'admin',
+			])),
 		},
 	}
 }

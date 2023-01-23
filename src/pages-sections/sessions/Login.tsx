@@ -74,13 +74,9 @@ const Login = () => {
 		resetForm()
 	}
 
-	React.useEffect(() => {
-		console.log(router)
-	}, [router])
-
 	return (
 		<Wrapper elevation={3} passwordVisibility={passwordVisibility}>
-			<form>
+			<form onSubmit={handleSubmit}>
 				<H3 textAlign="center" mb={1}>
 					{t('welcome')}
 				</H3>
@@ -135,7 +131,7 @@ const Login = () => {
 						fullWidth
 						color="primary"
 						variant="contained"
-						onClick={() => handleSubmit()}
+						type="submit"
 						sx={{
 							mb: '1.65rem',
 							height: 44,

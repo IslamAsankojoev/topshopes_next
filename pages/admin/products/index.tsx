@@ -9,22 +9,37 @@ import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import useMuiTable from 'hooks/useMuiTable'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ProductRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 const tableHeading = [
-	{ id: 'name', label: 'Name', align: 'left' },
-	{ id: 'category', label: 'Category', align: 'left' },
+	{ id: 'name', label: 'name', align: 'left' },
+	{ id: 'category', label: 'categories', align: 'left' },
 	// { id: 'brand', label: 'Brand', align: 'left' },
-	{ id: 'price', label: 'Price', align: 'left' },
-	{ id: 'published', label: 'Published', align: 'left' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'price', label: 'price', align: 'left' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
 const ProductList: NextPageAuth = () => {
+	const { t } = useTranslation('admin')
 	const [searchValue, setSearchValue] = React.useState('')
 	const [currentPage, setCurrentPage] = React.useState(1)
 
@@ -47,7 +62,7 @@ const ProductList: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Product List</H3>
+			<H3 mb={2}>{t('products')}</H3>
 
 			<SearchArea
 				handleSearch={(value: string) => {
@@ -55,7 +70,7 @@ const ProductList: NextPageAuth = () => {
 					setSearchValue(value)
 				}}
 				handleBtnClick={() => {}}
-				searchPlaceholder="Search Product..."
+				searchPlaceholder={t('searchingFor')}
 			/>
 
 			{isLoading ? <Loading /> : null}

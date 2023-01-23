@@ -4,10 +4,10 @@ import {
 	Grid,
 	InputAdornment,
 	MenuItem,
-	styled,
 	Switch,
 	TextField,
 	Typography,
+	styled,
 } from '@mui/material'
 import DropZone from 'components/DropZone'
 import LazyImage from 'components/LazyImage'
@@ -340,7 +340,7 @@ const Field: FC<any> = (props) => {
 			const file = files[0]
 			if (file) {
 				setFileLocaleUrl(file && window?.URL?.createObjectURL(file))
-				other?.setFieldValue(other?.label, file)
+				other?.setFieldValue(other?.name, file)
 			}
 		}
 
@@ -394,7 +394,7 @@ const Field: FC<any> = (props) => {
 						}
 					>
 						<DropZone
-							title={other?.label}
+							title={other?.name}
 							error={other.error}
 							helperText={other.helperText}
 							style={{

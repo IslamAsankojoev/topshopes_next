@@ -1,26 +1,44 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import Loading from 'components/Loading'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Loading from 'components/Loading'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
+
 import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
 import BrandsTypesRow from '../../../src/pages-sections/admin/BrandsTypesRow'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 const tableHeading = [
-	{ id: 'name', label: 'Name', align: 'center' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'name', label: 'name', align: 'center' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
 const BrandsTypesList: NextPageAuth = () => {
+	const { t } = useTranslation('adminActions')
+	const { t: adminT } = useTranslation('admin')
+
 	const { push } = useRouter()
 
 	const [searchValue, setSearchValue] = React.useState('')
@@ -43,18 +61,18 @@ const BrandsTypesList: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Product Brands Types</H3>
+			<H3 mb={2}>{adminT('brandType')}</H3>
 
 			<SearchArea
 				handleSearch={(value) => {
 					setCurrentPage(1)
 					setSearchValue(value)
 				}}
-				buttonText="Add Brands Types"
+				buttonText={t('addNewBrandType')}
 				handleBtnClick={() => {
 					push('/admin/brands-types/create')
 				}}
-				searchPlaceholder="Search Brands Types..."
+				searchPlaceholder={t('searchingFor')}
 			/>
 
 			<Card>

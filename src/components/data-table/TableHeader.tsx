@@ -31,7 +31,8 @@ type TableHeaderProps = {
 // ----------------------------------------------------------------------
 
 const TableHeader: FC<TableHeaderProps> = (props) => {
-	const { t } = useTranslation('common')
+	const { t: commonT } = useTranslation('common')
+	const { t: adminT } = useTranslation('admin')
 
 	const {
 		order,
@@ -74,7 +75,9 @@ const TableHeader: FC<TableHeaderProps> = (props) => {
 								<UpDown sx={{ fontSize: 14, ml: 1, color: 'grey.600' }} />
 							)}
 						>
-							{t(headCell.label)}
+							{commonT(headCell.label) == headCell.label
+								? adminT(headCell.label)
+								: commonT(headCell.label)}
 						</TableSortLabel>
 					</StyledTableCell>
 				))}
