@@ -23,7 +23,7 @@ import {
 
 import Variables from './Variables'
 
-const ContentWrapper = styled(Box)(({ theme }) => ({
+export const ContentWrapper = styled(Box)(({ theme }) => ({
 	'& .carousel:hover': {
 		cursor: 'pointer',
 		'& .carousel__back-button': { opacity: 1, left: 10 },
