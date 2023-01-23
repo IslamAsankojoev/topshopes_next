@@ -122,7 +122,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				id: variantId,
 				data: { variant: clearData, images: imagesList },
 			})
-
+			setImagesList([])
 			setAddCardForm(false)
 			return
 		}
@@ -155,6 +155,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 			}
 
 			setNewAttributes([])
+			setImagesList([])
 			setAddCardForm(false)
 			refetch && (await refetch())
 			return
@@ -174,18 +175,17 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 			} else {
 				await AttributesService.create(variantId as string, {
 					attribute: attribute.attributeNameId,
-					value: attribute.value,
+					value: attribute.value || 'without',
 				})
 			}
 		}
-
+		setImagesList([])
 		setNewAttributes([])
 		refetch && (await refetch())
 	}
 
 	const imageAdd = async (image: IImage | File) => {
 		if (create || createPage) {
-			console.log(imgIdCounter)
 			imgIdCounterIncrement()
 			setImagesList((imgs) => [
 				...imgs,

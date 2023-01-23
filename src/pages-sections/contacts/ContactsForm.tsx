@@ -88,7 +88,7 @@ const ContactsForm = () => {
 						fullWidth
 						required
 						type={'email'}
-						label={t('email')}
+						label={'email'}
 					/>
 				</DoubleInput>
 				<TextField

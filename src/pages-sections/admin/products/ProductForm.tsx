@@ -8,6 +8,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material'
+import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { FlexBox } from 'components/flex-box'
 import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
@@ -28,6 +29,7 @@ type ProductFormProps = {
 	validationSchema: yup.ObjectSchema<Assign<ObjectShape, any>>
 	update?: boolean
 	includeShop?: boolean
+	refetch?: () => void
 }
 // ================================================================
 
@@ -102,6 +104,15 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 
 	React.useEffect(() => {
 		setCurrentCategory(values.category?.id || '')
+
+		if (values.category?.id && update) {
+			;(async () => {
+				await AdminProductsService.update(values?.id as string, {
+					category: values.category?.id,
+				})
+				props.refetch && (await props.refetch())
+			})()
+		}
 	}, [values.category])
 
 	return (
