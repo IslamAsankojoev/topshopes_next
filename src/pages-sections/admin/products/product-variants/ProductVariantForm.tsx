@@ -89,8 +89,8 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				data
 			),
 		{
-			onSuccess: () => {
-				refetch && refetch()
+			onSuccess: async () => {
+				refetch && (await refetch())
 				toast.success('product variant updated successfully')
 				setAddCardForm(false)
 			},
@@ -268,7 +268,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					}}
 				>
 					<Container>
-						<Typography variant="h6" mb={3}>
+						<Typography variant="h6" mb={3} textAlign="center">
 							{adminT('variantDetails')}
 						</Typography>
 

@@ -145,9 +145,11 @@ const ProductVariantList: React.FC<Props> = ({
 											{commonT('stock')}: {variantCheck(variant)?.stock}
 										</Paragraph>
 										<br />
-										<Paragraph fontSize={16} color="grey.500">
-											{adminT('attributes')}
-										</Paragraph>
+										{variant?.attribute_values?.length > 0 && (
+											<Paragraph fontSize={16} color="grey.500">
+												{adminT('attributes')}
+											</Paragraph>
+										)}
 										{variantCheck(variant)?.attribute_values?.map(
 											(attribute: any, ind: number) => (
 												<Paragraph color="grey.700" key={ind + 'attribute'}>
