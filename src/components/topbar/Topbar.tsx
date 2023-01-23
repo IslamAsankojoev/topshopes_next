@@ -60,10 +60,7 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 	)
 	const { replace, asPath, locale } = useRouter()
 
-	const [currency, setCurrency] = useState(currencyList[0])
 	const [language, setLanguage] = useState(locale)
-
-	const handleCurrencyClick = (curr: typeof currency) => () => setCurrency(curr)
 
 	const handleLanguageClick = (lang: typeof language) => () => {
 		Cookies.set('i18nextLng', lang)
@@ -138,38 +135,10 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 							</MenuItem>
 						))}
 					</BazaarMenu>
-
-					<BazaarMenu
-						direction="right"
-						handler={
-							<TouchRipple className="handler">
-								<Span className="menuTitle">{currency.title}</Span>
-								<ExpandMore fontSize="inherit" />
-							</TouchRipple>
-						}
-					>
-						{currencyList?.map((item) => (
-							<MenuItem
-								className="menuItem"
-								key={item.title}
-								onClick={handleCurrencyClick(item)}
-							>
-								<Span className="menuTitle">{item.title}</Span>
-							</MenuItem>
-						))}
-					</BazaarMenu>
 				</FlexBox>
 			</Container>
 		</TopbarWrapper>
 	)
 }
-
-const currencyList = [
-	{ title: 'USD', imgUrl: '/assets/images/flags/usa.png' },
-	{ title: 'TLR', imgUrl: '/assets/images/flags/uk.png' },
-	{ title: 'COM', imgUrl: '/assets/images/flags/bd.png' },
-	{ title: 'RUB', imgUrl: '/assets/images/flags/in.png' },
-	{ title: 'ZLT', imgUrl: '/assets/images/flags/in.png' },
-]
 
 export default Topbar

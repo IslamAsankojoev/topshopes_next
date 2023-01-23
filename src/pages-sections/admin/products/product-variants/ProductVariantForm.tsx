@@ -184,7 +184,6 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 
 	const imageAdd = async (image: IImage | File) => {
 		if (create || createPage) {
-			console.log(imgIdCounter)
 			imgIdCounterIncrement()
 			setImagesList((imgs) => [
 				...imgs,
