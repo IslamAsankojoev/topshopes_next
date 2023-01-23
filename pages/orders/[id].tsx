@@ -25,6 +25,8 @@ import { format } from 'date-fns'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import useWindowSize from 'hooks/useWindowSize'
 import { GetServerSideProps } from 'next'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { Fragment } from 'react'
@@ -46,6 +48,15 @@ const StyledFlexbox = styled(FlexBetween)(({ theme }) => ({
 	},
 }))
 
+export const getServerSideProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
+// =
+
 const OrderDetails: NextPageAuth = () => {
 	const router = useRouter()
 
@@ -63,7 +74,7 @@ const OrderDetails: NextPageAuth = () => {
 	const orderStatusList: IOrderStatus[] = [
 		'pending',
 		'paid',
-		'canceled',
+		'cancelled',
 		'delivered',
 		'delivering',
 		'received',
@@ -180,44 +191,6 @@ const OrderDetails: NextPageAuth = () => {
 						</FlexBox>
 					) : null}
 				</TableRow>
-
-				<Box py={1}>
-					{order.items?.length &&
-						order.items?.map((item) => (
-							<FlexBox
-								px={2}
-								py={1}
-								flexWrap="wrap"
-								alignItems="center"
-								key={item.product_name + item.product_image}
-							>
-								<FlexBox flex="2 2 260px" m={0.75} alignItems="center">
-									<Avatar
-										src={item.product_image}
-										sx={{ height: 64, width: 64 }}
-									/>
-									<Box ml={2.5}>
-										<H6 my="0px">{item.product_name}</H6>
-										<Typography fontSize="14px" color="grey.600">
-											{item.product_price}c x {item.product_quantity}
-										</Typography>
-									</Box>
-								</FlexBox>
-
-								<FlexBox flex="1 1 260px" m={0.75} alignItems="center">
-									<Typography fontSize="14px" color="grey.600">
-										Product properties: Black, L
-									</Typography>
-								</FlexBox>
-
-								<FlexBox flex="160px" m={0.75} alignItems="center">
-									<Button variant="text" color="primary">
-										<Typography fontSize="14px">Write a Review</Typography>
-									</Button>
-								</FlexBox>
-							</FlexBox>
-						))}
-				</Box>
 			</Card>
 
 			<Grid container spacing={3}>
@@ -253,22 +226,22 @@ const OrderDetails: NextPageAuth = () => {
 							<H6 my="0px">0c</H6>
 						</FlexBetween>
 
-						<FlexBetween mb={1}>
+						{/* <FlexBetween mb={1}>
 							<Typography fontSize={14} color="grey.600">
 								Discount:
 							</Typography>
-							<H6 my="0px">{order.discount}c</H6>
-						</FlexBetween>
+							<H6 my="0px">{order.}c</H6>
+						</FlexBetween> */}
 
 						<Divider sx={{ mb: 1 }} />
 
 						<FlexBetween mb={2}>
 							<H6 my="0px">Total</H6>
-							<H6 my="0px">
+							{/* <H6 my="0px">
 								{parseInt(order.total_price) *
 									(order.discount ? 1 - order.discount * 0.1 : 1)}
 								c
-							</H6>
+							</H6> */}
 						</FlexBetween>
 
 						<Typography fontSize={14}>Paid by Credit/Debit Card</Typography>

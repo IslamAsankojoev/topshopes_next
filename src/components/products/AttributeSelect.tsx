@@ -21,11 +21,7 @@ const AttributeSelect: FC<AttributeSelectProps> = ({
 	setSelectedAttributes,
 	variants,
 }) => {
-	const [selectedAttribute, setSelectedAttribute] = useState<string>(
-		variant?.attribute_values.find(
-			(attribute_value: any) => attribute_value.attribute === attribute_name
-		)?.value || ''
-	)
+	const [selectedAttribute, setSelectedAttribute] = useState<string>('')
 
 	const handleAttribute = (event, newAlignment: any) => {
 		if (newAlignment !== null) {

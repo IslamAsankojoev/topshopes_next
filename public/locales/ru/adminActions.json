@@ -1,0 +1,19 @@
+{
+	"addNewAttribute": "Добавить",
+	"addNewBrand": "Добавить",
+	"addNewBrandType": "Добавить",
+	"addNewCategory": "Добавить ",
+	"addNewPage": "Добавить",
+	"addNewPageCategory": "Добавить",
+	"addNewProduct": "Добавить",
+	"editAttribute": "Изменить атрибут",
+	"editBrand": "Изменить бренд",
+	"editBrandType": "Изменить тип бренда",
+	"editCategory": "Изменить категорию",
+	"editPage": "Редактировать страницу",
+	"editPageCategory": "Изменить категорию страницы",
+	"editProduct": "Редактировать продукт",
+	"editUser": "Редактировать пользователя",
+	"orderDetail": "Детали заказа",
+	"searchingFor": "поиск..."
+}

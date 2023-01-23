@@ -7,12 +7,29 @@ import { FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
+import { GetStaticProps, NextPage } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
+// =
+
 const AddressList: NextPageAuth = () => {
+	const { t } = useTranslation('common')
 	const { push } = useRouter()
 
 	const {
@@ -33,7 +50,7 @@ const AddressList: NextPageAuth = () => {
 			{isLoading ? <Loading /> : null}
 			<UserDashboardHeader
 				icon={Place}
-				title="My Addresses"
+				title={t('myAddresses')}
 				navigation={<CustomerDashboardNavigation />}
 				button={
 					<Button
@@ -43,7 +60,7 @@ const AddressList: NextPageAuth = () => {
 						color="primary"
 						sx={{ bgcolor: 'primary.light', px: 4 }}
 					>
-						Add New Address
+						{t('addAddress')}
 					</Button>
 				}
 			/>

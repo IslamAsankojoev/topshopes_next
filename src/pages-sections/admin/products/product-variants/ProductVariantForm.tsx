@@ -1,8 +1,12 @@
-import { ModeEditOutline } from '@mui/icons-material'
+import { Close, Edit, ModeEditOutline } from '@mui/icons-material'
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import {
 	Button,
+	Container,
 	Dialog,
 	DialogContent,
+	DialogTitle,
+	Grid,
 	IconButton,
 	Typography,
 } from '@mui/material'
@@ -14,19 +18,20 @@ import CreateForm from 'components/Form/CreateForm'
 import ProductImages from 'components/Gallery/ProductImages'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
 import React, { FC, Fragment, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import {
-	IImage,
-	IProductVariant,
 	IColor,
-	ISize,
+	IImage,
 	IProductAttributeValue,
+	IProductVariant,
+	ISize,
 } from 'shared/types/product.types'
-
 import { productVariantFormCreate } from 'utils/constants/forms'
 import { formData } from 'utils/formData'
+
 import ProductAttributes from './productVariantAttribute'
 
 // ==================================================================
@@ -61,6 +66,8 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 	images,
 	isAdmin,
 }) => {
+	const { t: commonT } = useTranslation('common')
+	const { t: adminT } = useTranslation('admin')
 	// states
 	const { user } = useTypedSelector((state) => state.userStore)
 	const { imgIdCounter, newAttributes } = useTypedSelector(
@@ -82,8 +89,8 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				data
 			),
 		{
-			onSuccess: () => {
-				refetch && refetch()
+			onSuccess: async () => {
+				refetch && (await refetch())
 				toast.success('product variant updated successfully')
 				setAddCardForm(false)
 			},
@@ -115,7 +122,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				id: variantId,
 				data: { variant: clearData, images: imagesList },
 			})
-
+			setImagesList([])
 			setAddCardForm(false)
 			return
 		}
@@ -140,6 +147,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 			}
 
 			for (let attribute of newAttributes) {
+				if (!attribute.value) continue
 				await AttributesService.create(variantResponse.id, {
 					attribute: attribute.attributeNameId,
 					value: attribute.value,
@@ -147,6 +155,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 			}
 
 			setNewAttributes([])
+			setImagesList([])
 			setAddCardForm(false)
 			refetch && (await refetch())
 			return
@@ -161,23 +170,22 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				await AttributesService.update(attribute.attributeId as string, {
 					product_variant: variantId,
 					attribute: attribute.attributeId,
-					value: attribute.value,
+					value: attribute.value || 'without',
 				})
 			} else {
 				await AttributesService.create(variantId as string, {
 					attribute: attribute.attributeNameId,
-					value: attribute.value,
+					value: attribute.value || 'without',
 				})
 			}
 		}
-
+		setImagesList([])
 		setNewAttributes([])
 		refetch && (await refetch())
 	}
 
 	const imageAdd = async (image: IImage | File) => {
 		if (create || createPage) {
-			console.log(imgIdCounter)
 			imgIdCounterIncrement()
 			setImagesList((imgs) => [
 				...imgs,
@@ -218,51 +226,85 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 		<Fragment>
 			{create ? (
 				<Button
-					color="primary"
-					variant="outlined"
-					sx={{ p: '2px 20px' }}
+					color="success"
+					variant="contained"
+					sx={{ p: '7px 12px' }}
 					onClick={() =>
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 					}
 					disabled={isAdmin}
+					startIcon={<LibraryAddIcon />}
 				>
-					Add New Variant
+					{adminT('addVariant')}
 				</Button>
 			) : (
-				<IconButton
+				<Button
 					size="small"
-					sx={{ mr: 1 }}
+					variant="contained"
+					color="secondary"
+					sx={{
+						position: 'absolute',
+						top: '50px',
+						right: '10px',
+						padding: '4px',
+					}}
 					onClick={() =>
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 					}
 				>
-					<ModeEditOutline sx={{ fontSize: 20 }} />
-				</IconButton>
+					{/* {adminT('edit')} */}
+					<Edit />
+				</Button>
 			)}
 
-			<Dialog open={addCardForm} onClose={() => setAddCardForm(false)}>
-				<DialogContent>
-					<Typography variant="h6" mb={3}>
-						Variant details
-					</Typography>
+			<Dialog
+				open={addCardForm}
+				fullScreen
+				onClose={() => setAddCardForm(false)}
+			>
+				<DialogContent
+					sx={{
+						backgroundColor: '#F7F9FC',
+					}}
+				>
+					<Container>
+						<Typography variant="h6" mb={3} textAlign="center">
+							{adminT('variantDetails')}
+						</Typography>
 
-					<CreateForm
-						defaultData={initialValues}
-						fields={productVariantFormCreate}
-						handleFormSubmit={handleFormSubmit}
-					/>
+						<CreateForm
+							defaultData={initialValues}
+							fields={productVariantFormCreate}
+							handleFormSubmit={handleFormSubmit}
+							actionButtons={
+								<Fragment>
+									<Button
+										onClick={() => setAddCardForm(false)}
+										variant="contained"
+										color="error"
+										size="medium"
+									>
+										{adminT('cancel')}
+									</Button>
+								</Fragment>
+							}
+							children={
+								<Fragment>
+									<ProductAttributes
+										variantId={variantId}
+										attributes={attributes}
+										handleFormSubmit={() => null}
+									/>
 
-					<ProductAttributes
-						variantId={variantId}
-						attributes={attributes}
-						handleFormSubmit={() => null}
-					/>
-
-					<ProductImages
-						images={imagesList}
-						add={imageAdd}
-						remove={imageRemove}
-					/>
+									<ProductImages
+										images={imagesList}
+										add={imageAdd}
+										remove={imageRemove}
+									/>
+								</Fragment>
+							}
+						/>
+					</Container>
 				</DialogContent>
 			</Dialog>
 		</Fragment>

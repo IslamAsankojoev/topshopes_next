@@ -3,7 +3,9 @@ import BazaarCard from 'components/BazaarCard'
 import CategorySectionHeader from 'components/CategorySectionHeader'
 import { FlexBox } from 'components/flex-box'
 import ProductCard1 from 'components/product-cards/ProductCard1'
+import { useTranslation } from 'next-i18next'
 import React, { FC, useState } from 'react'
+
 import ProductCategoryItem from './ProductCategoryItem'
 
 interface Props {
@@ -12,6 +14,7 @@ interface Props {
 }
 
 const Section6: FC<Props> = ({ carList, carBrands }) => {
+	const { t } = useTranslation('common')
 	const [selected, setSelected] = useState('')
 
 	const handleCategoryClick = ({
@@ -49,7 +52,7 @@ const Section6: FC<Props> = ({ carList, carBrands }) => {
 
 					<ProductCategoryItem
 						id="all"
-						title="View All Brands"
+						title={t('viewAll')}
 						onClick={handleCategoryClick}
 						isSelected={selected === 'all'}
 						sx={{ mt: 8, height: 44, justifyContent: 'center' }}

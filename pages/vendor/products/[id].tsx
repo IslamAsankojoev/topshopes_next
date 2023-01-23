@@ -3,6 +3,8 @@ import { ProductsService } from 'api/services/products/product.service'
 import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ProductForm } from 'pages-sections/admin'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
@@ -12,6 +14,18 @@ import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct } from 'shared/types/product.types'
+
+export const getServerSideProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 
 const EditProduct: NextPageAuth = () => {
 	const {
@@ -61,6 +75,7 @@ const EditProduct: NextPageAuth = () => {
 						validationSchema={productFormValidationSchemaVendor}
 						handleFormSubmit={handleFormSubmit}
 						update={true}
+						refetch={refetch}
 					/>
 
 					<ProductVariantList

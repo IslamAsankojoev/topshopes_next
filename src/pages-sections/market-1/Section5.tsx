@@ -3,6 +3,7 @@ import BazaarCard from 'components/BazaarCard'
 import CategorySectionCreator from 'components/CategorySectionCreator'
 import NewArrival from 'components/icons/NewArrival'
 import ProductCard2 from 'components/product-cards/ProductCard2'
+import { useTranslation } from 'next-i18next'
 import React, { FC } from 'react'
 
 interface Props {
@@ -10,10 +11,11 @@ interface Props {
 }
 
 const Section5: FC<Props> = ({ newArrivalsList }) => {
+	const { t } = useTranslation('home')
 	return (
 		<CategorySectionCreator
 			icon={<NewArrival />}
-			title="New Arrivals"
+			title={t('newArrivals')}
 			seeMoreLink="#"
 		>
 			<BazaarCard sx={{ p: 2 }}>

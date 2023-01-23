@@ -21,3 +21,15 @@
 		background-color: #323747;
 	}
 }
+
+.order-status-admin {
+	fieldset {
+		display: none;
+	}
+	svg {
+		display: none;
+	}
+}
+input.MuiInputBase-input {
+	padding: 15px !important;
+}

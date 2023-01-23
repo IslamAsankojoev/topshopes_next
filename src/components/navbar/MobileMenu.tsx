@@ -3,6 +3,7 @@ import {
 	Accordion,
 	AccordionSummary,
 	Box,
+	Button,
 	Drawer,
 	IconButton,
 } from '@mui/material'
@@ -10,10 +11,14 @@ import Scrollbar from 'components/Scrollbar'
 import { H6 } from 'components/Typography'
 import NavLink from 'components/nav-link/NavLink'
 import navbarNavigations from 'data/navbarNavigations'
+import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useState } from 'react'
+import { useRouter } from 'next/router'
 
 const MobileMenu: FC = () => {
 	const [openDrawer, setOpenDrawer] = useState(false)
+	const { t } = useTranslation('common')
+	const { push } = useRouter()
 
 	const updateNavigations = navbarNavigations.reduce((prev: any, curr: any) => {
 		const newArr = [...prev]
@@ -67,15 +72,24 @@ const MobileMenu: FC = () => {
 
 			if (item.extLink) {
 				return (
-					<H6 key={index} py={1}>
-						<NavLink href={item.url}>{item.title}</NavLink>
-					</H6>
+					<Button
+						sx={{
+							display: 'block',
+							width: '100%',
+						}}
+						key={index}
+						onClick={() => {
+							push(item.url)
+						}}
+					>
+						<H6 py={1}>{t(item.title)}</H6>
+					</Button>
 				)
 			}
 
 			return (
 				<Box key={index} py={1}>
-					<NavLink href={item.url}>{item.title}</NavLink>
+					<NavLink href={item.url}>{t(item.title)}</NavLink>
 				</Box>
 			)
 		})
@@ -100,25 +114,36 @@ const MobileMenu: FC = () => {
 				sx={{ zIndex: 15001 }}
 			>
 				<Box sx={{ width: '100vw', height: '100%', position: 'relative' }}>
-					<Scrollbar autoHide={false} sx={{ height: '100vh' }}>
-						<Box
-							maxWidth={500}
-							margin="auto"
-							position="relative"
-							height="100%"
-							px={5}
-							py={8}
+					{/* <Scrollbar
+						autoHide={false}
+						sx={{
+							height: '100vh',
+							display: 'flex!important',
+							flexDirection: 'column',
+							justifyContent: 'center',
+						}}
+					> */}
+					<Box
+						maxWidth={500}
+						margin="auto"
+						position="relative"
+						height="100%"
+						display="flex"
+						flexDirection="column"
+						justifyContent="center"
+						px={5}
+						py={8}
+					>
+						<IconButton
+							onClick={() => setOpenDrawer(false)}
+							sx={{ position: 'absolute', right: 30, top: 15 }}
 						>
-							<IconButton
-								onClick={() => setOpenDrawer(false)}
-								sx={{ position: 'absolute', right: 30, top: 15 }}
-							>
-								<Clear fontSize="small" />
-							</IconButton>
+							<Clear fontSize="small" />
+						</IconButton>
 
-							{renderLevels(updateNavigations)}
-						</Box>
-					</Scrollbar>
+						{renderLevels(updateNavigations)}
+					</Box>
+					{/* </Scrollbar> */}
 				</Box>
 			</Drawer>
 		</Fragment>

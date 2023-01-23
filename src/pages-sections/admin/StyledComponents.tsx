@@ -40,19 +40,29 @@ const StatusWrapper = styled(Box)<{ status: StatusType }>(
 		let color = theme.palette.secondary.main
 		let backgroundColor = theme.palette.secondary[100]
 
-		if (status === 'pending') {
-			color = theme.palette.success.main
-			backgroundColor = theme.palette.success[100]
+		if (status === 'delivered') {
+			color = theme.palette.paste.main
+			backgroundColor = theme.palette.paste[100]
 		}
 
-		if (status === 'canceled') {
+		if (status === 'cancelled') {
 			color = theme.palette.error.main
 			backgroundColor = theme.palette.error[100]
 		}
 
 		if (status === 'delivering') {
-			color = theme.palette.warning.main
-			backgroundColor = theme.palette.warning[100]
+			color = theme.palette.primary.main
+			backgroundColor = theme.palette.primary[100]
+		}
+
+		if (status === 'paid') {
+			color = theme.palette.info.main
+			backgroundColor = theme.palette.info[100]
+		}
+
+		if (status === 'received') {
+			color = theme.palette.success.main
+			backgroundColor = theme.palette.success[100]
 		}
 
 		return {

@@ -5,6 +5,9 @@ import { H2, H5 } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import { useFormik } from 'formik'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
@@ -12,7 +15,6 @@ import { IProduct, IReview } from 'shared/types/product.types'
 import * as yup from 'yup'
 
 import ProductComment from './ProductComment'
-import Link from 'next/link'
 
 export interface ProductReviewProps {
 	product: IProduct
@@ -20,7 +22,10 @@ export interface ProductReviewProps {
 }
 
 const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
+	const { t } = useTranslation('review')
 	const { user } = useTypedSelector((state) => state.userStore)
+
+	const router = useRouter()
 
 	const { mutateAsync } = useMutation(
 		'send a comment',
@@ -61,14 +66,14 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 			))}
 
 			<H2 fontWeight="600" mt={7} mb={2.5}>
-				Write a Review for this product
+				{t('writeReview')}
 			</H2>
 
 			{user ? (
 				<form onSubmit={handleSubmit}>
 					<Box mb={2.5}>
 						<FlexBox mb={1.5} gap={0.5}>
-							<H5 color="grey.700">Your Rating</H5>
+							<H5 color="grey.700">{t('yourRating')}</H5>
 							<H5 color="error.main">*</H5>
 						</FlexBox>
 
@@ -82,7 +87,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 
 					<Box mb={3}>
 						<FlexBox mb={1.5} gap={0.5}>
-							<H5 color="grey.700">Your Review</H5>
+							<H5 color="grey.700">{t('yourReview')}</H5>
 							<H5 color="error.main">*</H5>
 						</FlexBox>
 
@@ -95,7 +100,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 							onBlur={handleBlur}
 							value={values.comment}
 							onChange={handleChange}
-							placeholder="Write a review here..."
+							placeholder={t('writeReviewHere')}
 							error={!!touched.comment && !!errors.comment}
 							helperText={touched.comment && errors.comment}
 						/>
@@ -107,12 +112,12 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 						type="submit"
 						disabled={!(dirty && isValid)}
 					>
-						Submit
+						{t('send')}
 					</Button>
 				</form>
 			) : (
 				<h3>
-					<Link href={'/login'}>log in</Link> to write a review
+					<Link href={'/login'}>{t('login')}</Link>
 				</h3>
 			)}
 		</Box>

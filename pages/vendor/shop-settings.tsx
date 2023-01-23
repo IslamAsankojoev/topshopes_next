@@ -5,6 +5,9 @@ import DropZone from 'components/DropZone'
 import { H3, Paragraph } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { useFormik } from 'formik'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
@@ -35,7 +38,21 @@ const validationSchema = Yup.object().shape({
 	profile_picture: Yup.mixed().required('Orders is required!'),
 })
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'store',
+				'common',
+				'admin',
+			])),
+		},
+	}
+}
+
 const ShopSettings: NextPageAuth = () => {
+	const { t: storeT } = useTranslation('store')
+	const { t: commonT } = useTranslation('common')
 	// const [links, setLinks] = useState([
 	// 	{ id: 1, name: 'Links', value: 'https://www.productbanner.com' },
 	// ])
@@ -147,10 +164,10 @@ const ShopSettings: NextPageAuth = () => {
 
 	return !isLoading ? (
 		<Box py={4} maxWidth={740} margin="auto">
-			<H3 mb={2}>Shop Settings</H3>
+			<H3 mb={2}>{storeT('shopSettings')}</H3>
 			<Card sx={{ p: 3 }}>
 				<Paragraph fontWeight={700} mb={4}>
-					Basic Settings
+					{storeT('basicSettings')}
 				</Paragraph>
 				<form onSubmit={handleSubmit}>
 					<Grid container alignItems={'center'} spacing={3}>
@@ -160,7 +177,8 @@ const ShopSettings: NextPageAuth = () => {
 								color="info"
 								size="medium"
 								name="name"
-								label="Shop Name *"
+								label={storeT('shopName')}
+								placeholder={storeT('shopName')}
 								onBlur={handleBlur}
 								value={values.name}
 								onChange={handleChange}
@@ -175,6 +193,7 @@ const ShopSettings: NextPageAuth = () => {
 								size="medium"
 								name="email"
 								label="email"
+								placeholder="email"
 								onBlur={handleBlur}
 								onChange={handleChange}
 								value={values.email}
@@ -189,8 +208,8 @@ const ShopSettings: NextPageAuth = () => {
 								size="medium"
 								name="address"
 								onBlur={handleBlur}
-								placeholder="address"
-								label="Select address"
+								placeholder={commonT('address')}
+								label={commonT('address')}
 								onChange={handleChange}
 								value={values.address}
 								helperText={touched.address && errors.address}
@@ -206,14 +225,15 @@ const ShopSettings: NextPageAuth = () => {
 								onBlur={handleBlur}
 								onChange={handleChange}
 								value={values.phone}
-								label="phone"
+								label={commonT('phone')}
+								placeholder={commonT('phone')}
 								helperText={touched.phone && errors.phone}
 								error={Boolean(errors.phone && touched.phone)}
 							/>
 						</Grid>
 
 						<Grid item sm={coverPicture ? 6 : 12} xs={12}>
-							<h3 style={{ margin: 0 }}>Cover picture</h3>
+							<h3 style={{ margin: 0 }}>{storeT('coverPicture')}</h3>
 							<DropZone
 								name={'cover_picture'}
 								onBlur={handleBlur}
@@ -238,7 +258,7 @@ const ShopSettings: NextPageAuth = () => {
 						) : null}
 
 						<Grid item sm={profilePicture ? 6 : 12} xs={12}>
-							<h3 style={{ margin: 0 }}>Profile picture</h3>
+							<h3 style={{ margin: 0 }}>{storeT('profilePicture')}</h3>
 							<DropZone
 								name={'profile_picture'}
 								onBlur={handleBlur}
@@ -278,7 +298,7 @@ const ShopSettings: NextPageAuth = () => {
 									onClick={handleDelete}
 									fullWidth
 								>
-									Delete shop
+									{storeT('deleteShop')}
 								</Button>
 							</Grid>
 						) : null}
@@ -291,7 +311,7 @@ const ShopSettings: NextPageAuth = () => {
 								variant="contained"
 								fullWidth
 							>
-								{shop ? 'Save Changes' : 'Create Shop'}
+								{shop ? commonT('saveChanges') : storeT('createShop')}
 							</Button>
 						</Grid>
 					</Grid>

@@ -1,18 +1,36 @@
 import { Box } from '@mui/material'
 import CreateForm from 'components/Form/CreateForm'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
-import { brandTypeEditForm } from '../../../src/utils/constants/forms'
-import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
 import { useMutation } from 'react-query'
-import { IBrandTypes } from 'shared/types/brand-types.types'
 import { toast } from 'react-toastify'
-import Loading from 'components/Loading'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { IBrandTypes } from 'shared/types/brand-types.types'
+
+import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
+import { brandTypeEditForm } from '../../../src/utils/constants/forms'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 
 const CreateBrandTypes: NextPageAuth = () => {
+	const { t } = useTranslation('adminActions')
+
 	const { push } = useRouter()
 
 	// brand type create
@@ -40,7 +58,7 @@ const CreateBrandTypes: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Add New Brand Type</H3>
+			<H3 mb={2}>{t('addNewBrandType')}</H3>
 			<CreateForm
 				defaultData={{}}
 				fields={brandTypeEditForm}

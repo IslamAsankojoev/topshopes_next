@@ -1,14 +1,17 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { BrandsService } from 'api/services-admin/brands/brand.service'
+import Loading from 'components/Loading'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Loading from 'components/Loading'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { BrandRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
@@ -17,13 +20,27 @@ import { NextPageAuth } from 'shared/types/auth.types'
 import { IBrand } from 'shared/types/product.types'
 
 const tableHeading = [
-	{ id: 'name', label: 'Name', align: 'center' },
-	{ id: 'image', label: 'Image', align: 'center' },
-	{ id: 'featured', label: 'Featured', align: 'center' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'name', label: 'name', align: 'center' },
+	{ id: 'image', label: 'thumbnail', align: 'center' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
+
 const BrandsList: NextPageAuth = () => {
+	const { t } = useTranslation('adminActions')
+	const { t: adminT } = useTranslation('admin')
+
 	const { push } = useRouter()
 
 	const [searchValue, setSearchValue] = React.useState('')
@@ -46,18 +63,18 @@ const BrandsList: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Product Brands</H3>
+			<H3 mb={2}>{adminT('brands')}</H3>
 
 			<SearchArea
 				handleSearch={(value) => {
 					setCurrentPage(1)
 					setSearchValue(value)
 				}}
-				buttonText="Add Brand"
+				buttonText={t('addNewBrand')}
 				handleBtnClick={() => {
 					push('/admin/brands/create')
 				}}
-				searchPlaceholder="Search Brand..."
+				searchPlaceholder={t('searchingFor')}
 			/>
 
 			<Card>

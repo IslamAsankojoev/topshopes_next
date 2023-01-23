@@ -1,19 +1,20 @@
 import {
 	CreditCard,
 	FavoriteBorder,
+	Logout,
 	Person,
 	Place,
-	Logout,
 	Store,
 	Widgets,
 } from '@mui/icons-material'
 import ShoppingBagOutlined from '@mui/icons-material/ShoppingBagOutlined'
-import { Card, styled, Typography } from '@mui/material'
+import { Card, Typography, styled } from '@mui/material'
 import { FlexBox } from 'components/flex-box'
 import CustomerService from 'components/icons/CustomerService'
 import NavLink, { NavLinkProps } from 'components/nav-link/NavLink'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC, Fragment } from 'react'
 
@@ -52,6 +53,7 @@ const StyledNavLink = styled<FC<StyledNavLinkProps & NavLinkProps>>(
 }))
 
 const Navigations = () => {
+	const { t } = useTranslation('common')
 	const { pathname } = useRouter()
 	const { logout } = useActions()
 
@@ -61,64 +63,12 @@ const Navigations = () => {
 		logout()
 	}
 
-	const linkList = [
-		{
-			title: 'DASHBOARD',
-			list: [
-				{
-					href: '/orders',
-					title: 'Orders',
-					icon: ShoppingBagOutlined,
-				},
-				{
-					href: '/wish-list',
-					title: 'Wishlist',
-					icon: FavoriteBorder,
-				},
-				// {
-				//   href: '/support-tickets',
-				//   title: 'Support Tickets',
-				//   icon: CustomerService,
-				//   count: 1,
-				// },
-			],
-		},
-		{
-			title: 'ACCOUNT SETTINGS',
-			list: [
-				{ href: '/profile', title: 'Profile Info', icon: Person },
-				{
-					href: '/address',
-					title: 'Addresses',
-					icon: Place,
-				},
-				// {
-				//   href: '/payment-methods',
-				//   title: 'Payment Methods',
-				//   icon: CreditCard,
-				//   count: 4,
-				// },
-			],
-		},
-		{
-			title: 'SHOP PANEL',
-			list: [
-				{ href: '/vendor/shop-settings', title: 'Store', icon: Store },
-				{
-					href: '/vendor/products',
-					title: 'Products',
-					icon: Widgets,
-				},
-			],
-		},
-	]
-
 	return (
 		<MainContainer>
 			{linkList?.map((item) => (
 				<Fragment key={item.title}>
 					<Typography p="26px 30px 1rem" color="grey.600" fontSize="12px">
-						{item.title}
+						{t(item.title)}
 					</Typography>
 
 					{item.list?.map((item) => (
@@ -133,7 +83,7 @@ const Navigations = () => {
 									fontSize="small"
 									className="nav-icon"
 								/>
-								<span>{item.title}</span>
+								<span>{t(item.title)}</span>
 							</FlexBox>
 						</StyledNavLink>
 					))}
@@ -153,11 +103,62 @@ const Navigations = () => {
 			>
 				<FlexBox alignItems="center" gap={1}>
 					<Logout fontSize="small" className="nav-icon" />
-					<span>Logout</span>
+					<span>{t('logout')}</span>
 				</FlexBox>
 			</span>
 		</MainContainer>
 	)
 }
 
+const linkList = [
+	{
+		title: 'dashboard',
+		list: [
+			{
+				href: '/orders',
+				title: 'orders',
+				icon: ShoppingBagOutlined,
+			},
+			{
+				href: '/wish-list',
+				title: 'wishlist',
+				icon: FavoriteBorder,
+			},
+			// {
+			//   href: '/support-tickets',
+			//   title: 'Support Tickets',
+			//   icon: CustomerService,
+			//   count: 1,
+			// },
+		],
+	},
+	{
+		title: 'accountSettings',
+		list: [
+			{ href: '/profile', title: 'profileInfo', icon: Person },
+			{
+				href: '/address',
+				title: 'addresses',
+				icon: Place,
+			},
+			// {
+			//   href: '/payment-methods',
+			//   title: 'Payment Methods',
+			//   icon: CreditCard,
+			//   count: 4,
+			// },
+		],
+	},
+	{
+		title: 'shopPanel',
+		list: [
+			{ href: '/vendor/shop-settings', title: 'store', icon: Store },
+			{
+				href: '/vendor/products',
+				title: 'products',
+				icon: Widgets,
+			},
+		],
+	},
+]
 export default Navigations

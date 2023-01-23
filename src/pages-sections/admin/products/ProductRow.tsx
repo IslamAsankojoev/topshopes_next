@@ -3,11 +3,12 @@ import { Avatar, Box, Tooltip } from '@mui/material'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { ProductsService } from 'api/services/products/product.service'
 import BazaarSwitch from 'components/BazaarSwitch'
+import LazyImage from 'components/LazyImage'
 import { Paragraph, Small } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import currency from 'currency.js'
 import { useRouter } from 'next/router'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { IProduct, IProductPreview } from 'shared/types/product.types'
@@ -29,18 +30,6 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 	// state
 	const router = useRouter()
-	const [productPublish, setProductPublish] = useState<boolean>(published)
-
-	const { mutateAsync } = useMutation(
-		'update shop product',
-		() => AdminProductsService.update(id, { published: !productPublish }),
-		{
-			onError: (e: unknown) => {
-				refetch()
-			},
-			onSuccess: () => {},
-		}
-	)
 
 	//handlers
 	const onDelete = async () => {
@@ -54,16 +43,21 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 			}
 		}
 	}
-	const publishOnchange = async () => {
-		setProductPublish((prev) => !prev)
-		mutateAsync()
-	}
+
+	useEffect(() => {
+		console.log(thumbnail)
+	}, [thumbnail])
 
 	return (
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
 				<FlexBox alignItems="center" gap={1.5}>
-					<Avatar src={thumbnail} sx={{ borderRadius: '8px' }} />
+					<LazyImage
+						src={thumbnail}
+						sx={{ borderRadius: '8px' }}
+						width={50}
+						height={50}
+					/>
 					<Box>
 						<Paragraph>{name}</Paragraph>
 					</Box>
@@ -76,25 +70,17 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				</Box>
 			</StyledTableCell>
 
-			<StyledTableCell align="left">
+			{/* <StyledTableCell align="left">
 				<Avatar
 					src={
 						'https://static.wikia.nocookie.net/bleach/images/8/8d/572Kenpachi_profile.png/revision/latest?cb=20210417222326&path-prefix=en'
 					}
 					sx={{ width: 55, height: 'auto', borderRadius: 0 }}
 				/>
-			</StyledTableCell>
+			</StyledTableCell> */}
 
 			<StyledTableCell align="left">
-				{currency(overall_price, { separator: ',' }).format()}
-			</StyledTableCell>
-
-			<StyledTableCell align="left">
-				<BazaarSwitch
-					color="info"
-					checked={productPublish}
-					onChange={publishOnchange}
-				/>
+				{currency(overall_price, { separator: ',' }).format()}c
 			</StyledTableCell>
 
 			<StyledTableCell align="center">

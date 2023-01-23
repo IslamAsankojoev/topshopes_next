@@ -5,10 +5,11 @@ import CreateForm from 'components/Form/CreateForm'
 import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import useDebounce from 'hooks/useDebounce'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
-import React, { useState } from 'react'
+import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
@@ -16,14 +17,23 @@ import { IPages } from 'shared/types/pages.types'
 import { pageEditForm } from 'utils/constants/forms'
 import { formData } from 'utils/formData'
 
+export const getServerSideProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 const UpdatePages: NextPageAuth = () => {
+	const { t } = useTranslation('adminActions')
 	const {
 		push,
 		query: { id },
 	} = useRouter()
-
-	const [categoryValue, setCategoryValue] = React.useState()
-	const debounceValue = useDebounce(categoryValue)
 
 	// page fetching
 	const { data: page, isLoading } = useQuery(
@@ -46,28 +56,15 @@ const UpdatePages: NextPageAuth = () => {
 		}
 	)
 
-	const { data: categories } = useQuery(
-		`categoryPage admin get search=${debounceValue}`,
-		() => PageCategoryService.getList({ page_size: 30, search: debounceValue })
+	const { data: categories } = useQuery(`categoryPage admin get`, () =>
+		PageCategoryService.getList({ page_size: 100 })
 	)
-
-	const getValues = (values: Record<string, any>) => {
-		setCategoryValue(values?.category_search)
-	}
 
 	const handleFormSubmit = async (_: any, values: IPages) => {
 		const { image, ...other } = values
 		const clearData = image
-			? {
-					...values,
-					category: values.category?.id,
-					content: JSON.stringify({ data: values.content }),
-			  }
-			: {
-					...other,
-					category: values.category?.id,
-					content: JSON.stringify({ data: values.content }),
-			  }
+			? { ...values, content: JSON.stringify({ data: values.content }) }
+			: { ...other, content: JSON.stringify({ data: values.content }) }
 		await mutateAsync(formData(clearData))
 	}
 
@@ -77,30 +74,28 @@ const UpdatePages: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Add New Page</H3>
+			<H3 mb={2}>{t('editPage')}</H3>
 			<CreateForm
 				defaultData={{
 					...page,
 					content: page?.content?.data,
-					category: { id: page?.category.id, name: page?.category.title },
 				}}
 				fields={[
 					...pageEditForm,
 					{
 						name: 'category',
 						label: 'Category',
-						type: 'autocomplete',
+						type: 'select',
 						placeholder: 'Enter category',
 						allNames: categories?.results?.map((c) => ({
 							id: c?.id,
-							label: c?.title,
+							name: c?.title,
 						})),
 						required: true,
 						fullWidth: true,
 					},
 				]}
 				handleFormSubmit={handleFormSubmit}
-				getValues={getValues}
 			/>
 		</Box>
 	)

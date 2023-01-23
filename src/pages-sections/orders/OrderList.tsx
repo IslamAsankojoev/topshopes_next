@@ -3,6 +3,7 @@ import { OrdersService } from 'api/services/orders/orders.service'
 import TableRow from 'components/TableRow'
 import { H5 } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
+import { useTranslation } from 'next-i18next'
 import { FC, Fragment } from 'react'
 import { useQuery } from 'react-query'
 import { IOrder, IOrderShort } from 'shared/types/order.types'
@@ -15,6 +16,7 @@ type OrderListProps = {}
 // ============================================================
 
 const OrderList: FC<OrderListProps> = () => {
+	const { t } = useTranslation('common')
 	const { isLoading, data: orders } = useQuery(
 		'orders',
 		() => OrdersService.getList(),
@@ -35,19 +37,19 @@ const OrderList: FC<OrderListProps> = () => {
 					}}
 				>
 					<H5 color="grey.600" my={0} mx={0.75} textAlign="left">
-						Order #
+						{t('order')} #
 					</H5>
 
 					<H5 color="grey.600" my={0} mx={0.75} textAlign="left">
-						Status
+						{t('status')}
 					</H5>
 
 					<H5 color="grey.600" my={0} mx={0.75} textAlign="left">
-						Date purchased
+						{t('datePurchased')}
 					</H5>
 
 					<H5 color="grey.600" my={0} mx={0.75} textAlign="left">
-						Total
+						{t('total')}
 					</H5>
 					<H5 flex="0 0 0 !important" color="grey.600" px={2.75} my={0} />
 				</TableRow>

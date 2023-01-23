@@ -1,12 +1,13 @@
 import {
 	Checkbox,
-	styled,
 	TableCell,
 	TableHead,
 	TableRow,
 	TableSortLabel,
+	styled,
 } from '@mui/material'
 import UpDown from 'components/icons/UpDown'
+import { useTranslation } from 'next-i18next'
 import { ChangeEvent, FC } from 'react'
 
 // styled components
@@ -30,6 +31,9 @@ type TableHeaderProps = {
 // ----------------------------------------------------------------------
 
 const TableHeader: FC<TableHeaderProps> = (props) => {
+	const { t: commonT } = useTranslation('common')
+	const { t: adminT } = useTranslation('admin')
+
 	const {
 		order,
 		heading,
@@ -71,7 +75,9 @@ const TableHeader: FC<TableHeaderProps> = (props) => {
 								<UpDown sx={{ fontSize: 14, ml: 1, color: 'grey.600' }} />
 							)}
 						>
-							{headCell.label}
+							{commonT(headCell.label) == headCell.label
+								? adminT(headCell.label)
+								: commonT(headCell.label)}
 						</TableSortLabel>
 					</StyledTableCell>
 				))}

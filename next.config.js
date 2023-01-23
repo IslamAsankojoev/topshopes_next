@@ -1,16 +1,11 @@
-// first language is default
-const languages = ['ru', 'kg', 'tr', 'en', 'pl']
+const { i18n } = require('./next-i18next.config')
 
 module.exports = {
 	distDir: 'build',
 	devIndicators: {
 		buildActivity: false,
 	},
-	i18n: {
-		locales: [...languages],
-		defaultLocale: languages[0],
-		localeDetection: false,
-	},
+	i18n,
 	images: {
 		domains: ['localhost', '192.168.0.125'],
 	},

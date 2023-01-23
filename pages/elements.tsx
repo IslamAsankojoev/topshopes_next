@@ -1,9 +1,18 @@
 import { Box, Button, Container } from '@mui/material'
+import { H2, Paragraph } from 'components/Typography'
 import { FlexRowCenter } from 'components/flex-box'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import Navbar from 'components/navbar/Navbar'
-import { H2, Paragraph } from 'components/Typography'
-import { NextPage } from 'next'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 
 const Elements: NextPage = () => {
 	return (

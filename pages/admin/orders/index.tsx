@@ -1,33 +1,50 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { OrdersService } from 'api/services/orders/orders.service'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
+import lodash from 'lodash'
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { OrderRow } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-import api from 'utils/api/dashboard'
+import { IOrder } from 'shared/types/order.types'
+import { ResponseList } from 'shared/types/response.types'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 // table column list
 const tableHeading = [
-	{ id: 'id', label: 'Order ID', align: 'left' },
-	{ id: 'qty', label: 'Qty', align: 'left' },
-	{ id: 'delivered_at', label: 'delivered_at', align: 'left' },
-	{ id: 'billingAddress', label: 'Billing Address', align: 'left' },
-	{ id: 'amount', label: 'Amount', align: 'left' },
-	{ id: 'status', label: 'Status', align: 'left' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'id', label: 'orderId', align: 'left' },
+	{ id: 'qty', label: 'qty', align: 'left' },
+	{ id: 'created_at', label: 'createdAt', align: 'left' },
+	{ id: 'billingAddress', label: 'billingAddress', align: 'left' },
+	{ id: 'amount', label: 'amount', align: 'left' },
+	{ id: 'status', label: 'status', align: 'left' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
 const OrderList: NextPageAuth = () => {
+	const { t: adminT } = useTranslation('admin')
+	const { t } = useTranslation('adminActions')
 	const [searchValue, setSearchValue] = React.useState('')
 	const [currentPage, setCurrentPage] = React.useState(1)
 
@@ -42,6 +59,15 @@ const OrderList: NextPageAuth = () => {
 				page_size: 20,
 			}),
 		{
+			select: (data: ResponseList<IOrder>) => {
+				return {
+					...data,
+					results: data.results.map((order: any) => ({
+						...order,
+						created_at: new Date(order.created_at).getTime(),
+					})),
+				}
+			},
 			onError: (e: any) => {
 				toast.error(e.message)
 			},
@@ -63,7 +89,7 @@ const OrderList: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Orders</H3>
+			<H3 mb={2}>{adminT('orders')}</H3>
 
 			<SearchArea
 				handleSearch={(value) => {
@@ -71,7 +97,7 @@ const OrderList: NextPageAuth = () => {
 					setSearchValue(value)
 				}}
 				handleBtnClick={() => {}}
-				searchPlaceholder="Search Order..."
+				searchPlaceholder={t('searchingFor')}
 			/>
 
 			<Card>
@@ -89,9 +115,11 @@ const OrderList: NextPageAuth = () => {
 							/>
 
 							<TableBody>
-								{filteredList?.map((order, index) => (
-									<OrderRow order={order} key={index} />
-								))}
+								{lodash
+									.sortBy(filteredList, 'created_at')
+									?.map((order, index) => (
+										<OrderRow order={order} key={index} />
+									))}
 							</TableBody>
 						</Table>
 					</TableContainer>
@@ -113,12 +141,6 @@ OrderList.isOnlyUser = true
 
 OrderList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-	const orders = await api.orders()
-
-	return { props: { orders } }
 }
 
 export default OrderList

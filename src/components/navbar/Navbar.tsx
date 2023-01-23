@@ -5,17 +5,19 @@ import {
 	KeyboardArrowDown,
 } from '@mui/icons-material'
 import ArrowRight from '@mui/icons-material/ArrowRight'
-import { Box, Container, MenuItem, styled, SvgIconProps } from '@mui/material'
+import { Box, Container, MenuItem, SvgIconProps, styled } from '@mui/material'
 import BazaarButton from 'components/BazaarButton'
 import BazaarCard from 'components/BazaarCard'
+import { Paragraph } from 'components/Typography'
 import CategoryMenu from 'components/categories/CategoryMenu'
 import { FlexBox } from 'components/flex-box'
 import Category from 'components/icons/Category'
 import NavLink from 'components/nav-link/NavLink'
-import { Paragraph } from 'components/Typography'
 import navbarNavigations from 'data/navbarNavigations'
 import useSettings from 'hooks/useSettings'
+import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
+
 import MegaMenu from './MegaMenu'
 import MegaMenu2 from './MegaMenu2'
 
@@ -113,6 +115,7 @@ const Navbar: FC<NavbarProps> = ({
 	elevation,
 	border,
 }) => {
+	const { t } = useTranslation('common')
 	const { settings } = useSettings()
 
 	const renderNestedNav = (list: any[] = [], isRoot = false) => {
@@ -121,23 +124,31 @@ const Navbar: FC<NavbarProps> = ({
 				// show megamenu
 				if (nav.megaMenu) {
 					return (
-						//@ts-ignore
-						<MegaMenu key={nav.title} title={nav.title} menuList={nav.child} />
+						<MegaMenu
+							key={nav.title}
+							title={t(nav.title)}
+							//@ts-ignore
+							menuList={nav.child}
+						/>
 					)
 				}
 
 				// show megamenu with sub
 				if (nav.megaMenuWithSub) {
 					return (
-						//@ts-ignore
-						<MegaMenu2 key={nav.title} title={nav.title} menuList={nav.child} />
+						<MegaMenu2
+							key={nav.title}
+							title={t(nav.title)}
+							//@ts-ignore
+							menuList={nav.child}
+						/>
 					)
 				}
 
 				if (nav.url) {
 					return (
 						<StyledNavLink href={nav.url} key={nav.title}>
-							{nav.title}
+							{t(nav.title)}
 						</StyledNavLink>
 					)
 				}
@@ -154,7 +165,7 @@ const Navbar: FC<NavbarProps> = ({
 							}}
 						>
 							<FlexBox alignItems="flex-end" gap={0.3} sx={navLinkStyle}>
-								{nav.title}{' '}
+								{t(nav.title)}{' '}
 								<KeyboardArrowDown
 									sx={{ color: 'grey.500', fontSize: '1.1rem' }}
 								/>
@@ -175,7 +186,7 @@ const Navbar: FC<NavbarProps> = ({
 				if (nav.url) {
 					return (
 						<NavLink href={nav.url} key={nav.title}>
-							<MenuItem>{nav.title}</MenuItem>
+							<MenuItem>{t(nav.title)}</MenuItem>
 						</NavLink>
 					)
 				}
@@ -185,7 +196,7 @@ const Navbar: FC<NavbarProps> = ({
 						<ParentNav position="relative" minWidth="230px" key={nav.title}>
 							<MenuItem color="grey.700">
 								<Box flex="1 1 0" component="span">
-									{nav.title}
+									{t(nav.title)}
 								</Box>
 
 								{settings.direction === 'ltr' ? (
@@ -225,7 +236,7 @@ const Navbar: FC<NavbarProps> = ({
 								ml={1.25}
 								color="grey.600"
 							>
-								Categories
+								{t('categories')}
 							</Paragraph>
 
 							{settings.direction === 'ltr' ? (

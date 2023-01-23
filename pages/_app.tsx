@@ -1,7 +1,9 @@
 import RTL from 'components/RTL'
 import { AppProvider } from 'contexts/AppContext'
 import SettingsProvider from 'contexts/SettingContext'
-import { NextPage } from 'next'
+import { GetStaticProps, NextPage } from 'next'
+import { appWithTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import Router from 'next/router'
@@ -43,7 +45,7 @@ const config = {
 	defaultOptions: {
 		queries: {
 			refetchOnWindowFocus: false,
-			retry: 1,
+			retry: 0,
 			cacheTime: 0,
 		},
 	},
@@ -103,4 +105,4 @@ const App = ({ Component, pageProps }: TypeAppProps) => {
 // 	return { ...appProps }
 // }
 
-export default App
+export default appWithTranslation(App)

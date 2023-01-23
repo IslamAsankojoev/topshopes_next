@@ -1,19 +1,23 @@
-import { DeleteOutline } from '@mui/icons-material'
-import { Card, Grid, IconButton } from '@mui/material'
-import Card1 from 'components/Card1'
-import { FlexBetween, FlexBox } from 'components/flex-box'
-import { H6, Paragraph } from 'components/Typography'
-import React from 'react'
-import { IProductVariant } from 'shared/types/product.types'
-import ProductVariantForm from './ProductVariantForm'
-import { ProductFetchTypes } from 'pages-sections/admin/products/useProductFetch'
-import { IProduct } from 'shared/types/product.types'
-import { useTypedSelector } from 'hooks/useTypedSelector'
-import { useActions } from 'hooks/useActions'
 import styled from '@emotion/styled'
-import { adminCheckFetch, getImgUrl } from './productVariantHelper'
-import { useQuery } from 'react-query'
+import { Close, DeleteOutline } from '@mui/icons-material'
+import { Button, Card, Grid, IconButton, Typography } from '@mui/material'
 import { CategoriesService } from 'api/services/categories/category.service'
+import Card1 from 'components/Card1'
+import LazyImage from 'components/LazyImage'
+import { H6, Paragraph } from 'components/Typography'
+import { FlexBetween, FlexBox } from 'components/flex-box'
+import { useActions } from 'hooks/useActions'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import Lodash from 'lodash'
+import { useTranslation } from 'next-i18next'
+import { ProductFetchTypes } from 'pages-sections/admin/products/useProductFetch'
+import React from 'react'
+import { useQuery } from 'react-query'
+import { IProductVariant } from 'shared/types/product.types'
+import { IProduct } from 'shared/types/product.types'
+
+import ProductVariantForm from './ProductVariantForm'
+import { adminCheckFetch, getImgUrl } from './productVariantHelper'
 
 type Props = {
 	refetch?: () => void
@@ -28,6 +32,9 @@ const ProductVariantList: React.FC<Props> = ({
 	create,
 	isAdmin,
 }) => {
+	const { t: adminT } = useTranslation('admin')
+	const { t: commonT } = useTranslation('common')
+
 	// actions
 	const { removeVariant } = useActions()
 
@@ -90,7 +97,7 @@ const ProductVariantList: React.FC<Props> = ({
 	return (
 		<Card1 sx={{ mb: 3, mt: 3 }}>
 			<FlexBetween>
-				<h2>Product Variants</h2>
+				<h2>{adminT('productVariants')}</h2>
 				<ProductVariantForm
 					attributes={category?.attributes}
 					refetch={refetch}
@@ -101,52 +108,92 @@ const ProductVariantList: React.FC<Props> = ({
 					isAdmin={isAdmin}
 				/>
 			</FlexBetween>
-			<Grid sx={{ bgcolor: 'white' }} container spacing={3}>
-				{variantList(product)?.map((variant: IProductVariant, ind: number) => (
-					<Grid item md={4} sm={6} xs={12} key={ind + 'product variant'}>
-						<VariantCard>
-							<img
-								src={getImgUrl(variantCheck(variant)?.thumbnail)}
-								alt={'thumbnail'}
-							/>
+			<Grid sx={{ bgcolor: 'white' }} container spacing={1.3}>
+				{Lodash.sortBy(variantList(product), 'id')?.map(
+					(variant: IProductVariant, ind: number) => (
+						<Grid item md={3} sm={4} xs={12} key={ind + 'product variant'}>
+							<VariantCard>
+								<LazyImage
+									width={150}
+									height={200}
+									objectFit={'contain'}
+									objectPosition={'center'}
+									src={getImgUrl(variantCheck(variant)?.thumbnail)}
+									alt={'thumbnail'}
+								/>
 
-							<FlexBox justifyContent={'space-between'}>
-								<div>
-									<H6 mb={0.5}>price: {variantCheck(variant)?.price}</H6>
-									<Paragraph color="grey.700">
-										discount: {variantCheck(variant)?.discount}
-									</Paragraph>
-									<Paragraph color="grey.700">
-										status: {variantCheck(variant)?.status}
-									</Paragraph>
-									<Paragraph color="grey.700">
-										stock: {variantCheck(variant)?.stock}
-									</Paragraph>
-								</div>
-								<FlexBox alignItems={'center'}>
-									<ProductVariantForm
-										attributes={getAllattributes(
-											variant.attribute_values,
-											category?.attributes
+								<FlexBox
+									justifyContent={'space-between'}
+									sx={{
+										padding: '1rem',
+									}}
+								>
+									<div>
+										<Paragraph fontSize={16} color="grey.500">
+											{adminT('variantDetails')} - {variantCheck(variant)?.id}
+										</Paragraph>
+										<H6 mb={0.5} fontSize={14}>
+											{commonT('price')}: {variantCheck(variant)?.price}
+										</H6>
+										<Paragraph fontSize={14} color="grey.700">
+											{commonT('discount')}: {variantCheck(variant)?.discount}
+										</Paragraph>
+										<Paragraph fontSize={14} color="grey.700">
+											{commonT('status')}: {variantCheck(variant)?.status}
+										</Paragraph>
+										<Paragraph fontSize={14} color="grey.700">
+											{commonT('stock')}: {variantCheck(variant)?.stock}
+										</Paragraph>
+										<br />
+										{variant?.attribute_values?.length > 0 && (
+											<Paragraph fontSize={16} color="grey.500">
+												{adminT('attributes')}
+											</Paragraph>
 										)}
-										refetch={refetch}
-										initialValues={variantCheck(variant)}
-										createPage={create}
-										variantId={variant?.id}
-										images={variant?.images}
-									/>
-									<IconButton
-										size="small"
-										color="error"
-										onClick={(e) => deleteVariant(variant)}
-									>
-										{!isAdmin ? <DeleteOutline sx={{ fontSize: 20 }} /> : null}
-									</IconButton>
+										{variantCheck(variant)?.attribute_values?.map(
+											(attribute: any, ind: number) => (
+												<Paragraph color="grey.700" key={ind + 'attribute'}>
+													{attribute?.attribute?.name ||
+														attribute?.attributeName}
+													:{attribute?.value || attribute?.attributeValue}
+												</Paragraph>
+											)
+										)}
+									</div>
+									<FlexBox alignItems={'center'}>
+										<ProductVariantForm
+											attributes={getAllattributes(
+												variant.attribute_values,
+												category?.attributes
+											)}
+											refetch={refetch}
+											initialValues={variantCheck(variant)}
+											createPage={create}
+											variantId={variant?.id}
+											images={variant?.images}
+										/>
+										{!isAdmin ? (
+											<Button
+												sx={{
+													position: 'absolute',
+													top: '10px',
+													right: '10px',
+													padding: '4px',
+												}}
+												variant="contained"
+												size="small"
+												color="error"
+												onClick={(e) => deleteVariant(variant)}
+											>
+												<Close />
+											</Button>
+										) : null}
+									</FlexBox>
 								</FlexBox>
-							</FlexBox>
-						</VariantCard>
-					</Grid>
-				))}
+							</VariantCard>
+						</Grid>
+					)
+				)}
 			</Grid>
 		</Card1>
 	)

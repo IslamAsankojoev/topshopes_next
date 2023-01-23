@@ -1,26 +1,42 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
+import Loading from 'components/Loading'
+import Scrollbar from 'components/Scrollbar'
+import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
 import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import Loading from 'components/Loading'
-import Scrollbar from 'components/Scrollbar'
-import { H3 } from 'components/Typography'
 import useMuiTable from 'hooks/useMuiTable'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import PageCategoryRow from 'pages-sections/admin/PageCategoryRow'
 import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 const tableHeading = [
-	{ id: 'title', label: 'Title', align: 'center' },
-	{ id: 'action', label: 'Action', align: 'center' },
+	{ id: 'title', label: 'name', align: 'center' },
+	{ id: 'action', label: 'action', align: 'center' },
 ]
 
 const PageCategoryList: NextPageAuth = () => {
+	const { t: adminT } = useTranslation('admin')
+	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
 
 	const {
@@ -36,15 +52,15 @@ const PageCategoryList: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Page Category</H3>
+			<H3 mb={2}>{adminT('pagesCategory')}</H3>
 			{isLoading ? <Loading /> : null}
 			<SearchArea
 				handleSearch={() => {}}
-				buttonText="Add page category"
+				buttonText={t('addNewPageCategory')}
 				handleBtnClick={() => {
 					push('/admin/pages-category/create')
 				}}
-				searchPlaceholder="Search page category..."
+				searchPlaceholder={t('searchingFor')}
 				searchOff={true}
 			/>
 

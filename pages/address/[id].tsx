@@ -7,6 +7,9 @@ import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
 import { Formik } from 'formik'
+import { GetStaticProps, NextPage } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -14,11 +17,26 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import * as yup from 'yup'
 
+export const getServerSideProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
+// =
+
 const AddressEditor: NextPageAuth = () => {
 	const {
 		push,
 		query: { id },
 	} = useRouter()
+
+	const { t } = useTranslation('common')
 
 	const { data, isLoading } = useQuery(
 		'get one user address',
@@ -39,12 +57,12 @@ const AddressEditor: NextPageAuth = () => {
 		<CustomerDashboardLayout>
 			<UserDashboardHeader
 				icon={Place}
-				title="Update Address"
+				title={t('addressUpdate')}
 				navigation={<CustomerDashboardNavigation />}
 				button={
 					<Link href="/address" passHref>
 						<Button color="primary" sx={{ bgcolor: 'primary.light', px: 4 }}>
-							Back to Address
+							{t('backAddress')}
 						</Button>
 					</Link>
 				}
@@ -74,7 +92,7 @@ const AddressEditor: NextPageAuth = () => {
 											<TextField
 												fullWidth
 												name="city"
-												placeholder="City"
+												placeholder={t('city')}
 												onBlur={handleBlur}
 												value={values.city}
 												onChange={handleChange}
@@ -87,7 +105,7 @@ const AddressEditor: NextPageAuth = () => {
 												fullWidth
 												name="country"
 												onBlur={handleBlur}
-												placeholder="Country"
+												placeholder={t('country')}
 												value={values.country}
 												onChange={handleChange}
 												error={!!touched.country && !!errors.country}
@@ -97,7 +115,7 @@ const AddressEditor: NextPageAuth = () => {
 										<Grid item md={6} xs={12}>
 											<TextField
 												fullWidth
-												placeholder="Street"
+												placeholder={t('street')}
 												name="street"
 												onBlur={handleBlur}
 												value={values.street}
@@ -109,7 +127,7 @@ const AddressEditor: NextPageAuth = () => {
 										<Grid item md={6} xs={12}>
 											<TextField
 												fullWidth
-												placeholder="Phone"
+												placeholder={t('phone')}
 												name="phone"
 												onBlur={handleBlur}
 												value={values.phone}
@@ -122,7 +140,7 @@ const AddressEditor: NextPageAuth = () => {
 								</Box>
 
 								<Button type="submit" variant="contained" color="primary">
-									Save Changes
+									{t('saveChanges')}
 								</Button>
 							</form>
 						)}

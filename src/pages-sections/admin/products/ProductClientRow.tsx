@@ -3,6 +3,7 @@ import { Avatar, Box, Tooltip } from '@mui/material'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { ProductsService } from 'api/services/products/product.service'
 import BazaarSwitch from 'components/BazaarSwitch'
+import LazyImage from 'components/LazyImage'
 import { Paragraph, Small } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import currency from 'currency.js'
@@ -64,7 +65,12 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
 				<FlexBox alignItems="center" gap={1.5}>
-					<Avatar src={thumbnail} sx={{ borderRadius: '8px' }} />
+					<LazyImage
+						src={thumbnail}
+						width={50}
+						height={50}
+						sx={{ borderRadius: '8px' }}
+					/>
 					<Box>
 						<Paragraph>{name}</Paragraph>
 					</Box>
@@ -81,7 +87,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 			</StyledTableCell> */}
 
 			<StyledTableCell align="left">
-				{currency(overall_price, { separator: ',' }).format()}
+				{currency(overall_price, { separator: ',' }).format()}c
 			</StyledTableCell>
 
 			<StyledTableCell align="left">

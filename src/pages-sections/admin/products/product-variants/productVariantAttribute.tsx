@@ -1,10 +1,18 @@
-import { Button, Card, Grid, TextField } from '@mui/material'
+import {
+	Button,
+	Card,
+	Grid,
+	InputAdornment,
+	TextField,
+	Typography,
+} from '@mui/material'
+import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
-import * as yup from 'yup'
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { IProductAttributeValue } from 'shared/types/product.types'
-import { useFormik } from 'formik'
-import { useTypedSelector } from 'hooks/useTypedSelector'
+import * as yup from 'yup'
 
 interface ProductAttributesProps {
 	attributes: IProductAttributeValue[] | any
@@ -17,6 +25,7 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 	handleFormSubmit,
 	variantId,
 }) => {
+	const { t: adminT } = useTranslation('admin')
 	// states
 	const [attributeFields, setAttributeFields] = React.useState([])
 	const [defaultData, setDefaultData] = React.useState({})
@@ -127,9 +136,9 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 		setNewAttributes(attrValues)
 	}
 
-	return (
-		<Card sx={{ p: 6, mt: 2 }}>
-			<h3>Attributes</h3>
+	return attributeFields.length > 0 ? (
+		<div>
+			<h3>{adminT('attributes')}</h3>
 
 			<form onSubmit={handleSubmit}>
 				<Grid container spacing={3}>
@@ -138,7 +147,20 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 							<TextField
 								fullWidth
 								name={field.name}
-								label={field.name}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<Typography
+												fontWeight="700"
+												color="black"
+												textTransform="capitalize"
+												fontSize="16"
+											>
+												{field.label}
+											</Typography>
+										</InputAdornment>
+									),
+								}}
 								color="info"
 								size="medium"
 								placeholder={'Enter attribute'}
@@ -151,8 +173,8 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 					))}
 				</Grid>
 			</form>
-		</Card>
-	)
+		</div>
+	) : null
 }
 
 export default ProductAttributes

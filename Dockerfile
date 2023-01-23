@@ -10,6 +10,7 @@ RUN yarn build
 
 FROM node:alpine as prod
 
+
 WORKDIR /frontend
 COPY --from=pre-prod /frontend/public ./public
 COPY --from=pre-prod /frontend/build ./build

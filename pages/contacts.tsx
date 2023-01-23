@@ -1,15 +1,17 @@
-import ShopLayout1 from 'components/layouts/ShopLayout1'
-import React from 'react'
-import SEO from '../src/components/SEO'
-import { Container } from '@mui/system'
-import ContactsForm from '../src/pages-sections/contacts/ContactsForm'
 import styled from '@emotion/styled'
-import { GetStaticProps, NextPage } from 'next'
+import { Container } from '@mui/system'
 import { axiosClassic } from 'api/interceptor'
-import { dehydrate, QueryClient, useQuery } from 'react-query'
+import ShopLayout1 from 'components/layouts/ShopLayout1'
+import { GetStaticProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import React from 'react'
+import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { SiteSettings } from 'utils/constants/site-settings'
 
-export const getStaticProps: GetStaticProps = async () => {
+import SEO from '../src/components/SEO'
+import ContactsForm from '../src/pages-sections/contacts/ContactsForm'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	try {
 		const queryClient = new QueryClient()
 		await queryClient.prefetchQuery(['get site settings'], () =>
@@ -18,11 +20,22 @@ export const getStaticProps: GetStaticProps = async () => {
 		return {
 			props: {
 				dehydratedState: dehydrate(queryClient),
+				...(await serverSideTranslations(locale as string, [
+					'common',
+					'contacts',
+				])),
 			},
+			revalidate: 10,
 		}
 	} catch {
 		return {
-			props: {},
+			props: {
+				...(await serverSideTranslations(locale as string, [
+					'common',
+					'contacts',
+				])),
+			},
+			revalidate: 10,
 		}
 	}
 }

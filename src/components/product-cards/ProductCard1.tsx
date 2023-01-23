@@ -97,6 +97,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 		overall_price,
 		thumbnail,
 		category,
+		nodeRef,
 	} = props.product
 
 	const CurrentCard = useRef(null)
@@ -104,7 +105,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
 
 	const { toggleWish } = useActions()
-	const inWishList = wishListItems.find((item) => item.slug === slug)
+	const inWishList = wishListItems.some((item) => item.slug === slug)
 
 	const toggleIsFavorite = () => {
 		toggleWish(props.product)
@@ -130,6 +131,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						pathname: '/product/[id]',
 						query: { trueID: id, id: slug },
 					}}
+					as={`/product/${slug}`}
 				>
 					<a>
 						<LazyImage
@@ -151,6 +153,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 								pathname: '/product/[id]',
 								query: { trueID: id, id: slug },
 							}}
+							as={`/product/${slug}`}
 						>
 							<a>
 								<span
@@ -194,12 +197,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
 							<Box fontWeight="600" color="primary.main">
-								{Number(overall_price)?.toFixed()}
+								{Number(overall_price)?.toFixed()}с
 							</Box>
 
 							{!!discount && (
 								<Box color="grey.600" fontWeight="600">
-									<del>{Number(discount_price)?.toFixed(2)}</del>
+									<del>{Number(discount_price)?.toFixed(2)}с</del>
 								</Box>
 							)}
 						</FlexBox>

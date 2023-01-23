@@ -4,6 +4,7 @@ import Setting from 'components/Setting'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import Models from 'models'
 import { GetServerSideProps, NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Section1 from 'pages-sections/market-1/Section1'
 import Section2 from 'pages-sections/market-1/Section2'
 import Section3 from 'pages-sections/market-1/Section3'
@@ -115,12 +116,15 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 	)
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ locale }) {
 	try {
 		// =========
 		const queryClient = new QueryClient()
 		await queryClient.fetchQuery(['shop products'], () =>
-			ShopsProductsService.getList()
+			ShopsProductsService.getList({
+				page: 1,
+				page_size: 6,
+			})
 		)
 		// =========
 
@@ -165,11 +169,16 @@ export async function getServerSideProps() {
 				bottomCategories,
 				// =========
 				dehydratedState: dehydrate(queryClient),
+				...(await serverSideTranslations(locale as string, ['common', 'home'])),
 				// =========
 			},
 		}
 	} catch {
-		return { props: {} }
+		return {
+			props: {
+				...(await serverSideTranslations(locale as string, ['common', 'home'])),
+			},
+		}
 	}
 }
 

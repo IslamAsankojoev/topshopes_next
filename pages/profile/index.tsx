@@ -1,21 +1,32 @@
 import Person from '@mui/icons-material/Person'
 import { Avatar, Box, Button, Card, Grid, Typography } from '@mui/material'
+import TableRow from 'components/TableRow'
+import { H3, H5, Small } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
-import TableRow from 'components/TableRow'
-import { H3, H5, Small } from 'components/Typography'
 import { format } from 'date-fns'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import { GetStaticProps, NextPage } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ['common'])),
+		},
+	}
+}
 const Profile: NextPageAuth = () => {
+	const { t } = useTranslation('common')
 	const user = useTypedSelector((state) => state.userStore.user)
 
 	return (
@@ -23,12 +34,12 @@ const Profile: NextPageAuth = () => {
 			<CustomerDashboardLayout>
 				<UserDashboardHeader
 					icon={Person}
-					title="My Profile"
+					title={t('myProfile')}
 					navigation={<CustomerDashboardNavigation />}
 					button={
 						<Link href="/profile/edit" passHref>
 							<Button color="primary" sx={{ px: 4, bgcolor: 'primary.light' }}>
-								Edit Profile
+								{t('editProfile')}
 							</Button>
 						</Link>
 					}
@@ -45,7 +56,10 @@ const Profile: NextPageAuth = () => {
 									alignItems: 'center',
 								}}
 							>
-								<Avatar src={user.avatar} sx={{ height: 64, width: 64 }} />
+								<Avatar
+									src={user.avatar || '/assets/images/avatars/001-man.svg'}
+									sx={{ height: 64, width: 64 }}
+								/>
 
 								<Box ml={1.5} flex="1 1 0">
 									<FlexBetween flexWrap="wrap">
@@ -99,14 +113,14 @@ const Profile: NextPageAuth = () => {
 				<TableRow sx={{ p: '0.75rem 1.5rem' }}>
 					<FlexBox flexDirection="column" p={1}>
 						<Small color="grey.600" mb={0.5} textAlign="left">
-							First Name
+							{t('firstName')}
 						</Small>
 						<span>{user.first_name}</span>
 					</FlexBox>
 
 					<FlexBox flexDirection="column" p={1}>
 						<Small color="grey.600" mb={0.5} textAlign="left">
-							Last Name
+							{t('lastName')}
 						</Small>
 						<span>{user.last_name || 'None'}</span>
 					</FlexBox>
@@ -120,7 +134,7 @@ const Profile: NextPageAuth = () => {
 
 					<FlexBox flexDirection="column" p={1}>
 						<Small color="grey.600" mb={0.5} textAlign="left">
-							Phone
+							{t('phone')}
 						</Small>
 						<span>{user.phone}</span>
 					</FlexBox>

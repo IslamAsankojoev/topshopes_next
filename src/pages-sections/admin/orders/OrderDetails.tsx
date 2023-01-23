@@ -1,55 +1,35 @@
-import { Delete, KeyboardArrowDown } from '@mui/icons-material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import {
-	Avatar,
 	Box,
 	Button,
 	Card,
 	Divider,
+	FormControl,
 	Grid,
 	IconButton,
 	MenuItem,
+	Select,
 	TextField,
+	Typography,
 } from '@mui/material'
 import { OrdersService } from 'api/services/orders/orders.service'
-import { H5, H6, Paragraph, Span } from 'components/Typography'
+import LazyImage from 'components/LazyImage'
+import { H3, H6, Paragraph, Span } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { IOrder, IOrderItem } from 'shared/types/order.types'
+import { toast } from 'react-toastify'
+import { IOrder, IOrderItem, IOrderStatus } from 'shared/types/order.types'
 
-// list data
-const products = [
-	{
-		price: '$250',
-		published: true,
-		id: '#6ed34Edf65d',
-		category: 'Gadgets',
-		name: 'Samsung Galaxy-M1',
-		brand: '/assets/images/brands/samsung.png',
-		image: '/assets/images/products/samsung.png',
-	},
-	{
-		price: '$10',
-		published: true,
-		id: '#6ed34Edf65d',
-		category: 'Grocery',
-		name: 'Tomatto',
-		brand: '/assets/images/brands/brokshire.png',
-		image: '/assets/images/products/tomato.png',
-	},
-	{
-		price: '$24',
-		published: false,
-		id: '#6ed34Edf65d',
-		category: 'Beauty',
-		name: 'Boston Round Cream Pack',
-		brand: '/assets/images/brands/levis.png',
-		image: '/assets/images/products/beauty-cream.png',
-	},
-]
+import { StatusWrapper } from '../StyledComponents'
+
+import { statuses } from './OrderRow'
 
 const OrderDetails = () => {
+	const { t } = useTranslation('common')
+
 	const {
 		push,
 		query: { id },
@@ -63,9 +43,32 @@ const OrderDetails = () => {
 		'get one vendor order',
 		() => OrdersService.get(id as string),
 		{
+			select: (data: IOrder) => data,
 			enabled: !!id,
+			onSuccess: (data) => {
+				setOrderStatus(data.status)
+			},
 		}
 	)
+
+	const [orderStatus, setOrderStatus] = React.useState<IOrderStatus>(
+		order?.status
+	)
+
+	const { mutateAsync: mutateStatus } = useMutation(
+		'order status update',
+		(stat: IOrderStatus) => OrdersService.update(order?.id, { status: stat }),
+		{
+			onSuccess: (data) => {
+				toast.success('Order status updated')
+				setOrderStatus(data.status)
+			},
+		}
+	)
+
+	const changeStatus = (selected) => {
+		mutateStatus(selected)
+	}
 
 	const { mutateAsync } = useMutation(
 		'change status order',
@@ -77,197 +80,180 @@ const OrderDetails = () => {
 		}
 	)
 
-	const handleChangeStatus = (e) => {
-		mutateAsync(e.target.value)
-	}
-
 	return !isLoading ? (
-		<Grid container spacing={3}>
-			<Grid item xs={12}>
-				<Card sx={{ p: 3 }}>
-					<FlexBox alignItems="center" gap={4}>
-						<Paragraph>
-							<Span color="grey.600">Order ID:</Span> {id.slice(0, 8)}
-						</Paragraph>
-
-						<Paragraph>
-							<Span color="grey.600">Placed on:</Span> 01 Jan, 2021
-						</Paragraph>
-					</FlexBox>
-
-					<FlexBox gap={3} my={3} flexDirection={{ sm: 'row', xs: 'column' }}>
-						{/* <TextField
-							fullWidth
-							color="info"
-							size="medium"
-							variant="outlined"
-							label="Add Product"
-							placeholder="Type product name"
-						/> */}
-
-						<TextField
-							select
-							fullWidth
-							color="info"
-							size="medium"
-							label={order.status}
-							inputProps={{
-								IconComponent: () => (
-									<KeyboardArrowDown sx={{ color: 'grey.600', mr: 1 }} />
-								),
-							}}
-							value={order.status}
-							onChange={handleChangeStatus}
-						>
-							{/* "pending" | "paid" | "delivering" | "delivered" | "received" | "canceled" */}
-
-							<MenuItem value="pending">pending</MenuItem>
-							<MenuItem value="paid">paid</MenuItem>
-							<MenuItem value="delivering">delivering</MenuItem>
-							<MenuItem value="delivered">delivered</MenuItem>
-							<MenuItem value="received">received</MenuItem>
-							<MenuItem value="canceled">canceled</MenuItem>
-						</TextField>
-					</FlexBox>
-
-					{order.items?.map((item: IOrderItem, index) => (
-						<Box
-							my={2}
-							gap={2}
-							key={index}
+		<div
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+			}}
+		>
+			<FlexBox
+				flexDirection="column"
+				justifyContent="center"
+				alignItems="center"
+			>
+				<Grid item md={6} xs={12}>
+					<Grid container>
+						<Grid
+							item
+							xs={12}
+							sm={6}
 							sx={{
-								display: 'grid',
-								gridTemplateColumns: { md: '1fr 1fr', xs: '1fr' },
+								p: 1,
+								display: 'flex',
+								justifyContent: 'center',
 							}}
 						>
-							<FlexBox flexShrink={0} gap={1.5} alignItems="center">
-								<Avatar
-									src={item.product_image}
-									sx={{ height: 64, width: 64, borderRadius: '8px' }}
-								/>
+							<Card
+								sx={{
+									px: 4,
+									py: 4,
+									width: '330px!important',
+								}}
+							>
+								<Grid mb={1.5} justifyContent="center" alignItems="center">
+									<Box
+										sx={{
+											my: 3,
+											justifyContent: 'center',
+											display: 'flex',
+										}}
+									>
+										<LazyImage
+											src={order?.product_variant?.thumbnail}
+											width={250}
+											height={250}
+											sx={{ borderRadius: 8 }}
+										/>
+									</Box>
+									<Paragraph fontSize="16px">
+										{order?.product?.name} - {order?.quantity}шт
+									</Paragraph>
+									<H3>{order?.total_price} с</H3>
+								</Grid>
+								<FlexBox justifyContent="space-between" alignItems="center">
+									<Paragraph
+										sx={{
+											display: 'inline-block',
+											fontWeight: 700,
+											fontSize: 18,
+											color: '#0b8911',
+										}}
+									>
+										{id?.slice(0, 8)}
+									</Paragraph>
+									<FormControl variant="outlined">
+										<Select
+											className="order-status-admin"
+											sx={{
+												'& .MuiSelect-select': {
+													padding: '0px!important',
+													fontSize: '1rem',
+													fontWeight: 400,
+													color: 'text.primary',
+													backgroundColor: 'background.paper',
+													border: '0px solid!important',
+													borderColor: 'divider',
+													'& fieldset': {
+														display: 'none!important',
+													},
+												},
+											}}
+											disableUnderline={true}
+											value={orderStatus}
+											label=""
+											onChange={(e) => {
+												changeStatus(e.target.value)
+											}}
+										>
+											{statuses.map((status) => (
+												<MenuItem value={status?.name}>
+													<StatusWrapper status={status?.name}>
+														{status?.name}
+													</StatusWrapper>
+												</MenuItem>
+											))}
+										</Select>
+									</FormControl>
+								</FlexBox>
+							</Card>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							sm={6}
+							sx={{
+								p: 1,
+								display: 'flex',
+								justifyContent: 'center',
+							}}
+						>
+							<Card
+								sx={{
+									px: 4,
+									py: 4,
+									height: '100%',
+									width: '330px!important',
+								}}
+							>
+								<FlexBox
+									sx={{
+										height: '100%',
+										justifyContent: 'space-evenly',
+										flexDirection: 'column',
+									}}
+								>
+									<FlexBetween my={1.5}>
+										<Paragraph color="grey.900">{t('phone')}:</Paragraph>
+										<H6>{order?.address?.phone}</H6>
+									</FlexBetween>
+									<Divider />
+									<FlexBetween my={1.5}>
+										<Paragraph color="grey.900">{t('country')}:</Paragraph>
+										<H6>{order?.address?.country}</H6>
+									</FlexBetween>
+									<Divider />
+									<FlexBetween my={1.5}>
+										<Paragraph color="grey.900">{t('city')}:</Paragraph>
+										<H6>{order?.address?.city}</H6>
+									</FlexBetween>
+									<Divider />
+									<FlexBetween my={1.5}>
+										<Paragraph color="grey.900">{t('street')}:</Paragraph>
+										<H6>{order?.address?.street}</H6>
+									</FlexBetween>
+									<Divider />
+									<FlexBetween my={1.5}>
+										<Paragraph color="grey.900">{t('date')}:</Paragraph>
+										<H6> {new Date(order?.created_at).toLocaleString()}</H6>
+									</FlexBetween>
+								</FlexBox>
+							</Card>
+						</Grid>
+					</Grid>
+				</Grid>
 
-								<Box>
-									<H6 mb={1}>{item.product_name}</H6>
-
-									<FlexBox alignItems="center" gap={1}>
-										<Paragraph fontSize={14} color="grey.600">
-											{item.product_price} x
-										</Paragraph>
-
-										<Box maxWidth={60}>
-											<TextField defaultValue={3} type="number" fullWidth />
-										</Box>
-									</FlexBox>
-								</Box>
-							</FlexBox>
-
-							<FlexBetween flexShrink={0}>
-								<Paragraph color="grey.600">
-									Product properties: Black, L
-								</Paragraph>
-								{/* 
-								<IconButton>
-									<Delete sx={{ color: 'grey.600', fontSize: 22 }} />
-								</IconButton> */}
-							</FlexBetween>
-						</Box>
-					))}
-				</Card>
-			</Grid>
-
-			<Grid item md={6} xs={12}>
-				<Card sx={{ px: 3, py: 4 }}>
-					{/* <TextField
-						rows={5}
-						multiline
-						fullWidth
-						color="info"
-						disabled
-						variant="outlined"
-						label="Shipping Address"
-						defaultValue=
-						sx={{ mb: 4 }}
-					/> */}
-					<Paragraph color="grey.900">
-						<Span color="grey.600">Shipping Address:</Span>{' '}
-						{order.shipping_address}
-					</Paragraph>
-
-					<Paragraph color="grey.900">
-						<Span color="grey.600">Customer’s Note:</Span>{' '}
-						{'Please deliver ASAP'}
-					</Paragraph>
-
-					{/* <Paragraph color="grey.900">
-						<Span color="grey.600">Customer’s Note:</Span>{' '}
-						{order.}
-					</Paragraph> */}
-				</Card>
-			</Grid>
-
-			<Grid item md={6} xs={12}>
-				<Card sx={{ px: 3, py: 4 }}>
-					<H5 mt={0} mb={2}>
-						Total Summary
-					</H5>
-
-					<FlexBetween mb={1.5}>
-						<Paragraph color="grey.600">Subtotal:</Paragraph>
-						<H6>$335</H6>
-					</FlexBetween>
-
-					<FlexBetween mb={1.5}>
-						<Paragraph color="grey.600">Shipping fee:</Paragraph>
-
-						<FlexBox alignItems="center" gap={1} maxWidth={100}>
-							<Paragraph>$</Paragraph>
-							<TextField
-								color="info"
-								defaultValue={10}
-								type="number"
-								fullWidth
-							/>
-						</FlexBox>
-					</FlexBetween>
-
-					<FlexBetween mb={1.5}>
-						<Paragraph color="grey.600">Discount:</Paragraph>
-
-						<FlexBox alignItems="center" gap={1} maxWidth={100}>
-							<Paragraph>$</Paragraph>
-							{/* <TextField
-								color="info"
-								defaultValue={20}
-								type="number"
-								fullWidth
-							/> */}
-							{order.discount}
-						</FlexBox>
-					</FlexBetween>
-
-					<Divider sx={{ my: 2 }} />
-
-					<FlexBetween mb={2}>
-						<H6>Total</H6>
-						<H6>{order.total_price}c</H6>
-					</FlexBetween>
-
-					<Paragraph>Paid by Credit/Debit Card</Paragraph>
-				</Card>
-			</Grid>
-
-			<Grid item xs={12}>
-				<Button
-					variant="contained"
-					color="info"
-					onClick={() => {
-						push('/admin/orders')
+				<Grid
+					item
+					xs={12}
+					sx={{
+						my: 4,
 					}}
 				>
-					Save Changes
-				</Button>
-			</Grid>
-		</Grid>
+					<Button
+						variant="contained"
+						color="error"
+						onClick={() => {
+							push('/vendor/orders')
+						}}
+					>
+						<ArrowBackIcon />
+						{t('back')}
+					</Button>
+				</Grid>
+			</FlexBox>
+		</div>
 	) : null
 }
 

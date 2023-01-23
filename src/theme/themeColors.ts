@@ -62,6 +62,7 @@ export const primary = {
 	300: '#ff9100',
 	200: '#ffaa00', // Line Stroke
 	100: '#FFD8C2',
+	contrastText: '#FFFFFF',
 }
 
 export const secondary = {
@@ -76,6 +77,7 @@ export const secondary = {
 	900: '#0c0e30',
 	main: '#0F3460',
 	dark: '#0c0e30',
+	contrastText: '#FFFFFF',
 }
 
 export const error = {
@@ -102,6 +104,7 @@ export const success = {
 	800: '#20BE4A',
 	900: '#0b7724',
 	main: 'rgb(51, 208, 103)',
+	contrastText: '#FFFFFF',
 }
 
 export const blue = {

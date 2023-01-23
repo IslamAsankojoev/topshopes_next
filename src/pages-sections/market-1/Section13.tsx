@@ -1,13 +1,14 @@
 import { Box } from '@mui/material'
 import BazaarCard from 'components/BazaarCard'
-import Carousel from 'components/carousel/Carousel'
 import CategorySectionCreator from 'components/CategorySectionCreator'
-import { FlexBox } from 'components/flex-box'
 import HoverBox from 'components/HoverBox'
-import GiftBox from 'components/icons/GiftBox'
 import LazyImage from 'components/LazyImage'
 import { H4 } from 'components/Typography'
+import Carousel from 'components/carousel/Carousel'
+import { FlexBox } from 'components/flex-box'
+import GiftBox from 'components/icons/GiftBox'
 import useWindowSize from 'hooks/useWindowSize'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
 
@@ -15,6 +16,7 @@ interface Props {
 	bigDiscountList: any[]
 }
 const Section13: FC<Props> = ({ bigDiscountList }) => {
+	const { t } = useTranslation('home')
 	const width = useWindowSize()
 	const [visibleSlides, setVisibleSlides] = useState(6)
 
@@ -28,7 +30,7 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 	return (
 		<CategorySectionCreator
 			icon={<GiftBox />}
-			title="Big Discounts"
+			title={t('bigDiscounts')}
 			seeMoreLink="#"
 		>
 			<Box my="-0.25rem">

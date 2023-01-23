@@ -2,24 +2,35 @@ import { Box } from '@mui/material'
 import { AttributesServiceAdmin } from 'api/services-admin/attributes/attributes.service'
 import { CategoriesService } from 'api/services-admin/categories/category.service'
 import CreateForm from 'components/Form/CreateForm'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import useDebounce from 'hooks/useDebounce'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
+import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-
 import { ICategory } from 'shared/types/product.types'
-
 import { categoryEditForm } from 'utils/constants/forms'
 import { formData } from 'utils/formData'
 
-import React from 'react'
-import useDebounce from 'hooks/useDebounce'
-
+export const getServerSideProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 const CreateCategory: NextPageAuth = () => {
+	const { t } = useTranslation('adminActions')
 	const {
 		push,
 		query: { id },
@@ -85,7 +96,7 @@ const CreateCategory: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Edit Category</H3>
+			<H3 mb={2}>{t('editCategory')}</H3>
 			<CreateForm
 				defaultData={category}
 				fields={[

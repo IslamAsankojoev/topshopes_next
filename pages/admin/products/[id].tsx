@@ -3,6 +3,8 @@ import { AdminProductsService } from 'api/services-admin/products/products.servi
 import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ProductForm } from 'pages-sections/admin'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
@@ -13,7 +15,22 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IProduct } from 'shared/types/product.types'
 
+export const getServerSideProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 const EditProduct: NextPageAuth = () => {
+	const { t: adminT } = useTranslation('admin')
+	const { t: commonT } = useTranslation('common')
+	const { t } = useTranslation('adminActions')
+
 	const {
 		query: { id },
 	} = useRouter()
@@ -61,7 +78,7 @@ const EditProduct: NextPageAuth = () => {
 
 	return !isError && fetch ? (
 		<Box py={4}>
-			<H3 mb={2}>Edit Product</H3>
+			<H3 mb={2}>{t('editProduct')}</H3>
 			{product ? (
 				<>
 					<ProductForm
@@ -70,6 +87,7 @@ const EditProduct: NextPageAuth = () => {
 						handleFormSubmit={handleFormSubmit}
 						update={true}
 						includeShop
+						refetch={refetch}
 					/>
 
 					<ProductVariantList

@@ -5,6 +5,7 @@ import DottedStar from 'components/icons/DottedStar'
 import RankBadge from 'components/icons/RankBadge'
 import ProductCard4 from 'components/product-cards/ProductCard4'
 import ProductCard5 from 'components/product-cards/ProductCard5'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC } from 'react'
 
@@ -16,6 +17,7 @@ type Props = {
 // ==========================================================
 
 const Section4: FC<Props> = (props) => {
+	const { t } = useTranslation('home')
 	const { topRatedBrands, topRatedList } = props
 	return (
 		<Box mb={7.5}>
@@ -24,7 +26,7 @@ const Section4: FC<Props> = (props) => {
 					<Grid item lg={6} xs={12}>
 						<CategorySectionHeader
 							icon={<RankBadge />}
-							title="Top Ratings"
+							title={t('topRatings')}
 							seeMoreLink="#"
 						/>
 
@@ -46,7 +48,7 @@ const Section4: FC<Props> = (props) => {
 					<Grid item md={6} xs={12}>
 						<CategorySectionHeader
 							icon={<DottedStar />}
-							title="Featured Brands"
+							title={t('featuredBrands')}
 							seeMoreLink="#"
 						/>
 

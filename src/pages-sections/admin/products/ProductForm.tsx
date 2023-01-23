@@ -1,8 +1,18 @@
 import styled from '@emotion/styled'
-import { Autocomplete, Button, Card, Grid, TextField } from '@mui/material'
+import {
+	Autocomplete,
+	Button,
+	Card,
+	Grid,
+	InputAdornment,
+	TextField,
+	Typography,
+} from '@mui/material'
+import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { FlexBox } from 'components/flex-box'
 import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
@@ -19,10 +29,14 @@ type ProductFormProps = {
 	validationSchema: yup.ObjectSchema<Assign<ObjectShape, any>>
 	update?: boolean
 	includeShop?: boolean
+	refetch?: () => void
 }
 // ================================================================
 
 const ProductForm: FC<ProductFormProps> = (props) => {
+	const { t: adminT } = useTranslation('admin')
+	const { t: commonT } = useTranslation('common')
+
 	const { initialValues, validationSchema, handleFormSubmit, update } = props
 
 	const { push } = useRouter()
@@ -90,6 +104,15 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 
 	React.useEffect(() => {
 		setCurrentCategory(values.category?.id || '')
+
+		if (values.category?.id && update) {
+			;(async () => {
+				await AdminProductsService.update(values?.id as string, {
+					category: values.category?.id,
+				})
+				props.refetch && (await props.refetch())
+			})()
+		}
 	}, [values.category])
 
 	return (
@@ -100,10 +123,19 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						<TextField
 							fullWidth
 							name="name"
-							label="Name"
+							label={
+								<Typography
+									fontWeight="650"
+									color="grey.800"
+									textTransform="capitalize"
+									fontSize="16"
+								>
+									{commonT('name')}
+								</Typography>
+							}
 							color="info"
 							size="medium"
-							placeholder="Name"
+							placeholder={commonT('name')}
 							value={values.name}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -118,10 +150,19 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							color="info"
 							size="medium"
 							name="unit"
-							label="Unit"
+							label={
+								<Typography
+									fontWeight="650"
+									color="grey.800"
+									textTransform="capitalize"
+									fontSize="16"
+								>
+									{commonT('unit')}
+								</Typography>
+							}
 							onBlur={handleBlur}
 							onChange={handleChange}
-							placeholder="Unit"
+							placeholder={commonT('unit')}
 							value={values.unit}
 							error={!!touched.unit && !!errors.unit}
 							helperText={touched.unit && errors.unit}
@@ -134,7 +175,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							fullWidth
 							color="info"
 							size="medium"
-							placeholder="Category"
+							placeholder={commonT('categories')}
 							value={values.category}
 							// @ts-ignore
 							onChange={(
@@ -159,7 +200,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									onChange={({ target }) => {
 										setCategoriesSearch(target.value)
 									}}
-									label="Select Category"
+									label={
+										<Typography
+											fontWeight="650"
+											color="grey.800"
+											textTransform="capitalize"
+											fontSize="16"
+										>
+											{commonT('categories')}
+										</Typography>
+									}
 								/>
 							)}
 						/>
@@ -178,7 +228,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							) => {
 								setFieldValue('brand', newValue)
 							}}
-							placeholder="Brands"
+							placeholder={commonT('brand')}
 							value={values.brand}
 							renderInput={(params) => (
 								<TextField
@@ -188,7 +238,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									onChange={({ target }) => {
 										setBrandsSearch(target.value)
 									}}
-									label="Select Brand"
+									label={
+										<Typography
+											fontWeight="650"
+											color="grey.800"
+											textTransform="capitalize"
+											fontSize="16"
+										>
+											{commonT('brand')}
+										</Typography>
+									}
 								/>
 							)}
 						/>
@@ -202,7 +261,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 								color="info"
 								size="medium"
 								onBlur={handleBlur}
-								placeholder="Shop"
+								placeholder={commonT('shop')}
 								value={values.shop}
 								// @ts-ignore
 								onChange={(
@@ -219,7 +278,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 										onChange={({ target }) => {
 											setShopsSearch(target.value)
 										}}
-										label="Select Shop"
+										label={commonT('shop')}
 									/>
 								)}
 							/>
@@ -232,10 +291,19 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							rows={4}
 							fullWidth
 							name="description"
-							label="Description"
+							label={
+								<Typography
+									fontWeight="650"
+									color="grey.800"
+									textTransform="capitalize"
+									fontSize="16"
+								>
+									{commonT('description')}
+								</Typography>
+							}
 							color="info"
 							size="medium"
-							placeholder="Description"
+							placeholder={commonT('description')}
 							value={values.description}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -245,39 +313,59 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 					</Grid>
 
 					<Grid item xs={12}>
-						<FlexBox
-							flexWrap={'wrap'}
-							justifyContent={'flex-end'}
-							sx={{ gridGap: '10px' }}
+						<Card
+							sx={{
+								border: '1px solid #E4E7EB',
+								position: 'fixed',
+								display: 'flex',
+								bottom: 10,
+								right: 10,
+								zIndex: 100,
+								padding: '10px!important',
+								backgroundColor: '#F7F9FC',
+								'@media (max-width: 768px)': {
+									width: '95%',
+									justifyContent: 'center',
+								},
+							}}
 						>
-							{update ? (
-								<>
-									<Button
-										onClick={() =>
-											push({
-												pathname: '/product/[id]',
-												query: { trueID: values.id, id: values.slug },
-											})
-										}
-										variant="contained"
-										color="secondary"
-									>
-										Go to view
-									</Button>
-									<Button variant="contained" color="primary" type="submit">
-										Save and exit
-									</Button>
-								</>
-							) : null}
-							<Button
-								onClick={() => setRedirect(true)}
-								variant="contained"
-								color="primary"
-								type="submit"
+							<FlexBox
+								flexWrap={'wrap'}
+								justifyContent={'flex-end'}
+								sx={{ gridGap: '10px' }}
 							>
-								{update ? 'Save product' : 'Create product'}
-							</Button>
-						</FlexBox>
+								{update ? (
+									<>
+										<Button
+											onClick={() =>
+												push({
+													pathname: '/product/[id]',
+													query: { trueID: values.id, id: values.slug },
+												})
+											}
+											variant="contained"
+											color="secondary"
+										>
+											{adminT('goView')}
+										</Button>
+										<Button variant="contained" color="primary" type="submit">
+											{adminT('saveExit')}
+										</Button>
+									</>
+								) : null}
+								<Button
+									onClick={() => setRedirect(true)}
+									variant="contained"
+									color="success"
+									type="submit"
+									sx={{
+										px: 4,
+									}}
+								>
+									{update ? commonT('save') : adminT('createProduct')}
+								</Button>
+							</FlexBox>
+						</Card>
 					</Grid>
 				</Grid>
 			</form>

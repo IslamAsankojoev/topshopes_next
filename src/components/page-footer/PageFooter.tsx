@@ -46,7 +46,11 @@ const PageFooter: FC<PageFooterProp> = ({ sx, id, bgcolor }) => {
 			<Container>
 				<Link href="/">
 					<a>
-						<BazaarImage mb={2.5} src="/assets/images/logo.svg" alt="logo" />
+						<BazaarImage
+							mb={2.5}
+							src="/assets/images/logoWhite.svg"
+							alt="logo"
+						/>
 					</a>
 				</Link>
 
