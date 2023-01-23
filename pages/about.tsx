@@ -5,7 +5,6 @@ import ShopLayout1 from 'components/layouts/ShopLayout1'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useRouter } from 'next/router'
 import React from 'react'
 
 import gmailImg from '../public/assets/images/banner.png'
@@ -137,18 +136,4 @@ const GmailForm = styled.div`
 	}
 `
 
-const List = styled.ul`
-	list-style: initial;
-	padding-left: calc(1.5rem + 0.9vw);
-	h2 {
-		font-weight: 700;
-		font-size: calc(1.5rem + 0.9vw);
-	}
-	li {
-		margin: 10px 0;
-		span {
-			font-weight: 700;
-		}
-	}
-`
 export default AboutPage

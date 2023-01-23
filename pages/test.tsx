@@ -1,8 +1,9 @@
 import { Button } from '@mui/material'
-import ShopLayout1 from 'components/layouts/ShopLayout1'
 import StringHTML from 'components/StringHTML/StringHTML'
+import ShopLayout1 from 'components/layouts/ShopLayout1'
 import dynamic from 'next/dynamic'
 import React from 'react'
+import { useQuery } from 'react-query'
 
 const DynamicTextEditor = dynamic(
 	() => import('components/TextEditor/TextEditor'),
@@ -33,6 +34,7 @@ const Test: React.FC = () => {
 					onChange={handleTextChange}
 					value={text}
 				/>
+
 				{/* <Button variant="contained" color="dark" onClick={handleSubmit}>
 					Submit
 				</Button> */}

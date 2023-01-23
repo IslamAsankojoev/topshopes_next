@@ -12,6 +12,7 @@ import ProductReview from 'components/products/ProductReview'
 import RelatedProducts from 'components/products/RelatedProducts'
 import { getAllProductsUrl, getProductsUrl } from 'config/api.config'
 import bazaarReactDatabase from 'data/bazaar-react-database'
+import { id } from 'date-fns/esm/locale'
 import { GetServerSideProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -23,7 +24,6 @@ import {
 	getFrequentlyBought,
 	getRelatedProducts,
 } from 'utils/api/related-products'
-import { id } from 'date-fns/esm/locale'
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,

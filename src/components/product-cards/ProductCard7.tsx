@@ -29,8 +29,6 @@ const Wrapper = styled(Card)(({ theme }) => ({
 
 // =========================================================
 
-// =========================================================
-
 const ProductCard7: React.FC<ICartItem> = (product) => {
 	const { category, name, rating, slug, variants, children, qty } = product
 	const { addToCart, removeFromCart, trashFromCart } = useActions()

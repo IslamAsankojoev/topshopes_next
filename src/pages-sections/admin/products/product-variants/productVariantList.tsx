@@ -174,10 +174,9 @@ const ProductVariantList: React.FC<Props> = ({
 											<Button
 												sx={{
 													position: 'absolute',
-													top: '0px',
-													right: '0px',
-													borderRadius: '0 0 0 10px',
-													padding: '2px',
+													top: '10px',
+													right: '10px',
+													padding: '4px',
 												}}
 												variant="contained"
 												size="small"

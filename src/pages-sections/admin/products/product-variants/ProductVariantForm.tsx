@@ -1,4 +1,4 @@
-import { Close, ModeEditOutline } from '@mui/icons-material'
+import { Close, Edit, ModeEditOutline } from '@mui/icons-material'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import {
 	Button,
@@ -239,25 +239,21 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				</Button>
 			) : (
 				<Button
-					size="medium"
+					size="small"
 					variant="contained"
+					color="secondary"
 					sx={{
-						fontSize: '16px',
 						position: 'absolute',
-						bottom: '20px',
-						right: '20px',
-						boxShadow: '0px 0px 0px rgba(0, 0, 0, 0.25)',
-						'&:hover': {
-							boxShadow: '0px 0px 0px rgba(0, 0, 0, 0.25)',
-							transform: 'scale(1.05)',
-							backgroundColor: '#E4E9EE',
-						},
+						top: '50px',
+						right: '10px',
+						padding: '4px',
 					}}
 					onClick={() =>
 						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
 					}
 				>
-					{adminT('edit')}
+					{/* {adminT('edit')} */}
+					<Edit />
 				</Button>
 			)}
 
