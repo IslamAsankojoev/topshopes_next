@@ -82,7 +82,7 @@ const CreateProduct: NextPageAuth = () => {
 
 				// create attributes with new variant
 				for (let attribute of i?.attribute_values) {
-					if (!attribute.attributeValue || !attribute.value) continue
+					if (!attribute.attributeValue && !attribute.value) continue
 					if (attribute?.available) {
 						await AttributesService.update(attribute.attributeId as string, {
 							product_variant: variantResponse.id,

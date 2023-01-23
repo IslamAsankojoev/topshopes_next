@@ -3,13 +3,17 @@ import {
 	Autocomplete,
 	Button,
 	Card,
+	Dialog,
+	DialogContent,
 	Grid,
 	InputAdornment,
 	TextField,
 	Typography,
 } from '@mui/material'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
+import { H2, Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
+import { ContentWrapper } from 'components/products/ProductViewDialog'
 import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
 import { useTranslation } from 'next-i18next'
@@ -17,6 +21,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 import { IBrand, ICategory } from 'shared/types/product.types'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 import * as yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
 
@@ -34,6 +39,31 @@ type ProductFormProps = {
 // ================================================================
 
 const ProductForm: FC<ProductFormProps> = (props) => {
+	// dialog
+	const [openDialog, setOpenDialog] = React.useState(false)
+	const [categoryValue, setCategoryValue] = React.useState({})
+
+	const toggleDialog = (category?: { id: string | number; name: string }) => {
+		setOpenDialog(!openDialog)
+		setCategoryValue(category)
+	}
+
+	const changeCategory = async () => {
+		setFieldValue('category', categoryValue)
+		setCurrentCategory(values.category?.id || '')
+
+		if (values.category?.id && update) {
+			;(async () => {
+				await AdminProductsService.update(values?.id as string, {
+					category: values.category?.id,
+				})
+				props.refetch && (await props.refetch())
+			})()
+		}
+		setOpenDialog(false)
+	}
+
+	// translate
 	const { t: adminT } = useTranslation('admin')
 	const { t: commonT } = useTranslation('common')
 
@@ -104,15 +134,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 
 	React.useEffect(() => {
 		setCurrentCategory(values.category?.id || '')
-
-		if (values.category?.id && update) {
-			;(async () => {
-				await AdminProductsService.update(values?.id as string, {
-					category: values.category?.id,
-				})
-				props.refetch && (await props.refetch())
-			})()
-		}
 	}, [values.category])
 
 	return (
@@ -180,16 +201,9 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							// @ts-ignore
 							onChange={(
 								event: any,
-								newValue: { id: string | number; label: string } | null
+								newValue: { id: string | number; name: string } | null
 							) => {
-								if (
-									!window.confirm(
-										'all already existing attributes will be removed, do you agree with that?'
-									)
-								) {
-									return
-								}
-								setFieldValue('category', newValue)
+								if (newValue) toggleDialog(newValue)
 							}}
 							onBlur={handleBlur}
 							renderInput={(params) => (
@@ -369,8 +383,106 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 					</Grid>
 				</Grid>
 			</form>
+
+			<Dialog
+				open={openDialog}
+				maxWidth={false}
+				onClose={toggleDialog}
+				sx={{ zIndex: 1501 }}
+			>
+				<DialogContent
+					sx={{
+						maxWidth: 500,
+						width: '100%',
+						backgroundColor: 'rgb(253, 237, 237)',
+						padding: '10px',
+					}}
+				>
+					<ContentWrapper
+						style={{
+							padding: '20px',
+							border: '2px solid rgb(212, 60, 60)',
+							borderRadius: '10px',
+						}}
+					>
+						<Grid container spacing={3}>
+							<Grid item xs={12} alignSelf="center">
+								<Typography
+									textAlign="center"
+									color="error"
+									fontSize="20px"
+									fontWeight="700"
+								>
+									{dynamicLocalization(translations.warning)}
+								</Typography>
+
+								<Paragraph textAlign="center" my={2} color="error">
+									{dynamicLocalization(translations.warningInfo)}
+								</Paragraph>
+							</Grid>
+							<Grid item xs={12} alignSelf="center">
+								<FlexBox
+									flexWrap={'wrap'}
+									justifyContent={'center'}
+									sx={{ gridGap: '10px' }}
+								>
+									<Button
+										variant="contained"
+										color="error"
+										onClick={() => toggleDialog()}
+									>
+										{dynamicLocalization(translations.cancel)}
+									</Button>
+
+									<Button
+										variant="contained"
+										color="dark"
+										sx={{
+											borderRadius: '5px',
+										}}
+										onClick={changeCategory}
+									>
+										{dynamicLocalization(translations.ok)}
+									</Button>
+								</FlexBox>
+							</Grid>
+						</Grid>
+					</ContentWrapper>
+				</DialogContent>
+			</Dialog>
 		</Card>
 	)
+}
+
+const translations = {
+	warning: {
+		en: 'WARNING!',
+		ru: 'ПРЕДУПРЕЖДЕНИЕ!',
+		tr: 'UYARI!',
+		kk: 'ЕСКЕРТУ!',
+		kg: 'ЭСКЕРТҮҮ!',
+	},
+	warningInfo: {
+		en: 'All already existing attributes will be removed, do you agree with that?',
+		ru: 'Все уже существующие атрибуты будут удалены, вы с этим согласны?',
+		tr: 'Halihazırda var olan tüm özellikler kaldırılacak, buna katılıyor musunuz?',
+		kk: 'Барлық бұрыннан бар атрибуттар жойылады, сіз мұнымен келісесіз бе?',
+		kg: 'Бар болгон атрибуттардын баары өчүрүлөт, буга макулсузбу?',
+	},
+	ok: {
+		en: 'Ok',
+		ru: 'Хорошо',
+		tr: 'Tamam',
+		kk: 'Жарайды',
+		kg: 'Макул',
+	},
+	cancel: {
+		en: 'Cancel',
+		ru: 'Отмена',
+		tr: 'İptal',
+		kk: 'Болдырмау',
+		kg: 'Жокко чыгаруу',
+	},
 }
 
 export default ProductForm
