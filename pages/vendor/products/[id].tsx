@@ -10,6 +10,7 @@ import { ProductForm } from 'pages-sections/admin'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 import { productFormValidationSchemaVendor } from 'pages-sections/admin/products/productFormValidationSchema'
 import React, { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
@@ -28,6 +29,7 @@ export const getServerSideProps = async ({ locale }) => {
 }
 
 const EditProduct: NextPageAuth = () => {
+	const { t } = useTranslation('adminActions')
 	const {
 		query: { id },
 	} = useRouter()
@@ -67,7 +69,7 @@ const EditProduct: NextPageAuth = () => {
 
 	return !isError && fetch ? (
 		<Box py={4}>
-			<H3 mb={2}>Edit Product</H3>
+			<H3 mb={2}>{t('editProduct')}</H3>
 			{product ? (
 				<>
 					<ProductForm
