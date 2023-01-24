@@ -116,7 +116,7 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 	)
 }
 
-export async function getServerSideProps({ locale }) {
+export async function getStaticProps({ locale }) {
 	try {
 		// =========
 		const queryClient = new QueryClient()
@@ -172,11 +172,13 @@ export async function getServerSideProps({ locale }) {
 				...(await serverSideTranslations(locale as string, ['common', 'home'])),
 				// =========
 			},
+			revalidate: 1000,
 		}
 	} catch {
 		return {
 			props: {
 				...(await serverSideTranslations(locale as string, ['common', 'home'])),
+				revalidate: 1000,
 			},
 		}
 	}

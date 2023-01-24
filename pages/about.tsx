@@ -8,7 +8,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import gmailImg from '../public/assets/images/banner.png'
+import gmailImg from '../public/assets/images/banner.webp'
 import SEO from '../src/components/SEO'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

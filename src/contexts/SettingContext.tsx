@@ -42,16 +42,13 @@ const SettingsProvider = ({
 	}
 
 	useEffect(() => {
-		if (!window) return null
-
-		if (!Cookies.get('i18nextLng')) {
+		if (Cookies.get('i18nextLng') != locale || !Cookies.get('i18nextLng')) {
 			Cookies.set('i18nextLng', locale)
 		}
 
 		const getItem = window.localStorage.getItem('bazaar_settings')
-
 		if (getItem) setSettings(JSON.parse(getItem))
-	}, [])
+	}, [locale])
 
 	return (
 		<MainProvider Component={Component} pageProps={pageProps}>
