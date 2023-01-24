@@ -116,7 +116,7 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 	)
 }
 
-export async function getServerSideProps({ locale }) {
+export async function getStaticProps({ locale }) {
 	try {
 		// =========
 		const queryClient = new QueryClient()

@@ -1,6 +1,7 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { OrdersService } from 'api/services/orders/orders.service'
+import { ShopsService } from 'api/services/shop/shop.service'
 import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
@@ -52,7 +53,7 @@ const OrderList: NextPageAuth = () => {
 	const { data: orders, isLoading } = useQuery(
 		`orders get search=${searchValue} page=${currentPage}`,
 		() =>
-			OrdersService.getList({
+			ShopsService.getShopOrders({
 				search: searchValue,
 				page: currentPage,
 				page_size: 20,

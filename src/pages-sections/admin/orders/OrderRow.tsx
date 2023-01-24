@@ -1,6 +1,7 @@
 import { Delete, RemoveRedEye } from '@mui/icons-material'
 import { FormControl, MenuItem, Select } from '@mui/material'
 import { OrdersService } from 'api/services/orders/orders.service'
+import { ShopsService } from 'api/services/shop/shop.service'
 import currency from 'currency.js'
 import lodash from 'lodash'
 import { useRouter } from 'next/router'
@@ -50,7 +51,8 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 
 	const { mutateAsync: mutateStatus } = useMutation(
 		'order status update',
-		(stat: IOrderStatus) => OrdersService.update(order.id, { status: stat }),
+		(stat: IOrderStatus) =>
+			ShopsService.updateShopOrder(order.id, { status: stat }),
 		{
 			onSuccess: (data) => {
 				toast.success('Order status updated')
@@ -78,9 +80,7 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 				{shipping_address}
 			</StyledTableCell>
 
-			<StyledTableCell align="left">
-				{currency(total_price, { separator: ',', precision: 0 }).format()}
-			</StyledTableCell>
+			<StyledTableCell align="left">{total_price}c</StyledTableCell>
 
 			<StyledTableCell align="left">
 				<FormControl fullWidth variant="outlined">

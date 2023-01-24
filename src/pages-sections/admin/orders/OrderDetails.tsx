@@ -13,6 +13,7 @@ import {
 	Typography,
 } from '@mui/material'
 import { OrdersService } from 'api/services/orders/orders.service'
+import { ShopService, ShopsService } from 'api/services/shop/shop.service'
 import LazyImage from 'components/LazyImage'
 import { H3, H6, Paragraph, Span } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
@@ -41,7 +42,7 @@ const OrderDetails = () => {
 		refetch,
 	}: { data: IOrder; isLoading: any; refetch: () => void } = useQuery(
 		'get one vendor order',
-		() => OrdersService.get(id as string),
+		() => ShopsService.getShopOrder(id as string),
 		{
 			select: (data: IOrder) => data,
 			enabled: !!id,
@@ -57,7 +58,8 @@ const OrderDetails = () => {
 
 	const { mutateAsync: mutateStatus } = useMutation(
 		'order status update',
-		(stat: IOrderStatus) => OrdersService.update(order?.id, { status: stat }),
+		(stat: IOrderStatus) =>
+			ShopsService.updateShopOrder(order?.id, { status: stat }),
 		{
 			onSuccess: (data) => {
 				toast.success('Order status updated')
