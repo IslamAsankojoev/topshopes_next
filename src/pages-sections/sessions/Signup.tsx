@@ -55,7 +55,7 @@ const Signup = () => {
 
 	return (
 		<Wrapper elevation={3} passwordVisibility={passwordVisibility}>
-			<form>
+			<form onSubmit={handleSubmit}>
 				<H3 textAlign="center" mb={1}>
 					{authT('createYourAccount')}
 				</H3>
@@ -151,6 +151,7 @@ const Signup = () => {
 				/>
 
 				<FormControlLabel
+					style={{ margin: '20px 0 0' }}
 					name="agreement"
 					className="agreement"
 					onChange={handleChange}
@@ -178,14 +179,18 @@ const Signup = () => {
 						</FlexBox>
 					}
 				/>
+				{!!touched.agreement && !!errors.agreement ? (
+					<p style={{ color: '#E94560', margin: '3px 0 0' }}>
+						{touched.agreement && errors.agreement}
+					</p>
+				) : null}
 
 				<BazaarButton
 					fullWidth
-					// @ts-ignore
-					onClick={handleFormSubmit}
+					type="submit"
 					color="primary"
 					variant="contained"
-					sx={{ height: 44 }}
+					sx={{ height: 44, margin: '30px 0 0' }}
 				>
 					{authT('createAccount')}
 				</BazaarButton>

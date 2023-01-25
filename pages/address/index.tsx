@@ -47,7 +47,6 @@ const AddressList: NextPageAuth = () => {
 
 	return (
 		<CustomerDashboardLayout>
-			{isLoading ? <Loading /> : null}
 			<UserDashboardHeader
 				icon={Place}
 				title={t('myAddresses')}
