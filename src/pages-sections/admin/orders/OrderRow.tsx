@@ -8,6 +8,8 @@ import React, { FC, useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { IOrder, IOrderStatus } from 'shared/types/order.types'
+import { statusTranslation } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import {
 	StatusWrapper,
@@ -22,14 +24,24 @@ type OrderRowProps = { order: IOrder }
 
 export const statuses: {
 	name: IOrderStatus
+	label: string
 	// color: 'info' | 'warning' | 'success' | 'error' | 'grey' | 'primary'
 }[] = [
-	{ name: 'pending' },
-	{ name: 'delivering' },
-	{ name: 'delivered' },
-	{ name: 'cancelled' },
-	{ name: 'paid' },
-	{ name: 'received' },
+	{ name: 'pending', label: dynamicLocalization(statusTranslation.pending) },
+	{
+		name: 'delivering',
+		label: dynamicLocalization(statusTranslation.delivering),
+	},
+	{
+		name: 'delivered',
+		label: dynamicLocalization(statusTranslation.delivered),
+	},
+	{
+		name: 'cancelled',
+		label: dynamicLocalization(statusTranslation.cancelled),
+	},
+	{ name: 'paid', label: dynamicLocalization(statusTranslation.paid) },
+	{ name: 'received', label: dynamicLocalization(statusTranslation.received) },
 ]
 
 const OrderRow: FC<OrderRowProps> = ({ order }) => {
@@ -74,9 +86,9 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 				{new Date(created_at).toLocaleString()}
 			</StyledTableCell>
 
-			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+			{/* <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
 				{shipping_address}
-			</StyledTableCell>
+			</StyledTableCell> */}
 
 			<StyledTableCell align="left">
 				{currency(total_price, { separator: ',', precision: 0 }).format()}
@@ -122,7 +134,7 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 						{statuses.map((status) => (
 							<MenuItem value={status.name}>
 								<StatusWrapper status={status.name}>
-									{status.name}
+									{status.label}
 								</StatusWrapper>
 							</MenuItem>
 						))}

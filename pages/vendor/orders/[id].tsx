@@ -4,7 +4,7 @@ import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { GetStaticProps, NextPage } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { OrderDetails } from 'pages-sections/admin'
+import { OrderDetail } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 
@@ -27,7 +27,7 @@ const OrderEdit: NextPageAuth = () => {
 		<Box py={4}>
 			<H3 mb={2}>{t('orderDetails')}</H3>
 
-			<OrderDetails />
+			<OrderDetail />
 		</Box>
 	)
 }

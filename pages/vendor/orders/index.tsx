@@ -24,8 +24,8 @@ const tableHeading = [
 	{ id: 'id', label: 'orderId', align: 'left' },
 	{ id: 'qty', label: 'qty', align: 'left' },
 	{ id: 'delivered_at', label: 'deliveredAt', align: 'left' },
-	{ id: 'billingAddress', label: 'billingAddress', align: 'left' },
-	{ id: 'amount', label: 'amount', align: 'left' },
+	// { id: 'billingAddress', label: 'billingAddress', align: 'left' },
+	{ id: 'amount', label: 'price', align: 'left' },
 	{ id: 'status', label: 'status', align: 'left' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]

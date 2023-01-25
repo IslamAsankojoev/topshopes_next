@@ -6,6 +6,8 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import { FC } from 'react'
 import { IOrderShort, IOrderStatus } from 'shared/types/order.types'
+import { statusTranslation } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 // =================================================
 // type OrderRowProps = {
@@ -55,7 +57,7 @@ const OrderRow: FC<IOrderShort> = ({
 					<Box m={0.75}>
 						<Chip
 							size="small"
-							label={status}
+							label={dynamicLocalization(statusTranslation[status])}
 							sx={{
 								p: '0.25rem 0.5rem',
 								fontSize: 12,
@@ -69,7 +71,7 @@ const OrderRow: FC<IOrderShort> = ({
 						/>
 					</Box>
 					<Typography className="pre" m={0.75} textAlign="left">
-						{format(new Date(created_at), 'MMM dd, yyyy')}
+						{format(new Date(created_at), ' dd.MM.yyyy')}
 					</Typography>
 
 					<Typography m={0.75} textAlign="left">
