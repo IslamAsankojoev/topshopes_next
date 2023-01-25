@@ -31,18 +31,6 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 	// state
 	const router = useRouter()
-	const [productPublish, setProductPublish] = useState<boolean>(published)
-
-	const { mutateAsync } = useMutation(
-		'update shop product',
-		() => ProductsService.update(slug, { published: !productPublish }),
-		{
-			onError: (e: unknown) => {
-				refetch()
-			},
-			onSuccess: () => {},
-		}
-	)
 
 	//handlers
 	const onDelete = async () => {
@@ -55,10 +43,6 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				console.log(e)
 			}
 		}
-	}
-	const publishOnchange = async () => {
-		setProductPublish((prev) => !prev)
-		mutateAsync()
 	}
 
 	return (
@@ -77,7 +61,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				</FlexBox>
 			</StyledTableCell>
 
-			<StyledTableCell align="left">{category?.name}</StyledTableCell>
+			<StyledTableCell align="left">{category}</StyledTableCell>
 
 			{/* <StyledTableCell align="left">
 				<Avatar
@@ -88,14 +72,6 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 
 			<StyledTableCell align="left">
 				{currency(overall_price, { separator: ',' }).format()}c
-			</StyledTableCell>
-
-			<StyledTableCell align="left">
-				<BazaarSwitch
-					color="info"
-					checked={productPublish}
-					onChange={publishOnchange}
-				/>
 			</StyledTableCell>
 
 			<StyledTableCell align="center">

@@ -196,11 +196,11 @@ const CheckoutForm2: FC = () => {
 				</Button>
 			</Card1>
 
-			{/* <Card1 sx={{ mb: 3 }}>
+			<Card1 sx={{ mb: 3 }}>
 				<Heading number={2} title="Payment Details" />
 
-				<FormControl> */}
-			{/* <RadioGroup
+				<FormControl>
+					<RadioGroup
 						value={paymentMethod}
 						defaultValue={payment_methods[0]?.name}
 						onChange={({ target }) => setPaymentMethod(target.value)}
@@ -213,75 +213,39 @@ const CheckoutForm2: FC = () => {
 								label={method.name}
 							/>
 						))}
-					</RadioGroup> */}
-			{/* </FormControl>
-			</Card1> */}
+					</RadioGroup>
+				</FormControl>
+			</Card1>
 		</>
 	)
 }
 
-// const payment_methods: { id: string; name: string }[] = [
-// 	{ id: 'cash_on_dilivery', name: 'cash on dilivery' },
-// 	{ id: 'credit_card', name: 'credit card' },
-// ]
-
-// const addressList2 = [
-// 	{
-// 		name: 'Home',
-// 		phone: '+17804084466',
-// 		street2: '435 Bristol, MA 2351',
-// 		street1: '375 Subidbazaar, MA 2351',
-// 	},
-// 	{
-// 		name: 'Office',
-// 		phone: '+18334271710',
-// 		street2: '968 Brockton, MA 2351',
-// 		street1: '645 Bondorbazaar, MA 2351',
-// 	},
-// 	{
-// 		name: 'Office 2',
-// 		phone: '+17754739407',
-// 		street2: '777 Kazi, MA 2351',
-// 		street1: '324 Ambarkhana, MA 2351',
-// 	},
-// ]
-
-// const paymentMethodList = [
-// 	{
-// 		cardType: 'Amex',
-// 		last4Digits: '4765',
-// 		name: 'Jaslynn Land',
-// 	},
-// 	{
-// 		cardType: 'Mastercard',
-// 		last4Digits: '5432',
-// 		name: 'Jaslynn Land',
-// 	},
-// 	{
-// 		cardType: 'Visa',
-// 		last4Digits: '4543',
-// 		name: 'Jaslynn Land',
-// 	},
-// ]
-
-// const timeList = [
-// 	{ label: '9AM - 11AM', value: '9AM - 11AM' },
-// 	{ label: '11AM - 1PM', value: '11AM - 1PM' },
-// 	{ label: '3PM - 5PM', value: '3PM - 5PM' },
-// 	{ label: '5PM - 7PM', value: '5PM - 7PM' },
-// ]
-
-// const checkoutSchema = yup.object().shape({
-// 	card: yup.string().required('required'),
-// 	date: yup.string().required('required'),
-// 	time: yup.string().required('required'),
-// 	address: yup.string().required('required'),
-// 	cardHolderName: yup.string().required('required'),
-// 	cardNumber: yup.number().required('required'),
-// 	cardMonth: yup.string().required('required'),
-// 	cardYear: yup.number().required('required'),
-// 	cardCVC: yup.number().required('required'),
-// 	voucher: yup.string(),
-// })
+const payment_methods: { id: string; name: string; icon: string }[] = [
+	{
+		id: 'oDengi',
+		name: 'О! деньги',
+		icon: '/public/assets/images/payment-methods/odengi.webp',
+	},
+	{
+		id: 'elsom',
+		name: 'Элсом',
+		icon: '/public/assets/images/payment-methods/elsom.webp',
+	},
+	{
+		id: 'visa',
+		name: 'Visa',
+		icon: '/public/assets/images/payment-methods/visa.png',
+	},
+	{
+		id: 'balance',
+		name: 'Balance',
+		icon: '/public/assets/images/payment-methods/balance.webp',
+	},
+	{
+		id: 'mbank',
+		name: 'MBank',
+		icon: '/public/assets/images/payment-methods/odengi.webp',
+	},
+]
 
 export default CheckoutForm2
