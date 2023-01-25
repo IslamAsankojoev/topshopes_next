@@ -37,7 +37,7 @@ const tableHeading = [
 	{ id: 'qty', label: 'qty', align: 'left' },
 	{ id: 'created_at', label: 'createdAt', align: 'left' },
 	{ id: 'billingAddress', label: 'billingAddress', align: 'left' },
-	{ id: 'amount', label: 'amount', align: 'left' },
+	{ id: 'price', label: 'price', align: 'left' },
 	{ id: 'status', label: 'status', align: 'left' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]

@@ -93,16 +93,14 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		initialValues,
 		onSubmit: () => {
 			const { reviews, shop, variants, category, brand, ...other } = values
-			const clearData = props.includeShop
-				? { ...other, shop: shop?.id, category: category?.id, brand: brand?.id }
-				: { ...other, category: category?.id, brand: brand?.id }
+			const clearData = { ...other, category: category?.id, brand: brand?.id }
 			handleFormSubmit(clearData, redirect)
 		},
 		validationSchema: validationSchema,
 	})
 
 	//data fetching
-	const { brands, shops, categories } = useProductFetch(props.includeShop, {
+	const { brands, categories } = useProductFetch(props.includeShop, {
 		categoriesSearch,
 		brandsSearch,
 		shopsSearch,
@@ -112,7 +110,8 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		category: {
 			name: 'category',
 			options: categories || [],
-			getOptionLabel: (option) => option?.name || '',
+			getOptionLabel: (option) =>
+				option?.name ? option?.name + ` - (${option?.tax}%)` : '',
 			error: !!touched.category && !!errors.category,
 			helperText: touched.category && errors.category,
 		},
@@ -122,13 +121,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 			getOptionLabel: (option) => option?.name || '',
 			error: !!touched.brand && !!errors.brand,
 			helperText: touched.brand && errors.brand,
-		},
-		shop: {
-			name: 'shop',
-			options: shops || [],
-			getOptionLabel: (option) => option?.name || '',
-			error: !!touched.shop && !!errors.shop,
-			helperText: touched.shop && errors.shop,
 		},
 	}
 
@@ -266,38 +258,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							)}
 						/>
 					</Grid>
-
-					{props.includeShop ? (
-						<Grid item xs={12}>
-							<Autocomplete
-								{...autocompleteProps.shop}
-								fullWidth
-								color="info"
-								size="medium"
-								onBlur={handleBlur}
-								placeholder={commonT('shop')}
-								value={values.shop}
-								// @ts-ignore
-								onChange={(
-									_: any,
-									newValue: { id: string | number; label: string } | null
-								) => {
-									setFieldValue('shop', newValue)
-								}}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										error={autocompleteProps.shop.error}
-										helperText={autocompleteProps.shop.helperText}
-										onChange={({ target }) => {
-											setShopsSearch(target.value)
-										}}
-										label={commonT('shop')}
-									/>
-								)}
-							/>
-						</Grid>
-					) : null}
 
 					<Grid item xs={12}>
 						<TextField

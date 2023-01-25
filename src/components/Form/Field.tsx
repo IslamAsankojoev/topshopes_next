@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import DropZone from 'components/DropZone'
 import LazyImage from 'components/LazyImage'
+import { H3 } from 'components/Typography'
 import MultipleSelect from 'components/multiple-select/MultipleSelect'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
@@ -372,6 +373,9 @@ const Field: FC<any> = (props) => {
 						/>
 					</Button>
 				</div> */}
+				<h3 style={{ textTransform: 'uppercase', margin: '10px 0 4px' }}>
+					{other.label}
+				</h3>
 				<Grid
 					style={{
 						display: 'flex',

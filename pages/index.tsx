@@ -172,11 +172,13 @@ export async function getStaticProps({ locale }) {
 				...(await serverSideTranslations(locale as string, ['common', 'home'])),
 				// =========
 			},
+			revalidate: 1000,
 		}
 	} catch {
 		return {
 			props: {
 				...(await serverSideTranslations(locale as string, ['common', 'home'])),
+				revalidate: 1000,
 			},
 		}
 	}

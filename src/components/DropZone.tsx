@@ -24,7 +24,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 		title: titleProps,
 		...other
 	} = props
-	const [title, setTitle] = React.useState(titleProps)
+	const [title, setTitle] = React.useState('')
 
 	const onDrop = useCallback((acceptedFiles) => {
 		if (onChange) {

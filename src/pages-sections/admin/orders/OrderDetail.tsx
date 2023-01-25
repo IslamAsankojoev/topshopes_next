@@ -28,7 +28,7 @@ import { StatusWrapper } from '../StyledComponents'
 
 import { statuses } from './OrderRow'
 
-const OrderDetails = () => {
+const OrderDetail = () => {
 	const { t } = useTranslation('common')
 
 	const {
@@ -61,9 +61,10 @@ const OrderDetails = () => {
 		(stat: IOrderStatus) =>
 			ShopsService.updateShopOrder(order?.id, { status: stat }),
 		{
-			onSuccess: (data) => {
+			onSuccess: async (data) => {
 				toast.success('Order status updated')
 				setOrderStatus(data.status)
+				await refetch()
 			},
 		}
 	)
@@ -71,16 +72,6 @@ const OrderDetails = () => {
 	const changeStatus = (selected) => {
 		mutateStatus(selected)
 	}
-
-	const { mutateAsync } = useMutation(
-		'change status order',
-		(value) => OrdersService.update(id as string, { status: value }),
-		{
-			onSuccess: () => {
-				refetch()
-			},
-		}
-	)
 
 	return !isLoading ? (
 		<div
@@ -172,7 +163,7 @@ const OrderDetails = () => {
 											{statuses.map((status) => (
 												<MenuItem value={status?.name}>
 													<StatusWrapper status={status?.name}>
-														{status?.name}
+														{status?.label}
 													</StatusWrapper>
 												</MenuItem>
 											))}
@@ -259,4 +250,4 @@ const OrderDetails = () => {
 	) : null
 }
 
-export default OrderDetails
+export default OrderDetail

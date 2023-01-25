@@ -1,10 +1,12 @@
 import { Box, useTheme } from '@mui/material'
+import { H1 } from 'components/Typography'
 import Carousel from 'components/carousel/Carousel'
 import ProductCard15 from 'components/product-cards/ProductCard15'
-import { H1 } from 'components/Typography'
 import useWindowSize from 'hooks/useWindowSize'
 import Link from 'next/link'
 import React, { FC, useEffect, useState } from 'react'
+import { statusTranslation } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 // ===============================================
 type Props = { categoryList: any[] }
@@ -46,7 +48,9 @@ const TopCategorySection: FC<Props> = ({ categoryList }) => {
 						<a>
 							<ProductCard15
 								title={item.title}
-								available={item.available}
+								available={dynamicLocalization(
+									statusTranslation[item.available]
+								)}
 								imgUrl={item.imgUrl}
 							/>
 						</a>

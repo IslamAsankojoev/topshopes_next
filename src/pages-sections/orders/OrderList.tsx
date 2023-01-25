@@ -71,42 +71,4 @@ const OrderList: FC<OrderListProps> = () => {
 	)
 }
 
-const orderList = [
-	{
-		orderNo: '1050017AS',
-		status: 'Pending',
-		purchaseDate: new Date(),
-		price: 350,
-		href: '/orders/5452423',
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Processing',
-		purchaseDate: new Date(),
-		price: 500,
-		href: '/orders/5452423',
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Delivered',
-		purchaseDate: '2020/12/23',
-		price: 700,
-		href: '/orders/5452423',
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Delivered',
-		purchaseDate: '2020/12/23',
-		price: 700,
-		href: '/orders/5452423',
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Cancelled',
-		purchaseDate: '2020/12/15',
-		price: 300,
-		href: '/orders/5452423',
-	},
-]
-
 export default OrderList

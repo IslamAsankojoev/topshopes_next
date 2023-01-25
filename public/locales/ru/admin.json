@@ -1,9 +1,17 @@
 {
+<<<<<<< HEAD
 	"accountSetting": "Аккаунт",
 	"add": "Добавить",
 	"addImage": "Добавить изображение",
 	"address": "Адрес",
 	"addVariant": "Новый вариант",
+=======
+	"accountSetting": "Настройки аккаунта",
+	"add": "Добавить",
+	"addImage": "Добавить изображение",
+	"address": "Адрес",
+	"addVariant": "Добавить новый вариант",
+>>>>>>> iska
 	"admin": "администратор",
 	"allProducts": "Все продукты",
 	"attributes": "Атрибуты",
@@ -22,14 +30,22 @@
 	"dashboard": "Приборная панель",
 	"description": "Описание",
 	"discount": "Скидка",
+<<<<<<< HEAD
 	"dragAndDrop": "Перетащите изображение",
+=======
+	"dragAndDrop": "Перетащите изображение сюда",
+>>>>>>> iska
 	"edit": "редактировать",
 	"featured": "показанный",
 	"firstName": "имя",
 	"goView": "Перейти к просмотру",
 	"lastName": "фамилия",
 	"logout": "Выйти",
+<<<<<<< HEAD
 	"members": "Клиенты",
+=======
+	"members": "Пользователи",
+>>>>>>> iska
 	"myOrders": "Mои заказы",
 	"name": "Имя",
 	"or": "или",
@@ -63,5 +79,9 @@
 	"store": "Магазин",
 	"thumbnail": "изображение",
 	"title": "заглавие",
+<<<<<<< HEAD
 	"variantDetails": "Вариант"
+=======
+	"variantDetails": "Сведения о варианте"
+>>>>>>> iska
 }

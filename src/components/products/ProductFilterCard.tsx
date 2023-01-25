@@ -20,8 +20,6 @@ import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import { IBrand, ICategory } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'
-import { common } from 'utils/Translate/common'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 const ProductFilterCard = () => {
 	const router = useRouter()
