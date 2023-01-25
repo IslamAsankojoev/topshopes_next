@@ -1,6 +1,7 @@
 import { Close, Edit, ModeEditOutline } from '@mui/icons-material'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import {
+	Box,
 	Button,
 	Container,
 	Dialog,
@@ -45,6 +46,7 @@ type ProductVariantFormProps = {
 	images?: IImage[]
 	refetch?: () => void
 	isAdmin?: boolean
+	actionButtons?: React.ReactNode
 }
 // ==================================================================
 
@@ -65,6 +67,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 	variantId,
 	images,
 	isAdmin,
+	actionButtons,
 }) => {
 	const { t: commonT } = useTranslation('common')
 	const { t: adminT } = useTranslation('admin')
@@ -238,23 +241,31 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 					{adminT('addVariant')}
 				</Button>
 			) : (
-				<Button
-					size="small"
-					variant="contained"
-					color="secondary"
+				<Box
+					gap={1}
 					sx={{
+						display: 'grid',
+
+						justifyContent: 'space-between',
+						flexDirection: 'column',
+						alignItems: 'center',
 						position: 'absolute',
-						top: '50px',
+						top: '10px',
 						right: '10px',
-						padding: '4px',
 					}}
-					onClick={() =>
-						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
-					}
 				>
-					{/* {adminT('edit')} */}
-					<Edit />
-				</Button>
+					{actionButtons}
+					<Button
+						size="small"
+						variant="contained"
+						color="secondary"
+						onClick={() =>
+							addCardForm ? setAddCardForm(false) : setAddCardForm(true)
+						}
+					>
+						<Edit />
+					</Button>
+				</Box>
 			)}
 
 			<Dialog
@@ -282,7 +293,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 										onClick={() => setAddCardForm(false)}
 										variant="contained"
 										color="error"
-										size="medium"
+										size="small"
 									>
 										{adminT('cancel')}
 									</Button>

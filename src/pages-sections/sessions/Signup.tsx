@@ -202,7 +202,7 @@ const initialValues = {
 	email: '',
 	password: '',
 	re_password: '',
-	agreement: false,
+	agreement: true,
 }
 
 const formSchema = yup.object().shape({
@@ -220,7 +220,8 @@ const formSchema = yup.object().shape({
 			'You have to agree with our Terms and Conditions!',
 			(value) => value === true
 		)
-		.required('You have to agree with our Terms and Conditions!'),
+		.required('You have to agree with our Terms and Conditions!')
+		.oneOf([true], 'You have to agree with our Terms and Conditions!'),
 })
 
 export default Signup

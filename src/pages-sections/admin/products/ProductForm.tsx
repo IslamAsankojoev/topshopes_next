@@ -332,13 +332,13 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 								border: '1px solid #E4E7EB',
 								position: 'fixed',
 								display: 'flex',
-								bottom: 10,
-								right: 10,
+								bottom: 0,
+								right: 0,
 								zIndex: 100,
-								padding: '10px!important',
+								padding: '8px!important',
 								backgroundColor: '#F7F9FC',
 								'@media (max-width: 768px)': {
-									width: '95%',
+									width: '100%',
 									justifyContent: 'center',
 								},
 							}}
@@ -359,10 +359,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 											}
 											variant="contained"
 											color="secondary"
+											size="small"
 										>
 											{adminT('goView')}
 										</Button>
-										<Button variant="contained" color="primary" type="submit">
+										<Button
+											variant="contained"
+											color="primary"
+											type="submit"
+											size="small"
+										>
 											{adminT('saveExit')}
 										</Button>
 									</>
@@ -372,9 +378,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									variant="contained"
 									color="success"
 									type="submit"
-									sx={{
-										px: 4,
-									}}
+									size="small"
 								>
 									{update ? commonT('save') : adminT('createProduct')}
 								</Button>

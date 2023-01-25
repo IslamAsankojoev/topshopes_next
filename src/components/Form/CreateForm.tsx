@@ -181,14 +181,14 @@ const CreateForm: React.FC<CreateFormProps> = ({
 									border: '1px solid #E4E7EB',
 									position: 'fixed',
 									display: 'flex',
-									bottom: 10,
-									right: 10,
+									bottom: 0,
+									right: 0,
 									zIndex: 100,
 									justifyContent: 'space-evenly',
-									padding: '10px!important',
+									padding: '8px!important',
 									backgroundColor: '#F7F9FC',
 									'@media (max-width: 600px)': {
-										width: '95%',
+										width: '100%',
 										justifyContent: 'space-evenly',
 									},
 								}}
@@ -202,16 +202,13 @@ const CreateForm: React.FC<CreateFormProps> = ({
 									<Button
 										variant="contained"
 										color="success"
-										sx={{
-											px: 4,
-										}}
+										size="small"
 										onClick={() => {
 											handleSubmit()
 											Object.keys(fields).forEach((key) => {
 												setFieldTouched(fields[key].name, true)
 											})
 										}}
-										size="medium"
 									>
 										{t('save')}
 									</Button>
