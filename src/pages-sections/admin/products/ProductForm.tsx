@@ -112,7 +112,8 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		category: {
 			name: 'category',
 			options: categories || [],
-			getOptionLabel: (option) => option?.name || '',
+			getOptionLabel: (option) =>
+				option?.name ? option?.name + ` - (${option?.tax}%)` : '',
 			error: !!touched.category && !!errors.category,
 			helperText: touched.category && errors.category,
 		},

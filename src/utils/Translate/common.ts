@@ -99,4 +99,19 @@ export const statusTranslation = {
     kk: 'Бас тартылды',
     kg: 'Жокко чыгарылды',
   },
+
+  available: {
+    ru: 'Доступен',
+    en: 'Available',
+    tr: 'Mevcut',
+    kk: 'Қол жетімді',
+    kg: 'Жеткиликтүү',
+  },
+  unavailable: {
+    ru: 'Недоступен',
+    en: 'Available',
+    tr: 'Kullanım dışı',
+    kk: 'Қолжетімсіз',
+    kg: 'Жеткиликсиз',
+  },
 }

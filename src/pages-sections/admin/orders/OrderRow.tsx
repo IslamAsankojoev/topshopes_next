@@ -50,6 +50,7 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 	)
 
 	const {
+		address,
 		delivered_at,
 		id,
 		shipping_address,
@@ -86,9 +87,9 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 				{new Date(created_at).toLocaleString()}
 			</StyledTableCell>
 
-			{/* <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-				{shipping_address}
-			</StyledTableCell> */}
+			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+				{address?.city}
+			</StyledTableCell>
 
 			<StyledTableCell align="left">
 				{currency(total_price, { separator: ',', precision: 0 }).format()}

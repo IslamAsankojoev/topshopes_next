@@ -1,4 +1,6 @@
 import { IUser } from 'shared/types/user.types'
+import { statusTranslation } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 export const categoryEditForm = [
 	{
@@ -35,6 +37,14 @@ export const categoryEditForm = [
 		type: 'text',
 		placeholder: '',
 		required: false,
+	},
+
+	{
+		name: 'tax',
+		label: 'tax',
+		type: 'number',
+		placeholder: 'tax',
+		required: true,
 	},
 
 	// {
@@ -332,9 +342,8 @@ export const productVariantFormCreate = [
 		type: 'select',
 		placeholder: 'status',
 		allNames: [
-			{ id: 'available', name: 'available' },
-			{ id: 'unavailable', name: 'unavailable' },
-			{ id: 'coming_soon', name: 'coming soon' },
+			{ id: 'available', name: dynamicLocalization(statusTranslation.available) },
+			{ id: 'unavailable', name: dynamicLocalization(statusTranslation.unavailable) },
 		],
 		required: true,
 	},

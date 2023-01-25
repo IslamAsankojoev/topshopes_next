@@ -1,51 +1,55 @@
-import { Box, styled } from "@mui/material";
-import LazyImage from "components/LazyImage";
-import { H6, Paragraph } from "components/Typography";
-import React, { FC } from "react";
+import { Box, styled } from '@mui/material'
+import LazyImage from 'components/LazyImage'
+import { H6, Paragraph } from 'components/Typography'
+import React, { FC } from 'react'
+import { statusTranslation } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 const StyledCard = styled(Box)(({ theme }) => ({
-  textAlign: "center",
-  transition: "all 0.3s",
-  "&:hover": {
-    "& h6": { color: theme.palette.primary.main },
-  },
-}));
+	textAlign: 'center',
+	transition: 'all 0.3s',
+	'&:hover': {
+		'& h6': { color: theme.palette.primary.main },
+	},
+}))
 
 const ImgBox = styled(Box)(({ theme }) => ({
-  padding: "0 40px 20px 40px",
-  background: theme.palette.primary[100],
-}));
+	padding: '0 40px 20px 40px',
+	background: theme.palette.primary[100],
+}))
 
 // ===================================================
 type Props = {
-  title: string;
-  imgUrl: string;
-  available: string;
-  sx?: { [key: string]: any };
-};
+	title: string
+	imgUrl: string
+	available: string
+	sx?: { [key: string]: any }
+}
 // ===================================================
 
 const ProductCard15: FC<Props> = (props) => {
-  const { sx, imgUrl, title, available } = props;
+	const { sx, imgUrl, title, available } = props
 
-  return (
-    <StyledCard sx={sx}>
-      <ImgBox>
-        <LazyImage
-          src={imgUrl}
-          width={100}
-          height={100}
-          layout="responsive"
-          objectFit="contain"
-        />
-      </ImgBox>
+	return (
+		<StyledCard sx={sx}>
+			<ImgBox>
+				<LazyImage
+					src={imgUrl}
+					width={100}
+					height={100}
+					layout="responsive"
+					objectFit="contain"
+				/>
+			</ImgBox>
 
-      <H6 fontSize={15} mt="8px" mb="2px">
-        {title}
-      </H6>
-      <Paragraph color="grey.600">{available}</Paragraph>
-    </StyledCard>
-  );
-};
+			<H6 fontSize={15} mt="8px" mb="2px">
+				{title}
+			</H6>
+			<Paragraph color="grey.600">
+				{dynamicLocalization(statusTranslation[available])}
+			</Paragraph>
+		</StyledCard>
+	)
+}
 
-export default ProductCard15;
+export default ProductCard15
