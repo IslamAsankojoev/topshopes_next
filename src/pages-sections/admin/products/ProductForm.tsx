@@ -100,7 +100,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	})
 
 	//data fetching
-	const { brands, shops, categories } = useProductFetch(props.includeShop, {
+	const { brands, categories } = useProductFetch(props.includeShop, {
 		categoriesSearch,
 		brandsSearch,
 		shopsSearch,
