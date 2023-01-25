@@ -1,3 +1,4 @@
+import { IPayment } from 'shared/types/order.types'
 import { IUser } from 'shared/types/user.types'
 import { statusTranslation } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
@@ -342,8 +343,14 @@ export const productVariantFormCreate = [
 		type: 'select',
 		placeholder: 'status',
 		allNames: [
-			{ id: 'available', name: dynamicLocalization(statusTranslation.available) },
-			{ id: 'unavailable', name: dynamicLocalization(statusTranslation.unavailable) },
+			{
+				id: 'available',
+				name: dynamicLocalization(statusTranslation.available),
+			},
+			{
+				id: 'unavailable',
+				name: dynamicLocalization(statusTranslation.unavailable),
+			},
 		],
 		required: true,
 	},
@@ -352,6 +359,43 @@ export const productVariantFormCreate = [
 		label: 'stock',
 		type: 'number',
 		placeholder: 'Enter stock',
+		required: true,
+	},
+]
+
+export const paymentFormCreate: {
+	name: keyof IPayment
+	label: string
+	type: string
+	placeholder: string
+	required: boolean
+}[] = [
+	{
+		name: 'payment_type',
+		label: 'payment type',
+		type: 'select',
+		placeholder: 'payment type',
+		required: true,
+	},
+	{
+		name: 'bank_account',
+		label: 'bank account',
+		type: 'text',
+		placeholder: 'bank account',
+		required: true,
+	},
+	{
+		name: 'phone_number',
+		label: 'phone number',
+		type: 'text',
+		placeholder: 'phone number',
+		required: true,
+	},
+	{
+		name: 'confirm_photo',
+		label: 'confirm photo',
+		type: 'file',
+		placeholder: 'confirm photo',
 		required: true,
 	},
 ]

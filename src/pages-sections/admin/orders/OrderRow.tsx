@@ -26,23 +26,43 @@ type OrderRowProps = { order: IOrder }
 export const statuses: {
 	name: IOrderStatus
 	label: string
-	// color: 'info' | 'warning' | 'success' | 'error' | 'grey' | 'primary'
 }[] = [
-	{ name: 'pending', label: dynamicLocalization(statusTranslation.pending) },
+	{
+		name: 'payment_error',
+		label: 'Payment error',
+	},
+	{
+		name: 'pending',
+		label: 'Pending',
+	},
+	{
+		name: 'paid',
+		label: 'Paid',
+	},
+	{
+		name: 'ready',
+		label: 'Ready',
+	},
+	{
+		name: 'shop_decline',
+		label: 'Shop decline',
+	},
 	{
 		name: 'delivering',
-		label: dynamicLocalization(statusTranslation.delivering),
+		label: 'Delivering',
 	},
 	{
 		name: 'delivered',
-		label: dynamicLocalization(statusTranslation.delivered),
+		label: 'Delivered',
 	},
 	{
-		name: 'cancelled',
-		label: dynamicLocalization(statusTranslation.cancelled),
+		name: 'canceled',
+		label: 'Canceled',
 	},
-	{ name: 'paid', label: dynamicLocalization(statusTranslation.paid) },
-	{ name: 'received', label: dynamicLocalization(statusTranslation.received) },
+	{
+		name: 'completed',
+		label: 'Completed',
+	},
 ]
 
 const OrderRow: FC<OrderRowProps> = ({ order }) => {
