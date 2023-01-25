@@ -44,13 +44,15 @@ const StyledFlexbox = muiStyled(FlexBetween)(({ theme }) => ({
 	flexWrap: 'wrap',
 	marginTop: '2rem',
 	marginBottom: '2rem',
-	[theme.breakpoints.down('sm')]: { flexDirection: 'column' },
+	'@media (max-width: 650px)': {
+		flexDirection: 'column',
+	},
 
 	'& .line': {
 		height: 4,
 		minWidth: 50,
 		flex: '1 1 0',
-		[theme.breakpoints.down('sm')]: { flex: 'unset', height: 50, minWidth: 4 },
+		'@media (max-width: 650px)': { flex: 'unset', height: 50, minWidth: 4 },
 	},
 }))
 
@@ -147,28 +149,6 @@ const OrderDetails: NextPageAuth = () => {
 						</Fragment>
 					))}
 				</StyledFlexbox>
-
-				{order.delivered_at ? (
-					<FlexBox justifyContent={width < breakpoint ? 'center' : 'flex-end'}>
-						<Typography
-							p="0.5rem 1rem"
-							textAlign="center"
-							borderRadius="300px"
-							color="primary.main"
-							bgcolor="primary.light"
-						>
-							{dynamicLocalization({
-								ru: 'Предполагаемая дата поставки',
-								en: 'Estimated Delivery Date',
-								kk: 'Болжалды жеткізу күні',
-								kg: 'Болжолдуу жеткирүү датасы',
-								tr: 'Tahmini Teslim Tarihi',
-							})}
-							{': '}
-							<b>{format(new Date(order.delivered_at), 'dd.MM.yyyy')}</b>
-						</Typography>
-					</FlexBox>
-				) : null}
 			</Card>
 
 			<ClientOrderDetail />

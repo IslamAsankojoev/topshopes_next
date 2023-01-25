@@ -17,12 +17,14 @@ import { OrdersService } from 'api/services/orders/orders.service'
 import LazyImage from 'components/LazyImage'
 import { H3, H6, Paragraph, Span } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
+import { format } from 'date-fns'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { IOrder, IOrderItem, IOrderStatus } from 'shared/types/order.types'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import { StatusWrapper } from '../StyledComponents'
 
@@ -132,6 +134,28 @@ const ClientOrderDetail = () => {
 							</Select>
 						</FormControl>
 					</FlexBox>
+
+					{order.delivered_at ? (
+						<FlexBox justifyContent={'center'} sx={{ m: '15px 0 0' }}>
+							<Typography
+								p="0.5rem 1rem"
+								textAlign="center"
+								borderRadius="300px"
+								color="primary.main"
+								bgcolor="primary.light"
+							>
+								{dynamicLocalization({
+									ru: 'Предполагаемая дата поставки',
+									en: 'Estimated Delivery Date',
+									kk: 'Болжалды жеткізу күні',
+									kg: 'Болжолдуу жеткирүү датасы',
+									tr: 'Tahmini Teslim Tarihi',
+								})}
+								{': '}
+								<b>{format(new Date(order.delivered_at), 'dd.MM.yyyy')}</b>
+							</Typography>
+						</FlexBox>
+					) : null}
 				</Card>
 
 				<Card
