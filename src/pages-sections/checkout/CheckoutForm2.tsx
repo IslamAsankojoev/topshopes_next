@@ -1,73 +1,54 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import balance from '/public/assets/images/payment-methods/balance.webp'
-import elsom from '/public/assets/images/payment-methods/elsom.webp'
-import mbank from '/public/assets/images/payment-methods/mbank.webp'
-import oDengi from '/public/assets/images/payment-methods/odengi.webp'
-import visa from '/public/assets/images/payment-methods/visa.png'
 import styled from '@emotion/styled'
 import { DeleteOutline } from '@mui/icons-material'
-import { Alert, Avatar, Button, Card, Grid, Typography } from '@mui/material'
+import { Alert, Button, Card, Grid, TextField } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import { instance } from 'api/interceptor'
 import { AddressesService } from 'api/services/addresses/addresses.service'
 import { ProfilePaymentService } from 'api/services/payment/ProfilePayment.service'
 import Card1 from 'components/Card1'
+import DropZone from 'components/DropZone'
 import { H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
-import { IPaymentType } from 'shared/types/order.types'
 import { ResponseList } from 'shared/types/response.types'
 import { IAddress } from 'shared/types/user.types'
-import { ICartItem } from 'store/cart/cart.interface'
 import { common } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import EditAddressForm from './EditAddressForm'
+import Heading from './Heading'
 import NewAddressForm from './NewAddressForm'
 import PaymentDialog from './PaymentDialog'
+import { paymentTranslations, payment_methods } from './paymentHelper'
 
 // ====================================================================
 // date types
 type DateProps = { label: string; value: string }
-type HeadingProps = { number: number; title: string }
 // ====================================================================
-
-const Heading: FC<HeadingProps> = ({ number, title }) => {
-	return (
-		<FlexBox gap={1.5} alignItems="center" mb={3.5}>
-			<Avatar
-				sx={{
-					width: 32,
-					height: 32,
-					color: 'primary.text',
-					backgroundColor: 'primary.main',
-				}}
-			>
-				{number}
-			</Avatar>
-			<Typography fontSize="20px">{title}</Typography>
-		</FlexBox>
-	)
-}
 
 const CheckoutForm2: FC = () => {
 	const { t } = useTranslation('common')
 
 	// states
 	const { cart } = useTypedSelector((state) => state.cartStore)
-	const [selectedAddress, setSelectedAddress] = useState<string>('')
 
-	const [paymentMethod, setPaymentMethod] = useState(payment_methods[0]?.id)
-	const [orderStack, setOrderStack] = useState<ICartItem[]>(cart)
+	const [formState, setFormState] = useState<Record<string, any>>({
+		selectedAddress: null,
+		paymentMethod: '',
+		image: null,
+	})
+	const [bankAccount, setBankAccount] = useState<string>()
 
 	const [helperText, setHelperText] = useState({
-		paymentMethod: '',
+		bankAccount: '',
 		selectedAddress: '',
+		image: '',
 	})
 
 	// hooks
@@ -96,7 +77,6 @@ const CheckoutForm2: FC = () => {
 			},
 		}
 	)
-
 	const { mutateAsync: updateAsync } = useMutation(
 		'address update',
 		({ id, data }: { id: string; data: IAddress }) =>
@@ -110,48 +90,44 @@ const CheckoutForm2: FC = () => {
 	)
 
 	// handlers
-	const { mutateAsync: orderAsync } = useMutation(
-		'order create',
-		(data: ICartItem) => {
-			return instance.post(`/products/variants/${data?.variants[0]?.id}/buy/`, {
-				quantity: data?.qty,
-				address: selectedAddress,
-			})
-		}
+	const { mutateAsync: orderAsync } = useMutation('order create', () =>
+		ProfilePaymentService.pay({
+			cart,
+			address: formState.selectedAddress,
+			data: {
+				bank_account: bankAccount,
+				confirm_photo: formState.image,
+				payment_type: formState.paymentMethod,
+				phone_number: formState.selectedAddress.phone,
+			},
+		})
 	)
 
 	const handleFormSubmit = async () => {
-		const withSortShops = ProfilePaymentService.postWithSort(orderStack)
-
-		for (let i in withSortShops) {
-			await ProfilePaymentService.create({
-				payment_type: paymentMethod,
-				confirm_photo: 'string',
-				phone_number: selectedAddress,
-				bank_account: 'string',
+		// validation
+		if (
+			!formState.bankAccount ||
+			!formState.selectedAddress ||
+			!formState.image
+		) {
+			setHelperText({
+				bankAccount: formState.bankAccount
+					? ''
+					: dynamicLocalization(common.required),
+				selectedAddress: formState.selectedAddress
+					? ''
+					: dynamicLocalization(common.required),
+				image: formState.image ? '' : dynamicLocalization(common.required),
 			})
+			return
 		}
 
-		// if (!paymentMethod || !selectedAddress) {
-		// 	setHelperText({
-		// 		paymentMethod: paymentMethod
-		// 			? ''
-		// 			: dynamicLocalization(common.required),
-		// 		selectedAddress: selectedAddress
-		// 			? ''
-		// 			: dynamicLocalization(common.required),
-		// 	})
-		// 	return
-		// }
-
-		// await orderStack.forEach((item) => {
-		// 	orderAsync(item)
-		// })
+		orderAsync()
 		// router.push('/orders/')
 	}
 
 	const handleFieldValueChange = (item) => () => {
-		setSelectedAddress(item)
+		setFormState({ ...formState, selectedAddress: item })
 		setHelperText({ ...helperText, selectedAddress: '' })
 	}
 
@@ -162,7 +138,8 @@ const CheckoutForm2: FC = () => {
 		e.stopPropagation()
 		await AddressesService.delete(id)
 		await refetch()
-		if (id == selectedAddress) setSelectedAddress('')
+		if (id == formState.selectedAddress?.id)
+			setFormState({ ...formState, selectedAddress: null })
 	}
 
 	return (
@@ -185,7 +162,7 @@ const CheckoutForm2: FC = () => {
 									position: 'relative',
 									backgroundColor: 'grey.100',
 									borderColor:
-										item.id === selectedAddress.id
+										item.id === formState.selectedAddress?.id
 											? 'primary.main'
 											: 'transparent',
 								}}
@@ -221,7 +198,7 @@ const CheckoutForm2: FC = () => {
 			</Card1>
 
 			<Card1 sx={{ mb: 3 }}>
-				<Heading number={2} title="Payment Details" />
+				<Heading number={2} title={t('choosePayment')} />
 
 				<RadioWrapper>
 					{payment_methods?.map((method) => (
@@ -229,12 +206,13 @@ const CheckoutForm2: FC = () => {
 							key={method.id}
 							style={{
 								boxShadow:
-									paymentMethod == method.id ? '0 0 0 1px #ff7900' : null,
+									formState.paymentMethod == method.id
+										? '0 0 0 1px #ff7900'
+										: null,
 							}}
-							onClick={() => {
-								setPaymentMethod(method.id)
-								setHelperText({ ...helperText, paymentMethod: '' })
-							}}
+							onClick={() =>
+								setFormState({ ...formState, paymentMethod: method.id })
+							}
 						>
 							<img src={method.icon.src} alt={method.name} />
 							<p>{method.name}</p>
@@ -242,9 +220,87 @@ const CheckoutForm2: FC = () => {
 						</RadioItem>
 					))}
 				</RadioWrapper>
-				{helperText.paymentMethod ? (
+			</Card1>
+
+			<Card1 sx={{ mb: 3 }}>
+				<Heading number={3} title={t('confirmPayment')} />
+				<TextField
+					sx={{ m: '25px 0 0' }}
+					autoComplete="on"
+					label={dynamicLocalization(paymentTranslations.cardPhoneNumber)}
+					placeholder={dynamicLocalization(paymentTranslations.cardPhoneNumber)}
+					onChange={(e) => {
+						setBankAccount(e.target.value)
+						setHelperText({ ...helperText, bankAccount: '' })
+					}}
+					onBlur={() =>
+						!bankAccount &&
+						setHelperText({
+							...helperText,
+							bankAccount: dynamicLocalization(common.required),
+						})
+					}
+					fullWidth
+				/>
+
+				{helperText.bankAccount ? (
+					<Alert sx={{ m: '20px 0' }} severity="error">
+						{helperText.bankAccount}
+					</Alert>
+				) : null}
+				<Grid
+					style={{
+						margin: '30px 0 0',
+						display: 'flex',
+						position: 'relative',
+					}}
+					width="100%"
+					container
+				>
+					<Grid
+						item
+						sm={formState.image ? 6 : 12}
+						xs={formState.image ? 6 : 12}
+					>
+						<DropZone
+							style={{
+								borderColor: 'red!important',
+							}}
+							name={formState.image?.name}
+							onChange={(file: File[]) => {
+								setFormState({ ...formState, image: file[0] })
+								setHelperText({ ...helperText, image: '' })
+							}}
+							multiple={false}
+							accept={
+								'image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'
+							}
+						/>
+					</Grid>
+					{formState.image ? (
+						<Grid
+							display="flex"
+							item
+							sm={6}
+							xs={6}
+							position="relative"
+							justifyContent="center"
+							alignItems="center"
+						>
+							<Image
+								layout="fill"
+								objectFit="contain"
+								objectPosition="center"
+								src={URL?.createObjectURL(formState.image)}
+								alt={formState.image?.name}
+							/>
+						</Grid>
+					) : null}
+				</Grid>
+
+				{helperText.image ? (
 					<Alert sx={{ m: '20px 0 0' }} severity="error">
-						{helperText.paymentMethod}
+						{helperText.image}
 					</Alert>
 				) : null}
 			</Card1>
@@ -273,7 +329,6 @@ const RadioWrapper = styled.div`
 
 const RadioItem = styled.div`
 	display: flex;
-	/* grid-template-columns: 1fr 1fr; */
 	align-items: center;
 	justify-content: center;
 	grid-gap: 0 10px;
@@ -295,42 +350,5 @@ const RadioItem = styled.div`
 		background-color: #fcf8f5;
 	}
 `
-
-const payment_methods: {
-	id: IPaymentType
-	name: string
-	icon: any
-	images?: string[]
-}[] = [
-	{
-		id: 'elsom',
-		name: 'Элсом',
-		icon: elsom,
-		images: [
-			'https://stock.xistore.by/upload/resize/news/detail/3480/c24/screenshot3_312_676_75.png',
-			'https://madgeek.io/wp-content/uploads/2019/06/Apple-IPhone_1-628x1024.jpg',
-		],
-	},
-	{
-		id: 'visa',
-		name: 'Visa',
-		icon: visa,
-	},
-	{
-		id: 'balance',
-		name: 'Balance',
-		icon: balance,
-	},
-	{
-		id: 'mbank',
-		name: 'MBank',
-		icon: mbank,
-	},
-	{
-		id: 'o_dengi',
-		name: 'О! деньги',
-		icon: oDengi,
-	},
-]
 
 export default CheckoutForm2
