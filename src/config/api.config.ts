@@ -2,6 +2,7 @@ export const API_URL = `${process.env.SERVER_URL}/api/`
 
 // Client
 export const getAuthUrl = (string: string) => `auth/${string}`
+export const getProfilePaymentUrl = (string: string) => `profile/payments/${string}`
 export const getProductsUrl = (string: string) => `products/${string}`
 export const getProductVariantsUrl = (string: string) =>
 	`products/variants/${string}`

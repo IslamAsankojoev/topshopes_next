@@ -1,37 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import balance from '/public/assets/images/payment-methods/balance.webp'
+import elsom from '/public/assets/images/payment-methods/elsom.webp'
+import mbank from '/public/assets/images/payment-methods/mbank.webp'
+import oDengi from '/public/assets/images/payment-methods/odengi.webp'
+import visa from '/public/assets/images/payment-methods/visa.png'
+import styled from '@emotion/styled'
 import { DeleteOutline } from '@mui/icons-material'
-import {
-	Avatar,
-	Button,
-	Card,
-	FormControl,
-	Grid,
-	Radio,
-	RadioGroup,
-	Typography,
-} from '@mui/material'
-import FormControlLabel from '@mui/material/FormControlLabel'
+import { Alert, Avatar, Button, Card, Grid, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { instance } from 'api/interceptor'
 import { AddressesService } from 'api/services/addresses/addresses.service'
-import { OrdersService } from 'api/services/orders/orders.service'
-import axios from 'axios'
+import { ProfilePaymentService } from 'api/services/payment/ProfilePayment.service'
 import Card1 from 'components/Card1'
 import { H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import { useTypedSelector } from 'hooks/useTypedSelector'
-import { method } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
+import { IPaymentType } from 'shared/types/order.types'
 import { ResponseList } from 'shared/types/response.types'
 import { IAddress } from 'shared/types/user.types'
 import { ICartItem } from 'store/cart/cart.interface'
+import { common } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import EditAddressForm from './EditAddressForm'
 import NewAddressForm from './NewAddressForm'
+import PaymentDialog from './PaymentDialog'
 
 // ====================================================================
 // date types
@@ -63,8 +61,14 @@ const CheckoutForm2: FC = () => {
 	// states
 	const { cart } = useTypedSelector((state) => state.cartStore)
 	const [selectedAddress, setSelectedAddress] = useState<string>('')
-	const [paymentMethod, setPaymentMethod] = useState('')
+	const [paymentMethod, setPaymentMethod] = useState(payment_methods[0]?.id)
+
 	const [orderStack, setOrderStack] = useState<ICartItem[]>(cart)
+
+	const [helperText, setHelperText] = useState({
+		paymentMethod: '',
+		selectedAddress: '',
+	})
 
 	// hooks
 	const router = useRouter()
@@ -117,14 +121,38 @@ const CheckoutForm2: FC = () => {
 	)
 
 	const handleFormSubmit = async () => {
-		await orderStack.forEach((item) => {
-			orderAsync(item)
-		})
-		router.push('/orders/')
+		const withSortShops = ProfilePaymentService.postWithSort(orderStack)
+
+		for (let i in withSortShops) {
+			await ProfilePaymentService.create({
+				payment_type: paymentMethod,
+				confirm_photo: 'string',
+				phone_number: selectedAddress,
+				bank_account: 'string',
+			})
+		}
+
+		// if (!paymentMethod || !selectedAddress) {
+		// 	setHelperText({
+		// 		paymentMethod: paymentMethod
+		// 			? ''
+		// 			: dynamicLocalization(common.required),
+		// 		selectedAddress: selectedAddress
+		// 			? ''
+		// 			: dynamicLocalization(common.required),
+		// 	})
+		// 	return
+		// }
+
+		// await orderStack.forEach((item) => {
+		// 	orderAsync(item)
+		// })
+		// router.push('/orders/')
 	}
 
-	const handleFieldValueChange = (id: string) => () => {
-		setSelectedAddress(id)
+	const handleFieldValueChange = (item) => () => {
+		setSelectedAddress(item)
+		setHelperText({ ...helperText, selectedAddress: '' })
 	}
 
 	const deleteAddress = async (
@@ -134,6 +162,7 @@ const CheckoutForm2: FC = () => {
 		e.stopPropagation()
 		await AddressesService.delete(id)
 		await refetch()
+		if (id == selectedAddress) setSelectedAddress('')
 	}
 
 	return (
@@ -156,11 +185,11 @@ const CheckoutForm2: FC = () => {
 									position: 'relative',
 									backgroundColor: 'grey.100',
 									borderColor:
-										item.id === selectedAddress
+										item.id === selectedAddress.id
 											? 'primary.main'
 											: 'transparent',
 								}}
-								onClick={handleFieldValueChange(item.id)}
+								onClick={handleFieldValueChange(item)}
 							>
 								<FlexBox
 									justifyContent="flex-end"
@@ -184,67 +213,123 @@ const CheckoutForm2: FC = () => {
 						</Grid>
 					))}
 				</Grid>
-				<Button
-					fullWidth
-					type="submit"
-					color="primary"
-					variant="contained"
-					sx={{ mt: 3 }}
-					onClick={handleFormSubmit}
-				>
-					{t('placeOrder')}
-				</Button>
+				{helperText.selectedAddress ? (
+					<Alert sx={{ m: '20px 0 0' }} severity="error">
+						{helperText.selectedAddress}
+					</Alert>
+				) : null}
 			</Card1>
 
 			<Card1 sx={{ mb: 3 }}>
 				<Heading number={2} title="Payment Details" />
 
-				<FormControl>
-					<RadioGroup
-						value={paymentMethod}
-						defaultValue={payment_methods[0]?.name}
-						onChange={({ target }) => setPaymentMethod(target.value)}
-					>
-						{payment_methods?.map((method) => (
-							<FormControlLabel
-								key={method.id}
-								value={method.id}
-								control={<Radio />}
-								label={method.name}
-							/>
-						))}
-					</RadioGroup>
-				</FormControl>
+				<RadioWrapper>
+					{payment_methods?.map((method) => (
+						<RadioItem
+							key={method.id}
+							style={{
+								boxShadow:
+									paymentMethod == method.id ? '0 0 0 1px #ff7900' : null,
+							}}
+							onClick={() => {
+								setPaymentMethod(method.id)
+								setHelperText({ ...helperText, paymentMethod: '' })
+							}}
+						>
+							<img src={method.icon.src} alt={method.name} />
+							<p>{method.name}</p>
+							<PaymentDialog images={method?.images} />
+						</RadioItem>
+					))}
+				</RadioWrapper>
+				{helperText.paymentMethod ? (
+					<Alert sx={{ m: '20px 0 0' }} severity="error">
+						{helperText.paymentMethod}
+					</Alert>
+				) : null}
 			</Card1>
+
+			<Button
+				fullWidth
+				type="submit"
+				color="primary"
+				variant="contained"
+				sx={{ mt: 3 }}
+				onClick={handleFormSubmit}
+			>
+				{t('placeOrder')}
+			</Button>
 		</>
 	)
 }
 
-const payment_methods: { id: string; name: string; icon: string }[] = [
-	{
-		id: 'oDengi',
-		name: 'О! деньги',
-		icon: '/public/assets/images/payment-methods/odengi.webp',
-	},
+const RadioWrapper = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	grid-gap: 30px;
+	width: 100%;
+`
+
+const RadioItem = styled.div`
+	display: flex;
+	/* grid-template-columns: 1fr 1fr; */
+	align-items: center;
+	justify-content: center;
+	grid-gap: 0 10px;
+
+	background-color: #f6f9fc;
+	border-radius: 5px;
+	padding: 2px 10px;
+
+	transition: 0.3s;
+	cursor: pointer;
+
+	img {
+		width: 30px;
+		height: 30px;
+		object-fit: contain;
+	}
+
+	&:hover {
+		background-color: #fcf8f5;
+	}
+`
+
+const payment_methods: {
+	id: IPaymentType
+	name: string
+	icon: any
+	images?: string[]
+}[] = [
 	{
 		id: 'elsom',
 		name: 'Элсом',
-		icon: '/public/assets/images/payment-methods/elsom.webp',
+		icon: elsom,
+		images: [
+			'https://stock.xistore.by/upload/resize/news/detail/3480/c24/screenshot3_312_676_75.png',
+			'https://madgeek.io/wp-content/uploads/2019/06/Apple-IPhone_1-628x1024.jpg',
+		],
 	},
 	{
 		id: 'visa',
 		name: 'Visa',
-		icon: '/public/assets/images/payment-methods/visa.png',
+		icon: visa,
 	},
 	{
 		id: 'balance',
 		name: 'Balance',
-		icon: '/public/assets/images/payment-methods/balance.webp',
+		icon: balance,
 	},
 	{
 		id: 'mbank',
 		name: 'MBank',
-		icon: '/public/assets/images/payment-methods/odengi.webp',
+		icon: mbank,
+	},
+	{
+		id: 'o_dengi',
+		name: 'О! деньги',
+		icon: oDengi,
 	},
 ]
 

@@ -2,6 +2,7 @@ import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { OrdersService } from 'api/services/orders/orders.service'
 import { ShopsService } from 'api/services/shop/shop.service'
+import Empty from 'components/Empty'
 import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
@@ -85,37 +86,41 @@ const OrderList: NextPageAuth = () => {
 				searchPlaceholder={t('searchOrder')}
 			/>
 
-			<Card>
-				<Scrollbar>
-					<TableContainer sx={{ minWidth: 900 }}>
-						<Table>
-							<TableHeader
-								order={order}
-								hideSelectBtn
-								orderBy={orderBy}
-								heading={tableHeading}
-								rowCount={orders?.length}
-								numSelected={selected?.length}
-								onRequestSort={handleRequestSort}
-							/>
+			{filteredList?.length ? (
+				<Card>
+					<Scrollbar>
+						<TableContainer sx={{ minWidth: 900 }}>
+							<Table>
+								<TableHeader
+									order={order}
+									hideSelectBtn
+									orderBy={orderBy}
+									heading={tableHeading}
+									rowCount={orders?.length}
+									numSelected={selected?.length}
+									onRequestSort={handleRequestSort}
+								/>
 
-							<TableBody>
-								{filteredList?.map((order, index) => (
-									<OrderRow order={order} key={index} />
-								))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Scrollbar>
+								<TableBody>
+									{filteredList?.map((order, index) => (
+										<OrderRow order={order} key={index} />
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Scrollbar>
 
-				<Stack alignItems="center" my={4}>
-					<TablePagination
-						onChange={handleChangePage}
-						count={Math.ceil(orders?.count / 20)}
-						page={currentPage}
-					/>
-				</Stack>
-			</Card>
+					<Stack alignItems="center" my={4}>
+						<TablePagination
+							onChange={handleChangePage}
+							count={Math.ceil(orders?.count / 20)}
+							page={currentPage}
+						/>
+					</Stack>
+				</Card>
+			) : (
+				<Empty />
+			)}
 		</Box>
 	)
 }

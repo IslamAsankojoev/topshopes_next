@@ -9,6 +9,8 @@ import {
 	TableContainer,
 } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import { ShopsService } from 'api/services/shop/shop.service'
+import Empty from 'components/Empty'
 import Scrollbar from 'components/Scrollbar'
 import { H3, Paragraph, Small } from 'components/Typography'
 import TableHeader from 'components/data-table/TableHeader'
@@ -25,11 +27,10 @@ import {
 	StyledTableRow,
 } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
-import { NextPageAuth } from 'shared/types/auth.types'
 import { useQuery } from 'react-query'
-import { ShopsService } from 'api/services/shop/shop.service'
-import { ResponseList } from 'shared/types/response.types'
+import { NextPageAuth } from 'shared/types/auth.types'
 import { IReview } from 'shared/types/product.types'
+import { ResponseList } from 'shared/types/response.types'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
@@ -76,74 +77,78 @@ const Reviews: NextPageAuth = () => {
 		<Box py={4}>
 			<H3 mb={2}>{t('productReviews')}</H3>
 
-			<Card>
-				<Scrollbar>
-					<TableContainer sx={{ minWidth: 1000 }}>
-						<Table>
-							<TableHeader
-								order={order}
-								hideSelectBtn
-								orderBy={orderBy}
-								heading={tableHeading}
-								rowCount={listData?.length}
-								numSelected={selected?.length}
-								onRequestSort={handleRequestSort}
-							/>
+			{filteredList?.length ? (
+				<Card>
+					<Scrollbar>
+						<TableContainer sx={{ minWidth: 1000 }}>
+							<Table>
+								<TableHeader
+									order={order}
+									hideSelectBtn
+									orderBy={orderBy}
+									heading={tableHeading}
+									rowCount={listData?.length}
+									numSelected={selected?.length}
+									onRequestSort={handleRequestSort}
+								/>
 
-							<TableBody>
-								{filteredList?.map((review: IReview, index) => (
-									<StyledTableRow tabIndex={-1} role="checkbox" key={index}>
-										<StyledTableCell align="left">
-											<FlexBox alignItems="center" gap={1.5}>
-												<Avatar
-													src={
-														review?.user?.avatar ||
-														'/assets/images/avatars/001-man.svg'
-													}
-													sx={{ borderRadius: '8px' }}
+								<TableBody>
+									{filteredList?.map((review: IReview, index) => (
+										<StyledTableRow tabIndex={-1} role="checkbox" key={index}>
+											<StyledTableCell align="left">
+												<FlexBox alignItems="center" gap={1.5}>
+													<Avatar
+														src={
+															review?.user?.avatar ||
+															'/assets/images/avatars/001-man.svg'
+														}
+														sx={{ borderRadius: '8px' }}
+													/>
+													<Paragraph>
+														{review?.user?.first_name || review?.user?.email}
+													</Paragraph>
+												</FlexBox>
+											</StyledTableCell>
+
+											<StyledTableCell align="left">
+												{review?.product}
+											</StyledTableCell>
+
+											<StyledTableCell align="left">
+												<Small>{review.comment}</Small>
+											</StyledTableCell>
+
+											<StyledTableCell align="left">
+												<Rating
+													value={review.rating}
+													size="small"
+													color="warning"
+													readOnly
 												/>
-												<Paragraph>
-													{review?.user?.first_name || review?.user?.email}
-												</Paragraph>
-											</FlexBox>
-										</StyledTableCell>
+											</StyledTableCell>
 
-										<StyledTableCell align="left">
-											{review?.product}
-										</StyledTableCell>
+											<StyledTableCell align="center">
+												<StyledIconButton>
+													<RemoveRedEye />
+												</StyledIconButton>
+											</StyledTableCell>
+										</StyledTableRow>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Scrollbar>
 
-										<StyledTableCell align="left">
-											<Small>{review.comment}</Small>
-										</StyledTableCell>
-
-										<StyledTableCell align="left">
-											<Rating
-												value={review.rating}
-												size="small"
-												color="warning"
-												readOnly
-											/>
-										</StyledTableCell>
-
-										<StyledTableCell align="center">
-											<StyledIconButton>
-												<RemoveRedEye />
-											</StyledIconButton>
-										</StyledTableCell>
-									</StyledTableRow>
-								))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Scrollbar>
-
-				<Stack alignItems="center" my={4}>
-					<TablePagination
-						onChange={handleChangePage}
-						count={Math.ceil(listData?.length / rowsPerPage)}
-					/>
-				</Stack>
-			</Card>
+					<Stack alignItems="center" my={4}>
+						<TablePagination
+							onChange={handleChangePage}
+							count={Math.ceil(listData?.length / rowsPerPage)}
+						/>
+					</Stack>
+				</Card>
+			) : (
+				<Empty />
+			)}
 		</Box>
 	)
 }

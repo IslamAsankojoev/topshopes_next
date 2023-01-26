@@ -5,6 +5,8 @@ import { ErrorMessage, Form, useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import { useEffect } from 'react'
 import React from 'react'
+import { common } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 import { formData } from 'utils/formData'
 import * as yup from 'yup'
 
@@ -31,6 +33,8 @@ const CreateForm: React.FC<CreateFormProps> = ({
 	const { t } = useTranslation('admin')
 	const { t: commonT } = useTranslation('common')
 
+	const required = dynamicLocalization(common.required)
+
 	const getTranslate = (word: string) => {
 		// если нету в admin то возьмет из common
 		return t(word) === word ? commonT(word) : t(word)
@@ -40,43 +44,40 @@ const CreateForm: React.FC<CreateFormProps> = ({
 	const validate = yup.object().shape(
 		fields.reduce((acc, field) => {
 			if (field.type == 'text' && field.required) {
-				acc[field.name] = yup.string().required('Required')
+				acc[field.name] = yup.string().required(required)
 				return acc
 			}
 			if (field.type === 'number' && field.required) {
-				acc[field.name] = yup.number().required('Required')
+				acc[field.name] = yup.number().required(required)
 				return acc
 			}
 			if (field.type === 'email' && field.required) {
-				acc[field.name] = yup
-					.string()
-					.email('Invalid email')
-					.required('Required')
+				acc[field.name] = yup.string().email('Invalid email').required(required)
 				return acc
 			}
 			if (field.type === 'date' && field.required) {
-				acc[field.name] = yup.date().required('Required')
+				acc[field.name] = yup.date().required(required)
 				return acc
 			}
 			if (field.type === 'file' && field.required) {
-				acc[field.name] = yup.mixed().required('Required')
+				acc[field.name] = yup.mixed().required(required)
 				return acc
 			}
 			if (field.type === 'color' && field.required) {
-				acc[field.name] = yup.string().required('Required')
+				acc[field.name] = yup.string().required(required)
 				return acc
 			}
 			if (field.type === 'textEditor' && field.required) {
-				acc[field.name] = yup.string().required('Required')
+				acc[field.name] = yup.string().required(required)
 				return acc
 			}
 			if (field.type === 'select' && field.required) {
-				acc[field.name] = yup.string().required('Required')
+				acc[field.name] = yup.string().required(required)
 				return acc
 			}
 			if (field.type === 'autocomplete' && field.required) {
 				acc[field.name] = yup.object({
-					id: yup.string().required('Required'),
+					id: yup.string().required(required),
 				})
 				return acc
 			}
@@ -85,7 +86,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 				return acc
 			}
 			if (field.type === 'multiple-select' && field.required) {
-				acc[field.name] = yup.array().min(1).required('required')
+				acc[field.name] = yup.array().min(1).required(required)
 				return acc
 			}
 			return acc

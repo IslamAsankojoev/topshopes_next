@@ -76,7 +76,7 @@ const ProductList: NextPageAuth = () => {
 
 			{isLoading ? <Loading /> : null}
 
-			{products?.count ? (
+			{filteredList?.length ? (
 				<Card>
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 900 }}>

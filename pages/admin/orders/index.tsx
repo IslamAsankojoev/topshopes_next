@@ -1,6 +1,7 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { OrdersService } from 'api/services/orders/orders.service'
+import Empty from 'components/Empty'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
@@ -100,39 +101,43 @@ const OrderList: NextPageAuth = () => {
 				searchPlaceholder={t('searchingFor')}
 			/>
 
-			<Card>
-				<Scrollbar>
-					<TableContainer sx={{ minWidth: 900 }}>
-						<Table>
-							<TableHeader
-								order={order}
-								hideSelectBtn
-								orderBy={orderBy}
-								heading={tableHeading}
-								rowCount={orders?.count}
-								numSelected={selected?.length}
-								onRequestSort={handleRequestSort}
-							/>
+			{filteredList?.length ? (
+				<Card>
+					<Scrollbar>
+						<TableContainer sx={{ minWidth: 900 }}>
+							<Table>
+								<TableHeader
+									order={order}
+									hideSelectBtn
+									orderBy={orderBy}
+									heading={tableHeading}
+									rowCount={orders?.count}
+									numSelected={selected?.length}
+									onRequestSort={handleRequestSort}
+								/>
 
-							<TableBody>
-								{lodash
-									.sortBy(filteredList, 'created_at')
-									?.map((order, index) => (
-										<OrderRow order={order} key={index} />
-									))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Scrollbar>
+								<TableBody>
+									{lodash
+										.sortBy(filteredList, 'created_at')
+										?.map((order, index) => (
+											<OrderRow order={order} key={index} />
+										))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Scrollbar>
 
-				<Stack alignItems="center" my={4}>
-					<TablePagination
-						onChange={handleChangePage}
-						count={Math.ceil(orders?.count / 20)}
-						page={currentPage}
-					/>
-				</Stack>
-			</Card>
+					<Stack alignItems="center" my={4}>
+						<TablePagination
+							onChange={handleChangePage}
+							count={Math.ceil(orders?.count / 20)}
+							page={currentPage}
+						/>
+					</Stack>
+				</Card>
+			) : (
+				<Empty />
+			)}
 		</Box>
 	)
 }

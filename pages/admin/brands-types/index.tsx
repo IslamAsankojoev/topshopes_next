@@ -1,5 +1,6 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import Empty from 'components/Empty'
 import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
@@ -75,42 +76,46 @@ const BrandsTypesList: NextPageAuth = () => {
 				searchPlaceholder={t('searchingFor')}
 			/>
 
-			<Card>
-				<Scrollbar>
-					<TableContainer sx={{ minWidth: 600 }}>
-						<Table>
-							<TableHeader
-								order={order}
-								hideSelectBtn
-								orderBy={orderBy}
-								heading={tableHeading}
-								rowCount={brandsTypes?.count}
-								numSelected={selected?.length}
-								onRequestSort={handleRequestSort}
-							/>
+			{filteredList?.length ? (
+				<Card>
+					<Scrollbar>
+						<TableContainer sx={{ minWidth: 600 }}>
+							<Table>
+								<TableHeader
+									order={order}
+									hideSelectBtn
+									orderBy={orderBy}
+									heading={tableHeading}
+									rowCount={brandsTypes?.count}
+									numSelected={selected?.length}
+									onRequestSort={handleRequestSort}
+								/>
 
-							<TableBody>
-								{filteredList?.map((bt, index) => (
-									<BrandsTypesRow
-										name={bt}
-										key={index}
-										selected={selected}
-										refetch={refetch}
-									/>
-								))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Scrollbar>
+								<TableBody>
+									{filteredList?.map((bt, index) => (
+										<BrandsTypesRow
+											name={bt}
+											key={index}
+											selected={selected}
+											refetch={refetch}
+										/>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Scrollbar>
 
-				<Stack alignItems="center" my={4}>
-					<TablePagination
-						onChange={handleChangePage}
-						count={Math.ceil(brandsTypes?.count / 20)}
-						page={currentPage}
-					/>
-				</Stack>
-			</Card>
+					<Stack alignItems="center" my={4}>
+						<TablePagination
+							onChange={handleChangePage}
+							count={Math.ceil(brandsTypes?.count / 20)}
+							page={currentPage}
+						/>
+					</Stack>
+				</Card>
+			) : (
+				<Empty />
+			)}
 		</Box>
 	)
 }

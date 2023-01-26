@@ -1,6 +1,7 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
+import Empty from 'components/Empty'
 import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
@@ -64,34 +65,38 @@ const PageCategoryList: NextPageAuth = () => {
 				searchOff={true}
 			/>
 
-			<Card>
-				<Scrollbar>
-					<TableContainer sx={{ minWidth: 600 }}>
-						<Table>
-							<TableHeader
-								order={order}
-								hideSelectBtn
-								orderBy={orderBy}
-								heading={tableHeading}
-								rowCount={pageCategory?.count}
-								numSelected={selected?.length}
-								onRequestSort={handleRequestSort}
-							/>
+			{filteredList?.length ? (
+				<Card>
+					<Scrollbar>
+						<TableContainer sx={{ minWidth: 600 }}>
+							<Table>
+								<TableHeader
+									order={order}
+									hideSelectBtn
+									orderBy={orderBy}
+									heading={tableHeading}
+									rowCount={pageCategory?.count}
+									numSelected={selected?.length}
+									onRequestSort={handleRequestSort}
+								/>
 
-							<TableBody>
-								{filteredList?.map((size, index) => (
-									<PageCategoryRow
-										name={size}
-										key={index}
-										selected={selected}
-										refetch={refetch}
-									/>
-								))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Scrollbar>
-			</Card>
+								<TableBody>
+									{filteredList?.map((size, index) => (
+										<PageCategoryRow
+											name={size}
+											key={index}
+											selected={selected}
+											refetch={refetch}
+										/>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Scrollbar>
+				</Card>
+			) : (
+				<Empty />
+			)}
 		</Box>
 	)
 }
