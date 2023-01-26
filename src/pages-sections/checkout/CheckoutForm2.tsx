@@ -63,7 +63,7 @@ const CheckoutForm2: FC = () => {
 	// states
 	const { cart } = useTypedSelector((state) => state.cartStore)
 	const [selectedAddress, setSelectedAddress] = useState<string>('')
-	// const [paymentMethod, setPaymentMethod] = useState('')
+	const [paymentMethod, setPaymentMethod] = useState('')
 	const [orderStack, setOrderStack] = useState<ICartItem[]>(cart)
 
 	// hooks
