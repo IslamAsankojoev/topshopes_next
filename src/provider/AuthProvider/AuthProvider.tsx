@@ -12,10 +12,10 @@ const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false })
 
 const AuthProvider: React.FC<any> = ({
 	children,
-	Component: { isOnlyUser, isOnlyAdmin },
+	Component: { isOnlyUser, isOnlyAdmin, isOnlySeller },
 }) => {
 	const { pathname, asPath, push } = useRouter()
-	const { checkAuth, logout, profile } = useActions()
+	const { logout, profile } = useActions()
 
 	React.useEffect(() => {
 		;(async () => {
@@ -39,8 +39,13 @@ const AuthProvider: React.FC<any> = ({
 				const refresh = Cookie.get('refresh')
 
 				if (!refresh && isOnlyUser) logout()
+				if (!refresh && isOnlySeller) logout()
 				if (!refresh && isOnlyAdmin) logout()
-				if ((isOnlyUser && refresh) || (isOnlyAdmin && refresh)) {
+				if (
+					(isOnlyUser && refresh) ||
+					(isOnlyAdmin && refresh) ||
+					(isOnlySeller && refresh)
+				) {
 					const res = await AuthService.refresh()
 					if (res) profile()
 				}
@@ -49,17 +54,6 @@ const AuthProvider: React.FC<any> = ({
 			}
 		})()
 	}, [pathname, asPath]) // eslint-disable-line react-hooks/exhaustive-deps
-
-	// React.useEffect(() => {
-	// 	const refreshToken = Cookie.get('refresh')
-	// 	if (!refreshToken && isOnlyUser) logout()
-	// }, [pathname, asPath]) // eslint-disable-line react-hooks/exhaustive-deps
-
-	// return !isOnlyUser ? (
-	// 	<>{children}</>
-	// ) : (
-	// 	<DynamicCheckRole Component={{ isOnlyUser }}>{children}</DynamicCheckRole>
-	// )
 
 	return !isOnlyAdmin && !isOnlyUser ? (
 		<>{children}</>

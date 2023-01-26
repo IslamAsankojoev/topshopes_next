@@ -81,13 +81,17 @@ const OrderDetails: NextPageAuth = () => {
 	const orderStatus: IOrderStatus = order?.status || 'pending'
 
 	const orderStatusList: IOrderStatus[] = [
-		'paid',
+		'payment_error',
 		'pending',
+		'paid',
+		'shop_decline',
+		'ready',
 		'delivering',
 		'delivered',
-		'received',
-		'cancelled',
+		'canceled',
+		'completed',
 	]
+
 	const stepIconList = [
 		Payment,
 		PackageBox,
