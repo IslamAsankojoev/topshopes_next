@@ -15,7 +15,7 @@ const AuthProvider: React.FC<any> = ({
 	Component: { isOnlyUser, isOnlyAdmin, isOnlySeller },
 }) => {
 	const { pathname, asPath, push } = useRouter()
-	const { logout, profile } = useActions()
+	const { checkAuth, logout, profile } = useActions()
 
 	React.useEffect(() => {
 		;(async () => {
@@ -55,10 +55,10 @@ const AuthProvider: React.FC<any> = ({
 		})()
 	}, [pathname, asPath]) // eslint-disable-line react-hooks/exhaustive-deps
 
-	return !isOnlyAdmin && !isOnlyUser ? (
+	return !isOnlyAdmin && !isOnlyUser && !isOnlySeller ? (
 		<>{children}</>
 	) : (
-		<DynamicCheckRole Component={{ isOnlyAdmin, isOnlyUser }}>
+		<DynamicCheckRole Component={{ isOnlyAdmin, isOnlyUser, isOnlySeller }}>
 			{children}
 		</DynamicCheckRole>
 	)

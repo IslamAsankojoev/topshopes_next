@@ -128,7 +128,7 @@ const CreateProduct: NextPageAuth = () => {
 	) : null
 }
 
-CreateProduct.isOnlyUser = true
+CreateProduct.isOnlySeller = true
 
 CreateProduct.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

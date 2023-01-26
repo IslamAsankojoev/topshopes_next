@@ -121,17 +121,15 @@ const CheckoutForm2: FC = () => {
 	)
 
 	const handleFormSubmit = async () => {
-		const withSortShops = ProfilePaymentService.postWithSort(orderStack)
-
-		for (let i in withSortShops) {
-			await ProfilePaymentService.create({
-				payment_type: paymentMethod,
-				confirm_photo: 'string',
-				phone_number: selectedAddress,
-				bank_account: 'string',
-			})
-		}
-
+		// const withSortShops = ProfilePaymentService.postWithSort(orderStack)
+		// for (let i in withSortShops) {
+		// 	await ProfilePaymentService.create({
+		// 		payment_type: paymentMethod,
+		// 		confirm_photo: 'string',
+		// 		phone_number: selectedAddress,
+		// 		bank_account: 'string',
+		// 	})
+		// }
 		// if (!paymentMethod || !selectedAddress) {
 		// 	setHelperText({
 		// 		paymentMethod: paymentMethod
@@ -143,7 +141,6 @@ const CheckoutForm2: FC = () => {
 		// 	})
 		// 	return
 		// }
-
 		// await orderStack.forEach((item) => {
 		// 	orderAsync(item)
 		// })
@@ -185,11 +182,11 @@ const CheckoutForm2: FC = () => {
 									position: 'relative',
 									backgroundColor: 'grey.100',
 									borderColor:
-										item.id === selectedAddress.id
+										item.id === selectedAddress
 											? 'primary.main'
 											: 'transparent',
 								}}
-								onClick={handleFieldValueChange(item)}
+								onClick={handleFieldValueChange(item.id)}
 							>
 								<FlexBox
 									justifyContent="flex-end"

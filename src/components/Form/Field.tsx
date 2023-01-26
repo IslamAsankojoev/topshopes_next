@@ -408,6 +408,7 @@ const Field: FC<any> = (props) => {
 							onChange={(e) => handleFileChange(e)}
 							multiple={false}
 							accept={
+								other.accept ||
 								'image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'
 							}
 						/>

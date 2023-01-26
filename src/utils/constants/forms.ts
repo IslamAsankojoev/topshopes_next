@@ -1,4 +1,5 @@
 import { IPayment } from 'shared/types/order.types'
+import { IShopForm } from 'shared/types/shop.types'
 import { IUser } from 'shared/types/user.types'
 import { statusTranslation } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
@@ -396,6 +397,80 @@ export const paymentFormCreate: {
 		label: 'confirm photo',
 		type: 'file',
 		placeholder: 'confirm photo',
+		required: true,
+	},
+]
+
+export const ShopCreateForm: {
+	name: keyof IShopForm
+	label: string
+	type: string
+	fileTypes?: string
+	placeholder: string
+	required: boolean
+}[] = [
+	{
+		name: 'owner',
+		label: 'owner',
+		type: 'text',
+		placeholder: 'Owner',
+		required: true,
+	},
+	{
+		name: 'shop_name',
+		label: 'shop name',
+		type: 'text',
+		placeholder: 'Shop name',
+		required: true,
+	},
+	{
+		name: 'short_name',
+		label: 'short name',
+		type: 'text',
+		placeholder: 'Short name',
+		required: true,
+	},
+	{
+		name: 'full_name',
+		label: 'full name',
+		type: 'text',
+		placeholder: 'Full name',
+		required: true,
+	},
+	{
+		name: 'address',
+		label: 'address',
+		type: 'text',
+		placeholder: 'Address',
+		required: true,
+	},
+	{
+		name: 'INN',
+		label: 'INN',
+		type: 'text',
+		placeholder: 'INN',
+		required: true,
+	},
+	{
+		name: 'bik',
+		label: 'BIK',
+		type: 'text',
+		placeholder: 'BIK',
+		required: true,
+	},
+	{
+		name: 'bank_account',
+		label: 'bank account',
+		type: 'text',
+		placeholder: 'Bank account',
+		required: true,
+	},
+	{
+		name: 'document',
+		label: 'document',
+		type: 'file',
+		fileTypes: 'application/pdf',
+		placeholder: 'Document',
 		required: true,
 	},
 ]

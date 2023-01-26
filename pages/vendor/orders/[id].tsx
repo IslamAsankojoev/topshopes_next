@@ -32,7 +32,7 @@ const OrderEdit: NextPageAuth = () => {
 	)
 }
 
-OrderEdit.isOnlyUser = true
+OrderEdit.isOnlySeller = true
 
 OrderEdit.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

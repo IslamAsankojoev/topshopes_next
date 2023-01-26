@@ -20,6 +20,9 @@ interface CreateFormProps {
 	children?: React.ReactNode
 	maxFormWidth?: string
 	actionButtons?: React.ReactNode
+	buttonText?: string
+	buttonPosition?: string
+	buttonSize?: 'small' | 'normal' | 'medium' | 'large'
 }
 const CreateForm: React.FC<CreateFormProps> = ({
 	fields,
@@ -29,6 +32,9 @@ const CreateForm: React.FC<CreateFormProps> = ({
 	children,
 	maxFormWidth = '600px',
 	actionButtons,
+	buttonPosition = 'static',
+	buttonText,
+	buttonSize = 'large',
 }) => {
 	const { t } = useTranslation('admin')
 	const { t: commonT } = useTranslation('common')
@@ -176,6 +182,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 										defaultData={defaultData || {}}
 										allNames={field?.allNames || []}
 										isValidating={true}
+										accept={field.fileTypes}
 									/>
 								</Grid>
 							) : null
@@ -186,15 +193,16 @@ const CreateForm: React.FC<CreateFormProps> = ({
 						<Grid item xs={12}>
 							<Card
 								sx={{
-									border: '1px solid #E4E7EB',
-									position: 'fixed',
+									border: buttonPosition ? '' : '1px solid #E4E7EB',
+									backgroundColor: buttonPosition ? '' : '#F7F9FC',
+									position: buttonPosition || 'fixed',
+									boxShadow: buttonPosition && 'none',
 									display: 'flex',
 									bottom: 0,
 									right: 0,
 									zIndex: 100,
 									justifyContent: 'space-evenly',
 									padding: '8px!important',
-									backgroundColor: '#F7F9FC',
 									'@media (max-width: 600px)': {
 										width: '100%',
 										justifyContent: 'space-evenly',
@@ -210,7 +218,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 									<Button
 										variant="contained"
 										color="success"
-										size="small"
+										size={buttonSize || 'small'}
 										onClick={() => {
 											handleSubmit()
 											Object.keys(fields).forEach((key) => {
@@ -218,7 +226,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 											})
 										}}
 									>
-										{t('save')}
+										{buttonText || t('save')}
 									</Button>
 								</FlexBox>
 							</Card>

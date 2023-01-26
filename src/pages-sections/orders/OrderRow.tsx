@@ -10,18 +10,6 @@ import { IOrderShort, IOrderStatus } from 'shared/types/order.types'
 import { statusTranslation } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
-// =================================================
-// type OrderRowProps = {
-//   item: {
-//     orderNo: any;
-//     href: string;
-//     price: number;
-//     status: string;
-//     purchaseDate: string | Date;
-//   };
-// };
-// =================================================
-
 const OrderRow: FC<IOrderShort> = ({
 	created_at,
 	id,
