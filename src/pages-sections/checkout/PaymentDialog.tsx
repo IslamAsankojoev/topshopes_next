@@ -49,6 +49,16 @@ const PaymentDialog: React.FC<{ images?: string[] }> = ({ images }) => {
 	)
 }
 
+// const tranlations = {
+// 	instruction: {
+// 		en: "Instruction",
+// 		kk: "Нұсқау",
+// 		kg: "Instruction",
+// 		ru: "Инструкция",
+// 		tr: "Talimat"
+// 	}
+// }
+
 const Images = styled.div`
 	display: grid;
 	grid-template-columns: 1fr;

@@ -5,33 +5,19 @@ import mbank from '/public/assets/images/payment-methods/mbank.webp'
 import oDengi from '/public/assets/images/payment-methods/odengi.webp'
 import visa from '/public/assets/images/payment-methods/visa.png'
 import styled from '@emotion/styled'
-import { DeleteOutline, Visibility } from '@mui/icons-material'
-import {
-	Alert,
-	Avatar,
-	Button,
-	Card,
-	FormControl,
-	Grid,
-	Radio,
-	RadioGroup,
-	Typography,
-} from '@mui/material'
-import FormControlLabel from '@mui/material/FormControlLabel'
+import { DeleteOutline } from '@mui/icons-material'
+import { Alert, Avatar, Button, Card, Grid, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { instance } from 'api/interceptor'
 import { AddressesService } from 'api/services/addresses/addresses.service'
-import { OrdersService } from 'api/services/orders/orders.service'
-import axios from 'axios'
-import BazaarIconButton from 'components/BazaarIconButton'
+import { ProfilePaymentService } from 'api/services/payment/ProfilePayment.service'
 import Card1 from 'components/Card1'
 import { H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import { useTypedSelector } from 'hooks/useTypedSelector'
-import { method } from 'lodash'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { IPaymentType } from 'shared/types/order.types'
@@ -135,25 +121,37 @@ const CheckoutForm2: FC = () => {
 	)
 
 	const handleFormSubmit = async () => {
-		if (!paymentMethod || !selectedAddress || !addresses?.length) {
-			setHelperText({
-				paymentMethod: paymentMethod
-					? ''
-					: dynamicLocalization(common.required),
-				selectedAddress: selectedAddress && addresses?.length
-					? ''
-					: dynamicLocalization(common.required),
+		const withSortShops = ProfilePaymentService.postWithSort(orderStack)
+
+		for (let i in withSortShops) {
+			await ProfilePaymentService.create({
+				payment_type: paymentMethod,
+				confirm_photo: 'string',
+				phone_number: selectedAddress,
+				bank_account: 'string',
 			})
-			return
 		}
-		await orderStack.forEach((item) => {
-			orderAsync(item)
-		})
-		router.push('/orders/')
+
+		// if (!paymentMethod || !selectedAddress) {
+		// 	setHelperText({
+		// 		paymentMethod: paymentMethod
+		// 			? ''
+		// 			: dynamicLocalization(common.required),
+		// 		selectedAddress: selectedAddress
+		// 			? ''
+		// 			: dynamicLocalization(common.required),
+		// 	})
+		// 	return
+		// }
+
+		// await orderStack.forEach((item) => {
+		// 	orderAsync(item)
+		// })
+		// router.push('/orders/')
 	}
 
-	const handleFieldValueChange = (id: string) => () => {
-		setSelectedAddress(id)
+	const handleFieldValueChange = (item) => () => {
+		setSelectedAddress(item)
 		setHelperText({ ...helperText, selectedAddress: '' })
 	}
 
@@ -164,6 +162,7 @@ const CheckoutForm2: FC = () => {
 		e.stopPropagation()
 		await AddressesService.delete(id)
 		await refetch()
+		if (id == selectedAddress) setSelectedAddress('')
 	}
 
 	return (
@@ -186,11 +185,11 @@ const CheckoutForm2: FC = () => {
 									position: 'relative',
 									backgroundColor: 'grey.100',
 									borderColor:
-										item.id === selectedAddress
+										item.id === selectedAddress.id
 											? 'primary.main'
 											: 'transparent',
 								}}
-								onClick={handleFieldValueChange(item.id)}
+								onClick={handleFieldValueChange(item)}
 							>
 								<FlexBox
 									justifyContent="flex-end"
@@ -229,7 +228,8 @@ const CheckoutForm2: FC = () => {
 						<RadioItem
 							key={method.id}
 							style={{
-								backgroundColor: paymentMethod == method.id ? '#fbefe5' : null,
+								boxShadow:
+									paymentMethod == method.id ? '0 0 0 1px #ff7900' : null,
 							}}
 							onClick={() => {
 								setPaymentMethod(method.id)
@@ -273,13 +273,15 @@ const RadioWrapper = styled.div`
 
 const RadioItem = styled.div`
 	display: flex;
+	/* grid-template-columns: 1fr 1fr; */
 	align-items: center;
 	justify-content: center;
 	grid-gap: 0 10px;
-	background-color: #ececeb;
-	/* border: 2px solid #ff7900; */
+
+	background-color: #f6f9fc;
 	border-radius: 5px;
 	padding: 2px 10px;
+
 	transition: 0.3s;
 	cursor: pointer;
 

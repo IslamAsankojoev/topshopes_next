@@ -46,6 +46,10 @@ const Wrapper = styled.div`
 		margin: 20px 0;
 		text-align: center;
 	}
+
+	img {
+		opacity: 0.8;
+	}
 `
 
 // const Content = styled.div`
