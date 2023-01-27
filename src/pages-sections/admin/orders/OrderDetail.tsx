@@ -23,6 +23,8 @@ import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { IOrder, IOrderItem, IOrderStatus } from 'shared/types/order.types'
+import { statusTranslation } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import { StatusWrapper } from '../StyledComponents'
 
@@ -163,7 +165,7 @@ const OrderDetail = () => {
 											{statuses.map((status) => (
 												<MenuItem value={status?.name}>
 													<StatusWrapper status={status?.name}>
-														{status?.label}
+														{status.label}
 													</StatusWrapper>
 												</MenuItem>
 											))}

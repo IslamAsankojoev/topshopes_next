@@ -44,7 +44,7 @@ export const ProfilePaymentService = {
 						{
 							quantity: item.qty,
 							address: address.id,
-							payment: key,
+							payment_id: key,
 						}
 					)
 				}

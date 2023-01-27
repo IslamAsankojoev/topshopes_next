@@ -29,39 +29,39 @@ export const statuses: {
 }[] = [
 	{
 		name: 'payment_error',
-		label: 'Payment error',
+		label: dynamicLocalization(statusTranslation.paymentError),
 	},
 	{
 		name: 'pending',
-		label: 'Pending',
+		label: dynamicLocalization(statusTranslation.pending),
 	},
 	{
 		name: 'paid',
-		label: 'Paid',
+		label: dynamicLocalization(statusTranslation.paid),
 	},
 	{
 		name: 'ready',
-		label: 'Ready',
+		label: dynamicLocalization(statusTranslation.ready),
 	},
 	{
 		name: 'shop_decline',
-		label: 'Shop decline',
+		label: dynamicLocalization(statusTranslation.shopDecline),
 	},
 	{
 		name: 'delivering',
-		label: 'Delivering',
+		label: dynamicLocalization(statusTranslation.delivered),
 	},
 	{
 		name: 'delivered',
-		label: 'Delivered',
+		label: dynamicLocalization(statusTranslation.delivered),
 	},
 	{
 		name: 'canceled',
-		label: 'Canceled',
+		label: dynamicLocalization(statusTranslation.canceled),
 	},
 	{
 		name: 'completed',
-		label: 'Completed',
+		label: dynamicLocalization(statusTranslation.completed),
 	},
 ]
 

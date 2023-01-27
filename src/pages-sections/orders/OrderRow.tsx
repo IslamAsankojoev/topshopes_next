@@ -56,7 +56,9 @@ const OrderRow: FC<IOrderShort> = ({
 						{id.slice(0, 8)}
 					</H5>
 					<Box m={0.75}>
-						<StatusWrapper status={status}>{status}</StatusWrapper>
+						<StatusWrapper status={status}>
+							{dynamicLocalization(statusTranslation[status])}
+						</StatusWrapper>
 					</Box>
 					<Typography className="pre" m={0.75} textAlign="left">
 						{format(new Date(created_at), ' dd.MM.yyyy')}

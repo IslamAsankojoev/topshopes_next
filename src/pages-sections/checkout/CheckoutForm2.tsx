@@ -9,17 +9,18 @@ import Card1 from 'components/Card1'
 import DropZone from 'components/DropZone'
 import { H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
+import { useFormik } from 'formik'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { toast } from 'react-toastify'
 import { ResponseList } from 'shared/types/response.types'
 import { IAddress } from 'shared/types/user.types'
 import { common } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import * as yup from 'yup'
 
 import EditAddressForm from './EditAddressForm'
 import Heading from './Heading'
@@ -32,24 +33,25 @@ import { paymentTranslations, payment_methods } from './paymentHelper'
 type DateProps = { label: string; value: string }
 // ====================================================================
 
+const initialValues = {
+	selectedAddress: null,
+	paymentMethod: payment_methods[0].id,
+	bankAccount: '',
+	screenshot: null,
+}
+
+const checkoutFormValidationSchema = yup.object().shape({
+	selectedAddress: yup.mixed().required(dynamicLocalization(common.required)),
+	paymentMethod: yup.string().required(dynamicLocalization(common.required)),
+	bankAccount: yup.string().required(dynamicLocalization(common.required)),
+	screenshot: yup.mixed().required(dynamicLocalization(common.required)),
+})
+
 const CheckoutForm2: FC = () => {
 	const { t } = useTranslation('common')
 
 	// states
 	const { cart } = useTypedSelector((state) => state.cartStore)
-
-	const [formState, setFormState] = useState<Record<string, any>>({
-		selectedAddress: null,
-		paymentMethod: '',
-		image: null,
-	})
-	const [bankAccount, setBankAccount] = useState<string>()
-
-	const [helperText, setHelperText] = useState({
-		bankAccount: '',
-		selectedAddress: '',
-		image: '',
-	})
 
 	// hooks
 	const router = useRouter()
@@ -72,7 +74,6 @@ const CheckoutForm2: FC = () => {
 		(data: IAddress) => AddressesService.create({ ...data, user: user.id }),
 		{
 			onSuccess: () => {
-				toast.success('new address successfully created')
 				refetch()
 			},
 		}
@@ -83,53 +84,42 @@ const CheckoutForm2: FC = () => {
 			AddressesService.update(id, data),
 		{
 			onSuccess: () => {
-				toast.success('address successfully updated')
 				refetch()
 			},
 		}
 	)
 
-	// handlers
+	const handleFormSubmit = async () => {
+		await orderAsync()
+		await router.push('/orders')
+	}
+
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		setFieldValue,
+	} = useFormik({
+		initialValues,
+		onSubmit: handleFormSubmit,
+		validationSchema: checkoutFormValidationSchema,
+	})
+
 	const { mutateAsync: orderAsync } = useMutation('order create', () =>
 		ProfilePaymentService.pay({
 			cart,
-			address: formState.selectedAddress,
+			address: values.selectedAddress,
 			data: {
-				bank_account: bankAccount,
-				confirm_photo: formState.image,
-				payment_type: formState.paymentMethod,
-				phone_number: formState.selectedAddress.phone,
+				bank_account: values.bankAccount,
+				confirm_photo: values.screenshot,
+				payment_type: values.paymentMethod,
+				phone_number: values.selectedAddress.phone,
 			},
 		})
 	)
-
-	const handleFormSubmit = async () => {
-		// validation
-		if (
-			!formState.bankAccount ||
-			!formState.selectedAddress ||
-			!formState.image
-		) {
-			setHelperText({
-				bankAccount: formState.bankAccount
-					? ''
-					: dynamicLocalization(common.required),
-				selectedAddress: formState.selectedAddress
-					? ''
-					: dynamicLocalization(common.required),
-				image: formState.image ? '' : dynamicLocalization(common.required),
-			})
-			return
-		}
-
-		orderAsync()
-		// router.push('/orders/')
-	}
-
-	const handleFieldValueChange = (item) => () => {
-		setFormState({ ...formState, selectedAddress: item })
-		setHelperText({ ...helperText, selectedAddress: '' })
-	}
 
 	const deleteAddress = async (
 		e: React.MouseEvent<HTMLElement>,
@@ -138,12 +128,11 @@ const CheckoutForm2: FC = () => {
 		e.stopPropagation()
 		await AddressesService.delete(id)
 		await refetch()
-		if (id == formState.selectedAddress?.id)
-			setFormState({ ...formState, selectedAddress: null })
+		if (id == values.selectedAddress?.id) setFieldValue('selectedAddress', null)
 	}
 
 	return (
-		<>
+		<form onSubmit={handleSubmit}>
 			<Card1 sx={{ mb: 3 }}>
 				<FlexBetween>
 					<Heading number={1} title={t('selectDelivery')} />
@@ -162,11 +151,11 @@ const CheckoutForm2: FC = () => {
 									position: 'relative',
 									backgroundColor: 'grey.100',
 									borderColor:
-										item.id === formState.selectedAddress?.id
+										item.id === values.selectedAddress?.id
 											? 'primary.main'
 											: 'transparent',
 								}}
-								onClick={handleFieldValueChange(item)}
+								onClick={() => setFieldValue('selectedAddress', item)}
 							>
 								<FlexBox
 									justifyContent="flex-end"
@@ -190,9 +179,9 @@ const CheckoutForm2: FC = () => {
 						</Grid>
 					))}
 				</Grid>
-				{helperText.selectedAddress ? (
+				{!!touched.selectedAddress && !!errors.selectedAddress ? (
 					<Alert sx={{ m: '20px 0 0' }} severity="error">
-						{helperText.selectedAddress}
+						{touched.selectedAddress && errors.selectedAddress}
 					</Alert>
 				) : null}
 			</Card1>
@@ -206,13 +195,11 @@ const CheckoutForm2: FC = () => {
 							key={method.id}
 							style={{
 								boxShadow:
-									formState.paymentMethod == method.id
+									values.paymentMethod == method.id
 										? '0 0 0 1px #ff7900'
 										: null,
 							}}
-							onClick={() =>
-								setFormState({ ...formState, paymentMethod: method.id })
-							}
+							onClick={() => setFieldValue('paymentMethod', method.id)}
 						>
 							<img src={method.icon.src} alt={method.name} />
 							<p>{method.name}</p>
@@ -224,30 +211,21 @@ const CheckoutForm2: FC = () => {
 
 			<Card1 sx={{ mb: 3 }}>
 				<Heading number={3} title={t('confirmPayment')} />
+
 				<TextField
 					sx={{ m: '25px 0 0' }}
 					autoComplete="on"
 					label={dynamicLocalization(paymentTranslations.cardPhoneNumber)}
 					placeholder={dynamicLocalization(paymentTranslations.cardPhoneNumber)}
-					onChange={(e) => {
-						setBankAccount(e.target.value)
-						setHelperText({ ...helperText, bankAccount: '' })
-					}}
-					onBlur={() =>
-						!bankAccount &&
-						setHelperText({
-							...helperText,
-							bankAccount: dynamicLocalization(common.required),
-						})
-					}
+					name={'bankAccount'}
+					value={values.bankAccount}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					error={!!touched.bankAccount && !!errors.bankAccount}
+					helperText={touched.bankAccount && errors.bankAccount}
 					fullWidth
 				/>
 
-				{helperText.bankAccount ? (
-					<Alert sx={{ m: '20px 0' }} severity="error">
-						{helperText.bankAccount}
-					</Alert>
-				) : null}
 				<Grid
 					style={{
 						margin: '30px 0 0',
@@ -259,25 +237,22 @@ const CheckoutForm2: FC = () => {
 				>
 					<Grid
 						item
-						sm={formState.image ? 6 : 12}
-						xs={formState.image ? 6 : 12}
+						sm={values.screenshot ? 6 : 12}
+						xs={values.screenshot ? 6 : 12}
 					>
 						<DropZone
 							style={{
 								borderColor: 'red!important',
 							}}
-							name={formState.image?.name}
-							onChange={(file: File[]) => {
-								setFormState({ ...formState, image: file[0] })
-								setHelperText({ ...helperText, image: '' })
-							}}
+							name={values.screenshot?.name}
+							onChange={(file: File[]) => setFieldValue('screenshot', file[0])}
 							multiple={false}
 							accept={
 								'image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'
 							}
 						/>
 					</Grid>
-					{formState.image ? (
+					{values.screenshot ? (
 						<Grid
 							display="flex"
 							item
@@ -291,16 +266,16 @@ const CheckoutForm2: FC = () => {
 								layout="fill"
 								objectFit="contain"
 								objectPosition="center"
-								src={URL?.createObjectURL(formState.image)}
-								alt={formState.image?.name}
+								src={URL?.createObjectURL(values.screenshot)}
+								alt={values.screenshot?.name}
 							/>
 						</Grid>
 					) : null}
 				</Grid>
 
-				{helperText.image ? (
+				{!!touched.screenshot && !!errors.screenshot ? (
 					<Alert sx={{ m: '20px 0 0' }} severity="error">
-						{helperText.image}
+						{touched.screenshot && errors.screenshot}
 					</Alert>
 				) : null}
 			</Card1>
@@ -311,11 +286,10 @@ const CheckoutForm2: FC = () => {
 				color="primary"
 				variant="contained"
 				sx={{ mt: 3 }}
-				onClick={handleFormSubmit}
 			>
 				{t('placeOrder')}
 			</Button>
-		</>
+		</form>
 	)
 }
 

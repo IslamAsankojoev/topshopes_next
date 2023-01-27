@@ -85,9 +85,9 @@ const OrderDetails: NextPageAuth = () => {
 		'pending',
 		'delivering',
 		'delivered',
-		'received',
-		'cancelled',
+		'completed',
 	]
+
 	const stepIconList = [
 		Payment,
 		PackageBox,

@@ -32,8 +32,8 @@ const PaymentDialog: React.FC<{ images?: string[] }> = ({ images }) => {
 					</Typography>
 
 					<Images>
-						{images?.map((image) => (
-							<img src={image} alt={'инструкция'} />
+						{images?.map((image, i) => (
+							<img key={i} src={image} alt={'инструкция'} />
 						))}
 					</Images>
 					<Button
