@@ -42,6 +42,12 @@ export const navigations = [
 		role: 'admin',
 	},
 	{
+		name: 'applications',
+		icon: duotone.ShoppingBag,
+		path: '/admin/applications',
+		role: 'admin',
+	},
+	{
 		name: 'payouts',
 		icon: duotone.Pager,
 		path: '/admin/payouts',
