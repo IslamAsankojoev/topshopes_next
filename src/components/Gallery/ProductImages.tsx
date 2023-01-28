@@ -1,5 +1,5 @@
 import { Close } from '@mui/icons-material'
-import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
+import AddIcon from '@mui/icons-material/Add'
 import {
 	Button,
 	Card,
@@ -169,7 +169,7 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 							variant="outlined"
 							color="info"
 							component="label"
-							startIcon={<AddToPhotosIcon />}
+							startIcon={<AddIcon />}
 							sx={{
 								display: 'flex',
 								alignItems: 'center',
