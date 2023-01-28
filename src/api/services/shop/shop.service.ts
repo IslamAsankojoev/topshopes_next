@@ -19,9 +19,25 @@ export const ShopsService = {
 			throw error
 		}
 	},
-	getShopOrders: async (id: string) => {
+	getShopOrders: async (params: Record<string, string | number>) => {
 		try {
-			const response = await makeRequest().get(getShopOrdersUrl(id))
+			const response = await makeRequest(true).get(getShopOrdersUrl(''), {params})
+			return response.data
+		} catch (error) {
+			throw error
+		}
+	},
+	getShopOrder: async (id: string) => {
+		try {
+			const response = await makeRequest(true).get(getShopOrdersUrl(id))
+			return response.data
+		} catch (error) {
+			throw error
+		}
+	},
+	updateShopOrder: async (id: string, data: FormData | any) => {
+		try {
+			const response = await makeRequest(true).patch(getShopOrdersUrl(id), data)
 			return response.data
 		} catch (error) {
 			throw error

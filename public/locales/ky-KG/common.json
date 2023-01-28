@@ -1,4 +1,9 @@
 {
+	"createdAt": "Түзүлгөн",
+
+	"confirmPayment": "Төлөмдү ырастаңыз",
+	"choosePayment": "Төлөм ыкмасын тандаңыз",
+	"tax": "Салык",
 	"about": "Биз жөнүндө",
 	"price": "Баасы",
 	"published": "Жарыяланган",
@@ -21,7 +26,7 @@
 	"cart": "Араба",
 	"categories": "Категориялар",
 	"checkoutNow": "Азыр текшерүү",
-	"city": "City",
+	"city": "Шаар",
 	"color": "Түс",
 	"contacts": "Байланыштар",
 	"contactUs": "Биз менен байланыш",
@@ -32,7 +37,7 @@
 	"date": "Дата",
 	"datePurchased": "Сатып алынган күн",
 	"deliveredAt": "даректе жеткирилген",
-	"description": "Description",
+	"description": "Сипаттама",
 	"discount": "арзандатуу",
 	"dontHave": "Каттоо эсебиңиз жокпу?",
 	"editProfile": "Профилди түзөтүү",

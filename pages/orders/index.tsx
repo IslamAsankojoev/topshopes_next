@@ -32,6 +32,6 @@ const Orders: NextPageAuth = () => {
 	)
 }
 
-Orders.isOnlyUser = true
+Orders.isOnlyAuth = true
 
 export default Orders

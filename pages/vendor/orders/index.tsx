@@ -1,6 +1,8 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { OrdersService } from 'api/services/orders/orders.service'
+import { ShopsService } from 'api/services/shop/shop.service'
+import Empty from 'components/Empty'
 import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
@@ -17,15 +19,14 @@ import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-import api from 'utils/api/dashboard'
 
 // table column list
 const tableHeading = [
 	{ id: 'id', label: 'orderId', align: 'left' },
 	{ id: 'qty', label: 'qty', align: 'left' },
-	{ id: 'delivered_at', label: 'deliveredAt', align: 'left' },
-	{ id: 'billingAddress', label: 'billingAddress', align: 'left' },
-	{ id: 'amount', label: 'amount', align: 'left' },
+	{ id: 'Created at', label: 'createdAt', align: 'left' },
+	{ id: 'city', label: 'city', align: 'left' },
+	{ id: 'amount', label: 'price', align: 'left' },
 	{ id: 'status', label: 'status', align: 'left' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]
@@ -48,11 +49,14 @@ const OrderList: NextPageAuth = () => {
 	const [currentPage, setCurrentPage] = React.useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+	React.useEffect(() => {
+		console.log(searchValue)
+	}, [searchValue])
 
 	const { data: orders, isLoading } = useQuery(
 		`orders get search=${searchValue} page=${currentPage}`,
 		() =>
-			OrdersService.getList({
+			ShopsService.getShopOrders({
 				search: searchValue,
 				page: currentPage,
 				page_size: 20,
@@ -84,42 +88,46 @@ const OrderList: NextPageAuth = () => {
 				searchPlaceholder={t('searchOrder')}
 			/>
 
-			<Card>
-				<Scrollbar>
-					<TableContainer sx={{ minWidth: 900 }}>
-						<Table>
-							<TableHeader
-								order={order}
-								hideSelectBtn
-								orderBy={orderBy}
-								heading={tableHeading}
-								rowCount={orders?.length}
-								numSelected={selected?.length}
-								onRequestSort={handleRequestSort}
-							/>
+			{filteredList?.length ? (
+				<Card>
+					<Scrollbar>
+						<TableContainer sx={{ minWidth: 900 }}>
+							<Table>
+								<TableHeader
+									order={order}
+									hideSelectBtn
+									orderBy={orderBy}
+									heading={tableHeading}
+									rowCount={orders?.length}
+									numSelected={selected?.length}
+									onRequestSort={handleRequestSort}
+								/>
 
-							<TableBody>
-								{filteredList?.map((order, index) => (
-									<OrderRow order={order} key={index} />
-								))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Scrollbar>
+								<TableBody>
+									{filteredList?.map((order, index) => (
+										<OrderRow order={order} key={index} />
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Scrollbar>
 
-				<Stack alignItems="center" my={4}>
-					<TablePagination
-						onChange={handleChangePage}
-						count={Math.ceil(orders?.count / 20)}
-						page={currentPage}
-					/>
-				</Stack>
-			</Card>
+					<Stack alignItems="center" my={4}>
+						<TablePagination
+							onChange={handleChangePage}
+							count={Math.ceil(orders?.count / 20)}
+							page={currentPage}
+						/>
+					</Stack>
+				</Card>
+			) : (
+				<Empty />
+			)}
 		</Box>
 	)
 }
 
-OrderList.isOnlyUser = true
+OrderList.isOnlySeller = true
 
 OrderList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

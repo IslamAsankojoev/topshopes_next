@@ -13,7 +13,11 @@ import { NextPageAuth } from 'shared/types/auth.types'
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale as string, ['common'])),
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'payment',
+			])),
 		},
 	}
 }
@@ -46,6 +50,6 @@ const CheckoutAlternative: NextPageAuth = () => {
 	)
 }
 
-CheckoutAlternative.isOnlyUser = true
+CheckoutAlternative.isOnlyAuth = true
 
 export default CheckoutAlternative

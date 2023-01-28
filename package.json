@@ -10,7 +10,9 @@
 		"start": "next start",
 		"size": "node --max_old_space_size=4096",
 		"fix:prettier": "prettier --write .",
-		"lint": "next lint"
+		"lint": "next lint",
+		"typecheck": "tsc",
+		"typecheck:watch": "tsc -w"
 	},
 	"lint-staged": {
 		"*.+(js|jsx)": [

@@ -60,7 +60,7 @@ const CreateCategory: NextPageAuth = () => {
 	)
 
 	const handleFormSubmit = async (_: any, data: ICategory) => {
-		const clearData = {}
+		const clearData: ICategory | any = {}
 		for (let key in data) {
 			if (data[key]) {
 				clearData[key] = data[key]
@@ -70,6 +70,7 @@ const CreateCategory: NextPageAuth = () => {
 		await mutateAsync(
 			formData({
 				...clearData,
+				tax: clearData?.tax ? clearData.tax : 0,
 				attributes: data?.attributes?.map((attr) => attr.id),
 			})
 		)
@@ -87,7 +88,7 @@ const CreateCategory: NextPageAuth = () => {
 		<Box py={4}>
 			<H3 mb={2}>{t('addNewCategory')}</H3>
 			<CreateForm
-				defaultData={{}}
+				defaultData={{ tax: 0 }}
 				fields={[
 					...categoryEditForm,
 					{
@@ -106,7 +107,7 @@ const CreateCategory: NextPageAuth = () => {
 	)
 }
 
-CreateCategory.isOnlyUser = true
+CreateCategory.isOnlyAuth = true
 
 CreateCategory.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

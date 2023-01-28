@@ -17,12 +17,15 @@ export interface IOrder {
 }
 
 export type IOrderStatus =
+	| 'payment_error'
 	| 'pending'
 	| 'paid'
+	| 'ready'
+	| 'shop_decline'
 	| 'delivering'
 	| 'delivered'
-	| 'received'
-	| 'cancelled'
+	| 'canceled'
+	| 'completed'
 
 export interface IOrderShort {
 	id: string
@@ -47,3 +50,14 @@ export interface IOrderProductShort {
 	shop: IShop
 	slug: string
 }
+
+export interface IPayment {
+	id?: string
+	payment_type: IPaymentType
+	confirm_photo: string
+	phone_number: string
+	bank_account: string
+	is_verified?: boolean
+}
+
+export type IPaymentType = 'elsom' | 'visa' | 'o_dengi' | 'balance' | 'mbank'

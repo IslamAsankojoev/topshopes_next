@@ -148,6 +148,6 @@ const checkoutSchema = yup.object().shape({
 	phone: yup.string().required('required'),
 })
 
-AddressCreate.isOnlyUser = true
+AddressCreate.isOnlyAuth = true
 
 export default AddressCreate

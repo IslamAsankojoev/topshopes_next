@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import React from 'react'
 
-import gmailImg from '../public/assets/images/banner.png'
+import gmailImg from '../public/assets/images/banner.webp'
 import SEO from '../src/components/SEO'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

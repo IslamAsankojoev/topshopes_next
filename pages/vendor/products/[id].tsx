@@ -90,7 +90,7 @@ const EditProduct: NextPageAuth = () => {
 		</Box>
 	) : null
 }
-EditProduct.isOnlyUser = true
+EditProduct.isOnlySeller = true
 
 EditProduct.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

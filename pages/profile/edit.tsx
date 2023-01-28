@@ -225,7 +225,7 @@ const ProfileEditor: NextPageAuth = () => {
 	) : null
 }
 
-ProfileEditor.isOnlyUser = true
+ProfileEditor.isOnlyAuth = true
 
 const initialValues = {
 	first_name: '',

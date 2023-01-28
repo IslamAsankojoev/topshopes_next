@@ -1,6 +1,7 @@
 import { Delete, RemoveRedEye } from '@mui/icons-material'
 import { FormControl, MenuItem, Select } from '@mui/material'
 import { OrdersService } from 'api/services/orders/orders.service'
+import { ShopsService } from 'api/services/shop/shop.service'
 import currency from 'currency.js'
 import lodash from 'lodash'
 import { useRouter } from 'next/router'
@@ -8,6 +9,8 @@ import React, { FC, useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { IOrder, IOrderStatus } from 'shared/types/order.types'
+import { statusTranslation } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import {
 	StatusWrapper,
@@ -17,44 +20,80 @@ import {
 } from '../StyledComponents'
 
 // ========================================================================
-type OrderRowProps = { order: IOrder }
+type OrderRowProps = { order: IOrder; isAdmin?: boolean }
 // ========================================================================
 
 export const statuses: {
 	name: IOrderStatus
-	// color: 'info' | 'warning' | 'success' | 'error' | 'grey' | 'primary'
+	label: string
 }[] = [
-	{ name: 'pending' },
-	{ name: 'delivering' },
-	{ name: 'delivered' },
-	{ name: 'cancelled' },
-	{ name: 'paid' },
-	{ name: 'received' },
+	{
+		name: 'payment_error',
+		label: dynamicLocalization(statusTranslation.paymentError),
+	},
+	{
+		name: 'pending',
+		label: dynamicLocalization(statusTranslation.pending),
+	},
+	{
+		name: 'paid',
+		label: dynamicLocalization(statusTranslation.paid),
+	},
+	{
+		name: 'ready',
+		label: dynamicLocalization(statusTranslation.ready),
+	},
+	{
+		name: 'shop_decline',
+		label: dynamicLocalization(statusTranslation.shop_decline),
+	},
+	{
+		name: 'delivering',
+		label: dynamicLocalization(statusTranslation.delivered),
+	},
+	{
+		name: 'delivered',
+		label: dynamicLocalization(statusTranslation.delivered),
+	},
+	{
+		name: 'canceled',
+		label: dynamicLocalization(statusTranslation.canceled),
+	},
+	{
+		name: 'completed',
+		label: dynamicLocalization(statusTranslation.completed),
+	},
 ]
 
-const OrderRow: FC<OrderRowProps> = ({ order }) => {
+export const statusDisabled = (
+	status: { name: string; label: string },
+	isAdmin: boolean
+) => {
+	return isAdmin
+		? false
+		: status.name == 'ready' || status.name == 'shop_decline'
+		? false
+		: true
+}
+
+const OrderRow: FC<OrderRowProps> = ({ order, isAdmin }) => {
 	const [orderStatus, setOrderStatus] = React.useState<IOrderStatus>(
 		order.status
 	)
 
-	const {
-		delivered_at,
-		id,
-		shipping_address,
-		status,
-		tax,
-		total_price,
-		created_at,
-		quantity,
-	} = order
+	const { address, id, total_price, created_at, quantity } = order
+
+	const patchOrder = isAdmin
+		? OrdersService.update
+		: ShopsService.updateShopOrder
 
 	const { mutateAsync: mutateStatus } = useMutation(
 		'order status update',
-		(stat: IOrderStatus) => OrdersService.update(order.id, { status: stat }),
+		(status: IOrderStatus) => patchOrder(order.id, { status }),
 		{
-			onSuccess: (data) => {
+			onSuccess: (data: any) => {
 				toast.success('Order status updated')
-				setOrderStatus(data.status)
+				setOrderStatus(data?.status)
 			},
 		}
 	)
@@ -75,12 +114,10 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-				{shipping_address}
+				{address?.city}
 			</StyledTableCell>
 
-			<StyledTableCell align="left">
-				{currency(total_price, { separator: ',', precision: 0 }).format()}
-			</StyledTableCell>
+			<StyledTableCell align="left">{total_price}c</StyledTableCell>
 
 			<StyledTableCell align="left">
 				<FormControl fullWidth variant="outlined">
@@ -120,9 +157,12 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 						}}
 					>
 						{statuses.map((status) => (
-							<MenuItem value={status.name}>
+							<MenuItem
+								disabled={statusDisabled(status, isAdmin)}
+								value={status.name}
+							>
 								<StatusWrapper status={status.name}>
-									{status.name}
+									{status.label}
 								</StatusWrapper>
 							</MenuItem>
 						))}
@@ -131,12 +171,14 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<StyledIconButton onClick={() => router.push(`/vendor/orders/${id}`)}>
+				<StyledIconButton
+					onClick={() =>
+						router.push(
+							isAdmin ? `/admin/orders/${id}` : `/vendor/orders/${id}`
+						)
+					}
+				>
 					<RemoveRedEye />
-				</StyledIconButton>
-
-				<StyledIconButton>
-					<Delete />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

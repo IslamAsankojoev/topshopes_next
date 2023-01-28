@@ -7,6 +7,8 @@ import React, { FC } from 'react'
 
 const CheckoutSummary2: FC = () => {
 	const { t } = useTranslation('common')
+	const { t: paymentT } = useTranslation('payment')
+
 	const { cart, total_items, total_price } = useTypedSelector(
 		(state) => state.cartStore
 	)
@@ -34,7 +36,7 @@ const CheckoutSummary2: FC = () => {
 				</FlexBetween>
 			))}
 
-			<Divider sx={{ borderColor: 'grey.300', my: 3 }} />
+			<Divider sx={{ borderColor: 'grey.300', mb: 2 }} />
 
 			<FlexBetween mb={0.5}>
 				<Paragraph color="grey.600">{t('subtotal')}:</Paragraph>
@@ -62,14 +64,34 @@ const CheckoutSummary2: FC = () => {
 				<Paragraph>{t('total')}:</Paragraph>
 				<Paragraph fontWeight="700">${total_price.toFixed(2)}</Paragraph>
 			</FlexBetween>
+
+			<Divider sx={{ borderColor: 'grey.300', mb: 2 }} />
+
+			<FlexBetween fontWeight="700" mt={5}>
+				<Paragraph>{paymentT('Instruction')}</Paragraph>
+			</FlexBetween>
+			<Divider sx={{ borderColor: 'grey.300', mb: 1 }} />
+
+			<FlexBetween mb={2}>
+				<Paragraph>{paymentT('step1')}</Paragraph>
+			</FlexBetween>
+			<Divider sx={{ borderColor: 'grey.300', mb: 1 }} />
+
+			<FlexBetween mb={2}>
+				<Paragraph>{paymentT('step2')}</Paragraph>
+			</FlexBetween>
+			<Divider sx={{ borderColor: 'grey.300', mb: 1 }} />
+
+			<FlexBetween mb={2}>
+				<Paragraph>{paymentT('step3')}</Paragraph>
+			</FlexBetween>
+			<Divider sx={{ borderColor: 'grey.300', mb: 1 }} />
+
+			<FlexBetween mb={2}>
+				<Paragraph>{paymentT('done')}</Paragraph>
+			</FlexBetween>
 		</Box>
 	)
 }
-
-const cartList = [
-	{ name: 'iPhone 12', quantity: 1, price: 999 },
-	{ name: 'iPhone 12 pro', quantity: 1, price: 1199 },
-	{ name: 'iPhone 12 pro max', quantity: 1, price: 1299 },
-]
 
 export default CheckoutSummary2

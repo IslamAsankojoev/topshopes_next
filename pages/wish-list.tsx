@@ -93,6 +93,6 @@ const WishList: NextPageAuth = () => {
 	)
 }
 
-WishList.isOnlyUser = true
+WishList.isOnlyAuth = true
 
 export default WishList

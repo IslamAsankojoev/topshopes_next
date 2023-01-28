@@ -165,6 +165,6 @@ const checkoutSchema = yup.object().shape({
 	phone: yup.string().required('required'),
 })
 
-AddressEditor.isOnlyUser = true
+AddressEditor.isOnlyAuth = true
 
 export default AddressEditor

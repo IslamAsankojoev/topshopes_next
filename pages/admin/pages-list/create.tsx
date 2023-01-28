@@ -89,7 +89,7 @@ const CreatePages: NextPageAuth = () => {
 	)
 }
 
-CreatePages.isOnlyUser = true
+CreatePages.isOnlyAuth = true
 
 CreatePages.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

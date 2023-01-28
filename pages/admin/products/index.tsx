@@ -1,6 +1,7 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
+import Empty from 'components/Empty'
 import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
@@ -75,7 +76,7 @@ const ProductList: NextPageAuth = () => {
 
 			{isLoading ? <Loading /> : null}
 
-			{products?.count ? (
+			{filteredList?.length ? (
 				<Card>
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 900 }}>
@@ -112,7 +113,7 @@ const ProductList: NextPageAuth = () => {
 					</Stack>
 				</Card>
 			) : (
-				<h2>Empty...</h2>
+				<Empty />
 			)}
 		</Box>
 	)

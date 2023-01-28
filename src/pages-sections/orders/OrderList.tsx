@@ -4,6 +4,7 @@ import TableRow from 'components/TableRow'
 import { H5 } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 import { FC, Fragment } from 'react'
 import { useQuery } from 'react-query'
 import { IOrder, IOrderShort } from 'shared/types/order.types'
@@ -17,12 +18,15 @@ type OrderListProps = {}
 
 const OrderList: FC<OrderListProps> = () => {
 	const { t } = useTranslation('common')
+	const { query, push, pathname } = useRouter()
+
 	const { isLoading, data: orders } = useQuery(
-		'orders',
-		() => OrdersService.getList(),
-		{
-			select: (data: ResponseList<IOrderShort>) => data.results,
-		}
+		`orders page=${query?.page}`,
+		() =>
+			OrdersService.getList({
+				page: (query?.page as string) || 1,
+				page_size: 20,
+			})
 	)
 
 	return (
@@ -54,59 +58,24 @@ const OrderList: FC<OrderListProps> = () => {
 					<H5 flex="0 0 0 !important" color="grey.600" px={2.75} my={0} />
 				</TableRow>
 
-				{orders?.map((item) => (
+				{orders?.results?.map((item) => (
 					<OrderRow {...item} key={item.id} />
 				))}
 
 				<FlexBox justifyContent="center" mt={5}>
 					<Pagination
-						count={5}
+						page={+query?.page || 1}
+						count={Math.ceil(orders.count / 20)}
 						color="primary"
 						variant="outlined"
-						onChange={(data) => console.log(data)}
+						onChange={(_, newValue) =>
+							push({ pathname, query: { page: newValue } })
+						}
 					/>
 				</FlexBox>
 			</Fragment>
 		)
 	)
 }
-
-const orderList = [
-	{
-		orderNo: '1050017AS',
-		status: 'Pending',
-		purchaseDate: new Date(),
-		price: 350,
-		href: '/orders/5452423',
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Processing',
-		purchaseDate: new Date(),
-		price: 500,
-		href: '/orders/5452423',
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Delivered',
-		purchaseDate: '2020/12/23',
-		price: 700,
-		href: '/orders/5452423',
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Delivered',
-		purchaseDate: '2020/12/23',
-		price: 700,
-		href: '/orders/5452423',
-	},
-	{
-		orderNo: '1050017AS',
-		status: 'Cancelled',
-		purchaseDate: '2020/12/15',
-		price: 300,
-		href: '/orders/5452423',
-	},
-]
 
 export default OrderList

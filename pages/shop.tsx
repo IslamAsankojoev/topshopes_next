@@ -121,7 +121,7 @@ const ShopPage = ({ query }) => {
 								fullWidth
 								size="small"
 								variant="outlined"
-								value={router?.query?.ordering}
+								value={router?.query?.ordering || sortOptions[0].value}
 								defaultValue={sortOptions[0].value}
 								sx={{ flex: '1 1 0', minWidth: '150px' }}
 								onChange={({ target }) =>

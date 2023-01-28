@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { Close, DeleteOutline } from '@mui/icons-material'
-import { Button, Card, Grid, IconButton, Typography } from '@mui/material'
+import { Box, Button, Card, Grid, IconButton, Typography } from '@mui/material'
 import { CategoriesService } from 'api/services/categories/category.service'
 import Card1 from 'components/Card1'
 import LazyImage from 'components/LazyImage'
@@ -11,7 +11,7 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import Lodash from 'lodash'
 import { useTranslation } from 'next-i18next'
 import { ProductFetchTypes } from 'pages-sections/admin/products/useProductFetch'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useQuery } from 'react-query'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { IProductVariant } from 'shared/types/product.types'
@@ -208,23 +208,21 @@ const ProductVariantList: React.FC<Props> = ({
 													createPage={create}
 													variantId={variant?.id}
 													images={variant?.images}
+													actionButtons={
+														<Fragment>
+															{!isAdmin ? (
+																<Button
+																	variant="contained"
+																	size="small"
+																	color="error"
+																	onClick={(e) => deleteVariant(variant)}
+																>
+																	<Close />
+																</Button>
+															) : null}
+														</Fragment>
+													}
 												/>
-												{!isAdmin ? (
-													<Button
-														sx={{
-															position: 'absolute',
-															top: '10px',
-															right: '10px',
-															padding: '4px',
-														}}
-														variant="contained"
-														size="small"
-														color="error"
-														onClick={(e) => deleteVariant(variant)}
-													>
-														<Close />
-													</Button>
-												) : null}
 											</FlexBox>
 										</FlexBox>
 									</VariantCard>

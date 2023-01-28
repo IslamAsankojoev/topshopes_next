@@ -1,14 +1,15 @@
-import { getErrorMessage } from 'utils/getErrorMessage'
-import { toast } from 'react-toastify'
 import { axiosClassic, instance } from 'api/interceptor'
 import Cookies from 'js-cookie'
+import { toast } from 'react-toastify'
 import {
 	IAuthResponse,
 	ILogin,
 	IRegister,
 	ITokens,
 } from 'store/user/user.interface'
-import { removeToken, saveToken, saveToStorage } from './auth.helpers'
+import { getErrorMessage } from 'utils/getErrorMessage'
+
+import { removeToken, saveToStorage, saveToken } from './auth.helpers'
 
 export const AuthService = {
 	register: async ({ email, phone, password }: IRegister) => {

@@ -63,7 +63,7 @@ const VendorDashboard: NextPageAuth<DashboardProps> = (props) => {
 	)
 }
 
-VendorDashboard.isOnlyUser = true
+VendorDashboard.isOnlySeller = true
 
 VendorDashboard.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

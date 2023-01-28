@@ -5,6 +5,8 @@ import { ErrorMessage, Form, useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import { useEffect } from 'react'
 import React from 'react'
+import { common } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 import { formData } from 'utils/formData'
 import * as yup from 'yup'
 
@@ -18,6 +20,9 @@ interface CreateFormProps {
 	children?: React.ReactNode
 	maxFormWidth?: string
 	actionButtons?: React.ReactNode
+	buttonText?: string
+	buttonPosition?: string
+	buttonSize?: 'small' | 'normal' | 'medium' | 'large'
 }
 const CreateForm: React.FC<CreateFormProps> = ({
 	fields,
@@ -27,49 +32,58 @@ const CreateForm: React.FC<CreateFormProps> = ({
 	children,
 	maxFormWidth = '600px',
 	actionButtons,
+	buttonPosition = 'static',
+	buttonText,
+	buttonSize = 'large',
 }) => {
 	const { t } = useTranslation('admin')
+	const { t: commonT } = useTranslation('common')
+
+	const required = dynamicLocalization(common.required)
+
+	const getTranslate = (word: string) => {
+		// если нету в admin то возьмет из common
+		return t(word) === word ? commonT(word) : t(word)
+	}
+
 	// write validation schema for each field by iterating over fields
 	const validate = yup.object().shape(
 		fields.reduce((acc, field) => {
 			if (field.type == 'text' && field.required) {
-				acc[field.name] = yup.string().required('Required')
+				acc[field.name] = yup.string().required(required)
 				return acc
 			}
 			if (field.type === 'number' && field.required) {
-				acc[field.name] = yup.number().required('Required')
+				acc[field.name] = yup.number().required(required)
 				return acc
 			}
 			if (field.type === 'email' && field.required) {
-				acc[field.name] = yup
-					.string()
-					.email('Invalid email')
-					.required('Required')
+				acc[field.name] = yup.string().email('Invalid email').required(required)
 				return acc
 			}
 			if (field.type === 'date' && field.required) {
-				acc[field.name] = yup.date().required('Required')
+				acc[field.name] = yup.date().required(required)
 				return acc
 			}
 			if (field.type === 'file' && field.required) {
-				acc[field.name] = yup.mixed().required('Required')
+				acc[field.name] = yup.mixed().required(required)
 				return acc
 			}
 			if (field.type === 'color' && field.required) {
-				acc[field.name] = yup.string().required('Required')
+				acc[field.name] = yup.string().required(required)
 				return acc
 			}
 			if (field.type === 'textEditor' && field.required) {
-				acc[field.name] = yup.string().required('Required')
+				acc[field.name] = yup.string().required(required)
 				return acc
 			}
 			if (field.type === 'select' && field.required) {
-				acc[field.name] = yup.string().required('Required')
+				acc[field.name] = yup.string().required(required)
 				return acc
 			}
 			if (field.type === 'autocomplete' && field.required) {
 				acc[field.name] = yup.object({
-					id: yup.string().required('Required'),
+					id: yup.string().required(required),
 				})
 				return acc
 			}
@@ -78,7 +92,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 				return acc
 			}
 			if (field.type === 'multiple-select' && field.required) {
-				acc[field.name] = yup.array().min(1).required('required')
+				acc[field.name] = yup.array().min(1).required(required)
 				return acc
 			}
 			return acc
@@ -155,10 +169,10 @@ const CreateForm: React.FC<CreateFormProps> = ({
 										type={field.type}
 										fullWidth
 										name={field.name}
-										label={t(field.name)}
+										label={getTranslate(field.name)}
 										color="info"
 										size="medium"
-										placeholder={t(field.placeholder)}
+										placeholder={getTranslate(field.placeholder)}
 										value={values[field.name]}
 										setFieldValue={setFieldValue}
 										onBlur={handleBlur}
@@ -168,6 +182,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 										defaultData={defaultData || {}}
 										allNames={field?.allNames || []}
 										isValidating={true}
+										accept={field.fileTypes}
 									/>
 								</Grid>
 							) : null
@@ -178,17 +193,18 @@ const CreateForm: React.FC<CreateFormProps> = ({
 						<Grid item xs={12}>
 							<Card
 								sx={{
-									border: '1px solid #E4E7EB',
-									position: 'fixed',
+									border: buttonPosition ? '' : '1px solid #E4E7EB',
+									backgroundColor: buttonPosition ? '' : '#F7F9FC',
+									position: buttonPosition || 'fixed',
+									boxShadow: buttonPosition && 'none',
 									display: 'flex',
-									bottom: 10,
-									right: 10,
+									bottom: 0,
+									right: 0,
 									zIndex: 100,
 									justifyContent: 'space-evenly',
-									padding: '10px!important',
-									backgroundColor: '#F7F9FC',
+									padding: '8px!important',
 									'@media (max-width: 600px)': {
-										width: '95%',
+										width: '100%',
 										justifyContent: 'space-evenly',
 									},
 								}}
@@ -202,18 +218,15 @@ const CreateForm: React.FC<CreateFormProps> = ({
 									<Button
 										variant="contained"
 										color="success"
-										sx={{
-											px: 4,
-										}}
+										size={buttonSize || 'small'}
 										onClick={() => {
 											handleSubmit()
 											Object.keys(fields).forEach((key) => {
 												setFieldTouched(fields[key].name, true)
 											})
 										}}
-										size="medium"
 									>
-										{t('save')}
+										{buttonText || t('save')}
 									</Button>
 								</FlexBox>
 							</Card>

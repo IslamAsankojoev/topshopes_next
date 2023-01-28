@@ -3,7 +3,7 @@ import { H3 } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { OrderDetails } from 'pages-sections/admin'
+import { OrderDetail } from 'pages-sections/admin'
 import React, { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 
@@ -26,12 +26,12 @@ const OrderEdit: NextPageAuth = () => {
 				{t('orderDetail')}
 			</H3>
 
-			<OrderDetails />
+			<OrderDetail isAdmin={true} />
 		</Box>
 	)
 }
 
-OrderEdit.isOnlyUser = true
+OrderEdit.isOnlyAuth = true
 
 OrderEdit.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

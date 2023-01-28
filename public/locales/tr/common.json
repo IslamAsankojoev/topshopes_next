@@ -1,4 +1,9 @@
 {
+	"createdAt": "oluşturuldu",
+
+	"confirmPayment": "Ödemeyi doğrulayın",
+	"choosePayment": "Bir ödeme yöntemi seçin",
+	"tax": "Vergi",
 	"about": "Hakkımızda",
 	"price": "Fiyat",
 	"published": "Yayınlanan",

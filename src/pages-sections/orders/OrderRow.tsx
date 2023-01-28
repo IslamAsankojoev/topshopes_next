@@ -4,20 +4,11 @@ import TableRow from 'components/TableRow'
 import { H5 } from 'components/Typography'
 import { format } from 'date-fns'
 import Link from 'next/link'
+import { StatusWrapper } from 'pages-sections/admin'
 import { FC } from 'react'
 import { IOrderShort, IOrderStatus } from 'shared/types/order.types'
-
-// =================================================
-// type OrderRowProps = {
-//   item: {
-//     orderNo: any;
-//     href: string;
-//     price: number;
-//     status: string;
-//     purchaseDate: string | Date;
-//   };
-// };
-// =================================================
+import { statusTranslation } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 const OrderRow: FC<IOrderShort> = ({
 	created_at,
@@ -37,7 +28,7 @@ const OrderRow: FC<IOrderShort> = ({
 			case 'delivered':
 				return 'success'
 
-			case 'cancelled':
+			case 'canceled':
 				return 'error'
 
 			default:
@@ -53,27 +44,16 @@ const OrderRow: FC<IOrderShort> = ({
 						{id.slice(0, 8)}
 					</H5>
 					<Box m={0.75}>
-						<Chip
-							size="small"
-							label={status}
-							sx={{
-								p: '0.25rem 0.5rem',
-								fontSize: 12,
-								color: !!getColor(status)
-									? `${getColor(status)}.900`
-									: 'inherit',
-								backgroundColor: !!getColor(status)
-									? `${getColor(status)}.100`
-									: 'none',
-							}}
-						/>
+						<StatusWrapper status={status}>
+							{dynamicLocalization(statusTranslation[status])}
+						</StatusWrapper>
 					</Box>
 					<Typography className="pre" m={0.75} textAlign="left">
-						{format(new Date(created_at), 'MMM dd, yyyy')}
+						{format(new Date(created_at), ' dd.MM.yyyy')}
 					</Typography>
 
 					<Typography m={0.75} textAlign="left">
-						${total_price}
+						{total_price}c
 					</Typography>
 
 					<Typography

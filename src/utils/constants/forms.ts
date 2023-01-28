@@ -1,4 +1,8 @@
+import { IPayment } from 'shared/types/order.types'
+import { IShopForm } from 'shared/types/shop.types'
 import { IUser } from 'shared/types/user.types'
+import { statusTranslation } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 export const categoryEditForm = [
 	{
@@ -35,6 +39,14 @@ export const categoryEditForm = [
 		type: 'text',
 		placeholder: '',
 		required: false,
+	},
+
+	{
+		name: 'tax',
+		label: 'tax',
+		type: 'number',
+		placeholder: 'tax',
+		required: true,
 	},
 
 	// {
@@ -332,9 +344,14 @@ export const productVariantFormCreate = [
 		type: 'select',
 		placeholder: 'status',
 		allNames: [
-			{ id: 'available', name: 'available' },
-			{ id: 'unavailable', name: 'unavailable' },
-			{ id: 'coming_soon', name: 'coming soon' },
+			{
+				id: 'available',
+				name: dynamicLocalization(statusTranslation.available),
+			},
+			{
+				id: 'unavailable',
+				name: dynamicLocalization(statusTranslation.unavailable),
+			},
 		],
 		required: true,
 	},
@@ -343,6 +360,117 @@ export const productVariantFormCreate = [
 		label: 'stock',
 		type: 'number',
 		placeholder: 'Enter stock',
+		required: true,
+	},
+]
+
+export const paymentFormCreate: {
+	name: keyof IPayment
+	label: string
+	type: string
+	placeholder: string
+	required: boolean
+}[] = [
+	{
+		name: 'payment_type',
+		label: 'payment type',
+		type: 'select',
+		placeholder: 'payment type',
+		required: true,
+	},
+	{
+		name: 'bank_account',
+		label: 'bank account',
+		type: 'text',
+		placeholder: 'bank account',
+		required: true,
+	},
+	{
+		name: 'phone_number',
+		label: 'phone number',
+		type: 'text',
+		placeholder: 'phone number',
+		required: true,
+	},
+	{
+		name: 'confirm_photo',
+		label: 'confirm photo',
+		type: 'file',
+		placeholder: 'confirm photo',
+		required: true,
+	},
+]
+
+export const ShopCreateForm: {
+	name: keyof IShopForm
+	label: string
+	type: string
+	fileTypes?: string
+	placeholder: string
+	required: boolean
+}[] = [
+	{
+		name: 'owner',
+		label: 'owner',
+		type: 'text',
+		placeholder: 'Owner',
+		required: true,
+	},
+	{
+		name: 'shop_name',
+		label: 'shop name',
+		type: 'text',
+		placeholder: 'Shop name',
+		required: true,
+	},
+	{
+		name: 'short_name',
+		label: 'short name',
+		type: 'text',
+		placeholder: 'Short name',
+		required: true,
+	},
+	{
+		name: 'full_name',
+		label: 'full name',
+		type: 'text',
+		placeholder: 'Full name',
+		required: true,
+	},
+	{
+		name: 'address',
+		label: 'address',
+		type: 'text',
+		placeholder: 'Address',
+		required: true,
+	},
+	{
+		name: 'INN',
+		label: 'INN',
+		type: 'text',
+		placeholder: 'INN',
+		required: true,
+	},
+	{
+		name: 'bik',
+		label: 'BIK',
+		type: 'text',
+		placeholder: 'BIK',
+		required: true,
+	},
+	{
+		name: 'bank_account',
+		label: 'bank account',
+		type: 'text',
+		placeholder: 'Bank account',
+		required: true,
+	},
+	{
+		name: 'document',
+		label: 'document',
+		type: 'file',
+		fileTypes: 'application/pdf',
+		placeholder: 'Document',
 		required: true,
 	},
 ]

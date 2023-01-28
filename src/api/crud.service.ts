@@ -10,7 +10,7 @@ export const CRUDservice = (
 	return {
 		getList: async (params?: Record<string, string | number>) => {
 			try {
-				const response = await makeRequest(auth).get(url(''), {params})
+				const response = await makeRequest(auth).get(url(''), { params })
 				return response.data
 			} catch (error) {
 				toast.error(`${toastText || 'error'}: ${getErrorMessage(error)}`)

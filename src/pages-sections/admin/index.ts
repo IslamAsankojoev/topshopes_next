@@ -1,7 +1,7 @@
 import BrandRow from "./BrandRow";
 import CategoryRow from "./CategoryRow";
 import CustomerRow from "./CustomerRow";
-import OrderDetails from "./orders/OrderDetails";
+import OrderDetail from "./orders/OrderDetail";
 import OrderRow from "./orders/OrderRow";
 import ProductForm from "./products/ProductForm";
 import ProductRow from "./products/ProductRow";
@@ -26,7 +26,7 @@ export {
   CustomerRow,
   CategoryRow,
   ProductForm,
-  OrderDetails,
+  OrderDetail,
   RefundRequestRow,
   SellerPackageCard,
   // styled components

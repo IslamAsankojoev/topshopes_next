@@ -1,4 +1,11 @@
-import { Done, ShoppingBag } from '@mui/icons-material'
+import styled from '@emotion/styled'
+import {
+	Cancel,
+	Done,
+	MarkunreadMailbox,
+	Payment,
+	ShoppingBag,
+} from '@mui/icons-material'
 import {
 	Avatar,
 	Box,
@@ -9,10 +16,9 @@ import {
 	Typography,
 	useTheme,
 } from '@mui/material'
-import { styled } from '@mui/material/styles'
+import { styled as muiStyled } from '@mui/material/styles'
 import { OrdersService } from 'api/services/orders/orders.service'
 import TableRow from 'components/TableRow'
-import { H5, H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import Delivery from 'components/icons/Delivery'
@@ -20,31 +26,32 @@ import PackageBox from 'components/icons/PackageBox'
 import TruckFilled from 'components/icons/TruckFilled'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
-import productDatabase from 'data/product-database'
 import { format } from 'date-fns'
-import { useTypedSelector } from 'hooks/useTypedSelector'
 import useWindowSize from 'hooks/useWindowSize'
-import { GetServerSideProps } from 'next'
-import { GetStaticProps, NextPage } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
+import { OrderDetail } from 'pages-sections/admin'
+import ClientOrderDetail from 'pages-sections/admin/orders/ClientOrderDetail'
 import React from 'react'
 import { Fragment } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IOrder, IOrderStatus } from 'shared/types/order.types'
 
-const StyledFlexbox = styled(FlexBetween)(({ theme }) => ({
+const StyledFlexbox = muiStyled(FlexBetween)(({ theme }) => ({
 	flexWrap: 'wrap',
 	marginTop: '2rem',
 	marginBottom: '2rem',
-	[theme.breakpoints.down('sm')]: { flexDirection: 'column' },
+	'@media (max-width: 650px)': {
+		flexDirection: 'column',
+	},
 
 	'& .line': {
 		height: 4,
 		minWidth: 50,
 		flex: '1 1 0',
-		[theme.breakpoints.down('sm')]: { flex: 'unset', height: 50, minWidth: 4 },
+		'@media (max-width: 650px)': { flex: 'unset', height: 50, minWidth: 4 },
 	},
 }))
 
@@ -58,10 +65,11 @@ export const getServerSideProps = async ({ locale }) => {
 // =
 
 const OrderDetails: NextPageAuth = () => {
+	const { t } = useTranslation('common')
 	const router = useRouter()
 
-	const { isLoading, data: order } = useQuery(
-		'Get one order',
+	const { data: order } = useQuery(
+		'get one order',
 		() => OrdersService.get(router.query.id as string),
 		{
 			enabled: !!router?.query?.id,
@@ -72,14 +80,20 @@ const OrderDetails: NextPageAuth = () => {
 	const orderStatus: IOrderStatus = order?.status || 'pending'
 
 	const orderStatusList: IOrderStatus[] = [
-		'pending',
 		'paid',
-		'cancelled',
-		'delivered',
+		'pending',
 		'delivering',
-		'received',
+		'delivered',
+		'completed',
 	]
-	const stepIconList = [PackageBox, TruckFilled, Delivery]
+
+	const stepIconList = [
+		Payment,
+		PackageBox,
+		TruckFilled,
+		MarkunreadMailbox,
+		Delivery,
+	]
 
 	const statusIndex = orderStatusList.indexOf(orderStatus)
 	const width = useWindowSize()
@@ -90,13 +104,8 @@ const OrderDetails: NextPageAuth = () => {
 		<CustomerDashboardLayout>
 			<UserDashboardHeader
 				icon={ShoppingBag}
-				title="Order Details"
+				title={t('orderDetails')}
 				navigation={<CustomerDashboardNavigation />}
-				button={
-					<Button color="primary" sx={{ bgcolor: 'primary.light', px: 4 }}>
-						Order Again
-					</Button>
-				}
 			/>
 
 			<Card sx={{ p: '2rem 1.5rem', mb: '30px' }}>
@@ -114,6 +123,7 @@ const OrderDetails: NextPageAuth = () => {
 								>
 									<Icon color="inherit" sx={{ fontSize: '32px' }} />
 								</Avatar>
+
 								{ind < statusIndex && (
 									<Box position="absolute" right="0" top="0">
 										<Avatar
@@ -138,121 +148,14 @@ const OrderDetails: NextPageAuth = () => {
 						</Fragment>
 					))}
 				</StyledFlexbox>
-
-				{order.delivered_at ? (
-					<FlexBox justifyContent={width < breakpoint ? 'center' : 'flex-end'}>
-						<Typography
-							p="0.5rem 1rem"
-							textAlign="center"
-							borderRadius="300px"
-							color="primary.main"
-							bgcolor="primary.light"
-						>
-							Estimated Delivery Date{' '}
-							<b>{format(new Date(order.delivered_at), 'dd MMM, yyyy')}</b>
-						</Typography>
-					</FlexBox>
-				) : null}
 			</Card>
 
-			<Card sx={{ p: 0, mb: '30px' }}>
-				<TableRow
-					sx={{
-						p: '12px',
-						borderRadius: 0,
-						boxShadow: 'none',
-						bgcolor: 'grey.200',
-					}}
-				>
-					<FlexBox className="pre" m={0.75} alignItems="center">
-						<Typography fontSize={14} color="grey.600" mr={0.5}>
-							Order ID:
-						</Typography>
-						<Typography fontSize={14}>{order.id.slice(0, 8)}</Typography>
-					</FlexBox>
-
-					<FlexBox className="pre" m={0.75} alignItems="center">
-						<Typography fontSize={14} color="grey.600" mr={0.5}>
-							Placed on:
-						</Typography>
-						<Typography fontSize={14}>
-							{format(new Date(order.created_at), 'dd MMM, yyyy')}
-						</Typography>
-					</FlexBox>
-
-					{order.delivered_at ? (
-						<FlexBox className="pre" m={0.75} alignItems="center">
-							<Typography fontSize={14} color="grey.600" mr={0.5}>
-								Delivered on:
-							</Typography>
-							<Typography fontSize={14}>
-								{format(new Date(order.delivered_at), 'dd MMM, yyyy')}
-							</Typography>
-						</FlexBox>
-					) : null}
-				</TableRow>
-			</Card>
-
-			<Grid container spacing={3}>
-				<Grid item lg={6} md={6} xs={12}>
-					<Card sx={{ p: '20px 30px' }}>
-						<H5 mt={0} mb={2}>
-							Shipping Address
-						</H5>
-
-						<Paragraph fontSize={14} my={0}>
-							{order.shipping_address}
-						</Paragraph>
-					</Card>
-				</Grid>
-
-				<Grid item lg={6} md={6} xs={12}>
-					<Card sx={{ p: '20px 30px' }}>
-						<H5 mt={0} mb={2}>
-							Total Summary
-						</H5>
-
-						<FlexBetween mb={1}>
-							<Typography fontSize={14} color="grey.600">
-								Subtotal:
-							</Typography>
-							<H6 my="0px">{order.total_price}c</H6>
-						</FlexBetween>
-
-						<FlexBetween mb={1}>
-							<Typography fontSize={14} color="grey.600">
-								Shipping fee:
-							</Typography>
-							<H6 my="0px">0c</H6>
-						</FlexBetween>
-
-						{/* <FlexBetween mb={1}>
-							<Typography fontSize={14} color="grey.600">
-								Discount:
-							</Typography>
-							<H6 my="0px">{order.}c</H6>
-						</FlexBetween> */}
-
-						<Divider sx={{ mb: 1 }} />
-
-						<FlexBetween mb={2}>
-							<H6 my="0px">Total</H6>
-							{/* <H6 my="0px">
-								{parseInt(order.total_price) *
-									(order.discount ? 1 - order.discount * 0.1 : 1)}
-								c
-							</H6> */}
-						</FlexBetween>
-
-						<Typography fontSize={14}>Paid by Credit/Debit Card</Typography>
-					</Card>
-				</Grid>
-			</Grid>
+			<ClientOrderDetail />
 		</CustomerDashboardLayout>
 	) : null
 }
 
-OrderDetails.isOnlyUser = true
+OrderDetails.isOnlyAuth = true
 
 export default OrderDetails
 

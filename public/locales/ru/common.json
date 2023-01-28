@@ -1,4 +1,9 @@
 {
+	"createdAt": "Создан в",
+
+	"confirmPayment": "Подтвердить платеж",
+	"choosePayment": "Выберите способ оплаты",
+	"tax": "Hалог",
 	"about": "О нас",
 	"price": "Цена",
 	"published": "Опубликовано",
@@ -49,7 +54,7 @@
 	"name": "Имя",
 	"or": "или",
 	"order": "порядок",
-	"orderDetails": "Информация для заказа",
+	"orderDetails": "Информация заказа",
 	"orderId": "номер заказа",
 	"orders": "Заказы",
 	"ourStores": "Наши магазины",

@@ -30,15 +30,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const AddressList: NextPageAuth = () => {
 	const { t } = useTranslation('common')
-	const { push } = useRouter()
+	const { push, query, pathname } = useRouter()
 
-	const {
-		data: addresses,
-		isLoading,
-		refetch,
-	} = useQuery('address get', () => AddressesService.getList(), {
-		select: (data) => data.results,
-	})
+	const { data: addresses, refetch } = useQuery(
+		`address get page=${query?.page}`,
+		() =>
+			AddressesService.getList({
+				page: (query?.page as string) || 1,
+				page_size: 20,
+			})
+	)
 
 	const handleDelete = async (id: string) => {
 		await AddressesService.delete(id as string)
@@ -47,7 +48,6 @@ const AddressList: NextPageAuth = () => {
 
 	return (
 		<CustomerDashboardLayout>
-			{isLoading ? <Loading /> : null}
 			<UserDashboardHeader
 				icon={Place}
 				title={t('myAddresses')}
@@ -65,7 +65,7 @@ const AddressList: NextPageAuth = () => {
 				}
 			/>
 
-			{addresses?.map((address) => (
+			{addresses?.results?.map((address) => (
 				<TableRow sx={{ my: 2, padding: '6px 18px' }} key={address.id}>
 					<Typography whiteSpace="pre" m={0.75} textAlign="left">
 						{address.city}, {address.street}
@@ -94,7 +94,18 @@ const AddressList: NextPageAuth = () => {
 			))}
 
 			<FlexBox justifyContent="center" mt={5}>
-				<Pagination count={5} onChange={(data) => console.log(data)} />
+				<Pagination
+					page={+query?.page || 1}
+					count={Math.ceil(addresses?.count / 20)}
+					onChange={(_, newValue) =>
+						push({
+							pathname,
+							query: {
+								page: newValue,
+							},
+						})
+					}
+				/>
 			</FlexBox>
 		</CustomerDashboardLayout>
 	)
@@ -133,6 +144,6 @@ const AddressList: NextPageAuth = () => {
 // 	},
 // ]
 
-AddressList.isOnlyUser = true
+AddressList.isOnlyAuth = true
 
 export default AddressList

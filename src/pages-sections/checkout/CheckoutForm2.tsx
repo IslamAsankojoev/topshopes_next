@@ -1,70 +1,57 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import styled from '@emotion/styled'
 import { DeleteOutline } from '@mui/icons-material'
-import {
-	Avatar,
-	Button,
-	Card,
-	FormControl,
-	Grid,
-	Radio,
-	RadioGroup,
-	Typography,
-} from '@mui/material'
-import FormControlLabel from '@mui/material/FormControlLabel'
+import { Alert, Button, Card, Grid, TextField } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import { instance } from 'api/interceptor'
 import { AddressesService } from 'api/services/addresses/addresses.service'
-import { OrdersService } from 'api/services/orders/orders.service'
-import axios from 'axios'
+import { ProfilePaymentService } from 'api/services/payments/ProfilePayment.service'
 import Card1 from 'components/Card1'
+import DropZone from 'components/DropZone'
 import { H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
+import { useFormik } from 'formik'
 import { useTypedSelector } from 'hooks/useTypedSelector'
-import { method } from 'lodash'
 import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FC, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { toast } from 'react-toastify'
 import { ResponseList } from 'shared/types/response.types'
 import { IAddress } from 'shared/types/user.types'
-import { ICartItem } from 'store/cart/cart.interface'
+import { common } from 'utils/Translate/common'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import * as yup from 'yup'
 
 import EditAddressForm from './EditAddressForm'
+import Heading from './Heading'
 import NewAddressForm from './NewAddressForm'
+import PaymentDialog from './PaymentDialog'
+import { paymentTranslations, payment_methods } from './paymentHelper'
 
 // ====================================================================
 // date types
 type DateProps = { label: string; value: string }
-type HeadingProps = { number: number; title: string }
 // ====================================================================
 
-const Heading: FC<HeadingProps> = ({ number, title }) => {
-	return (
-		<FlexBox gap={1.5} alignItems="center" mb={3.5}>
-			<Avatar
-				sx={{
-					width: 32,
-					height: 32,
-					color: 'primary.text',
-					backgroundColor: 'primary.main',
-				}}
-			>
-				{number}
-			</Avatar>
-			<Typography fontSize="20px">{title}</Typography>
-		</FlexBox>
-	)
+const initialValues = {
+	selectedAddress: null,
+	paymentMethod: payment_methods[0].id,
+	bankAccount: '',
+	screenshot: null,
 }
+
+const checkoutFormValidationSchema = yup.object().shape({
+	selectedAddress: yup.mixed().required(dynamicLocalization(common.required)),
+	paymentMethod: yup.string().required(dynamicLocalization(common.required)),
+	bankAccount: yup.string().required(dynamicLocalization(common.required)),
+	screenshot: yup.mixed().required(dynamicLocalization(common.required)),
+})
 
 const CheckoutForm2: FC = () => {
 	const { t } = useTranslation('common')
 
 	// states
 	const { cart } = useTypedSelector((state) => state.cartStore)
-	const [selectedAddress, setSelectedAddress] = useState<string>('')
-	// const [paymentMethod, setPaymentMethod] = useState('')
-	const [orderStack, setOrderStack] = useState<ICartItem[]>(cart)
 
 	// hooks
 	const router = useRouter()
@@ -87,45 +74,52 @@ const CheckoutForm2: FC = () => {
 		(data: IAddress) => AddressesService.create({ ...data, user: user.id }),
 		{
 			onSuccess: () => {
-				toast.success('new address successfully created')
 				refetch()
 			},
 		}
 	)
-
 	const { mutateAsync: updateAsync } = useMutation(
 		'address update',
 		({ id, data }: { id: string; data: IAddress }) =>
 			AddressesService.update(id, data),
 		{
 			onSuccess: () => {
-				toast.success('address successfully updated')
 				refetch()
 			},
 		}
 	)
 
-	// handlers
-	const { mutateAsync: orderAsync } = useMutation(
-		'order create',
-		(data: ICartItem) => {
-			return instance.post(`/products/variants/${data?.variants[0]?.id}/buy/`, {
-				quantity: data?.qty,
-				address: selectedAddress,
-			})
-		}
-	)
-
 	const handleFormSubmit = async () => {
-		await orderStack.forEach((item) => {
-			orderAsync(item)
-		})
-		router.push('/orders/')
+		await orderAsync()
+		await router.push('/orders')
 	}
 
-	const handleFieldValueChange = (id: string) => () => {
-		setSelectedAddress(id)
-	}
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		setFieldValue,
+	} = useFormik({
+		initialValues,
+		onSubmit: handleFormSubmit,
+		validationSchema: checkoutFormValidationSchema,
+	})
+
+	const { mutateAsync: orderAsync } = useMutation('order create', () =>
+		ProfilePaymentService.pay({
+			cart,
+			address: values.selectedAddress,
+			data: {
+				bank_account: values.bankAccount,
+				confirm_photo: values.screenshot,
+				payment_type: values.paymentMethod,
+				phone_number: values.selectedAddress.phone,
+			},
+		})
+	)
 
 	const deleteAddress = async (
 		e: React.MouseEvent<HTMLElement>,
@@ -134,10 +128,11 @@ const CheckoutForm2: FC = () => {
 		e.stopPropagation()
 		await AddressesService.delete(id)
 		await refetch()
+		if (id == values.selectedAddress?.id) setFieldValue('selectedAddress', null)
 	}
 
 	return (
-		<>
+		<form onSubmit={handleSubmit}>
 			<Card1 sx={{ mb: 3 }}>
 				<FlexBetween>
 					<Heading number={1} title={t('selectDelivery')} />
@@ -156,11 +151,11 @@ const CheckoutForm2: FC = () => {
 									position: 'relative',
 									backgroundColor: 'grey.100',
 									borderColor:
-										item.id === selectedAddress
+										item.id === values.selectedAddress?.id
 											? 'primary.main'
 											: 'transparent',
 								}}
-								onClick={handleFieldValueChange(item.id)}
+								onClick={() => setFieldValue('selectedAddress', item)}
 							>
 								<FlexBox
 									justifyContent="flex-end"
@@ -184,104 +179,150 @@ const CheckoutForm2: FC = () => {
 						</Grid>
 					))}
 				</Grid>
-				<Button
-					fullWidth
-					type="submit"
-					color="primary"
-					variant="contained"
-					sx={{ mt: 3 }}
-					onClick={handleFormSubmit}
-				>
-					{t('placeOrder')}
-				</Button>
+				{!!touched.selectedAddress && !!errors.selectedAddress ? (
+					<Alert sx={{ m: '20px 0 0' }} severity="error">
+						{touched.selectedAddress && errors.selectedAddress}
+					</Alert>
+				) : null}
 			</Card1>
 
-			{/* <Card1 sx={{ mb: 3 }}>
-				<Heading number={2} title="Payment Details" />
+			<Card1 sx={{ mb: 3 }}>
+				<Heading number={2} title={t('choosePayment')} />
 
-				<FormControl> */}
-			{/* <RadioGroup
-						value={paymentMethod}
-						defaultValue={payment_methods[0]?.name}
-						onChange={({ target }) => setPaymentMethod(target.value)}
+				<RadioWrapper>
+					{payment_methods?.map((method) => (
+						<RadioItem
+							key={method.id}
+							style={{
+								boxShadow:
+									values.paymentMethod == method.id
+										? '0 0 0 1px #ff7900'
+										: null,
+							}}
+							onClick={() => setFieldValue('paymentMethod', method.id)}
+						>
+							<img src={method.icon.src} alt={method.name} />
+							<p>{method.name}</p>
+							<PaymentDialog images={method?.images} />
+						</RadioItem>
+					))}
+				</RadioWrapper>
+			</Card1>
+
+			<Card1 sx={{ mb: 3 }}>
+				<Heading number={3} title={t('confirmPayment')} />
+
+				<TextField
+					sx={{ m: '25px 0 0' }}
+					autoComplete="on"
+					label={dynamicLocalization(paymentTranslations.cardPhoneNumber)}
+					placeholder={dynamicLocalization(paymentTranslations.cardPhoneNumber)}
+					name={'bankAccount'}
+					value={values.bankAccount}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					error={!!touched.bankAccount && !!errors.bankAccount}
+					helperText={touched.bankAccount && errors.bankAccount}
+					fullWidth
+				/>
+
+				<Grid
+					style={{
+						margin: '30px 0 0',
+						display: 'flex',
+						position: 'relative',
+					}}
+					width="100%"
+					container
+				>
+					<Grid
+						item
+						sm={values.screenshot ? 6 : 12}
+						xs={values.screenshot ? 6 : 12}
 					>
-						{payment_methods?.map((method) => (
-							<FormControlLabel
-								key={method.id}
-								value={method.id}
-								control={<Radio />}
-								label={method.name}
+						<DropZone
+							style={{
+								borderColor: 'red!important',
+							}}
+							name={values.screenshot?.name}
+							onChange={(file: File[]) => setFieldValue('screenshot', file[0])}
+							multiple={false}
+							accept={
+								'image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'
+							}
+						/>
+					</Grid>
+					{values.screenshot ? (
+						<Grid
+							display="flex"
+							item
+							sm={6}
+							xs={6}
+							position="relative"
+							justifyContent="center"
+							alignItems="center"
+						>
+							<Image
+								layout="fill"
+								objectFit="contain"
+								objectPosition="center"
+								src={URL?.createObjectURL(values.screenshot)}
+								alt={values.screenshot?.name}
 							/>
-						))}
-					</RadioGroup> */}
-			{/* </FormControl>
-			</Card1> */}
-		</>
+						</Grid>
+					) : null}
+				</Grid>
+
+				{!!touched.screenshot && !!errors.screenshot ? (
+					<Alert sx={{ m: '20px 0 0' }} severity="error">
+						{touched.screenshot && errors.screenshot}
+					</Alert>
+				) : null}
+			</Card1>
+
+			<Button
+				fullWidth
+				type="submit"
+				color="primary"
+				variant="contained"
+				sx={{ mt: 3 }}
+			>
+				{t('placeOrder')}
+			</Button>
+		</form>
 	)
 }
 
-// const payment_methods: { id: string; name: string }[] = [
-// 	{ id: 'cash_on_dilivery', name: 'cash on dilivery' },
-// 	{ id: 'credit_card', name: 'credit card' },
-// ]
+const RadioWrapper = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	grid-gap: 30px;
+	width: 100%;
+`
 
-// const addressList2 = [
-// 	{
-// 		name: 'Home',
-// 		phone: '+17804084466',
-// 		street2: '435 Bristol, MA 2351',
-// 		street1: '375 Subidbazaar, MA 2351',
-// 	},
-// 	{
-// 		name: 'Office',
-// 		phone: '+18334271710',
-// 		street2: '968 Brockton, MA 2351',
-// 		street1: '645 Bondorbazaar, MA 2351',
-// 	},
-// 	{
-// 		name: 'Office 2',
-// 		phone: '+17754739407',
-// 		street2: '777 Kazi, MA 2351',
-// 		street1: '324 Ambarkhana, MA 2351',
-// 	},
-// ]
+const RadioItem = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	grid-gap: 0 10px;
 
-// const paymentMethodList = [
-// 	{
-// 		cardType: 'Amex',
-// 		last4Digits: '4765',
-// 		name: 'Jaslynn Land',
-// 	},
-// 	{
-// 		cardType: 'Mastercard',
-// 		last4Digits: '5432',
-// 		name: 'Jaslynn Land',
-// 	},
-// 	{
-// 		cardType: 'Visa',
-// 		last4Digits: '4543',
-// 		name: 'Jaslynn Land',
-// 	},
-// ]
+	background-color: #f6f9fc;
+	border-radius: 5px;
+	padding: 2px 10px;
 
-// const timeList = [
-// 	{ label: '9AM - 11AM', value: '9AM - 11AM' },
-// 	{ label: '11AM - 1PM', value: '11AM - 1PM' },
-// 	{ label: '3PM - 5PM', value: '3PM - 5PM' },
-// 	{ label: '5PM - 7PM', value: '5PM - 7PM' },
-// ]
+	transition: 0.3s;
+	cursor: pointer;
 
-// const checkoutSchema = yup.object().shape({
-// 	card: yup.string().required('required'),
-// 	date: yup.string().required('required'),
-// 	time: yup.string().required('required'),
-// 	address: yup.string().required('required'),
-// 	cardHolderName: yup.string().required('required'),
-// 	cardNumber: yup.number().required('required'),
-// 	cardMonth: yup.string().required('required'),
-// 	cardYear: yup.number().required('required'),
-// 	cardCVC: yup.number().required('required'),
-// 	voucher: yup.string(),
-// })
+	img {
+		width: 30px;
+		height: 30px;
+		object-fit: contain;
+	}
+
+	&:hover {
+		background-color: #fcf8f5;
+	}
+`
 
 export default CheckoutForm2

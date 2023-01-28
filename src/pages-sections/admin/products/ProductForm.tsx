@@ -41,7 +41,7 @@ type ProductFormProps = {
 const ProductForm: FC<ProductFormProps> = (props) => {
 	// dialog
 	const [openDialog, setOpenDialog] = React.useState(false)
-	const [categoryValue, setCategoryValue] = React.useState({})
+	const [categoryValue, setCategoryValue] = React.useState<any>({})
 
 	const toggleDialog = (category?: { id: string | number; name: string }) => {
 		setOpenDialog(!openDialog)
@@ -55,7 +55,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		if (values.category?.id && update) {
 			;(async () => {
 				await AdminProductsService.update(values?.id as string, {
-					category: values.category?.id,
+					category: categoryValue.id,
 				})
 				props.refetch && (await props.refetch())
 			})()
@@ -93,16 +93,14 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		initialValues,
 		onSubmit: () => {
 			const { reviews, shop, variants, category, brand, ...other } = values
-			const clearData = props.includeShop
-				? { ...other, shop: shop?.id, category: category?.id, brand: brand?.id }
-				: { ...other, category: category?.id, brand: brand?.id }
+			const clearData = { ...other, category: category?.id, brand: brand?.id }
 			handleFormSubmit(clearData, redirect)
 		},
 		validationSchema: validationSchema,
 	})
 
 	//data fetching
-	const { brands, shops, categories } = useProductFetch(props.includeShop, {
+	const { brands, categories } = useProductFetch(props.includeShop, {
 		categoriesSearch,
 		brandsSearch,
 		shopsSearch,
@@ -112,7 +110,8 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		category: {
 			name: 'category',
 			options: categories || [],
-			getOptionLabel: (option) => option?.name || '',
+			getOptionLabel: (option) =>
+				option?.name ? option?.name + ` - (${option?.tax}%)` : '',
 			error: !!touched.category && !!errors.category,
 			helperText: touched.category && errors.category,
 		},
@@ -122,13 +121,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 			getOptionLabel: (option) => option?.name || '',
 			error: !!touched.brand && !!errors.brand,
 			helperText: touched.brand && errors.brand,
-		},
-		shop: {
-			name: 'shop',
-			options: shops || [],
-			getOptionLabel: (option) => option?.name || '',
-			error: !!touched.shop && !!errors.shop,
-			helperText: touched.shop && errors.shop,
 		},
 	}
 
@@ -267,38 +259,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						/>
 					</Grid>
 
-					{props.includeShop ? (
-						<Grid item xs={12}>
-							<Autocomplete
-								{...autocompleteProps.shop}
-								fullWidth
-								color="info"
-								size="medium"
-								onBlur={handleBlur}
-								placeholder={commonT('shop')}
-								value={values.shop}
-								// @ts-ignore
-								onChange={(
-									_: any,
-									newValue: { id: string | number; label: string } | null
-								) => {
-									setFieldValue('shop', newValue)
-								}}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										error={autocompleteProps.shop.error}
-										helperText={autocompleteProps.shop.helperText}
-										onChange={({ target }) => {
-											setShopsSearch(target.value)
-										}}
-										label={commonT('shop')}
-									/>
-								)}
-							/>
-						</Grid>
-					) : null}
-
 					<Grid item xs={12}>
 						<TextField
 							multiline
@@ -332,13 +292,13 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 								border: '1px solid #E4E7EB',
 								position: 'fixed',
 								display: 'flex',
-								bottom: 10,
-								right: 10,
+								bottom: 0,
+								right: 0,
 								zIndex: 100,
-								padding: '10px!important',
+								padding: '8px!important',
 								backgroundColor: '#F7F9FC',
 								'@media (max-width: 768px)': {
-									width: '95%',
+									width: '100%',
 									justifyContent: 'center',
 								},
 							}}
@@ -359,10 +319,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 											}
 											variant="contained"
 											color="secondary"
+											size="small"
 										>
 											{adminT('goView')}
 										</Button>
-										<Button variant="contained" color="primary" type="submit">
+										<Button
+											variant="contained"
+											color="primary"
+											type="submit"
+											size="small"
+										>
 											{adminT('saveExit')}
 										</Button>
 									</>
@@ -372,9 +338,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									variant="contained"
 									color="success"
 									type="submit"
-									sx={{
-										px: 4,
-									}}
+									size="small"
 								>
 									{update ? commonT('save') : adminT('createProduct')}
 								</Button>

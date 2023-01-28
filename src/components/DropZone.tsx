@@ -13,6 +13,7 @@ export interface DropZoneProps extends ComponentPropsWithoutRef<'input'> {
 	imageSize?: string
 	error?: boolean
 	helperText?: boolean
+	accept?: string
 }
 
 const DropZone: React.FC<DropZoneProps> = (props) => {
@@ -22,9 +23,10 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 		error = false,
 		onChange,
 		title: titleProps,
+		accept,
 		...other
 	} = props
-	const [title, setTitle] = React.useState(titleProps)
+	const [title, setTitle] = React.useState('')
 
 	const onDrop = useCallback((acceptedFiles) => {
 		if (onChange) {
@@ -36,7 +38,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		onDrop,
 		multiple: true,
-		accept: '.jpeg,.jpg,.png,.gif',
+		accept: accept,
 		maxFiles: 5,
 	})
 
