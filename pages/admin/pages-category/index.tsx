@@ -100,7 +100,7 @@ const PageCategoryList: NextPageAuth = () => {
 		</Box>
 	)
 }
-PageCategoryList.isOnlyUser = true
+PageCategoryList.isOnlyAuth = true
 
 PageCategoryList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

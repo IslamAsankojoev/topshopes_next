@@ -79,7 +79,7 @@ const UpdateAttribute: NextPageAuth = () => {
 	)
 }
 
-UpdateAttribute.isOnlyUser = true
+UpdateAttribute.isOnlyAuth = true
 
 UpdateAttribute.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

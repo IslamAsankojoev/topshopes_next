@@ -120,7 +120,7 @@ const BrandsTypesList: NextPageAuth = () => {
 	)
 }
 
-BrandsTypesList.isOnlyUser = true
+BrandsTypesList.isOnlyAuth = true
 
 BrandsTypesList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

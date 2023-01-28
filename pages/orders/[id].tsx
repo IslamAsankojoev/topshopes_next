@@ -155,7 +155,7 @@ const OrderDetails: NextPageAuth = () => {
 	) : null
 }
 
-OrderDetails.isOnlyUser = true
+OrderDetails.isOnlyAuth = true
 
 export default OrderDetails
 

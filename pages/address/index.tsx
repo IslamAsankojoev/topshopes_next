@@ -144,6 +144,6 @@ const AddressList: NextPageAuth = () => {
 // 	},
 // ]
 
-AddressList.isOnlyUser = true
+AddressList.isOnlyAuth = true
 
 export default AddressList

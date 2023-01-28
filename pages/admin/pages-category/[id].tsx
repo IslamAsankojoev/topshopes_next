@@ -76,7 +76,7 @@ const UpdatePageCategory: NextPageAuth = () => {
 	)
 }
 
-UpdatePageCategory.isOnlyUser = true
+UpdatePageCategory.isOnlyAuth = true
 
 UpdatePageCategory.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

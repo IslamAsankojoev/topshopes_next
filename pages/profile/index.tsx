@@ -74,9 +74,8 @@ const Profile: NextPageAuth = () => {
                       </Typography>
                     </FlexBox> */}
 										</div>
-
 										<Typography color="grey.600" letterSpacing="0.2em">
-											MORTAL
+											{user.is_superuser ? 'IMMORTAL' : 'MORTAL'}
 										</Typography>
 									</FlexBetween>
 								</Box>
@@ -151,6 +150,6 @@ const infoList = [
 	{ title: '01', subtitle: 'Awaiting Delivery' },
 ]
 
-Profile.isOnlyUser = true
+Profile.isOnlyAuth = true
 
 export default Profile

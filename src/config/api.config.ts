@@ -18,6 +18,9 @@ export const getShopOrdersUrl = (string: string) =>
 	`shop/orders${string ? `/${string}` : ''}/`
 export const getBrandsUrl = (string: string) => `shops/brand/${string}`
 export const getAddressesUrl = (string: string) => `profile/address/${string}`
+
+export const getApplicationsUrl = (string: string) =>
+	`profile/applications/${string}`
 export const getAttrubutesUrl = (string: string) =>
 	`products/variants/attributes/${string}`
 export const getShopUrl = (string: string) => `shop/${string}`
@@ -34,6 +37,10 @@ export const getReviewUrl = (string: string) =>
 	`shops/products/${string}/review/`
 
 // Admin
+export const getPaymentsUrlAdmin = (string: string) =>
+	`admin/payments/${string && `${string}/`} `
+export const getApplicationsUrlAdmin = (string: string) =>
+	`admin/applications/${string}`
 export const getBrandsUrlAdmin = (string: string) => `admin/brand/${string}`
 export const getBrandsTypesUrlAdmin = (string: string) =>
 	`admin/brand/type/${string}`

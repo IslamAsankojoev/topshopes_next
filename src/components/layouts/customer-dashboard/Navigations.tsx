@@ -59,7 +59,7 @@ const Navigations = () => {
 	const { logout } = useActions()
 
 	const user = useTypedSelector((state) => state.userStore.user)
-	const is_seller = user.is_seller
+	const is_seller = user?.is_seller
 	const is_client = lodash.isEmpty(user) ? false : true
 	const is_only_client = !is_seller && is_client
 

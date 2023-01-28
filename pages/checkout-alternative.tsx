@@ -50,6 +50,6 @@ const CheckoutAlternative: NextPageAuth = () => {
 	)
 }
 
-CheckoutAlternative.isOnlyUser = true
+CheckoutAlternative.isOnlyAuth = true
 
 export default CheckoutAlternative

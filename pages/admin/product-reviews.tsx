@@ -78,7 +78,7 @@ const ProductReviews: NextPageAuth<ProductReviewsProps> = ({ reviews }) => {
 	)
 }
 
-ProductReviews.isOnlyUser = true
+ProductReviews.isOnlyAuth = true
 
 ProductReviews.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

@@ -123,7 +123,7 @@ const CategoryList: NextPageAuth = () => {
 	)
 }
 
-CategoryList.isOnlyUser = true
+CategoryList.isOnlyAuth = true
 
 CategoryList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

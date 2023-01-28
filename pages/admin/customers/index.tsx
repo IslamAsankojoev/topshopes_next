@@ -122,7 +122,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 	)
 }
 
-CustomerList.isOnlyUser = true
+CustomerList.isOnlyAuth = true
 
 CustomerList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

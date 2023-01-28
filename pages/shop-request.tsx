@@ -1,16 +1,18 @@
-import Person from '@mui/icons-material/Person'
-import { Grid } from '@mui/material'
+import { Alert, Grid } from '@mui/material'
 import { Box } from '@mui/system'
-import { RequestServices } from 'api/services/requests/requests.service'
+import { axiosClassic, instance } from 'api/interceptor'
+import { ApplicationServices } from 'api/services/applications/applications.service'
 import CreateForm from 'components/Form/CreateForm'
-import { H1, H2 } from 'components/Typography'
+import { H1 } from 'components/Typography'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useMutation } from 'react-query'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import { useMutation, useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { ShopCreateForm } from 'utils/constants/forms'
 
@@ -21,15 +23,25 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 		},
 	}
 }
-const Profile: NextPageAuth = () => {
+const ShopRequest: NextPageAuth = () => {
+	const router = useRouter()
+
 	const user = useTypedSelector((state) => state.userStore.user)
+
+	const { data: applications, isLoading } = useQuery(
+		'applications',
+		() => ApplicationServices.getApplications(),
+		{
+			select: (data: any) => data?.results,
+		}
+	)
 
 	const { mutateAsync } = useMutation(
 		'create shop',
-		(data) => RequestServices.shop_request(data),
+		(data) => ApplicationServices.createApplication(data),
 		{
 			onSuccess: () => {
-				console.log('Request sended successfully')
+				router.replace('/shop-request')
 			},
 		}
 	)
@@ -46,16 +58,45 @@ const Profile: NextPageAuth = () => {
 				<Box mb={4}>
 					<Grid container spacing={3}>
 						<Grid item md={12} xs={12}>
-							<H1 textAlign="center">Create shop</H1>
+							{applications?.length === 0 && (
+								<>
+									<H1 textAlign="center">Create shop</H1>
 
-							<CreateForm
-								handleFormSubmit={handleCreateShop}
-								fields={ShopCreateForm}
-								defaultData={{ owner: user.email }}
-								buttonText="Send request"
-								buttonPosition="static"
-								buttonSize="large"
-							/>
+									<CreateForm
+										handleFormSubmit={handleCreateShop}
+										fields={ShopCreateForm}
+										defaultData={{}}
+										buttonText="Send request"
+										buttonPosition="static"
+										buttonSize="large"
+									/>
+								</>
+							)}
+						</Grid>
+						<Grid
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+								height: '200px',
+								width: '100%',
+							}}
+						>
+							{applications?.length > 0 && (
+								<Box
+									sx={{
+										p: 2,
+										border: '1px solid',
+										borderColor: 'success.main',
+										borderRadius: 1,
+										color: 'dark',
+										bgcolor: 'success.light',
+									}}
+								>
+									You have already sent a request to create a shop. Please wait
+									for our response.
+								</Box>
+							)}
 						</Grid>
 					</Grid>
 				</Box>
@@ -64,6 +105,6 @@ const Profile: NextPageAuth = () => {
 	)
 }
 
-Profile.isOnlyUser = true
+ShopRequest.isOnlyClient = true
 
-export default Profile
+export default ShopRequest
