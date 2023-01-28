@@ -47,10 +47,10 @@ export const navigations = [
 		path: '/admin/applications',
 		role: 'admin',
 	},
-	{
-		name: 'payouts',
+{
+		name: 'payments',
 		icon: duotone.Pager,
-		path: '/admin/payouts',
+		path: '/admin/payments',
 		role: 'admin',
 	},
 	{

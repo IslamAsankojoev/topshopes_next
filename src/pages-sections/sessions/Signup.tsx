@@ -169,7 +169,7 @@ const Signup = () => {
 							justifyContent="flex-start"
 						>
 							<a
-								href="/"
+								href="/agreement"
 								target="_blank"
 								rel="noreferrer noopener"
 								style={{ textDecoration: 'underline' }}
