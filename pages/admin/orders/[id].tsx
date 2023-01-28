@@ -26,7 +26,7 @@ const OrderEdit: NextPageAuth = () => {
 				{t('orderDetail')}
 			</H3>
 
-			<OrderDetail />
+			<OrderDetail isAdmin={true} />
 		</Box>
 	)
 }

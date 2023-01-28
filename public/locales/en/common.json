@@ -1,4 +1,5 @@
 {
+	"createdAt": "Created at",
 	"confirmPayment": "Confirm the payment",
 	"choosePayment": "Choose a payment method",
 	"tax": "Tax",

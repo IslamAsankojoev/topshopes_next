@@ -120,7 +120,7 @@ const OrderList: NextPageAuth = () => {
 									{lodash
 										.sortBy(filteredList, 'created_at')
 										?.map((order, index) => (
-											<OrderRow order={order} key={index} />
+											<OrderRow isAdmin={true} order={order} key={index} />
 										))}
 								</TableBody>
 							</Table>

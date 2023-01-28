@@ -2,9 +2,11 @@ import { CRUDservice } from 'api/crud.service'
 import { instance } from 'api/interceptor'
 import { getProfilePaymentUrl } from 'config/api.config'
 import { withShopKey } from 'pages-sections/checkout/paymentHelper'
+import { toast } from 'react-toastify'
 import { IAddress } from 'shared/types/user.types'
 import { ICartItem } from 'store/cart/cart.interface'
 import { formData } from 'utils/formData'
+import { getErrorMessage } from 'utils/getErrorMessage'
 
 interface postWithSortData {
 	payment_type: string
@@ -14,7 +16,7 @@ interface postWithSortData {
 }
 
 export const ProfilePaymentService = {
-	...CRUDservice(getProfilePaymentUrl, 'posts'),
+	...CRUDservice(getProfilePaymentUrl, 'payment'),
 
 	pay: async ({
 		cart,
@@ -40,16 +42,18 @@ export const ProfilePaymentService = {
 				// webhook buy
 				for (let item of variants[key]) {
 					await instance.post(
-						`/products/variants/${item.variants[0]?.id}/buy/`,
+						`/shops/products/${item?.id}/buy/`,
 						{
+							product_variant: item.variants[0]?.id,
 							quantity: item.qty,
 							address: address.id,
-							payment_id: key,
+							payment: key,
 						}
 					)
 				}
 			}
 		} catch (e) {
+			toast.error(`payment: ${getErrorMessage(e)}`)
             throw e
         }
 	},

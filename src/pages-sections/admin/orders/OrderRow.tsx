@@ -20,7 +20,7 @@ import {
 } from '../StyledComponents'
 
 // ========================================================================
-type OrderRowProps = { order: IOrder }
+type OrderRowProps = { order: IOrder; isAdmin?: boolean }
 // ========================================================================
 
 export const statuses: {
@@ -45,7 +45,7 @@ export const statuses: {
 	},
 	{
 		name: 'shop_decline',
-		label: dynamicLocalization(statusTranslation.shopDecline),
+		label: dynamicLocalization(statusTranslation.shop_decline),
 	},
 	{
 		name: 'delivering',
@@ -65,31 +65,35 @@ export const statuses: {
 	},
 ]
 
-const OrderRow: FC<OrderRowProps> = ({ order }) => {
+export const statusDisabled = (
+	status: { name: string; label: string },
+	isAdmin: boolean
+) => {
+	return isAdmin
+		? false
+		: status.name == 'ready' || status.name == 'shop_decline'
+		? false
+		: true
+}
+
+const OrderRow: FC<OrderRowProps> = ({ order, isAdmin }) => {
 	const [orderStatus, setOrderStatus] = React.useState<IOrderStatus>(
 		order.status
 	)
 
-	const {
-		address,
-		delivered_at,
-		id,
-		shipping_address,
-		status,
-		tax,
-		total_price,
-		created_at,
-		quantity,
-	} = order
+	const { address, id, total_price, created_at, quantity } = order
+
+	const patchOrder = isAdmin
+		? OrdersService.update
+		: ShopsService.updateShopOrder
 
 	const { mutateAsync: mutateStatus } = useMutation(
 		'order status update',
-		(stat: IOrderStatus) =>
-			ShopsService.updateShopOrder(order.id, { status: stat }),
+		(status: IOrderStatus) => patchOrder(order.id, { status }),
 		{
-			onSuccess: (data) => {
+			onSuccess: (data: any) => {
 				toast.success('Order status updated')
-				setOrderStatus(data.status)
+				setOrderStatus(data?.status)
 			},
 		}
 	)
@@ -153,7 +157,10 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 						}}
 					>
 						{statuses.map((status) => (
-							<MenuItem value={status.name}>
+							<MenuItem
+								disabled={statusDisabled(status, isAdmin)}
+								value={status.name}
+							>
 								<StatusWrapper status={status.name}>
 									{status.label}
 								</StatusWrapper>
@@ -164,12 +171,14 @@ const OrderRow: FC<OrderRowProps> = ({ order }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<StyledIconButton onClick={() => router.push(`/vendor/orders/${id}`)}>
+				<StyledIconButton
+					onClick={() =>
+						router.push(
+							isAdmin ? `/admin/orders/${id}` : `/vendor/orders/${id}`
+						)
+					}
+				>
 					<RemoveRedEye />
-				</StyledIconButton>
-
-				<StyledIconButton>
-					<Delete />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

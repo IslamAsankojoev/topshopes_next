@@ -17,7 +17,7 @@ export const statusTranslation = {
     kk: 'Аяқталды',
     kg: 'Аякталды',
   },
-  shopDecline: {
+  shop_decline: {
     ru: 'Отказ Магазина',
     en: 'Shop Decline',
     tr: 'Mağaza Reddi',

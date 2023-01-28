@@ -1,4 +1,6 @@
 {
+	"createdAt": "oluşturuldu",
+
 	"confirmPayment": "Ödemeyi doğrulayın",
 	"choosePayment": "Bir ödeme yöntemi seçin",
 	"tax": "Vergi",

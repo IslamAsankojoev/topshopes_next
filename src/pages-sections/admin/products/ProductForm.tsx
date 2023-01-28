@@ -41,7 +41,7 @@ type ProductFormProps = {
 const ProductForm: FC<ProductFormProps> = (props) => {
 	// dialog
 	const [openDialog, setOpenDialog] = React.useState(false)
-	const [categoryValue, setCategoryValue] = React.useState({})
+	const [categoryValue, setCategoryValue] = React.useState<any>({})
 
 	const toggleDialog = (category?: { id: string | number; name: string }) => {
 		setOpenDialog(!openDialog)
@@ -55,7 +55,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		if (values.category?.id && update) {
 			;(async () => {
 				await AdminProductsService.update(values?.id as string, {
-					category: values.category?.id,
+					category: categoryValue.id,
 				})
 				props.refetch && (await props.refetch())
 			})()

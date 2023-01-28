@@ -21,7 +21,7 @@ export const ShopsService = {
 	},
 	getShopOrders: async (params: Record<string, string | number>) => {
 		try {
-			const response = await makeRequest(true).get(getShopOrdersUrl(''), params)
+			const response = await makeRequest(true).get(getShopOrdersUrl(''), {params})
 			return response.data
 		} catch (error) {
 			throw error
@@ -37,7 +37,7 @@ export const ShopsService = {
 	},
 	updateShopOrder: async (id: string, data: FormData | any) => {
 		try {
-			const response = await makeRequest(true).put(getShopOrdersUrl(id), data)
+			const response = await makeRequest(true).patch(getShopOrdersUrl(id), data)
 			return response.data
 		} catch (error) {
 			throw error

@@ -1,4 +1,6 @@
 {
+	"createdAt": "Құрылған",
+
 	"confirmPayment": "Төлемді растаңыз",
 	"choosePayment": "Төлем әдісін таңдаңыз",
 	"tax": "Салық",

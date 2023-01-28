@@ -19,13 +19,12 @@ import React, { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-import api from 'utils/api/dashboard'
 
 // table column list
 const tableHeading = [
 	{ id: 'id', label: 'orderId', align: 'left' },
 	{ id: 'qty', label: 'qty', align: 'left' },
-	{ id: 'delivered_at', label: 'deliveredAt', align: 'left' },
+	{ id: 'Created at', label: 'createdAt', align: 'left' },
 	{ id: 'city', label: 'city', align: 'left' },
 	{ id: 'amount', label: 'price', align: 'left' },
 	{ id: 'status', label: 'status', align: 'left' },
@@ -50,6 +49,9 @@ const OrderList: NextPageAuth = () => {
 	const [currentPage, setCurrentPage] = React.useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+	React.useEffect(() => {
+		console.log(searchValue)
+	}, [searchValue])
 
 	const { data: orders, isLoading } = useQuery(
 		`orders get search=${searchValue} page=${currentPage}`,

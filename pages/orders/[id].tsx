@@ -38,7 +38,6 @@ import { Fragment } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IOrder, IOrderStatus } from 'shared/types/order.types'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 const StyledFlexbox = muiStyled(FlexBetween)(({ theme }) => ({
 	flexWrap: 'wrap',

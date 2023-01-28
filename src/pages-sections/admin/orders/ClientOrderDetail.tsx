@@ -23,7 +23,6 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { IOrder, IOrderStatus } from 'shared/types/order.types'
-import { statusTranslation } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import { StatusWrapper } from '../StyledComponents'
@@ -125,7 +124,7 @@ const ClientOrderDetail = () => {
 								value={orderStatus}
 							>
 								{statuses.map((status) => (
-									<MenuItem value={status?.name}>
+									<MenuItem disabled value={status?.name}>
 										<StatusWrapper status={status?.name}>
 											{status.label}
 										</StatusWrapper>
