@@ -355,7 +355,7 @@ const PrevImg = styled.img`
 	margin: auto;
 `
 
-ShopSettings.isOnlyUser = true
+ShopSettings.isOnlySeller = true
 
 ShopSettings.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

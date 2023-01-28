@@ -5,7 +5,7 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FC, useLayoutEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import LayoutDrawer from '../LayoutDrawer'
 
@@ -63,7 +63,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 	}
 
 	// handle check admin permission
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (!user?.is_superuser) {
 			setAccessNavs(navigations?.filter((nav) => nav.role === 'vendor'))
 		} else {

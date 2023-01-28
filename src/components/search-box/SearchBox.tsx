@@ -166,7 +166,6 @@ const SearchBox: FC = () => {
 									pathname: `/product/[id]`,
 									query: { trueID: item.id, id: item.slug },
 								}}
-								as={`/product/${item.slug}`}
 								key={item.id}
 								passHref
 							>

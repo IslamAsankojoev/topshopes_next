@@ -27,7 +27,7 @@ const Page = () => {
 		data: page,
 		isLoading,
 	}: { isLoading: any; error: any; data: IPages } = useQuery(
-		'get page',
+		['get page', query.id],
 		() => axiosClassic.get(`/pages/${query.id}/`),
 		{
 			select: (data) => data.data,

@@ -14,6 +14,7 @@ import CustomerService from 'components/icons/CustomerService'
 import NavLink, { NavLinkProps } from 'components/nav-link/NavLink'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
+import lodash from 'lodash'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC, Fragment } from 'react'
@@ -57,7 +58,10 @@ const Navigations = () => {
 	const { pathname } = useRouter()
 	const { logout } = useActions()
 
-	const state = useTypedSelector((state) => state)
+	const user = useTypedSelector((state) => state.userStore.user)
+	const is_seller = user.is_seller
+	const is_client = lodash.isEmpty(user) ? false : true
+	const is_only_client = !is_seller && is_client
 
 	const logoutHandler = () => {
 		logout()
@@ -65,28 +69,70 @@ const Navigations = () => {
 
 	return (
 		<MainContainer>
-			{linkList?.map((item) => (
-				<Fragment key={item.title}>
-					<Typography p="26px 30px 1rem" color="grey.600" fontSize="12px">
-						{t(item.title)}
-					</Typography>
-
-					{item.list?.map((item) => (
-						<StyledNavLink
-							href={item.href}
-							key={item.title}
-							isCurrentPath={pathname.includes(item.href)}
-						>
-							<FlexBox alignItems="center" gap={1}>
-								<item.icon
-									color="inherit"
-									fontSize="small"
-									className="nav-icon"
-								/>
-								<span>{t(item.title)}</span>
-							</FlexBox>
-						</StyledNavLink>
-					))}
+			<Typography p="26px 30px 1rem" color="grey.600" fontSize="12px">
+				General
+			</Typography>
+			{linkList?.map((itemNav) => (
+				<Fragment key={itemNav.title}>
+					{itemNav.list?.map((item) => {
+						// @ts-ignore
+						if (is_seller && itemNav.role === 'is_seller') {
+							return (
+								<StyledNavLink
+									href={item.href}
+									key={item.title}
+									isCurrentPath={pathname.includes(item.href)}
+								>
+									<FlexBox alignItems="center" gap={1}>
+										<item.icon
+											color="inherit"
+											fontSize="small"
+											className="nav-icon"
+										/>
+										<span>{t(item.title)}</span>
+									</FlexBox>
+								</StyledNavLink>
+							)
+						}
+						// @ts-ignore
+						if (is_client && itemNav.role === 'is_client') {
+							return (
+								<StyledNavLink
+									href={item.href}
+									key={item.title}
+									isCurrentPath={pathname.includes(item.href)}
+								>
+									<FlexBox alignItems="center" gap={1}>
+										<item.icon
+											color="inherit"
+											fontSize="small"
+											className="nav-icon"
+										/>
+										<span>{t(item.title)}</span>
+									</FlexBox>
+								</StyledNavLink>
+							)
+						}
+						// @ts-ignore
+						if (is_only_client && itemNav.role === 'is_only_client') {
+							return (
+								<StyledNavLink
+									href={item.href}
+									key={item.title}
+									isCurrentPath={pathname.includes(item.href)}
+								>
+									<FlexBox alignItems="center" gap={1}>
+										<item.icon
+											color="inherit"
+											fontSize="small"
+											className="nav-icon"
+										/>
+										<span>{t(item.title)}</span>
+									</FlexBox>
+								</StyledNavLink>
+							)
+						}
+					})}
 				</Fragment>
 			))}
 			<span
@@ -102,7 +148,7 @@ const Navigations = () => {
 				onClick={logoutHandler}
 			>
 				<FlexBox alignItems="center" gap={1}>
-					<Logout fontSize="small" className="nav-icon" />
+					<Logout fontSize="small" className="nav-icon" color="inherit" />
 					<span>{t('logout')}</span>
 				</FlexBox>
 			</span>
@@ -111,6 +157,18 @@ const Navigations = () => {
 }
 
 const linkList = [
+	{
+		title: 'accountSettings',
+		list: [
+			{ href: '/profile', title: 'profileInfo', icon: Person },
+			{
+				href: '/address',
+				title: 'addresses',
+				icon: Place,
+			},
+		],
+		role: 'is_client',
+	},
 	{
 		title: 'dashboard',
 		list: [
@@ -131,24 +189,9 @@ const linkList = [
 			//   count: 1,
 			// },
 		],
+		role: 'is_client',
 	},
-	{
-		title: 'accountSettings',
-		list: [
-			{ href: '/profile', title: 'profileInfo', icon: Person },
-			{
-				href: '/address',
-				title: 'addresses',
-				icon: Place,
-			},
-			// {
-			//   href: '/payment-methods',
-			//   title: 'Payment Methods',
-			//   icon: CreditCard,
-			//   count: 4,
-			// },
-		],
-	},
+
 	{
 		title: 'shopPanel',
 		list: [
@@ -159,6 +202,12 @@ const linkList = [
 				icon: Widgets,
 			},
 		],
+		role: 'is_seller',
+	},
+	{
+		title: 'shop',
+		list: [{ href: '/shop-request', title: 'Create store', icon: Store }],
+		role: 'is_only_client',
 	},
 ]
 export default Navigations

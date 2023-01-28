@@ -304,7 +304,7 @@ const AccountSetting: NextPageAuth = () => {
 	)
 }
 
-AccountSetting.isOnlyUser = true
+AccountSetting.isOnlySeller = true
 
 AccountSetting.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
