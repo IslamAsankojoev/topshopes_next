@@ -36,6 +36,13 @@ export const navigations = [
 	},
 
 	{
+		name: 'orders',
+		icon: duotone.Order,
+		path: '/admin/orders',
+		role: 'admin',
+	},
+
+	{
 		name: 'siteSetting',
 		icon: duotone.SiteSetting,
 		path: '/admin/site-settings',

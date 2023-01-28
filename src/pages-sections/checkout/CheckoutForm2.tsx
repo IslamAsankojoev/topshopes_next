@@ -1,74 +1,57 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import balance from '/public/assets/images/payment-methods/balance.webp'
-import elsom from '/public/assets/images/payment-methods/elsom.webp'
-import mbank from '/public/assets/images/payment-methods/mbank.webp'
-import oDengi from '/public/assets/images/payment-methods/odengi.webp'
-import visa from '/public/assets/images/payment-methods/visa.png'
 import styled from '@emotion/styled'
 import { DeleteOutline } from '@mui/icons-material'
-import { Alert, Avatar, Button, Card, Grid, Typography } from '@mui/material'
+import { Alert, Button, Card, Grid, TextField } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import { instance } from 'api/interceptor'
 import { AddressesService } from 'api/services/addresses/addresses.service'
 import { ProfilePaymentService } from 'api/services/payment/ProfilePayment.service'
 import Card1 from 'components/Card1'
+import DropZone from 'components/DropZone'
 import { H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
+import { useFormik } from 'formik'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { toast } from 'react-toastify'
-import { IPaymentType } from 'shared/types/order.types'
 import { ResponseList } from 'shared/types/response.types'
 import { IAddress } from 'shared/types/user.types'
-import { ICartItem } from 'store/cart/cart.interface'
 import { common } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import * as yup from 'yup'
 
 import EditAddressForm from './EditAddressForm'
+import Heading from './Heading'
 import NewAddressForm from './NewAddressForm'
 import PaymentDialog from './PaymentDialog'
+import { paymentTranslations, payment_methods } from './paymentHelper'
 
 // ====================================================================
 // date types
 type DateProps = { label: string; value: string }
-type HeadingProps = { number: number; title: string }
 // ====================================================================
 
-const Heading: FC<HeadingProps> = ({ number, title }) => {
-	return (
-		<FlexBox gap={1.5} alignItems="center" mb={3.5}>
-			<Avatar
-				sx={{
-					width: 32,
-					height: 32,
-					color: 'primary.text',
-					backgroundColor: 'primary.main',
-				}}
-			>
-				{number}
-			</Avatar>
-			<Typography fontSize="20px">{title}</Typography>
-		</FlexBox>
-	)
+const initialValues = {
+	selectedAddress: null,
+	paymentMethod: payment_methods[0].id,
+	bankAccount: '',
+	screenshot: null,
 }
+
+const checkoutFormValidationSchema = yup.object().shape({
+	selectedAddress: yup.mixed().required(dynamicLocalization(common.required)),
+	paymentMethod: yup.string().required(dynamicLocalization(common.required)),
+	bankAccount: yup.string().required(dynamicLocalization(common.required)),
+	screenshot: yup.mixed().required(dynamicLocalization(common.required)),
+})
 
 const CheckoutForm2: FC = () => {
 	const { t } = useTranslation('common')
 
 	// states
 	const { cart } = useTypedSelector((state) => state.cartStore)
-	const [selectedAddress, setSelectedAddress] = useState<string>('')
-	const [paymentMethod, setPaymentMethod] = useState(payment_methods[0]?.id)
-
-	const [orderStack, setOrderStack] = useState<ICartItem[]>(cart)
-
-	const [helperText, setHelperText] = useState({
-		paymentMethod: '',
-		selectedAddress: '',
-	})
 
 	// hooks
 	const router = useRouter()
@@ -91,66 +74,52 @@ const CheckoutForm2: FC = () => {
 		(data: IAddress) => AddressesService.create({ ...data, user: user.id }),
 		{
 			onSuccess: () => {
-				toast.success('new address successfully created')
 				refetch()
 			},
 		}
 	)
-
 	const { mutateAsync: updateAsync } = useMutation(
 		'address update',
 		({ id, data }: { id: string; data: IAddress }) =>
 			AddressesService.update(id, data),
 		{
 			onSuccess: () => {
-				toast.success('address successfully updated')
 				refetch()
 			},
 		}
 	)
 
-	// handlers
-	const { mutateAsync: orderAsync } = useMutation(
-		'order create',
-		(data: ICartItem) => {
-			return instance.post(`/products/variants/${data?.variants[0]?.id}/buy/`, {
-				quantity: data?.qty,
-				address: selectedAddress,
-			})
-		}
-	)
-
 	const handleFormSubmit = async () => {
-		// const withSortShops = ProfilePaymentService.postWithSort(orderStack)
-		// for (let i in withSortShops) {
-		// 	await ProfilePaymentService.create({
-		// 		payment_type: paymentMethod,
-		// 		confirm_photo: 'string',
-		// 		phone_number: selectedAddress,
-		// 		bank_account: 'string',
-		// 	})
-		// }
-		// if (!paymentMethod || !selectedAddress) {
-		// 	setHelperText({
-		// 		paymentMethod: paymentMethod
-		// 			? ''
-		// 			: dynamicLocalization(common.required),
-		// 		selectedAddress: selectedAddress
-		// 			? ''
-		// 			: dynamicLocalization(common.required),
-		// 	})
-		// 	return
-		// }
-		// await orderStack.forEach((item) => {
-		// 	orderAsync(item)
-		// })
-		// router.push('/orders/')
+		await orderAsync()
+		await router.push('/orders')
 	}
 
-	const handleFieldValueChange = (item) => () => {
-		setSelectedAddress(item)
-		setHelperText({ ...helperText, selectedAddress: '' })
-	}
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		setFieldValue,
+	} = useFormik({
+		initialValues,
+		onSubmit: handleFormSubmit,
+		validationSchema: checkoutFormValidationSchema,
+	})
+
+	const { mutateAsync: orderAsync } = useMutation('order create', () =>
+		ProfilePaymentService.pay({
+			cart,
+			address: values.selectedAddress,
+			data: {
+				bank_account: values.bankAccount,
+				confirm_photo: values.screenshot,
+				payment_type: values.paymentMethod,
+				phone_number: values.selectedAddress.phone,
+			},
+		})
+	)
 
 	const deleteAddress = async (
 		e: React.MouseEvent<HTMLElement>,
@@ -159,11 +128,11 @@ const CheckoutForm2: FC = () => {
 		e.stopPropagation()
 		await AddressesService.delete(id)
 		await refetch()
-		if (id == selectedAddress) setSelectedAddress('')
+		if (id == values.selectedAddress?.id) setFieldValue('selectedAddress', null)
 	}
 
 	return (
-		<>
+		<form onSubmit={handleSubmit}>
 			<Card1 sx={{ mb: 3 }}>
 				<FlexBetween>
 					<Heading number={1} title={t('selectDelivery')} />
@@ -182,11 +151,11 @@ const CheckoutForm2: FC = () => {
 									position: 'relative',
 									backgroundColor: 'grey.100',
 									borderColor:
-										item.id === selectedAddress
+										item.id === values.selectedAddress?.id
 											? 'primary.main'
 											: 'transparent',
 								}}
-								onClick={handleFieldValueChange(item.id)}
+								onClick={() => setFieldValue('selectedAddress', item)}
 							>
 								<FlexBox
 									justifyContent="flex-end"
@@ -210,15 +179,15 @@ const CheckoutForm2: FC = () => {
 						</Grid>
 					))}
 				</Grid>
-				{helperText.selectedAddress ? (
+				{!!touched.selectedAddress && !!errors.selectedAddress ? (
 					<Alert sx={{ m: '20px 0 0' }} severity="error">
-						{helperText.selectedAddress}
+						{touched.selectedAddress && errors.selectedAddress}
 					</Alert>
 				) : null}
 			</Card1>
 
 			<Card1 sx={{ mb: 3 }}>
-				<Heading number={2} title="Payment Details" />
+				<Heading number={2} title={t('choosePayment')} />
 
 				<RadioWrapper>
 					{payment_methods?.map((method) => (
@@ -226,12 +195,11 @@ const CheckoutForm2: FC = () => {
 							key={method.id}
 							style={{
 								boxShadow:
-									paymentMethod == method.id ? '0 0 0 1px #ff7900' : null,
+									values.paymentMethod == method.id
+										? '0 0 0 1px #ff7900'
+										: null,
 							}}
-							onClick={() => {
-								setPaymentMethod(method.id)
-								setHelperText({ ...helperText, paymentMethod: '' })
-							}}
+							onClick={() => setFieldValue('paymentMethod', method.id)}
 						>
 							<img src={method.icon.src} alt={method.name} />
 							<p>{method.name}</p>
@@ -239,9 +207,75 @@ const CheckoutForm2: FC = () => {
 						</RadioItem>
 					))}
 				</RadioWrapper>
-				{helperText.paymentMethod ? (
+			</Card1>
+
+			<Card1 sx={{ mb: 3 }}>
+				<Heading number={3} title={t('confirmPayment')} />
+
+				<TextField
+					sx={{ m: '25px 0 0' }}
+					autoComplete="on"
+					label={dynamicLocalization(paymentTranslations.cardPhoneNumber)}
+					placeholder={dynamicLocalization(paymentTranslations.cardPhoneNumber)}
+					name={'bankAccount'}
+					value={values.bankAccount}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					error={!!touched.bankAccount && !!errors.bankAccount}
+					helperText={touched.bankAccount && errors.bankAccount}
+					fullWidth
+				/>
+
+				<Grid
+					style={{
+						margin: '30px 0 0',
+						display: 'flex',
+						position: 'relative',
+					}}
+					width="100%"
+					container
+				>
+					<Grid
+						item
+						sm={values.screenshot ? 6 : 12}
+						xs={values.screenshot ? 6 : 12}
+					>
+						<DropZone
+							style={{
+								borderColor: 'red!important',
+							}}
+							name={values.screenshot?.name}
+							onChange={(file: File[]) => setFieldValue('screenshot', file[0])}
+							multiple={false}
+							accept={
+								'image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'
+							}
+						/>
+					</Grid>
+					{values.screenshot ? (
+						<Grid
+							display="flex"
+							item
+							sm={6}
+							xs={6}
+							position="relative"
+							justifyContent="center"
+							alignItems="center"
+						>
+							<Image
+								layout="fill"
+								objectFit="contain"
+								objectPosition="center"
+								src={URL?.createObjectURL(values.screenshot)}
+								alt={values.screenshot?.name}
+							/>
+						</Grid>
+					) : null}
+				</Grid>
+
+				{!!touched.screenshot && !!errors.screenshot ? (
 					<Alert sx={{ m: '20px 0 0' }} severity="error">
-						{helperText.paymentMethod}
+						{touched.screenshot && errors.screenshot}
 					</Alert>
 				) : null}
 			</Card1>
@@ -252,11 +286,10 @@ const CheckoutForm2: FC = () => {
 				color="primary"
 				variant="contained"
 				sx={{ mt: 3 }}
-				onClick={handleFormSubmit}
 			>
 				{t('placeOrder')}
 			</Button>
-		</>
+		</form>
 	)
 }
 
@@ -270,7 +303,6 @@ const RadioWrapper = styled.div`
 
 const RadioItem = styled.div`
 	display: flex;
-	/* grid-template-columns: 1fr 1fr; */
 	align-items: center;
 	justify-content: center;
 	grid-gap: 0 10px;
@@ -292,42 +324,5 @@ const RadioItem = styled.div`
 		background-color: #fcf8f5;
 	}
 `
-
-const payment_methods: {
-	id: IPaymentType
-	name: string
-	icon: any
-	images?: string[]
-}[] = [
-	{
-		id: 'elsom',
-		name: 'Элсом',
-		icon: elsom,
-		images: [
-			'https://stock.xistore.by/upload/resize/news/detail/3480/c24/screenshot3_312_676_75.png',
-			'https://madgeek.io/wp-content/uploads/2019/06/Apple-IPhone_1-628x1024.jpg',
-		],
-	},
-	{
-		id: 'visa',
-		name: 'Visa',
-		icon: visa,
-	},
-	{
-		id: 'balance',
-		name: 'Balance',
-		icon: balance,
-	},
-	{
-		id: 'mbank',
-		name: 'MBank',
-		icon: mbank,
-	},
-	{
-		id: 'o_dengi',
-		name: 'О! деньги',
-		icon: oDengi,
-	},
-]
 
 export default CheckoutForm2

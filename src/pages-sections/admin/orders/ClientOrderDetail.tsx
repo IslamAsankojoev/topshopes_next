@@ -21,9 +21,8 @@ import { format } from 'date-fns'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { useMutation, useQuery } from 'react-query'
-import { toast } from 'react-toastify'
-import { IOrder, IOrderItem, IOrderStatus } from 'shared/types/order.types'
+import { useQuery } from 'react-query'
+import { IOrder, IOrderStatus } from 'shared/types/order.types'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import { StatusWrapper } from '../StyledComponents'
@@ -88,7 +87,7 @@ const ClientOrderDetail = () => {
 							/>
 						</Box>
 						<Paragraph fontSize="16px">
-							{order?.product?.name} - {order?.quantity}шт
+							{order?.product?.name} - {order?.quantity}
 						</Paragraph>
 						<H3>{order?.total_price} с</H3>
 					</FlexBox>
@@ -125,9 +124,9 @@ const ClientOrderDetail = () => {
 								value={orderStatus}
 							>
 								{statuses.map((status) => (
-									<MenuItem value={status?.name}>
+									<MenuItem disabled value={status?.name}>
 										<StatusWrapper status={status?.name}>
-											{status?.label}
+											{status.label}
 										</StatusWrapper>
 									</MenuItem>
 								))}

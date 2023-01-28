@@ -1,4 +1,8 @@
 {
+	"createdAt": "Создан в",
+
+	"confirmPayment": "Подтвердить платеж",
+	"choosePayment": "Выберите способ оплаты",
 	"tax": "Hалог",
 	"about": "О нас",
 	"price": "Цена",

@@ -47,6 +47,7 @@ export type ICategory = {
 	description: string
 	featured: boolean
 	attributes: IProductAttribute[]
+	tax: number
 }
 
 export type IBrand = {

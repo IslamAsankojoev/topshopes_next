@@ -10,6 +10,34 @@ export const common = {
 
 
 export const statusTranslation = {
+  completed: {
+    ru: 'Завершен',
+    en: 'Completed',
+    tr: 'Tamamlanmış',
+    kk: 'Аяқталды',
+    kg: 'Аякталды',
+  },
+  shop_decline: {
+    ru: 'Отказ Магазина',
+    en: 'Shop Decline',
+    tr: 'Mağaza Reddi',
+    kk: 'Дүкеннен бас тарту',
+    kg: 'Дүкөндөн баш тартуу',
+  },
+  paymentError: {
+    ru: 'Ошибка оплаты',
+    en: 'Payment Error',
+    tr: 'Ödeme hatası',
+    kk: 'Төлем қатесі',
+    kg: 'Төлөм катасы',
+  },
+  ready: {
+    ru: 'Готово',
+    en: 'Ready',
+    tr: 'Hazır',
+    kk: 'Дайын',
+    kg: 'Даяр',
+  },
   paid: {
     ru: 'Оплачено',
     en: 'Paid',
@@ -45,9 +73,9 @@ export const statusTranslation = {
     kk: 'Алынған',
     kg: 'Кабыл алынган',
   },
-  cancelled: {
+  canceled: {
     ru: 'Отменено',
-    en: 'Cancelled',
+    en: 'Canceled',
     tr: 'İptal edildi',
     kk: 'Бас тартылды',
     kg: 'Жокко чыгарылды',

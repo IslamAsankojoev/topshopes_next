@@ -10,7 +10,7 @@ export const ShopsProductsService = {
 		try {
 			const { data } = await axiosClassic.get<ResponseList<IProductPreview>>(
 				getAllProductsUrl(''),
-				{ params: { ...params } }
+				{ params }
 			)
 			return data
 		} catch (error) {

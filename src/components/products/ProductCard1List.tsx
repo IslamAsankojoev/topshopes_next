@@ -3,9 +3,9 @@ import { Span } from 'components/Typography'
 import { FlexBetween } from 'components/flex-box'
 import ProductCard1 from 'components/product-cards/ProductCard1'
 import productDatabase from 'data/product-database'
+import { useRouter } from 'next/router'
 import React, { Fragment } from 'react'
 import { IProduct, IProductPreview } from 'shared/types/product.types'
-import { useRouter } from 'next/router'
 
 // ========================================================
 type ProductCard1ListProps = { products: IProductPreview[]; count?: number }
@@ -30,7 +30,7 @@ const ProductCard1List: React.FC<ProductCard1ListProps> = ({
 			<FlexBetween flexWrap="wrap" mt={4}>
 				<Span color="grey.600">Showing 1-9 of 1.3k Products</Span>
 				<Pagination
-					page={+router?.query?.page}
+					page={+router?.query?.page || 1}
 					count={Math.ceil(count / 20)}
 					onChange={(_, newValue) =>
 						router.push({

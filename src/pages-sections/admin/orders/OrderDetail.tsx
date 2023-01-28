@@ -23,13 +23,19 @@ import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { IOrder, IOrderItem, IOrderStatus } from 'shared/types/order.types'
+import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import { StatusWrapper } from '../StyledComponents'
 
-import { statuses } from './OrderRow'
+import { statusDisabled, statuses } from './OrderRow'
 
-const OrderDetail = () => {
+const OrderDetail: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 	const { t } = useTranslation('common')
+
+	const getOrder = isAdmin ? OrdersService.get : ShopsService.getShopOrder
+	const patchOrder = isAdmin
+		? OrdersService.update
+		: ShopsService.updateShopOrder
 
 	const {
 		push,
@@ -42,7 +48,7 @@ const OrderDetail = () => {
 		refetch,
 	}: { data: IOrder; isLoading: any; refetch: () => void } = useQuery(
 		'get one vendor order',
-		() => ShopsService.getShopOrder(id as string),
+		() => getOrder(id as string),
 		{
 			select: (data: IOrder) => data,
 			enabled: !!id,
@@ -58,8 +64,7 @@ const OrderDetail = () => {
 
 	const { mutateAsync: mutateStatus } = useMutation(
 		'order status update',
-		(stat: IOrderStatus) =>
-			ShopsService.updateShopOrder(order?.id, { status: stat }),
+		(status: IOrderStatus) => patchOrder(order?.id, { status }),
 		{
 			onSuccess: async (data) => {
 				toast.success('Order status updated')
@@ -161,9 +166,12 @@ const OrderDetail = () => {
 											}}
 										>
 											{statuses.map((status) => (
-												<MenuItem value={status?.name}>
+												<MenuItem
+													disabled={statusDisabled(status, isAdmin)}
+													value={status?.name}
+												>
 													<StatusWrapper status={status?.name}>
-														{status?.label}
+														{status.label}
 													</StatusWrapper>
 												</MenuItem>
 											))}
