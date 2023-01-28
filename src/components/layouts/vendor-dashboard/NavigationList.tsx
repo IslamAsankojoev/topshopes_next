@@ -42,9 +42,9 @@ export const navigations = [
 		role: 'admin',
 	},
 	{
-		name: 'payouts',
+		name: 'payments',
 		icon: duotone.Pager,
-		path: '/admin/payouts',
+		path: '/admin/payments',
 		role: 'admin',
 	},
 	{

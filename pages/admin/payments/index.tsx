@@ -9,11 +9,25 @@ import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Link from 'next/link'
 import { StyledTableCell, StyledTableRow } from 'pages-sections/admin'
 import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { IPayment } from 'shared/types/order.types'
 import { ResponseList } from 'shared/types/response.types'
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
 
 // table column list
 const tableHeading = [
@@ -90,31 +104,33 @@ export default function Payouts() {
 
 							<TableBody>
 								{filteredList.map((payout: IPayment) => (
-									<StyledTableRow role="checkbox" key={payout.id}>
-										<StyledTableCell align="center">
-											{payout.bank_account}
-										</StyledTableCell>
-										<StyledTableCell align="center">
-											{payout.payment_type}
-										</StyledTableCell>
-										<StyledTableCell align="center">
-											{payout.phone_number}
-										</StyledTableCell>
-										{/* <StyledTableCell align="center">
+									<Link href={`/admin/payments/${payout.id}`}>
+										<StyledTableRow
+											role="checkbox"
+											key={payout.id}
+											sx={{
+												cursor: 'pointer!important',
+											}}
+										>
+											<StyledTableCell align="center">
+												{payout.bank_account}
+											</StyledTableCell>
+											<StyledTableCell align="center">
+												{payout.payment_type}
+											</StyledTableCell>
+											<StyledTableCell align="center">
+												{payout.phone_number}
+											</StyledTableCell>
+											{/* <StyledTableCell align="center">
 											<Avatar src={payout.confirm_photo} />
 										</StyledTableCell> */}
-										<StyledTableCell align="center">
-											<CheckBoxIcon
-												onClick={() =>
-													handlePayment(payout.id, payout.is_verified)
-												}
-												sx={{
-													cursor: 'pointer',
-												}}
-												color={payout.is_verified ? 'success' : 'disabled'}
-											/>
-										</StyledTableCell>
-									</StyledTableRow>
+											<StyledTableCell align="center">
+												<CheckBoxIcon
+													color={payout.is_verified ? 'success' : 'disabled'}
+												/>
+											</StyledTableCell>
+										</StyledTableRow>
+									</Link>
 								))}
 							</TableBody>
 						</Table>
