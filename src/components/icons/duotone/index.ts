@@ -28,9 +28,11 @@ import UserProfile from "./UserProfile";
 import UserTie from "./UserTie";
 import Vest from "./Vest";
 import Pager from "./Pager";
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
+  ShoppingBag: ShoppingBagIcon,
   AdminEcommerce,
   Dashboard,
   Ecommerce,
