@@ -30,6 +30,15 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 const ShopRequest: NextPageAuth = () => {
 	const { t: commonT } = useTranslation('common')
 	const { t } = useTranslation('application')
+
+	const fields = ShopCreateForm.map((field) => {
+		return {
+			...field,
+			label: t(field.label),
+			placeholder: t(field.placeholder),
+		}
+	})
+
 	const router = useRouter()
 
 	const user = useTypedSelector((state) => state.userStore.user)
@@ -70,7 +79,7 @@ const ShopRequest: NextPageAuth = () => {
 
 									<CreateForm
 										handleFormSubmit={handleCreateShop}
-										fields={ShopCreateForm}
+										fields={fields}
 										defaultData={{}}
 										buttonText="Send request"
 										buttonPosition="static"
@@ -99,8 +108,7 @@ const ShopRequest: NextPageAuth = () => {
 										bgcolor: 'success.light',
 									}}
 								>
-									You have already sent a request to create a shop. Please wait
-									for our response.
+									{t('alreadyHave')}
 								</Box>
 							)}
 						</Grid>

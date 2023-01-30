@@ -1,10 +1,11 @@
 {
-    "bigDiscounts":"Big Discounts",
-    "featuredBrands":"Featured Brands",
-    "flashDeals":"Flash Deals",
-    "newArrivals":"New Arrivals",
-    "shopNow":"Shop Now",
-    "topCategories":"Top Categories",
-    "topRatings":"Top Ratings",
-    "viewAll":"view all"
- }
+	"moreForYou": "More for you",
+	"bigDiscounts": "Big Discounts",
+	"featuredBrands": "Featured Brands",
+	"flashDeals": "Flash Deals",
+	"newArrivals": "New Arrivals",
+	"shopNow": "Shop Now",
+	"topCategories": "Top Categories",
+	"topRatings": "Top Ratings",
+	"viewAll": "view all"
+}

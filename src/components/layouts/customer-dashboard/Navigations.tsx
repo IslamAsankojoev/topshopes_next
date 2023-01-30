@@ -69,7 +69,7 @@ const Navigations = () => {
 	}
 
 	return (
-		<MainContainer>
+		<MainContainer sx={{ pt: 3 }}>
 			{linkList?.map((itemNav) => (
 				<Fragment key={itemNav.title}>
 					{itemNav.list?.map((item) => {

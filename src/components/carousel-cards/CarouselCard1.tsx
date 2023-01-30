@@ -62,18 +62,20 @@ const CarouselCard1: FC<CarouselCard1Props> = ({
 					<Paragraph color="secondary.main" mb={2.7}>
 						{description}
 					</Paragraph>
-					<a href={buttonLik}>
-						<Button
-							size="large"
-							color={buttonColor}
-							disableElevation
-							variant="contained"
-							className="button-link"
-							sx={{ height: 44, borderRadius: '4px' }}
-						>
-							{buttonText}
-						</Button>
-					</a>
+					{buttonLik ? (
+						<a href={buttonLik}>
+							<Button
+								size="large"
+								color={buttonColor}
+								disableElevation
+								variant="contained"
+								className="button-link"
+								sx={{ height: 44, borderRadius: '4px' }}
+							>
+								{buttonText}
+							</Button>
+						</a>
+					) : null}
 				</Grid>
 
 				<Grid item sm={5} xs={12}>

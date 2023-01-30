@@ -7,9 +7,10 @@ import useWindowSize from 'hooks/useWindowSize'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
+import { ICategory } from 'shared/types/product.types'
 
 // =====================================================
-type Props = { categoryList: any[] }
+type Props = { categoryList: ICategory[] }
 // =====================================================
 
 const Section3: FC<Props> = ({ categoryList = [] }) => {
@@ -23,6 +24,8 @@ const Section3: FC<Props> = ({ categoryList = [] }) => {
 		else setVisibleSlides(3)
 	}, [width])
 
+	if (!categoryList) return <></>
+
 	return (
 		<CategorySectionCreator
 			icon={<Category color="primary" />}
@@ -31,14 +34,19 @@ const Section3: FC<Props> = ({ categoryList = [] }) => {
 		>
 			<Carousel totalSlides={5} visibleSlides={visibleSlides}>
 				{categoryList?.map((item, ind) => (
-					<Link href={`/product/search/${item.title}`} key={ind} passHref>
+					<Link
+						href={{
+							pathname: '/shop',
+							query: {
+								category: item.id,
+							},
+						}}
+						key={ind}
+						passHref
+					>
 						<a>
 							<BazaarCard sx={{ p: 2 }} elevation={0}>
-								<ProductCard6
-									title={item.title}
-									subtitle={item.subtitle}
-									imgUrl={item.imgUrl}
-								/>
+								<ProductCard6 title={item.name} imgUrl={item.icon} />
 							</BazaarCard>
 						</a>
 					</Link>
