@@ -77,7 +77,7 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			<Section2 flashDeals={products} />
 
 			{/* TOP CATEGORIES */}
-			<Section3 categoryList={categories?.slice(0, 5)} />
+			<Section3 categoryList={categories} />
 
 			{/* TOP RATED PRODUCTS */}
 			<Section4 topRatedList={products} topRatedBrands={products} />

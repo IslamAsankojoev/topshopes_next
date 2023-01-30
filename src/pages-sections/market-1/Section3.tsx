@@ -33,24 +33,26 @@ const Section3: FC<Props> = ({ categoryList = [] }) => {
 			seeMoreLink="/shop"
 		>
 			<Carousel totalSlides={5} visibleSlides={visibleSlides}>
-				{categoryList?.map((item, ind) => (
-					<Link
-						href={{
-							pathname: '/shop',
-							query: {
-								category: item.id,
-							},
-						}}
-						key={ind}
-						passHref
-					>
-						<a>
-							<BazaarCard sx={{ p: 2 }} elevation={0}>
-								<ProductCard6 title={item.name} imgUrl={item.image} />
-							</BazaarCard>
-						</a>
-					</Link>
-				))}
+				{categoryList
+					?.map((item: ICategory, ind) => (
+						<Link
+							href={{
+								pathname: '/shop',
+								query: {
+									category: item.id,
+								},
+							}}
+							key={ind}
+							passHref
+						>
+							<a>
+								<BazaarCard sx={{ p: 2 }} elevation={0}>
+									<ProductCard6 title={item.name} imgUrl={item.image} />
+								</BazaarCard>
+							</a>
+						</Link>
+					))
+					.slice(0, 5)}
 			</Carousel>
 		</CategorySectionCreator>
 	)
