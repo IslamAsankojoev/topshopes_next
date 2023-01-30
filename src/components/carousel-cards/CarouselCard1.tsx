@@ -58,7 +58,7 @@ const CarouselCard1: FC<CarouselCard1Props> = ({
 		<StyledBox>
 			<Grid container spacing={3} alignItems="center" justifyContent="center">
 				<Grid item className="grid-item" sm={5} xs={12}>
-					<h1 className="title"></h1>
+					<h1 className="title">{title}</h1>
 					<Paragraph color="secondary.main" mb={2.7}>
 						{description}
 					</Paragraph>

@@ -12,7 +12,7 @@ import { FC, useEffect, useState } from 'react'
 type Props = { categoryList: any[] }
 // =====================================================
 
-const Section3: FC<Props> = ({ categoryList }) => {
+const Section3: FC<Props> = ({ categoryList = [] }) => {
 	const { t } = useTranslation('home')
 	const [visibleSlides, setVisibleSlides] = useState(3)
 	const width = useWindowSize()

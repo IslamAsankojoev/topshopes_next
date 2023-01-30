@@ -22,6 +22,7 @@ import { FC, Fragment } from 'react'
 // custom styled components
 const MainContainer = styled(Card)(({ theme }) => ({
 	paddingBottom: '1.5rem',
+	paddingTop: '2.5rem',
 	[theme.breakpoints.down('md')]: {
 		boxShadow: 'none',
 		overflowY: 'auto',

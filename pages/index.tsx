@@ -141,7 +141,7 @@ export async function getStaticProps({ locale }) {
 		const flashDealsData = await api.getFlashDeals()
 		const opticsBrands = await api.getOpticsBrands()
 		const bottomCategories = await api.getCategories()
-		const topCategories = await CategoriesService.getList()
+		const topCategories = await api.getTopCategories()
 		const topRatedBrands = await api.getTopRatedBrand()
 		const mainCarouselData = await api.getMainCarousel()
 		const newArrivalsList = await api.getNewArrivalList()
