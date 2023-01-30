@@ -19,7 +19,7 @@ import Section11 from 'pages-sections/market-1/Section11'
 import Section12 from 'pages-sections/market-1/Section12'
 import Section13 from 'pages-sections/market-1/Section13'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
-import { IProductPreview } from 'shared/types/product.types'
+import { ICategory, IProductPreview } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'
 import api from 'utils/api/market-1'
 
@@ -46,6 +46,18 @@ type MarketProps = {
 }
 // =================================================================
 
+const slider = [
+	{
+		title: 'новый аромат',
+		description: 'хорошие ароматы создают настроение, лучшие говорят без слов',
+		imgUrl: 'assets/images/banner1.webp',
+	},
+	{
+		title: 'новый аромат',
+		description: 'хорошие ароматы создают настроение, лучшие говорят без слов',
+		imgUrl: 'assets/images/баннер4.webp',
+	},
+]
 const MarketShop: NextPage<MarketProps> = (props) => {
 	const { data: products } = useQuery(
 		['shop products'],
@@ -58,30 +70,35 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			select: (data: ResponseList<IProductPreview>) => data.results,
 		}
 	)
+
+	const { data: categories = [] } = useQuery(
+		'categories',
+		() => CategoriesService.getList(),
+		{
+			select: (data: ResponseList<ICategory>) => data.results,
+		}
+	)
 	return (
 		<ShopLayout1>
 			<SEO title="Home" />
 
 			{/* HERO SLIDER SECTION */}
-			<Section1 carouselData={props.mainCarouselData} />
+			<Section1 carouselData={slider} />
 
 			{/* FLASH DEALS SECTION */}
 			<Section2 flashDeals={products} />
 
 			{/* TOP CATEGORIES */}
-			<Section3 categoryList={props.topCategories} />
+			<Section3 categoryList={categories} />
 
 			{/* TOP RATED PRODUCTS */}
-			<Section4
-				topRatedList={props.topRatedProducts}
-				topRatedBrands={props.topRatedBrands}
-			/>
+			<Section4 topRatedList={products} topRatedBrands={products} />
 
 			{/* NEW ARRIVAL LIST */}
-			<Section5 newArrivalsList={props.newArrivalsList} />
+			<Section5 newArrivalsList={products} />
 
 			{/* BIG DISCOUNTS */}
-			<Section13 bigDiscountList={props.bigDiscountList} />
+			<Section13 bigDiscountList={products} />
 
 			{/* CAR LIST
 			<Section6 carBrands={props.carBrands} carList={products} /> */}
@@ -98,15 +115,15 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			{/* <Section8 /> */}
 
 			{/* OPTICS / WATHCH */}
-			<Section7
+			{/* <Section7
 				title="Optics / Watch"
 				shops={props.opticsShops}
 				brands={props.opticsBrands}
 				productList={products}
-			/>
+			/> */}
 
 			{/* CATEGORIES */}
-			<Section10 categories={props.bottomCategories} />
+			{/* <Section10 categories={props.bottomCategories} /> */}
 
 			{/* MORE FOR YOU */}
 			<Section11 moreItems={products} />
@@ -141,7 +158,8 @@ export async function getStaticProps({ locale }) {
 		const flashDealsData = await api.getFlashDeals()
 		const opticsBrands = await api.getOpticsBrands()
 		const bottomCategories = await api.getCategories()
-		const topCategories = await CategoriesService.getList()
+
+		const topCategories = await api.getTopCategories()
 		const topRatedBrands = await api.getTopRatedBrand()
 		const mainCarouselData = await api.getMainCarousel()
 		const newArrivalsList = await api.getNewArrivalList()
