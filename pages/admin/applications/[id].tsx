@@ -1,3 +1,4 @@
+import styled from '@emotion/styled'
 import { Box, Card, Divider, MenuItem, Select } from '@mui/material'
 import { ApplicationServices } from 'api/services-admin/applications/applications.service'
 import { AttributesServiceAdmin } from 'api/services-admin/attributes/attributes.service'
@@ -5,6 +6,7 @@ import Loading from 'components/Loading'
 import { H3, H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import { Pdf } from 'components/pdf-viewer/Pdf'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
@@ -21,14 +23,20 @@ export const getServerSideProps = async ({ locale }) => {
 			...(await serverSideTranslations(locale as string, [
 				'common',
 				'admin',
-				'adminActions',
+				'application',
 			])),
 		},
 	}
 }
 
 const UpdateApplication: NextPageAuth = () => {
-	const { t } = useTranslation('adminActions')
+	const { t } = useTranslation('admin')
+	const { t: applicationT } = useTranslation('application')
+
+	const getTranslate = (word: string) => {
+		// если нету в admin то возьмет из common
+		return t(word) === word ? applicationT(word) : t(word)
+	}
 
 	const {
 		push,
@@ -61,78 +69,102 @@ const UpdateApplication: NextPageAuth = () => {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>{t('application')}</H3>
-			<Card
-				sx={{
-					p: 4,
-					height: '100%',
-					width: '100%',
-				}}
-			>
-				<FlexBox
+			<H3 mb={2} sx={{ textTransform: 'uppercase' }}>
+				{getTranslate('application')}
+			</H3>
+			<CardsWrapper>
+				<Card
 					sx={{
-						height: '100%',
-						justifyContent: 'space-evenly',
-						flexDirection: 'column',
+						p: 4,
 					}}
 				>
-					{applicationData.map((app, ind) => (
-						<div key={ind}>
-							<FlexBetween my={1.5}>
-								<Paragraph color="grey.900">{t(app)}:</Paragraph>
-								<H6>{application?.[app]}</H6>
-							</FlexBetween>
-							<Divider />
-						</div>
-					))}
-					<FlexBetween my={1.5}>
-						<Paragraph color="grey.900">status:</Paragraph>
-						<Select
-							className="order-status-admin"
-							sx={{
-								'& .MuiSelect-select': {
-									padding: '0px!important',
-									fontSize: '1rem',
-									fontWeight: 400,
-									color: 'text.primary',
-									backgroundColor: 'background.paper',
-									border: '0px solid!important',
-									borderColor: 'divider',
-									'& fieldset': {
-										display: 'none!important',
+					<FlexBox
+						sx={{
+							height: '100%',
+							justifyContent: 'space-evenly',
+							flexDirection: 'column',
+						}}
+					>
+						{applicationData.map((app, ind) => (
+							<div key={ind}>
+								<FlexBetween my={1.5}>
+									<Paragraph
+										sx={{ textTransform: 'uppercase' }}
+										color="grey.900"
+									>
+										{getTranslate(app.name)}:
+									</Paragraph>
+									<H6>{application?.[app.id]}</H6>
+								</FlexBetween>
+								<Divider />
+							</div>
+						))}
+						<FlexBetween my={1.5}>
+							<Paragraph color="grey.900" sx={{ textTransform: 'uppercase' }}>
+								{getTranslate('status')}:
+							</Paragraph>
+							<Select
+								className="order-status-admin"
+								sx={{
+									'& .MuiSelect-select': {
+										padding: '0px!important',
+										fontSize: '1rem',
+										fontWeight: 400,
+										color: 'text.primary',
+										backgroundColor: 'background.paper',
+										border: '0px solid!important',
+										borderColor: 'divider',
+										'& fieldset': {
+											display: 'none!important',
+										},
 									},
-								},
-							}}
-							onChange={(e) => mutateAsync({ status: e.target.value })}
-							disableUnderline={true}
-							value={application?.status}
-						>
-							{statuses.map((status) => (
-								<MenuItem value={status}>
-									<StatusWrapper status={status as any}>{status}</StatusWrapper>
-								</MenuItem>
-							))}
-						</Select>
-					</FlexBetween>
-				</FlexBox>
-			</Card>
+								}}
+								onChange={(e) => mutateAsync({ status: e.target.value })}
+								disableUnderline={true}
+								value={application?.status}
+							>
+								{statuses.map((status) => (
+									<MenuItem value={status}>
+										<StatusWrapper status={status as any}>
+											{getTranslate(status)}
+										</StatusWrapper>
+									</MenuItem>
+								))}
+							</Select>
+						</FlexBetween>
+					</FlexBox>
+				</Card>
+				<Card>
+					<Pdf document={application?.document} />
+				</Card>
+			</CardsWrapper>
 		</Box>
 	)
 }
+const CardsWrapper = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	justify-content: center;
+	align-items: center;
+	grid-gap: 20px;
 
+	@media (max-width: 730px) {
+		grid-template-columns: 1fr;
+	}
+`
 const applicationData = [
 	// 'id',
 	// 'document',
-	'INN',
-	'short_name',
-	'full_name',
-	'registration_form',
-	'address',
-	'owner',
-	'bank_account',
-	'bik',
-	'shop_name',
-	'comment',
+	{ id: 'INN', name: 'inn' },
+	{ id: 'short_name', name: 'shortName' },
+	{ id: 'full_name', name: 'fullName' },
+	{ id: 'registration_form', name: 'registrationForm' },
+	{ id: 'address', name: 'address' },
+	{ id: 'owner', name: 'owner' },
+	{ id: 'bank_account', name: 'bankAccount' },
+	{ id: 'bik', name: 'bik' },
+	{ id: 'shop_name', name: 'shopName' },
+	{ id: 'comment', name: 'review' },
 	// 'user',
 ]
 

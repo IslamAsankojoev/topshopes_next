@@ -28,6 +28,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 				'common',
 				'admin',
 				'adminActions',
+				'application',
 			])),
 		},
 	}
@@ -72,10 +73,8 @@ const Applications: NextPageAuth = () => {
 					setCurrentPage(1)
 					setSearchValue(value)
 				}}
-				buttonText={t('add')}
-				handleBtnClick={() => {
-					push('/admin/attributes/create')
-				}}
+				// buttonText={adminT('add')}
+				handleBtnClick={() => {}}
 				searchPlaceholder={t('searchingFor')}
 			/>
 

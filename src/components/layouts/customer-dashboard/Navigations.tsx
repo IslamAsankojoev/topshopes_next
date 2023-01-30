@@ -69,9 +69,6 @@ const Navigations = () => {
 
 	return (
 		<MainContainer>
-			<Typography p="26px 30px 1rem" color="grey.600" fontSize="12px">
-				General
-			</Typography>
 			{linkList?.map((itemNav) => (
 				<Fragment key={itemNav.title}>
 					{itemNav.list?.map((item) => {
@@ -206,7 +203,7 @@ const linkList = [
 	},
 	{
 		title: 'shop',
-		list: [{ href: '/shop-request', title: 'Create store', icon: Store }],
+		list: [{ href: '/shop-request', title: 'store', icon: Store }],
 		role: 'is_only_client',
 	},
 ]

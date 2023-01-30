@@ -9,6 +9,7 @@ import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -19,11 +20,16 @@ import { ShopCreateForm } from 'utils/constants/forms'
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale as string, ['common'])),
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'application',
+			])),
 		},
 	}
 }
 const ShopRequest: NextPageAuth = () => {
+	const { t: commonT } = useTranslation('common')
+	const { t } = useTranslation('application')
 	const router = useRouter()
 
 	const user = useTypedSelector((state) => state.userStore.user)
@@ -60,7 +66,7 @@ const ShopRequest: NextPageAuth = () => {
 						<Grid item md={12} xs={12}>
 							{applications?.length === 0 && (
 								<>
-									<H1 textAlign="center">Create shop</H1>
+									<H1 textAlign="center">{commonT('store')}</H1>
 
 									<CreateForm
 										handleFormSubmit={handleCreateShop}

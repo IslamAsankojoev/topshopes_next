@@ -1,5 +1,6 @@
 import { Delete, Edit, VisibilitySharp } from '@mui/icons-material'
 import { AttributesServiceAdmin } from 'api/services-admin/attributes/attributes.service'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 
@@ -19,6 +20,7 @@ type AttributesRowProps = {
 // ========================================================================
 
 const ApplicationsRow: FC<AttributesRowProps> = ({ name, selected }) => {
+	const { t } = useTranslation('application')
 	const { push } = useRouter()
 	const { user, short_name, status, id } = name
 
@@ -40,7 +42,7 @@ const ApplicationsRow: FC<AttributesRowProps> = ({ name, selected }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<CategoryWrapper>{status}</CategoryWrapper>
+				<CategoryWrapper>{t(status)}</CategoryWrapper>
 			</StyledTableCell>
 
 			<StyledTableCell align="center">

@@ -9,6 +9,7 @@ import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { StyledTableCell, StyledTableRow } from 'pages-sections/admin'
@@ -24,22 +25,11 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 				'common',
 				'admin',
 				'adminActions',
+				'payments',
 			])),
 		},
 	}
 }
-
-// table column list
-const tableHeading = [
-	{
-		id: 'Card Number or Phone',
-		label: 'Card Number or Phone',
-		align: 'center',
-	},
-	{ id: 'Payments Method', label: 'Payments Method', align: 'center' },
-	{ id: 'Phone number', label: 'Phone number', align: 'center' },
-	{ id: 'Payed', label: 'Payed', align: 'center' },
-]
 
 // =============================================================================
 Payouts.getLayout = function getLayout(page: ReactElement) {
@@ -50,6 +40,19 @@ Payouts.getLayout = function getLayout(page: ReactElement) {
 // =============================================================================
 
 export default function Payouts() {
+	const { t } = useTranslation('payments')
+	// table column list
+	const tableHeading = [
+		{
+			id: 'cardPhone',
+			label: t('cardPhone'),
+			align: 'center',
+		},
+		{ id: 'Payments Method', label: t('paymentMethod'), align: 'center' },
+		{ id: 'Phone number', label: t('phoneNumber'), align: 'center' },
+		{ id: 'Payed', label: t('payed'), align: 'center' },
+	]
+
 	const { data, refetch } = useQuery(
 		'payouts',
 		() => PaymentServices.getPayments(),
@@ -86,7 +89,7 @@ export default function Payouts() {
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Payouts</H3>
+			<H3 mb={2}>{t('payouts')}</H3>
 
 			<Card>
 				<Scrollbar>
