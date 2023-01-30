@@ -9,29 +9,29 @@ import React, { CSSProperties } from 'react'
 export interface ProductCard4Props {
 	className?: string
 	style?: CSSProperties
-	imgUrl: string
+	thumbnail: string
 	rating: number
-	title: string
-	price: number
+	name: string
+	overall_price: number
 	reviewCount: number
 }
 
 const ProductCard4: React.FC<ProductCard4Props> = ({
-	imgUrl,
+	thumbnail,
 	rating,
-	title,
-	price,
+	name,
+	overall_price,
 	reviewCount = 0,
 }) => {
 	return (
 		<Box>
 			<HoverBox mb={2} mx="auto" borderRadius="8px">
 				<LazyImage
-					src={imgUrl}
+					src={thumbnail}
 					width={0}
 					height={0}
 					layout="responsive"
-					alt={title}
+					alt={name}
 					mx="auto"
 				/>
 			</HoverBox>
@@ -43,11 +43,11 @@ const ProductCard4: React.FC<ProductCard4Props> = ({
 				</Small>
 			</FlexRowCenter>
 
-			<H4 fontSize={14} textAlign="center" mb={0.5} title={title} ellipsis>
-				{title}
+			<H4 fontSize={14} textAlign="center" mb={0.5} title={name} ellipsis>
+				{name}
 			</H4>
 			<H4 fontSize={14} textAlign="center" color="primary.main">
-				${Math.ceil(price).toLocaleString()}
+				${Math.ceil(overall_price).toLocaleString()}
 			</H4>
 		</Box>
 	)

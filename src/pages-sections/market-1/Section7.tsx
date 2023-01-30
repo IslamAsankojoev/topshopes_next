@@ -99,7 +99,7 @@ const Section7: FC<Props> = (props) => {
 				</BazaarCard>
 
 				<Box flex="1 1 0" minWidth="0px">
-					<CategorySectionHeader title={title} seeMoreLink="#" />
+					<CategorySectionHeader title={title} seeMoreLink="/shop" />
 
 					<Grid container spacing={3}>
 						{productList?.map((item, ind) => (

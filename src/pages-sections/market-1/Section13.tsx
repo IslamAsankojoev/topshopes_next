@@ -31,35 +31,42 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 		<CategorySectionCreator
 			icon={<GiftBox />}
 			title={t('bigDiscounts')}
-			seeMoreLink="#"
+			seeMoreLink="/shop"
 		>
 			<Box my="-0.25rem">
 				<Carousel totalSlides={9} visibleSlides={visibleSlides}>
 					{bigDiscountList?.map((item) => (
 						<Box py={0.5} key={item.id}>
 							<BazaarCard sx={{ p: '1rem' }}>
-								<Link href={`/product/${item.id}`}>
+								<Link
+									href={{
+										pathname: '/product/[id]',
+										query: { trueID: item.id, id: item.slug },
+									}}
+								>
 									<a>
 										<HoverBox borderRadius="8px" mb={1}>
 											<LazyImage
 												width={100}
 												height={100}
-												src={item.imgUrl}
+												src={item.thumbnail}
 												layout="responsive"
-												alt={item.title}
+												alt={item.name}
 											/>
 										</HoverBox>
 										<H4 fontWeight="600" fontSize="14px" mb={0.5}>
-											{item.title}
+											{item.name}
 										</H4>
 
 										<FlexBox gap={1}>
 											<H4 fontWeight="600" fontSize="14px" color="primary.main">
-												${Math.ceil(item.price).toLocaleString()}
+												${Math.ceil(item.overall_price).toLocaleString()}
 											</H4>
 
 											<H4 fontWeight="600" fontSize="14px" color="grey.600">
-												<del>${Math.ceil(item.price).toLocaleString()}</del>
+												<del>
+													${Math.ceil(item.overall_price).toLocaleString()}
+												</del>
 											</H4>
 										</FlexBox>
 									</a>

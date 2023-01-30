@@ -60,7 +60,7 @@ const Section6: FC<Props> = ({ carList, carBrands }) => {
 				</BazaarCard>
 
 				<Box flex="1 1 0" minWidth="0px">
-					<CategorySectionHeader title="Cars" seeMoreLink="#" />
+					<CategorySectionHeader title="Cars" seeMoreLink="/shop" />
 
 					<Grid container spacing={3}>
 						{carList?.map((item, ind) => (

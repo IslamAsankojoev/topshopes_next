@@ -22,6 +22,7 @@ import { FC, Fragment } from 'react'
 // custom styled components
 const MainContainer = styled(Card)(({ theme }) => ({
 	paddingBottom: '1.5rem',
+	paddingTop: '2.5rem',
 	[theme.breakpoints.down('md')]: {
 		boxShadow: 'none',
 		overflowY: 'auto',
@@ -68,10 +69,7 @@ const Navigations = () => {
 	}
 
 	return (
-		<MainContainer>
-			<Typography p="26px 30px 1rem" color="grey.600" fontSize="12px">
-				General
-			</Typography>
+		<MainContainer sx={{ pt: 3 }}>
 			{linkList?.map((itemNav) => (
 				<Fragment key={itemNav.title}>
 					{itemNav.list?.map((item) => {
@@ -206,7 +204,7 @@ const linkList = [
 	},
 	{
 		title: 'shop',
-		list: [{ href: '/shop-request', title: 'Create store', icon: Store }],
+		list: [{ href: '/shop-request', title: 'store', icon: Store }],
 		role: 'is_only_client',
 	},
 ]
