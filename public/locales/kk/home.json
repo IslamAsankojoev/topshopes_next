@@ -1,10 +1,12 @@
 {
-    "bigDiscounts":"Үлкен жеңілдіктер",
-    "featuredBrands":"Таңдаулы брендтер",
-    "flashDeals":"Ыстық ұсыныстар",
-    "newArrivals":"Жаңадан келгендер",
-    "shopNow":"Қазір дүкен",
-    "topCategories":"Үздік санаттар",
-    "topRatings":"Үздік рейтингтер",
-    "viewAll":"барлығын көру"
- }
+	"moreForYou": "Сізге көбірек",
+
+	"bigDiscounts": "Үлкен жеңілдіктер",
+	"featuredBrands": "Таңдаулы брендтер",
+	"flashDeals": "Ыстық ұсыныстар",
+	"newArrivals": "Жаңадан келгендер",
+	"shopNow": "Қазір дүкен",
+	"topCategories": "Үздік санаттар",
+	"topRatings": "Үздік рейтингтер",
+	"viewAll": "барлығын көру"
+}

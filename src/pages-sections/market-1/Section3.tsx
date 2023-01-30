@@ -7,12 +7,13 @@ import useWindowSize from 'hooks/useWindowSize'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
+import { ICategory } from 'shared/types/product.types'
 
 // =====================================================
-type Props = { categoryList: any[] }
+type Props = { categoryList: ICategory[] }
 // =====================================================
 
-const Section3: FC<Props> = ({ categoryList }) => {
+const Section3: FC<Props> = ({ categoryList = [] }) => {
 	const { t } = useTranslation('home')
 	const [visibleSlides, setVisibleSlides] = useState(3)
 	const width = useWindowSize()
@@ -23,26 +24,35 @@ const Section3: FC<Props> = ({ categoryList }) => {
 		else setVisibleSlides(3)
 	}, [width])
 
+	if (!categoryList) return <></>
+
 	return (
 		<CategorySectionCreator
 			icon={<Category color="primary" />}
 			title={t('topCategories')}
-			seeMoreLink="#"
+			seeMoreLink="/shop"
 		>
 			<Carousel totalSlides={5} visibleSlides={visibleSlides}>
-				{categoryList?.map((item, ind) => (
-					<Link href={`/product/search/${item.title}`} key={ind} passHref>
-						<a>
-							<BazaarCard sx={{ p: 2 }} elevation={0}>
-								<ProductCard6
-									title={item.title}
-									subtitle={item.subtitle}
-									imgUrl={item.imgUrl}
-								/>
-							</BazaarCard>
-						</a>
-					</Link>
-				))}
+				{categoryList
+					?.map((item: ICategory, ind) => (
+						<Link
+							href={{
+								pathname: '/shop',
+								query: {
+									category: item.id,
+								},
+							}}
+							key={ind}
+							passHref
+						>
+							<a>
+								<BazaarCard sx={{ p: 2 }} elevation={0}>
+									<ProductCard6 title={item.name} imgUrl={item.image} />
+								</BazaarCard>
+							</a>
+						</Link>
+					))
+					.slice(0, 5)}
 			</Carousel>
 		</CategorySectionCreator>
 	)

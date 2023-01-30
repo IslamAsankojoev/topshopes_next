@@ -7,34 +7,40 @@ import React from 'react'
 // ==========================================================
 type ProductCard2Props = {
 	id: number
-	price: number
-	title: string
-	imgUrl: string
+	overall_price: number
+	name: string
+	thumbnail: string
 	rating: number
 	discount: number
+	slug: string
 }
 // ==========================================================
 
 const ProductCard2: React.FC<ProductCard2Props> = (props) => {
-	const { imgUrl, title, price, id } = props
+	const { thumbnail, name, overall_price, id, slug } = props
 
 	return (
-		<Link href={`/product/${id}`}>
+		<Link
+			href={{
+				pathname: '/product/[id]',
+				query: { trueID: id, id: slug },
+			}}
+		>
 			<a>
 				<HoverBox borderRadius="8px" mb={1}>
 					<LazyImage
-						src={imgUrl}
+						src={thumbnail}
 						width={0}
 						height={0}
 						layout="responsive"
-						alt={title}
+						alt={name}
 					/>
 				</HoverBox>
 				<H4 fontSize={14} mb={0.5}>
-					{title}
+					{name}
 				</H4>
 				<H4 fontSize={14} color="primary.main">
-					${Math.ceil(price).toLocaleString()}
+					{Math.ceil(overall_price).toLocaleString()}c
 				</H4>
 			</a>
 		</Link>

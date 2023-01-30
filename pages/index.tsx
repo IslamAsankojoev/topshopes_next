@@ -1,3 +1,4 @@
+import { CategoriesService } from 'api/services/categories/category.service'
 import { ShopsProductsService } from 'api/services/shops-products/ShopsProducts.service'
 import SEO from 'components/SEO'
 import Setting from 'components/Setting'
@@ -18,7 +19,7 @@ import Section11 from 'pages-sections/market-1/Section11'
 import Section12 from 'pages-sections/market-1/Section12'
 import Section13 from 'pages-sections/market-1/Section13'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
-import { IProductPreview } from 'shared/types/product.types'
+import { ICategory, IProductPreview } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'
 import api from 'utils/api/market-1'
 
@@ -57,6 +58,14 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			select: (data: ResponseList<IProductPreview>) => data.results,
 		}
 	)
+
+	const { data: categories = [] } = useQuery(
+		'categories',
+		() => CategoriesService.getList(),
+		{
+			select: (data: ResponseList<ICategory>) => data.results,
+		}
+	)
 	return (
 		<ShopLayout1>
 			<SEO title="Home" />
@@ -68,24 +77,21 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			<Section2 flashDeals={products} />
 
 			{/* TOP CATEGORIES */}
-			<Section3 categoryList={props.topCategories} />
+			<Section3 categoryList={categories} />
 
 			{/* TOP RATED PRODUCTS */}
-			<Section4
-				topRatedList={props.topRatedProducts}
-				topRatedBrands={props.topRatedBrands}
-			/>
+			<Section4 topRatedList={products} topRatedBrands={products} />
 
 			{/* NEW ARRIVAL LIST */}
-			<Section5 newArrivalsList={props.newArrivalsList} />
+			<Section5 newArrivalsList={products} />
 
 			{/* BIG DISCOUNTS */}
-			<Section13 bigDiscountList={props.bigDiscountList} />
+			<Section13 bigDiscountList={products} />
 
-			{/* CAR LIST */}
-			<Section6 carBrands={props.carBrands} carList={products} />
+			{/* CAR LIST
+			<Section6 carBrands={props.carBrands} carList={products} /> */}
 
-			{/* MOBILE PHONES */}
+			{/* MOBILE PHONES
 			<Section7
 				shops={props.mobileShops}
 				brands={props.mobileBrands}
@@ -94,24 +100,24 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			/>
 
 			{/* PROMO BANNERS */}
-			<Section8 />
+			{/* <Section8 /> */}
 
 			{/* OPTICS / WATHCH */}
-			<Section7
+			{/* <Section7
 				title="Optics / Watch"
 				shops={props.opticsShops}
 				brands={props.opticsBrands}
 				productList={products}
-			/>
+			/> */}
 
 			{/* CATEGORIES */}
-			<Section10 categories={props.bottomCategories} />
+			{/* <Section10 categories={props.bottomCategories} /> */}
 
 			{/* MORE FOR YOU */}
 			<Section11 moreItems={products} />
 
-			{/* SERVICE CARDS */}
-			<Section12 serviceList={props.serviceList} />
+			{/* SERVICE CARDS
+			<Section12 serviceList={props.serviceList} /> */}
 		</ShopLayout1>
 	)
 }

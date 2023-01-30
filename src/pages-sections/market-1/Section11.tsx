@@ -1,14 +1,16 @@
 import { Container, Grid } from '@mui/material'
 import CategorySectionHeader from 'components/CategorySectionHeader'
 import ProductCard1 from 'components/product-cards/ProductCard1'
+import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 
 type Props = { moreItems: any[] }
 
 const Section11: FC<Props> = ({ moreItems }) => {
+	const { t } = useTranslation('home')
 	return (
 		<Container sx={{ mb: '70px' }}>
-			<CategorySectionHeader title="More For You" seeMoreLink="#" />
+			<CategorySectionHeader title={t('moreForYou')} seeMoreLink="/shop" />
 
 			<Grid container spacing={3}>
 				{moreItems?.map((item, ind) => (

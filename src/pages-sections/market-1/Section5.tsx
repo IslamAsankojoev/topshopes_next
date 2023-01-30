@@ -16,12 +16,12 @@ const Section5: FC<Props> = ({ newArrivalsList }) => {
 		<CategorySectionCreator
 			icon={<NewArrival />}
 			title={t('newArrivals')}
-			seeMoreLink="#"
+			seeMoreLink="shop"
 		>
 			<BazaarCard sx={{ p: 2 }}>
 				<Grid container spacing={3}>
 					{newArrivalsList?.map((item) => (
-						<Grid item lg={2} md={3} sm={4} xs={6} key={item.title}>
+						<Grid item lg={2} md={3} sm={4} xs={6} key={item.name}>
 							<ProductCard2 {...item} />
 						</Grid>
 					))}
