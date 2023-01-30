@@ -31,7 +31,7 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 		<CategorySectionCreator
 			icon={<GiftBox />}
 			title={t('bigDiscounts')}
-			seeMoreLink="#"
+			seeMoreLink="/shop"
 		>
 			<Box my="-0.25rem">
 				<Carousel totalSlides={9} visibleSlides={visibleSlides}>

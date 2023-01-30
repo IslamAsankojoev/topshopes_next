@@ -16,7 +16,7 @@ const Section5: FC<Props> = ({ newArrivalsList }) => {
 		<CategorySectionCreator
 			icon={<NewArrival />}
 			title={t('newArrivals')}
-			seeMoreLink="#"
+			seeMoreLink="shop"
 		>
 			<BazaarCard sx={{ p: 2 }}>
 				<Grid container spacing={3}>
