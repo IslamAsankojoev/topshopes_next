@@ -27,7 +27,7 @@ const Section4: FC<Props> = (props) => {
 						<CategorySectionHeader
 							icon={<RankBadge />}
 							title={t('topRatings')}
-							seeMoreLink="#"
+							seeMoreLink="/shop"
 						/>
 
 						<BazaarCard sx={{ p: 2 }}>
@@ -55,7 +55,7 @@ const Section4: FC<Props> = (props) => {
 						<CategorySectionHeader
 							icon={<DottedStar />}
 							title={t('featuredBrands')}
-							seeMoreLink="#"
+							seeMoreLink="/shop"
 						/>
 
 						<BazaarCard sx={{ p: 2 }}>

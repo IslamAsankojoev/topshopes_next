@@ -27,7 +27,7 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 		<CategorySectionCreator
 			icon={<Light color="primary" />}
 			title={t('flashDeals')}
-			seeMoreLink="#"
+			seeMoreLink="/shop"
 		>
 			<Carousel
 				totalSlides={flashDeals?.length}

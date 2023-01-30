@@ -30,7 +30,7 @@ const Section3: FC<Props> = ({ categoryList = [] }) => {
 		<CategorySectionCreator
 			icon={<Category color="primary" />}
 			title={t('topCategories')}
-			seeMoreLink="#"
+			seeMoreLink="/shop"
 		>
 			<Carousel totalSlides={5} visibleSlides={visibleSlides}>
 				{categoryList?.map((item, ind) => (

@@ -10,7 +10,7 @@ const Section11: FC<Props> = ({ moreItems }) => {
 	const { t } = useTranslation('home')
 	return (
 		<Container sx={{ mb: '70px' }}>
-			<CategorySectionHeader title={t('moreForYou')} seeMoreLink="#" />
+			<CategorySectionHeader title={t('moreForYou')} seeMoreLink="/shop" />
 
 			<Grid container spacing={3}>
 				{moreItems?.map((item, ind) => (

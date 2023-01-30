@@ -1,8 +1,8 @@
 import { Box, Container, Grid, styled } from '@mui/material'
 import BazaarCard from 'components/BazaarCard'
 import CategorySectionHeader from 'components/CategorySectionHeader'
-import Category from 'components/icons/Category'
 import LazyImage from 'components/LazyImage'
+import Category from 'components/icons/Category'
 import Link from 'next/link'
 import { FC } from 'react'
 
@@ -22,7 +22,7 @@ const Section10: FC<Props> = ({ categories }) => {
 	return (
 		<Container sx={{ mb: '70px' }}>
 			<CategorySectionHeader
-				seeMoreLink="#"
+				seeMoreLink="/shop"
 				title="Categories"
 				icon={<Category color="primary" />}
 			/>
