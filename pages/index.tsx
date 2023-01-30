@@ -1,3 +1,4 @@
+import { CategoriesService } from 'api/services/categories/category.service'
 import { ShopsProductsService } from 'api/services/shops-products/ShopsProducts.service'
 import SEO from 'components/SEO'
 import Setting from 'components/Setting'
@@ -82,10 +83,10 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			{/* BIG DISCOUNTS */}
 			<Section13 bigDiscountList={props.bigDiscountList} />
 
-			{/* CAR LIST */}
-			<Section6 carBrands={props.carBrands} carList={products} />
+			{/* CAR LIST
+			<Section6 carBrands={props.carBrands} carList={products} /> */}
 
-			{/* MOBILE PHONES */}
+			{/* MOBILE PHONES
 			<Section7
 				shops={props.mobileShops}
 				brands={props.mobileBrands}
@@ -94,7 +95,7 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			/>
 
 			{/* PROMO BANNERS */}
-			<Section8 />
+			{/* <Section8 /> */}
 
 			{/* OPTICS / WATHCH */}
 			<Section7
@@ -110,8 +111,8 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			{/* MORE FOR YOU */}
 			<Section11 moreItems={products} />
 
-			{/* SERVICE CARDS */}
-			<Section12 serviceList={props.serviceList} />
+			{/* SERVICE CARDS
+			<Section12 serviceList={props.serviceList} /> */}
 		</ShopLayout1>
 	)
 }
@@ -140,7 +141,7 @@ export async function getStaticProps({ locale }) {
 		const flashDealsData = await api.getFlashDeals()
 		const opticsBrands = await api.getOpticsBrands()
 		const bottomCategories = await api.getCategories()
-		const topCategories = await api.getTopCategories()
+		const topCategories = await CategoriesService.getList()
 		const topRatedBrands = await api.getTopRatedBrand()
 		const mainCarouselData = await api.getMainCarousel()
 		const newArrivalsList = await api.getNewArrivalList()
