@@ -13,7 +13,7 @@ import { ICategory } from 'shared/types/product.types'
 type Props = { categoryList: ICategory[] }
 // =====================================================
 
-const Section3: FC<Props> = ({ categoryList }) => {
+const Section3: FC<Props> = ({ categoryList = [] }) => {
 	const { t } = useTranslation('home')
 	const [visibleSlides, setVisibleSlides] = useState(3)
 	const width = useWindowSize()
