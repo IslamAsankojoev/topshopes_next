@@ -46,18 +46,6 @@ type MarketProps = {
 }
 // =================================================================
 
-const slider = [
-	{
-		title: 'новый аромат',
-		description: 'хорошие ароматы создают настроение, лучшие говорят без слов',
-		imgUrl: 'assets/images/banner1.webp',
-	},
-	{
-		title: 'новый аромат',
-		description: 'хорошие ароматы создают настроение, лучшие говорят без слов',
-		imgUrl: 'assets/images/баннер4.webp',
-	},
-]
 const MarketShop: NextPage<MarketProps> = (props) => {
 	const { data: products } = useQuery(
 		['shop products'],
@@ -83,13 +71,13 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			<SEO title="Home" />
 
 			{/* HERO SLIDER SECTION */}
-			<Section1 carouselData={slider} />
+			<Section1 carouselData={props.mainCarouselData} />
 
 			{/* FLASH DEALS SECTION */}
 			<Section2 flashDeals={products} />
 
 			{/* TOP CATEGORIES */}
-			<Section3 categoryList={categories} />
+			<Section3 categoryList={categories?.slice(0, 5)} />
 
 			{/* TOP RATED PRODUCTS */}
 			<Section4 topRatedList={products} topRatedBrands={products} />

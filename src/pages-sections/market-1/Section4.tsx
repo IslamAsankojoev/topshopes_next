@@ -32,21 +32,23 @@ const Section4: FC<Props> = (props) => {
 
 						<BazaarCard sx={{ p: 2 }}>
 							<Grid container spacing={4}>
-								{topRatedList?.map((item) => (
-									<Grid item md={3} sm={6} xs={6} key={item.name}>
-										<Link
-											href={{
-												pathname: '/product/[id]',
-												query: { trueID: item.id, id: item.slug },
-											}}
-											passHref
-										>
-											<a>
-												<ProductCard4 {...item} />
-											</a>
-										</Link>
-									</Grid>
-								))}
+								{topRatedList
+									?.map((item) => (
+										<Grid item md={3} sm={6} xs={6} key={item.name}>
+											<Link
+												href={{
+													pathname: '/product/[id]',
+													query: { trueID: item.id, id: item.slug },
+												}}
+												passHref
+											>
+												<a>
+													<ProductCard4 {...item} />
+												</a>
+											</Link>
+										</Grid>
+									))
+									.slice(0, 4)}
 							</Grid>
 						</BazaarCard>
 					</Grid>
@@ -60,21 +62,23 @@ const Section4: FC<Props> = (props) => {
 
 						<BazaarCard sx={{ p: 2 }}>
 							<Grid container spacing={4}>
-								{topRatedBrands?.map((item) => (
-									<Grid item sm={6} xs={6} key={item.name}>
-										<Link
-											href={{
-												pathname: '/product/[id]',
-												query: { trueID: item.id, id: item.slug },
-											}}
-											passHref
-										>
-											<a>
-												<ProductCard5 {...item} />
-											</a>
-										</Link>
-									</Grid>
-								))}
+								{topRatedBrands
+									?.map((item) => (
+										<Grid item sm={6} xs={6} key={item.name}>
+											<Link
+												href={{
+													pathname: '/product/[id]',
+													query: { trueID: item.id, id: item.slug },
+												}}
+												passHref
+											>
+												<a>
+													<ProductCard5 {...item} />
+												</a>
+											</Link>
+										</Grid>
+									))
+									.slice(0, 2)}
 							</Grid>
 						</BazaarCard>
 					</Grid>

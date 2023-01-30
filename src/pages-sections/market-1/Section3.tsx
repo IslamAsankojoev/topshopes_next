@@ -46,7 +46,7 @@ const Section3: FC<Props> = ({ categoryList = [] }) => {
 					>
 						<a>
 							<BazaarCard sx={{ p: 2 }} elevation={0}>
-								<ProductCard6 title={item.name} imgUrl={item.icon} />
+								<ProductCard6 title={item.name} imgUrl={item.image} />
 							</BazaarCard>
 						</a>
 					</Link>
