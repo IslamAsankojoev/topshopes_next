@@ -185,6 +185,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 					<Grid item sm={6} xs={12}>
 						<Autocomplete
 							{...autocompleteProps.category}
+							disabled={update}
 							fullWidth
 							color="info"
 							size="medium"
