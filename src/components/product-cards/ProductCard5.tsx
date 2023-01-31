@@ -20,7 +20,7 @@ const ProductCard5: React.FC<ProductCard5Props> = ({ thumbnail, name }) => {
 					width={260}
 					src={thumbnail}
 					height={175}
-					objectFit="cover"
+					objectFit="contain"
 					layout="responsive"
 				/>
 			</HoverBox>

@@ -23,7 +23,7 @@ const Section4: FC<Props> = (props) => {
 		<Box mb={7.5}>
 			<Container>
 				<Grid container spacing={4}>
-					<Grid item lg={6} xs={12}>
+					<Grid item xs={12}>
 						<CategorySectionHeader
 							icon={<RankBadge />}
 							title={t('topRatings')}
@@ -53,7 +53,7 @@ const Section4: FC<Props> = (props) => {
 						</BazaarCard>
 					</Grid>
 
-					<Grid item md={6} xs={12}>
+					{/* <Grid item md={6} xs={12}>
 						<CategorySectionHeader
 							icon={<DottedStar />}
 							title={t('featuredBrands')}
@@ -81,7 +81,7 @@ const Section4: FC<Props> = (props) => {
 									.slice(0, 2)}
 							</Grid>
 						</BazaarCard>
-					</Grid>
+					</Grid> */}
 				</Grid>
 			</Container>
 		</Box>
