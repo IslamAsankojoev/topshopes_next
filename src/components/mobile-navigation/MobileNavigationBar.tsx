@@ -38,11 +38,11 @@ const MobileNavigationBar: FC = () => {
 
 const list = [
 	{ title: 'home', icon: Home, href: '/' },
-	{
-		title: 'categories',
-		icon: CategoryOutlined,
-		href: '/mobile-category-nav',
-	},
+	// {
+	// 	title: 'categories',
+	// 	icon: CategoryOutlined,
+	// 	href: '/mobile-category-nav',
+	// },
 	{ title: 'cart', icon: ShoppingBagOutlined, href: '/cart' },
 	{ title: 'profile', icon: User2, href: '/profile' },
 ]
