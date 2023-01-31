@@ -413,14 +413,14 @@ export const ShopCreateForm: {
 		name: 'owner',
 		label: 'owner',
 		type: 'text',
-		placeholder: 'Owner',
+		placeholder: 'owner',
 		required: true,
 	},
 	{
 		name: 'shop_name',
-		label: 'shopName',
+		label: 'shop',
 		type: 'text',
-		placeholder: 'shopName',
+		placeholder: 'shop',
 		required: true,
 	},
 	{
