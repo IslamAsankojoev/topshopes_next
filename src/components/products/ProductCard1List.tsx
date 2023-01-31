@@ -28,7 +28,7 @@ const ProductCard1List: React.FC<ProductCard1ListProps> = ({
 			</Grid>
 
 			<FlexBetween flexWrap="wrap" mt={4}>
-				<Span color="grey.600">Showing 1-9 of 1.3k Products</Span>
+				<Span color="grey.600"></Span>
 				<Pagination
 					page={+router?.query?.page || 1}
 					count={Math.ceil(count / 20)}

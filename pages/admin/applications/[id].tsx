@@ -53,7 +53,7 @@ const UpdateApplication: NextPageAuth = () => {
 	)
 
 	// application update
-	const { mutateAsync } = useMutation(
+	const { mutateAsync, isLoading } = useMutation(
 		'application admin update',
 		(data: any) =>
 			ApplicationServices.updateApplication((id as string) + '/', data),
@@ -72,6 +72,7 @@ const UpdateApplication: NextPageAuth = () => {
 			<H3 mb={2} sx={{ textTransform: 'uppercase' }}>
 				{getTranslate('application')}
 			</H3>
+			{isLoading ? <Loading /> : null}
 			<CardsWrapper>
 				<Card
 					sx={{
@@ -103,6 +104,7 @@ const UpdateApplication: NextPageAuth = () => {
 							<Paragraph color="grey.900" sx={{ textTransform: 'uppercase' }}>
 								{getTranslate('status')}:
 							</Paragraph>
+
 							<Select
 								className="order-status-admin"
 								sx={{
