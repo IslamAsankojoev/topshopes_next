@@ -47,7 +47,7 @@ const ProductCard4: React.FC<ProductCard4Props> = ({
 				{name}
 			</H4>
 			<H4 fontSize={14} textAlign="center" color="primary.main">
-				${Math.ceil(overall_price).toLocaleString()}
+				{Math.ceil(overall_price)}c
 			</H4>
 		</Box>
 	)

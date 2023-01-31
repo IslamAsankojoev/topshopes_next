@@ -70,9 +70,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				/>
 			</StyledTableCell> */}
 
-			<StyledTableCell align="left">
-				{currency(overall_price, { separator: ',' }).format()}c
-			</StyledTableCell>
+			<StyledTableCell align="left">{overall_price}c</StyledTableCell>
 
 			<StyledTableCell align="center">
 				<StyledIconButton
