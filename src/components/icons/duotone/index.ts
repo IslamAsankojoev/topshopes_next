@@ -29,9 +29,11 @@ import UserTie from "./UserTie";
 import Vest from "./Vest";
 import Pager from "./Pager";
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import CreditScoreIcon from '@mui/icons-material/CreditScore';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
+  CreditScoreIcon,
   ShoppingBag: ShoppingBagIcon,
   AdminEcommerce,
   Dashboard,

@@ -49,7 +49,7 @@ export default function Payouts() {
 			align: 'center',
 		},
 		{ id: 'Payments Method', label: t('paymentMethod'), align: 'center' },
-		{ id: 'Phone number', label: t('phoneNumber'), align: 'center' },
+		{ id: 'Phone number', label: t('phone'), align: 'center' },
 		{ id: 'Payed', label: t('payed'), align: 'center' },
 	]
 

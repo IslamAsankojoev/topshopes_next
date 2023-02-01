@@ -1,14 +1,18 @@
 import { Done } from '@mui/icons-material'
-import { styled, Table, TableContainer } from '@mui/material'
+import { Table, TableContainer, styled } from '@mui/material'
 import Box from '@mui/material/Box'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
+import Scrollbar from 'components/Scrollbar'
 import { FlexBox } from 'components/flex-box'
 import Reload from 'components/icons/Reload'
-import Scrollbar from 'components/Scrollbar'
 import useMuiTable from 'hooks/useMuiTable'
+import { StatusWrapper } from 'pages-sections/admin/StyledComponents'
 import React, { FC } from 'react'
+import { IOrder } from 'shared/types/order.types'
+import { IProduct } from 'shared/types/product.types'
+
 import TableHeader from './TableHeader'
 
 // styled components
@@ -22,23 +26,29 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	':first-of-type': { paddingLeft: 24 },
 }))
 
-const StatusWrapper = styled(FlexBox)<{ payment: any }>(
-	({ theme, payment }) => ({
-		borderRadius: '8px',
-		padding: '3px 12px',
-		display: 'inline-flex',
-		color: payment ? theme.palette.error.main : theme.palette.success.main,
-		backgroundColor: payment
-			? theme.palette.error[100]
-			: theme.palette.success[100],
-	})
-)
+// const StatusWrapper = styled(FlexBox)<{ payment: any }>(
+// 	({ theme, payment }) => ({
+// 		borderRadius: '8px',
+// 		padding: '3px 12px',
+// 		display: 'inline-flex',
+// 		color: payment ? theme.palette.error.main : theme.palette.success.main,
+// 		backgroundColor: payment
+// 			? theme.palette.error[100]
+// 			: theme.palette.success[100],
+// 	})
+// )
 
 const StyledTableRow = styled(TableRow)(() => ({
 	':last-child .MuiTableCell-root': { border: 0 },
 }))
 
 // =============================================================================
+type ListItemProps = {
+	id: string
+	amount: string
+	payment: string
+	product: string
+}
 
 type ListTableProps = {
 	dataList: any[]
@@ -71,31 +81,23 @@ const DataListTable: FC<ListTableProps> = ({
 					{/* recent purchase table body */}
 					{recentPurchase && (
 						<TableBody>
-							{filteredList?.map((row, index) => {
-								const { id, amount, payment, product } = row
+							{filteredList?.map((order: IOrder, index) => {
+								const { id, product, status, total_price } = order
 
 								return (
 									<StyledTableRow key={index}>
 										<StyledTableCell align="left">{id}</StyledTableCell>
-										<StyledTableCell align="left">{product}</StyledTableCell>
-
 										<StyledTableCell align="left">
-											<StatusWrapper
-												gap={1}
-												alignItems="center"
-												payment={payment === 'Pending' ? 1 : 0}
-											>
-												<Box>{payment}</Box>
-												{payment === 'Pending' && (
-													<Reload sx={{ fontSize: 13 }} />
-												)}
-												{payment !== 'Pending' && (
-													<Done sx={{ fontSize: 13 }} />
-												)}
-											</StatusWrapper>
+											{product.name}
 										</StyledTableCell>
 
-										<StyledTableCell align="center">{amount}</StyledTableCell>
+										<StyledTableCell align="left">
+											<StatusWrapper status={status}>{status}</StatusWrapper>
+										</StyledTableCell>
+
+										<StyledTableCell align="center">
+											{total_price}c
+										</StyledTableCell>
 									</StyledTableRow>
 								)
 							})}
@@ -105,20 +107,22 @@ const DataListTable: FC<ListTableProps> = ({
 					{/* stock out table body */}
 					{type === 'STOCK_OUT' && (
 						<TableBody>
-							{filteredList?.map((row, index) => {
-								const { amount, stock, product } = row
+							{filteredList?.map((product: IProduct, index) => {
+								const { name, variants } = product
 
 								return (
 									<StyledTableRow key={index}>
-										<StyledTableCell align="left">{product}</StyledTableCell>
+										<StyledTableCell align="left">{name}</StyledTableCell>
 										<StyledTableCell
 											align="center"
 											sx={{ color: 'error.main' }}
 										>
-											{stock}
+											{variants[0].stock}
 										</StyledTableCell>
 
-										<StyledTableCell align="center">{amount}</StyledTableCell>
+										<StyledTableCell align="center">
+											{variants[0].overall_price}c
+										</StyledTableCell>
 									</StyledTableRow>
 								)
 							})}

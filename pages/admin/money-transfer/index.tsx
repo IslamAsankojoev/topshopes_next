@@ -1,7 +1,9 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { UsersService } from 'api/services-admin/users/users.service'
+import { CategoriesService } from 'api/services-admin/categories/category.service'
+import { MoneyTransferService } from 'api/services-admin/money-transfer/MoneyTransfer.service'
 import Empty from 'components/Empty'
+import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
@@ -10,18 +12,15 @@ import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { CustomerRow } from 'pages-sections/admin'
-import SellerRow from 'pages-sections/admin/SellerRow'
+import { CategoryRow } from 'pages-sections/admin'
+import MoneyTransferRow from 'pages-sections/admin/TransferMoneyRow'
 import { ReactElement } from 'react'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { ResponseList } from 'shared/types/response.types'
-import { IUser } from 'shared/types/user.types'
-import api from 'utils/api/dashboard'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -34,57 +33,48 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 		},
 	}
 }
+
+// table column list
 const tableHeading = [
-	{ id: 'first_name', label: 'FirstName', align: 'left' },
-	{ id: 'phone', label: 'Phone', align: 'left' },
-	{ id: 'email', label: 'Email', align: 'left' },
-	{ id: 'shop', label: 'Shop', align: 'left' },
+	{ id: 'thumbnail', label: 'thumbnail', align: 'left' },
+	{ id: 'amount', label: 'amount', align: 'left' },
+	{ id: 'shop', label: 'shop', align: 'left' },
+	{ id: 'tax', label: 'tax', align: 'left' },
 ]
 
-type CustomerListProps = { customers: IUser[] }
-
-const SellersList: NextPageAuth<CustomerListProps> = () => {
+const MoneyTransfer: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
-	const { push } = useRouter()
 
 	const [searchValue, setSearchValue] = React.useState('')
 	const [currentPage, setCurrentPage] = React.useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
-	const { data: users, refetch } = useQuery(
-		`get users all sellers search=${searchValue} page=${currentPage}`,
+	const { data: moneyTransfer, refetch } = useQuery(
+		`get moneyTransfer admin search=${searchValue} page=${currentPage}`,
 		() =>
-			UsersService.getList({
+			MoneyTransferService.getList({
 				search: searchValue,
 				page: currentPage,
-				page_size: 100,
-			}),
-		{
-			select: (data: ResponseList<IUser>) => {
-				return {
-					...data,
-					results: [...data.results].filter((user) => user.is_seller),
-				}
-			},
-		}
+				page_size: 20,
+			})
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
-		useMuiTable({ listData: users?.results })
+		useMuiTable({ listData: moneyTransfer?.results })
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>Sellers</H3>
+			<H3 mb={2}>{adminT('moneyTransfer')}</H3>
 
 			<SearchArea
 				handleSearch={(value) => {
 					setCurrentPage(1)
 					setSearchValue(value)
 				}}
-				handleBtnClick={() => push('/admin/sellers')}
-				searchPlaceholder={t('editUser')}
+				handleBtnClick={() => {}}
+				searchPlaceholder={t('searchingFor')}
 			/>
 
 			{filteredList?.length ? (
@@ -97,17 +87,18 @@ const SellersList: NextPageAuth<CustomerListProps> = () => {
 									hideSelectBtn
 									orderBy={orderBy}
 									heading={tableHeading}
-									rowCount={users?.count}
+									rowCount={moneyTransfer?.count}
 									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
 
 								<TableBody>
-									{filteredList?.map((customer, index) => (
-										<SellerRow
-											refetch={refetch}
-											customer={customer}
+									{filteredList?.map((moneyTransfer, index) => (
+										<MoneyTransferRow
+											item={moneyTransfer}
 											key={index}
+											selected={selected}
+											refetch={refetch}
 										/>
 									))}
 								</TableBody>
@@ -118,7 +109,7 @@ const SellersList: NextPageAuth<CustomerListProps> = () => {
 					<Stack alignItems="center" my={4}>
 						<TablePagination
 							onChange={handleChangePage}
-							count={Math.ceil(users?.count / 20)}
+							count={Math.ceil(moneyTransfer?.count / 20)}
 							page={currentPage}
 						/>
 					</Stack>
@@ -130,10 +121,10 @@ const SellersList: NextPageAuth<CustomerListProps> = () => {
 	)
 }
 
-SellersList.isOnlyAdmin = true
+MoneyTransfer.isOnlyAuth = true
 
-SellersList.getLayout = function getLayout(page: ReactElement) {
+MoneyTransfer.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default SellersList
+export default MoneyTransfer
