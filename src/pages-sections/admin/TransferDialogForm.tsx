@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 import { MoneyTransferService } from 'api/services-admin/money-transfer/MoneyTransfer.service'
 import CreateForm from 'components/Form/CreateForm'
+import LazyImage from 'components/LazyImage'
 import Loading from 'components/Loading'
 import { useTranslation } from 'next-i18next'
 import * as React from 'react'
@@ -29,11 +30,54 @@ const TransferDialogForm = ({ transferMoney, refetch }) => {
 
 	if (transferMoney.confirm_photo) {
 		return (
-			<Avatar
-				sx={{ borderRadius: '5px', ml: '20px' }}
-				color="success"
-				src={transferMoney.confirm_photo}
-			/>
+			<React.Fragment>
+				<Avatar
+					sx={{ borderRadius: '5px', ml: '20px' }}
+					color="success"
+					src={transferMoney.confirm_photo}
+					onClick={() =>
+						addCardForm ? setAddCardForm(false) : setAddCardForm(true)
+					}
+				/>
+
+				<Dialog open={addCardForm} onClose={() => setAddCardForm(false)}>
+					<DialogContent
+						sx={{
+							backgroundColor: '#F7F9FC',
+						}}
+					>
+						<Container>
+							<Typography variant="h6" mb={3} textAlign="center">
+								{adminT('thumbnail')}
+							</Typography>
+							<img
+								style={{
+									maxWidth: '600px',
+									width: '100%',
+									objectFit: 'contain',
+								}}
+								src={transferMoney.confirm_photo}
+							/>
+							<div
+								style={{
+									display: 'flex',
+									justifyContent: 'center',
+									margin: '20px 0 0',
+								}}
+							>
+								<Button
+									onClick={() => setAddCardForm(false)}
+									variant="contained"
+									color="success"
+									size="small"
+								>
+									Ok
+								</Button>
+							</div>
+						</Container>
+					</DialogContent>
+				</Dialog>
+			</React.Fragment>
 		)
 	}
 
