@@ -158,16 +158,3 @@ const OrderDetails: NextPageAuth = () => {
 OrderDetails.isOnlyAuth = true
 
 export default OrderDetails
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const { params } = context;
-//   const { id } = params;
-
-//   const order = await OrdersService.getOrder(id as string);
-
-//   return {
-//     props: {
-//       order,
-//     },
-//   };
-// };

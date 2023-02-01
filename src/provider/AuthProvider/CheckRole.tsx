@@ -22,8 +22,19 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 	if (!isOnlyAdmin && !isOnlyAuth && !isOnlySeller) return <Children />
 
 	// 3) check if user is only client and redirect to 404 page when user is not client
-	if ((isOnlyClient && user?.is_seller) || (isOnlyClient && user?.is_superuser))
-		router.replace('/profile')
+	if (
+		(isOnlyClient && user?.is_seller) ||
+		(isOnlyClient && user?.is_superuser)
+	) {
+		router.pathname !== '/profile' && router.replace('/profile')
+		return null
+	}
+
+	if (isOnlyClient && !is_client) {
+		router.pathname !== '/login' &&
+			router.replace(`/login/?redirect=${router.asPath}`)
+		return null
+	}
 
 	// 4) check if user is client and redirect to login page when user is not client
 	if (isOnlyAuth && is_client) return <Children />

@@ -1,5 +1,6 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
+import { UsersService } from 'api/services-admin/users/users.service'
 import Empty from 'components/Empty'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
@@ -9,15 +10,20 @@ import TablePagination from 'components/data-table/TablePagination'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
-import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { SellerRow } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
+import { useRouter } from 'next/router'
+import { CustomerRow } from 'pages-sections/admin'
+import SellerRow from 'pages-sections/admin/SellerRow'
+import { ReactElement } from 'react'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
+import { ResponseList } from 'shared/types/response.types'
+import { IUser } from 'shared/types/user.types'
 import api from 'utils/api/dashboard'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-	const sellers = await api.sellers()
 	return {
 		props: {
 			...(await serverSideTranslations(locale as string, [
@@ -25,64 +31,84 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 				'admin',
 				'adminActions',
 			])),
-			sellers,
 		},
 	}
 }
-// table column list
 const tableHeading = [
-	{ id: 'name', label: 'sellerName', align: 'left' },
-	{ id: 'shopName', label: 'shopName', align: 'left' },
-	{ id: 'package', label: 'currentPackage', align: 'left' },
-	{ id: 'balance', label: 'currentBalance', align: 'left' },
-	{ id: 'published', label: 'published', align: 'left' },
-	{ id: 'action', label: 'action', align: 'center' },
+	{ id: 'first_name', label: 'FirstName', align: 'left' },
+	{ id: 'phone', label: 'Phone', align: 'left' },
+	{ id: 'email', label: 'Email', align: 'left' },
+	{ id: 'shop', label: 'Shop', align: 'left' },
 ]
 
-type SellerListProps = { sellers: any[] }
-// =============================================================================
+type CustomerListProps = { customers: IUser[] }
 
-const SellerList: NextPageAuth<SellerListProps> = ({ sellers }) => {
-	const { t } = useTranslation('admin')
-	const {
-		order,
-		orderBy,
-		selected,
-		rowsPerPage,
-		filteredList,
-		handleChangePage,
-		handleRequestSort,
-	} = useMuiTable({ listData: sellers })
+const SellersList: NextPageAuth<CustomerListProps> = () => {
+	const { t: adminT } = useTranslation('admin')
+	const { t } = useTranslation('adminActions')
+	const { push } = useRouter()
+
+	const [searchValue, setSearchValue] = React.useState('')
+	const [currentPage, setCurrentPage] = React.useState(1)
+
+	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+
+	const { data: users, refetch } = useQuery(
+		`get users all sellers search=${searchValue} page=${currentPage}`,
+		() =>
+			UsersService.getList({
+				search: searchValue,
+				page: currentPage,
+				page_size: 100,
+			}),
+		{
+			select: (data: ResponseList<IUser>) => {
+				return {
+					...data,
+					results: [...data.results].filter((user) => user.is_seller),
+				}
+			},
+		}
+	)
+
+	const { order, orderBy, selected, filteredList, handleRequestSort } =
+		useMuiTable({ listData: users?.results })
 
 	return (
 		<Box py={4}>
-			<H3 mb={2}>{t('sellers')}</H3>
+			<H3 mb={2}>Sellers</H3>
 
 			<SearchArea
-				handleSearch={() => {}}
-				buttonText={t('add')}
-				handleBtnClick={() => {}}
-				searchPlaceholder={t('searchingFor')}
+				handleSearch={(value) => {
+					setCurrentPage(1)
+					setSearchValue(value)
+				}}
+				handleBtnClick={() => push('/admin/sellers')}
+				searchPlaceholder={t('editUser')}
 			/>
 
 			{filteredList?.length ? (
 				<Card>
 					<Scrollbar>
-						<TableContainer sx={{ minWidth: 1100 }}>
+						<TableContainer sx={{ minWidth: 900 }}>
 							<Table>
 								<TableHeader
 									order={order}
 									hideSelectBtn
 									orderBy={orderBy}
 									heading={tableHeading}
-									rowCount={sellers?.length}
+									rowCount={users?.count}
 									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
 
 								<TableBody>
-									{filteredList?.map((seller, index) => (
-										<SellerRow seller={seller} key={index} />
+									{filteredList?.map((customer, index) => (
+										<SellerRow
+											refetch={refetch}
+											customer={customer}
+											key={index}
+										/>
 									))}
 								</TableBody>
 							</Table>
@@ -92,7 +118,8 @@ const SellerList: NextPageAuth<SellerListProps> = ({ sellers }) => {
 					<Stack alignItems="center" my={4}>
 						<TablePagination
 							onChange={handleChangePage}
-							count={Math.ceil(sellers?.length / rowsPerPage)}
+							count={Math.ceil(users?.count / 20)}
+							page={currentPage}
 						/>
 					</Stack>
 				</Card>
@@ -103,10 +130,10 @@ const SellerList: NextPageAuth<SellerListProps> = ({ sellers }) => {
 	)
 }
 
-SellerList.isOnlyAuth = true
+SellersList.isOnlyAdmin = true
 
-SellerList.getLayout = function getLayout(page: ReactElement) {
+SellersList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default SellerList
+export default SellersList

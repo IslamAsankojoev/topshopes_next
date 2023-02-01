@@ -15,7 +15,7 @@ const AuthProvider: React.FC<any> = ({
 	Component: { isOnlyAuth, isOnlyAdmin, isOnlySeller, isOnlyClient },
 }) => {
 	const { pathname, asPath, push } = useRouter()
-	const { checkAuth, logout, profile } = useActions()
+	const { logout, profile } = useActions()
 
 	React.useEffect(() => {
 		;(async () => {

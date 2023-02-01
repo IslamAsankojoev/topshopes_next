@@ -229,6 +229,10 @@ const OrderDetail: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 										<Paragraph color="grey.900">{t('date')}:</Paragraph>
 										<H6> {new Date(order?.created_at).toLocaleString()}</H6>
 									</FlexBetween>
+									<FlexBetween my={1.5}>
+										<Paragraph color="grey.900">Delivered at:</Paragraph>
+										<H6> {new Date(order?.delivered_at).toLocaleString()}</H6>
+									</FlexBetween>
 								</FlexBox>
 							</Card>
 						</Grid>
@@ -246,7 +250,7 @@ const OrderDetail: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 						variant="contained"
 						color="error"
 						onClick={() => {
-							push('/vendor/orders')
+							push('/admin/orders')
 						}}
 					>
 						<ArrowBackIcon />
