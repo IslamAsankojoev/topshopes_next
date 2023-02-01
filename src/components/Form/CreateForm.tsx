@@ -169,7 +169,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 										type={field.type}
 										fullWidth
 										name={field.name}
-										label={getTranslate(field.name)}
+										label={getTranslate(field.label)}
 										color="info"
 										size="medium"
 										placeholder={getTranslate(field.placeholder)}
