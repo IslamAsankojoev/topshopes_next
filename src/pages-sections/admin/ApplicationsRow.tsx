@@ -6,6 +6,7 @@ import React, { FC } from 'react'
 
 import {
 	CategoryWrapper,
+	StatusWrapper,
 	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,
@@ -42,7 +43,7 @@ const ApplicationsRow: FC<AttributesRowProps> = ({ name, selected }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<CategoryWrapper>{t(status)}</CategoryWrapper>
+				<StatusWrapper status={status}>{t(status)}</StatusWrapper>
 			</StyledTableCell>
 
 			<StyledTableCell align="center">

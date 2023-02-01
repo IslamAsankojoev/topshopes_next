@@ -408,6 +408,7 @@ export const ShopCreateForm: {
 	fileTypes?: string
 	placeholder: string
 	required: boolean
+	maxLength?: number
 }[] = [
 	{
 		name: 'owner',
@@ -449,6 +450,7 @@ export const ShopCreateForm: {
 		label: 'inn',
 		type: 'text',
 		placeholder: 'inn',
+		maxLength: 14,
 		required: true,
 	},
 	{

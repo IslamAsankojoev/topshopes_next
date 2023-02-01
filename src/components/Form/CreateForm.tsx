@@ -169,7 +169,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 										type={field.type}
 										fullWidth
 										name={field.name}
-										label={getTranslate(field.name)}
+										label={getTranslate(field.label)}
 										color="info"
 										size="medium"
 										placeholder={getTranslate(field.placeholder)}
@@ -183,6 +183,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 										allNames={field?.allNames || []}
 										isValidating={true}
 										accept={field.fileTypes}
+										maxLength={field.maxLength}
 									/>
 								</Grid>
 							) : null
