@@ -71,6 +71,9 @@ const Field: FC<any> = (props) => {
 						</InputAdornment>
 					),
 				}}
+				inputProps={{
+					maxLength: other.maxLength,
+				}}
 			/>
 		)
 	}

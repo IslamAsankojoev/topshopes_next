@@ -183,6 +183,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 										allNames={field?.allNames || []}
 										isValidating={true}
 										accept={field.fileTypes}
+										maxLength={field.maxLength}
 									/>
 								</Grid>
 							) : null

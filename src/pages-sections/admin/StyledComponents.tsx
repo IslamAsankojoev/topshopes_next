@@ -1,5 +1,6 @@
 import { Box, IconButton, TableCell, TableRow, styled } from '@mui/material'
 import { IOrderStatus } from 'shared/types/order.types'
+import { IShopRequestStatus } from 'shared/types/shop.types'
 
 // styled components
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -34,37 +35,15 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 	':hover': { color: theme.palette.info.main },
 }))
 type StatusType = {} & IOrderStatus
+type ShuffleStatusesType = StatusType & IShopRequestStatus
 
-const StatusWrapper = styled(Box)<{ status: StatusType }>(
-	({ theme, status }) => {
+const StatusWrapper = styled(Box)<{ status: ShuffleStatusesType }>(
+	({ theme, status }: { theme: any; status: ShuffleStatusesType }) => {
 		let color = theme.palette.secondary.main
 		let backgroundColor = theme.palette.secondary[100]
 
 		switch (status) {
-			case 'pending':
-				color = theme.palette.secondary.main
-				backgroundColor = theme.palette.secondary[100]
-				break
-
-			case 'delivering':
-				color = theme.palette.secondary.main
-				backgroundColor = theme.palette.secondary[100]
-				break
-
-			case 'delivered':
-				color = theme.palette.success.main
-				backgroundColor = theme.palette.success[100]
-				break
-
-			case 'canceled':
-				color = theme.palette.error.main
-				backgroundColor = theme.palette.error[100]
-				break
-
-			default:
-				color = theme.palette.grey[900]
-				backgroundColor = theme.palette.grey[200]
-				break
+			case '':
 		}
 
 		return {
