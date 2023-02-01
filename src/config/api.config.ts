@@ -46,6 +46,8 @@ export const getBrandsTypesUrlAdmin = (string: string) =>
 	`admin/brand/type/${string}`
 export const getCategoriesUrlAdmin = (string: string) =>
 	`admin/categories/${string}`
+	export const getMoneyTransferUrlAdmin = (string: string) =>
+	`admin/transfer_money/${string}`
 export const getProductsUrlAdmin = (string: string) =>
 	`admin/products/${string}`
 export const getProductVariantsUrlAdmin = (string: string) =>
