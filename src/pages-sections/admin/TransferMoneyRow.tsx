@@ -1,54 +1,28 @@
-import { Delete, Edit } from '@mui/icons-material'
-import { AttributesServiceAdmin } from 'api/services-admin/attributes/attributes.service'
-import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
 import React, { FC } from 'react'
+import { IMoneyTransfer } from 'shared/types/money-transfer.types'
 
-import {
-	CategoryWrapper,
-	StyledIconButton,
-	StyledTableCell,
-	StyledTableRow,
-} from './StyledComponents'
+import { StyledTableCell, StyledTableRow } from './StyledComponents'
+import TransferDialogForm from './TransferDialogForm'
 
 // ========================================================================
 type MoneyTransferRowProps = {
-	item: any
+	item: IMoneyTransfer
 	selected: any[]
 	refetch: () => void
 }
 // ========================================================================
 
-// { id: 'variantDetails', label: 'variantDetails', align: 'left' },
-// { id: 'amount', label: 'amount', align: 'left' },
-// { id: 'shop', label: 'shop', align: 'left' },
-// { id: 'tax', label: 'tax', align: 'left' },
-// { id: 'thumbnail', label: 'thumbnail', align: 'center' },
-
-const MoneyTransferRow: FC<MoneyTransferRowProps> = ({
-	item,
-	selected,
-	refetch,
-}) => {
-	const { t } = useTranslation('common')
-	const { push } = useRouter()
-	const { order, amount, shop, tax, confirm_photo, id } = item
+const MoneyTransferRow: FC<MoneyTransferRowProps> = ({ item, refetch }) => {
+	const { amount, shop, tax } = item
 
 	return (
 		<StyledTableRow tabIndex={-1} role="checkbox">
-			<StyledTableCell align="center">
-				<div style={{ display: 'grid', gap: '20px 0' }}>
-					<span>ID: {order.product_variant}</span>
-					<span>
-						{t('qty')}: {order.product_variant}
-					</span>
-				</div>
+			<StyledTableCell align="left">
+				<TransferDialogForm transferMoney={item} refetch={refetch} />
 			</StyledTableCell>
-
-			<StyledTableCell align="center">{amount}</StyledTableCell>
-			<StyledTableCell align="center">{shop.name}</StyledTableCell>
-			<StyledTableCell align="center">{tax}</StyledTableCell>
-			<StyledTableCell align="center">{confirm_photo}</StyledTableCell>
+			<StyledTableCell align="left">{amount}</StyledTableCell>
+			<StyledTableCell align="left">{shop.name}</StyledTableCell>
+			<StyledTableCell align="left">{tax}c</StyledTableCell>
 		</StyledTableRow>
 	)
 }

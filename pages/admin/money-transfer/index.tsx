@@ -33,13 +33,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 		},
 	}
 }
+
 // table column list
 const tableHeading = [
-	{ id: 'variantDetails', label: 'variantDetails', align: 'left' },
+	{ id: 'thumbnail', label: 'thumbnail', align: 'left' },
 	{ id: 'amount', label: 'amount', align: 'left' },
 	{ id: 'shop', label: 'shop', align: 'left' },
 	{ id: 'tax', label: 'tax', align: 'left' },
-	{ id: 'thumbnail', label: 'thumbnail', align: 'center' },
 ]
 
 const MoneyTransfer: NextPageAuth = () => {
