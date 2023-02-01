@@ -10,6 +10,13 @@ export const navigations = [
 	},
 
 	{
+		name: 'moneyTransfer',
+		icon: duotone.CreditScoreIcon,
+		path: '/admin/money-transfer',
+		role: 'admin',
+	},
+
+	{
 		name: 'allProducts',
 		icon: duotone.Products,
 		children: [
@@ -47,7 +54,7 @@ export const navigations = [
 		path: '/admin/applications',
 		role: 'admin',
 	},
-{
+	{
 		name: 'payments',
 		icon: duotone.Pager,
 		path: '/admin/payments',
