@@ -111,10 +111,7 @@ const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
 
 					<Box mb={3}>
 						<H2 color="primary.main" mb={0.5} lineHeight="1">
-							{Number(
-								selectedVariant?.overall_price || variants[0]?.overall_price
-							).toFixed(2)}
-							c
+							{Number(selectedVariant?.price || variants[0]?.price).toFixed(2)}c
 						</H2>
 					</Box>
 

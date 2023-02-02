@@ -145,7 +145,11 @@ const Footer: FC = () => {
 									{iconList?.map((item, ind) => (
 										<a
 											href={
-												settings ? settings[item.key] : SiteSettings[item.key]
+												settings
+													? settings[item.key] === '#'
+														? SiteSettings[item.key]
+														: settings[item.key]
+													: SiteSettings[item.key]
 											}
 											target="_blank"
 											rel="noreferrer noopenner"

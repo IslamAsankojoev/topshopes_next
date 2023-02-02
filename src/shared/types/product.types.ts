@@ -21,7 +21,7 @@ export type IProductPreview = Omit<
 > & {
 	thumbnail: string
 	discount_price: string
-	overall_price: string
+	price: string
 	discount: string
 	nodeRef?: any
 }
@@ -66,8 +66,9 @@ export type IProductVariant = {
 	stock: number
 	status: 'available' | 'unavailable'
 	overall_price: string
-	discount: 0
+	price: string
 	discount_price: string
+	discount: 0
 	product: string
 	thumbnail: string
 	images: IImage[]

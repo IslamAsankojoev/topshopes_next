@@ -12,7 +12,7 @@ export interface ProductCard4Props {
 	thumbnail: string
 	rating: number
 	name: string
-	overall_price: number
+	price: number
 	reviewCount: number
 }
 
@@ -20,7 +20,7 @@ const ProductCard4: React.FC<ProductCard4Props> = ({
 	thumbnail,
 	rating,
 	name,
-	overall_price,
+	price,
 	reviewCount = 0,
 }) => {
 	return (
@@ -47,7 +47,7 @@ const ProductCard4: React.FC<ProductCard4Props> = ({
 				{name}
 			</H4>
 			<H4 fontSize={14} textAlign="center" color="primary.main">
-				{Math.ceil(overall_price)}c
+				{Math.ceil(price)}c
 			</H4>
 		</Box>
 	)

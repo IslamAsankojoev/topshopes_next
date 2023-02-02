@@ -64,15 +64,13 @@ const Profile: NextPageAuth = () => {
 								<Box ml={1.5} flex="1 1 0">
 									<FlexBetween flexWrap="wrap">
 										<div>
-											<H5 my="0px">
-												{user.first_name} {user.last_name}
-											</H5>
-											{/* <FlexBox alignItems="center">
-                      <Typography color="grey.600">Balance:</Typography>
-                      <Typography ml={0.5} color="primary.main">
-                        $500
-                      </Typography>
-                    </FlexBox> */}
+											<H5 my="0px">{user.first_name || user.email}</H5>
+											<FlexBox alignItems="center">
+												<Typography color="grey.600">Welcome to</Typography>
+												<Typography ml={0.5} color="primary.main">
+													Topshopes
+												</Typography>
+											</FlexBox>
 										</div>
 										<Typography color="grey.600" letterSpacing="0.2em">
 											{user.is_superuser ? 'IMMORTAL' : 'MORTAL'}
@@ -114,14 +112,14 @@ const Profile: NextPageAuth = () => {
 						<Small color="grey.600" mb={0.5} textAlign="left">
 							{t('firstName')}
 						</Small>
-						<span>{user.first_name}</span>
+						<span>{user.first_name || 'Your first name'}</span>
 					</FlexBox>
 
 					<FlexBox flexDirection="column" p={1}>
 						<Small color="grey.600" mb={0.5} textAlign="left">
 							{t('lastName')}
 						</Small>
-						<span>{user.last_name || 'None'}</span>
+						<span>{user.last_name || 'Your last name'}</span>
 					</FlexBox>
 
 					<FlexBox flexDirection="column" p={1}>

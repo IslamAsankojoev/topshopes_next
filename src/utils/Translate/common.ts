@@ -60,7 +60,7 @@ export const statusTranslation = {
 	},
 	delivered: {
 		ru: 'Доставлен',
-		en: 'Delivering',
+		en: 'Delivered',
 		tr: 'Teslim edilmiş',
 		kk: 'Жеткізілген',
 		kg: 'Жеткирилген',

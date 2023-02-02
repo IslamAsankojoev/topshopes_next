@@ -1,6 +1,6 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { OrdersService } from 'api/services/orders/orders.service'
+import { OrdersService } from 'api/services-admin/orders/order.service'
 import Empty from 'components/Empty'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
@@ -51,7 +51,11 @@ const OrderList: NextPageAuth = () => {
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
-	const { data: orders, isLoading } = useQuery(
+	const {
+		data: orders,
+		isLoading,
+		refetch,
+	} = useQuery(
 		`orders admin get search=${searchValue} page=${currentPage}`,
 		() =>
 			OrdersService.getList({
@@ -120,7 +124,12 @@ const OrderList: NextPageAuth = () => {
 									{lodash
 										.sortBy(filteredList, 'created_at')
 										?.map((order, index) => (
-											<OrderRow isAdmin={true} order={order} key={index} />
+											<OrderRow
+												isAdmin={true}
+												order={order}
+												key={index}
+												refetch={refetch}
+											/>
 										))}
 								</TableBody>
 							</Table>

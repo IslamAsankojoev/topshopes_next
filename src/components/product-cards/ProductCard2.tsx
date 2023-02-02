@@ -7,7 +7,7 @@ import React from 'react'
 // ==========================================================
 type ProductCard2Props = {
 	id: number
-	overall_price: number
+	price: number
 	name: string
 	thumbnail: string
 	rating: number
@@ -17,7 +17,7 @@ type ProductCard2Props = {
 // ==========================================================
 
 const ProductCard2: React.FC<ProductCard2Props> = (props) => {
-	const { thumbnail, name, overall_price, id, slug } = props
+	const { thumbnail, name, price, id, slug } = props
 
 	return (
 		<Link
@@ -40,7 +40,7 @@ const ProductCard2: React.FC<ProductCard2Props> = (props) => {
 					{name}
 				</H4>
 				<H4 fontSize={14} color="primary.main">
-					{Math.ceil(overall_price).toLocaleString()}c
+					{Math.ceil(price).toLocaleString()}c
 				</H4>
 			</a>
 		</Link>

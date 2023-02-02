@@ -116,9 +116,7 @@ const ProductViewDialog: FC<ProductViewDialogProps> = (props) => {
 								CATEGORY: Cosmetic
 							</Paragraph>
 
-							<H1 color="primary.main">
-								{Number(product?.overall_price).toFixed(2)}c
-							</H1>
+							<H1 color="primary.main">{Number(product?.price).toFixed(2)}c</H1>
 
 							<FlexBox alignItems="center" gap={1}>
 								<BazaarRating

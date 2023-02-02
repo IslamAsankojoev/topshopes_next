@@ -174,8 +174,8 @@ const ShopPage = ({ query }) => {
 const sortOptions = [
 	{ label: 'all', value: '#' },
 	{ label: 'novelties', value: '-created_at' },
-	{ label: 'priceLow', value: 'overall_price' },
-	{ label: 'priceHigh', value: '-overall_price' },
+	{ label: 'priceLow', value: 'price' },
+	{ label: 'priceHigh', value: '-price' },
 ]
 
 export default ShopPage

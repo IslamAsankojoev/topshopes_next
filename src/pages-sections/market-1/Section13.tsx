@@ -60,11 +60,11 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 
 										<FlexBox gap={1}>
 											<H4 fontWeight="600" fontSize="14px" color="primary.main">
-												{Math.ceil(item.overall_price).toLocaleString()}c
+												{Math.ceil(item.price).toLocaleString()}c
 											</H4>
 
 											<H4 fontWeight="600" fontSize="14px" color="grey.600">
-												<del>{Math.ceil(item.overall_price)}c</del>
+												<del>{Math.ceil(item.price)}c</del>
 											</H4>
 										</FlexBox>
 									</a>

@@ -37,6 +37,7 @@ export const getReviewUrl = (string: string) =>
 	`shops/products/${string}/review/`
 
 // Admin
+export const getOrdersUrlAdmin = (string: string) => `admin/orders/${string}`
 export const getPaymentsUrlAdmin = (string: string) =>
 	`admin/payments/${string && `${string}/`} `
 export const getApplicationsUrlAdmin = (string: string) =>
@@ -46,7 +47,7 @@ export const getBrandsTypesUrlAdmin = (string: string) =>
 	`admin/brand/type/${string}`
 export const getCategoriesUrlAdmin = (string: string) =>
 	`admin/categories/${string}`
-	export const getMoneyTransferUrlAdmin = (string: string) =>
+export const getMoneyTransferUrlAdmin = (string: string) =>
 	`admin/transfer_money/${string}`
 export const getProductsUrlAdmin = (string: string) =>
 	`admin/products/${string}`
