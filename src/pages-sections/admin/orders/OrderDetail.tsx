@@ -12,7 +12,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material'
-import { OrdersService } from 'api/services/orders/orders.service'
+import { OrdersService } from 'api/services-admin/orders/order.service'
 import { ShopService, ShopsService } from 'api/services/shop/shop.service'
 import LazyImage from 'components/LazyImage'
 import { H3, H6, Paragraph, Span } from 'components/Typography'
@@ -23,7 +23,6 @@ import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { IOrder, IOrderItem, IOrderStatus } from 'shared/types/order.types'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import { StatusWrapper } from '../StyledComponents'
 

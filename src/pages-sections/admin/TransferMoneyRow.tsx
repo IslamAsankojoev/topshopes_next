@@ -13,16 +13,41 @@ type MoneyTransferRowProps = {
 // ========================================================================
 
 const MoneyTransferRow: FC<MoneyTransferRowProps> = ({ item, refetch }) => {
-	const { amount, shop, tax } = item
+	const { amount, shop, tax, confirm_photo } = item
 
 	return (
-		<StyledTableRow tabIndex={-1} role="checkbox">
+		<StyledTableRow
+			tabIndex={-1}
+			role="checkbox"
+			status={confirm_photo ? 'success' : 'error'}
+		>
 			<StyledTableCell align="left">
 				<TransferDialogForm transferMoney={item} refetch={refetch} />
 			</StyledTableCell>
-			<StyledTableCell align="left">{amount}</StyledTableCell>
-			<StyledTableCell align="left">{shop.name}</StyledTableCell>
-			<StyledTableCell align="left">{tax}c</StyledTableCell>
+			<StyledTableCell
+				align="left"
+				sx={{
+					color: 'inherit',
+				}}
+			>
+				{amount}
+			</StyledTableCell>
+			<StyledTableCell
+				align="left"
+				sx={{
+					color: 'inherit',
+				}}
+			>
+				{shop.name}
+			</StyledTableCell>
+			<StyledTableCell
+				align="left"
+				sx={{
+					color: 'inherit',
+				}}
+			>
+				{tax}c
+			</StyledTableCell>
 		</StyledTableRow>
 	)
 }

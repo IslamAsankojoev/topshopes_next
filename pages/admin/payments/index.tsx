@@ -111,6 +111,7 @@ export default function Payouts() {
 										<StyledTableRow
 											role="checkbox"
 											key={payout.id}
+											color="primary"
 											sx={{
 												cursor: 'pointer!important',
 											}}

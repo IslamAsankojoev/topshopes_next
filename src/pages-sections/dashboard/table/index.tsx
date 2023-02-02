@@ -121,7 +121,7 @@ const DataListTable: FC<ListTableProps> = ({
 										</StyledTableCell>
 
 										<StyledTableCell align="center">
-											{variants[0].overall_price}c
+											{variants[0].price}c
 										</StyledTableCell>
 									</StyledTableRow>
 								)

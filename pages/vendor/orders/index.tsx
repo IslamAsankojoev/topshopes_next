@@ -49,11 +49,12 @@ const OrderList: NextPageAuth = () => {
 	const [currentPage, setCurrentPage] = React.useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
-	React.useEffect(() => {
-		console.log(searchValue)
-	}, [searchValue])
 
-	const { data: orders, isLoading } = useQuery(
+	const {
+		data: orders,
+		isLoading,
+		refetch,
+	} = useQuery(
 		`orders get search=${searchValue} page=${currentPage}`,
 		() =>
 			ShopsService.getShopOrders({
@@ -105,7 +106,7 @@ const OrderList: NextPageAuth = () => {
 
 								<TableBody>
 									{filteredList?.map((order, index) => (
-										<OrderRow order={order} key={index} />
+										<OrderRow order={order} key={index} refetch={refetch} />
 									))}
 								</TableBody>
 							</Table>

@@ -6,6 +6,7 @@ import { H3, H6, Small } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import { StyledNavLink } from 'components/mobile-navigation/styles'
 import { useFormik } from 'formik'
+import { useActions } from 'hooks/useActions'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
@@ -23,7 +24,8 @@ const Signup = () => {
 	const { t: authT } = useTranslation('auth')
 
 	const [passwordVisibility, setPasswordVisibility] = useState(false)
-	const { push, replace, asPath } = useRouter()
+	const { replace, asPath } = useRouter()
+	const { login } = useActions()
 
 	const togglePasswordVisibility = useCallback(() => {
 		setPasswordVisibility((visible) => !visible)
@@ -33,8 +35,17 @@ const Signup = () => {
 		'register',
 		() => AuthService.register(values),
 		{
-			onSuccess: () => {
-				push('/login')
+			onSuccess: async () => {
+				toast.success(commonT('success'))
+				try {
+					login({
+						email: values.email,
+						password: values.password,
+					})
+				} catch (e) {
+					toast.error(getErrorMessage(e))
+				}
+				replace('/profile')
 			},
 			onError: (e: any) => {
 				toast.error(getErrorMessage(e))

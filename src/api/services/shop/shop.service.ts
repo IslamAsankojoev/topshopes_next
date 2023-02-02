@@ -21,7 +21,9 @@ export const ShopsService = {
 	},
 	getShopOrders: async (params: Record<string, string | number>) => {
 		try {
-			const response = await makeRequest(true).get(getShopOrdersUrl(''), {params})
+			const response = await makeRequest(true).get(getShopOrdersUrl(''), {
+				params,
+			})
 			return response.data
 		} catch (error) {
 			throw error
