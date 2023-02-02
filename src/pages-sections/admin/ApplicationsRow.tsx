@@ -33,22 +33,43 @@ const ApplicationsRow: FC<AttributesRowProps> = ({ name, selected }) => {
 
 	return (
 		<StyledTableRow
+			status={status}
 			tabIndex={-1}
 			role="checkbox"
 			selected={isItemSelected}
 			aria-checked={isItemSelected}
 		>
-			<StyledTableCell align="center">
-				<CategoryWrapper>{short_name}</CategoryWrapper>
+			<StyledTableCell align="center" sx={{}}>
+				<CategoryWrapper
+					sx={{
+						color: 'inherit',
+					}}
+				>
+					{short_name}
+				</CategoryWrapper>
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
 				<StatusWrapper status={status}>{t(status)}</StatusWrapper>
 			</StyledTableCell>
 
-			<StyledTableCell align="center">
-				<StyledIconButton onClick={handleEdit}>
-					<VisibilitySharp />
+			<StyledTableCell
+				align="center"
+				sx={{
+					color: 'inherit',
+				}}
+			>
+				<StyledIconButton
+					onClick={handleEdit}
+					sx={{
+						color: 'inherit',
+					}}
+				>
+					<VisibilitySharp
+						sx={{
+							color: 'inherit',
+						}}
+					/>
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

@@ -158,7 +158,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							</Link>
 
 							<Tiny color="grey.600">
-								${Number(item?.variants[0]?.overall_price).toFixed(2)}c x{' '}
+								${Number(item?.variants[0]?.price).toFixed(2)}c x{' '}
 								{item.qty}
 							</Tiny>
 
@@ -169,7 +169,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 								mt={0.5}
 							>
 								$
-								{(item.qty * Number(item?.variants[0]?.overall_price)).toFixed(
+								{(item.qty * Number(item?.variants[0]?.price)).toFixed(
 									2
 								)}
 								c

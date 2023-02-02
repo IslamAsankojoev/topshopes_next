@@ -29,8 +29,7 @@ const cartSlice = createSlice({
 				state.cart = [...state.cart, { ...payload, qty: 1 }]
 			}
 			state.total_price = state.cart.reduce(
-				(acc, item) =>
-					acc + item.qty * parseInt(item.variants[0].overall_price),
+				(acc, item) => acc + item.qty * parseInt(item.variants[0].price),
 				0
 			)
 			state.total_items = state.cart?.length
@@ -56,8 +55,7 @@ const cartSlice = createSlice({
 				}
 			}
 			state.total_price = state.cart.reduce(
-				(acc, item) =>
-					acc + item.qty * parseInt(item.variants[0].overall_price),
+				(acc, item) => acc + item.qty * parseInt(item.variants[0].price),
 				0
 			)
 			state.total_items = state.cart?.length
@@ -75,8 +73,7 @@ const cartSlice = createSlice({
 				}
 			})
 			state.total_price = state.cart.reduce(
-				(acc, item) =>
-					acc + item.qty * parseInt(item.variants[0]?.overall_price),
+				(acc, item) => acc + item.qty * parseInt(item.variants[0]?.price),
 				0
 			)
 			state.total_items = state.cart?.length
@@ -85,8 +82,7 @@ const cartSlice = createSlice({
 		setCart: (state, { payload }: PayloadAction<ICartItem[]>) => {
 			state.cart = payload
 			state.total_price = state.cart?.reduce(
-				(acc, item) =>
-					acc + item.qty * Number(item?.variants?.[0]?.overall_price),
+				(acc, item) => acc + item.qty * Number(item?.variants?.[0]?.price),
 				0
 			)
 			state.total_items = state.cart?.length

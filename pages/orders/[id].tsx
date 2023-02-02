@@ -77,16 +77,6 @@ const OrderDetails: NextPageAuth = () => {
 		}
 	)
 
-	const orderStatus: IOrderStatus = order?.status || 'pending'
-
-	const orderStatusList: IOrderStatus[] = [
-		'paid',
-		'pending',
-		'delivering',
-		'delivered',
-		'completed',
-	]
-
 	const stepIconList = [
 		Payment,
 		PackageBox,
@@ -95,7 +85,6 @@ const OrderDetails: NextPageAuth = () => {
 		Delivery,
 	]
 
-	const statusIndex = orderStatusList.indexOf(orderStatus)
 	const width = useWindowSize()
 	const theme = useTheme()
 	const breakpoint = 350
@@ -108,7 +97,7 @@ const OrderDetails: NextPageAuth = () => {
 				navigation={<CustomerDashboardNavigation />}
 			/>
 
-			<Card sx={{ p: '2rem 1.5rem', mb: '30px' }}>
+			{/* <Card sx={{ p: '2rem 1.5rem', mb: '30px' }}>
 				<StyledFlexbox>
 					{stepIconList?.map((Icon, ind) => (
 						<Fragment key={ind}>
@@ -148,7 +137,7 @@ const OrderDetails: NextPageAuth = () => {
 						</Fragment>
 					))}
 				</StyledFlexbox>
-			</Card>
+			</Card> */}
 
 			<ClientOrderDetail />
 		</CustomerDashboardLayout>

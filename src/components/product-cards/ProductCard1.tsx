@@ -94,7 +94,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 		slug,
 		discount,
 		discount_price,
-		overall_price,
+		price,
 		thumbnail,
 		category,
 		nodeRef,
@@ -195,7 +195,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
 							<Box fontWeight="600" color="primary.main">
-								{Number(overall_price)?.toFixed()}с
+								{Number(price)?.toFixed()}с
 							</Box>
 
 							{!!discount && (

@@ -1,6 +1,6 @@
 import { Delete, RemoveRedEye } from '@mui/icons-material'
 import { FormControl, MenuItem, Select } from '@mui/material'
-import { OrdersService } from 'api/services/orders/orders.service'
+import { OrdersService } from 'api/services-admin/orders/order.service'
 import { ShopsService } from 'api/services/shop/shop.service'
 import currency from 'currency.js'
 import lodash from 'lodash'
@@ -20,7 +20,7 @@ import {
 } from '../StyledComponents'
 
 // ========================================================================
-type OrderRowProps = { order: IOrder; isAdmin?: boolean }
+type OrderRowProps = { order: IOrder; isAdmin?: boolean; refetch: () => void }
 // ========================================================================
 
 export const statuses: {
@@ -49,7 +49,7 @@ export const statuses: {
 	},
 	{
 		name: 'delivering',
-		label: dynamicLocalization(statusTranslation.delivered),
+		label: dynamicLocalization(statusTranslation.delivering),
 	},
 	{
 		name: 'delivered',
@@ -76,12 +76,19 @@ export const statusDisabled = (
 		: true
 }
 
-const OrderRow: FC<OrderRowProps> = ({ order, isAdmin }) => {
+const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
 	const [orderStatus, setOrderStatus] = React.useState<IOrderStatus>(
 		order.status
 	)
 
-	const { address, id, total_price, created_at, quantity } = order
+	const {
+		address,
+		id,
+		total_price,
+		created_at,
+		quantity,
+		status: stats,
+	} = order
 
 	const patchOrder = isAdmin
 		? OrdersService.update
@@ -92,6 +99,7 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin }) => {
 		(status: IOrderStatus) => patchOrder(order.id, { status }),
 		{
 			onSuccess: (data: any) => {
+				refetch()
 				toast.success('Order status updated')
 				setOrderStatus(data?.status)
 			},
@@ -105,19 +113,40 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin }) => {
 	const router = useRouter()
 
 	return id ? (
-		<StyledTableRow tabIndex={-1} role="checkbox">
-			<StyledTableCell align="left">{id.slice(0, 8)}</StyledTableCell>
-			<StyledTableCell align="left">{quantity}</StyledTableCell>
+		<StyledTableRow tabIndex={-1} role="checkbox" status={stats}>
+			<StyledTableCell
+				align="left"
+				sx={{
+					color: 'inherit!important',
+				}}
+			>
+				{id.slice(0, 8)}
+			</StyledTableCell>
+			<StyledTableCell
+				align="left"
+				sx={{
+					color: 'inherit',
+				}}
+			>
+				{quantity}
+			</StyledTableCell>
 
-			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+			<StyledTableCell align="left" sx={{ fontWeight: 400, color: 'inherit' }}>
 				{new Date(created_at).toLocaleString()}
 			</StyledTableCell>
 
-			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+			<StyledTableCell align="left" sx={{ fontWeight: 400, color: 'inherit' }}>
 				{address?.city}
 			</StyledTableCell>
 
-			<StyledTableCell align="left">{total_price}c</StyledTableCell>
+			<StyledTableCell
+				align="left"
+				sx={{
+					color: 'inherit',
+				}}
+			>
+				{total_price}c
+			</StyledTableCell>
 
 			<StyledTableCell align="left">
 				<FormControl fullWidth variant="outlined">
@@ -158,6 +187,7 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin }) => {
 					>
 						{statuses.map((status) => (
 							<MenuItem
+								key={status.name}
 								disabled={statusDisabled(status, isAdmin)}
 								value={status.name}
 							>
@@ -170,15 +200,27 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin }) => {
 				</FormControl>
 			</StyledTableCell>
 
-			<StyledTableCell align="center">
+			<StyledTableCell
+				align="center"
+				sx={{
+					color: 'inherit',
+				}}
+			>
 				<StyledIconButton
+					sx={{
+						color: 'inherit',
+					}}
 					onClick={() =>
 						router.push(
 							isAdmin ? `/admin/orders/${id}` : `/vendor/orders/${id}`
 						)
 					}
 				>
-					<RemoveRedEye />
+					<RemoveRedEye
+						sx={{
+							color: 'inherit',
+						}}
+					/>
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>
