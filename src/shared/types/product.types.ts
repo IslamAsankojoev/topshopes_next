@@ -61,10 +61,8 @@ export type IBrand = {
 
 export type IProductVariant = {
 	id: string
-	size: ISize
-	color: IColor
+	status: IProductVariantStatus
 	stock: number
-	status: 'available' | 'unavailable'
 	overall_price: string
 	price: string
 	discount_price: string
@@ -76,6 +74,7 @@ export type IProductVariant = {
 	nodeRef: any
 }
 
+export type IProductVariantStatus = 'available' | 'unavailable'
 export type IImage = {
 	id: number | string
 	product_variant: string

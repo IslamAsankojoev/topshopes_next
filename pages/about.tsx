@@ -63,18 +63,6 @@ const AboutPage: React.FC = () => {
 							</GmailForm>
 						</GmailDiv>
 					</Grid>
-
-					<Grid item xs={12} sm={6} alignSelf={'center'}>
-						<h1>{t('more-about-us')}</h1>
-						<p>{t('more-data')}</p>
-					</Grid>
-					<Grid item xs={12} sm={6} alignSelf={'center'}>
-						<img
-							src={'/assets/images/aboutUsTopshopes.png'}
-							alt="aboutUsTopshopes"
-							width={'100%'}
-						/>
-					</Grid>
 				</Grid>
 			</Container>
 		</ShopLayout1>

@@ -2,6 +2,7 @@ import { Alert, Grid } from '@mui/material'
 import { Box } from '@mui/system'
 import { axiosClassic, instance } from 'api/interceptor'
 import { ApplicationServices } from 'api/services/applications/applications.service'
+import AlertDialog from 'components/AlertDialog/AlertDialog'
 import CreateForm from 'components/Form/CreateForm'
 import { H1 } from 'components/Typography'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
@@ -12,7 +13,7 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { ShopCreateForm } from 'utils/constants/forms'
@@ -32,6 +33,10 @@ const ShopRequest: NextPageAuth = () => {
 	const { t: commonT } = useTranslation('common')
 	const { t } = useTranslation('application')
 
+	const [agree, setAgree] = useState(false)
+	const [opened, setOpened] = useState(false)
+	const [data, setData] = useState(null)
+
 	const fields = ShopCreateForm.map((field) => {
 		return {
 			...field,
@@ -44,7 +49,7 @@ const ShopRequest: NextPageAuth = () => {
 
 	const user = useTypedSelector((state) => state.userStore.user)
 
-	const { data: applications, isLoading } = useQuery(
+	const { data: applications } = useQuery(
 		'applications',
 		() => ApplicationServices.getApplications(),
 		{
@@ -57,22 +62,41 @@ const ShopRequest: NextPageAuth = () => {
 		(data) => ApplicationServices.createApplication(data),
 		{
 			onSuccess: () => {
-				router.replace('/shop-request')
+				router.reload()
 			},
 		}
 	)
 
-	const handleCreateShop = async (data) => {
-		await mutateAsync(data)
+	const handleAgree = () => {
+		setAgree(true)
 	}
+
+	const handleCreateShop = (dataN) => {
+		setOpened(true)
+		setData(dataN)
+	}
+
+	useEffect(() => {
+		if (agree) {
+			mutateAsync(data)
+		}
+	}, [agree])
 
 	return (
 		user && (
 			<CustomerDashboardLayout>
 				<UserDashboardHeader navigation={<CustomerDashboardNavigation />} />
 
-				<Box mb={4}>
-					<Grid container spacing={3}>
+				<Box mb={4} justifyContent="center" display="flex">
+					<Grid
+						container
+						spacing={3}
+						sx={{
+							marginLeft: '0px',
+							width: '100%',
+							maxWidth: '600px',
+						}}
+					>
 						<Grid item md={12} xs={12}>
 							{applications?.length === 0 && (
 								<>
@@ -85,6 +109,15 @@ const ShopRequest: NextPageAuth = () => {
 										buttonText="Send request"
 										buttonPosition="static"
 										buttonSize="large"
+									/>
+									<AlertDialog
+										title={'Are you sure?'}
+										description="By clicking Agree you agree to the terms and conditions of the
+					application. You will be notified by email once your application
+					approved or rejected."
+										opened={opened}
+										handleConfirm={handleAgree}
+										handleClose={() => setOpened(false)}
 									/>
 								</>
 							)}

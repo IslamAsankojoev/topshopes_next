@@ -118,6 +118,8 @@ const CreateForm: React.FC<CreateFormProps> = ({
 		handleChange,
 		handleSubmit,
 		setFieldTouched,
+		submitForm,
+		resetForm,
 	} = useFormik({
 		initialValues: clearFileFlieds(defaultData || {}),
 		onSubmit: () => handleFormSubmitForm(),
@@ -132,7 +134,6 @@ const CreateForm: React.FC<CreateFormProps> = ({
 				formData.append(key, values[key])
 			}
 		}, formData)
-
 		handleFormSubmit(formData, values)
 	}
 
@@ -221,7 +222,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 										color="success"
 										size={buttonSize || 'small'}
 										onClick={() => {
-											handleSubmit()
+											submitForm()
 											Object.keys(fields).forEach((key) => {
 												setFieldTouched(fields[key].name, true)
 											})

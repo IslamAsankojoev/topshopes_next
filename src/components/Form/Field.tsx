@@ -1,3 +1,4 @@
+import TaskIcon from '@mui/icons-material/Task'
 import {
 	Autocomplete,
 	Button,
@@ -426,15 +427,22 @@ const Field: FC<any> = (props) => {
 							justifyContent="center"
 							alignItems="center"
 						>
-							<Image
-								layout="fill"
-								objectFit="contain"
-								objectPosition="center"
-								src={
-									fileLocaleUrl || getImgUrl(other?.defaultData[other?.name])
-								}
-								alt={other?.label}
-							/>
+							{fileLocaleUrl?.includes('.') ||
+							other?.defaultData[other?.name]?.includes('.') ? (
+								<Image
+									layout="fill"
+									objectFit="contain"
+									objectPosition="center"
+									src={
+										fileLocaleUrl || getImgUrl(other?.defaultData[other?.name])
+									}
+									alt={other?.label}
+								/>
+							) : (
+								<>
+									<TaskIcon style={{ fontSize: 100 }} color="success" />
+								</>
+							)}
 						</Grid>
 					) : null}
 				</Grid>

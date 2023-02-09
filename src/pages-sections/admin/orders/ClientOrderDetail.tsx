@@ -103,35 +103,7 @@ const ClientOrderDetail = () => {
 						>
 							{id?.slice(0, 8)}
 						</Paragraph>
-						<FormControl variant="outlined">
-							<Select
-								className="order-status-admin"
-								sx={{
-									'& .MuiSelect-select': {
-										padding: '0px!important',
-										fontSize: '1rem',
-										fontWeight: 400,
-										color: 'text.primary',
-										backgroundColor: 'background.paper',
-										border: '0px solid!important',
-										borderColor: 'divider',
-										'& fieldset': {
-											display: 'none!important',
-										},
-									},
-								}}
-								disableUnderline={true}
-								value={orderStatus}
-							>
-								{statuses.map((status) => (
-									<MenuItem disabled value={status?.name}>
-										<StatusWrapper status={status?.name}>
-											{status.label}
-										</StatusWrapper>
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+						<StatusWrapper status={order.status}>{order.status}</StatusWrapper>
 					</FlexBox>
 
 					{order.delivered_at ? (
