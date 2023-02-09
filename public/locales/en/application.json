@@ -1,1 +1,17 @@
-{"address":"address","alreadyHave":"You have already sent a request to create a shop. Please wait for our response.","application":"Application","approved":"approved","bankAccount":"Bank account","bik":"BIK","fullName":"Full name","inn":"INN","moderation":"moderation","owner":"owner","registrationForm":"Registration form","rejected":"rejected","shortName":"Short Name"}
+{
+	"address": "address",
+	"alreadyHave": "You have already sent a request to create a shop. Please wait for our response. This process can take up to 3 business days.",
+	"application": "Application",
+	"approved": "approved",
+	"bankAccount": "Bank account",
+	"bik": "BIK",
+	"fullName": "Full name",
+	"inn": "INN",
+	"moderation": "moderation",
+	"owner": "owner",
+	"registrationForm": "Registration form",
+	"rejected": "rejected",
+	"shop": "Shop name",
+	"shortName": "Store short Name",
+	"document": "Certificate of registration (PDF)"
+}

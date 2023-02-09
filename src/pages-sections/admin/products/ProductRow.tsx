@@ -44,10 +44,6 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 		}
 	}
 
-	useEffect(() => {
-		console.log(thumbnail)
-	}, [thumbnail])
-
 	return (
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">

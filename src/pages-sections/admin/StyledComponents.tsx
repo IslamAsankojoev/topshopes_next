@@ -8,6 +8,7 @@ import {
 	styled,
 } from '@mui/material'
 import { IOrderStatus } from 'shared/types/order.types'
+import { IProductVariantStatus } from 'shared/types/product.types'
 import { IShopRequestStatus } from 'shared/types/shop.types'
 
 // styled components
@@ -28,6 +29,19 @@ const CategoryWrapper = styled(Box)(({ theme }) => ({
 	color: theme.palette.grey[900],
 	backgroundColor: theme.palette.grey[200],
 }))
+
+type ShuffleStatusesType =
+	| IOrderStatus
+	| IShopRequestStatus
+	| IProductVariantStatus
+	| 'error'
+	| 'success'
+	| 'warning'
+	| 'info'
+	| 'default'
+type StatusWrapperProps = {
+	status: ShuffleStatusesType
+}
 
 const StyledTableRow = styled(TableRow)<{ status?: any }>(
 	({ theme, status }: { theme: any; status: ShuffleStatusesType }) => {
@@ -114,17 +128,7 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 	'& .MuiSvgIcon-root': { fontSize: 19 },
 	':hover': { color: theme.palette.info.main },
 }))
-type ShuffleStatusesType =
-	| IOrderStatus
-	| IShopRequestStatus
-	| 'error'
-	| 'success'
-	| 'warning'
-	| 'info'
-	| 'default'
-type StatusWrapperProps = {
-	status: ShuffleStatusesType
-}
+
 const StatusWrapper = styled(Box)<StatusWrapperProps>(({ theme, status }) => {
 	let color = theme.palette.secondary.main
 	let backgroundColor = theme.palette.secondary[100]
@@ -178,6 +182,14 @@ const StatusWrapper = styled(Box)<StatusWrapperProps>(({ theme, status }) => {
 			color = '#fff'
 			backgroundColor = '#f44336'
 			break
+		case 'available':
+			color = '#fff'
+			backgroundColor = '#388e3c'
+			break
+		case 'unavailable':
+			color = '#fff'
+			backgroundColor = '#9e9e9e'
+			break
 		default:
 			color = '#333'
 			backgroundColor = '#F6F8FA'
@@ -185,7 +197,7 @@ const StatusWrapper = styled(Box)<StatusWrapperProps>(({ theme, status }) => {
 	}
 
 	return {
-		border: `1px solid ${lighten(backgroundColor, 0.65)}`,
+		border: `1px solid ${lighten(color, 0.65)}`,
 		color: color,
 		fontSize: 12,
 		fontWeight: 600,

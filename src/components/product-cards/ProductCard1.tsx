@@ -6,18 +6,10 @@ import BazaarCard from 'components/BazaarCard'
 import BazaarRating from 'components/BazaarRating'
 import LazyImage from 'components/LazyImage'
 import { Span } from 'components/Typography'
-import ProductViewDialog from 'components/products/ProductViewDialog'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import Link from 'next/link'
-import {
-	CSSProperties,
-	FC,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from 'react'
+import { CSSProperties, FC, useRef } from 'react'
 import { IProductPreview } from 'shared/types/product.types'
 
 import { FlexBox } from '../flex-box'
@@ -54,17 +46,17 @@ const StyledChip = styled(Chip)(() => ({
 	color: 'white',
 }))
 
-const HoverIconWrapper = styled(Box)(({ theme }) => ({
-	zIndex: 2,
-	top: '7px',
-	opacity: 0,
-	right: '15px',
-	display: 'flex',
-	cursor: 'pointer',
-	position: 'absolute',
-	flexDirection: 'column',
-	transition: 'all 0.3s ease-in-out',
-}))
+// const HoverIconWrapper = styled(Box)(({ theme }) => ({
+// 	zIndex: 2,
+// 	top: '7px',
+// 	opacity: 0,
+// 	right: '15px',
+// 	display: 'flex',
+// 	cursor: 'pointer',
+// 	position: 'absolute',
+// 	flexDirection: 'column',
+// 	transition: 'all 0.3s ease-in-out',
+// }))
 
 const ContentWrapper = styled(Box)(() => ({
 	padding: '1rem',
@@ -97,11 +89,9 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 		price,
 		thumbnail,
 		category,
-		nodeRef,
 	} = props.product
 
 	const CurrentCard = useRef(null)
-	const [openModal, setOpenModal] = useState(false)
 	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
 
 	const { toggleWish } = useActions()
@@ -110,15 +100,6 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const toggleIsFavorite = () => {
 		toggleWish(props.product)
 	}
-
-	const toggleDialog = useCallback(() => setOpenModal((open) => !open), [])
-
-	// const handleAddToCart = useCallback(() => addToCart(props.product), [])
-
-	// const handleRemoveFromCart = useCallback(
-	// 	() => removeFromCart(props.product),
-	// 	[]
-	// )
 
 	return (
 		<StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}>
@@ -212,9 +193,6 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						flexDirection="column-reverse"
 						justifyContent={'flex-start'}
 					>
-						{/* <IconButton onClick={toggleDialog}>
-							<RemoveRedEye color="disabled" fontSize="small" />
-						</IconButton> */}
 						<IconButton onClick={toggleIsFavorite}>
 							{inWishList ? (
 								<Favorite color="primary" fontSize="small" />

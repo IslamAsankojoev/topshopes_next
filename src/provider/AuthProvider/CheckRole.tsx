@@ -19,16 +19,22 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 	const is_client = lodash.isEmpty(user) ? false : true
 
 	// 2) check if user is client and redirect to 404 page when user is not client
-	if (!isOnlyAdmin && !isOnlyAuth && !isOnlySeller) return <Children />
+	if (!isOnlyAdmin && !isOnlyAuth && !isOnlySeller && !isOnlyClient)
+		return <Children />
 
 	// 3) check if user is only client and redirect to 404 page when user is not client
 	if (
 		(isOnlyClient && user?.is_seller) ||
 		(isOnlyClient && user?.is_superuser)
 	) {
-		router.pathname !== '/profile' && router.replace('/profile')
+		router.pathname !== '/profile' && router.push('/profile')
 		return null
 	}
+	if (isOnlyClient && !is_client) {
+		router.pathname !== '/login' && router.replace('/login')
+		return null
+	}
+	if (isOnlyClient && is_client) return <Children />
 
 	if (isOnlyClient && !is_client) {
 		router.pathname !== '/login' &&
@@ -47,14 +53,14 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 	// 5) check if user is seller and redirect to 404 page when user is not seller
 	if (isOnlySeller && user?.is_seller) return <Children />
 	if (isOnlySeller && !user?.is_seller) {
-		router.pathname !== '/' && router.replace('/')
+		router.pathname !== '/' && router.push('/')
 		return null
 	}
 
 	// 6) check if user is admin and redirect to 404 page when user is not admin
 	if (isOnlyAdmin && user?.is_superuser) return <Children />
 	if (isOnlyAdmin && !user?.is_superuser) {
-		router.pathname !== '/' && router.replace('/')
+		router.pathname !== '/' && router.push('/')
 		return null
 	}
 }

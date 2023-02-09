@@ -1,1 +1,17 @@
-{"address":"adres","alreadyHave":"Bir mağaza oluşturmak için zaten bir istek gönderdiniz. Lütfen yanıtımızı bekleyin.","application":"Uygulama","approved":"onaylı","bankAccount":"banka hesabı","bik":"bisiklet","fullName":"Ad Soyad","inn":"INN","moderation":"ılımlılık","owner":"sahip","registrationForm":"Kayıt formu","rejected":"reddedilmiş","shortName":"Kısa adı"}
+{
+	"address": "adres",
+	"alreadyHave": "Mağazayı kurmak için zaten bir istek gönderdiniz. Lütfen cevabımızı bekleyin. Bu işlem 1 ila 3 iş günü sürecektir",
+	"application": "Uygulama",
+	"approved": "onaylı",
+	"bankAccount": "banka hesabı",
+	"bik": "bisiklet",
+	"fullName": "Ad Soyad",
+	"inn": "INN",
+	"moderation": "ılımlılık",
+	"owner": "sahip",
+	"registrationForm": "Kayıt formu",
+	"rejected": "reddedilmiş",
+	"shortName": "Kısa adı",
+	"shop": "Mağaza adı",
+	"document": "Kayıt belgesi (PDF)"
+}
