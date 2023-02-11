@@ -23,6 +23,7 @@ interface CreateFormProps {
 	buttonText?: string
 	buttonPosition?: string
 	buttonSize?: 'small' | 'normal' | 'medium' | 'large'
+	formType?: 'table' | 'form'
 }
 const CreateForm: React.FC<CreateFormProps> = ({
 	fields,
@@ -35,6 +36,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 	buttonPosition = 'static',
 	buttonText,
 	buttonSize = 'large',
+	formType = 'form',
 }) => {
 	const { t } = useTranslation('admin')
 	const { t: commonT } = useTranslation('common')
