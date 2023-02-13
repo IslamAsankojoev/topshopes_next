@@ -1,5 +1,6 @@
-import { Button, Grid, styled } from '@mui/material'
+import { Box, Button, Grid, styled } from '@mui/material'
 import BazaarImage from 'components/BazaarImage'
+import LazyImage from 'components/LazyImage'
 import { Paragraph } from 'components/Typography'
 import { FlexBetween } from 'components/flex-box'
 import { useTypedSelector } from 'hooks/useTypedSelector'
@@ -37,27 +38,15 @@ const StyledBox = styled(FlexBetween)(({ theme }) => ({
 
 // ==================================================
 type CarouselCard1Props = {
-	title?: string
-	description?: string
-	buttonLik?: string
-	buttonText?: string
 	imgUrl?: string
-	buttonColor?: 'dark' | 'primary'
 }
 // ==================================================
 
-const CarouselCard1: FC<CarouselCard1Props> = ({
-	title,
-	description,
-	buttonLik,
-	buttonText,
-	imgUrl,
-	buttonColor = 'primary',
-}) => {
+const CarouselCard1: FC<CarouselCard1Props> = ({ imgUrl }) => {
 	return (
 		<StyledBox>
 			<Grid container spacing={3} alignItems="center" justifyContent="center">
-				<Grid item className="grid-item" sm={5} xs={12}>
+				{/* <Grid item className="grid-item" sm={5} xs={12}>
 					<h1 className="title">{title}</h1>
 					<Paragraph color="secondary.main" mb={2.7}>
 						{description}
@@ -89,7 +78,18 @@ const CarouselCard1: FC<CarouselCard1Props> = ({
 							maxWidth: '100%',
 						}}
 					/>
-				</Grid>
+				</Grid> */}
+				<Box
+					sx={{
+						width: '100%',
+						height: '340px',
+						'@media (max-width: 600px)': {
+							height: '280px',
+						},
+					}}
+				>
+					<LazyImage src={imgUrl} layout="fill" />
+				</Box>
 			</Grid>
 		</StyledBox>
 	)

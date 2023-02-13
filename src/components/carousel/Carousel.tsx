@@ -6,6 +6,7 @@ import useSettings from 'hooks/useSettings'
 import { Slide } from 'pure-react-carousel'
 import 'pure-react-carousel/dist/react-carousel.es.css'
 import React, { CSSProperties, FC, Fragment } from 'react'
+
 import {
 	StyledArrowBackButton,
 	StyledArrowNextButton,
@@ -90,7 +91,12 @@ const Carousel: FC<CarouselProps> = ({
 			naturalSlideWidth={naturalSlideWidth || 100}
 			naturalSlideHeight={naturalSlideHeight || 125}
 		>
-			<StyledSlider spacing={spacing}>
+			<StyledSlider
+				spacing={spacing}
+				style={{
+					borderRadius: '10px',
+				}}
+			>
 				{React.Children?.map(children, (child, ind) => (
 					<Slide index={ind}>{child}</Slide>
 				))}

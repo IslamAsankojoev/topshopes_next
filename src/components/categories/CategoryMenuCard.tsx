@@ -49,13 +49,7 @@ const CategoryMenuCard: FC<CategoryMenuCardProps> = (props) => {
 	const megaMenu: any = { MegaMenu1, MegaMenu2 }
 
 	return (
-		<Wrapper
-			open={open}
-			position={position}
-			style={{
-				width: '100%',
-			}}
-		>
+		<Wrapper open={open} position={position} style={{}}>
 			{categories?.map((item) => {
 				return (
 					<MenuItem>

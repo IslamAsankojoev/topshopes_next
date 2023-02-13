@@ -15,7 +15,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 		},
 	}
 }
-// =
 
 const Orders: NextPageAuth = () => {
 	const { t } = useTranslation('common')

@@ -129,8 +129,8 @@ const NotificationsPopover: FC = () => {
 						overflow: 'hidden',
 						top: '10px !important',
 					}}
-					onResize={undefined}
-					onResizeCapture={undefined}
+					onReset={undefined}
+					onResetCapture={undefined}
 				>
 					{({ TransitionProps }) => (
 						<Fade {...TransitionProps} timeout={150}>

@@ -95,7 +95,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
 
 	const { toggleWish } = useActions()
-	const inWishList = wishListItems.some((item) => item.slug === slug)
+	const inWishList = wishListItems.some((item) => item.id === id)
 
 	const toggleIsFavorite = () => {
 		toggleWish(props.product)

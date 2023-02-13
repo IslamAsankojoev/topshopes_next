@@ -72,9 +72,6 @@ const Profile: NextPageAuth = () => {
 												</Typography>
 											</FlexBox>
 										</div>
-										<Typography color="grey.600" letterSpacing="0.2em">
-											{user.is_superuser ? 'IMMORTAL' : 'MORTAL'}
-										</Typography>
 									</FlexBetween>
 								</Box>
 							</Card>

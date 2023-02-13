@@ -6,20 +6,13 @@ import { NextPage } from 'next'
 
 export const mainCarouselData = [
 	{
-		title: 'Beauty and Fragrance in Your Home',
-		imgUrl: '/assets/images/products/slider1.webp',
-		description:
-			'Transform your living space into a haven of relaxation and rejuvenation with our range of scented candles, diffusers, and sprays.',
-		buttonText: 'Shop Now',
-		buttonLik: '#',
+		imgUrl: '/assets/images/products/topshopes2.webp',
 	},
 	{
-		title: 'Create a Cozy Atmosphere with Home Scents',
-		imgUrl: '/assets/images/products/slider2.webp',
-		description:
-			'Discover the perfect scent to match your mood and elevate your home décor with our hand-selected collection of fragrances.',
-		buttonText: 'Shop Now',
-		buttonLik: '#',
+		imgUrl: '/assets/images/products/topshopes3.webp',
+	},
+	{
+		imgUrl: '/assets/images/products/topshopes1.webp',
 	},
 ]
 // ======================================================
@@ -31,7 +24,7 @@ const Section1: NextPage<Props> = ({ carouselData }) => {
 		<Box bgcolor="white" mb={7.5}>
 			<Container sx={{ py: 4 }}>
 				<Carousel
-					totalSlides={2}
+					totalSlides={3}
 					infinite={true}
 					showDots={true}
 					autoPlay={false}
