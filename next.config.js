@@ -14,7 +14,6 @@ module.exports = {
 		SERVER_URL: process.env.REACT_APP_SERVER_URL,
 	},
 	publicRuntimeConfig: {
-		// Available on both server and client
 		theme: 'DEFAULT',
 	},
 }
