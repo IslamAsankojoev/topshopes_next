@@ -1,1 +1,19 @@
-{"addNewAttribute":"Yeni özellik ekle","addNewBrand":"Yeni Marka Ekle","addNewBrandType":"Yeni Marka Türü Ekle","addNewCategory":"Yeni Kategori Ekle","addNewPage":"Yeni Sayfa Ekle","addNewPageCategory":"Yeni Sayfa Kategorisi Ekle","addNewProduct":"Yeni Ürün Ekle","editAttribute":"Özniteliği Düzenle","editBrand":"Markayı Düzenle","editBrandType":"Marka Türünü Düzenle","editCategory":"Kategoriyi Düzenle","editPage":"Sayfayı düzenle","editPageCategory":"Sayfa Kategorisini Düzenle","editProduct":"Ürünü Düzenle","editUser":"kullanıcıyı düzenle","orderDetail":"Sipariş detayı","searchingFor":"aranıyor..."}
+{
+	"addNewAttribute": "Yeni özellik ekle",
+	"addNewBrand": "Yeni Marka Ekle",
+	"addNewBrandType": "Yeni Marka Türü Ekle",
+	"addNewCategory": "Yeni Kategori Ekle",
+	"addNewPage": "Yeni Sayfa Ekle",
+	"addNewPageCategory": "Yeni Sayfa Kategorisi Ekle",
+	"addNewProduct": "Yeni Ürün Ekle",
+	"editAttribute": "Özniteliği Düzenle",
+	"editBrand": "Markayı Düzenle",
+	"editBrandType": "Marka Türünü Düzenle",
+	"editCategory": "Kategoriyi Düzenle",
+	"editPage": "Sayfayı düzenle",
+	"editPageCategory": "Sayfa Kategorisini Düzenle",
+	"editProduct": "Ürünü Düzenle",
+	"editUser": "kullanıcıyı düzenle",
+	"orderDetail": "Sipariş detayı",
+	"searchingFor": "aranıyor..."
+}

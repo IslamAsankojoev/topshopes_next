@@ -1,1 +1,7 @@
-{"done":"Bu kadar! Artık kesinlikle sipariş vermeye hazırsınız.","Instruction":"Talimat","step1":"Adım #1 \"Bir adres seçin\". Burada malları teslim etmek istediğiniz adresi seçmelisiniz. Adres yoksa, \"adres ekle\" düğmesine tıklayarak doğrudan bu sayfada bir tane oluşturabilirsiniz). Sizinle iletişim kurabilmemiz için geçerli bir telefon numarası girdiğinizden emin olun.","step2":"Adım #2 \"Bir ödeme yöntemi seçin\". Burada bir ödeme yöntemi seçmeniz ve ödeme yapmak için talimatları izlemeniz gerekir (talimatlar, ödeme yönteminin sağındaki simgeye tıklayarak görüntülenebilir)","step3":"Adım #3 \"Ödemeyi onaylayın\". Ödemenin yapıldığı kart numarasını veya telefon numarasını girin, ardından ödeme makbuzunun ekran görüntüsünü alın ve resim alanına yapıştırın."}
+{
+	"done": "Tamamlandı",
+	"Instruction": "Talimat",
+	"step1": "Adım #1 \"Bir adres seçin\". Burada urunleri teslim etmek istediğiniz adresi seçmelisiniz. Adres yoksa, \"adres ekle\" düğmesine tıklayarak doğrudan bu sayfada bir tane oluşturabilirsiniz). Sizinle iletişim kurabilmemiz için geçerli bir telefon numarası eklediğinizden emin olun.",
+	"step2": "Adım #2 \"Bir ödeme yöntemi seçin\". Burada bir ödeme yöntemi seçmeniz ve ödeme yapmak için talimatları izlemeniz gerekir (talimatlar, ödeme yönteminin sağındaki simgeye tıklayarak görüntülenebilir)",
+	"step3": "Adım #3 \"Ödemeyi onaylayın\". Ödemenin yapıldığı kart numarasını veya telefon numarasına girin, ardından ödeme makbuzunun ekran görüntüsünü alın ve resim alanına yapıştırın."
+}

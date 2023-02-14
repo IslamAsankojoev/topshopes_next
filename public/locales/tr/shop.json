@@ -1,1 +1,11 @@
-{"all":"Herşey","brands":"Markalar","novelties":"yenilikler","priceHigh":"Fiyat pahalıdan ucuza","priceLow":"Fiyat Düşükten Yükseğe","priceRange":"Fiyat aralığı","shopPage":"Mağaza Sayfası","sort":"Göre sırala","view":"görüş"}
+{
+	"all": "Tum ürünler",
+	"brands": "Markalar",
+	"novelties": "En yenilikler",
+	"priceHigh": "En yüksek fiyat",
+	"priceLow": "En düşük fiyat",
+	"priceRange": "Fiyat aralığı",
+	"shopPage": "Mağaza Sayfası",
+	"sort": "Göre sırala",
+	"view": "görüş"
+}

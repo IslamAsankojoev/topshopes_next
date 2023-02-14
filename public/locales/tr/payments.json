@@ -1,1 +1,6 @@
-{"cardPhone":"Kart veya telefon numarası","payed":"ücretli","paymentMethod":"Ödeme yöntemi","payouts":"ödemeler"}
+{
+	"cardPhone": "Kart veya telefon numarası",
+	"payed": "ücretli",
+	"paymentMethod": "Ödeme yöntemi",
+	"payouts": "ödemeler"
+}

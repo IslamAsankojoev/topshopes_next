@@ -4,14 +4,14 @@
 	"application": "Uygulama",
 	"approved": "onaylı",
 	"bankAccount": "banka hesabı",
-	"bik": "bisiklet",
-	"fullName": "Ad Soyad",
+	"bik": "Banka kodu",
+	"fullName": "Mağaza tam adı",
 	"inn": "INN",
 	"moderation": "ılımlılık",
-	"owner": "sahip",
+	"owner": "Sahip",
 	"registrationForm": "Kayıt formu",
 	"rejected": "reddedilmiş",
-	"shortName": "Kısa adı",
+	"shortName": "Mağaza kısa adı",
 	"shop": "Mağaza adı",
 	"document": "Kayıt belgesi (PDF)"
 }

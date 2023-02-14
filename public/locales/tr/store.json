@@ -1,1 +1,14 @@
-{"basicSettings":"Temel Ayarlar","coverPicture":"Kapak resmi","createShop":"Mağaza Oluştur","customer":"Müşteri","deleteShop":"Dükkanı Sil","name":"İsim","password":"parola","productReviews":"Ürün İncelemeleri","profilePicture":"Profil fotoğrafı","shopName":"Mağaza adı","shopSettings":"Mağaza Ayarları","store":"Mağaza"}
+{
+	"basicSettings": "Temel Ayarlar",
+	"coverPicture": "Kapak resmi",
+	"createShop": "Mağaza Oluştur",
+	"customer": "Müşteri",
+	"deleteShop": "Dükkanı Sil",
+	"name": "İsim",
+	"password": "parola",
+	"productReviews": "Ürün İncelemeleri",
+	"profilePicture": "Profil fotoğrafı",
+	"shopName": "Mağaza adı",
+	"shopSettings": "Mağaza Ayarları",
+	"store": "Mağaza"
+}

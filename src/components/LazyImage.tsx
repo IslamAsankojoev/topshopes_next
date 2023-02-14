@@ -13,7 +13,7 @@ import React, { useEffect } from 'react'
 const checkDomen = (url: string) => {
 	if (url?.startsWith('blob')) return url
 	if (url?.startsWith('/assets')) return url
-	if (url?.startsWith('http')) return url.replace('http:', 'https:')
+	if (url?.startsWith('http:')) return url.replace('http:', 'https:')
 	return url?.startsWith('https')
 		? url
 		: `${process.env.SERVER_URL}/media/${url}`

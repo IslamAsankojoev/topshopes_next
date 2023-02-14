@@ -1,1 +1,12 @@
-{"brand":"Marka","login":"yorum yazmak için giriş yap","model":"modeli","review":"Yorum Yap","send":"Göndermek","specification":"Şartname","writeReview":"Bu ürün için bir Yorum Yazın","writeReviewHere":"Buraya yorum yaz...","yourRating":"Sizin dereceniz","yourReview":"Senin yorumun"}
+{
+	"brand": "Marka",
+	"login": "yorum yazmak için giriş yap",
+	"model": "modeli",
+	"review": "Yorum Yap",
+	"send": "Göndermek",
+	"specification": "Şartname",
+	"writeReview": "Bu ürün için bir Yorum Yazın",
+	"writeReviewHere": "Buraya yorum yaz...",
+	"yourRating": "Sizin puan",
+	"yourReview": "Sizin yorumunuz"
+}
