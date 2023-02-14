@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
 	try {
 		const queryClient = new QueryClient()
-		await queryClient.fetchQuery(['shop products'], () =>
+		await queryClient.fetchQuery(['shop products page'], () =>
 			ShopsProductsService.getList(query as Record<string, string | number>)
 		)
 
@@ -60,7 +60,7 @@ const ShopPage = ({ query }) => {
 	// fetching
 	const router = useRouter()
 	const { data: products } = useQuery(
-		['shop products'],
+		['shop products page'],
 		() => ShopsProductsService.getList(query),
 		{
 			enabled: !!query,

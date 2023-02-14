@@ -15,13 +15,13 @@ const checkDomen = (url: string) => {
 	if (url?.startsWith('/assets')) return url
 	return url?.startsWith('http' || 'https')
 		? url
-		: `${process.env.SERVER_URL}/media/${url}/`
+		: `${process.env.SERVER_URL}/media/${url}`
 }
 
 const LazyImage = styled<React.FC<ImageProps & BordersProps & SpacingProps>>(
 	({ loader, borderRadius, src, ...rest }) => (
 		<NextImage
-			objectFit="cover"
+			objectFit="contain"
 			src={checkDomen(src as string)}
 			loader={() => checkDomen(src as string)}
 			{...rest}

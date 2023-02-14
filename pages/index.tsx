@@ -48,11 +48,11 @@ type MarketProps = {
 
 const MarketShop: NextPage<MarketProps> = (props) => {
 	const { data: products } = useQuery(
-		['shop products'],
+		['shop products main'],
 		() =>
 			ShopsProductsService.getList({
 				page: 1,
-				page_size: 6,
+				page_size: 8,
 			}),
 		{
 			select: (data: ResponseList<IProductPreview>) => data.results,
@@ -126,10 +126,10 @@ export async function getStaticProps({ locale }) {
 	try {
 		// =========
 		const queryClient = new QueryClient()
-		await queryClient.fetchQuery(['shop products'], () =>
+		await queryClient.fetchQuery(['shop products main'], () =>
 			ShopsProductsService.getList({
 				page: 1,
-				page_size: 6,
+				page_size: 9,
 			})
 		)
 		// =========
