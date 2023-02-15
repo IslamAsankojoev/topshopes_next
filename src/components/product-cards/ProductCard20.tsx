@@ -130,7 +130,7 @@ const ProductCard20: FC<ProductCard20Props> = ({ product }) => {
 			<Box p={2} textAlign="center">
 				<Paragraph>{product.name}</Paragraph>
 				<H4 fontWeight={700} py={0.5}>
-					{currency(product.price, { separator: ',' }).format()}
+					{product.price}
 				</H4>
 
 				<FlexRowCenter gap={1} mb={2}>

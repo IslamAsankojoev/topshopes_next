@@ -62,7 +62,7 @@ const ShopRequest: NextPageAuth = () => {
 		(data) => ApplicationServices.createApplication(data),
 		{
 			onSuccess: () => {
-				router.reload()
+				// router.reload()
 			},
 		}
 	)

@@ -1,8 +1,12 @@
+import { useTypedSelector } from 'hooks/useTypedSelector'
+import lodash from 'lodash'
 import React from 'react'
 import { ToastContainer } from 'react-toastify'
 
 const ToastifyProvider: React.FC = () => {
-	return (
+	const user = useTypedSelector((state) => state.userStore.user)
+
+	return user?.is_superuser ? (
 		<ToastContainer
 			position="bottom-right"
 			autoClose={1000}
@@ -22,7 +26,7 @@ const ToastifyProvider: React.FC = () => {
 				padding: '.5rem',
 			}}
 		/>
-	)
+	) : null
 }
 
 export default ToastifyProvider

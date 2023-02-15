@@ -41,7 +41,7 @@ const ProductCard19: FC<ProductCard19Props> = ({ image, title, price, id }) => {
 				<NavLink href="#">
 					<Paragraph fontSize={16}>{title}</Paragraph>
 				</NavLink>
-				<Paragraph fontWeight={700}>{currency(price).format()}</Paragraph>
+				<Paragraph fontWeight={700}>{price}</Paragraph>
 				<Rating value={4} sx={{ fontSize: 14 }} />
 			</Box>
 		</FlexBox>

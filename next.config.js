@@ -7,7 +7,7 @@ module.exports = {
 	},
 	i18n,
 	images: {
-		domains: ['localhost', '192.168.0.125', '193.160.119.247'],
+		domains: ['localhost', '192.168.0.125', '193.160.119.247', '192.168.0.131'],
 	},
 	trailingSlash: true,
 	env: {

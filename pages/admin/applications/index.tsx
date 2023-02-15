@@ -57,7 +57,7 @@ const Applications: NextPageAuth = () => {
 			ApplicationServices.getApplications({
 				search: searchValue,
 				page: currentPage,
-				page_size: 20,
+				page_size: 50,
 			})
 	)
 

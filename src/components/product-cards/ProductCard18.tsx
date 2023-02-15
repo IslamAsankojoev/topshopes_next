@@ -147,7 +147,7 @@ const ProductCard18: FC<ProductCard18Props> = ({ product }) => {
 				<Small color="grey.500">{product.category}</Small>
 				<Paragraph fontWeight="bold">{product.name}</Paragraph>
 				<H4 fontWeight={700} py={0.5}>
-					{currency(product.price, { separator: ',' }).format()}
+					{product.price}
 				</H4>
 
 				<FlexRowCenter gap={1}>

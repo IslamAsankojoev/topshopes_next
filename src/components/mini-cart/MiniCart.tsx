@@ -158,8 +158,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							</Link>
 
 							<Tiny color="grey.600">
-								${Number(item?.variants[0]?.price).toFixed(2)}c x{' '}
-								{item.qty}
+								{Number(item?.variants[0]?.price).toFixed(2)}c x {item.qty}
 							</Tiny>
 
 							<Box
@@ -168,11 +167,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 								color="primary.main"
 								mt={0.5}
 							>
-								$
-								{(item.qty * Number(item?.variants[0]?.price)).toFixed(
-									2
-								)}
-								c
+								{(item.qty * Number(item?.variants[0]?.price)).toFixed(2)}c
 							</Box>
 						</Box>
 
@@ -197,7 +192,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
 							sx={{ mb: '0.75rem', height: '40px' }}
 							onClick={toggleSidenav}
 						>
-							{t('checkoutNow')} (${total_price.toFixed(2)})
+							{t('checkoutNow')} ({total_price.toFixed(2)})
 						</BazaarButton>
 					</Link>
 

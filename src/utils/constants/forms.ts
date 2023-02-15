@@ -459,6 +459,7 @@ export const ShopCreateForm: {
 		type: 'text',
 		placeholder: 'bik',
 		required: true,
+		maxLength: 9,
 	},
 	{
 		name: 'bank_account',
@@ -466,6 +467,7 @@ export const ShopCreateForm: {
 		type: 'text',
 		placeholder: 'bankAccount',
 		required: true,
+		maxLength: 16,
 	},
 	{
 		name: 'document',

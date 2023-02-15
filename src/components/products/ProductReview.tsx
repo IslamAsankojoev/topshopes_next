@@ -8,7 +8,7 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { IProduct, IReview } from 'shared/types/product.types'
@@ -24,6 +24,7 @@ export interface ProductReviewProps {
 const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 	const { t } = useTranslation('review')
 	const { user } = useTypedSelector((state) => state.userStore)
+	const [retryreq, setRetryreq] = React.useState(false)
 
 	const router = useRouter()
 
@@ -31,9 +32,9 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 		'send a comment',
 		(values: IReview) => ReviewService.create(product.id, values),
 		{
-			onSuccess: async () => {
-				await refetch()
-				await toast.success('comment sent successfully')
+			onSuccess: () => {
+				setRetryreq(true)
+				toast.success('comment sent successfully')
 			},
 		}
 	)
@@ -42,6 +43,13 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 		mutateAsync({ product_variant: product?.variants[0].id, ...values })
 		resetForm()
 	}
+
+	useEffect(() => {
+		if (retryreq) {
+			refetch()
+			setRetryreq(false)
+		}
+	}, [retryreq])
 
 	const {
 		dirty,
@@ -61,9 +69,9 @@ const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
 
 	return (
 		<Box>
-			{product?.reviews?.map((item: any) => (
-				<ProductComment {...item} key={item.id} />
-			))}
+			{product?.reviews
+				?.map((item: any) => <ProductComment {...item} key={item.id} />)
+				.reverse()}
 
 			<H2 fontWeight="600" mt={7} mb={2.5}>
 				{t('writeReview')}

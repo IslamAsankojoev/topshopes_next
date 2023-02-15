@@ -48,8 +48,13 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 	const { t } = useTranslation('common')
 	const { id } = props
 
-	const { data: product, refetch } = useQuery([`product detail`, id], () =>
-		ShopsProductsService.get(id as string)
+	const { data: product, refetch } = useQuery(
+		[`product detail`, id],
+		() => ShopsProductsService.get(id as string),
+		{
+			enabled: !!id,
+			select: (data: IProduct) => data,
+		}
 	)
 
 	// const [product, setProduct] = useState(bazaarReactDatabase[2])
