@@ -21,7 +21,6 @@ const checkDomen = (url: string) => {
 
 const LazyImage = styled<React.FC<ImageProps & BordersProps & SpacingProps>>(
 	({ loader, borderRadius, src, ...rest }) => {
-		console.log(src)
 		return (
 			<NextImage
 				objectFit="contain"

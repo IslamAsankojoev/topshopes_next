@@ -19,7 +19,6 @@ export default class Bazaar extends Document {
 						rel="stylesheet"
 						href="https://fonts.googleapis.com/icon?family=Material+Icons"
 					/>
-					<link rel="icon" href="/assets/images/logoCompact.svg" />
 					<meta name="google" content="notranslate" />
 				</Head>
 

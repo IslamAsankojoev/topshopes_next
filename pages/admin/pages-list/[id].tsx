@@ -76,6 +76,7 @@ const UpdatePages: NextPageAuth = () => {
 		<Box py={4}>
 			<H3 mb={2}>{t('editPage')}</H3>
 			<CreateForm
+				maxFormWidth="1000"
 				defaultData={{
 					...page,
 					content: page?.content?.data,
