@@ -2,7 +2,7 @@ import { Box, Button, Card, styled } from '@mui/material'
 import { FlexBox } from 'components/flex-box'
 import Verify from 'components/icons/Verify'
 import { H1, H3, H5 } from 'components/Typography'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 // styled components
 const Wrapper = styled(Card)(() => ({

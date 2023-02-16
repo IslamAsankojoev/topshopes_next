@@ -8,15 +8,14 @@ import {
 } from '@mui/material'
 import { MoneyTransferService } from 'api/services-admin/money-transfer/MoneyTransfer.service'
 import CreateForm from 'components/Form/CreateForm'
-import LazyImage from 'components/LazyImage'
 import Loading from 'components/Loading'
 import { useTranslation } from 'next-i18next'
-import * as React from 'react'
+import { Fragment, useState } from 'react'
 import { useMutation } from 'react-query'
 
 const TransferDialogForm = ({ transferMoney, refetch }) => {
 	const { t: adminT } = useTranslation('admin')
-	const [addCardForm, setAddCardForm] = React.useState<boolean>(false)
+	const [addCardForm, setAddCardForm] = useState<boolean>(false)
 
 	const { mutateAsync, isLoading } = useMutation(
 		'transfer img',
@@ -30,7 +29,7 @@ const TransferDialogForm = ({ transferMoney, refetch }) => {
 
 	if (transferMoney.confirm_photo) {
 		return (
-			<React.Fragment>
+			<Fragment>
 				<Avatar
 					sx={{ borderRadius: '5px', ml: '20px' }}
 					color="success"
@@ -77,12 +76,12 @@ const TransferDialogForm = ({ transferMoney, refetch }) => {
 						</Container>
 					</DialogContent>
 				</Dialog>
-			</React.Fragment>
+			</Fragment>
 		)
 	}
 
 	return (
-		<React.Fragment>
+		<Fragment>
 			{isLoading ? <Loading /> : null}
 			<Avatar
 				sx={{ borderRadius: '5px', ml: '20px' }}
@@ -118,7 +117,7 @@ const TransferDialogForm = ({ transferMoney, refetch }) => {
 							]}
 							handleFormSubmit={handleFormSubmit}
 							actionButtons={
-								<React.Fragment>
+								<Fragment>
 									<Button
 										onClick={() => setAddCardForm(false)}
 										variant="contained"
@@ -127,13 +126,13 @@ const TransferDialogForm = ({ transferMoney, refetch }) => {
 									>
 										{adminT('cancel')}
 									</Button>
-								</React.Fragment>
+								</Fragment>
 							}
 						/>
 					</Container>
 				</DialogContent>
 			</Dialog>
-		</React.Fragment>
+		</Fragment>
 	)
 }
 

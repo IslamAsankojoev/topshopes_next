@@ -3,7 +3,7 @@ import { Paragraph, Span } from 'components/Typography'
 import { FlexBetween } from 'components/flex-box'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 const CheckoutSummary2: FC = () => {
 	const { t } = useTranslation('common')

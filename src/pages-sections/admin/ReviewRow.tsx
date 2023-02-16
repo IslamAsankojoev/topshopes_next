@@ -1,9 +1,8 @@
 import { Delete } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import BazaarSwitch from 'components/BazaarSwitch'
 import { Paragraph, Small } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
-import React, { FC, useState } from 'react'
+import { FC } from 'react'
 
 import {
 	StyledIconButton,

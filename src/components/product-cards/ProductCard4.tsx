@@ -4,7 +4,7 @@ import HoverBox from 'components/HoverBox'
 import LazyImage from 'components/LazyImage'
 import { H4, Small } from 'components/Typography'
 import { FlexRowCenter } from 'components/flex-box'
-import React, { CSSProperties } from 'react'
+import { CSSProperties, FC } from 'react'
 
 export interface ProductCard4Props {
 	className?: string
@@ -16,7 +16,7 @@ export interface ProductCard4Props {
 	reviewCount: number
 }
 
-const ProductCard4: React.FC<ProductCard4Props> = ({
+const ProductCard4: FC<ProductCard4Props> = ({
 	thumbnail,
 	rating,
 	name,

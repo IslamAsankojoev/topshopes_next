@@ -4,7 +4,7 @@ import DropZone from 'components/DropZone'
 import { FlexBetween } from 'components/flex-box'
 import { H4 } from 'components/Typography'
 import { FieldArray, Formik } from 'formik'
-import React, { FC, Fragment } from 'react'
+import { FC, Fragment } from 'react'
 
 const FooterForm: FC = () => {
 	const initialValues = {

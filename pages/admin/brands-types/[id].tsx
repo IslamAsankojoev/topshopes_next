@@ -11,7 +11,6 @@ import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { IBrandTypes } from 'shared/types/brand-types.types'
 import { brandTypeEditForm } from 'utils/constants/forms'
 
 export const getServerSideProps = async ({ locale }) => {

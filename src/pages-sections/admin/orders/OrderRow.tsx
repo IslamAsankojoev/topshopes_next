@@ -1,11 +1,9 @@
-import { Delete, RemoveRedEye } from '@mui/icons-material'
+import { RemoveRedEye } from '@mui/icons-material'
 import { FormControl, MenuItem, Select } from '@mui/material'
 import { OrdersService } from 'api/services-admin/orders/order.service'
 import { ShopsService } from 'api/services/shop/shop.service'
-import currency from 'currency.js'
-import lodash from 'lodash'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect } from 'react'
+import { FC, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { IOrder, IOrderStatus } from 'shared/types/order.types'
@@ -77,7 +75,7 @@ export const statusDisabled = (
 }
 
 const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
-	const [orderStatus, setOrderStatus] = React.useState<IOrderStatus>(
+	const [orderStatus, setOrderStatus] = useState<IOrderStatus>(
 		order.status
 	)
 

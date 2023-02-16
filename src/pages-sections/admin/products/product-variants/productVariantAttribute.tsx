@@ -1,5 +1,4 @@
 import {
-	Button,
 	Card,
 	Grid,
 	InputAdornment,
@@ -10,7 +9,7 @@ import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
-import React from 'react'
+import { FC, FormEvent, useEffect, useState } from 'react'
 import { IProductAttributeValue } from 'shared/types/product.types'
 import * as yup from 'yup'
 
@@ -20,15 +19,15 @@ interface ProductAttributesProps {
 	variantId: string | number
 }
 
-const ProductAttributes: React.FC<ProductAttributesProps> = ({
+const ProductAttributes: FC<ProductAttributesProps> = ({
 	attributes,
 	handleFormSubmit,
 	variantId,
 }) => {
 	const { t: adminT } = useTranslation('admin')
 	// states
-	const [attributeFields, setAttributeFields] = React.useState([])
-	const [defaultData, setDefaultData] = React.useState({})
+	const [attributeFields, setAttributeFields] = useState([])
+	const [defaultData, setDefaultData] = useState({})
 
 	// redux
 	const { setNewAttributes, addAttributeValues, updateAttribute } = useActions()
@@ -54,7 +53,7 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 	})
 
 	// data processing
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!attributes || Object.keys(defaultData).length) return
 
 		for (let attribute of attributes) {
@@ -107,7 +106,7 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 		}
 	}, [])
 
-	const onBlurHandler: any = (e: React.FormEvent<HTMLInputElement>) => {
+	const onBlurHandler: any = (e: FormEvent<HTMLInputElement>) => {
 		if (!Object.keys(values).length) return
 
 		const attrValues = attributes.map((attribute) => {

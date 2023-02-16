@@ -12,7 +12,7 @@ import { FlexBetween, FlexBox } from 'components/flex-box'
 import ProductViewDialog from 'components/products/ProductViewDialog'
 import { CartItem, useAppContext } from 'contexts/AppContext'
 import Link from 'next/link'
-import React, { Fragment, useCallback, useState } from 'react'
+import { FC, Fragment, useCallback, useState } from 'react'
 
 const StyledBazaarCard = styled(BazaarCard)(({ theme }) => ({
 	margin: 'auto',
@@ -122,7 +122,7 @@ type ProductCard14Props = {
 }
 // =============================================================
 
-const ProductCard14: React.FC<ProductCard14Props> = (props) => {
+const ProductCard14: FC<ProductCard14Props> = (props) => {
 	const { off, id, title, price, imgUrl, rating, hideRating, hoverEffect } =
 		props
 

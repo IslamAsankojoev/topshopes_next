@@ -7,7 +7,7 @@ import LazyImage from 'components/LazyImage'
 import { H4 } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import Link from 'next/link'
-import React, { CSSProperties, useState } from 'react'
+import { CSSProperties, FC, useState } from 'react'
 
 // ========================================================
 type ProductCard3Props = {
@@ -24,7 +24,7 @@ type ProductCard3Props = {
 }
 // ========================================================
 
-const ProductCard3: React.FC<ProductCard3Props> = ({
+const ProductCard3: FC<ProductCard3Props> = ({
 	id,
 	title,
 	price,

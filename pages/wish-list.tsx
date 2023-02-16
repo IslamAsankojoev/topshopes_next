@@ -1,5 +1,5 @@
 import Favorite from '@mui/icons-material/Favorite'
-import { Button, Grid, Pagination } from '@mui/material'
+import { Grid, Pagination } from '@mui/material'
 import SEO from 'components/SEO'
 import { FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
@@ -7,13 +7,12 @@ import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
 import ProductCard1 from 'components/product-cards/ProductCard1'
 import { useTypedSelector } from 'hooks/useTypedSelector'
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { createRef, useRef } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { IProduct, IProductPreview } from 'shared/types/product.types'
+import { IProductPreview } from 'shared/types/product.types'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -22,7 +21,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 		},
 	}
 }
-// =
 
 const WishList: NextPageAuth = () => {
 	const { t } = useTranslation('common')

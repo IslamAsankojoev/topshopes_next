@@ -1,6 +1,6 @@
 import { Container, Grid } from "@mui/material";
 import ShopLayout1 from "components/layouts/ShopLayout1";
-import React from "react";
+import { FC } from "react";
 import Navigations from "./Navigations";
 
 /**
@@ -13,7 +13,7 @@ import Navigations from "./Navigations";
  *  6. support-tickets page
  */
 
-const CustomerDashboardLayout: React.FC = ({ children }) => (
+const CustomerDashboardLayout: FC = ({ children }) => (
   <ShopLayout1>
     <Container sx={{ my: "2rem" }}>
       <Grid container spacing={3}>

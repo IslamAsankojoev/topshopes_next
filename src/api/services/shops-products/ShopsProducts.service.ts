@@ -1,7 +1,7 @@
 import { axiosClassic } from 'api/interceptor'
 import { getAllProductsUrl } from 'config/api.config'
 import { toast } from 'react-toastify'
-import { IProduct, IProductPreview } from 'shared/types/product.types'
+import { IProductPreview } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'
 import { getErrorMessage } from 'utils/getErrorMessage'
 

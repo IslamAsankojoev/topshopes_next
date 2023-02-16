@@ -1,9 +1,7 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { OrdersService } from 'api/services/orders/orders.service'
 import { ShopsService } from 'api/services/shop/shop.service'
 import Empty from 'components/Empty'
-import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
@@ -15,7 +13,7 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { OrderRow } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import { useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
@@ -45,8 +43,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const OrderList: NextPageAuth = () => {
 	const { t } = useTranslation('common')
-	const [searchValue, setSearchValue] = React.useState('')
-	const [currentPage, setCurrentPage] = React.useState(1)
+	const [searchValue, setSearchValue] = useState('')
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 

@@ -7,13 +7,14 @@ import {
 	IconButton,
 	Typography,
 } from '@mui/material'
-import React from 'react'
+import { FC, Fragment, useState } from 'react'
 
-const PaymentDialog: React.FC<{ images?: string[] }> = ({ images }) => {
-	const [addCardForm, setAddCardForm] = React.useState<boolean>(false)
+
+const PaymentDialog: FC<{ images?: string[] }> = ({ images }) => {
+	const [addCardForm, setAddCardForm] = useState<boolean>(false)
 
 	return (
-		<React.Fragment>
+		<Fragment>
 			<IconButton
 				size="small"
 				sx={{ mr: 1 }}
@@ -45,7 +46,7 @@ const PaymentDialog: React.FC<{ images?: string[] }> = ({ images }) => {
 					</Button>
 				</DialogContent>
 			</Dialog>
-		</React.Fragment>
+		</Fragment>
 	)
 }
 

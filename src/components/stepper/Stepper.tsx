@@ -1,6 +1,6 @@
 import { Box, Chip } from '@mui/material'
 import { FlexRowCenter } from 'components/flex-box'
-import React, { Fragment, useEffect, useState } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 
 // ========================================================
 type Step = { title: string; disabled: boolean }
@@ -11,7 +11,7 @@ type StepperProps = {
 }
 // ========================================================
 
-const Stepper: React.FC<StepperProps> = ({
+const Stepper: FC<StepperProps> = ({
 	selectedStep,
 	stepperList,
 	onChange,

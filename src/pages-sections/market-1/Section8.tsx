@@ -1,7 +1,7 @@
 import { Container, Grid } from "@mui/material";
 import LazyImage from "components/LazyImage";
 import Link from "next/link";
-import React, { FC } from "react";
+import { FC } from "react";
 
 const Section8: FC = () => {
   return (

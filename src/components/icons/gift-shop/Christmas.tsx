@@ -1,5 +1,5 @@
 import { SvgIcon, SvgIconProps } from "@mui/material";
-import React from "react";
+
 
 const Chirstmas = (props: SvgIconProps) => {
   return (

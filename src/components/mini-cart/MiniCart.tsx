@@ -9,19 +9,18 @@ import LazyImage from 'components/LazyImage'
 import { H5, Tiny } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import ShoppingBagOutlined from 'components/icons/ShoppingBagOutlined'
-import { CartItem, useAppContext } from 'contexts/AppContext'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
-import React, { useCallback } from 'react'
+import { FC, useCallback } from 'react'
 import { ICartItem } from 'store/cart/cart.interface'
 
 // =========================================================
 type MiniCartProps = { toggleSidenav?: () => void }
 // =========================================================
 
-const MiniCart: React.FC<MiniCartProps> = ({ toggleSidenav }) => {
+const MiniCart: FC<MiniCartProps> = ({ toggleSidenav }) => {
 	const { t } = useTranslation('common')
 	const { palette } = useTheme()
 	const {

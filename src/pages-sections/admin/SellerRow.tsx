@@ -1,17 +1,12 @@
-import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
 import { UsersService } from 'api/services-admin/users/users.service'
-import BazaarSwitch from 'components/BazaarSwitch'
 import { Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
-import currency from 'currency.js'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
-import { useMutation } from 'react-query'
+import { FC } from 'react'
 import { IUser } from 'shared/types/user.types'
 
 import {
-	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'

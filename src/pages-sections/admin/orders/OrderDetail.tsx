@@ -6,29 +6,26 @@ import {
 	Divider,
 	FormControl,
 	Grid,
-	IconButton,
 	MenuItem,
 	Select,
-	TextField,
-	Typography,
 } from '@mui/material'
 import { OrdersService } from 'api/services-admin/orders/order.service'
-import { ShopService, ShopsService } from 'api/services/shop/shop.service'
+import { ShopsService } from 'api/services/shop/shop.service'
 import LazyImage from 'components/LazyImage'
-import { H3, H6, Paragraph, Span } from 'components/Typography'
+import { H3, H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
-import { IOrder, IOrderItem, IOrderStatus } from 'shared/types/order.types'
+import { IOrder, IOrderStatus } from 'shared/types/order.types'
 
 import { StatusWrapper } from '../StyledComponents'
 
 import { statusDisabled, statuses } from './OrderRow'
+import { FC, useState } from 'react'
 
-const OrderDetail: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
+const OrderDetail: FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 	const { t } = useTranslation('common')
 
 	const getOrder = isAdmin ? OrdersService.get : ShopsService.getShopOrder
@@ -57,7 +54,7 @@ const OrderDetail: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 		}
 	)
 
-	const [orderStatus, setOrderStatus] = React.useState<IOrderStatus>(
+	const [orderStatus, setOrderStatus] = useState<IOrderStatus>(
 		order?.status
 	)
 

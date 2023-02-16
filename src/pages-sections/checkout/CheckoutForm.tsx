@@ -6,7 +6,7 @@ import countryList from "data/countryList";
 import { Formik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import * as yup from "yup";
 
 const CheckoutForm: FC = () => {

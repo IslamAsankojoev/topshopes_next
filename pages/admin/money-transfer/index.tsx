@@ -1,9 +1,7 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { CategoriesService } from 'api/services-admin/categories/category.service'
 import { MoneyTransferService } from 'api/services-admin/money-transfer/MoneyTransfer.service'
 import Empty from 'components/Empty'
-import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
@@ -14,11 +12,9 @@ import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useRouter } from 'next/router'
-import { CategoryRow } from 'pages-sections/admin'
 import MoneyTransferRow from 'pages-sections/admin/TransferMoneyRow'
-import { ReactElement } from 'react'
-import React from 'react'
+import { ReactElement, useState } from 'react'
+
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 
@@ -46,8 +42,8 @@ const MoneyTransfer: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
 
-	const [searchValue, setSearchValue] = React.useState('')
-	const [currentPage, setCurrentPage] = React.useState(1)
+	const [searchValue, setSearchValue] = useState('')
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 

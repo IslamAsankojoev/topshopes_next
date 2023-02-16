@@ -7,7 +7,7 @@ import { Formik } from "formik";
 import useWindowSize from "hooks/useWindowSize";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { Fragment, useState } from "react";
+import { Fragment, useState } from "react";
 import * as yup from "yup";
 
 const PaymentForm = () => {

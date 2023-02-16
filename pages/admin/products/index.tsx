@@ -13,12 +13,10 @@ import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useRouter } from 'next/router'
 import { ProductRow } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -41,8 +39,8 @@ const tableHeading = [
 
 const ProductList: NextPageAuth = () => {
 	const { t } = useTranslation('admin')
-	const [searchValue, setSearchValue] = React.useState('')
-	const [currentPage, setCurrentPage] = React.useState(1)
+	const [searchValue, setSearchValue] = useState('')
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 

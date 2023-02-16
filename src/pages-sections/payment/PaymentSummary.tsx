@@ -3,7 +3,7 @@ import Card1 from 'components/Card1'
 import { FlexBetween } from 'components/flex-box'
 import { Paragraph } from 'components/Typography'
 import { useTypedSelector } from 'hooks/useTypedSelector'
-import React from 'react'
+
 
 const PaymentSummary = () => {
 	const { total_price, cart, total_items } = useTypedSelector(

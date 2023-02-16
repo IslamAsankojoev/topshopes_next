@@ -11,14 +11,14 @@ import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
 import { Formik } from 'formik'
-import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import { useState } from 'react'
+
 import { useMutation } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { formData } from 'utils/formData'
@@ -36,8 +36,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 const ProfileEditor: NextPageAuth = () => {
 	const { t } = useTranslation('common')
 	const user = useTypedSelector((state) => state.userStore.user)
-	const [file, setFile] = React.useState(null)
-	const [fileLocaleUrl, setFileLocaleUrl] = React.useState(null)
+	const [file, setFile] = useState(null)
+	const [fileLocaleUrl, setFileLocaleUrl] = useState(null)
 	const { avatar, ...initialData } = getLocalStorage('user') || initialValues
 
 	const { push } = useRouter()

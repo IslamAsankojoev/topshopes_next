@@ -2,8 +2,7 @@ import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
 import { Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
-import currency from 'currency.js'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 import {
 	StatusWrapper,

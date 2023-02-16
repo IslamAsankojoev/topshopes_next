@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Box from '@mui/material/Box'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import MenuItem from '@mui/material/MenuItem'
@@ -10,6 +9,7 @@ import {
 	MultipleSelectDataFormat,
 	MultipleSelectTextSplit,
 } from './MultipleSelectHelper'
+import { ChangeEvent, FC, useState } from 'react'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -36,7 +36,7 @@ interface MultipleSelectProps {
 // через onChange можно и вытащить нужные нам данные
 // пример: <MultipleSelect onChange={(values) => console.log(values)} />
 
-const MultipleSelect: React.FC<MultipleSelectProps> = (props) => {
+const MultipleSelect: FC<MultipleSelectProps> = (props) => {
 	const {
 		allNames,
 		label,
@@ -47,11 +47,11 @@ const MultipleSelect: React.FC<MultipleSelectProps> = (props) => {
 		...other
 	} = props
 
-	const [selected, setSelected] = React.useState(
+	const [selected, setSelected] = useState(
 		MultipleSelectDataFormat(defaultValues)
 	)
 
-	const handleChange = (e: React.ChangeEvent<any>) => {
+	const handleChange = (e: ChangeEvent<any>) => {
 		const value =
 			typeof e.target.value === 'string'
 				? e.target.value.split(',')

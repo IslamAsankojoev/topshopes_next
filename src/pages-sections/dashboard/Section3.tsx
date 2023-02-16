@@ -1,6 +1,6 @@
 import { Box, Grid, useTheme } from "@mui/material";
 import dynamic from "next/dynamic";
-import React from "react";
+
 import Card2 from "./Card2";
 import {
   marketShareChartOptions,

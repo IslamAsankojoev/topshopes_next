@@ -1,4 +1,4 @@
-import { Close, Edit, ModeEditOutline } from '@mui/icons-material'
+import { Edit } from '@mui/icons-material'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import {
 	Box,
@@ -6,9 +6,6 @@ import {
 	Container,
 	Dialog,
 	DialogContent,
-	DialogTitle,
-	Grid,
-	IconButton,
 	Typography,
 } from '@mui/material'
 import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
@@ -20,15 +17,13 @@ import ProductImages from 'components/Gallery/ProductImages'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
-import React, { FC, Fragment, useState } from 'react'
+import { FC, Fragment, ReactNode, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import {
-	IColor,
 	IImage,
 	IProductAttributeValue,
 	IProductVariant,
-	ISize,
 } from 'shared/types/product.types'
 import { productVariantFormCreate } from 'utils/constants/forms'
 import { formData } from 'utils/formData'
@@ -46,7 +41,7 @@ type ProductVariantFormProps = {
 	images?: IImage[]
 	refetch?: () => void
 	isAdmin?: boolean
-	actionButtons?: React.ReactNode
+	actionButtons?: ReactNode
 }
 // ==================================================================
 
@@ -221,7 +216,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 		setImagesList(imgs)
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setImagesList(images || [])
 	}, [images])
 

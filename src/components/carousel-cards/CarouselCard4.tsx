@@ -1,8 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Box, Button, styled } from "@mui/material";
-import { H1, H4, Paragraph, Span } from "components/Typography";
-import WhiteButton from "components/WhiteButton";
-import React, { FC } from "react";
+import { Box, styled } from "@mui/material";
+import { FC, ReactChild } from "react";
 
 // custom styled components
 const CardWrapper = styled(Box)<{ img: string; mode: string }>(
@@ -28,7 +26,7 @@ const CardWrapper = styled(Box)<{ img: string; mode: string }>(
 type CarouselCard4Props = {
   bgImage?: string;
   mode?: "dark" | "light";
-  content?: React.ReactChild;
+  content?: ReactChild;
 };
 // ===============================================================
 

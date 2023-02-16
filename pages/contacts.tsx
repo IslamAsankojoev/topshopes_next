@@ -4,7 +4,6 @@ import { axiosClassic } from 'api/interceptor'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import { GetStaticProps, NextPage } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import React from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { SiteSettings } from 'utils/constants/site-settings'
 

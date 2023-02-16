@@ -3,7 +3,7 @@ import { Box, Button, Grid, styled } from '@mui/material'
 import DropZone from 'components/DropZone'
 import { FlexBox } from 'components/flex-box'
 import NextImage from 'next/image'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 
 const UploadBox = styled(Box)(() => ({
 	width: 170,

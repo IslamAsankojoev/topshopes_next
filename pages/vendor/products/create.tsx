@@ -3,24 +3,21 @@ import { AttributesService } from 'api/services/attributes/attributes.service'
 import { ImagesService } from 'api/services/images/images.service'
 import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
 import { ProductsService } from 'api/services/products/product.service'
-import Loading from 'components/Loading'
 import { H3 } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ProductForm } from 'pages-sections/admin'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
 import { productFormValidationSchemaVendor } from 'pages-sections/admin/products/productFormValidationSchema'
-import React, { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { formData } from 'utils/formData'
 import { getErrorMessage } from 'utils/getErrorMessage'
-
-import { ProductFetchTypes } from '../../../src/pages-sections/admin/products/useProductFetch'
 
 const initialValues = {
 	title: '',
@@ -109,7 +106,7 @@ const CreateProduct: NextPageAuth = () => {
 		}
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setVariants([])
 	}, [])
 

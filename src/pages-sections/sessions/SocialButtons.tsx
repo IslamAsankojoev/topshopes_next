@@ -1,11 +1,9 @@
 import { Box, Divider } from '@mui/material'
-import BazaarButton from 'components/BazaarButton'
-import Image from 'components/BazaarImage'
 import { H6 } from 'components/Typography'
 import { FlexBox, FlexRowCenter } from 'components/flex-box'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
-import React, { FC, Fragment } from 'react'
+import { FC, Fragment } from 'react'
 
 type SocialButtonsProps = {
 	redirect?: string

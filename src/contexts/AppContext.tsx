@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useMemo, useReducer } from 'react'
+import { createContext, FC, useContext, useEffect, useMemo, useReducer } from 'react'
 import lodash from 'lodash'
 import { getLocalStorage } from 'utils/local-storage/localStorage'
-import { useActions } from 'hooks/useActions'
-// =================================================================================
+
+
 type initialState = {
 	cart: CartItem[]
 }
@@ -21,7 +21,6 @@ type cartActionType = {
 }
 type ActionType = cartActionType
 
-// =================================================================================
 
 const initialState = {
 	cart: [],
@@ -82,11 +81,11 @@ const reducer = (state: initialState, action: ActionType) => {
 	}
 }
 
-export const AppProvider: React.FC = ({ children }) => {
+export const AppProvider: FC = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
 	const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch])
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const cart: CartItem[] = getLocalStorage('cart')
 		if (cart) {
 			dispatch({ type: 'SET_CART', payload: cart })

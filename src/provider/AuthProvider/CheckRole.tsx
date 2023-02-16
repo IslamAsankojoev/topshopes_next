@@ -1,7 +1,7 @@
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import lodash from 'lodash'
 import { useRouter } from 'next/router'
-import React from 'react'
+
 import { FC } from 'react'
 import { TypeComponentAuthFields } from 'shared/types/auth.types'
 

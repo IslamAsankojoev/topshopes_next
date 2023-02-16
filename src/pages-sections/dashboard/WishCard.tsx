@@ -1,7 +1,7 @@
 import { Box, Card } from "@mui/material";
 import { H3, H5, Paragraph } from "components/Typography";
 import NextImage from "next/image";
-import React from "react";
+
 
 const WishCard = () => {
   return (

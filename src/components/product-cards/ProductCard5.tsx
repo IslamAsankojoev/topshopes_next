@@ -2,7 +2,8 @@ import { Box } from '@mui/material'
 import HoverBox from 'components/HoverBox'
 import LazyImage from 'components/LazyImage'
 import { H4 } from 'components/Typography'
-import React from 'react'
+import { FC } from 'react'
+
 
 // ==========================================================
 type ProductCard5Props = {
@@ -11,7 +12,7 @@ type ProductCard5Props = {
 }
 // ==========================================================
 
-const ProductCard5: React.FC<ProductCard5Props> = ({ thumbnail, name }) => {
+const ProductCard5: FC<ProductCard5Props> = ({ thumbnail, name }) => {
 	return (
 		<Box>
 			<HoverBox borderRadius="5px" mb={1}>

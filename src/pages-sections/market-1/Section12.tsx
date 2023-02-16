@@ -3,7 +3,7 @@ import BazaarCard from 'components/BazaarCard'
 import BazaarIconButton from 'components/BazaarIconButton'
 import appIcons from 'components/icons'
 import { H4, Span } from 'components/Typography'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 interface Props {
 	serviceList: any[]

@@ -12,16 +12,14 @@ import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { CustomerRow } from 'pages-sections/admin'
 import SellerRow from 'pages-sections/admin/SellerRow'
-import { ReactElement } from 'react'
-import React from 'react'
+import { ReactElement, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { ResponseList } from 'shared/types/response.types'
 import { IUser } from 'shared/types/user.types'
-import api from 'utils/api/dashboard'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -48,8 +46,8 @@ const SellersList: NextPageAuth<CustomerListProps> = () => {
 	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
 
-	const [searchValue, setSearchValue] = React.useState('')
-	const [currentPage, setCurrentPage] = React.useState(1)
+	const [searchValue, setSearchValue] = useState('')
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 

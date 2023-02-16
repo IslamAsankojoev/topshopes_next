@@ -1,17 +1,12 @@
 import styled from '@emotion/styled'
-import { Grid, TextField } from '@mui/material'
 import { Container } from '@mui/system'
-import { axiosClassic } from 'api/interceptor'
-import Loading from 'components/Loading'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import React from 'react'
-import { useQuery } from 'react-query'
+import { FC } from 'react'
 
 import gmailImg from '../public/assets/images/banner.webp'
-import SEO from '../src/components/SEO'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -22,7 +17,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 
 // aboutUsTopshopes.webp
-const AgreementPage: React.FC = () => {
+const AgreementPage: FC = () => {
 	const { t } = useTranslation('about')
 
 	return (

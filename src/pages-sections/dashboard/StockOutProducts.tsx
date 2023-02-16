@@ -2,7 +2,7 @@ import { Button, Card } from '@mui/material'
 import { H5 } from 'components/Typography'
 import { FlexBetween } from 'components/flex-box'
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 import DataListTable from './table'
 

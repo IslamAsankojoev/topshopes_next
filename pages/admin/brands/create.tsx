@@ -12,7 +12,6 @@ import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { IBrand } from 'shared/types/brand.types'
 import { brandEditForm } from 'utils/constants/forms'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

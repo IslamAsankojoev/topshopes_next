@@ -2,21 +2,14 @@ import { Box, Grid } from '@mui/material'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { OrdersService } from 'api/services/orders/orders.service'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import { GetStaticProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import Analytics from 'pages-sections/dashboard/Analytics'
-import Card1 from 'pages-sections/dashboard/Card1'
 import RecentPurchase from 'pages-sections/dashboard/RecentPurchase'
-import Section3 from 'pages-sections/dashboard/Section3'
 import StockOutProducts from 'pages-sections/dashboard/StockOutProducts'
-import WishCard from 'pages-sections/dashboard/WishCard'
 import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IOrder } from 'shared/types/order.types'
 import { IProduct } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'
-import api from 'utils/api/dashboard'
 
 type DashboardProps = {
 	cardList: any[]
@@ -25,9 +18,8 @@ type DashboardProps = {
 }
 
 const VendorDashboard: NextPageAuth<DashboardProps> = (props) => {
-	const { recentPurchase, stockOutProducts } = props
 
-	const { data: orders, isLoading } = useQuery(
+	const { data: orders } = useQuery(
 		`orders stats`,
 		() => OrdersService.getList(),
 		{
@@ -43,7 +35,7 @@ const VendorDashboard: NextPageAuth<DashboardProps> = (props) => {
 		}
 	)
 
-	const { data: products, refetch } = useQuery(
+	const { data: products } = useQuery(
 		`products stats`,
 		() => AdminProductsService.getList(),
 		{

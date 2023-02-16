@@ -2,7 +2,7 @@ import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 import useSettings from 'hooks/useSettings'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
-import React, { ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import { H2 } from './Typography'
 import { FlexBetween, FlexBox } from './flex-box'
@@ -15,7 +15,7 @@ type CategorySectionHeaderProps = {
 }
 // ===================================================
 
-const CategorySectionHeader: React.FC<CategorySectionHeaderProps> = (props) => {
+const CategorySectionHeader: FC<CategorySectionHeaderProps> = (props) => {
 	const { title, seeMoreLink, icon } = props
 	const { t } = useTranslation('common')
 

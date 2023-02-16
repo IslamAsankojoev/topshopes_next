@@ -1,6 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-import React, { FC } from "react";
+import { FC } from "react";
 
 type EyeToggleButtonProps = {
   show: boolean;

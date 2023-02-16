@@ -1,4 +1,4 @@
-import { Apps, FilterList, ViewList } from '@mui/icons-material'
+import { FilterList } from '@mui/icons-material'
 import {
 	Box,
 	Card,
@@ -15,15 +15,12 @@ import { H5, Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import ProductCard1List from 'components/products/ProductCard1List'
-import ProductCard9List from 'components/products/ProductCard9List'
 import ProductFilterCard from 'components/products/ProductFilterCard'
 import Sidenav from 'components/sidenav/Sidenav'
 import { GetServerSideProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
-import React from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProductPreview } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'

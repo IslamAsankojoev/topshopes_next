@@ -2,7 +2,8 @@
 import { CacheProvider } from '@emotion/react'
 import createEmotionServer from '@emotion/server/create-instance'
 import Document, { Head, Html, Main, NextScript } from 'next/document'
-import React from 'react'
+import { Children } from 'react'
+
 
 import createEmotionCache from '../src/createEmotionCache'
 
@@ -89,7 +90,7 @@ Bazaar.getInitialProps = async (ctx) => {
 		...initialProps,
 		// Styles fragment is rendered after the app and page rendering finish.
 		styles: [
-			...React.Children.toArray(initialProps.styles),
+			...Children.toArray(initialProps.styles),
 			...emotionStyleTags,
 		],
 	}

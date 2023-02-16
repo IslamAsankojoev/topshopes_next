@@ -5,29 +5,23 @@ import {
 	Button,
 	Card,
 	Divider,
-	FormControl,
-	Grid,
-	IconButton,
-	MenuItem,
-	Select,
-	TextField,
 	Typography,
 } from '@mui/material'
 import { OrdersService } from 'api/services/orders/orders.service'
 import LazyImage from 'components/LazyImage'
-import { H3, H6, Paragraph, Span } from 'components/Typography'
+import { H3, H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import { format } from 'date-fns'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import React from 'react'
+
 import { useQuery } from 'react-query'
 import { IOrder, IOrderStatus } from 'shared/types/order.types'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import { StatusWrapper } from '../StyledComponents'
+import { useState } from 'react'
 
-import { statuses } from './OrderRow'
 
 const ClientOrderDetail = () => {
 	const { t } = useTranslation('common')
@@ -52,7 +46,7 @@ const ClientOrderDetail = () => {
 		}
 	)
 
-	const [orderStatus, setOrderStatus] = React.useState<IOrderStatus>(
+	const [orderStatus, setOrderStatus] = useState<IOrderStatus>(
 		order?.status
 	)
 

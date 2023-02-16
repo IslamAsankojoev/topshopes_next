@@ -1,7 +1,8 @@
 import { Card, Chip, styled } from '@mui/material'
 import HoverBox from 'components/HoverBox'
 import LazyImage from 'components/LazyImage'
-import React from 'react'
+import { FC } from 'react'
+
 
 // styled components
 const StyledChip = styled(Chip)(() => ({
@@ -21,7 +22,7 @@ type ProductCard6Props = {
 }
 // ========================================================
 
-const ProductCard6: React.FC<ProductCard6Props> = ({
+const ProductCard6: FC<ProductCard6Props> = ({
 	title,
 	subtitle,
 	imgUrl,

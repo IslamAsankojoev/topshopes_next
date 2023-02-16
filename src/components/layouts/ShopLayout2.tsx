@@ -3,8 +3,7 @@ import Header from "components/header/Header";
 import Navbar from "components/navbar/Navbar";
 import Sticky from "components/sticky/Sticky";
 import Topbar from "components/topbar/Topbar";
-import Head from "next/head";
-import React, { FC, Fragment, useCallback, useState } from "react";
+import { FC, Fragment, ReactChild, useCallback, useState } from "react";
 
 /**
  *  Used in:
@@ -16,7 +15,7 @@ import React, { FC, Fragment, useCallback, useState } from "react";
 type ShopLayout2Props = {
   showNavbar?: boolean;
   showTopbar?: boolean;
-  navbar?: React.ReactChild;
+  navbar?: ReactChild;
 };
 // =======================================================
 

@@ -3,7 +3,6 @@ import {
 	IconButton,
 	TableCell,
 	TableRow,
-	darken,
 	lighten,
 	styled,
 } from '@mui/material'

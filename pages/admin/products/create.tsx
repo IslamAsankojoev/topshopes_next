@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { AdminProductsService } from 'api/services-admin/products/products.service'
 import { AttributesService } from 'api/services/attributes/attributes.service'
 import { ImagesService } from 'api/services/images/images.service'
 import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
@@ -13,13 +12,11 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ProductForm } from 'pages-sections/admin'
 import ProductVariantList from 'pages-sections/admin/products/product-variants/productVariantList'
-import React, { ReactElement } from 'react'
-import { useMutation, useQueries } from 'react-query'
+import { ReactElement, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { getErrorMessage } from 'utils/getErrorMessage'
 
-import Loading from '../../../src/components/Loading'
 import { productFormValidationSchema } from '../../../src/pages-sections/admin/products/productFormValidationSchema'
 import { formData } from '../../../src/utils/formData'
 
@@ -105,7 +102,7 @@ const CreateProduct: NextPageAuth = () => {
 		}
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setVariants([])
 	}, [])
 

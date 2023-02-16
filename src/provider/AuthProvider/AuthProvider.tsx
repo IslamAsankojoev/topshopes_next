@@ -5,19 +5,20 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import Cookie from 'js-cookie'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import React from 'react'
+import { FC, useEffect } from 'react'
+
 import { getLocalStorage } from 'utils/local-storage/localStorage'
 
 const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false })
 
-const AuthProvider: React.FC<any> = ({
+const AuthProvider: FC<any> = ({
 	children,
 	Component: { isOnlyAuth, isOnlyAdmin, isOnlySeller, isOnlyClient },
 }) => {
 	const { pathname, asPath, push } = useRouter()
 	const { logout, profile } = useActions()
 
-	React.useEffect(() => {
+	useEffect(() => {
 		;(async () => {
 			try {
 				const refresh = Cookie.get('refresh')
@@ -33,7 +34,7 @@ const AuthProvider: React.FC<any> = ({
 		})()
 	}, [pathname, asPath]) // eslint-disable-line react-hooks/exhaustive-deps
 
-	React.useEffect(() => {
+	useEffect(() => {
 		;(async () => {
 			try {
 				const refresh = Cookie.get('refresh')

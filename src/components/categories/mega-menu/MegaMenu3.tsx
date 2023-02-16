@@ -6,7 +6,7 @@ import LazyImage from 'components/LazyImage'
 import NavLink from 'components/nav-link/NavLink'
 import { H3, Small } from 'components/Typography'
 import Link from 'next/link'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import StyledMegaMenu from './StyledMegaMenu'
 
 // component props with nested interface

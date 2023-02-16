@@ -1,4 +1,4 @@
-import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
+import { Box, Card, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { PagesService } from 'api/services-admin/pages/pages.service'
 import Empty from 'components/Empty'
@@ -7,8 +7,6 @@ import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
 import TableHeader from 'components/data-table/TableHeader'
-import TablePagination from 'components/data-table/TablePagination'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
@@ -16,9 +14,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import PagesRow from 'pages-sections/admin/PagesRow'
 import { ReactElement } from 'react'
-import React from 'react'
+
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
+import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {

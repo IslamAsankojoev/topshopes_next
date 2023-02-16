@@ -13,8 +13,8 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IBrandTypes } from 'shared/types/brand-types.types'
 
-import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
-import { brandTypeEditForm } from '../../../src/utils/constants/forms'
+import { BrandTypesService } from 'api/services-admin/brand-types/brandTypes.service'
+import { brandTypeEditForm } from 'utils/constants/forms'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {

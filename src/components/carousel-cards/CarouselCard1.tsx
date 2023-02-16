@@ -1,10 +1,6 @@
-import { Box, Button, Grid, styled } from '@mui/material'
-import BazaarImage from 'components/BazaarImage'
+import { Box, Grid, styled } from '@mui/material'
 import LazyImage from 'components/LazyImage'
-import { Paragraph } from 'components/Typography'
 import { FlexBetween } from 'components/flex-box'
-import { useTypedSelector } from 'hooks/useTypedSelector'
-import lodash from 'lodash'
 import { FC } from 'react'
 
 // styled component

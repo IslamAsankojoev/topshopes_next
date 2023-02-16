@@ -1,21 +1,15 @@
 import { Delete, Edit } from '@mui/icons-material'
-import { Avatar, Box, Tooltip } from '@mui/material'
+import {  Box } from '@mui/material'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
-import { ProductsService } from 'api/services/products/product.service'
-import BazaarSwitch from 'components/BazaarSwitch'
 import LazyImage from 'components/LazyImage'
 import { Paragraph, Small } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
-import currency from 'currency.js'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
-import { useMutation } from 'react-query'
+import { FC } from 'react'
 import { toast } from 'react-toastify'
-import { IProduct, IProductPreview } from 'shared/types/product.types'
+import { IProductPreview } from 'shared/types/product.types'
 
-import TooltipList from '../../../components/tooltip/TooltipList'
 import {
-	CategoryWrapper,
 	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,

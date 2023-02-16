@@ -2,7 +2,7 @@ import { Delete, Edit, VisibilitySharp } from '@mui/icons-material'
 import { AttributesServiceAdmin } from 'api/services-admin/attributes/attributes.service'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 import {
 	CategoryWrapper,

@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
-import React, { FC, Fragment, useState } from 'react'
+import { FC, Fragment, useState } from 'react'
 import * as yup from 'yup'
 
 const checkoutSchema = yup.object({

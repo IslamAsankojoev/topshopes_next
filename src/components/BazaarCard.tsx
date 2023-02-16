@@ -1,12 +1,13 @@
 import { Card, CardProps } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import React from 'react'
+import { FC } from 'react'
+
 
 type BazaarCardProps = {
 	hoverEffect?: boolean
 }
 
-const BazaarCard = styled<React.FC<BazaarCardProps & CardProps>>(
+const BazaarCard = styled<FC<BazaarCardProps & CardProps>>(
 	({ hoverEffect, children, ...rest }) => <Card {...rest}>{children}</Card>
 )<BazaarCardProps>(({ theme, hoverEffect }) => ({
 	borderRadius: '8px',

@@ -15,7 +15,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ProductRow } from 'pages-sections/admin'
 import ProductClientRow from 'pages-sections/admin/products/ProductClientRow'
-import React, { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
@@ -44,8 +44,8 @@ const ProductList: NextPageAuth = () => {
 	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
 
-	const [searchValue, setSearchValue] = React.useState('')
-	const [currentPage, setCurrentPage] = React.useState(1)
+	const [searchValue, setSearchValue] = useState('')
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 

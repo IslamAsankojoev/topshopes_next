@@ -8,7 +8,7 @@ import { H5 } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 

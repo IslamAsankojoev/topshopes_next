@@ -2,7 +2,7 @@ import { Checkbox, FormControlLabel } from '@mui/material'
 import { AuthService } from 'api/services/auth/auth.service'
 import BazaarButton from 'components/BazaarButton'
 import BazaarTextField from 'components/BazaarTextField'
-import { H3, H6, Small } from 'components/Typography'
+import { H3, Small } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import { StyledNavLink } from 'components/mobile-navigation/styles'
 import { useFormik } from 'formik'
@@ -24,7 +24,7 @@ const Signup = () => {
 	const { t: authT } = useTranslation('auth')
 
 	const [passwordVisibility, setPasswordVisibility] = useState(false)
-	const { replace, asPath } = useRouter()
+	const { replace } = useRouter()
 	const { login } = useActions()
 
 	const togglePasswordVisibility = useCallback(() => {
@@ -36,16 +36,16 @@ const Signup = () => {
 		() => AuthService.register(values),
 		{
 			onSuccess: async () => {
-				toast.success(commonT('success'))
+				toast.success(commonT('Registration successful'))
 				try {
-					login({
+					await login({
 						email: values.email,
 						password: values.password,
 					})
+					replace('/profile')
 				} catch (e) {
 					toast.error(getErrorMessage(e))
 				}
-				replace('/profile')
 			},
 			onError: (e: any) => {
 				toast.error(getErrorMessage(e))

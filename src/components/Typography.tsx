@@ -1,6 +1,6 @@
 import { Box, BoxProps, styled } from "@mui/material";
 import clsx from "clsx";
-import React from "react";
+import { FC } from "react";
 
 const StyledBox = styled(Box, {
   shouldForwardProp: (props) => props !== "textTransformStyle",
@@ -25,7 +25,7 @@ type Props = {
     | "inherit";
 };
 
-export const H1: React.FC<BoxProps & Props> = ({
+export const H1: FC<BoxProps & Props> = ({
   children,
   className,
   ellipsis,
@@ -52,7 +52,7 @@ export const H1: React.FC<BoxProps & Props> = ({
   );
 };
 
-export const H2: React.FC<BoxProps & Props> = ({
+export const H2: FC<BoxProps & Props> = ({
   children,
   className,
   ellipsis,
@@ -79,7 +79,7 @@ export const H2: React.FC<BoxProps & Props> = ({
   );
 };
 
-export const H3: React.FC<BoxProps & Props> = ({
+export const H3: FC<BoxProps & Props> = ({
   children,
   className,
   ellipsis,
@@ -104,7 +104,7 @@ export const H3: React.FC<BoxProps & Props> = ({
   );
 };
 
-export const H4: React.FC<BoxProps & Props> = ({
+export const H4: FC<BoxProps & Props> = ({
   children,
   className,
   ellipsis,
@@ -129,7 +129,7 @@ export const H4: React.FC<BoxProps & Props> = ({
   );
 };
 
-export const H5: React.FC<BoxProps & Props> = ({
+export const H5: FC<BoxProps & Props> = ({
   children,
   className,
   ellipsis,
@@ -156,7 +156,7 @@ export const H5: React.FC<BoxProps & Props> = ({
   );
 };
 
-export const H6: React.FC<BoxProps & Props> = ({
+export const H6: FC<BoxProps & Props> = ({
   children,
   className,
   ellipsis,
@@ -183,7 +183,7 @@ export const H6: React.FC<BoxProps & Props> = ({
   );
 };
 
-export const Paragraph: React.FC<BoxProps & Props> = ({
+export const Paragraph: FC<BoxProps & Props> = ({
   children,
   className,
   ellipsis,
@@ -208,7 +208,7 @@ export const Paragraph: React.FC<BoxProps & Props> = ({
   );
 };
 
-export const Small: React.FC<BoxProps & Props> = ({
+export const Small: FC<BoxProps & Props> = ({
   children,
   className,
   ellipsis,
@@ -232,7 +232,7 @@ export const Small: React.FC<BoxProps & Props> = ({
   );
 };
 
-export const Span: React.FC<BoxProps & Props> = ({
+export const Span: FC<BoxProps & Props> = ({
   children,
   className,
   ellipsis,
@@ -255,7 +255,7 @@ export const Span: React.FC<BoxProps & Props> = ({
   );
 };
 
-export const Tiny: React.FC<BoxProps & Props> = ({
+export const Tiny: FC<BoxProps & Props> = ({
   children,
   className,
   ellipsis,

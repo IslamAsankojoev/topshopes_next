@@ -4,7 +4,7 @@ import CategorySectionHeader from 'components/CategorySectionHeader'
 import { FlexBox } from 'components/flex-box'
 import ProductCard1 from 'components/product-cards/ProductCard1'
 import { useTranslation } from 'next-i18next'
-import React, { FC, useState } from 'react'
+import { FC, useState, MouseEvent } from 'react'
 
 import ProductCategoryItem from './ProductCategoryItem'
 
@@ -19,7 +19,7 @@ const Section6: FC<Props> = ({ carList, carBrands }) => {
 
 	const handleCategoryClick = ({
 		currentTarget: { id: brand },
-	}: React.MouseEvent<HTMLElement>) => {
+	}: MouseEvent<HTMLElement>) => {
 		if (selected === brand) {
 			setSelected('')
 		} else setSelected(brand)

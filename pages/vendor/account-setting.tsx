@@ -1,19 +1,17 @@
 import { CameraAlt, CameraEnhance } from '@mui/icons-material'
 import { Avatar, Badge, Box, Button, Card, Grid, SxProps } from '@mui/material'
-import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 import { UsersService } from 'api/services-admin/users/users.service'
 import { H3 } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import countryList from 'data/countryList'
 import { Formik } from 'formik'
 import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import React, { FC, Fragment, ReactElement } from 'react'
+import { FC, Fragment, ReactElement, useState } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 import * as yup from 'yup'
 
@@ -76,8 +74,8 @@ const accountSchema = yup.object().shape({
 const AccountSetting: NextPageAuth = () => {
 	const { t } = useTranslation('common')
 	const user = useTypedSelector((state) => state.userStore.user)
-	const [file, setFile] = React.useState(null)
-	const [fileLocaleUrl, setFileLocaleUrl] = React.useState(null)
+	const [file, setFile] = useState(null)
+	const [fileLocaleUrl, setFileLocaleUrl] = useState(null)
 
 	const { push } = useRouter()
 	const { profile } = useActions()

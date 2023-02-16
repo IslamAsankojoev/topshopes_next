@@ -4,7 +4,7 @@ import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 // styled components
 const Divider = styled(Box)(({ theme }) => ({

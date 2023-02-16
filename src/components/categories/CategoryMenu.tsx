@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, styled } from '@mui/material'
-import React, { FC, useEffect, useRef, useState } from 'react'
+import { cloneElement, FC, ReactElement, useEffect, useRef, useState, MouseEvent } from 'react'
 
 import CategoryMenuCard from './CategoryMenuCard'
 
@@ -21,7 +21,7 @@ const Wrapper = styled(Box)<{ open: boolean }>(
 // ===========================================================
 type CategoryMenuProps = {
 	open?: boolean
-	children: React.ReactElement
+	children: ReactElement
 }
 // ===========================================================
 
@@ -33,7 +33,7 @@ const CategoryMenu: FC<CategoryMenuProps> = ({
 	const popoverRef = useRef(open)
 	popoverRef.current = open
 
-	const toggleMenu = (e: React.MouseEvent<Document, MouseEvent>) => {
+	const toggleMenu = (e: MouseEvent<Document, MouseEvent>) => {
 		e.stopPropagation()
 		if (!isOpen) setOpen((open) => !open)
 	}
@@ -50,7 +50,7 @@ const CategoryMenu: FC<CategoryMenuProps> = ({
 
 	return (
 		<Wrapper open={open}>
-			{React.cloneElement(children, {
+			{cloneElement(children, {
 				open,
 				onClick: toggleMenu,
 				className: `${children.props.className}`,

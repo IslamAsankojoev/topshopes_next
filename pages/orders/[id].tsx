@@ -1,24 +1,14 @@
 import styled from '@emotion/styled'
 import {
-	Cancel,
-	Done,
 	MarkunreadMailbox,
 	Payment,
 	ShoppingBag,
 } from '@mui/icons-material'
 import {
-	Avatar,
-	Box,
-	Button,
-	Card,
-	Divider,
-	Grid,
-	Typography,
 	useTheme,
 } from '@mui/material'
 import { styled as muiStyled } from '@mui/material/styles'
 import { OrdersService } from 'api/services/orders/orders.service'
-import TableRow from 'components/TableRow'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import UserDashboardHeader from 'components/header/UserDashboardHeader'
 import Delivery from 'components/icons/Delivery'
@@ -26,18 +16,15 @@ import PackageBox from 'components/icons/PackageBox'
 import TruckFilled from 'components/icons/TruckFilled'
 import CustomerDashboardLayout from 'components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'components/layouts/customer-dashboard/Navigations'
-import { format } from 'date-fns'
 import useWindowSize from 'hooks/useWindowSize'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { OrderDetail } from 'pages-sections/admin'
 import ClientOrderDetail from 'pages-sections/admin/orders/ClientOrderDetail'
-import React from 'react'
-import { Fragment } from 'react'
+
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { IOrder, IOrderStatus } from 'shared/types/order.types'
+import { IOrder } from 'shared/types/order.types'
 
 const StyledFlexbox = muiStyled(FlexBetween)(({ theme }) => ({
 	flexWrap: 'wrap',

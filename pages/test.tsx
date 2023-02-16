@@ -1,25 +1,19 @@
-import { Button } from '@mui/material'
 import StringHTML from 'components/StringHTML/StringHTML'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import dynamic from 'next/dynamic'
-import React from 'react'
-import { useQuery } from 'react-query'
+import { useState } from 'react'
+
 
 const DynamicTextEditor = dynamic(
 	() => import('components/TextEditor/TextEditor'),
 	{ ssr: false }
 )
 
-const Test: React.FC = () => {
-	const [text, setText] = React.useState('')
+const Test: FC = () => {
+	const [text, setText] = useState('')
 
 	const handleTextChange = (value) => {
 		setText(value)
-	}
-
-	const handleSubmit = (e) => {
-		e.preventDefault()
-		console.log(typeof text)
 	}
 
 	return (

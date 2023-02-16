@@ -1,13 +1,12 @@
 import { Button, Card, Grid, TextField } from '@mui/material'
 import Card1 from 'components/Card1'
 import { FlexBox } from 'components/flex-box'
-import { ErrorMessage, Form, useFormik } from 'formik'
+import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
-import { useEffect } from 'react'
-import React from 'react'
+import { FC, ReactNode, useEffect } from 'react'
+
 import { common } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
-import { formData } from 'utils/formData'
 import * as yup from 'yup'
 
 import Field from './Field'
@@ -17,15 +16,15 @@ interface CreateFormProps {
 	handleFormSubmit: (formData?: FormData, values?: Record<string, any>) => void
 	defaultData: Record<string, any>
 	getValues?: (values: Record<string, any>) => void
-	children?: React.ReactNode
+	children?: ReactNode
 	maxFormWidth?: string
-	actionButtons?: React.ReactNode
+	actionButtons?: ReactNode
 	buttonText?: string
 	buttonPosition?: string
 	buttonSize?: 'small' | 'normal' | 'medium' | 'large'
 	formType?: 'table' | 'form'
 }
-const CreateForm: React.FC<CreateFormProps> = ({
+const CreateForm: FC<CreateFormProps> = ({
 	fields,
 	handleFormSubmit,
 	defaultData,
@@ -139,7 +138,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 		handleFormSubmit(formData, values)
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (getValues) getValues(values)
 	}, [values])
 

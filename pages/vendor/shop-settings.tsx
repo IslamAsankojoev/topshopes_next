@@ -9,7 +9,7 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import React, { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
@@ -106,10 +106,10 @@ const ShopSettings: NextPageAuth = () => {
 	)
 
 	// images
-	const [coverPicture, setCoverPicture] = React.useState(
+	const [coverPicture, setCoverPicture] = useState(
 		shop?.cover_picture || ''
 	)
-	const [profilePicture, setProfilePicture] = React.useState(
+	const [profilePicture, setProfilePicture] = useState(
 		shop?.profile_picture || ''
 	)
 
@@ -149,12 +149,7 @@ const ShopSettings: NextPageAuth = () => {
 		onSubmit: handleFormSubmit,
 		validationSchema,
 	})
-
-	// if (isLoading) {
-	// 	return <Loading />
-	// }
-
-	React.useEffect(() => {
+	useEffect(() => {
 		if (shop) {
 			setValues(shop)
 			setCoverPicture(shop.cover_picture)

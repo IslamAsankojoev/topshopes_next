@@ -5,7 +5,6 @@ import {
 	getShopUrl,
 	getShopsUrl,
 } from 'config/api.config'
-import { toast } from 'react-toastify'
 
 import { CRUDservice } from './../../crud.service'
 

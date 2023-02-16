@@ -7,11 +7,10 @@ import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { ISiteSettings } from 'shared/types/site-settings.types'
 import { siteSettingsFormEdit } from 'utils/constants/forms'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

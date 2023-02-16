@@ -5,7 +5,6 @@ import {
 	IAuthResponse,
 	ILogin,
 	IRegister,
-	ITokens,
 } from 'store/user/user.interface'
 import { getErrorMessage } from 'utils/getErrorMessage'
 

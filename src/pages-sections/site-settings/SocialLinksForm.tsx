@@ -4,7 +4,7 @@ import AppleStore from "components/icons/AppleStore";
 import PlayStore from "components/icons/PlayStore";
 import { H4 } from "components/Typography";
 import { Formik } from "formik";
-import React, { FC } from "react";
+import { FC } from "react";
 
 const SocialLinksForm: FC = () => {
   const initialValues = {

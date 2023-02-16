@@ -1,7 +1,7 @@
 import { styled, TableCell, TableHead, TableRow } from '@mui/material'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import UpDown from 'components/icons/UpDown'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 // styled components
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

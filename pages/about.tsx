@@ -5,7 +5,7 @@ import ShopLayout1 from 'components/layouts/ShopLayout1'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import React from 'react'
+import { FC } from 'react'
 
 import gmailImg from '../public/assets/images/banner.webp'
 import SEO from '../src/components/SEO'
@@ -19,7 +19,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 
 // aboutUsTopshopes.webp
-const AboutPage: React.FC = () => {
+const AboutPage: FC = () => {
 	const { t } = useTranslation('about')
 
 	return (

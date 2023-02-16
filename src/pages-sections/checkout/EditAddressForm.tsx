@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
-import React, { FC, Fragment, useState } from 'react'
+import { FC, Fragment, useState } from 'react'
 import { IAddress } from 'shared/types/user.types'
 import * as yup from 'yup'
 

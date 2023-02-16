@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
-import { Close, DeleteOutline } from '@mui/icons-material'
-import { Box, Button, Card, Grid, IconButton, Typography } from '@mui/material'
+import { Close } from '@mui/icons-material'
+import { Button, Card, Grid } from '@mui/material'
 import { CategoriesService } from 'api/services/categories/category.service'
 import Card1 from 'components/Card1'
 import LazyImage from 'components/LazyImage'
@@ -10,8 +10,7 @@ import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import Lodash from 'lodash'
 import { useTranslation } from 'next-i18next'
-import { ProductFetchTypes } from 'pages-sections/admin/products/useProductFetch'
-import React, { Fragment } from 'react'
+import { FC, Fragment, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { IProductVariant } from 'shared/types/product.types'
@@ -27,7 +26,7 @@ type Props = {
 	isAdmin?: boolean
 }
 
-const ProductVariantList: React.FC<Props> = ({
+const ProductVariantList: FC<Props> = ({
 	refetch,
 	product,
 	create,
@@ -91,7 +90,7 @@ const ProductVariantList: React.FC<Props> = ({
 		}
 	)
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (currentCategory) categoryRefetch()
 	}, [currentCategory])
 

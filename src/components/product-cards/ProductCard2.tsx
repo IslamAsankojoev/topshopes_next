@@ -2,7 +2,8 @@ import HoverBox from 'components/HoverBox'
 import LazyImage from 'components/LazyImage'
 import { H4 } from 'components/Typography'
 import Link from 'next/link'
-import React from 'react'
+import { FC } from 'react'
+
 
 // ==========================================================
 type ProductCard2Props = {
@@ -16,7 +17,7 @@ type ProductCard2Props = {
 }
 // ==========================================================
 
-const ProductCard2: React.FC<ProductCard2Props> = (props) => {
+const ProductCard2: FC<ProductCard2Props> = (props) => {
 	const { thumbnail, name, price, id, slug } = props
 
 	return (

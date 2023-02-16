@@ -1,7 +1,8 @@
-import React from 'react'
+
+import { FC } from 'react'
 import { ToastContainer } from 'react-toastify'
 
-const ToastifyProvider: React.FC = () => {
+const ToastifyProvider: FC = () => {
 	return (
 		<ToastContainer
 			position="bottom-right"

@@ -7,7 +7,7 @@ import { FlexBox } from 'components/flex-box'
 import { useAppContext } from 'contexts/AppContext'
 import { useActions } from 'hooks/useActions'
 import Link from 'next/link'
-import React, { useCallback } from 'react'
+import { FC, useCallback } from 'react'
 import { ICartItem } from 'store/cart/cart.interface'
 
 // styled components
@@ -29,7 +29,7 @@ const Wrapper = styled(Card)(({ theme }) => ({
 
 // =========================================================
 
-const ProductCard7: React.FC<ICartItem> = (product) => {
+const ProductCard7: FC<ICartItem> = (product) => {
 	const { category, name, rating, slug, variants, children, qty } = product
 	const { addToCart, removeFromCart, trashFromCart } = useActions()
 

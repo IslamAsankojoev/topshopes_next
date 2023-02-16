@@ -1,7 +1,7 @@
 import { Box, styled } from '@mui/material'
 import LazyImage from 'components/LazyImage'
 import { H6, Paragraph } from 'components/Typography'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { statusTranslation } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 

@@ -3,8 +3,7 @@ import { Button, Theme, useMediaQuery } from '@mui/material'
 import { FlexBox } from 'components/flex-box'
 import SearchInput from 'components/SearchInput'
 import useDebounce from 'hooks/useDebounce'
-import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 // ===============================================================
 type SearchAreaProps = {
@@ -19,10 +18,10 @@ type SearchAreaProps = {
 const SearchArea: FC<SearchAreaProps> = (props) => {
 	const { searchPlaceholder, buttonText, handleSearch, searchOff } = props
 
-	const [searchValue, setSearchValue] = React.useState('')
+	const [searchValue, setSearchValue] = useState('')
 	const debounceValue = useDebounce(searchValue as string)
 
-	React.useEffect(() => {
+	useEffect(() => {
 		handleSearch(debounceValue)
 	}, [debounceValue])
 

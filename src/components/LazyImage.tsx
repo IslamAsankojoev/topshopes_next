@@ -8,7 +8,7 @@ import {
 	styled,
 } from '@mui/system'
 import NextImage, { ImageProps } from 'next/image'
-import React, { useEffect } from 'react'
+import { FC } from 'react'
 
 const checkDomen = (url: string) => {
 	if (url?.startsWith('blob')) return url
@@ -19,10 +19,11 @@ const checkDomen = (url: string) => {
 		: `${process.env.SERVER_URL}/media/${url}`
 }
 
-const LazyImage = styled<React.FC<ImageProps & BordersProps & SpacingProps>>(
-	({ loader, borderRadius, src, ...rest }) => {
+const LazyImage = styled<FC<ImageProps & BordersProps & SpacingProps>>(
+	({ loader, borderRadius, src, objectFit = 'contain', ...rest }) => {
 		return (
 			<NextImage
+				objectFit="contain"
 				src={checkDomen(src as string)}
 				loader={() => checkDomen(src as string)}
 				{...rest}

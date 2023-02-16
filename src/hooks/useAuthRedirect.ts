@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import { useEffect } from 'react'
+
 import { useTypedSelector } from './useTypedSelector'
 
 export const useAuthRedirect = () => {
@@ -7,10 +8,12 @@ export const useAuthRedirect = () => {
 
 	const { query, push } = useRouter()
 
-	const redirect = query.redirect ? String(query.redirect) : '/profile'
+	let redirect = query.redirect ? String(query.redirect) : '/profile'
+	if(redirect === '/') redirect = '/profile'
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (user) push(redirect)
 	}, [user, redirect, push])
+
 	return null
 }

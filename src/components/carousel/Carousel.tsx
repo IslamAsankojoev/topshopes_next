@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import useSettings from 'hooks/useSettings'
 import { Slide } from 'pure-react-carousel'
 import 'pure-react-carousel/dist/react-carousel.es.css'
-import React, { CSSProperties, FC, Fragment } from 'react'
+import { Children, CSSProperties, FC, Fragment } from 'react'
 
 import {
 	StyledArrowBackButton,
@@ -97,7 +97,7 @@ const Carousel: FC<CarouselProps> = ({
 					borderRadius: '10px',
 				}}
 			>
-				{React.Children?.map(children, (child, ind) => (
+				{Children?.map(children, (child, ind) => (
 					<Slide index={ind}>{child}</Slide>
 				))}
 			</StyledSlider>

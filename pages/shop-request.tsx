@@ -1,6 +1,5 @@
-import { Alert, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
-import { axiosClassic, instance } from 'api/interceptor'
 import { ApplicationServices } from 'api/services/applications/applications.service'
 import AlertDialog from 'components/AlertDialog/AlertDialog'
 import CreateForm from 'components/Form/CreateForm'

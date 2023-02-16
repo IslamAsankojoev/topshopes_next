@@ -1,10 +1,11 @@
 import { Box, BoxProps, TextField, TextFieldProps } from '@mui/material'
+import { FC } from 'react'
 
 import { Small } from './Typography'
 
 export interface BazaarTextFieldProps {}
 
-const BazaarTextField: React.FC<TextFieldProps & BoxProps> = ({
+const BazaarTextField: FC<TextFieldProps & BoxProps> = ({
 	label,
 	InputProps,
 	...props

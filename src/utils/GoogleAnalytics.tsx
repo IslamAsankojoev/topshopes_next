@@ -1,9 +1,10 @@
 import Script from 'next/script';
-import React from 'react';
+import { FC, Fragment } from 'react';
+;
 
-const GoogleAnalytics: React.FC = () => {
+const GoogleAnalytics: FC = () => {
   return (
-    <React.Fragment>
+    <Fragment>
       {/* Google analytics */}
       <Script async src="https://www.googletagmanager.com/gtag/js?id=G-FLCDXWTVMD" />
       <script
@@ -16,7 +17,7 @@ const GoogleAnalytics: React.FC = () => {
             gtag('config', 'G-FLCDXWTVMD');
           `,
         }}></script>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

@@ -5,9 +5,6 @@ import { Span } from 'components/Typography'
 import { FlexBetween } from 'components/flex-box'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
 import ProductCard7 from 'components/product-cards/ProductCard7'
-import { CartItem, useAppContext } from 'contexts/AppContext'
-import countryList from 'data/countryList'
-import { useActions } from 'hooks/useActions'
 import { useTypedSelector } from 'hooks/useTypedSelector'
 import { GetStaticProps, NextPage } from 'next'
 import { useTranslation } from 'next-i18next'
@@ -25,7 +22,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const Cart: NextPage = () => {
 	const { t } = useTranslation()
-	const { cart, total_items, total_price } = useTypedSelector(
+	const { cart, total_price } = useTypedSelector(
 		(state) => state.cartStore
 	)
 	const cartList: ICartItem[] = cart

@@ -1,8 +1,7 @@
 import { Delete, Edit } from '@mui/icons-material'
-import { Avatar } from '@mui/material'
 import { ColorsService } from 'api/services/colors/colors.service'
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import {

@@ -11,7 +11,6 @@ import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { IPagesCategory } from 'shared/types/pages-category.types'
 import { pageCategoryEditForm } from 'utils/constants/forms'
 
 export const getServerSideProps = async ({ locale }) => {

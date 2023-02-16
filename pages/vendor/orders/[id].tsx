@@ -1,11 +1,10 @@
 import { Box } from '@mui/material'
 import { H3 } from 'components/Typography'
 import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import { GetStaticProps, NextPage } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { OrderDetail } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 
 export const getServerSideProps = async ({ locale }) => {

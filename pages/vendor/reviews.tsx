@@ -26,7 +26,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 import { IReview } from 'shared/types/product.types'

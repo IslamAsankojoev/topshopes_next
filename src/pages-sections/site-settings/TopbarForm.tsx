@@ -3,7 +3,7 @@ import { Button, Divider, Grid, IconButton, TextField } from '@mui/material'
 import { FlexBox } from 'components/flex-box'
 import { H4 } from 'components/Typography'
 import { FieldArray, Formik } from 'formik'
-import React, { FC, Fragment } from 'react'
+import { FC, Fragment } from 'react'
 
 const TopbarForm: FC = () => {
 	const initialValues = {

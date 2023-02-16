@@ -1,20 +1,22 @@
-import { instance, makeRequest } from 'api/interceptor'
-import { getAllProductsUrl, getApplicationsUrl } from 'config/api.config'
-import { toast } from 'react-toastify'
-import { getErrorMessage } from 'utils/getErrorMessage'
+import { makeRequest } from 'api/interceptor'
+import { getApplicationsUrl } from 'config/api.config'
 
 export const ApplicationServices = {
 	getApplications: async () => {
 		try {
 			const { data } = await makeRequest(true).get(getApplicationsUrl(''))
 			return data
-		} catch (error) {}
+		} catch (error) {
+			throw new Error(error)
+		}
 	},
 	getApplication: async (id: string) => {
 		try {
 			const { data } = await makeRequest(true).get(getApplicationsUrl(id))
 			return data
-		} catch (error) {}
+		} catch (error) {
+			throw new Error(error)
+		}
 	},
 	createApplication: async (data: any) => {
 		try {
@@ -23,6 +25,8 @@ export const ApplicationServices = {
 				data
 			)
 			return response
-		} catch (error) {}
+		} catch (error) {
+			throw new Error(error)
+		}
 	},
 }

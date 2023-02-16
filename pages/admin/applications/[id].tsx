@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
 import { Box, Card, Divider, MenuItem, Select } from '@mui/material'
 import { ApplicationServices } from 'api/services-admin/applications/applications.service'
-import { AttributesServiceAdmin } from 'api/services-admin/attributes/attributes.service'
 import Loading from 'components/Loading'
 import { H3, H6, Paragraph } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
@@ -15,7 +14,6 @@ import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
-import { IProductAttribute } from 'shared/types/product.types'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {

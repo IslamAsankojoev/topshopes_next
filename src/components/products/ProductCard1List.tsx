@@ -4,14 +4,14 @@ import { FlexBetween } from 'components/flex-box'
 import ProductCard1 from 'components/product-cards/ProductCard1'
 import productDatabase from 'data/product-database'
 import { useRouter } from 'next/router'
-import React, { Fragment } from 'react'
+import { FC, Fragment } from 'react'
 import { IProduct, IProductPreview } from 'shared/types/product.types'
 
 // ========================================================
 type ProductCard1ListProps = { products: IProductPreview[]; count?: number }
 // ========================================================
 
-const ProductCard1List: React.FC<ProductCard1ListProps> = ({
+const ProductCard1List: FC<ProductCard1ListProps> = ({
 	products,
 	count,
 }) => {

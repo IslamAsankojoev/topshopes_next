@@ -4,7 +4,7 @@ import CategorySectionCreator from 'components/CategorySectionCreator'
 import NewArrival from 'components/icons/NewArrival'
 import ProductCard2 from 'components/product-cards/ProductCard2'
 import { useTranslation } from 'next-i18next'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 interface Props {
 	newArrivalsList: any[]

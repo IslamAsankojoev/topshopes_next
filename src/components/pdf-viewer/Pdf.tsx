@@ -2,9 +2,10 @@
 import { Viewer, Worker } from '@react-pdf-viewer/core'
 // Import the styles
 import '@react-pdf-viewer/core/lib/styles/index.css'
-import React from 'react'
+import { FC } from 'react'
 
-export const Pdf: React.FC<{ document: string }> = ({ document }) => {
+
+export const Pdf: FC<{ document: string }> = ({ document }) => {
 	if (!document) {
 		return <div></div>
 	}

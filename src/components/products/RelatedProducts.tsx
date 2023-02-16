@@ -1,13 +1,14 @@
 import { Box, Grid } from '@mui/material'
 import ProductCard1 from 'components/product-cards/ProductCard1'
 import { H3 } from 'components/Typography'
-import React from 'react'
+import { FC } from 'react'
+
 
 // ===================================================
 type RelatedProductsProps = { productsData: any[] }
 // ===================================================
 
-const RelatedProducts: React.FC<RelatedProductsProps> = ({ productsData }) => {
+const RelatedProducts: FC<RelatedProductsProps> = ({ productsData }) => {
 	return (
 		<Box mb={7.5}>
 			<H3 mb={3}>Realted Products</H3>

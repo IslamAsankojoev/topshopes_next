@@ -1,21 +1,21 @@
-import React from "react";
+import { FC, Fragment } from "react";
 
-const OpenGraphTags: React.FC = () => {
+const OpenGraphTags: FC = () => {
   return (
-    <React.Fragment>
+    <Fragment>
       <meta
         property="og:url"
-        content="https://bazaar-react.vercel.app/landing"
+        content="https://topshopes.com"
       />
       {/* thumbnail And title for social media */}
       <meta property="og:type" content="website" />
-      <meta property="og:title" content="Bazaar - React Ecommerce Template" />
+      <meta property="og:title" content="Topshopes - Marketplace" />
       <meta
         property="og:description"
-        content="React Next.js ecommerce template. Build SEO friendly Online store, delivery app and Multivendor store"
+        content="Topshopes is a Marketplace for buying and selling products."
       />
-      <meta property="og:image" content="/assets/images/landing/preview.png" />
-    </React.Fragment>
+      <meta property="og:image" content="/assets/images/landing/preview.jpeg" />
+    </Fragment>
   );
 };
 

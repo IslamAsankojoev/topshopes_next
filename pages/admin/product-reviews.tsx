@@ -11,7 +11,7 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { ReviewRow } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 import api from 'utils/api/dashboard'
 

@@ -1,5 +1,5 @@
 import { styled, Switch, SwitchProps } from "@mui/material";
-import React from "react";
+
 
 const StyledSwitch = styled(Switch)(({ theme }) => ({
   padding: 8,

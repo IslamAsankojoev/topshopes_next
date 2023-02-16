@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import Image from 'next/image'
-import React from 'react'
+
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 
 import { H2 } from './Typography'

@@ -14,7 +14,7 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { OrderRow } from 'pages-sections/admin'
-import React, { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import { useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
@@ -46,8 +46,8 @@ const tableHeading = [
 const OrderList: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
-	const [searchValue, setSearchValue] = React.useState('')
-	const [currentPage, setCurrentPage] = React.useState(1)
+	const [searchValue, setSearchValue] = useState('')
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 

@@ -3,7 +3,6 @@ import BazaarImage from 'components/BazaarImage'
 import { Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import NavLink from 'components/nav-link/NavLink'
-import currency from 'currency.js'
 import Link from 'next/link'
 import { FC } from 'react'
 

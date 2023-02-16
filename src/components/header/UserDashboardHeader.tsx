@@ -4,7 +4,8 @@ import { FlexBox } from 'components/flex-box';
 import Sidenav from 'components/sidenav/Sidenav';
 import { H2 } from 'components/Typography';
 import useWindowSize from 'hooks/useWindowSize';
-import React from 'react';
+import { FC } from 'react';
+;
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -32,7 +33,7 @@ type UserDashboardHeaderProps = {
 };
 // ==============================================================
 
-const UserDashboardHeader: React.FC<UserDashboardHeaderProps> = ({
+const UserDashboardHeader: FC<UserDashboardHeaderProps> = ({
   title,
   button,
   navigation,

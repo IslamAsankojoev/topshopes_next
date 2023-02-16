@@ -1,13 +1,11 @@
 import styled from '@emotion/styled'
 import { Container } from '@mui/material'
 import { axiosClassic } from 'api/interceptor'
-import LazyImage from 'components/LazyImage'
 import Loading from 'components/Loading'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
-import { GetStaticProps, NextPage } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import React from 'react'
+
 import { useQuery } from 'react-query'
 import { IPages } from 'shared/types/pages.types'
 

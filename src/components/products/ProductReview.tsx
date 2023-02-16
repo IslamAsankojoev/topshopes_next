@@ -8,7 +8,7 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { IProduct, IReview } from 'shared/types/product.types'
@@ -21,10 +21,10 @@ export interface ProductReviewProps {
 	refetch: () => void
 }
 
-const ProductReview: React.FC<ProductReviewProps> = ({ product, refetch }) => {
+const ProductReview: FC<ProductReviewProps> = ({ product, refetch }) => {
 	const { t } = useTranslation('review')
 	const { user } = useTypedSelector((state) => state.userStore)
-	const [retryreq, setRetryreq] = React.useState(false)
+	const [retryreq, setRetryreq] = useState(false)
 
 	const router = useRouter()
 

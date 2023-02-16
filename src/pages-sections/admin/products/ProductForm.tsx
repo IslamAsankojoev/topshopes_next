@@ -1,4 +1,3 @@
-import styled from '@emotion/styled'
 import {
 	Autocomplete,
 	Button,
@@ -6,21 +5,18 @@ import {
 	Dialog,
 	DialogContent,
 	Grid,
-	InputAdornment,
 	TextField,
 	Typography,
 } from '@mui/material'
 import { AdminProductsService } from 'api/services-admin/products/products.service'
-import { H2, Paragraph } from 'components/Typography'
+import { Paragraph } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
 import { ContentWrapper } from 'components/products/ProductViewDialog'
 import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
 import { useTranslation } from 'next-i18next'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
-import { IBrand, ICategory } from 'shared/types/product.types'
+import { FC, useEffect, useState } from 'react'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 import * as yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
@@ -40,8 +36,8 @@ type ProductFormProps = {
 
 const ProductForm: FC<ProductFormProps> = (props) => {
 	// dialog
-	const [openDialog, setOpenDialog] = React.useState(false)
-	const [categoryValue, setCategoryValue] = React.useState<any>({})
+	const [openDialog, setOpenDialog] = useState(false)
+	const [categoryValue, setCategoryValue] = useState<any>({})
 
 	const toggleDialog = (category?: { id: string | number; name: string }) => {
 		setOpenDialog(!openDialog)
@@ -72,11 +68,11 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	const { push } = useRouter()
 
 	// states
-	const [redirect, setRedirect] = React.useState<boolean>(false)
+	const [redirect, setRedirect] = useState<boolean>(false)
 
-	const [categoriesSearch, setCategoriesSearch] = React.useState<string>('')
-	const [brandsSearch, setBrandsSearch] = React.useState<string>('')
-	const [shopsSearch, setShopsSearch] = React.useState<string>('')
+	const [categoriesSearch, setCategoriesSearch] = useState<string>('')
+	const [brandsSearch, setBrandsSearch] = useState<string>('')
+	const [shopsSearch, setShopsSearch] = useState<string>('')
 
 	// actions
 	const { setCurrentCategory } = useActions()
@@ -124,7 +120,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		},
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setCurrentCategory(values.category?.id || '')
 	}, [values.category])
 

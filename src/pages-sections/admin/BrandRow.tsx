@@ -1,9 +1,8 @@
-import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
 import { BrandsService } from 'api/services-admin/brands/brand.service'
-import BazaarSwitch from 'components/BazaarSwitch'
 import { useRouter } from 'next/router'
-import React, { FC, useState } from 'react'
+import { FC } from 'react'
 
 import {
 	StyledIconButton,

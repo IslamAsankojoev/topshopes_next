@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { AuthService } from 'api/services/auth/auth.service'
-import { ILogin, IRegister } from './user.interface'
 import Cookie from 'js-cookie'
 import { toast } from 'react-toastify'
+
+import { ILogin, IRegister } from './user.interface'
 
 // register
 export const register = createAsyncThunk(
@@ -12,7 +13,7 @@ export const register = createAsyncThunk(
 			const response = await AuthService.register({ email, phone, password })
 			return response
 		} catch (error) {
-			throw error
+			throw new Error(error)
 		}
 	}
 )
@@ -25,7 +26,7 @@ export const login = createAsyncThunk(
 			const response = await AuthService.login({ email, password })
 			return response
 		} catch (error) {
-			throw error
+			throw new Error(error)
 		}
 	}
 )
@@ -35,7 +36,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 	try {
 		await AuthService.logout()
 	} catch (error) {
-		throw error
+		throw new Error(error)
 	}
 })
 
@@ -45,7 +46,7 @@ export const checkAuth = createAsyncThunk('auth/refresh', async () => {
 		const response = await AuthService.refresh()
 		return response
 	} catch (error) {
-		throw error
+		throw new Error(error)
 	}
 })
 
@@ -55,7 +56,7 @@ export const profile = createAsyncThunk('auth/profile', async () => {
 		const response = await AuthService.profile()
 		return response
 	} catch (error) {
-		throw error
+		throw new Error(error)
 	}
 })
 
@@ -66,7 +67,7 @@ export const update = createAsyncThunk(
 			const response = await AuthService.update(data)
 			return response
 		} catch (error) {
-			throw error
+			throw new Error(error)
 		}
 	}
 )

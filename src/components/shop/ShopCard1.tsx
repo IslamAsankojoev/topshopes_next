@@ -11,8 +11,9 @@ import {
 import { H3, Span } from 'components/Typography'
 import { FlexBetween, FlexBox } from 'components/flex-box'
 import Link from 'next/link'
-import React from 'react'
+
 import { IShop } from 'shared/types/shop.types'
+import { FC } from 'react'
 
 // styled components
 const ContentWrapper = styled(Box)<{ imgUrl: string }>(({ theme, imgUrl }) => ({
@@ -40,7 +41,7 @@ type ShopCard1Props = {
 }
 // ================================================================
 
-const ShopCard1: React.FC<IShop> = (props) => {
+const ShopCard1: FC<IShop> = (props) => {
 	// props list
 	const {
 		address,

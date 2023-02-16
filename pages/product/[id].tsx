@@ -1,29 +1,17 @@
 import { Box, Container, Tab, Tabs, styled } from '@mui/material'
-import { axiosClassic } from 'api/interceptor'
 import { ShopsProductsService } from 'api/services/products/product.service'
 import { H2 } from 'components/Typography'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
-import Navbar from 'components/navbar/Navbar'
-import AvailableShops from 'components/products/AvailableShops'
-import FrequentlyBought from 'components/products/FrequentlyBought'
 import ProductDescription from 'components/products/ProductDescription'
 import ProductIntro from 'components/products/ProductIntro'
 import ProductReview from 'components/products/ProductReview'
-import RelatedProducts from 'components/products/RelatedProducts'
-import { getAllProductsUrl, getProductsUrl } from 'config/api.config'
-import bazaarReactDatabase from 'data/bazaar-react-database'
-import { id } from 'date-fns/esm/locale'
 import { GetServerSideProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useRouter } from 'next/router'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProduct } from 'shared/types/product.types'
-import {
-	getFrequentlyBought,
-	getRelatedProducts,
-} from 'utils/api/related-products'
+
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,

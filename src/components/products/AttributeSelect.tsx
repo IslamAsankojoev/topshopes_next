@@ -4,7 +4,7 @@ import {
 	ToggleButtonGroup,
 	Typography,
 } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, MouseEvent } from 'react'
 
 type AttributeSelectProps = {
 	attribute_name: string
@@ -82,7 +82,7 @@ const AttributeSelect: FC<AttributeSelectProps> = ({
 				color="primary"
 				value={selectedAttribute}
 				exclusive
-				onChange={(event: React.MouseEvent<HTMLElement>, attribute: any) => {
+				onChange={(event: MouseEvent<HTMLElement>, attribute: any) => {
 					handleAttribute(event, attribute)
 				}}
 				aria-label="Platform"

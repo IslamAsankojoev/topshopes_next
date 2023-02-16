@@ -1,6 +1,6 @@
 import SEO from 'components/SEO'
 import { FlexRowCenter } from 'components/flex-box'
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Signup from 'pages-sections/sessions/Signup'
 import { NextPageAuth } from 'shared/types/auth.types'

@@ -1,6 +1,6 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import {
 	CategoryWrapper,
 	StyledIconButton,

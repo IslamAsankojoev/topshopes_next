@@ -49,7 +49,7 @@ export const StyledBox = styled<FC<StyledBoxProps>>(
 	'& + .section-after-sticky': { paddingTop: fixed ? componentHeight : 0 },
 }))
 
-const Sticky: React.FC<StickyProps> = ({
+const Sticky: FC<StickyProps> = ({
 	fixedOn,
 	scrollDistance = 0,
 	containerRef,

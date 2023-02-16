@@ -9,8 +9,8 @@ import useDebounce from 'hooks/useDebounce'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
-import React from 'react'
+import { ReactElement, useState } from 'react'
+
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
@@ -37,7 +37,7 @@ const CreateCategory: NextPageAuth = () => {
 	} = useRouter()
 
 	//states
-	const [attributeSearch, setAttributeSearch] = React.useState('')
+	const [attributeSearch, setAttributeSearch] = useState('')
 	const debounceValue = useDebounce(attributeSearch)
 
 	// category fetch

@@ -10,7 +10,7 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import React, { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'shared/types/auth.types'
@@ -35,7 +35,7 @@ const CreateCategory: NextPageAuth = () => {
 	const { push } = useRouter()
 
 	//states
-	const [attributeSearch, setAttributeSearch] = React.useState('')
+	const [attributeSearch, setAttributeSearch] = useState('')
 	const debounceValue = useDebounce(attributeSearch)
 
 	// category create

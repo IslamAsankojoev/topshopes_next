@@ -2,7 +2,7 @@ import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
 import { PagesService } from 'api/services-admin/pages/pages.service'
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { IPages } from 'shared/types/pages.types'
 
 import {

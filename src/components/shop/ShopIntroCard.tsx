@@ -6,14 +6,14 @@ import InstagramFilled from 'components/icons/InstagramFilled'
 import TwitterFilled from 'components/icons/TwitterFilled'
 import YoutubeFilled from 'components/icons/YoutubeFilled'
 import { H3, Small, Span } from 'components/Typography'
-import React, { useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { IShop } from 'shared/types/shop.types'
 
 // =======================================================
 type ShopIntroCardProps = {}
 // =======================================================
 
-const ShopIntroCard: React.FC<IShop> = ({
+const ShopIntroCard: FC<IShop> = ({
 	name,
 	cover_picture,
 	email,

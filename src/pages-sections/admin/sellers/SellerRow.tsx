@@ -3,8 +3,7 @@ import { Avatar, Box } from '@mui/material'
 import BazaarSwitch from 'components/BazaarSwitch'
 import { Paragraph, Small } from 'components/Typography'
 import { FlexBox } from 'components/flex-box'
-import currency from 'currency.js'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 
 import {
 	StyledIconButton,

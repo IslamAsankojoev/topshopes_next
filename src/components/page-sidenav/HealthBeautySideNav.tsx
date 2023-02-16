@@ -7,7 +7,7 @@ import appIcons from 'components/icons'
 import NavLink from 'components/nav-link/NavLink'
 import Scrollbar from 'components/Scrollbar'
 import { H4, Span } from 'components/Typography'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 const NavbarRoot = styled(BazaarCard)(({ theme }) => ({
 	height: '100%',

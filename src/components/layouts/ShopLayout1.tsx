@@ -3,7 +3,7 @@ import Header from 'components/header/Header'
 import MobileNavigationBar from 'components/mobile-navigation/MobileNavigationBar'
 import Sticky from 'components/sticky/Sticky'
 import Topbar from 'components/topbar/Topbar'
-import React, { FC, Fragment, useCallback, useState } from 'react'
+import { FC, Fragment, useCallback, useState } from 'react'
 import Navbar from 'components/navbar/Navbar'
 import { ISiteSettings } from 'shared/types/site-settings.types'
 

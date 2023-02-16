@@ -15,7 +15,7 @@ import { FlexBetween, FlexBox } from 'components/flex-box'
 import { H5, Span } from 'components/Typography'
 import { CartItem, useAppContext } from 'contexts/AppContext'
 import Link from 'next/link'
-import React, { useCallback } from 'react'
+import { FC, useCallback } from 'react'
 import { IProduct, IProductPreview } from 'shared/types/product.types'
 
 // styled components
@@ -41,7 +41,7 @@ const Wrapper = styled(Card)(() => ({
 // }
 // ===========================================================
 
-const ProductCard9: React.FC<{ product: IProductPreview }> = ({ product }) => {
+const ProductCard9: FC<{ product: IProductPreview }> = ({ product }) => {
 	const { category, rating, shop, slug, name } = product
 
 	const { state, dispatch } = useAppContext()

@@ -1,15 +1,13 @@
 import RTL from 'components/RTL'
 import { AppProvider } from 'contexts/AppContext'
 import SettingsProvider from 'contexts/SettingContext'
-import { GetStaticProps, NextPage } from 'next'
+import { NextPage } from 'next'
 import { appWithTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import Router from 'next/router'
 import nProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import React from 'react'
 import { Fragment, ReactElement, ReactNode, useEffect, useState } from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import 'react-toastify/dist/ReactToastify.css'
@@ -55,7 +53,7 @@ const config = {
 const App = ({ Component, pageProps }: TypeAppProps) => {
 	const AnyComponent = Component as any
 	const getLayout = AnyComponent.getLayout ?? ((page) => page)
-	const [queryClient] = React.useState(() => new QueryClient(config))
+	const [queryClient] = useState(() => new QueryClient(config))
 
 	useEffect(() => {
 		// Remove the server-side injected CSS.

@@ -9,7 +9,7 @@ import { FlexBox } from 'components/flex-box'
 import Reload from 'components/icons/Reload'
 import useMuiTable from 'hooks/useMuiTable'
 import { StatusWrapper } from 'pages-sections/admin/StyledComponents'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { IOrder } from 'shared/types/order.types'
 import { IProduct } from 'shared/types/product.types'
 

@@ -9,7 +9,7 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { IProduct, IProductVariant } from 'shared/types/product.types'
 import { ICartItem } from 'store/cart/cart.interface'
 
@@ -24,7 +24,7 @@ type ProductIntroProps = {
 }
 // ================================================================
 
-const ProductIntro: React.FC<ProductIntroProps> = ({ product }) => {
+const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 	const { t } = useTranslation('common')
 	const { brand, id, shop, name, variants, rating } = product
 

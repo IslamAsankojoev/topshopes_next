@@ -1,7 +1,8 @@
 import styled from '@emotion/styled'
 import { Button, TextField } from '@mui/material'
 import { useTranslation } from 'next-i18next'
-import React from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
+
 import { toast } from 'react-toastify'
 
 import { sendMessage } from '../../components/bot/TelegramBotMeassage'
@@ -16,20 +17,20 @@ interface formDataType {
 const ContactsForm = () => {
 	const { t } = useTranslation('contacts')
 
-	const [formData, setFormData] = React.useState<formDataType>({
+	const [formData, setFormData] = useState<formDataType>({
 		username: '',
 		email: '',
 		phone: '',
 		message: '',
 	})
 
-	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setFormData({
 			...formData,
 			[e.target.name]: e.target.value,
 		})
 	}
-	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		try {
 			await sendMessage(`

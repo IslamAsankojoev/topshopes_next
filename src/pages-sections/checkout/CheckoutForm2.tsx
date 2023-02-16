@@ -14,13 +14,14 @@ import { useTypedSelector } from 'hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { ResponseList } from 'shared/types/response.types'
 import { IAddress } from 'shared/types/user.types'
 import { common } from 'utils/Translate/common'
 import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
 import * as yup from 'yup'
+import {MouseEvent} from 'react'
 
 import EditAddressForm from './EditAddressForm'
 import Heading from './Heading'
@@ -122,7 +123,7 @@ const CheckoutForm2: FC = () => {
 	)
 
 	const deleteAddress = async (
-		e: React.MouseEvent<HTMLElement>,
+		e: MouseEvent<HTMLElement>,
 		id: string
 	) => {
 		e.stopPropagation()

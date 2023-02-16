@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { IMoneyTransfer } from 'shared/types/money-transfer.types'
 
 import { StyledTableCell, StyledTableRow } from './StyledComponents'

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Divider, Typography } from '@mui/material'
 import { useTranslation } from 'next-i18next'
-import React, { ComponentPropsWithoutRef, useCallback } from 'react'
+import { ComponentPropsWithoutRef, FC, useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 
-import { H5, Small } from './Typography'
+import { Small } from './Typography'
 
 // @ts-ignore
 export interface DropZoneProps extends ComponentPropsWithoutRef<'input'> {
@@ -16,7 +16,7 @@ export interface DropZoneProps extends ComponentPropsWithoutRef<'input'> {
 	accept?: string
 }
 
-const DropZone: React.FC<DropZoneProps> = (props) => {
+const DropZone: FC<DropZoneProps> = (props) => {
 	const { t } = useTranslation('admin')
 	const {
 		helperText = '',
@@ -26,7 +26,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
 		accept,
 		...other
 	} = props
-	const [title, setTitle] = React.useState('')
+	const [title, setTitle] = useState('')
 
 	const onDrop = useCallback((acceptedFiles) => {
 		if (onChange) {

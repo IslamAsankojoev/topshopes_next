@@ -1,7 +1,7 @@
 import { Box, Drawer, styled } from '@mui/material'
 import clsx from 'clsx'
 import Scrollbar from 'components/Scrollbar'
-import React, { FC, cloneElement, useEffect, useState } from 'react'
+import { FC, cloneElement, useEffect, useState, ReactElement } from 'react'
 
 // styled component
 const Wrapper = styled(Box)(() => ({ '& .handle': { cursor: 'pointer' } }))
@@ -10,7 +10,7 @@ const Wrapper = styled(Box)(() => ({ '& .handle': { cursor: 'pointer' } }))
 type SidenavProps = {
 	open?: boolean
 	width?: number
-	handle: React.ReactElement
+	handle: ReactElement
 	toggleSidenav?: () => void
 	position?: 'left' | 'right'
 }

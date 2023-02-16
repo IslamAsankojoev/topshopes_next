@@ -10,7 +10,7 @@ import {
 	ImageListItemBar,
 } from '@mui/material'
 import { useTranslation } from 'next-i18next'
-import { FC } from 'react'
+import { ChangeEvent, FC } from 'react'
 import { toast } from 'react-toastify'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { IImage } from 'shared/types/product.types'
@@ -33,7 +33,7 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 		return img
 	}
 
-	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
 		if ([...e.target.files]?.length > 5) {
 			toast.error('You can upload max 5 images')
 		}

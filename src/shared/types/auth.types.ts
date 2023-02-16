@@ -1,6 +1,7 @@
 import { NextPage } from 'next'
+import { ReactNode } from 'react'
 
-type getLayout = (page: React.ReactNode) => React.ReactNode
+type getLayout = (page: ReactNode) => ReactNode
 
 export type TypeRoles = {
 	isOnlyAuth?: boolean

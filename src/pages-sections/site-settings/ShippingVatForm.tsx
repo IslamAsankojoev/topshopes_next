@@ -1,7 +1,7 @@
 import { Button, Grid, TextField } from "@mui/material";
 import { H4 } from "components/Typography";
 import { Formik } from "formik";
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 
 const ShippingVatForm: FC = () => {
   const [loadingButton, setLoadingButton] = useState(false);

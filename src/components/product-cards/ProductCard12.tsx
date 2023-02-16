@@ -6,7 +6,7 @@ import { FlexBetween, FlexBox } from "components/flex-box";
 import HoverBox from "components/HoverBox";
 import { H4 } from "components/Typography";
 import Link from "next/link";
-import React, { CSSProperties } from "react";
+import { CSSProperties, FC } from "react";
 
 // ===========================================================
 type ProductCard3Props = {
@@ -23,7 +23,7 @@ type ProductCard3Props = {
 };
 // ===========================================================
 
-const ProductCard12: React.FC<ProductCard3Props> = ({
+const ProductCard12: FC<ProductCard3Props> = ({
   id,
   title,
   price,

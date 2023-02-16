@@ -1,29 +1,28 @@
 import { Card, CardProps, Grid } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { AuthService } from 'api/services/auth/auth.service'
-import axios from 'axios'
 import BazaarButton from 'components/BazaarButton'
 import BazaarTextField from 'components/BazaarTextField'
 import { H3, Small } from 'components/Typography'
 import { StyledNavLink } from 'components/mobile-navigation/styles'
 import { useFormik } from 'formik'
 import { useActions } from 'hooks/useActions'
+import { useAuthRedirect } from 'hooks/useAuthRedirect'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import React, { FormEvent, useCallback, useState } from 'react'
+import { FC, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
 import * as yup from 'yup'
 
 import EyeToggleButton from './EyeToggleButton'
 import SocialButtons from './SocialButtons'
-import { useAuthRedirect } from 'hooks/useAuthRedirect'
 
 const fbStyle = { background: '#3B5998', color: 'white' }
 const googleStyle = { background: '#4285F4', color: 'white' }
 
 type WrapperProps = { passwordVisibility?: boolean }
 
-export const Wrapper = styled<React.FC<WrapperProps & CardProps>>(
+export const Wrapper = styled<FC<WrapperProps & CardProps>>(
 	({ children, passwordVisibility, ...rest }) => (
 		<Card {...rest}>{children}</Card>
 	)

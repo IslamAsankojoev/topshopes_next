@@ -1,7 +1,6 @@
 import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import Empty from 'components/Empty'
-import Loading from 'components/Loading'
 import Scrollbar from 'components/Scrollbar'
 import { H3 } from 'components/Typography'
 import SearchArea from 'components/dashboard/SearchArea'
@@ -12,13 +11,13 @@ import useMuiTable from 'hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import React, { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'shared/types/auth.types'
 
-import { BrandTypesService } from '../../../src/api/services-admin/brand-types/brandTypes.service'
-import BrandsTypesRow from '../../../src/pages-sections/admin/BrandsTypesRow'
+import { BrandTypesService } from 'api/services-admin/brand-types/brandTypes.service'
+import BrandsTypesRow from 'pages-sections/admin/BrandsTypesRow'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -42,8 +41,8 @@ const BrandsTypesList: NextPageAuth = () => {
 
 	const { push } = useRouter()
 
-	const [searchValue, setSearchValue] = React.useState('')
-	const [currentPage, setCurrentPage] = React.useState(1)
+	const [searchValue, setSearchValue] = useState('')
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 

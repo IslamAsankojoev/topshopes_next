@@ -15,7 +15,7 @@ import ProductViewDialog from 'components/products/ProductViewDialog'
 import { H3, Span } from 'components/Typography'
 import { CartItem, useAppContext } from 'contexts/AppContext'
 import Link from 'next/link'
-import React, { CSSProperties, Fragment, useCallback, useState } from 'react'
+import { CSSProperties, FC, Fragment, useCallback, useState } from 'react'
 
 const StyledBazaarCard = styled(Box)(() => ({
 	height: '100%',
@@ -125,7 +125,7 @@ type ProductCard1Props = {
 }
 // ====================================================================
 
-const ProductCard13: React.FC<ProductCard1Props> = (props) => {
+const ProductCard13: FC<ProductCard1Props> = (props) => {
 	const { off, id, title, price, imgUrl, rating, hideRating } = props
 
 	const { state, dispatch } = useAppContext()
