@@ -73,11 +73,11 @@ const ProductCard7: FC<ICartItem> = (product) => {
 
 				<FlexBox gap={1} flexWrap="wrap" alignItems="center">
 					<Span color="grey.600">
-						${Number(variants[0]?.price).toFixed(2)}c x {qty}
+						{Number(variants[0]?.price).toFixed(2)}c x {qty}
 					</Span>
 
 					<Span fontWeight={600} color="primary.main">
-						${(Number(variants[0]?.price) * qty).toFixed(2)}c
+						{(Number(variants[0]?.price) * qty).toFixed(2)}c
 					</Span>
 				</FlexBox>
 

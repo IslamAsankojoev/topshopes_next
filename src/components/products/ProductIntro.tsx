@@ -47,9 +47,10 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 	)
 
 	const { addToCart } = useActions()
+	console.log(product)
 
 	const handleAddToCart = () => {
-		addToCart({ ...product, variants: [selectedVariant] })
+		addToCart({ ...product })
 	}
 
 	return (

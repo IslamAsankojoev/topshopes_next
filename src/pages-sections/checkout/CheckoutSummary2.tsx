@@ -31,7 +31,7 @@ const CheckoutSummary2: FC = () => {
 						)
 					</Paragraph>
 					<Paragraph>
-						${Number(item.variants[0].price).toFixed(2)}c x {item.qty}
+						{Number(item.variants[0].price).toFixed(2)}c x {item.qty}
 					</Paragraph>
 				</FlexBetween>
 			))}
@@ -62,7 +62,7 @@ const CheckoutSummary2: FC = () => {
 
 			<FlexBetween fontWeight="700" mb={1}>
 				<Paragraph>{t('total')}:</Paragraph>
-				<Paragraph fontWeight="700">${total_price.toFixed(2)}</Paragraph>
+				<Paragraph fontWeight="700">{total_price.toFixed(2)}</Paragraph>
 			</FlexBetween>
 
 			<Divider sx={{ borderColor: 'grey.300', mb: 2 }} />

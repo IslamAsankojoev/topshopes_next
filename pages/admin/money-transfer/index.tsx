@@ -117,7 +117,7 @@ const MoneyTransfer: NextPageAuth = () => {
 	)
 }
 
-MoneyTransfer.isOnlyAuth = true
+MoneyTransfer.isOnlySeller = true
 
 MoneyTransfer.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

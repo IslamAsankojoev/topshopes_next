@@ -44,7 +44,7 @@ const Cart: NextPage = () => {
 									<Span color="grey.600">{t('total')}:</Span>
 
 									<Span fontSize={18} fontWeight={600} lineHeight="1">
-										${total_price.toFixed(2)}
+										{total_price.toFixed(2)}
 									</Span>
 								</FlexBetween>
 
