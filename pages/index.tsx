@@ -62,7 +62,9 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 	)
 	return (
 		<ShopLayout1>
-			<SEO title="Home" />
+			<SEO title="Topshopes - Home" description='
+			Topshopes - Маркетплейс, где вы можете найти все, что вам нужно.
+			' />
 
 			{/* HERO SLIDER SECTION */}
 			<Section1 carouselData={props.mainCarouselData} />

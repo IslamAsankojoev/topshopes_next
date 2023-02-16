@@ -18,13 +18,12 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	}
 }
 
-// aboutUsTopshopes.webp
 const AboutPage: FC = () => {
 	const { t } = useTranslation('about')
 
 	return (
 		<ShopLayout1>
-			<SEO title="About" />
+			<SEO title="О нас" description='О компании Topshopes' />
 			<Container sx={{ pb: '2rem', pt: '2rem' }}>
 				<Grid container spacing={{ xs: 2, md: 10 }}>
 					<Grid item xs={12} sm={6} alignSelf={'center'}>

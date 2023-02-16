@@ -45,7 +45,7 @@ const ContactsPage: NextPage<{ map: string; data: any }> = () => {
 	)
 	return (
 		<ShopLayout1>
-			<SEO title="Contacts" />
+			<SEO title="Контакты" description='Topshopes контакты, свяжитесь с нами' />
 			<Container sx={{ pb: '1rem' }}>
 				<Wrapper>
 					<ContactsInfo>

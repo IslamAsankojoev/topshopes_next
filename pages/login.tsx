@@ -22,7 +22,7 @@ const LoginPage: NextPageAuth = () => {
 				padding: '30px',
 			}}
 		>
-			<SEO title="Login" />
+			<SEO title="Login" description='Войти в аккаунт'/>
 			<Login />
 		</FlexRowCenter>
 	)

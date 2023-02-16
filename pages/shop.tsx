@@ -24,6 +24,7 @@ import { useRouter } from 'next/router'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProductPreview } from 'shared/types/product.types'
 import { ResponseList } from 'shared/types/response.types'
+import SEO from 'components/SEO'
 
 // ===================================================
 export const getServerSideProps: GetServerSideProps = async ({
@@ -81,6 +82,7 @@ const ShopPage = ({ query }) => {
 
 	return (
 		<ShopLayout1>
+			<SEO title={'Магазин'} description='Topshopes - Магазин'/>
 			<Container sx={{ mt: 4, mb: 6 }}>
 				<Card
 					elevation={1}

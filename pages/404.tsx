@@ -12,7 +12,7 @@ const Error404: NextPage = () => {
 
 	return (
 		<FlexRowCenter px={2} minHeight="100vh" flexDirection="column">
-			<SEO title="Nothing found" />
+			<SEO title="Страница не найдена" />
 			<BazaarImage
 				src="/assets/images/illustrations/404.svg"
 				sx={{ display: 'block', maxWidth: 320, width: '100%', mb: 3 }}

@@ -1,10 +1,13 @@
 import styled from '@emotion/styled'
 import { Container } from '@mui/system'
+import { axiosClassic } from 'api/interceptor'
 import ShopLayout1 from 'components/layouts/ShopLayout1'
+import SEO from 'components/SEO'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
+import { useQuery } from 'react-query'
 
 import gmailImg from '../public/assets/images/banner.webp'
 
@@ -16,12 +19,12 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	}
 }
 
-// aboutUsTopshopes.webp
 const AgreementPage: FC = () => {
 	const { t } = useTranslation('about')
 
 	return (
 		<ShopLayout1>
+			<SEO title="Политика соглашения для пользователей" description='Политика соглашения для пользователей' />
 			<Container sx={{ mt: 4, mb: 6, px: 6 }}>
 				<h1>ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</h1>
 				www.topshopes.com Принципы конфиденциальности сайта. Настоящая политика

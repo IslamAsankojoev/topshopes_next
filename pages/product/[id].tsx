@@ -11,6 +11,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { FC, useState } from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProduct } from 'shared/types/product.types'
+import SEO from 'components/SEO'
 
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
@@ -67,6 +68,7 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 
 	return (
 		<ShopLayout1>
+			<SEO title={`Topshopes - ${product.name}`} />
 			<Container sx={{ my: 4 }}>
 				{product ? <ProductIntro product={product} /> : <H2>Loading...</H2>}
 
