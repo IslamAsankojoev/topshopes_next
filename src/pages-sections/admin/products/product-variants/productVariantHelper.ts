@@ -1,5 +1,5 @@
-import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service';
-import { ProductVariantService } from 'api/services/product-variants/product-variants.service';
+import { ProductVariantAdminService } from 'src/api/services-admin/product-variants/product-variants.service';
+import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service';
 
 export const getVariantInfo = (id: string | number | any, data: any[]) => {
     if (id?.id) {

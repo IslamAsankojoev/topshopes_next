@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
-import { IProductPreview } from 'shared/types/product.types'
+import { IProductPreview } from 'src/shared/types/product.types'
 
 import { IInitialState } from './wishlist.interface'
 

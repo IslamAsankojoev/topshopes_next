@@ -1,8 +1,8 @@
 import { Box, styled } from '@mui/material'
-import BazaarButton from 'components/BazaarButton'
-import { FlexBox, FlexRowCenter } from 'components/flex-box'
-import ProductCard8 from 'components/product-cards/ProductCard8'
-import { H2, H3, Span } from 'components/Typography'
+import BazaarButton from 'src/components/BazaarButton'
+import { FlexBox, FlexRowCenter } from 'src/components/flex-box'
+import ProductCard8 from 'src/components/product-cards/ProductCard8'
+import { H2, H3, Span } from 'src/components/Typography'
 import { FC, Fragment } from 'react'
 
 // styled component

@@ -1,9 +1,9 @@
 import { Box, Link, MenuItem, styled } from '@mui/material'
-import { CategoriesService } from 'api/services/categories/category.service'
+import { CategoriesService } from 'src/api/services/categories/category.service'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
-import { ICategory } from 'shared/types/product.types'
-import { ResponseList } from 'shared/types/response.types'
+import { ICategory } from 'src/shared/types/product.types'
+import { ResponseList } from 'src/shared/types/response.types'
 
 import MegaMenu1 from './mega-menu/MegaMenu1'
 import MegaMenu2 from './mega-menu/MegaMenu2'

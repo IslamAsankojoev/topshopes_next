@@ -1,8 +1,8 @@
-import { IPayment } from 'shared/types/order.types'
-import { IShopForm } from 'shared/types/shop.types'
-import { IUser } from 'shared/types/user.types'
-import { statusTranslation } from 'utils/Translate/common'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import { IPayment } from 'src/shared/types/order.types'
+import { IShopForm } from 'src/shared/types/shop.types'
+import { IUser } from 'src/shared/types/user.types'
+import { statusTranslation } from 'src/utils/Translate/common'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 export const categoryEditForm = [
 	{

@@ -1,6 +1,6 @@
-import { makeRequest } from 'api/interceptor'
+import { makeRequest } from 'src/api/interceptor'
 import { toast } from 'react-toastify'
-import { getErrorMessage } from 'utils/getErrorMessage'
+import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 export const CRUDservice = (
 	url: (id?: string) => string,

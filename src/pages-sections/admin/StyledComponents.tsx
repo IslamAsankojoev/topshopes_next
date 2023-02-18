@@ -6,9 +6,9 @@ import {
 	lighten,
 	styled,
 } from '@mui/material'
-import { IOrderStatus } from 'shared/types/order.types'
-import { IProductVariantStatus } from 'shared/types/product.types'
-import { IShopRequestStatus } from 'shared/types/shop.types'
+import { IOrderStatus } from 'src/shared/types/order.types'
+import { IProductVariantStatus } from 'src/shared/types/product.types'
+import { IShopRequestStatus } from 'src/shared/types/shop.types'
 
 // styled components
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

@@ -1,10 +1,10 @@
 import { Pagination } from '@mui/material'
-import { FlexBetween } from 'components/flex-box'
-import ProductCard9 from 'components/product-cards/ProductCard9'
-import productDatabase from 'data/product-database'
+import { FlexBetween } from 'src/components/flex-box'
+import ProductCard9 from 'src/components/product-cards/ProductCard9'
+import productDatabase from 'src/data/product-database'
 import { FC } from 'react'
 
-import { IProduct, IProductPreview } from 'shared/types/product.types'
+import { IProduct, IProductPreview } from 'src/shared/types/product.types'
 import { Span } from '../Typography'
 
 // ==========================================================

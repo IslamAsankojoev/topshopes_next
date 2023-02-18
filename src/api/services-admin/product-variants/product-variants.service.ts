@@ -1,6 +1,6 @@
 
-import { CRUDservice } from "api/crud.service";
-import { getProductVariantsUrl } from "config/api.config";
+import { CRUDservice } from "src/api/crud.service";
+import { getProductVariantsUrl } from "src/config/api.config";
 
 
 export const ProductVariantAdminService = CRUDservice(

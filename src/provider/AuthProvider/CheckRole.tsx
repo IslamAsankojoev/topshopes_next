@@ -1,9 +1,8 @@
-import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import lodash from 'lodash'
 import { useRouter } from 'next/router'
-
 import { FC } from 'react'
-import { TypeComponentAuthFields } from 'shared/types/auth.types'
+import { TypeComponentAuthFields } from 'src/shared/types/auth.types'
 
 const CheckRole: FC<TypeComponentAuthFields> = ({
 	children,

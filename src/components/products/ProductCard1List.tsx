@@ -1,11 +1,11 @@
 import { Grid, Pagination } from '@mui/material'
-import { Span } from 'components/Typography'
-import { FlexBetween } from 'components/flex-box'
-import ProductCard1 from 'components/product-cards/ProductCard1'
-import productDatabase from 'data/product-database'
+import { Span } from 'src/components/Typography'
+import { FlexBetween } from 'src/components/flex-box'
+import ProductCard1 from 'src/components/product-cards/ProductCard1'
+import productDatabase from 'src/data/product-database'
 import { useRouter } from 'next/router'
 import { FC, Fragment } from 'react'
-import { IProduct, IProductPreview } from 'shared/types/product.types'
+import { IProduct, IProductPreview } from 'src/shared/types/product.types'
 
 // ========================================================
 type ProductCard1ListProps = { products: IProductPreview[]; count?: number }

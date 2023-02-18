@@ -1,13 +1,10 @@
-import { removeToken } from 'api/services/auth/auth.helpers'
-import { AuthService } from 'api/services/auth/auth.service'
-import { useActions } from 'hooks/useActions'
-import { useTypedSelector } from 'hooks/useTypedSelector'
+import { AuthService } from 'src/api/services/auth/auth.service'
+import { useActions } from 'src/hooks/useActions'
 import Cookie from 'js-cookie'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { FC, useEffect } from 'react'
 
-import { getLocalStorage } from 'utils/local-storage/localStorage'
 
 const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false })
 

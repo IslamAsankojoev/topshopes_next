@@ -1,10 +1,10 @@
-import { makeRequest } from 'api/interceptor'
+import { makeRequest } from 'src/api/interceptor'
 import {
 	getShopOrdersUrl,
 	getShopProductsUrl,
 	getShopUrl,
 	getShopsUrl,
-} from 'config/api.config'
+} from 'src/config/api.config'
 
 import { CRUDservice } from './../../crud.service'
 

@@ -1,5 +1,5 @@
 import { IImage } from './../../shared/types/product.types';
-import { IProductVariant } from 'shared/types/product.types';
+import { IProductVariant } from 'src/shared/types/product.types';
 import { IProductVariantInitialState } from './productVariant.interface';
 import { createSlice } from '@reduxjs/toolkit'
 

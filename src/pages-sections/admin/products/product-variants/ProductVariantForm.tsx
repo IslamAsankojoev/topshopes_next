@@ -8,14 +8,14 @@ import {
 	DialogContent,
 	Typography,
 } from '@mui/material'
-import { ProductVariantAdminService } from 'api/services-admin/product-variants/product-variants.service'
-import { AttributesService } from 'api/services/attributes/attributes.service'
-import { ImagesService } from 'api/services/images/images.service'
-import { ProductVariantService } from 'api/services/product-variants/product-variants.service'
-import CreateForm from 'components/Form/CreateForm'
-import ProductImages from 'components/Gallery/ProductImages'
-import { useActions } from 'hooks/useActions'
-import { useTypedSelector } from 'hooks/useTypedSelector'
+import { ProductVariantAdminService } from 'src/api/services-admin/product-variants/product-variants.service'
+import { AttributesService } from 'src/api/services/attributes/attributes.service'
+import { ImagesService } from 'src/api/services/images/images.service'
+import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service'
+import CreateForm from 'src/components/Form/CreateForm'
+import ProductImages from 'src/components/Gallery/ProductImages'
+import { useActions } from 'src/hooks/useActions'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, ReactNode, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
@@ -24,9 +24,9 @@ import {
 	IImage,
 	IProductAttributeValue,
 	IProductVariant,
-} from 'shared/types/product.types'
-import { productVariantFormCreate } from 'utils/constants/forms'
-import { formData } from 'utils/formData'
+} from 'src/shared/types/product.types'
+import { productVariantFormCreate } from 'src/utils/constants/forms'
+import { formData } from 'src/utils/formData'
 
 import ProductAttributes from './productVariantAttribute'
 

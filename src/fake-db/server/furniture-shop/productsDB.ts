@@ -1,5 +1,5 @@
-import Mock from "fake-db/mock";
-import bazaarReactDatabase from "data/bazaar-react-database";
+import Mock from "src/fake-db/mock";
+import bazaarReactDatabase from "src/data/bazaar-react-database";
 import { topNewProducts, topSellingProducts } from "./furnitureShopData";
 
 Mock.onGet("/api/furniture-shop/top-new-products").reply(() => {

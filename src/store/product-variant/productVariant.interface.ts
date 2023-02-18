@@ -1,4 +1,4 @@
-import { IProductVariant } from 'shared/types/product.types';
+import { IProductVariant } from 'src/shared/types/product.types';
 
 
 export interface IProductVariantInitialState {

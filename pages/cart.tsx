@@ -1,16 +1,16 @@
 import { Box, Button, Card, Divider, Grid } from '@mui/material'
 import { Container } from '@mui/system'
-import SEO from 'components/SEO'
-import { Span } from 'components/Typography'
-import { FlexBetween } from 'components/flex-box'
-import ShopLayout1 from 'components/layouts/ShopLayout1'
-import ProductCard7 from 'components/product-cards/ProductCard7'
-import { useTypedSelector } from 'hooks/useTypedSelector'
+import SEO from 'src/components/SEO'
+import { Span } from 'src/components/Typography'
+import { FlexBetween } from 'src/components/flex-box'
+import ShopLayout1 from 'src/components/layouts/ShopLayout1'
+import ProductCard7 from 'src/components/product-cards/ProductCard7'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { GetStaticProps, NextPage } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
-import { ICartItem } from 'store/cart/cart.interface'
+import { ICartItem } from 'src/store/cart/cart.interface'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {

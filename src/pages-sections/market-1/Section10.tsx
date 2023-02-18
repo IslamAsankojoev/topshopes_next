@@ -1,8 +1,8 @@
 import { Box, Container, Grid, styled } from '@mui/material'
-import BazaarCard from 'components/BazaarCard'
-import CategorySectionHeader from 'components/CategorySectionHeader'
-import LazyImage from 'components/LazyImage'
-import Category from 'components/icons/Category'
+import BazaarCard from 'src/components/BazaarCard'
+import CategorySectionHeader from 'src/components/CategorySectionHeader'
+import LazyImage from 'src/components/LazyImage'
+import Category from 'src/components/icons/Category'
 import Link from 'next/link'
 import { FC } from 'react'
 

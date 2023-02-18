@@ -12,7 +12,7 @@ import {
 	IProduct,
 	IProductAttributeValue,
 	IProductVariant,
-} from 'shared/types/product.types'
+} from 'src/shared/types/product.types'
 
 import AttributeSelect from './AttributeSelect'
 

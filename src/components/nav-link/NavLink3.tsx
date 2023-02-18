@@ -1,5 +1,5 @@
 import { ArrowForward } from "@mui/icons-material";
-import { Span } from "components/Typography";
+import { Span } from "src/components/Typography";
 import Link from "next/link";
 import { FC } from "react";
 

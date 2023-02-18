@@ -1,14 +1,14 @@
 import East from '@mui/icons-material/East'
 import { Box, Chip, IconButton, Typography } from '@mui/material'
-import TableRow from 'components/TableRow'
-import { H5 } from 'components/Typography'
+import TableRow from 'src/components/TableRow'
+import { H5 } from 'src/components/Typography'
 import { format } from 'date-fns'
 import Link from 'next/link'
-import { StatusWrapper } from 'pages-sections/admin'
+import { StatusWrapper } from 'src/pages-sections/admin'
 import { FC } from 'react'
-import { IOrderShort, IOrderStatus } from 'shared/types/order.types'
-import { statusTranslation } from 'utils/Translate/common'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import { IOrderShort, IOrderStatus } from 'src/shared/types/order.types'
+import { statusTranslation } from 'src/utils/Translate/common'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 const OrderRow: FC<IOrderShort> = ({
 	created_at,

@@ -1,7 +1,7 @@
 import { Delete } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { Paragraph, Small } from 'components/Typography'
-import { FlexBox } from 'components/flex-box'
+import { Paragraph, Small } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
 import { FC } from 'react'
 
 import {

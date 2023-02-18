@@ -1,8 +1,8 @@
 import { Divider } from '@mui/material'
-import Card1 from 'components/Card1'
-import { FlexBetween } from 'components/flex-box'
-import { Paragraph } from 'components/Typography'
-import { useTypedSelector } from 'hooks/useTypedSelector'
+import Card1 from 'src/components/Card1'
+import { FlexBetween } from 'src/components/flex-box'
+import { Paragraph } from 'src/components/Typography'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
 
 
 const PaymentSummary = () => {

@@ -9,16 +9,16 @@ import {
 	MenuItem,
 	Select,
 } from '@mui/material'
-import { OrdersService } from 'api/services-admin/orders/order.service'
-import { ShopsService } from 'api/services/shop/shop.service'
-import LazyImage from 'components/LazyImage'
-import { H3, H6, Paragraph } from 'components/Typography'
-import { FlexBetween, FlexBox } from 'components/flex-box'
+import { OrdersService } from 'src/api/services-admin/orders/order.service'
+import { ShopsService } from 'src/api/services/shop/shop.service'
+import LazyImage from 'src/components/LazyImage'
+import { H3, H6, Paragraph } from 'src/components/Typography'
+import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
-import { IOrder, IOrderStatus } from 'shared/types/order.types'
+import { IOrder, IOrderStatus } from 'src/shared/types/order.types'
 
 import { StatusWrapper } from '../StyledComponents'
 

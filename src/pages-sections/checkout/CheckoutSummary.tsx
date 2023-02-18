@@ -1,7 +1,7 @@
 import { Button, Divider, TextField, Typography } from '@mui/material'
-import Card1 from 'components/Card1'
-import { FlexBetween, FlexBox } from 'components/flex-box'
-import { useTypedSelector } from 'hooks/useTypedSelector'
+import Card1 from 'src/components/Card1'
+import { FlexBetween, FlexBox } from 'src/components/flex-box'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { FC } from 'react'
 
 const CheckoutSummary: FC = () => {

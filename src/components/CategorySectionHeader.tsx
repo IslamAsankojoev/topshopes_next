@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight } from '@mui/icons-material'
-import useSettings from 'hooks/useSettings'
+import useSettings from 'src/hooks/useSettings'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC, ReactNode } from 'react'

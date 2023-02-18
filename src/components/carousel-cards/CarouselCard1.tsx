@@ -1,6 +1,6 @@
 import { Box, Grid, styled } from '@mui/material'
-import LazyImage from 'components/LazyImage'
-import { FlexBetween } from 'components/flex-box'
+import LazyImage from 'src/components/LazyImage'
+import { FlexBetween } from 'src/components/flex-box'
 import { FC } from 'react'
 
 // styled component
@@ -78,13 +78,13 @@ const CarouselCard1: FC<CarouselCard1Props> = ({ imgUrl }) => {
 				<Box
 					sx={{
 						width: '100%',
-						height: '340px',
-						'@media (max-width: 600px)': {
-							height: '280px',
+						height: '365px',
+						"@media (max-width: 991px)": {
+							height: '70vw',
 						},
 					}}
 				>
-					<LazyImage src={imgUrl} layout="fill" />
+					<LazyImage src={imgUrl} layout="fill" alt='Slide' objectFit='cover' />
 				</Box>
 			</Grid>
 		</StyledBox>

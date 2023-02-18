@@ -1,11 +1,11 @@
 import { Box } from '@mui/material'
-import { H3 } from 'components/Typography'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import { H3 } from 'src/components/Typography'
+import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { OrderDetail } from 'pages-sections/admin'
+import { OrderDetail } from 'src/pages-sections/admin'
 import { ReactElement } from 'react'
-import { NextPageAuth } from 'shared/types/auth.types'
+import { NextPageAuth } from 'src/shared/types/auth.types'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {

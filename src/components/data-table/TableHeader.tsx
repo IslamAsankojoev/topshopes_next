@@ -6,7 +6,7 @@ import {
 	TableSortLabel,
 	styled,
 } from '@mui/material'
-import UpDown from 'components/icons/UpDown'
+import UpDown from 'src/components/icons/UpDown'
 import { useTranslation } from 'next-i18next'
 import { ChangeEvent, FC } from 'react'
 

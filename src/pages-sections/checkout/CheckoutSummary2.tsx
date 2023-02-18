@@ -1,7 +1,7 @@
 import { Box, Divider } from '@mui/material'
-import { Paragraph, Span } from 'components/Typography'
-import { FlexBetween } from 'components/flex-box'
-import { useTypedSelector } from 'hooks/useTypedSelector'
+import { Paragraph, Span } from 'src/components/Typography'
+import { FlexBetween } from 'src/components/flex-box'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 

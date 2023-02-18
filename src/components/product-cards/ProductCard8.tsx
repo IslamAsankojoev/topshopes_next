@@ -1,9 +1,9 @@
 import { SxProps } from "@mui/material";
-import BazaarCard from "components/BazaarCard";
-import { FlexBox } from "components/flex-box";
-import HoverBox from "components/HoverBox";
-import LazyImage from "components/LazyImage";
-import { H6, Span } from "components/Typography";
+import BazaarCard from "src/components/BazaarCard";
+import { FlexBox } from "src/components/flex-box";
+import HoverBox from "src/components/HoverBox";
+import LazyImage from "src/components/LazyImage";
+import { H6, Span } from "src/components/Typography";
 import Link from "next/link";
 import { FC } from "react";
 

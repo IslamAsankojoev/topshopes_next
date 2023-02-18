@@ -1,13 +1,13 @@
-import BazaarCard from 'components/BazaarCard'
-import CategorySectionCreator from 'components/CategorySectionCreator'
-import Carousel from 'components/carousel/Carousel'
-import Category from 'components/icons/Category'
-import ProductCard6 from 'components/product-cards/ProductCard6'
-import useWindowSize from 'hooks/useWindowSize'
+import BazaarCard from 'src/components/BazaarCard'
+import CategorySectionCreator from 'src/components/CategorySectionCreator'
+import Carousel from 'src/components/carousel/Carousel'
+import Category from 'src/components/icons/Category'
+import ProductCard6 from 'src/components/product-cards/ProductCard6'
+import useWindowSize from 'src/hooks/useWindowSize'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
-import { ICategory } from 'shared/types/product.types'
+import { ICategory } from 'src/shared/types/product.types'
 
 // =====================================================
 type Props = { categoryList: ICategory[] }

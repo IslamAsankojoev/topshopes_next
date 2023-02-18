@@ -1,10 +1,10 @@
 import { Avatar } from '@mui/material'
-import { UsersService } from 'api/services-admin/users/users.service'
-import { Paragraph } from 'components/Typography'
-import { FlexBox } from 'components/flex-box'
+import { UsersService } from 'src/api/services-admin/users/users.service'
+import { Paragraph } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
-import { IUser } from 'shared/types/user.types'
+import { IUser } from 'src/shared/types/user.types'
 
 import {
 	StyledTableCell,

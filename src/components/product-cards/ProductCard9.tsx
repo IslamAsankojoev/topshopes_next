@@ -10,13 +10,13 @@ import {
 	Rating,
 	styled,
 } from '@mui/material'
-import Image from 'components/BazaarImage'
-import { FlexBetween, FlexBox } from 'components/flex-box'
-import { H5, Span } from 'components/Typography'
-import { CartItem, useAppContext } from 'contexts/AppContext'
+import Image from 'src/components/BazaarImage'
+import { FlexBetween, FlexBox } from 'src/components/flex-box'
+import { H5, Span } from 'src/components/Typography'
+import { CartItem, useAppContext } from 'src/contexts/AppContext'
 import Link from 'next/link'
 import { FC, useCallback } from 'react'
-import { IProduct, IProductPreview } from 'shared/types/product.types'
+import { IProduct, IProductPreview } from 'src/shared/types/product.types'
 
 // styled components
 const Wrapper = styled(Card)(() => ({

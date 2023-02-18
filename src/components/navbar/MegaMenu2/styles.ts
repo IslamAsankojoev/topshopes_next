@@ -1,5 +1,5 @@
 import { Box, List, ListItem, styled } from "@mui/material";
-import BazaarCard from "components/BazaarCard";
+import BazaarCard from "src/components/BazaarCard";
 
 const Wrapper = styled(Box)(({ theme }) => ({
   cursor: "pointer",

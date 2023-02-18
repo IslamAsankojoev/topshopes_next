@@ -1,8 +1,8 @@
 import { Delete } from '@mui/icons-material'
 import { Button, Divider, Grid, IconButton, TextField } from '@mui/material'
-import DropZone from 'components/DropZone'
-import { FlexBetween } from 'components/flex-box'
-import { H4 } from 'components/Typography'
+import DropZone from 'src/components/DropZone'
+import { FlexBetween } from 'src/components/flex-box'
+import { H4 } from 'src/components/Typography'
 import { FieldArray, Formik } from 'formik'
 import { FC, Fragment } from 'react'
 

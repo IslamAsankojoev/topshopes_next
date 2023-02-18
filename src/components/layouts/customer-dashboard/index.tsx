@@ -1,5 +1,5 @@
 import { Container, Grid } from "@mui/material";
-import ShopLayout1 from "components/layouts/ShopLayout1";
+import ShopLayout1 from "src/components/layouts/ShopLayout1";
 import { FC } from "react";
 import Navigations from "./Navigations";
 

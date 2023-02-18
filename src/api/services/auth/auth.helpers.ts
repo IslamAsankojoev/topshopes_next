@@ -1,13 +1,18 @@
 import Cookie from 'js-cookie'
-import { IUser } from 'shared/types/user.types'
-import { ITokens } from 'store/user/user.interface'
+import { setCookie } from 'cookies-next'
+import { IUser } from 'src/shared/types/user.types'
+import { ITokens } from 'src/store/user/user.interface'
 
 export const saveToken = (data: ITokens) => {
 	if (data.access) {
 		Cookie.set('token', data.access)
 	}
 	if (data.refresh) {
-		Cookie.set('refresh', data.refresh)
+		setCookie( 'refresh', data.refresh , {
+			maxAge: 60 * 60 * 24 * 30,
+			path: '/',
+			httpOnly: true,
+		})
 	}
 }
 

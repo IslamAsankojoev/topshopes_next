@@ -1,11 +1,11 @@
 import { Box } from '@mui/material'
-import BazaarAvatar from 'components/BazaarAvatar'
-import BazaarRating from 'components/BazaarRating'
-import { H5, H6, Paragraph, Span } from 'components/Typography'
-import { FlexBox } from 'components/flex-box'
+import BazaarAvatar from 'src/components/BazaarAvatar'
+import BazaarRating from 'src/components/BazaarRating'
+import { H5, H6, Paragraph, Span } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
 import { FC } from 'react'
-import { IReview } from 'shared/types/product.types'
-import { getDateDifference } from 'utils/utils'
+import { IReview } from 'src/shared/types/product.types'
+import { getDateDifference } from 'src/utils/utils'
 
 const ProductComment: FC<IReview> = (props) => {
 	const { product_variant, user, rating, comment, created_at } = props

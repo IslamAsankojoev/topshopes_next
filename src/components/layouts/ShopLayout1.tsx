@@ -1,11 +1,11 @@
-import Footer from 'components/footer/Footer'
-import Header from 'components/header/Header'
-import MobileNavigationBar from 'components/mobile-navigation/MobileNavigationBar'
-import Sticky from 'components/sticky/Sticky'
-import Topbar from 'components/topbar/Topbar'
+import Footer from 'src/components/footer/Footer'
+import Header from 'src/components/header/Header'
+import MobileNavigationBar from 'src/components/mobile-navigation/MobileNavigationBar'
+import Sticky from 'src/components/sticky/Sticky'
+import Topbar from 'src/components/topbar/Topbar'
 import { FC, Fragment, useCallback, useState } from 'react'
-import Navbar from 'components/navbar/Navbar'
-import { ISiteSettings } from 'shared/types/site-settings.types'
+import Navbar from 'src/components/navbar/Navbar'
+import { ISiteSettings } from 'src/shared/types/site-settings.types'
 
 /**
  *  Used in:

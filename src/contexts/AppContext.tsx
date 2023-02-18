@@ -1,6 +1,6 @@
 import { createContext, FC, useContext, useEffect, useMemo, useReducer } from 'react'
 import lodash from 'lodash'
-import { getLocalStorage } from 'utils/local-storage/localStorage'
+import { getLocalStorage } from 'src/utils/local-storage/localStorage'
 
 
 type initialState = {

@@ -1,8 +1,8 @@
 import { styled } from "@mui/material";
-import BazaarCard from "components/BazaarCard";
-import BazaarImage from "components/BazaarImage";
-import { FlexBox } from "components/flex-box";
-import { H2, Paragraph, Small } from "components/Typography";
+import BazaarCard from "src/components/BazaarCard";
+import BazaarImage from "src/components/BazaarImage";
+import { FlexBox } from "src/components/flex-box";
+import { H2, Paragraph, Small } from "src/components/Typography";
 import Link from "next/link";
 import { FC } from "react";
 

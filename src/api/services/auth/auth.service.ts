@@ -1,12 +1,12 @@
-import { axiosClassic, instance } from 'api/interceptor'
+import { axiosClassic, instance } from 'src/api/interceptor'
 import Cookies from 'js-cookie'
 import { toast } from 'react-toastify'
 import {
 	IAuthResponse,
 	ILogin,
 	IRegister,
-} from 'store/user/user.interface'
-import { getErrorMessage } from 'utils/getErrorMessage'
+} from 'src/store/user/user.interface'
+import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 import { removeToken, saveToStorage, saveToken } from './auth.helpers'
 

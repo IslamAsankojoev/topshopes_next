@@ -1,9 +1,9 @@
-import { axiosClassic } from 'api/interceptor'
-import { getAllProductsUrl } from 'config/api.config'
+import { axiosClassic } from 'src/api/interceptor'
+import { getAllProductsUrl } from 'src/config/api.config'
 import { toast } from 'react-toastify'
-import { IProductPreview } from 'shared/types/product.types'
-import { ResponseList } from 'shared/types/response.types'
-import { getErrorMessage } from 'utils/getErrorMessage'
+import { IProductPreview } from 'src/shared/types/product.types'
+import { ResponseList } from 'src/shared/types/response.types'
+import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 export const ShopsProductsService = {
 	getList: async (params?: Record<string, string | number>) => {

@@ -1,7 +1,7 @@
 import { styled, SxProps } from "@mui/material";
-import BazaarCard from "components/BazaarCard";
-import LazyImage from "components/LazyImage";
-import { H4 } from "components/Typography";
+import BazaarCard from "src/components/BazaarCard";
+import LazyImage from "src/components/LazyImage";
+import { H4 } from "src/components/Typography";
 import { FC, HtmlHTMLAttributes } from "react";
 
 // styled component

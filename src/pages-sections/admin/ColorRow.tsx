@@ -1,5 +1,5 @@
 import { Delete, Edit } from '@mui/icons-material'
-import { ColorsService } from 'api/services/colors/colors.service'
+import { ColorsService } from 'src/api/services/colors/colors.service'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 import { useMutation } from 'react-query'

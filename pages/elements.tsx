@@ -1,8 +1,8 @@
 import { Box, Button, Container } from '@mui/material'
-import { H2, Paragraph } from 'components/Typography'
-import { FlexRowCenter } from 'components/flex-box'
-import ShopLayout1 from 'components/layouts/ShopLayout1'
-import Navbar from 'components/navbar/Navbar'
+import { H2, Paragraph } from 'src/components/Typography'
+import { FlexRowCenter } from 'src/components/flex-box'
+import ShopLayout1 from 'src/components/layouts/ShopLayout1'
+import Navbar from 'src/components/navbar/Navbar'
 import { GetStaticProps, NextPage } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 

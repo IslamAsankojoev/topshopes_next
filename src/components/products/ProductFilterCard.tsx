@@ -8,18 +8,18 @@ import {
 	Rating,
 	TextField,
 } from '@mui/material'
-import { BrandsService } from 'api/services/brands/brand.service'
-import { CategoriesService } from 'api/services/categories/category.service'
-import { H5, H6, Paragraph, Span } from 'components/Typography'
-import Accordion from 'components/accordion/Accordion'
-import AccordionHeader from 'components/accordion/AccordionHeader'
-import { FlexBetween, FlexBox } from 'components/flex-box'
-import { categories } from 'fake-db/server/dashboard/categories'
+import { BrandsService } from 'src/api/services/brands/brand.service'
+import { CategoriesService } from 'src/api/services/categories/category.service'
+import { H5, H6, Paragraph, Span } from 'src/components/Typography'
+import Accordion from 'src/components/accordion/Accordion'
+import AccordionHeader from 'src/components/accordion/AccordionHeader'
+import { FlexBetween, FlexBox } from 'src/components/flex-box'
+import { categories } from 'src/fake-db/server/dashboard/categories'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
-import { IBrand, ICategory } from 'shared/types/product.types'
-import { ResponseList } from 'shared/types/response.types'
+import { IBrand, ICategory } from 'src/shared/types/product.types'
+import { ResponseList } from 'src/shared/types/response.types'
 
 const ProductFilterCard = () => {
 	const router = useRouter()

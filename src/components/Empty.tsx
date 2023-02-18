@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import Image from 'next/image'
 
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 import { H2 } from './Typography'
 

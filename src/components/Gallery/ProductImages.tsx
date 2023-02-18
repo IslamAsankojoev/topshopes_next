@@ -13,7 +13,7 @@ import { useTranslation } from 'next-i18next'
 import { ChangeEvent, FC } from 'react'
 import { toast } from 'react-toastify'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { IImage } from 'shared/types/product.types'
+import { IImage } from 'src/shared/types/product.types'
 
 interface IProductImages {
 	images: IImage[]

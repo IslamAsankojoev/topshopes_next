@@ -1,6 +1,6 @@
 import ChevronRight from "@mui/icons-material/ChevronRight";
 import { BoxProps, styled, SxProps } from "@mui/material";
-import { FlexBox } from "components/flex-box";
+import { FlexBox } from "src/components/flex-box";
 import { FC } from "react";
 
 // styled components

@@ -7,10 +7,10 @@ import {
 	Drawer,
 	IconButton,
 } from '@mui/material'
-import Scrollbar from 'components/Scrollbar'
-import { H6 } from 'components/Typography'
-import NavLink from 'components/nav-link/NavLink'
-import navbarNavigations from 'data/navbarNavigations'
+import Scrollbar from 'src/components/Scrollbar'
+import { H6 } from 'src/components/Typography'
+import NavLink from 'src/components/nav-link/NavLink'
+import navbarNavigations from 'src/data/navbarNavigations'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useState } from 'react'
 import { useRouter } from 'next/router'

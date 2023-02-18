@@ -23,7 +23,7 @@ const LazyImage = styled<FC<ImageProps & BordersProps & SpacingProps>>(
 	({ loader, borderRadius, src, objectFit = 'contain', ...rest }) => {
 		return (
 			<NextImage
-				objectFit="contain"
+				objectFit={objectFit}
 				src={checkDomen(src as string)}
 				loader={() => checkDomen(src as string)}
 				{...rest}

@@ -1,12 +1,12 @@
 import { Button, Card, Grid, TextField } from '@mui/material'
-import Card1 from 'components/Card1'
-import { FlexBox } from 'components/flex-box'
+import Card1 from 'src/components/Card1'
+import { FlexBox } from 'src/components/flex-box'
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import { FC, ReactNode, useEffect } from 'react'
 
-import { common } from 'utils/Translate/common'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import { common } from 'src/utils/Translate/common'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 import * as yup from 'yup'
 
 import Field from './Field'

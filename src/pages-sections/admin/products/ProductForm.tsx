@@ -8,16 +8,16 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material'
-import { AdminProductsService } from 'api/services-admin/products/products.service'
-import { Paragraph } from 'components/Typography'
-import { FlexBox } from 'components/flex-box'
-import { ContentWrapper } from 'components/products/ProductViewDialog'
+import { AdminProductsService } from 'src/api/services-admin/products/products.service'
+import { Paragraph } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
+import { ContentWrapper } from 'src/components/products/ProductViewDialog'
 import { useFormik } from 'formik'
-import { useActions } from 'hooks/useActions'
+import { useActions } from 'src/hooks/useActions'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 import * as yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
 

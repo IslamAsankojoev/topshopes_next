@@ -1,7 +1,7 @@
-import { useActions } from 'hooks/useActions'
+import { useActions } from 'src/hooks/useActions'
 import { FC, useEffect } from 'react'
 
-import { getLocalStorage } from 'utils/local-storage/localStorage'
+import { getLocalStorage } from 'src/utils/local-storage/localStorage'
 
 const WishCartProvider: FC = ({ children }) => {
 	const { setWishList, setCart } = useActions()

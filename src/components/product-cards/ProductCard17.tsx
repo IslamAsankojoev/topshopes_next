@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Add, Remove } from '@mui/icons-material'
 import { Box, Button, Chip, styled, useTheme } from '@mui/material'
-import BazaarRating from 'components/BazaarRating'
-import LazyImage from 'components/LazyImage'
-import { H3, Span } from 'components/Typography'
-import { FlexBox } from 'components/flex-box'
-import { CartItem, useAppContext } from 'contexts/AppContext'
+import BazaarRating from 'src/components/BazaarRating'
+import LazyImage from 'src/components/LazyImage'
+import { H3, Span } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
+import { CartItem, useAppContext } from 'src/contexts/AppContext'
 import Link from 'next/link'
 import { CSSProperties, FC, Fragment, useCallback } from 'react'
 

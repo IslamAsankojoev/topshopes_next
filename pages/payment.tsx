@@ -1,10 +1,10 @@
 import { Grid } from '@mui/material'
-import CheckoutNavLayout from 'components/layouts/CheckoutNavLayout'
+import CheckoutNavLayout from 'src/components/layouts/CheckoutNavLayout'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import PaymentForm from 'pages-sections/payment/PaymentForm'
-import PaymentSummary from 'pages-sections/payment/PaymentSummary'
-import { NextPageAuth } from 'shared/types/auth.types'
+import PaymentForm from 'src/pages-sections/payment/PaymentForm'
+import PaymentSummary from 'src/pages-sections/payment/PaymentSummary'
+import { NextPageAuth } from 'src/shared/types/auth.types'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {

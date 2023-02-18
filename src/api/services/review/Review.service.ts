@@ -1,6 +1,6 @@
-import { IReview } from 'shared/types/product.types';
-import { getReviewUrl } from 'config/api.config'
-import { instance } from 'api/interceptor'
+import { IReview } from 'src/shared/types/product.types';
+import { getReviewUrl } from 'src/config/api.config'
+import { instance } from 'src/api/interceptor'
 
 export const ReviewService = {
     create: async (slug: string, values: IReview) => {

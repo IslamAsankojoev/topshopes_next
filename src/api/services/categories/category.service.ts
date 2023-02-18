@@ -1,4 +1,4 @@
-import { CRUDservice } from 'api/crud.service'
-import { getCategoriesUrl } from 'config/api.config'
+import { CRUDservice } from 'src/api/crud.service'
+import { getCategoriesUrl } from 'src/config/api.config'
 
 export const CategoriesService = CRUDservice(getCategoriesUrl, 'category', false)

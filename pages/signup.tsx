@@ -1,9 +1,9 @@
-import SEO from 'components/SEO'
-import { FlexRowCenter } from 'components/flex-box'
+import SEO from 'src/components/SEO'
+import { FlexRowCenter } from 'src/components/flex-box'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import Signup from 'pages-sections/sessions/Signup'
-import { NextPageAuth } from 'shared/types/auth.types'
+import Signup from 'src/pages-sections/sessions/Signup'
+import { NextPageAuth } from 'src/shared/types/auth.types'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {

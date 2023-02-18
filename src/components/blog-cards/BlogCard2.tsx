@@ -1,7 +1,7 @@
 import { Box, Card, styled } from "@mui/material";
-import { FlexRowCenter } from "components/flex-box";
-import NavLink3 from "components/nav-link/NavLink3";
-import { H4, Paragraph } from "components/Typography";
+import { FlexRowCenter } from "src/components/flex-box";
+import NavLink3 from "src/components/nav-link/NavLink3";
+import { H4, Paragraph } from "src/components/Typography";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";

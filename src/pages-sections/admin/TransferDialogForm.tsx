@@ -6,9 +6,9 @@ import {
 	DialogContent,
 	Typography,
 } from '@mui/material'
-import { MoneyTransferService } from 'api/services-admin/money-transfer/MoneyTransfer.service'
-import CreateForm from 'components/Form/CreateForm'
-import Loading from 'components/Loading'
+import { MoneyTransferService } from 'src/api/services-admin/money-transfer/MoneyTransfer.service'
+import CreateForm from 'src/components/Form/CreateForm'
+import Loading from 'src/components/Loading'
 import { useTranslation } from 'next-i18next'
 import { Fragment, useState } from 'react'
 import { useMutation } from 'react-query'

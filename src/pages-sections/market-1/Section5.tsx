@@ -1,8 +1,8 @@
 import { Grid } from '@mui/material'
-import BazaarCard from 'components/BazaarCard'
-import CategorySectionCreator from 'components/CategorySectionCreator'
-import NewArrival from 'components/icons/NewArrival'
-import ProductCard2 from 'components/product-cards/ProductCard2'
+import BazaarCard from 'src/components/BazaarCard'
+import CategorySectionCreator from 'src/components/CategorySectionCreator'
+import NewArrival from 'src/components/icons/NewArrival'
+import ProductCard2 from 'src/components/product-cards/ProductCard2'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 

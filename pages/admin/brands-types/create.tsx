@@ -1,8 +1,8 @@
 import { Box } from '@mui/material'
-import CreateForm from 'components/Form/CreateForm'
-import Loading from 'components/Loading'
-import { H3 } from 'components/Typography'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
+import CreateForm from 'src/components/Form/CreateForm'
+import Loading from 'src/components/Loading'
+import { H3 } from 'src/components/Typography'
+import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -10,11 +10,11 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
-import { NextPageAuth } from 'shared/types/auth.types'
-import { IBrandTypes } from 'shared/types/brand-types.types'
+import { NextPageAuth } from 'src/shared/types/auth.types'
+import { IBrandTypes } from 'src/shared/types/brand-types.types'
 
-import { BrandTypesService } from 'api/services-admin/brand-types/brandTypes.service'
-import { brandTypeEditForm } from 'utils/constants/forms'
+import { BrandTypesService } from 'src/api/services-admin/brand-types/brandTypes.service'
+import { brandTypeEditForm } from 'src/utils/constants/forms'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {

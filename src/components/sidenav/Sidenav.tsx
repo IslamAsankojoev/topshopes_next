@@ -1,6 +1,6 @@
 import { Box, Drawer, styled } from '@mui/material'
 import clsx from 'clsx'
-import Scrollbar from 'components/Scrollbar'
+import Scrollbar from 'src/components/Scrollbar'
 import { FC, cloneElement, useEffect, useState, ReactElement } from 'react'
 
 // styled component

@@ -1,6 +1,6 @@
 import { Button, Card } from '@mui/material'
-import { H5 } from 'components/Typography'
-import { FlexBetween } from 'components/flex-box'
+import { H5 } from 'src/components/Typography'
+import { FlexBetween } from 'src/components/flex-box'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 

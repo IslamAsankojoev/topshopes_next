@@ -1,7 +1,7 @@
 import { Delete, Edit, RemoveRedEye } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { Paragraph } from 'components/Typography'
-import { FlexBox } from 'components/flex-box'
+import { Paragraph } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
 import { FC } from 'react'
 
 import {

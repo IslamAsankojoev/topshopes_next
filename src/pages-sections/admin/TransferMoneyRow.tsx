@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { IMoneyTransfer } from 'shared/types/money-transfer.types'
+import { IMoneyTransfer } from 'src/shared/types/money-transfer.types'
 
 import { StyledTableCell, StyledTableRow } from './StyledComponents'
 import TransferDialogForm from './TransferDialogForm'

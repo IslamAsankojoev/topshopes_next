@@ -1,12 +1,12 @@
-import { CRUDservice } from 'api/crud.service'
-import { instance } from 'api/interceptor'
-import { getProfilePaymentUrl } from 'config/api.config'
-import { withShopKey } from 'pages-sections/checkout/paymentHelper'
+import { CRUDservice } from 'src/api/crud.service'
+import { instance } from 'src/api/interceptor'
+import { getProfilePaymentUrl } from 'src/config/api.config'
+import { withShopKey } from 'src/pages-sections/checkout/paymentHelper'
 import { toast } from 'react-toastify'
-import { IAddress } from 'shared/types/user.types'
-import { ICartItem } from 'store/cart/cart.interface'
-import { formData } from 'utils/formData'
-import { getErrorMessage } from 'utils/getErrorMessage'
+import { IAddress } from 'src/shared/types/user.types'
+import { ICartItem } from 'src/store/cart/cart.interface'
+import { formData } from 'src/utils/formData'
+import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 interface postWithSortData {
 	payment_type: string

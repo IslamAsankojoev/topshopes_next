@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Models from 'models'
+import Models from 'src/models'
 
 const getTopRatedProduct = async () => {
 	const response = await axios.get('/api/market-1/toprated-product')

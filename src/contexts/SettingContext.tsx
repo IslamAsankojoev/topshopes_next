@@ -1,7 +1,7 @@
 import { Direction } from '@mui/material'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import MainProvider from 'provider/MainProvider'
+import MainProvider from 'src/provider/MainProvider'
 import { ReactNode, createContext, useEffect, useState } from 'react'
 
 // ============================================================

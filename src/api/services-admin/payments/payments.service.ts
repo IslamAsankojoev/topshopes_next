@@ -1,7 +1,7 @@
-import { makeRequest } from 'api/interceptor'
-import { getPaymentsUrlAdmin } from 'config/api.config'
+import { makeRequest } from 'src/api/interceptor'
+import { getPaymentsUrlAdmin } from 'src/config/api.config'
 import { toast } from 'react-toastify'
-import { getErrorMessage } from 'utils/getErrorMessage'
+import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 export const PaymentServices = {
 	getPayment: async (id: string) => {

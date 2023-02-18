@@ -1,9 +1,9 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { CategoriesService } from 'api/services-admin/categories/category.service'
+import { CategoriesService } from 'src/api/services-admin/categories/category.service'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
-import { ICategory } from 'shared/types/product.types'
+import { ICategory } from 'src/shared/types/product.types'
 
 import {
 	CategoryWrapper,

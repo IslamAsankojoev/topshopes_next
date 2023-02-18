@@ -1,5 +1,5 @@
 import { Avatar, Typography } from '@mui/material'
-import { FlexBox } from 'components/flex-box'
+import { FlexBox } from 'src/components/flex-box'
 import { FC } from 'react'
 
 type HeadingProps = { number: number; title: string }

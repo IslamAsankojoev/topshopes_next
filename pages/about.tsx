@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { Grid, TextField } from '@mui/material'
 import { Container } from '@mui/system'
-import ShopLayout1 from 'components/layouts/ShopLayout1'
+import ShopLayout1 from 'src/components/layouts/ShopLayout1'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'

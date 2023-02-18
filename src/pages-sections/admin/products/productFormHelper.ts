@@ -1,4 +1,4 @@
-import { IProduct } from 'shared/types/product.types'
+import { IProduct } from 'src/shared/types/product.types'
 
 // export const checkChangeThumbnail = (data: IProduct) => {
 // 	if (typeof data. != 'string') {

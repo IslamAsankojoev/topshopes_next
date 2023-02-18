@@ -1,4 +1,4 @@
-import BazaarCard from 'components/BazaarCard'
+import BazaarCard from 'src/components/BazaarCard'
 import { FC } from 'react'
 import CategoryMenuItem from '../CategoryMenuItem'
 import MegaMenu3 from './MegaMenu3'

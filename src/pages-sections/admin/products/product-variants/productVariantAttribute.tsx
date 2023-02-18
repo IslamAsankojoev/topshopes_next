@@ -6,11 +6,11 @@ import {
 	Typography,
 } from '@mui/material'
 import { useFormik } from 'formik'
-import { useActions } from 'hooks/useActions'
-import { useTypedSelector } from 'hooks/useTypedSelector'
+import { useActions } from 'src/hooks/useActions'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import { FC, FormEvent, useEffect, useState } from 'react'
-import { IProductAttributeValue } from 'shared/types/product.types'
+import { IProductAttributeValue } from 'src/shared/types/product.types'
 import * as yup from 'yup'
 
 interface ProductAttributesProps {

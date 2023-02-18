@@ -7,17 +7,17 @@ import {
 	Divider,
 	Typography,
 } from '@mui/material'
-import { OrdersService } from 'api/services/orders/orders.service'
-import LazyImage from 'components/LazyImage'
-import { H3, H6, Paragraph } from 'components/Typography'
-import { FlexBetween, FlexBox } from 'components/flex-box'
+import { OrdersService } from 'src/api/services/orders/orders.service'
+import LazyImage from 'src/components/LazyImage'
+import { H3, H6, Paragraph } from 'src/components/Typography'
+import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import { format } from 'date-fns'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 
 import { useQuery } from 'react-query'
-import { IOrder, IOrderStatus } from 'shared/types/order.types'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import { IOrder, IOrderStatus } from 'src/shared/types/order.types'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 import { StatusWrapper } from '../StyledComponents'
 import { useState } from 'react'

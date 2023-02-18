@@ -1,5 +1,5 @@
 import { Delete, Edit, VisibilitySharp } from '@mui/icons-material'
-import { AttributesServiceAdmin } from 'api/services-admin/attributes/attributes.service'
+import { AttributesServiceAdmin } from 'src/api/services-admin/attributes/attributes.service'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC } from 'react'

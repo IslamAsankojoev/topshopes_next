@@ -1,6 +1,6 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { BrandsService } from 'api/services-admin/brands/brand.service'
+import { BrandsService } from 'src/api/services-admin/brands/brand.service'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 

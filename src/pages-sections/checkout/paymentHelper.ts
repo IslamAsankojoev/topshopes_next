@@ -1,5 +1,5 @@
-import { IPaymentType } from "shared/types/order.types"
-import { ICartItem } from "store/cart/cart.interface"
+import { IPaymentType } from "src/shared/types/order.types"
+import { ICartItem } from "src/store/cart/cart.interface"
 import balance from '/public/assets/images/payment-methods/balance.webp'
 import elsom from '/public/assets/images/payment-methods/elsom.webp'
 import mbank from '/public/assets/images/payment-methods/mbank.webp'

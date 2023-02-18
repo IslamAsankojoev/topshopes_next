@@ -1,13 +1,13 @@
 import { Delete, Edit } from '@mui/icons-material'
 import {  Box } from '@mui/material'
-import { ProductsService } from 'api/services/products/product.service'
-import LazyImage from 'components/LazyImage'
-import { Paragraph, Small } from 'components/Typography'
-import { FlexBox } from 'components/flex-box'
+import { ProductsService } from 'src/api/services/products/product.service'
+import LazyImage from 'src/components/LazyImage'
+import { Paragraph, Small } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 import { toast } from 'react-toastify'
-import {  IProductPreview } from 'shared/types/product.types'
+import {  IProductPreview } from 'src/shared/types/product.types'
 
 import {
 	StyledIconButton,

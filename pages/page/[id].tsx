@@ -1,13 +1,13 @@
 import styled from '@emotion/styled'
 import { Container } from '@mui/material'
-import { axiosClassic } from 'api/interceptor'
-import Loading from 'components/Loading'
-import ShopLayout1 from 'components/layouts/ShopLayout1'
+import { axiosClassic } from 'src/api/interceptor'
+import Loading from 'src/components/Loading'
+import ShopLayout1 from 'src/components/layouts/ShopLayout1'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 
 import { useQuery } from 'react-query'
-import { IPages } from 'shared/types/pages.types'
+import { IPages } from 'src/shared/types/pages.types'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {

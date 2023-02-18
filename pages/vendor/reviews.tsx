@@ -9,15 +9,15 @@ import {
 	TableContainer,
 } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { ShopsService } from 'api/services/shop/shop.service'
-import Empty from 'components/Empty'
-import Scrollbar from 'components/Scrollbar'
-import { H3, Paragraph, Small } from 'components/Typography'
-import TableHeader from 'components/data-table/TableHeader'
-import TablePagination from 'components/data-table/TablePagination'
-import { FlexBox } from 'components/flex-box'
-import VendorDashboardLayout from 'components/layouts/vendor-dashboard'
-import useMuiTable from 'hooks/useMuiTable'
+import { ShopsService } from 'src/api/services/shop/shop.service'
+import Empty from 'src/components/Empty'
+import Scrollbar from 'src/components/Scrollbar'
+import { H3, Paragraph, Small } from 'src/components/Typography'
+import TableHeader from 'src/components/data-table/TableHeader'
+import TablePagination from 'src/components/data-table/TablePagination'
+import { FlexBox } from 'src/components/flex-box'
+import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
+import useMuiTable from 'src/hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -25,12 +25,12 @@ import {
 	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,
-} from 'pages-sections/admin'
+} from 'src/pages-sections/admin'
 import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
-import { NextPageAuth } from 'shared/types/auth.types'
-import { IReview } from 'shared/types/product.types'
-import { ResponseList } from 'shared/types/response.types'
+import { NextPageAuth } from 'src/shared/types/auth.types'
+import { IReview } from 'src/shared/types/product.types'
+import { ResponseList } from 'src/shared/types/response.types'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },

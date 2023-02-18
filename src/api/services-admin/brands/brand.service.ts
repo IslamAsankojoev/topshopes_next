@@ -1,4 +1,4 @@
 import { CRUDservice } from './../../crud.service'
-import { getBrandsUrlAdmin } from 'config/api.config'
+import { getBrandsUrlAdmin } from 'src/config/api.config'
 
 export const BrandsService = CRUDservice(getBrandsUrlAdmin, 'brands')

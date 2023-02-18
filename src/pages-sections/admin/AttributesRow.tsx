@@ -7,7 +7,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
-import { AttributesServiceAdmin } from 'api/services-admin/attributes/attributes.service'
+import { AttributesServiceAdmin } from 'src/api/services-admin/attributes/attributes.service'
 
 // ========================================================================
 type AttributesRowProps = {

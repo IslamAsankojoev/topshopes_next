@@ -1,8 +1,8 @@
 import { Add } from '@mui/icons-material'
 import { Button, Theme, useMediaQuery } from '@mui/material'
-import { FlexBox } from 'components/flex-box'
-import SearchInput from 'components/SearchInput'
-import useDebounce from 'hooks/useDebounce'
+import { FlexBox } from 'src/components/flex-box'
+import SearchInput from 'src/components/SearchInput'
+import useDebounce from 'src/hooks/useDebounce'
 import { FC, useEffect, useState } from 'react'
 
 // ===============================================================

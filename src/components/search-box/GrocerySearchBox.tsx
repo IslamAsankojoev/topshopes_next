@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, debounce, MenuItem, TextField } from '@mui/material'
-import BazaarButton from 'components/BazaarButton'
+import BazaarButton from 'src/components/BazaarButton'
 import Link from 'next/link'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { SearchOutlinedIcon, SearchResultCard } from './SearchBox'

@@ -1,5 +1,5 @@
 import { Box, styled } from "@mui/material";
-import { H4 } from "components/Typography";
+import { H4 } from "src/components/Typography";
 import Image from "next/image";
 import { FC } from "react";
 

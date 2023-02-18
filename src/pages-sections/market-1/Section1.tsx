@@ -1,25 +1,31 @@
 import { Box, Container } from '@mui/material'
-import CarouselCard1 from 'components/carousel-cards/CarouselCard1'
-import Carousel from 'components/carousel/Carousel'
-import Models from 'models'
+import CarouselCard1 from 'src/components/carousel-cards/CarouselCard1'
+import Carousel from 'src/components/carousel/Carousel'
+import Models from 'src/models'
 import { NextPage } from 'next'
+import useWindowSize from 'src/hooks/useWindowSize'
 
-export const mainCarouselData = [
-	{
-		imgUrl: '/assets/images/products/topshopes2.webp',
-	},
-	{
-		imgUrl: '/assets/images/products/topshopes3.webp',
-	},
-	{
-		imgUrl: '/assets/images/products/topshopes1.webp',
-	},
-]
+
 // ======================================================
 type Props = { carouselData: Models['MainCarouselItem'][] }
 // ======================================================
 
 const Section1: NextPage<Props> = ({ carouselData }) => {
+	
+const width = useWindowSize()
+
+	const mainCarouselData = [
+		{
+			imgUrl: width > 991 ? '/assets/images/products/topshopes2.webp' : '/assets/images/products/mobil1.webp',
+		},
+		{
+			imgUrl: width > 991 ? '/assets/images/products/topshopes3.webp' : '/assets/images/products/mobil3.webp',
+		},
+		{
+			imgUrl: width > 991 ? '/assets/images/products/topshopes1.webp' : '/assets/images/products/mobil2.webp'
+		},
+	]
+	
 	return (
 		<Box bgcolor="white" mb={7.5}>
 			<Container sx={{ py: 4 }}>

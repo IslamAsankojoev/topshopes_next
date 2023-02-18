@@ -8,11 +8,11 @@ import {
 	alpha,
 	styled,
 } from '@mui/material'
-import { H3, Span } from 'components/Typography'
-import { FlexBetween, FlexBox } from 'components/flex-box'
+import { H3, Span } from 'src/components/Typography'
+import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import Link from 'next/link'
 
-import { IShop } from 'shared/types/shop.types'
+import { IShop } from 'src/shared/types/shop.types'
 import { FC } from 'react'
 
 // styled components

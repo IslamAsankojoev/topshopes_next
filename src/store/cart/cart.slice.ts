@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { getLocalStorage } from 'utils/local-storage/localStorage'
+import { getLocalStorage } from 'src/utils/local-storage/localStorage'
 
 import { ICartInitial, ICartItem } from './cart.interface'
 

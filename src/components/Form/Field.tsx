@@ -10,10 +10,10 @@ import {
 	Typography,
 	styled,
 } from '@mui/material'
-import DropZone from 'components/DropZone'
-import LazyImage from 'components/LazyImage'
-import { H3 } from 'components/Typography'
-import MultipleSelect from 'components/multiple-select/MultipleSelect'
+import DropZone from 'src/components/DropZone'
+import LazyImage from 'src/components/LazyImage'
+import { H3 } from 'src/components/Typography'
+import MultipleSelect from 'src/components/multiple-select/MultipleSelect'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { FC, useState } from 'react'
@@ -21,7 +21,7 @@ import { FC, useState } from 'react'
 import styles from './Field.module.scss'
 
 const DynamicTextEditor = dynamic(
-	() => import('components/TextEditor/TextEditor'),
+	() => import('src/components/TextEditor/TextEditor'),
 	{ ssr: false }
 )
 

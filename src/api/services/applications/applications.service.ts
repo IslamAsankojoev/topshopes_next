@@ -1,5 +1,5 @@
-import { makeRequest } from 'api/interceptor'
-import { getApplicationsUrl } from 'config/api.config'
+import { makeRequest } from 'src/api/interceptor'
+import { getApplicationsUrl } from 'src/config/api.config'
 
 export const ApplicationServices = {
 	getApplications: async () => {

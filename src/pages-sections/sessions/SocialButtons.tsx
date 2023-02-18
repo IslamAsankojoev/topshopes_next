@@ -1,6 +1,6 @@
 import { Box, Divider } from '@mui/material'
-import { H6 } from 'components/Typography'
-import { FlexBox, FlexRowCenter } from 'components/flex-box'
+import { H6 } from 'src/components/Typography'
+import { FlexBox, FlexRowCenter } from 'src/components/flex-box'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC, Fragment } from 'react'

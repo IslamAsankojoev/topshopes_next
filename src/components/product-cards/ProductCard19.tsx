@@ -1,8 +1,8 @@
 import { Box, Rating } from '@mui/material'
-import BazaarImage from 'components/BazaarImage'
-import { Paragraph } from 'components/Typography'
-import { FlexBox } from 'components/flex-box'
-import NavLink from 'components/nav-link/NavLink'
+import BazaarImage from 'src/components/BazaarImage'
+import { Paragraph } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
+import NavLink from 'src/components/nav-link/NavLink'
 import Link from 'next/link'
 import { FC } from 'react'
 

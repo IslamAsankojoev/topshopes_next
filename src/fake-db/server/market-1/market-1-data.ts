@@ -1,4 +1,4 @@
-import bazaarReactDatabase from 'data/bazaar-react-database'
+import bazaarReactDatabase from 'src/data/bazaar-react-database'
 
 export const mainCarouselData = [
 	{

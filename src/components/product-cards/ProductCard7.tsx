@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Add, Close, Remove } from '@mui/icons-material'
 import { Button, Card, IconButton, styled } from '@mui/material'
-import Image from 'components/BazaarImage'
-import { Span } from 'components/Typography'
-import { FlexBox } from 'components/flex-box'
-import { useAppContext } from 'contexts/AppContext'
-import { useActions } from 'hooks/useActions'
+import Image from 'src/components/BazaarImage'
+import { Span } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
+import { useAppContext } from 'src/contexts/AppContext'
+import { useActions } from 'src/hooks/useActions'
 import Link from 'next/link'
 import { FC, useCallback } from 'react'
-import { ICartItem } from 'store/cart/cart.interface'
+import { ICartItem } from 'src/store/cart/cart.interface'
 
 // styled components
 const Wrapper = styled(Card)(({ theme }) => ({

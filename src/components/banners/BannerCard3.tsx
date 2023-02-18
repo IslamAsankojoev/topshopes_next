@@ -1,5 +1,5 @@
 import { Box, BoxProps, styled } from "@mui/material";
-import BazaarImage from "components/BazaarImage";
+import BazaarImage from "src/components/BazaarImage";
 import { FC, ReactNode } from "react";
 
 // custom styled components

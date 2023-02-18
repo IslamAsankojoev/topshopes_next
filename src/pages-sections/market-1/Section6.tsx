@@ -1,8 +1,8 @@
 import { Box, Container, Grid } from '@mui/material'
-import BazaarCard from 'components/BazaarCard'
-import CategorySectionHeader from 'components/CategorySectionHeader'
-import { FlexBox } from 'components/flex-box'
-import ProductCard1 from 'components/product-cards/ProductCard1'
+import BazaarCard from 'src/components/BazaarCard'
+import CategorySectionHeader from 'src/components/CategorySectionHeader'
+import { FlexBox } from 'src/components/flex-box'
+import ProductCard1 from 'src/components/product-cards/ProductCard1'
 import { useTranslation } from 'next-i18next'
 import { FC, useState, MouseEvent } from 'react'
 

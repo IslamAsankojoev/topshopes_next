@@ -1,14 +1,14 @@
 import { RemoveRedEye } from '@mui/icons-material'
 import { FormControl, MenuItem, Select } from '@mui/material'
-import { OrdersService } from 'api/services-admin/orders/order.service'
-import { ShopsService } from 'api/services/shop/shop.service'
+import { OrdersService } from 'src/api/services-admin/orders/order.service'
+import { ShopsService } from 'src/api/services/shop/shop.service'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
-import { IOrder, IOrderStatus } from 'shared/types/order.types'
-import { statusTranslation } from 'utils/Translate/common'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import { IOrder, IOrderStatus } from 'src/shared/types/order.types'
+import { statusTranslation } from 'src/utils/Translate/common'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 import {
 	StatusWrapper,

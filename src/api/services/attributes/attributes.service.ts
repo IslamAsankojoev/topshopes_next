@@ -1,8 +1,8 @@
 import { CRUDservice } from './../../crud.service'
-import { getAttrubutesUrl } from 'config/api.config'
-import { instance } from 'api/interceptor'
+import { getAttrubutesUrl } from 'src/config/api.config'
+import { instance } from 'src/api/interceptor'
 import { toast } from 'react-toastify'
-import { getErrorMessage } from 'utils/getErrorMessage'
+import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 export const AttributesService = {
     ...CRUDservice(getAttrubutesUrl, 'attribute'),

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import store from 'store/store';
+import store from 'src/store/store';
 
 export type AppDispatch = typeof store.dispatch;
 

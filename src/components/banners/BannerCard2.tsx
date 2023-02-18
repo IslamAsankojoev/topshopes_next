@@ -1,6 +1,6 @@
 import { Box, Button, styled } from "@mui/material";
-import BazaarImage from "components/BazaarImage";
-import { H1, H3, Paragraph } from "components/Typography";
+import BazaarImage from "src/components/BazaarImage";
+import { H1, H3, Paragraph } from "src/components/Typography";
 import Link from "next/link";
 import { FC } from "react";
 

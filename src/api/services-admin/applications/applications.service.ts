@@ -1,7 +1,7 @@
-import { makeRequest } from 'api/interceptor'
-import { getApplicationsUrlAdmin } from 'config/api.config'
+import { makeRequest } from 'src/api/interceptor'
+import { getApplicationsUrlAdmin } from 'src/config/api.config'
 import { toast } from 'react-toastify'
-import { getErrorMessage } from 'utils/getErrorMessage'
+import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 export const ApplicationServices = {
 	getApplications: async (params: any) => {

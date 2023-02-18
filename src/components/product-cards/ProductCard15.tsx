@@ -1,9 +1,9 @@
 import { Box, styled } from '@mui/material'
-import LazyImage from 'components/LazyImage'
-import { H6, Paragraph } from 'components/Typography'
+import LazyImage from 'src/components/LazyImage'
+import { H6, Paragraph } from 'src/components/Typography'
 import { FC } from 'react'
-import { statusTranslation } from 'utils/Translate/common'
-import { dynamicLocalization } from 'utils/Translate/dynamicLocalization'
+import { statusTranslation } from 'src/utils/Translate/common'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 const StyledCard = styled(Box)(({ theme }) => ({
 	textAlign: 'center',

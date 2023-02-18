@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_URL } from 'config/api.config'
+import { API_URL } from 'src/config/api.config'
 import Cookie from 'js-cookie'
 
 import { removeToken } from './services/auth/auth.helpers'

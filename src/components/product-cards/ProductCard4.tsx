@@ -1,9 +1,9 @@
 import { Box } from '@mui/material'
-import BazaarRating from 'components/BazaarRating'
-import HoverBox from 'components/HoverBox'
-import LazyImage from 'components/LazyImage'
-import { H4, Small } from 'components/Typography'
-import { FlexRowCenter } from 'components/flex-box'
+import BazaarRating from 'src/components/BazaarRating'
+import HoverBox from 'src/components/HoverBox'
+import LazyImage from 'src/components/LazyImage'
+import { H4, Small } from 'src/components/Typography'
+import { FlexRowCenter } from 'src/components/flex-box'
 import { CSSProperties, FC } from 'react'
 
 export interface ProductCard4Props {

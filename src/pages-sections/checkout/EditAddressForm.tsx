@@ -11,7 +11,7 @@ import {
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useState } from 'react'
-import { IAddress } from 'shared/types/user.types'
+import { IAddress } from 'src/shared/types/user.types'
 import * as yup from 'yup'
 
 const checkoutSchema = yup.object({

@@ -1,4 +1,4 @@
-import { IPages } from 'shared/types/pages.types';
+import { IPages } from 'src/shared/types/pages.types';
 export interface IPagesCategory {
     id: string
     title: string

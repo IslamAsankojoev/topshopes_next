@@ -1,10 +1,10 @@
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import { Box } from "@mui/material";
-import BazaarImage from "components/BazaarImage";
-import BazaarRating from "components/BazaarRating";
-import { FlexBetween, FlexBox } from "components/flex-box";
-import HoverBox from "components/HoverBox";
-import { H4 } from "components/Typography";
+import BazaarImage from "src/components/BazaarImage";
+import BazaarRating from "src/components/BazaarRating";
+import { FlexBetween, FlexBox } from "src/components/flex-box";
+import HoverBox from "src/components/HoverBox";
+import { H4 } from "src/components/Typography";
 import Link from "next/link";
 import { CSSProperties, FC } from "react";
 

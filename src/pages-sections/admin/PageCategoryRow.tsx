@@ -7,7 +7,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
-import { PageCategoryService } from 'api/services-admin/pages-categories/pagesCategories.service'
+import { PageCategoryService } from 'src/api/services-admin/pages-categories/pagesCategories.service'
 
 // ========================================================================
 type PageCategoryRowProps = {

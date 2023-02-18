@@ -1,8 +1,8 @@
 import { Container, Grid } from '@mui/material'
-import BazaarCard from 'components/BazaarCard'
-import BazaarIconButton from 'components/BazaarIconButton'
-import appIcons from 'components/icons'
-import { H4, Span } from 'components/Typography'
+import BazaarCard from 'src/components/BazaarCard'
+import BazaarIconButton from 'src/components/BazaarIconButton'
+import appIcons from 'src/components/icons'
+import { H4, Span } from 'src/components/Typography'
 import { FC } from 'react'
 
 interface Props {

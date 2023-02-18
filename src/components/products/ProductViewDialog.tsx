@@ -8,18 +8,18 @@ import {
 	IconButton,
 	styled,
 } from '@mui/material'
-import BazaarButton from 'components/BazaarButton'
-import BazaarImage from 'components/BazaarImage'
-import BazaarRating from 'components/BazaarRating'
-import { H1, H2, H6, Paragraph } from 'components/Typography'
-import { FlexBox } from 'components/flex-box'
-import { useAppContext } from 'contexts/AppContext'
+import BazaarButton from 'src/components/BazaarButton'
+import BazaarImage from 'src/components/BazaarImage'
+import BazaarRating from 'src/components/BazaarRating'
+import { H1, H2, H6, Paragraph } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
+import { useAppContext } from 'src/contexts/AppContext'
 import { FC } from 'react'
 import {
 	IProduct,
 	IProductPreview,
 	IProductVariant,
-} from 'shared/types/product.types'
+} from 'src/shared/types/product.types'
 
 import Variables from './Variables'
 
