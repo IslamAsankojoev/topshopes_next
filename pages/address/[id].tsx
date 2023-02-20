@@ -47,7 +47,6 @@ const AddressEditor: NextPageAuth = () => {
 	// handle form submit
 	const handleFormSubmit = async (values: any) => {
 		await AddressesService.update(id as string, values)
-
 		push('/address')
 	}
 

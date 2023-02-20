@@ -72,6 +72,7 @@ const SearchBox: FC = () => {
 				{ id: 'all', name: t('allCategories') },
 				...data?.results,
 			],
+			staleTime: 1000 * 60 * 10,
 		}
 	)
 
@@ -84,14 +85,16 @@ const SearchBox: FC = () => {
 
 	const submitHandler = (e) => {
 		e.preventDefault()
-		push({
-			pathname: '/shop',
-			query: {
-				search,
-				page: 1,
-				category: category.id,
-			},
-		})
+		push(
+			{
+				pathname: '/shop',
+				query: {
+					search,
+					page: 1,
+					category: category.id,
+				},
+			}
+		)
 	}
 
 	const handleDocumentClick = () => setResultList([])

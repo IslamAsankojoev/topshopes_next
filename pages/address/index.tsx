@@ -1,13 +1,12 @@
 import { Delete, Edit, Place } from '@mui/icons-material'
 import { Button, IconButton, Pagination, Typography } from '@mui/material'
 import { AddressesService } from 'src/api/services/addresses/addresses.service'
-import Loading from 'src/components/Loading'
 import TableRow from 'src/components/TableRow'
 import { FlexBox } from 'src/components/flex-box'
 import UserDashboardHeader from 'src/components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'src/components/layouts/customer-dashboard'
 import CustomerDashboardNavigation from 'src/components/layouts/customer-dashboard/Navigations'
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
@@ -26,7 +25,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 		},
 	}
 }
-// =
 
 const AddressList: NextPageAuth = () => {
 	const { t } = useTranslation('common')
@@ -111,38 +109,6 @@ const AddressList: NextPageAuth = () => {
 	)
 }
 
-// const orderList = [
-// 	{
-// 		orderNo: '1050017AS',
-// 		status: 'Pending',
-// 		purchaseDate: new Date(),
-// 		price: 350,
-// 	},
-// 	{
-// 		orderNo: '1050017AS',
-// 		status: 'Processing',
-// 		purchaseDate: new Date(),
-// 		price: 500,
-// 	},
-// 	{
-// 		orderNo: '1050017AS',
-// 		status: 'Delivered',
-// 		purchaseDate: '2020/12/23',
-// 		price: 700,
-// 	},
-// 	{
-// 		orderNo: '1050017AS',
-// 		status: 'Delivered',
-// 		purchaseDate: '2020/12/23',
-// 		price: 700,
-// 	},
-// 	{
-// 		orderNo: '1050017AS',
-// 		status: 'Cancelled',
-// 		purchaseDate: '2020/12/15',
-// 		price: 300,
-// 	},
-// ]
 
 AddressList.isOnlyAuth = true
 

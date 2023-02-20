@@ -31,7 +31,10 @@ const StyledLink = styled('a')(({ theme }) => ({
 const Footer: FC = () => {
 	const { t } = useTranslation('common')
 	const { data: settings } = useQuery('get site settings', () =>
-		axiosClassic.get('/settings/').then((response) => response.data)
+		axiosClassic.get('/settings/').then((response) => response.data),
+		{
+			staleTime: 1000 * 60 * 10,
+		}
 	)
 
 	const { '0': about, '1': customer } = useQueries([
@@ -41,6 +44,7 @@ const Footer: FC = () => {
 				axiosClassic
 					.get('/pages/categories/about-us/')
 					.then((response) => response.data),
+					staleTime: 1000 * 60 * 10,
 		},
 		{
 			queryKey: ['customer care'],
@@ -48,6 +52,7 @@ const Footer: FC = () => {
 				axiosClassic
 					.get('/pages/categories/customer-care/')
 					.then((response) => response.data),
+					staleTime: 1000 * 60 * 10,
 		},
 	])
 

@@ -58,6 +58,7 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 		() => CategoriesService.getList(),
 		{
 			select: (data: ResponseList<ICategory>) => data.results,
+			staleTime: 1000 * 60 * 10,
 		}
 	)
 	return (

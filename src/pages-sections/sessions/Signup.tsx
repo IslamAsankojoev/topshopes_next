@@ -9,8 +9,8 @@ import { useFormik } from 'formik'
 import { useActions } from 'src/hooks/useActions'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useCallback, useEffect, useState } from 'react'
+import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { getErrorMessage } from 'src/utils/getErrorMessage'
 import * as yup from 'yup'
@@ -18,6 +18,8 @@ import * as yup from 'yup'
 import EyeToggleButton from './EyeToggleButton'
 import { Wrapper } from './Login'
 import SocialButtons from './SocialButtons'
+import Link from 'next/link'
+import { axiosClassic } from 'src/api/interceptor'
 
 const Signup = () => {
 	const { t: commonT } = useTranslation('common')
@@ -53,6 +55,14 @@ const Signup = () => {
 		}
 	)
 
+	const { data: agreementID } = useQuery('agreementID', () => axiosClassic
+	.get('/pages/categories/about-us/')
+	.then((response) => response.data),
+	{
+		select: (data: any) => data.pages[0].id,
+		staleTime: 1000 * 60 * 10,
+	})
+
 	const handleFormSubmit = async () => {
 		await mutateAsync()
 	}
@@ -63,7 +73,7 @@ const Signup = () => {
 			onSubmit: handleFormSubmit,
 			validationSchema: formSchema,
 		})
-
+		
 	return (
 		<Wrapper elevation={3} passwordVisibility={passwordVisibility}>
 			<form onSubmit={handleSubmit}>
@@ -179,14 +189,14 @@ const Signup = () => {
 							alignItems="center"
 							justifyContent="flex-start"
 						>
-							<a
-								href="/agreement"
+							<Link
+								href={`/page/${agreementID}/`}
 								target="_blank"
 								rel="noreferrer noopener"
 								style={{ textDecoration: 'underline' }}
 							>
-								{authT('termsCondtion')}
-							</a>
+								<a>{authT('termsCondtion')}</a>
+							</Link>
 						</FlexBox>
 					}
 				/>

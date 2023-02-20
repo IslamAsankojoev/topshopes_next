@@ -44,7 +44,6 @@ const config = {
 		queries: {
 			refetchOnWindowFocus: false,
 			retry: 0,
-			cacheTime: 0,
 			staleTime: 0,
 		},
 	},

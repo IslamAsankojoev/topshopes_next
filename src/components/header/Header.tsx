@@ -1,5 +1,5 @@
 import { KeyboardArrowDown, PersonOutline } from '@mui/icons-material'
-import { Avatar, Badge, Box, Dialog, Drawer, styled } from '@mui/material'
+import { Avatar, Badge, Box, Drawer, styled } from '@mui/material'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
 import { useTheme } from '@mui/material/styles'
@@ -21,7 +21,6 @@ import { layoutConstant } from 'src/utils/constants'
 
 import SearchBox from '../search-box/SearchBox'
 
-// styled component
 export const HeaderWrapper = styled(Box)(({ theme }) => ({
 	zIndex: 3,
 	position: 'relative',
