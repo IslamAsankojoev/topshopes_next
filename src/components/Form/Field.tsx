@@ -10,15 +10,18 @@ import {
 	Typography,
 	styled,
 } from '@mui/material'
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
+import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined'
 import DropZone from 'src/components/DropZone'
 import LazyImage from 'src/components/LazyImage'
 import { H3 } from 'src/components/Typography'
 import MultipleSelect from 'src/components/multiple-select/MultipleSelect'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import styles from './Field.module.scss'
+import getTypeOfFile from 'src/utils/getTypeOfFile'
 
 const DynamicTextEditor = dynamic(
 	() => import('src/components/TextEditor/TextEditor'),
@@ -340,14 +343,20 @@ const Field: FC<any> = (props) => {
 		}
 
 		const [fileLocaleUrl, setFileLocaleUrl] = useState(null)
+		const [fileType, setFileType] = useState(null)
 
 		const handleFileChange = (files) => {
 			const file = files[0]
+			getTypeOfFile(file).then((type) => setFileType(type))
 			if (file) {
 				setFileLocaleUrl(file && window?.URL?.createObjectURL(file))
 				other?.setFieldValue(other?.name, file)
 			}
 		}
+
+		useEffect(() => {
+			console.log(fileType)
+		}, [fileType])
 
 		return (
 			<>
@@ -377,7 +386,7 @@ const Field: FC<any> = (props) => {
 						/>
 					</Button>
 				</div> */}
-				<h3 style={{ textTransform: 'uppercase', margin: '10px 0 4px' }}>
+				<h3 style={{ textTransform: 'uppercase', margin: '15px 0 25px' }}>
 					{other.label}
 				</h3>
 				<Grid
@@ -427,8 +436,7 @@ const Field: FC<any> = (props) => {
 							justifyContent="center"
 							alignItems="center"
 						>
-							{fileLocaleUrl?.includes('.') ||
-							other?.defaultData[other?.name]?.includes('.') ? (
+							{fileType?.startsWith('image') && (
 								<Image
 									layout="fill"
 									objectFit="contain"
@@ -438,10 +446,9 @@ const Field: FC<any> = (props) => {
 									}
 									alt={other?.label}
 								/>
-							) : (
-								<>
-									<TaskIcon style={{ fontSize: 100 }} color="success" />
-								</>
+							)}
+							{fileType?.startsWith('unknown') && (
+									<LazyImage src="/assets/images/pdf.png" layout='fill'/>
 							)}
 						</Grid>
 					) : null}

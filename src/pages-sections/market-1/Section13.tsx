@@ -21,7 +21,7 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 	const [visibleSlides, setVisibleSlides] = useState(6)
 
 	useEffect(() => {
-		if (width < 370) setVisibleSlides(1)
+		if (width < 370) setVisibleSlides(2)
 		else if (width < 650) setVisibleSlides(2)
 		else if (width < 950) setVisibleSlides(4)
 		else setVisibleSlides(6)
@@ -36,15 +36,24 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 			<Box my="-0.25rem">
 				<Carousel totalSlides={9} visibleSlides={visibleSlides}>
 					{bigDiscountList?.map((item) => (
-						<Box py={0.5} key={item.id}>
-							<BazaarCard sx={{ p: '1rem' }}>
+						<Box py={0.5} key={item.id} sx={{
+							height: '100%',
+						}}>
+							<BazaarCard sx={{ p: '1rem' }} style={{
+								height: '100%',
+							}}>
 								<Link
 									href={{
 										pathname: '/product/[id]',
 										query: { trueID: item.id, id: item.slug },
 									}}
 								>
-									<a>
+									<a style={{
+										display: 'flex',
+										flexDirection: 'column',
+										height: '100%',
+										justifyContent: 'space-around',
+									}}>
 										<HoverBox borderRadius="8px" mb={1}>
 											<LazyImage
 												width={100}
@@ -54,6 +63,7 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 												alt={item.name}
 											/>
 										</HoverBox>
+										<Box>
 										<H4 fontWeight="600" fontSize="14px" mb={0.5}>
 											{item.name}
 										</H4>
@@ -67,6 +77,7 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 												<del>{Math.ceil(item.price)}c</del>
 											</H4>
 										</FlexBox>
+										</Box>
 									</a>
 								</Link>
 							</BazaarCard>

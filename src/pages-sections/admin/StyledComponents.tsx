@@ -5,6 +5,8 @@ import {
 	TableRow,
 	lighten,
 	styled,
+	darken,
+	emphasize,
 } from '@mui/material'
 import { IOrderStatus } from 'src/shared/types/order.types'
 import { IProductVariantStatus } from 'src/shared/types/product.types'
@@ -200,14 +202,14 @@ const StatusWrapper = styled(Box)<StatusWrapperProps>(({ theme, status }) => {
 		color: color,
 		fontSize: 12,
 		fontWeight: 600,
-		backgroundColor: lighten(backgroundColor, 0.1),
+		backgroundColor: darken(backgroundColor, 0.1),
 		borderRadius: '4px',
 		padding: '4px 12px',
 		display: 'block',
 		textAlign: 'center',
 		transition: 'all 0.3s ease',
 		'&:hover': {
-			backgroundColor: lighten(backgroundColor, 0.05),
+			backgroundColor: darken(backgroundColor, 0.3),
 		},
 	}
 })

@@ -9,7 +9,7 @@ import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { IProduct, IProductVariant } from 'src/shared/types/product.types'
 import { ICartItem } from 'src/store/cart/cart.interface'
 
@@ -47,11 +47,13 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 	)
 
 	const { addToCart } = useActions()
-	console.log(product)
-
 	const handleAddToCart = () => {
-		addToCart({ ...product })
+		addToCart({ ...product, variants: [selectedVariant] })
 	}
+
+	useEffect(() => {
+			setSelectedVariant(variants[0])
+	}, [variants])
 
 	return (
 		<Box width="100%">

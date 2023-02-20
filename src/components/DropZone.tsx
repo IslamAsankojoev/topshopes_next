@@ -49,7 +49,7 @@ const DropZone: FC<DropZoneProps> = (props) => {
 			height="100%"
 			alignItems="center"
 			borderRadius="10px"
-			border="1.5px dashed"
+			border="2.5px dashed"
 			flexDirection="column"
 			borderColor="grey.300"
 			justifyContent="center"

@@ -169,18 +169,30 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 							variant="outlined"
 							color="info"
 							component="label"
-							startIcon={<AddIcon />}
+							
 							sx={{
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
 								flexDirection: 'column',
 								borderStyle: 'dashed',
+								borderWidth: '2.5px',
 								height: '100%',
 								minHeight: '150px',
 								backgroundColor: '#F7F9FC',
+								'&:hover': {
+									borderStyle: 'dashed',
+									borderWidth: '2.5px',
+								},
 							}}
 						>
+							<AddIcon
+									sx={{
+										width: '30px',
+										height: '30px',
+										margin: '0!important',
+									}}
+								/>
 							{t('addImage')}
 							<input
 								onChange={(e) => handleImageChange(e)}

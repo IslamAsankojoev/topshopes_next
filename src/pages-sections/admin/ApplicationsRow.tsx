@@ -11,6 +11,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
+import { darken } from '@mui/system'
 
 // ========================================================================
 type AttributesRowProps = {
@@ -39,18 +40,18 @@ const ApplicationsRow: FC<AttributesRowProps> = ({ name, selected }) => {
 			selected={isItemSelected}
 			aria-checked={isItemSelected}
 		>
-			<StyledTableCell align="center" sx={{}}>
-				<CategoryWrapper
-					sx={{
-						color: 'inherit',
-					}}
-				>
-					{short_name}
-				</CategoryWrapper>
+			<StyledTableCell align="center" sx={{
+				color: 'inherit',
+			}}>
+					<StatusWrapper status={status}>
+						{short_name}
+					</StatusWrapper>
 			</StyledTableCell>
 
-			<StyledTableCell align="center">
-				<StatusWrapper status={status}>{t(status)}</StatusWrapper>
+			<StyledTableCell align="center" sx={{
+				color: 'inherit',
+			}}>
+				{t(status)}
 			</StyledTableCell>
 
 			<StyledTableCell

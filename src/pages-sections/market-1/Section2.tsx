@@ -6,6 +6,12 @@ import ProductCard1 from 'src/components/product-cards/ProductCard1'
 import useWindowSize from 'src/hooks/useWindowSize'
 import { useTranslation } from 'next-i18next'
 import { FC, useEffect, useState } from 'react'
+import BazaarCard from 'src/components/BazaarCard'
+import HoverBox from 'src/components/HoverBox'
+import LazyImage from 'src/components/LazyImage'
+import { H4 } from 'src/components/Typography'
+import { FlexBox } from 'src/components/flex-box'
+import Link from 'next/link'
 
 // =============================================================
 type Props = { flashDeals: any[] }
@@ -17,10 +23,10 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 	const width = useWindowSize()
 
 	useEffect(() => {
-		if (width < 500) setVisibleSlides(1)
+		if (width < 500) setVisibleSlides(2)
 		else if (width < 650) setVisibleSlides(2)
 		else if (width < 950) setVisibleSlides(3)
-		else setVisibleSlides(4)
+		else setVisibleSlides(5)
 	}, [width])
 
 	return (
@@ -29,17 +35,55 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 			title={t('flashDeals')}
 			seeMoreLink="/shop"
 		>
-			<Carousel
-				totalSlides={flashDeals?.length}
-				visibleSlides={visibleSlides}
-				infinite={true}
-			>
-				{flashDeals?.map((item, ind) => (
-					<Box py={0.5} key={ind}>
-						<ProductCard1 product={item} />
-					</Box>
-				))}
-			</Carousel>
+							<Carousel totalSlides={9} visibleSlides={visibleSlides}>
+					{flashDeals?.map((item) => (
+						<Box py={0.5} key={item.id} sx={{
+							height: '100%',
+						}}>
+							<BazaarCard sx={{ p: '1rem', height: "100%" }}>
+								<Link
+									href={{
+										pathname: '/product/[id]',
+										query: { trueID: item.id, id: item.slug },
+									}}
+									
+								>
+									<a style={{
+										display: 'flex',
+										flexDirection: 'column',
+										height: '100%',
+										justifyContent: 'space-around',
+									}}>
+										<HoverBox borderRadius="8px" mb={1}>
+											<LazyImage
+												width={100}
+												height={100}
+												src={item.thumbnail}
+												layout="responsive"
+												alt={item.name}
+											/>
+										</HoverBox>
+										<Box>
+										<H4 fontWeight="600" fontSize="14px" mb={0.5}>
+											{item.name}
+										</H4>
+
+										<FlexBox gap={1}>
+											<H4 fontWeight="600" fontSize="14px" color="primary.main">
+												{Math.ceil(item.price).toLocaleString()}c
+											</H4>
+
+											<H4 fontWeight="600" fontSize="14px" color="grey.600">
+												<del>{Math.ceil(item.price)}c</del>
+											</H4>
+										</FlexBox>
+										</Box>
+									</a>
+								</Link>
+							</BazaarCard>
+						</Box>
+					))}
+				</Carousel>
 		</CategorySectionCreator>
 	)
 }

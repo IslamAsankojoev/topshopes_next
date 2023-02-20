@@ -473,7 +473,7 @@ export const ShopCreateForm: {
 		name: 'document',
 		label: 'document',
 		type: 'file',
-		fileTypes: 'application/pdf',
+		fileTypes: '.pdf',
 		placeholder: 'document',
 		required: true,
 	},

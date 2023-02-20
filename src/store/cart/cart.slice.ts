@@ -14,7 +14,6 @@ const cartSlice = createSlice({
 	initialState,
 	reducers: {
 		addToCart: (state, { payload }: PayloadAction<ICartItem>) => {
-			console.log(payload)
 			const exist = state.cart.find(
 				(x) =>
 					x.id === payload.id && x.variants[0].id === payload.variants[0].id
