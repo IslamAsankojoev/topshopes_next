@@ -2,8 +2,10 @@ import axios from 'axios'
 import { API_URL } from 'src/config/api.config'
 import Cookie from 'js-cookie'
 
-import { removeToken } from './services/auth/auth.helpers'
+
+// import { removeToken } from './services/auth/auth.helpers'
 import { AuthService } from './services/auth/auth.service'
+import { getSession, signOut } from 'next-auth/react'
 
 export const axiosClassic = axios.create({
 	baseURL: `${API_URL}`,
@@ -19,10 +21,12 @@ export const instance = axios.create({
 	},
 })
 
-instance.interceptors.request.use((config) => {
-	const access = Cookie.get('token')
-	if (config.headers && access)
-		config.headers.Authorization = `Bearer ${access}`
+instance.interceptors.request.use( async (config) => {
+	const session = await getSession();
+		// @ts-ignore
+	if (config.headers && session.user.accessToken)
+	// @ts-ignore
+		config.headers.Authorization = `Bearer ${session.user.accessToken}`
 	return config
 })
 
@@ -30,6 +34,7 @@ instance.interceptors.response.use(
 	(config) => config,
 	async (error) => {
 		const originalRequest = error.config
+
 		if (
 			error.response &&
 			error.response.status === 401 &&
@@ -38,11 +43,10 @@ instance.interceptors.response.use(
 		) {
 			originalRequest._isRetry = true
 			try {
-				console.log('refresh token')
 				await AuthService.refresh()
 				return instance.request(originalRequest)
 			} catch (e) {
-				removeToken()
+				signOut()
 			}
 		}
 

@@ -29,6 +29,7 @@ type TypeAppProps = MyAppProps &
 	TypeComponentAuthFields & {
 		pageProps: {
 			dehydratedState: unknown
+			session: unknown
 		}
 	}
 
@@ -49,13 +50,12 @@ const config = {
 	},
 }
 
-const App = ({ Component, pageProps }: TypeAppProps) => {
+const App = ({ Component, pageProps: {session, ...pagePropses} }: TypeAppProps) => {
 	const AnyComponent = Component as any
 	const getLayout = AnyComponent.getLayout ?? ((page) => page)
 	const [queryClient] = useState(() => new QueryClient(config))
 
 	useEffect(() => {
-		// Remove the server-side injected CSS.
 		const jssStyles = document.querySelector('#jss-server-side')
 		if (jssStyles) {
 			jssStyles.parentElement!.removeChild(jssStyles)
@@ -71,17 +71,16 @@ const App = ({ Component, pageProps }: TypeAppProps) => {
 				<meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
 				<OpenGraphTags />
 			</Head>
-
-			<SettingsProvider Component={Component} pageProps={pageProps}>
-				<QueryClientProvider client={queryClient}>
-					<Hydrate state={pageProps.dehydratedState}>
-						<AppProvider>
-							<MuiTheme>
-								<RTL>{getLayout(<AnyComponent {...pageProps} />)}</RTL>
-							</MuiTheme>
-						</AppProvider>
-					</Hydrate>
-				</QueryClientProvider>
+			<SettingsProvider Component={Component} pageProps={pagePropses}>
+					<QueryClientProvider client={queryClient}>
+						<Hydrate state={pagePropses.dehydratedState}>
+							<AppProvider>
+								<MuiTheme>
+									<RTL>{getLayout(<AnyComponent {...pagePropses} />)}</RTL>
+								</MuiTheme>
+							</AppProvider>
+						</Hydrate>
+					</QueryClientProvider>
 			</SettingsProvider>
 		</Fragment>
 	)

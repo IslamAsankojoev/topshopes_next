@@ -20,8 +20,11 @@ import { Wrapper } from './Login'
 import SocialButtons from './SocialButtons'
 import Link from 'next/link'
 import { axiosClassic } from 'src/api/interceptor'
+import { useAuthRedirect } from 'src/hooks/useAuthRedirect'
 
 const Signup = () => {
+	useAuthRedirect()
+
 	const { t: commonT } = useTranslation('common')
 	const { t: authT } = useTranslation('auth')
 

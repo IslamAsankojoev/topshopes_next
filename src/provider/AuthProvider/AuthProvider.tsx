@@ -1,10 +1,9 @@
 import { AuthService } from 'src/api/services/auth/auth.service'
 import { useActions } from 'src/hooks/useActions'
-import Cookie from 'js-cookie'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { FC, useEffect } from 'react'
-
+import { useSession, signOut } from 'next-auth/react'
 
 const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false })
 
@@ -12,48 +11,42 @@ const AuthProvider: FC<any> = ({
 	children,
 	Component: { isOnlyAuth, isOnlyAdmin, isOnlySeller, isOnlyClient },
 }) => {
-	const { pathname, asPath, push } = useRouter()
+	const { pathname, asPath } = useRouter()
 	const { logout, profile } = useActions()
+	const { data: session, status } = useSession()
 
 	useEffect(() => {
+		if (status === "loading") return null
 		;(async () => {
 			try {
-				const refresh = Cookie.get('refresh')
-				if (pathname === '/login' || pathname === '/signup') {
-					if (refresh) {
+
+				// logout if user is not auth and try to access to auth page
+					if (isOnlyAuth && !session.user) logout()
+					if (isOnlySeller && !session.user) logout()
+					if (isOnlyAdmin && !session.user) logout()
+					if (isOnlyClient && !session.user) logout()
+
+					// refresh token if user is auth and try to access to auth page
+					if (
+						(isOnlyAuth && !!session.user) ||
+						(isOnlyAdmin && !!session.user) ||
+						(isOnlySeller && !!session.user) ||
+						(isOnlyClient && !!session.user)
+					) {
 						const res = await AuthService.refresh()
-						if (res) push('/profile')
+						// refresh token and get new user data
+						if (!!session?.user && res) profile()
 					}
-				}
 			} catch (e) {
 				logout()
 			}
 		})()
-	}, [pathname, asPath]) // eslint-disable-line react-hooks/exhaustive-deps
+	}, [pathname, asPath, status])
 
-	useEffect(() => {
-		;(async () => {
-			try {
-				const refresh = Cookie.get('refresh')
 
-				if (!refresh && isOnlyAuth) logout()
-				if (!refresh && isOnlySeller) logout()
-				if (!refresh && isOnlyAdmin) logout()
-				if (!refresh && isOnlyClient) logout()
-				if (
-					(isOnlyAuth && refresh) ||
-					(isOnlyAdmin && refresh) ||
-					(isOnlySeller && refresh) ||
-					(isOnlyClient && refresh)
-				) {
-					const res = await AuthService.refresh()
-					if (res) profile()
-				}
-			} catch (e) {
-				logout()
-			}
-		})()
-	}, [pathname, asPath]) // eslint-disable-line react-hooks/exhaustive-deps
+	// useEffect(() => {
+	// 	console.log('session', session)
+	// }, [session])
 
 	return !isOnlyAdmin && !isOnlyAuth && !isOnlySeller && !isOnlyClient ? (
 		<>{children}</>

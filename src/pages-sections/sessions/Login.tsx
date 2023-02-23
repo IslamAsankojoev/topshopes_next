@@ -1,4 +1,4 @@
-import { Card, CardProps, Grid } from '@mui/material'
+import { Button, Card, CardProps, Grid } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { AuthService } from 'src/api/services/auth/auth.service'
 import BazaarButton from 'src/components/BazaarButton'
@@ -10,9 +10,11 @@ import { useActions } from 'src/hooks/useActions'
 import { useAuthRedirect } from 'src/hooks/useAuthRedirect'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import * as yup from 'yup'
+
+import { useSession, signIn, signOut } from "next-auth/react"
 
 import EyeToggleButton from './EyeToggleButton'
 import SocialButtons from './SocialButtons'
@@ -42,10 +44,14 @@ export const Wrapper = styled<FC<WrapperProps & CardProps>>(
 
 const Login = () => {
 	useAuthRedirect()
+
 	const { t } = useTranslation('common')
 	const [passwordVisibility, setPasswordVisibility] = useState(false)
 	const { profile } = useActions()
 	const router = useRouter()
+
+	const {data, status} = useSession()
+	
 
 	const {
 		values,
@@ -65,13 +71,19 @@ const Login = () => {
 		setPasswordVisibility((visible) => !visible)
 	}, [])
 
-	const { mutateAsync } = useMutation('login', () => AuthService.login(values))
+	// const { mutateAsync } = useMutation('login', () => AuthService.login(values))
 
 	const handleFormSubmit = async () => {
-		await mutateAsync()
+		// await mutateAsync()
+		// resetForm()
+		await signIn("credentials", {
+      redirect: false,
+      email: values.email,
+      password: values.password
+    });
 		await profile()
-		resetForm()
 	}
+
 
 	return (
 		<Wrapper elevation={3} passwordVisibility={passwordVisibility}>

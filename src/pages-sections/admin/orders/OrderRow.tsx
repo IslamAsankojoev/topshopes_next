@@ -64,14 +64,10 @@ export const statuses: {
 ]
 
 export const statusDisabled = (
-	status: { name: string; label: string },
+	status: { name: IOrderStatus; label: string },
 	isAdmin: boolean
 ) => {
-	return isAdmin
-		? false
-		: status.name == 'ready' || status.name == 'shop_decline'
-		? false
-		: true
+	return isAdmin ? false : status.name === 'payment_error' || status.name === 'pending' || status.name === 'paid'
 }
 
 const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {

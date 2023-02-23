@@ -65,7 +65,7 @@ const OrderList: FC<OrderListProps> = () => {
 				<FlexBox justifyContent="center" mt={5}>
 					<Pagination
 						page={+query?.page || 1}
-						count={Math.ceil(orders.count / 20)}
+						count={Math.ceil(orders?.count / 20)}
 						color="primary"
 						variant="outlined"
 						onChange={(_, newValue) =>

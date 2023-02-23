@@ -12,6 +12,7 @@ module.exports = {
 	trailingSlash: true,
 	env: {
 		SERVER_URL: process.env.REACT_APP_SERVER_URL,
+		SECRET_KEY: process.env.REACT_APP_SECRET_KEY,
 	},
 	publicRuntimeConfig: {
 		theme: 'DEFAULT',

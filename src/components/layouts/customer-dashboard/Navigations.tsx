@@ -18,6 +18,7 @@ import lodash from 'lodash'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC, Fragment } from 'react'
+import { signOut } from 'next-auth/react'
 
 // custom styled components
 const MainContainer = styled(Card)(({ theme }) => ({
@@ -64,8 +65,9 @@ const Navigations = () => {
 	const is_client = lodash.isEmpty(user) ? false : true
 	const is_only_client = !is_seller && is_client
 
-	const logoutHandler = () => {
+	const logoutHandler = async () => {
 		logout()
+		await signOut()
 	}
 
 	return (

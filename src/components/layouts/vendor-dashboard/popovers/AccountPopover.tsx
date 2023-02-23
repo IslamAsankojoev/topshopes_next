@@ -5,6 +5,7 @@ import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { signOut } from 'next-auth/react'
 
 // styled components
 const Divider = styled(Box)(({ theme }) => ({
@@ -25,8 +26,9 @@ const AccountPopover = () => {
 
 	const handleClick = (event) => setAnchorEl(event.currentTarget)
 
-	const handleLogout = () => {
+	const handleLogout = async () => {
 		logout()
+		await signOut()
 	}
 
 	return (

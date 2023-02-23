@@ -9,6 +9,7 @@ import {
 import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 import { removeToken, saveToStorage, saveToken } from './auth.helpers'
+import { getSession, signIn, signOut } from 'next-auth/react'
 
 export const AuthService = {
 	register: async ({ email, phone, password }: IRegister) => {
@@ -32,10 +33,10 @@ export const AuthService = {
 				password,
 			})
 
-			if (response.data.access) {
-				Cookies.set('refresh', response.data.refresh)
-				saveToken(response.data)
-			}
+			// if (response.data.access) {
+			// 	Cookies.set('refresh', response.data.refresh)
+			// 	saveToken(response.data)
+			// }
 			return response.data
 		} catch (error) {
 			toast.error(`auth: ${getErrorMessage(error)}`)
@@ -45,7 +46,8 @@ export const AuthService = {
 
 	logout: async () => {
 		try {
-			removeToken()
+			// removeToken() 
+			signIn('credentials', { callbackUrl: '/' })
 			localStorage.removeItem('user')
 		} catch (error) {
 			toast.error(`auth: ${getErrorMessage(error)}`)
@@ -54,13 +56,15 @@ export const AuthService = {
 	},
 
 	refresh: async () => {
+		const session = await getSession();
 		try {
 			const response = await axiosClassic.post<IAuthResponse>('auth/refresh/', {
-				refresh: Cookies.get('refresh'),
+				// @ts-ignore
+				refresh: session.user.refreshToken
 			})
-			if (response.data.access) {
-				saveToken(response.data)
-			}
+			// if (response.data.access) {
+			// 	saveToken(response.data)
+			// }
 			return response.data
 		} catch (error) {
 			toast.error(`auth: ${getErrorMessage(error)}`)
