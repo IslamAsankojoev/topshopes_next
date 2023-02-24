@@ -99,7 +99,7 @@ const PageCategoryList: NextPageAuth = () => {
 		</Box>
 	)
 }
-PageCategoryList.isOnlyAuth = true
+PageCategoryList.isOnlyAdmin = true
 
 PageCategoryList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

@@ -102,7 +102,7 @@ const UpdatePages: NextPageAuth = () => {
 	)
 }
 
-UpdatePages.isOnlyAuth = true
+UpdatePages.isOnlyAdmin = true
 
 UpdatePages.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

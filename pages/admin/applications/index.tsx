@@ -119,7 +119,7 @@ const Applications: NextPageAuth = () => {
 	)
 }
 
-Applications.isOnlyAuth = true
+Applications.isOnlyAdmin = true
 
 Applications.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

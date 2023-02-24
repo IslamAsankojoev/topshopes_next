@@ -13,6 +13,7 @@ import { CSSProperties, FC, useRef } from 'react'
 import { IProductPreview } from 'src/shared/types/product.types'
 
 import { FlexBox } from '../flex-box'
+import { getCurrency } from 'src/utils/getCurrency'
 
 const StyledBazaarCard = styled(BazaarCard)(() => ({
 	height: '100%',
@@ -176,12 +177,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
 							<Box fontWeight="600" color="primary.main">
-								{Number(price)?.toFixed()}с
+							{getCurrency(discount_price || price)}
 							</Box>
 
 							{!!discount && (
 								<Box color="grey.600" fontWeight="600">
-									<del>{Number(discount_price)?.toFixed(2)}с</del>
+									<del>{getCurrency(!!discount && price)}</del>
 								</Box>
 							)}
 						</FlexBox>

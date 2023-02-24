@@ -21,6 +21,7 @@ import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 import { StatusWrapper } from '../StyledComponents'
 import { useState } from 'react'
+import { getCurrency } from 'src/utils/getCurrency'
 
 
 const ClientOrderDetail = () => {
@@ -83,7 +84,7 @@ const ClientOrderDetail = () => {
 						<Paragraph fontSize="16px">
 							{order?.product?.name} - {order?.quantity}
 						</Paragraph>
-						<H3>{order?.total_price} с</H3>
+						<H3>{getCurrency(order?.total_price)}</H3>
 					</FlexBox>
 
 					<FlexBox justifyContent="space-between" alignItems="center">

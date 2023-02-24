@@ -11,9 +11,11 @@ import useWindowSize from 'src/hooks/useWindowSize'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
+import { getCurrency } from 'src/utils/getCurrency'
+import { IProductPreview } from 'src/shared/types/product.types'
 
 interface Props {
-	bigDiscountList: any[]
+	bigDiscountList: IProductPreview[]
 }
 const Section13: FC<Props> = ({ bigDiscountList }) => {
 	const { t } = useTranslation('home')
@@ -70,11 +72,11 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 
 										<FlexBox gap={1}>
 											<H4 fontWeight="600" fontSize="14px" color="primary.main">
-												{Math.ceil(item.price).toLocaleString()}c
+												{getCurrency(item.discount_price || item.price)}
 											</H4>
 
 											<H4 fontWeight="600" fontSize="14px" color="grey.600">
-												<del>{Math.ceil(item.price)}c</del>
+												<del>{getCurrency(!!item.discount && item.price)}</del>
 											</H4>
 										</FlexBox>
 										</Box>

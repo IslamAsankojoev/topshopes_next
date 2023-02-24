@@ -66,7 +66,7 @@ const CreateBrand: NextPageAuth = () => {
 	)
 }
 
-CreateBrand.isOnlyAuth = true
+CreateBrand.isOnlyAdmin = true
 
 CreateBrand.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

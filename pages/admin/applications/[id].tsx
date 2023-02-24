@@ -170,7 +170,7 @@ const applicationData = [
 
 const statuses = ['moderation', 'approved', 'rejected']
 
-UpdateApplication.isOnlyAuth = true
+UpdateApplication.isOnlyAdmin = true
 
 UpdateApplication.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

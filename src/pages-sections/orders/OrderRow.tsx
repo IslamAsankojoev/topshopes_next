@@ -6,35 +6,17 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import { StatusWrapper } from 'src/pages-sections/admin'
 import { FC } from 'react'
-import { IOrderShort, IOrderStatus } from 'src/shared/types/order.types'
+import { IOrderShort } from 'src/shared/types/order.types'
 import { statusTranslation } from 'src/utils/Translate/common'
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { getCurrency } from 'src/utils/getCurrency'
 
 const OrderRow: FC<IOrderShort> = ({
 	created_at,
 	id,
 	status,
-	total_price,
-	children,
+	total_price
 }) => {
-	const getColor = (status: IOrderStatus) => {
-		switch (status) {
-			case 'pending':
-				return 'secondary'
-
-			case 'delivering':
-				return 'secondary'
-
-			case 'delivered':
-				return 'success'
-
-			case 'canceled':
-				return 'error'
-
-			default:
-				return ''
-		}
-	}
 
 	return (
 		<Link href={`/orders/${id}`}>
@@ -53,7 +35,7 @@ const OrderRow: FC<IOrderShort> = ({
 					</Typography>
 
 					<Typography m={0.75} textAlign="left">
-						{total_price}c
+						{getCurrency(total_price)}
 					</Typography>
 
 					<Typography

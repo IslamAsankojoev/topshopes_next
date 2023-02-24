@@ -14,17 +14,22 @@ export default NextAuth({
       },  
       async authorize(credentials) {
         const { email, password } = credentials;
-        const {data} = await axiosClassic.post('auth/login/', { email, password });
-        // const user = await AuthService.profile();
-        // const data = { user, tokens, id: user.user.id };
+        const data = await AuthService.login({email, password});
         if (data) {
-          return {...data}
+          return {
+            ...data,
+            id: Math.random().toString(36).substring(7),
+          }
         } else {
           return null;
         }
       }
     })
   ],
+  jwt: {
+    secret: process.env.SECRET_KEY,
+    maxAge: 1 * 24 * 60 * 60,
+  },
   pages: {
     signIn: '/login',
     signOut: '/login',

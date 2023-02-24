@@ -15,6 +15,7 @@ import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC, useCallback } from 'react'
 import { ICartItem } from 'src/store/cart/cart.interface'
+import { getCurrency } from 'src/utils/getCurrency'
 
 // =========================================================
 type MiniCartProps = { toggleSidenav?: () => void }
@@ -157,7 +158,7 @@ const MiniCart: FC<MiniCartProps> = ({ toggleSidenav }) => {
 							</Link>
 
 							<Tiny color="grey.600">
-								{Number(item?.variants[0]?.price).toFixed(2)}c x {item.qty}
+								{getCurrency(item?.variants[0]?.price)} x {item.qty}
 							</Tiny>
 
 							<Box
@@ -166,7 +167,7 @@ const MiniCart: FC<MiniCartProps> = ({ toggleSidenav }) => {
 								color="primary.main"
 								mt={0.5}
 							>
-								{(item.qty * Number(item?.variants[0]?.price)).toFixed(2)}c
+								{getCurrency(item.qty * Number(item?.variants[0]?.price))}
 							</Box>
 						</Box>
 
@@ -191,7 +192,7 @@ const MiniCart: FC<MiniCartProps> = ({ toggleSidenav }) => {
 							sx={{ mb: '0.75rem', height: '40px' }}
 							onClick={toggleSidenav}
 						>
-							{t('checkoutNow')} ({total_price.toFixed(2)})
+							{t('checkoutNow')} {getCurrency(total_price)}
 						</BazaarButton>
 					</Link>
 

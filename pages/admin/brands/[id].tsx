@@ -75,7 +75,7 @@ const BrandUpdate: NextPageAuth = () => {
 	)
 }
 
-BrandUpdate.isOnlyAuth = true
+BrandUpdate.isOnlyAdmin = true
 
 BrandUpdate.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

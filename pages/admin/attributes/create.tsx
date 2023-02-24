@@ -65,7 +65,7 @@ const CreateAttribute: NextPageAuth = () => {
 		</Box>
 	)
 }
-CreateAttribute.isOnlyAuth = true
+CreateAttribute.isOnlyAdmin = true
 
 CreateAttribute.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

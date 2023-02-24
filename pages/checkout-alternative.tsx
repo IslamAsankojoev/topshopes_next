@@ -23,14 +23,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 
 const CheckoutAlternative: NextPageAuth = () => {
-	const { push, asPath } = useRouter()
-	const token = Cookies.get('refresh')
-
-	useEffect(() => {
-		if (!token) {
-			push(`/login/?redirect=${asPath}`)
-		}
-	}, [])
 
 	return (
 		<ShopLayout2>

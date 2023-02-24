@@ -67,7 +67,7 @@ const CreatePageCategory: NextPageAuth = () => {
 	)
 }
 
-CreatePageCategory.isOnlyAuth = true
+CreatePageCategory.isOnlyAdmin = true
 
 CreatePageCategory.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

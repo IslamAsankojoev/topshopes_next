@@ -1,4 +1,4 @@
-import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
+import { Box, Card, Stack, Table, TableContainer, Typography } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { MoneyTransferService } from 'src/api/services-admin/money-transfer/MoneyTransfer.service'
 import Empty from 'src/components/Empty'
@@ -14,9 +14,23 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import MoneyTransferRow from 'src/pages-sections/admin/TransferMoneyRow'
 import { ReactElement, useState } from 'react'
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
+import { makeRequest } from 'src/api/interceptor'
+import { AxiosResponse } from 'axios'
+import { getCurrency } from 'src/utils/getCurrency'
+import SellIcon from '@mui/icons-material/Sell';
+
+
+
+type ReportAdmin = {
+	id: string
+	name: string
+	total_tax: number
+	total_amount: number
+}
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -47,6 +61,11 @@ const MoneyTransfer: NextPageAuth = () => {
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
+	const {data: moneyStats} = useQuery('get money statistics', () => makeRequest(true).get<ReportAdmin>('report-admin/'),
+	{
+		select: (data: AxiosResponse<ReportAdmin>) => data.data[0],
+	})
+
 	const { data: moneyTransfer, refetch } = useQuery(
 		`get moneyTransfer admin search=${searchValue} page=${currentPage}`,
 		() =>
@@ -71,6 +90,56 @@ const MoneyTransfer: NextPageAuth = () => {
 				}}
 				handleBtnClick={() => {}}
 				searchPlaceholder={t('searchingFor')}
+				sideComponent={
+					<>
+					<Box sx={{
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-around',
+						gap: 2,
+					}}>
+					<Card sx={{
+						backgroundColor: 'primary.100',
+						p: 2,
+					}}>
+						<Box sx={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'space-around',
+							gap: 2,
+						}}>
+							<SellIcon sx={{
+								color: 'primary.800',
+							}} />
+							<Typography sx={{
+								color: 'primary.900',
+								fontWeight: 'bold',
+							}}>{getCurrency(moneyStats?.total_amount)}</Typography>
+
+						</Box>
+					</Card>
+					<Card sx={{
+						backgroundColor: 'success.100',
+						p: 2,
+					}}>
+						<Box sx={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'space-around',
+							gap: 2,
+						}}>
+							<TrendingUpIcon sx={{
+								color: 'success.800',
+							}} />
+							<Typography sx={{
+								color: 'success.900',
+								fontWeight: 'bold',
+							}}>{getCurrency(moneyStats?.total_tax)}</Typography>
+						</Box>
+					</Card>
+					</Box>
+				</>
+				}
 			/>
 
 			{filteredList?.length ? (

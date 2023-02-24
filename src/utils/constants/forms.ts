@@ -328,14 +328,14 @@ export const productVariantFormCreate = [
 		name: 'price',
 		label: 'price',
 		type: 'number',
-		placeholder: 'price',
+		placeholder: '1000',
 		required: true,
 	},
 	{
 		name: 'discount',
 		label: 'discount',
 		type: 'number',
-		placeholder: 'discount',
+		placeholder: '5 (%)',
 		required: true,
 	},
 	{
@@ -359,7 +359,7 @@ export const productVariantFormCreate = [
 		name: 'stock',
 		label: 'stock',
 		type: 'number',
-		placeholder: 'Enter stock',
+		placeholder: '100',
 		required: true,
 	},
 ]

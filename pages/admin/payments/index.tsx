@@ -148,3 +148,6 @@ export default function Payouts() {
 		</Box>
 	)
 }
+
+
+Payouts.isOnlyAdmin = true

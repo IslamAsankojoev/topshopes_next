@@ -5,23 +5,17 @@ import LazyImage from 'src/components/LazyImage'
 import { H4, Small } from 'src/components/Typography'
 import { FlexRowCenter } from 'src/components/flex-box'
 import { CSSProperties, FC } from 'react'
+import { IProductPreview } from 'src/shared/types/product.types'
+import { getCurrency } from 'src/utils/getCurrency'
 
-export interface ProductCard4Props {
-	className?: string
-	style?: CSSProperties
-	thumbnail: string
-	rating: number
-	name: string
-	price: number
-	reviewCount: number
-}
 
-const ProductCard4: FC<ProductCard4Props> = ({
+const ProductCard4: FC<IProductPreview> = ({
 	thumbnail,
 	rating,
 	name,
 	price,
-	reviewCount = 0,
+	discount_price,
+	shop
 }) => {
 	return (
 		<Box>
@@ -39,7 +33,7 @@ const ProductCard4: FC<ProductCard4Props> = ({
 			<FlexRowCenter mb={0.5}>
 				<BazaarRating value={rating} color="warn" readOnly />
 				<Small fontWeight={600} pl={0.5}>
-					({reviewCount})
+					({shop.name})
 				</Small>
 			</FlexRowCenter>
 
@@ -47,7 +41,7 @@ const ProductCard4: FC<ProductCard4Props> = ({
 				{name}
 			</H4>
 			<H4 fontSize={14} textAlign="center" color="primary.main">
-				{Math.ceil(price)}c
+				{getCurrency(discount_price || price)}
 			</H4>
 		</Box>
 	)

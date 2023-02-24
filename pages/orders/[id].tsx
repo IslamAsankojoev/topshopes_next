@@ -83,49 +83,6 @@ const OrderDetails: NextPageAuth = () => {
 				title={t('orderDetails')}
 				navigation={<CustomerDashboardNavigation />}
 			/>
-
-			{/* <Card sx={{ p: '2rem 1.5rem', mb: '30px' }}>
-				<StyledFlexbox>
-					{stepIconList?.map((Icon, ind) => (
-						<Fragment key={ind}>
-							<Box position="relative">
-								<Avatar
-									sx={{
-										width: 64,
-										height: 64,
-										bgcolor: ind <= statusIndex ? 'primary.main' : 'grey.300',
-										color: ind <= statusIndex ? 'grey.white' : 'primary.main',
-									}}
-								>
-									<Icon color="inherit" sx={{ fontSize: '32px' }} />
-								</Avatar>
-
-								{ind < statusIndex && (
-									<Box position="absolute" right="0" top="0">
-										<Avatar
-											sx={{
-												width: 22,
-												height: 22,
-												bgcolor: 'grey.200',
-												color: 'success.main',
-											}}
-										>
-											<Done color="inherit" sx={{ fontSize: '1rem' }} />
-										</Avatar>
-									</Box>
-								)}
-							</Box>
-							{ind < stepIconList?.length - 1 && (
-								<Box
-									className="line"
-									bgcolor={ind < statusIndex ? 'primary.main' : 'grey.300'}
-								/>
-							)}
-						</Fragment>
-					))}
-				</StyledFlexbox>
-			</Card> */}
-
 			<ClientOrderDetail />
 		</CustomerDashboardLayout>
 	) : null

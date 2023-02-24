@@ -4,6 +4,7 @@ import { FlexBetween } from 'src/components/flex-box'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
+import { getCurrency } from 'src/utils/getCurrency'
 
 const CheckoutSummary2: FC = () => {
 	const { t } = useTranslation('common')
@@ -31,7 +32,7 @@ const CheckoutSummary2: FC = () => {
 						)
 					</Paragraph>
 					<Paragraph>
-						{Number(item.variants[0].price).toFixed(2)}c x {item.qty}
+						{getCurrency(item.variants[0].price)} x {item.qty}
 					</Paragraph>
 				</FlexBetween>
 			))}
@@ -40,7 +41,7 @@ const CheckoutSummary2: FC = () => {
 
 			<FlexBetween mb={0.5}>
 				<Paragraph color="grey.600">{t('subtotal')}:</Paragraph>
-				<Paragraph fontWeight="700">{total_price.toFixed(2)}</Paragraph>
+				<Paragraph fontWeight="700">{getCurrency(total_price)}</Paragraph>
 			</FlexBetween>
 
 			<FlexBetween mb={0.5}>
@@ -48,21 +49,11 @@ const CheckoutSummary2: FC = () => {
 				<Paragraph fontWeight="700">-</Paragraph>
 			</FlexBetween>
 
-			{/* <FlexBetween mb={0.5}>
-				<Paragraph color="grey.600">Tax:</Paragraph>
-				<Paragraph fontWeight="700">{(40).toFixed(2)}</Paragraph>
-			</FlexBetween> */}
-			{/* 
-			<FlexBetween mb={3}>
-				<Paragraph color="grey.600">Discount:</Paragraph>
-				<Paragraph fontWeight="700">-</Paragraph>
-			</FlexBetween> */}
-
 			<Divider sx={{ borderColor: 'grey.300', mb: 1 }} />
 
 			<FlexBetween fontWeight="700" mb={1}>
 				<Paragraph>{t('total')}:</Paragraph>
-				<Paragraph fontWeight="700">{total_price.toFixed(2)}</Paragraph>
+				<Paragraph fontWeight="700">{getCurrency(total_price)}</Paragraph>
 			</FlexBetween>
 
 			<Divider sx={{ borderColor: 'grey.300', mb: 2 }} />

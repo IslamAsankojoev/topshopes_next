@@ -3,22 +3,12 @@ import LazyImage from 'src/components/LazyImage'
 import { H4 } from 'src/components/Typography'
 import Link from 'next/link'
 import { FC } from 'react'
+import { getCurrency } from 'src/utils/getCurrency'
+import { IProductPreview } from 'src/shared/types/product.types'
 
 
-// ==========================================================
-type ProductCard2Props = {
-	id: number
-	price: number
-	name: string
-	thumbnail: string
-	rating: number
-	discount: number
-	slug: string
-}
-// ==========================================================
-
-const ProductCard2: FC<ProductCard2Props> = (props) => {
-	const { thumbnail, name, price, id, slug } = props
+const ProductCard2: FC<IProductPreview> = (props) => {
+	const { thumbnail, name, price, id, slug, discount_price } = props
 
 	return (
 		<Link
@@ -41,7 +31,7 @@ const ProductCard2: FC<ProductCard2Props> = (props) => {
 					{name}
 				</H4>
 				<H4 fontSize={14} color="primary.main">
-					{Math.ceil(price).toLocaleString()}c
+					{getCurrency(discount_price || price)}
 				</H4>
 			</a>
 		</Link>

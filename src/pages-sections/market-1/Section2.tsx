@@ -12,9 +12,12 @@ import LazyImage from 'src/components/LazyImage'
 import { H4 } from 'src/components/Typography'
 import { FlexBox } from 'src/components/flex-box'
 import Link from 'next/link'
+import { IProductPreview } from 'src/shared/types/product.types'
+import currency from 'currency.js'
+import { getCurrency } from 'src/utils/getCurrency'
 
 // =============================================================
-type Props = { flashDeals: any[] }
+type Props = { flashDeals: IProductPreview[] }
 // =============================================================
 
 const Section2: FC<Props> = ({ flashDeals }) => {
@@ -70,11 +73,11 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 
 										<FlexBox gap={1}>
 											<H4 fontWeight="600" fontSize="14px" color="primary.main">
-												{Math.ceil(item.price).toLocaleString()}c
+											{getCurrency(item.discount_price || item.price)}
 											</H4>
 
 											<H4 fontWeight="600" fontSize="14px" color="grey.600">
-												<del>{Math.ceil(item.price)}c</del>
+												<del>{getCurrency(!!item.discount && item.price)}</del>
 											</H4>
 										</FlexBox>
 										</Box>

@@ -40,7 +40,7 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 	}
 	if (isOnlyClient && is_client) return <Children />
 
-	if (isOnlyClient && !is_client) 
+	if (isOnlyClient && !is_client)
 	{
 		router.pathname !== '/login' &&
 			router.replace(`/login/?redirect=${router.asPath}`)
@@ -58,17 +58,17 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 
 	// 5) check if user is seller and redirect to 404 page when user is not seller
 	if (isOnlySeller && is_client && user?.is_seller) return <Children />
-	if (isOnlySeller && is_client && !user?.is_seller) 
+	if (isOnlySeller && is_client && !user?.is_seller)
 	{
-		router.pathname !== '/' && router.push('/')
+		router.pathname !== '/404' && router.replace(`/404`)
 		return null
 	}
 
 	// 6) check if user is admin and redirect to 404 page when user is not admin
 	if (isOnlyAdmin && is_client && user?.is_superuser) return <Children />
-	if (isOnlyAdmin && is_client && !user?.is_superuser) 
+	if (isOnlyAdmin && is_client && !user?.is_superuser)
 	{
-		router.pathname !== '/' && router.push('/')
+		router.pathname !== '/404' && router.replace(`/404`)
 		return null
 	}
 	

@@ -61,7 +61,7 @@ const SiteSettings: NextPageAuth = () => {
 		</Box>
 	)
 }
-SiteSettings.isOnlyAuth = true
+SiteSettings.isOnlyAdmin = true
 
 SiteSettings.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

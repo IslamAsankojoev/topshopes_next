@@ -53,35 +53,7 @@ const Section4: FC<Props> = (props) => {
 						</BazaarCard>
 					</Grid>
 
-					{/* <Grid item md={6} xs={12}>
-						<CategorySectionHeader
-							icon={<DottedStar />}
-							title={t('featuredBrands')}
-							seeMoreLink="/shop"
-						/>
-
-						<BazaarCard sx={{ p: 2 }}>
-							<Grid container spacing={4}>
-								{topRatedBrands
-									?.map((item) => (
-										<Grid item sm={6} xs={6} key={item.name}>
-											<Link
-												href={{
-													pathname: '/product/[id]',
-													query: { trueID: item.id, id: item.slug },
-												}}
-												passHref
-											>
-												<a>
-													<ProductCard5 {...item} />
-												</a>
-											</Link>
-										</Grid>
-									))
-									.slice(0, 2)}
-							</Grid>
-						</BazaarCard>
-					</Grid> */}
+	
 				</Grid>
 			</Container>
 		</Box>

@@ -151,7 +151,7 @@ const OrderList: NextPageAuth = () => {
 	)
 }
 
-OrderList.isOnlyAuth = true
+OrderList.isOnlyAdmin = true
 
 OrderList.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>

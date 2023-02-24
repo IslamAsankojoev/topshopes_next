@@ -1,5 +1,5 @@
 import { Add } from '@mui/icons-material'
-import { Button, Theme, useMediaQuery } from '@mui/material'
+import { Box, Button, Theme, useMediaQuery } from '@mui/material'
 import { FlexBox } from 'src/components/flex-box'
 import SearchInput from 'src/components/SearchInput'
 import useDebounce from 'src/hooks/useDebounce'
@@ -12,11 +12,12 @@ type SearchAreaProps = {
 	searchPlaceholder: string
 	handleBtnClick: () => void
 	searchOff?: boolean
+	sideComponent?: JSX.Element
 }
 // ===============================================================
 
 const SearchArea: FC<SearchAreaProps> = (props) => {
-	const { searchPlaceholder, buttonText, handleSearch, searchOff } = props
+	const { searchPlaceholder, buttonText, handleSearch, searchOff, sideComponent } = props
 
 	const [searchValue, setSearchValue] = useState('')
 	const debounceValue = useDebounce(searchValue as string)
@@ -36,7 +37,8 @@ const SearchArea: FC<SearchAreaProps> = (props) => {
 					placeholder={searchPlaceholder}
 				/>
 			)}
-
+			<Box>
+			{sideComponent}
 			{buttonText ? (
 				<Button
 					color="info"
@@ -49,6 +51,7 @@ const SearchArea: FC<SearchAreaProps> = (props) => {
 					{buttonText}
 				</Button>
 			) : null}
+			</Box>
 		</FlexBox>
 	)
 }

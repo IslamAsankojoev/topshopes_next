@@ -32,11 +32,6 @@ export const AuthService = {
 				email,
 				password,
 			})
-
-			// if (response.data.access) {
-			// 	Cookies.set('refresh', response.data.refresh)
-			// 	saveToken(response.data)
-			// }
 			return response.data
 		} catch (error) {
 			toast.error(`auth: ${getErrorMessage(error)}`)

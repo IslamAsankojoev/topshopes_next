@@ -1,25 +1,23 @@
 import { FC } from 'react'
 import { IMoneyTransfer } from 'src/shared/types/money-transfer.types'
+import { getCurrency } from 'src/utils/getCurrency'
 
 import { StyledTableCell, StyledTableRow } from './StyledComponents'
 import TransferDialogForm from './TransferDialogForm'
 
-// ========================================================================
 type MoneyTransferRowProps = {
 	item: IMoneyTransfer
 	selected: any[]
 	refetch: () => void
 }
-// ========================================================================
 
 const MoneyTransferRow: FC<MoneyTransferRowProps> = ({ item, refetch }) => {
-	const { amount, shop, tax, confirm_photo } = item
+	const { amount, shop, tax } = item
 
 	return (
 		<StyledTableRow
 			tabIndex={-1}
 			role="checkbox"
-			status={confirm_photo ? 'success' : 'error'}
 		>
 			<StyledTableCell align="left">
 				<TransferDialogForm transferMoney={item} refetch={refetch} />
@@ -30,7 +28,7 @@ const MoneyTransferRow: FC<MoneyTransferRowProps> = ({ item, refetch }) => {
 					color: 'inherit',
 				}}
 			>
-				{amount}
+				{getCurrency(amount)}
 			</StyledTableCell>
 			<StyledTableCell
 				align="left"
@@ -46,7 +44,7 @@ const MoneyTransferRow: FC<MoneyTransferRowProps> = ({ item, refetch }) => {
 					color: 'inherit',
 				}}
 			>
-				{tax}c
+				{getCurrency(tax)}
 			</StyledTableCell>
 		</StyledTableRow>
 	)
