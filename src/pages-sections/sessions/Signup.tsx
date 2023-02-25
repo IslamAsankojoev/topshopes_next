@@ -21,6 +21,7 @@ import SocialButtons from './SocialButtons'
 import Link from 'next/link'
 import { axiosClassic } from 'src/api/interceptor'
 import { useAuthRedirect } from 'src/hooks/useAuthRedirect'
+import { signIn } from 'next-auth/react'
 
 const Signup = () => {
 	useAuthRedirect()
@@ -43,10 +44,11 @@ const Signup = () => {
 			onSuccess: async () => {
 				toast.success(commonT('Registration successful'))
 				try {
-					await login({
+					await signIn("credentials", {
+						redirect: false,
 						email: values.email,
-						password: values.password,
-					})
+						password: values.password
+					});
 					replace('/profile')
 				} catch (e) {
 					toast.error(getErrorMessage(e))

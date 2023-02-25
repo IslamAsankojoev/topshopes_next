@@ -1,7 +1,7 @@
-import NextAuth, { SessionStrategy } from 'next-auth';
+import NextAuth from 'next-auth';
 import CredentialsProvider from "next-auth/providers/credentials";
 import { axiosClassic } from 'src/api/interceptor';
-import { AuthService } from 'src/api/services/auth/auth.service';
+import { getAuthUrl } from 'src/config/api.config';
 
 export default NextAuth({
   secret: process.env.SECRET_KEY,
@@ -14,11 +14,10 @@ export default NextAuth({
       },  
       async authorize(credentials) {
         const { email, password } = credentials;
-        const data = await AuthService.login({email, password});
+        const { data } = await axiosClassic.post(getAuthUrl('login/'), { email, password });
         if (data) {
           return {
             ...data,
-            id: Math.random().toString(36).substring(7),
           }
         } else {
           return null;
@@ -33,12 +32,12 @@ export default NextAuth({
   pages: {
     signIn: '/login',
     signOut: '/login',
-    newUser: '/signup',
     error: '/login'
   },
   callbacks: {
     //@ts-ignore
     async signIn() {
+      console.log('signIn')
       return true;
     },
     // @ts-ignore

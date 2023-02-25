@@ -74,8 +74,6 @@ const Login = () => {
 	// const { mutateAsync } = useMutation('login', () => AuthService.login(values))
 
 	const handleFormSubmit = async () => {
-		// await mutateAsync()
-		// resetForm()
 		await signIn("credentials", {
       redirect: false,
       email: values.email,

@@ -44,9 +44,9 @@ const AuthProvider: FC<any> = ({
 	}, [pathname, asPath, status])
 
 
-	// useEffect(() => {
-	// 	console.log('session', session)
-	// }, [session])
+	useEffect(() => {
+		console.log('session', session)
+	}, [session])
 
 	return !isOnlyAdmin && !isOnlyAuth && !isOnlySeller && !isOnlyClient ? (
 		<>{children}</>

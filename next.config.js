@@ -13,6 +13,7 @@ module.exports = {
 	env: {
 		SERVER_URL: process.env.REACT_APP_SERVER_URL,
 		SECRET_KEY: process.env.REACT_APP_SECRET_KEY,
+		NEXTAUTH_URL: process.env.REACT_APP_NEXTAUTH_URL,
 	},
 	publicRuntimeConfig: {
 		theme: 'DEFAULT',
