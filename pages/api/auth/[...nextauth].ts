@@ -27,7 +27,10 @@ export default NextAuth({
   ],
   jwt: {
     secret: process.env.SECRET_KEY,
-    maxAge: 1 * 24 * 60 * 60,
+    maxAge: 24 * 60 * 60 * 1, // 1 day
+  },
+  session: {
+    maxAge: 24 * 60 * 60 * 1, // 1 day
   },
   pages: {
     signIn: '/login',

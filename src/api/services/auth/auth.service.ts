@@ -42,7 +42,11 @@ export const AuthService = {
 	logout: async () => {
 		try {
 			// removeToken() 
-			signIn('credentials', { callbackUrl: '/' })
+			signOut(
+				{
+					callbackUrl: '/login',
+				}
+			)
 			localStorage.removeItem('user')
 		} catch (error) {
 			toast.error(`auth: ${getErrorMessage(error)}`)

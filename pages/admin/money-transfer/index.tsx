@@ -19,13 +19,14 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { makeRequest } from 'src/api/interceptor'
-import { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { getCurrency } from 'src/utils/getCurrency'
 import SellIcon from '@mui/icons-material/Sell';
+import { useSession } from 'next-auth/react'
 
 
 
-type ReportAdmin = {
+export type ReportAdmin = {
 	id: string
 	name: string
 	total_tax: number
@@ -46,9 +47,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 // table column list
 const tableHeading = [
-	{ id: 'thumbnail', label: 'thumbnail', align: 'left' },
-	{ id: 'amount', label: 'amount', align: 'left' },
+	// { id: 'thumbnail', label: 'thumbnail', align: 'left' },
 	{ id: 'shop', label: 'shop', align: 'left' },
+	{ id: 'amount', label: 'amount', align: 'left' },
 	{ id: 'tax', label: 'tax', align: 'left' },
 ]
 
@@ -58,26 +59,24 @@ const MoneyTransfer: NextPageAuth = () => {
 
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
+	const {data: session, status} = useSession()
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
-	const {data: moneyStats} = useQuery('get money statistics', () => makeRequest(true).get<ReportAdmin>('report-admin/'),
+
+	const {data: moneyStats, refetch} = useQuery('get money statistics', () =>  makeRequest(true).post('report-admin/', {
+		month: 2,
+		year: 2023,
+	}),
 	{
-		select: (data: AxiosResponse<ReportAdmin>) => data.data[0],
+		select: (data: AxiosResponse<ReportAdmin[]>) => data.data,
 	})
 
-	const { data: moneyTransfer, refetch } = useQuery(
-		`get moneyTransfer admin search=${searchValue} page=${currentPage}`,
-		() =>
-			MoneyTransferService.getList({
-				search: searchValue,
-				page: currentPage,
-				page_size: 20,
-			})
-	)
+	const allTotoalAmount = moneyStats?.reduce((acc, cur) => acc + cur.total_amount, 0)
+	const allTotoalTax = moneyStats?.reduce((acc, cur) => acc + cur.total_tax, 0)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
-		useMuiTable({ listData: moneyTransfer?.results })
+		useMuiTable({ listData: moneyStats })
 
 	return (
 		<Box py={4}>
@@ -114,8 +113,7 @@ const MoneyTransfer: NextPageAuth = () => {
 							<Typography sx={{
 								color: 'primary.900',
 								fontWeight: 'bold',
-							}}>{getCurrency(moneyStats?.total_amount)}</Typography>
-
+							}}>{getCurrency(allTotoalAmount)}</Typography>
 						</Box>
 					</Card>
 					<Card sx={{
@@ -134,7 +132,7 @@ const MoneyTransfer: NextPageAuth = () => {
 							<Typography sx={{
 								color: 'success.900',
 								fontWeight: 'bold',
-							}}>{getCurrency(moneyStats?.total_tax)}</Typography>
+							}}>{getCurrency(allTotoalTax)}</Typography>
 						</Box>
 					</Card>
 					</Box>
@@ -152,15 +150,15 @@ const MoneyTransfer: NextPageAuth = () => {
 									hideSelectBtn
 									orderBy={orderBy}
 									heading={tableHeading}
-									rowCount={moneyTransfer?.count}
+									rowCount={moneyStats?.length}
 									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
 
 								<TableBody>
-									{filteredList?.map((moneyTransfer, index) => (
+									{filteredList?.map((moneyStats, index) => (
 										<MoneyTransferRow
-											item={moneyTransfer}
+											item={moneyStats}
 											key={index}
 											selected={selected}
 											refetch={refetch}
@@ -174,7 +172,7 @@ const MoneyTransfer: NextPageAuth = () => {
 					<Stack alignItems="center" my={4}>
 						<TablePagination
 							onChange={handleChangePage}
-							count={Math.ceil(moneyTransfer?.count / 20)}
+							count={Math.ceil(moneyStats?.length / 20)}
 							page={currentPage}
 						/>
 					</Stack>
