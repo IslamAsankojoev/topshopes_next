@@ -1,26 +1,20 @@
-FROM node:alpine as base
-WORKDIR /frontend
-COPY package*.json ./
-COPY pnpm-lock.yaml ./
+FROM node:18-alpine AS base
 
-# Установка pnpm вместо
+FROM base AS builder
+
+WORKDIR /frontend
+
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+
 RUN npm install -g pnpm
 
-# Копирование зависимостей и установка их с помощью pnpm
 RUN pnpm install --frozen-lockfile
 
-# Копирование остальных файлов
-# COPY . .
-COPY ./build /frontend/build
+FROM node:18-alpine AS runner
 
-# Запуск сборки приложения
-# RUN pnpm run build
-
-FROM node:alpine as prod
 WORKDIR /frontend
 
-# COPY ./node_modules /frontend/node_modules
-COPY ./public /frontend/public
-# COPY --from=base /frontend/public ./public
-COPY --from=base /frontend/node_modules ./node_modules
+COPY ./public ./public
+COPY ./build ./build
+
 CMD ["node_modules/.bin/next", "start"]

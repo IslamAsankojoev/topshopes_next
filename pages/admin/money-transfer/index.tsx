@@ -28,13 +28,11 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { makeRequest } from 'src/api/interceptor'
-import axios, { AxiosResponse } from 'axios'
+import  { AxiosResponse } from 'axios'
 import { getCurrency } from 'src/utils/getCurrency'
 import SellIcon from '@mui/icons-material/Sell'
 import { useSession } from 'next-auth/react'
 import { StyledTableCell, StyledTableRow } from 'src/pages-sections/admin'
-import LightModeIcon from '@mui/icons-material/LightMode'
-import InsertInvitationIcon from '@mui/icons-material/InsertInvitation'
 
 export type ReportAdmin = {
 	id: string
@@ -87,7 +85,6 @@ const MoneyTransfer: NextPageAuth = () => {
 	const { t } = useTranslation('adminActions')
 
 	const currentDate = new Date()
-	const dayOfMonth = currentDate.getDate()
 	const monthNumber = currentDate.getMonth() + 1
 	const yearNumber = currentDate.getFullYear()
 
