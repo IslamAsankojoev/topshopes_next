@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { Box } from '@mui/material'
 import Image from 'next/image'
 
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
@@ -9,12 +10,20 @@ const Empty = () => {
 	return (
 		<Wrapper>
 			{/* <Content> */}
-			<img
-				src={'/assets/images/empty-box.webp'}
-				alt={'empty'}
-				style={{ maxWidth: '300px' }}
-			/>
-			<H2>{dynamicLocalization(translations.empty)}</H2>
+			<Box sx={{
+				minHeight: '60vh',
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+			}}>
+				<img
+					src={'/assets/images/empty-box.webp'}
+					alt={'empty'}
+					style={{ maxWidth: '300px' }}
+				/>
+			</Box>
+
+			{/* <H2>{dynamicLocalization(translations.empty)}</H2> */}
 			{/* </Content> */}
 		</Wrapper>
 	)

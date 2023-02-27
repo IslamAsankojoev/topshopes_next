@@ -6,6 +6,7 @@
 	"about": "Hakkımızda",
 	"price": "Fiyat",
 	"published": "Yayınlanan",
+	
 	"accountSettings": "Hesap ayarları",
 	"action": "Eylem",
 	"addAddress": "Yeni Adresler Ekle",
@@ -14,7 +15,8 @@
 	"addresses": "adresler",
 	"addressUpdate": "Adres Güncelleme",
 	"allCategories": "Tüm Kategoriler",
-	"amount": "Miktar",
+	"amount": "Satış tutarı",
+	"days": "Günler",
 	"back": "geri",
 	"backAddress": "Adrese Geri Dön",
 	"backProfile": "Profile Geri Dön",

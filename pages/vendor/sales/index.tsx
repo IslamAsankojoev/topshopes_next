@@ -22,6 +22,7 @@ import useMuiTable from 'src/hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import MoneyTransferRow from 'src/pages-sections/admin/TransferMoneyRow'
 import { ReactElement, useEffect, useState } from 'react'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
@@ -57,7 +58,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 // table column list
 const tableHeading = [
-	{ id: 'shop', label: 'shop', align: 'left' },
+	{ id: 'days', label: 'days', align: 'left' },
 	{ id: 'amount', label: 'amount', align: 'left' },
 	{ id: 'tax', label: 'tax', align: 'left' },
 ]
@@ -103,7 +104,7 @@ const MoneyTransfer: NextPageAuth = () => {
 	const { data: moneyStats, refetch } = useQuery(
 		'get money statistics',
 		() =>
-			makeRequest(true).post('report-admin/', {
+			makeRequest(true).post('report-client/', {
 				month: monthValue,
 				year: yearValue,
 			}),
@@ -297,8 +298,15 @@ const MoneyTransfer: NextPageAuth = () => {
 													alignItems: 'center',
 												}}
 											>
-											
-												{moneyStats.name}
+												<InsertInvitationIcon
+													sx={{
+														color: 'primary.800',
+														marginRight: 2,
+													}}
+												/>
+												{dayOfMonth === moneyStats.day
+													? 'Today'
+													: moneyStats.day + ' day'}
 											</StyledTableCell>
 											<StyledTableCell
 												align="left"

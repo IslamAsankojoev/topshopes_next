@@ -8,14 +8,12 @@ export const navigations = [
 		path: '/vendor/dashboard',
 		role: 'admin',
 	},
-
 	{
 		name: 'moneyTransfer',
 		icon: duotone.CreditScoreIcon,
 		path: '/admin/money-transfer',
 		role: 'admin',
 	},
-
 	{
 		name: 'allProducts',
 		icon: duotone.Products,
@@ -111,6 +109,12 @@ export const navigations = [
 			{ name: 'productList', path: '/vendor/products' },
 			{ name: 'createProduct', path: '/vendor/products/create' },
 		],
+		role: 'vendor',
+	},
+	{
+		name: 'sales',
+		icon: duotone.Pricing,
+		path: '/vendor/sales',
 		role: 'vendor',
 	},
 	{
