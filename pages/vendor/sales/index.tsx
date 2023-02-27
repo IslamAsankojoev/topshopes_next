@@ -60,7 +60,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 const tableHeading = [
 	{ id: 'days', label: 'days', align: 'left' },
 	{ id: 'amount', label: 'amount', align: 'left' },
-	{ id: 'tax', label: 'tax', align: 'left' },
+	{ id: 'profit', label: 'profit', align: 'left' },
 ]
 
 const month = [
@@ -262,7 +262,7 @@ const MoneyTransfer: NextPageAuth = () => {
 											fontWeight: 'bold',
 										}}
 									>
-										{getCurrency(allTotoalTax, true)}
+										{getCurrency(allTotoalAmount - allTotoalTax, true)}
 									</Typography>
 								</Box>
 							</Card>
@@ -324,7 +324,7 @@ const MoneyTransfer: NextPageAuth = () => {
 													color: 'inherit',
 												}}
 											>
-												{getCurrency(moneyStats.total_tax)}
+												{getCurrency(moneyStats.total_amount - moneyStats.total_tax)}
 											</StyledTableCell>
 										</StyledTableRow>
 									))}
