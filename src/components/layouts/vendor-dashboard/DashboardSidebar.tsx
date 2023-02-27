@@ -45,7 +45,9 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 	} = props
 
 	const user = useTypedSelector((state) => state.userStore.user)
-	const [accessNavs, setAccessNavs] = useState<any>([])
+	const [accessNavs, setAccessNavs] = useState<any>(
+		!user.is_superuser ? navigations.filter((nav) => nav.role === 'vendor') : navigations
+	)
 	const router = useRouter()
 	const [onHover, setOnHover] = useState(false)
 	const downLg = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
@@ -62,14 +64,6 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 		setShowMobileSideBar()
 	}
 
-	// handle check admin permission
-	useEffect(() => {
-		if (!user?.is_superuser) {
-			setAccessNavs(navigations?.filter((nav) => nav.role === 'vendor'))
-		} else {
-			setAccessNavs(navigations)
-		}
-	}, [])
 
 	const renderLevels = (data: any) => {
 		return data?.map((item: any, index: any) => {

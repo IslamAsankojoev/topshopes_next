@@ -20,9 +20,6 @@ const MoneyTransferRow: FC<MoneyTransferRowProps> = ({ item, refetch }) => {
 			tabIndex={-1}
 			role="checkbox"
 		>
-			{/* <StyledTableCell align="left">
-				<TransferDialogForm transferMoney={item} refetch={refetch} />
-			</StyledTableCell> */}
 			<StyledTableCell
 				align="left"
 				sx={{
