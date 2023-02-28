@@ -14,7 +14,7 @@ import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { ResponseList } from 'src/shared/types/response.types'
 import { IAddress } from 'src/shared/types/user.types'
@@ -27,7 +27,7 @@ import EditAddressForm from './EditAddressForm'
 import Heading from './Heading'
 import NewAddressForm from './NewAddressForm'
 import PaymentDialog from './PaymentDialog'
-import { paymentTranslations, payment_methods } from './paymentHelper'
+import { paymentTranslations, payment_methods, deliveryRegions } from './paymentHelper'
 
 // ====================================================================
 // date types
@@ -37,6 +37,7 @@ type DateProps = { label: string; value: string }
 const initialValues = {
 	selectedAddress: null,
 	paymentMethod: payment_methods[0].id,
+	deliveryRegion: deliveryRegions[0].id,
 	bankAccount: '',
 	screenshot: null,
 }
@@ -44,6 +45,7 @@ const initialValues = {
 const checkoutFormValidationSchema = yup.object().shape({
 	selectedAddress: yup.mixed().required(dynamicLocalization(common.required)),
 	paymentMethod: yup.string().required(dynamicLocalization(common.required)),
+	deliveryRegion: yup.string().required(dynamicLocalization(common.required)),
 	bankAccount: yup.string().required(dynamicLocalization(common.required)),
 	screenshot: yup.mixed().required(dynamicLocalization(common.required)),
 })
@@ -132,6 +134,12 @@ const CheckoutForm2: FC = () => {
 		if (id == values.selectedAddress?.id) setFieldValue('selectedAddress', null)
 	}
 
+	useEffect(()=>{
+		if(addresses?.length > 0 && !values.selectedAddress){
+			setFieldValue('selectedAddress', addresses[0])
+		}
+	}, [values.selectedAddress, addresses])
+
 	return (
 		<form onSubmit={handleSubmit}>
 			<Card1 sx={{ mb: 3 }}>
@@ -185,6 +193,27 @@ const CheckoutForm2: FC = () => {
 						{touched.selectedAddress && errors.selectedAddress}
 					</Alert>
 				) : null}
+			</Card1>
+
+
+			<Card1 sx={{ mb: 3 }}>
+				<Heading number={2} title={'Выберите регион доставки'} />
+				<RadioWrapper>
+					{deliveryRegions?.map((region) => (
+						<RadioItem
+							key={region.id}
+							style={{
+								boxShadow:
+									values.deliveryRegion == region.id
+										? '0 0 0 1px #ff7900'
+										: null,
+							}}
+							onClick={() => setFieldValue('deliveryRegion', region.id)}
+						>
+							<p>{region.name}</p>
+						</RadioItem>
+					))}
+				</RadioWrapper>
 			</Card1>
 
 			<Card1 sx={{ mb: 3 }}>

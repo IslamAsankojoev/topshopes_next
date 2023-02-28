@@ -25,6 +25,7 @@ const tableHeading = [
 	{ id: 'Created at', label: 'createdAt', align: 'left' },
 	{ id: 'city', label: 'city', align: 'left' },
 	{ id: 'amount', label: 'price', align: 'left' },
+	{id: 'profit', label: 'profit', align: 'left'},
 	{ id: 'status', label: 'status', align: 'left' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]

@@ -39,6 +39,7 @@ const tableHeading = [
 	{ id: 'created_at', label: 'createdAt', align: 'left' },
 	{ id: 'billingAddress', label: 'billingAddress', align: 'left' },
 	{ id: 'price', label: 'price', align: 'left' },
+	{ id: 'profit', label: 'profit', align: 'left' },
 	{ id: 'status', label: 'status', align: 'left' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]

@@ -16,6 +16,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from '../StyledComponents'
+import { getCurrency } from 'src/utils/getCurrency'
 
 // ========================================================================
 type OrderRowProps = { order: IOrder; isAdmin?: boolean; refetch: () => void }
@@ -81,7 +82,9 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
 		total_price,
 		created_at,
 		quantity,
+		tax,
 		status: stats,
+		product_variant,
 	} = order
 
 	const patchOrder = isAdmin
@@ -139,7 +142,16 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
 					color: 'inherit',
 				}}
 			>
-				{total_price}c
+				{getCurrency(total_price)}
+			</StyledTableCell>
+
+			<StyledTableCell
+				align="left"
+				sx={{
+					color: 'inherit',
+				}}
+			>
+				{isAdmin ? (getCurrency(Number(total_price) - (Number(product_variant.overall_price) * quantity))): getCurrency(Number(product_variant.overall_price) * quantity)}
 			</StyledTableCell>
 
 			<StyledTableCell align="left">

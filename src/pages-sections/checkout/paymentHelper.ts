@@ -16,6 +16,55 @@ export const withShopKey = (cart: ICartItem[]) => {
     return shops
 }
 
+export const deliveryRegions:{
+		id: string
+		name: string
+		price: number
+}[] = [
+		{
+			id: 'bishkek',
+			name: 'Бишкек',
+			price: 200,
+		},
+		{
+			id: 'chui',
+			name: 'Чуйская область',
+			price: 300,
+		},
+		{
+			id: 'osh',
+			name: 'Ошская область',
+			price: 1000,
+		},
+		{
+			id: 'batken',
+			name: 'Баткенская область',
+			price: 1000,
+		},
+		{
+			id: 'jalalabad',
+			name: 'Джалал-Абадская область',
+			price: 1000,
+		},
+		{
+			id: 'naryn',
+			name: 'Нарынская область',
+			price: 1000,
+		},
+		{
+			id: 'talas',
+			name: 'Таласская область',
+			price: 1000,
+		},
+		{
+			id: 'issyk',
+			name: 'Иссык-Кульская область',
+			price: 1000,
+		},
+	]
+
+
+
 
 export const payment_methods: {
 	id: IPaymentType
