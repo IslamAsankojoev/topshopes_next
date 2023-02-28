@@ -5,21 +5,18 @@ import { FC } from 'react'
 
 
 // ======================================================
-type ProductDescriptionProps = {}
+type ProductDescriptionProps = {
+	desc: string
+}
 // ======================================================
 
-const ProductDescription: FC<ProductDescriptionProps> = () => {
+const ProductDescription: FC<ProductDescriptionProps> = ({desc}) => {
 	const { t } = useTranslation('review')
 	return (
 		<Box>
-			<H3 mb={2}>{t('specification')}:</H3>
+			<H3 mb={2}>Описание товара:</H3>
 			<Box>
-				{t('brand')}: Beats <br />
-				{t('model')}: S450 <br />
-				Wireless Bluetooth Headset <br />
-				FM Frequency Response: 87.5 – 108 MHz <br />
-				Feature: FM Radio, Card Supported (Micro SD / TF) <br />
-				Made in China <br />
+				{desc}
 			</Box>
 		</Box>
 	)

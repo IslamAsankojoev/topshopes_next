@@ -13,6 +13,7 @@ export type IProduct = {
 	variants: IProductVariant[]
 	reviews: IReview[]
 	published: boolean
+	description: string
 }
 
 export type IProductPreview = Omit<

@@ -13,16 +13,14 @@ import { FC, useEffect, useState } from 'react'
 import { IProduct, IProductVariant } from 'src/shared/types/product.types'
 import { ICartItem } from 'src/store/cart/cart.interface'
 
-// import ImageViewer from "react-simple-image-viewer";
-import { FlexBox, FlexRowCenter } from '../flex-box'
+import { FlexBox } from '../flex-box'
 
 import Variables from './Variables'
+import { toast } from 'react-toastify'
 
-// ================================================================
 type ProductIntroProps = {
 	product: IProduct
 }
-// ================================================================
 
 const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 	const { t } = useTranslation('common')
@@ -36,9 +34,6 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 		variants[0]
 	)
 
-	// const [isViewerOpen, setIsViewerOpen] = useState(false)
-	// const [currentImage, setCurrentImage] = useState(0)
-
 	const cartList: ICartItem[] = useTypedSelector(
 		(state) => state.cartStore.cart
 	)
@@ -49,6 +44,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 	const { addToCart } = useActions()
 	const handleAddToCart = () => {
 		addToCart({ ...product, variants: [selectedVariant] })
+		toast.success(`${name} добавлен в корзину`)
 	}
 
 	useEffect(() => {

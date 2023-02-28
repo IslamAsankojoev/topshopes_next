@@ -86,7 +86,7 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 				</StyledTabs>
 
 				<Box mb={6}>
-					{selectedOption === 0 && <ProductDescription />}
+					{selectedOption === 0 && <ProductDescription  desc={product.description}/>}
 					{selectedOption === 1 && (
 						<ProductReview product={product} refetch={refetch} />
 					)}
