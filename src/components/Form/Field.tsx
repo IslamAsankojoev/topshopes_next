@@ -18,7 +18,7 @@ import { H3 } from 'src/components/Typography'
 import MultipleSelect from 'src/components/multiple-select/MultipleSelect'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { FC, useEffect, useState } from 'react'
+import { FC, memo, useEffect, useState } from 'react'
 
 import styles from './Field.module.scss'
 import getTypeOfFile from 'src/utils/getTypeOfFile'
@@ -245,7 +245,6 @@ const Field: FC<any> = (props) => {
 	}
 
 	if (type == 'multiple-select') {
-		console.log(other.defaultData[other.name])
 		return (
 			<MultipleSelect
 				allNames={other.allNames}
@@ -354,9 +353,6 @@ const Field: FC<any> = (props) => {
 			}
 		}
 
-		useEffect(() => {
-			console.log(fileType)
-		}, [fileType])
 
 		return (
 			<>
@@ -460,4 +456,4 @@ const Field: FC<any> = (props) => {
 	return <TextField {...other} />
 }
 
-export default Field
+export default memo(Field)

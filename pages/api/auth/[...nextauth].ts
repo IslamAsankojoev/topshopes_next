@@ -3,6 +3,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { axiosClassic } from 'src/api/interceptor';
 import { getAuthUrl } from 'src/config/api.config';
 
+
+
+
+
 export default NextAuth({
   secret: process.env.SECRET_KEY,
   providers: [
@@ -25,6 +29,8 @@ export default NextAuth({
       }
     })
   ],
+
+
   jwt: {
     secret: process.env.SECRET_KEY,
     maxAge: 24 * 60 * 60 * 1, // 1 day
@@ -40,7 +46,6 @@ export default NextAuth({
   callbacks: {
     //@ts-ignore
     async signIn() {
-      console.log('signIn')
       return true;
     },
     // @ts-ignore

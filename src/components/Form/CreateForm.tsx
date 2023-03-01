@@ -3,7 +3,7 @@ import Card1 from 'src/components/Card1'
 import { FlexBox } from 'src/components/flex-box'
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
-import { FC, ReactNode, useEffect } from 'react'
+import { FC, memo, ReactNode, useEffect } from 'react'
 
 import { common } from 'src/utils/Translate/common'
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
@@ -241,4 +241,4 @@ const CreateForm: FC<CreateFormProps> = ({
 	) : null
 }
 
-export default CreateForm
+export default memo(CreateForm)

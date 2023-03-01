@@ -131,7 +131,6 @@ const ProductAttributes: FC<ProductAttributesProps> = ({
 				}
 			}
 		})
-		console.log(variants)
 		setNewAttributes(attrValues)
 	}
 
