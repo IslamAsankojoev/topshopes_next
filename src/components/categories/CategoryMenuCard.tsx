@@ -55,7 +55,7 @@ const CategoryMenuCard: FC<CategoryMenuCardProps> = (props) => {
 				return (
 					<MenuItem>
 						<Link
-							href={`/shop/?category=${item.id}`}
+							href={`/shop/?category=${item.name}`}
 							style={{
 								width: '100%',
 								color: 'black',

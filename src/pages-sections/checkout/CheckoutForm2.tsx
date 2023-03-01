@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import styled from '@emotion/styled'
 import { DeleteOutline } from '@mui/icons-material'
-import { Alert, Button, Card, Grid, TextField } from '@mui/material'
+import { Alert, Button, Card, Grid, TextField, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { AddressesService } from 'src/api/services/addresses/addresses.service'
 import { ProfilePaymentService } from 'src/api/services/payments/ProfilePayment.service'
@@ -196,7 +196,7 @@ const CheckoutForm2: FC = () => {
 			</Card1>
 
 
-			<Card1 sx={{ mb: 3 }}>
+			{/* <Card1 sx={{ mb: 3 }}>
 				<Heading number={2} title={'Выберите регион доставки'} />
 				<RadioWrapper>
 					{deliveryRegions?.map((region) => (
@@ -214,7 +214,7 @@ const CheckoutForm2: FC = () => {
 						</RadioItem>
 					))}
 				</RadioWrapper>
-			</Card1>
+			</Card1> */}
 
 			<Card1 sx={{ mb: 3 }}>
 				<Heading number={2} title={t('choosePayment')} />
@@ -224,6 +224,7 @@ const CheckoutForm2: FC = () => {
 						<RadioItem
 							key={method.id}
 							style={{
+								padding: '0px 10px',
 								boxShadow:
 									values.paymentMethod == method.id
 										? '0 0 0 1px #ff7900'
@@ -232,8 +233,15 @@ const CheckoutForm2: FC = () => {
 							onClick={() => setFieldValue('paymentMethod', method.id)}
 						>
 							<img src={method.icon.src} alt={method.name} />
-							<p>{method.name}</p>
-							<PaymentDialog images={method?.images} />
+							<Typography sx={{
+								padding: '10px 10px',
+							}}>
+								{method.name}
+								<br />
+								<b>{method.bank_account}</b>
+								</Typography>
+							
+							<PaymentDialog images={method?.images} text={method.instruction}/>
 						</RadioItem>
 					))}
 				</RadioWrapper>

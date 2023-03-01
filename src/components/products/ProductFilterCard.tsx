@@ -50,8 +50,8 @@ const ProductFilterCard = () => {
 		}
 	)
 
-	const handleCategoryChange = (CategoryId: string) => {
-		setCategory(CategoryId)
+	const handleCategoryChange = (CategoryName: string) => {
+		setCategory(CategoryName)
 	}
 
 	const handleBrandChange = (checked: boolean, BrandName: string) => {
@@ -124,6 +124,29 @@ const ProductFilterCard = () => {
 		<Card sx={{ p: '18px 27px', overflow: 'auto' }} elevation={1}>
 			<H6 mb={1.25}>{commonT('categories')}</H6>
 
+			<Paragraph
+					py={0.75}
+					fontSize="16px"
+					color="grey.800"
+					className="cursor-pointer"
+				>
+					<Link
+						href={null}
+						onClick={() => handleCategoryChange('')}
+						sx={{
+							fontWeight: router.query.category === '' ? '700' : '500',
+							color:
+								router.query.category === '' ? 'primary.main' : 'inherit',
+							textDecoration: 'none',
+							cursor: 'pointer',
+							'&:hover': {
+								color: 'primary.main',
+							},
+						}}
+					>
+					Все
+					</Link>
+				</Paragraph>
 			{categroyList?.map((item) => (
 				<Paragraph
 					py={0.75}
@@ -134,7 +157,7 @@ const ProductFilterCard = () => {
 				>
 					<Link
 						href={null}
-						onClick={() => handleCategoryChange(item.id)}
+						onClick={() => handleCategoryChange(item.name)}
 						sx={{
 							fontWeight: router.query.category === item.id ? '700' : '500',
 							color:
@@ -150,6 +173,7 @@ const ProductFilterCard = () => {
 					</Link>
 				</Paragraph>
 			))}
+
 
 			<Divider sx={{ mt: 2, mb: 3 }} />
 

@@ -8,9 +8,11 @@ import {
 	Typography,
 } from '@mui/material'
 import { FC, Fragment, useState } from 'react'
+import StringHTML from 'src/components/StringHTML/StringHTML'
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 
-const PaymentDialog: FC<{ images?: string[] }> = ({ images }) => {
+const PaymentDialog: FC<{ images?: string[], text: string }> = ({ images, text }) => {
 	const [addCardForm, setAddCardForm] = useState<boolean>(false)
 
 	return (
@@ -23,20 +25,18 @@ const PaymentDialog: FC<{ images?: string[] }> = ({ images }) => {
 					e.stopPropagation()
 				}}
 			>
-				<Visibility sx={{ fontSize: 20 }} />
+				<InfoRoundedIcon sx={{ fontSize: 25 }} />
 			</IconButton>
 
 			<Dialog open={addCardForm} onClose={() => setAddCardForm(false)}>
 				<DialogContent>
 					<Typography variant="h6" mb={3}>
-						Somth test
+						Инструкция
+					</Typography>
+					<Typography variant="body1" mb={3}>
+						<StringHTML>{text.replaceAll("|" , "<br>")}</StringHTML>
 					</Typography>
 
-					<Images>
-						{images?.map((image, i) => (
-							<img key={i} src={image} alt={'инструкция'} />
-						))}
-					</Images>
 					<Button
 						variant="contained"
 						color={'primary'}

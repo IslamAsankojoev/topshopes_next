@@ -60,4 +60,4 @@ export interface IPayment {
 	is_verified?: boolean
 }
 
-export type IPaymentType = 'elsom' | 'visa' | 'o_dengi' | 'balance' | 'mbank'
+export type IPaymentType = 'elsom' | 'visa' | 'o_dengi' | 'balance' | 'mbank' | 'bakai'
