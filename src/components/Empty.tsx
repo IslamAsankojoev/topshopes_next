@@ -34,7 +34,7 @@ const translations = {
 		en: 'Nothing found...',
 		ru: 'Ничего не найдено...',
 		tr: 'Hiçbirşey Bulunamadı...',
-		kk: 'Ештеңе табылмады...',
+		kz: 'Ештеңе табылмады...',
 		kg: 'Эч нерсе табылган жок...',
 	},
 }

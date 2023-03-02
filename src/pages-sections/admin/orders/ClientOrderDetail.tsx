@@ -113,7 +113,7 @@ const ClientOrderDetail = () => {
 								{dynamicLocalization({
 									ru: 'Предполагаемая дата поставки',
 									en: 'Estimated Delivery Date',
-									kk: 'Болжалды жеткізу күні',
+									kz: 'Болжалды жеткізу күні',
 									kg: 'Болжолдуу жеткирүү датасы',
 									tr: 'Tahmini Teslim Tarihi',
 								})}

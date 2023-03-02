@@ -53,7 +53,7 @@ const PaymentDialog: FC<{ images?: string[], text: string }> = ({ images, text }
 // const tranlations = {
 // 	instruction: {
 // 		en: "Instruction",
-// 		kk: "Нұсқау",
+// 		kz: "Нұсқау",
 // 		kg: "Instruction",
 // 		ru: "Инструкция",
 // 		tr: "Talimat"

@@ -116,7 +116,7 @@ export const payment_methods: {
 export const paymentTranslations = {
 	cardPhoneNumber: {
 		en: 'Card or phone number',
-		kk: 'Карта немесе телефон нөмірі',
+		kz: 'Карта немесе телефон нөмірі',
 		kg: 'Карта же телефон номери',
 		ru: 'Карта или номер телефона',
 		tr: 'Kart veya telefon numarası'
