@@ -22,6 +22,7 @@ import Link from 'next/link'
 import { axiosClassic } from 'src/api/interceptor'
 import { useAuthRedirect } from 'src/hooks/useAuthRedirect'
 import { signIn } from 'next-auth/react'
+import PhoneNumberMask from 'src/components/Form/PhoneNumberMask'
 
 const Signup = () => {
 	useAuthRedirect()
@@ -125,6 +126,9 @@ const Signup = () => {
 					placeholder="+996 707 777 777"
 					error={!!touched.phone && !!errors.phone}
 					helperText={touched.phone && errors.phone}
+					InputProps={{
+						inputComponent: PhoneNumberMask as any,
+					}}
 				/>
 
 				<BazaarTextField

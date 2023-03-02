@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { FC, memo } from 'react'
 import { TypeComponentAuthFields } from 'src/shared/types/auth.types'
 import { useSession } from 'next-auth/react'
-import MemizedChildren from 'src/components/MemizedChildren/MemizedChildren'
+import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
 
 const CheckRole: FC<TypeComponentAuthFields> = ({
 	children,
@@ -14,17 +14,13 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 
 	const router = useRouter()
 
-
-
-
-	// 1) check if user is client
 	const is_client = !!session?.user
 
 	if(status === 'loading') return null
 
 	// 2) check if user is client and redirect to 404 page when user is not client
 	if (!isOnlyAdmin && !isOnlyAuth && !isOnlySeller && !isOnlyClient)
-		return <MemizedChildren children={children}/>
+		return <MemizeComponent component={children}/>
 
 	// 3) check if user is only client and redirect to 404 page when user is not client
 	if (
@@ -39,7 +35,7 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 		router.pathname !== '/login' && router.replace('/login')
 		return null
 	}
-	if (isOnlyClient && is_client) return <MemizedChildren children={children}/>
+	if (isOnlyClient && is_client) return <MemizeComponent component={children}/>
 
 	if (isOnlyClient && !is_client)
 	{
@@ -49,7 +45,7 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 	}
 
 	// 4) check if user is client and redirect to login page when user is not client
-	if (isOnlyAuth && is_client) return <MemizedChildren children={children}/>
+	if (isOnlyAuth && is_client) return <MemizeComponent component={children}/>
 	if (isOnlyAuth && !is_client) 
 	{
 		router.pathname !== '/login' &&
@@ -58,7 +54,7 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 	}
 
 	// 5) check if user is seller and redirect to 404 page when user is not seller
-	if (isOnlySeller && is_client && user?.is_seller) return <MemizedChildren children={children}/>
+	if (isOnlySeller && is_client && user?.is_seller) return <MemizeComponent component={children}/>
 	if (isOnlySeller && is_client && !user?.is_seller)
 	{
 		router.pathname !== '/404' && router.replace(`/404`)
@@ -66,7 +62,7 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 	}
 
 	// 6) check if user is admin and redirect to 404 page when user is not admin
-	if (isOnlyAdmin && is_client && user?.is_superuser) return <MemizedChildren children={children}/>
+	if (isOnlyAdmin && is_client && user?.is_superuser) return <MemizeComponent component={children}/>
 	if (isOnlyAdmin && is_client && !user?.is_superuser)
 	{
 		router.pathname !== '/404' && router.replace(`/404`)

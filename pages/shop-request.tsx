@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { ShopCreateForm } from 'src/utils/constants/forms'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -105,15 +106,33 @@ const ShopRequest: NextPageAuth = () => {
 										handleFormSubmit={handleCreateShop}
 										fields={fields}
 										defaultData={{}}
-										buttonText="Send request"
+										buttonText={dynamicLocalization(
+											{
+												en: 'Send request',
+												ru: 'Отправить заявку',
+												kg: 'Жөнөтүү',
+												kz: 'Жөнөтүү',
+												tr: 'İstek gönder',
+											}
+										)}
 										buttonPosition="static"
 										buttonSize="large"
 									/>
 									<AlertDialog
-										title={'Are you sure?'}
-										description="By clicking Agree you agree to the terms and conditions of the
-					application. You will be notified by email once your application
-					approved or rejected."
+										title={dynamicLocalization({
+											en: 'Are you sure?',
+											ru: 'Вы уверены?',
+											kg: 'Вы уверены?',
+											kz: 'Вы уверены?',
+											tr: 'Emin misiniz?',
+										})}
+										description={dynamicLocalization({
+											en: 'By clicking Agree you agree to the terms and conditions of the application. You will be notified email once your application approved or rejected.',
+											ru: 'Нажимая кнопку «Согласен», вы соглашаетесь с условиями заявки. Вы получите уведомление по электронной почте, когда ваша заявка будет одобрена или отклонена.',
+											kg: 'Нажимая кнопку «Согласен», вы соглашаетесь с условиями заявки. Вы получите уведомление по электронной почте, когда ваша заявка будет одобрена или отклонена.',
+											kz: 'Нажимая кнопку «Согласен», вы соглашаетесь с условиями заявки. Вы получите уведомление по электронной почте, когда ваша заявка будет одобрена или отклонена.',
+											tr: 'Onaylamak butonuna tıklayarak, uygulamanın şartlarını kabul etmiş olursunuz. Uygulamanızın onaylanması veya reddedilmesi durumunda e-posta ile bilgilendirileceksiniz.',
+										})}
 										opened={opened}
 										handleConfirm={handleAgree}
 										handleClose={() => setOpened(false)}

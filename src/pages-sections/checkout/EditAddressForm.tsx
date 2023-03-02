@@ -11,6 +11,7 @@ import {
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useState } from 'react'
+import PhoneNumberMask from 'src/components/Form/PhoneNumberMask'
 import { IAddress } from 'src/shared/types/user.types'
 import * as yup from 'yup'
 
@@ -112,6 +113,9 @@ const EditAddressForm: FC<EditAddressFormProps> = ({
 									label={t('phone')}
 									error={touched.phone && Boolean(errors.phone)}
 									helperText={touched.phone && errors.phone}
+									InputProps={{
+										inputComponent: PhoneNumberMask as any,
+									}}
 								/>
 							</Grid>
 

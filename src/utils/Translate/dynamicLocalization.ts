@@ -5,7 +5,7 @@ export const dynamicLocalization = (data: {
 	en?: string
 	tr?: string
 	kg?: string
-	kk?: string
+	kz?: string
 }) => {
 	const lang = Cookie.get('i18nextLng') || 'ru'
 	return data?.[lang == 'ky-KG' ? 'kg' : lang] || data?.['ru']

@@ -22,6 +22,8 @@ import { FC, memo, useEffect, useState } from 'react'
 
 import styles from './Field.module.scss'
 import getTypeOfFile from 'src/utils/getTypeOfFile'
+import Percentege from './Percentege'
+import PhoneNumberMask from './PhoneNumberMask'
 
 const DynamicTextEditor = dynamic(
 	() => import('src/components/TextEditor/TextEditor'),
@@ -31,7 +33,70 @@ const DynamicTextEditor = dynamic(
 const Field: FC<any> = (props) => {
 	const { type, ...other } = props
 
-	if (type == 'number') {
+
+	if(type === 'phone'){
+		return (
+			<TextField
+				{...other}
+				label=""
+				InputProps={{
+					inputComponent: PhoneNumberMask as any,
+					startAdornment: (
+						<InputAdornment position="start">
+							<Typography
+								fontWeight="700"
+								color="grey.800"
+								textTransform="capitalize"
+								fontSize="16"
+							>
+								{other.label}
+							</Typography>
+						</InputAdornment>
+					),
+				}}
+				inputProps={{
+					maxLength: other.maxLength,
+					
+				}}
+			/>
+		)
+	}
+
+	if(type === 'percentage'){
+		return (
+			<TextField
+				{...other}
+				onChange={(e)=>{
+					if(e.target.value === ''){
+						other.onChange('0')
+						return null
+					}
+					other.onChange(e.target.value.replace('%', ''))
+				}}
+				label=""
+				InputProps={{
+					inputComponent: Percentege as any,
+					inputMode: 'numeric',
+					pattern: '[0-9]*' as any,
+					defaultValue: other.defaultValue,
+					startAdornment: (
+						<InputAdornment position="start">
+							<Typography
+								fontWeight="700"
+								color="grey.800"
+								textTransform="capitalize"
+								fontSize="16"
+							>
+								{other.label}
+							</Typography>
+						</InputAdornment>
+					),
+				}}
+			/>
+		)
+	}
+
+	if (type === 'number') {
 		return (
 			<TextField
 				{...other}
@@ -56,7 +121,7 @@ const Field: FC<any> = (props) => {
 		)
 	}
 
-	if (type == 'text') {
+	if (type === 'text') {
 		return (
 			<TextField
 				{...other}
@@ -81,7 +146,7 @@ const Field: FC<any> = (props) => {
 			/>
 		)
 	}
-	if (type == 'text-multiline') {
+	if (type === 'text-multiline') {
 		return (
 			<TextField
 				label={
@@ -100,7 +165,7 @@ const Field: FC<any> = (props) => {
 			/>
 		)
 	}
-	if (type == 'color') {
+	if (type === 'color') {
 		return (
 			<input
 				{...other}
@@ -123,7 +188,7 @@ const Field: FC<any> = (props) => {
 		)
 	}
 
-	if (type == 'select') {
+	if (type === 'select') {
 		return (
 			<TextField
 				{...other}
@@ -153,7 +218,7 @@ const Field: FC<any> = (props) => {
 		)
 	}
 
-	if (type == 'autocomplete') {
+	if (type === 'autocomplete') {
 		return (
 			<Autocomplete
 				{...other}
@@ -200,7 +265,7 @@ const Field: FC<any> = (props) => {
 		)
 	}
 
-	if (type == 'autocomplete-multiple') {
+	if (type === 'autocomplete-multiple') {
 		return (
 			<Autocomplete
 				{...other}
@@ -244,7 +309,7 @@ const Field: FC<any> = (props) => {
 		)
 	}
 
-	if (type == 'multiple-select') {
+	if (type === 'multiple-select') {
 		return (
 			<MultipleSelect
 				allNames={other.allNames}
@@ -276,7 +341,7 @@ const Field: FC<any> = (props) => {
 			/>
 		)
 	}
-	if (type == 'select') {
+	if (type === 'select') {
 		return (
 			<TextField
 				{...other}
@@ -299,7 +364,7 @@ const Field: FC<any> = (props) => {
 			/>
 		)
 	}
-	if (type == 'checkbox') {
+	if (type === 'checkbox') {
 		return (
 			<>
 				<Switch color="info" {...other} checked={other.value} />

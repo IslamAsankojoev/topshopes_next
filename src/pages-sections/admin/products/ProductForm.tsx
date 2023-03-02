@@ -397,8 +397,8 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 
 									<Button
 										variant="contained"
-										color="dark"
 										sx={{
+											color: 'dark',
 											borderRadius: '5px',
 										}}
 										onClick={changeCategory}

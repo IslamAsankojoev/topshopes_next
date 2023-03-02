@@ -9,6 +9,7 @@ import {
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useState } from 'react'
+import PhoneNumberMask from 'src/components/Form/PhoneNumberMask'
 import * as yup from 'yup'
 
 const checkoutSchema = yup.object({
@@ -117,6 +118,9 @@ const NewAddressForm: FC<NewAddressFormProps> = ({ mutateAsync }) => {
 									label={t('phone')}
 									error={touched.phone && Boolean(errors.phone)}
 									helperText={touched.phone && errors.phone}
+									InputProps={{
+										inputComponent: PhoneNumberMask as any,
+									}}
 								/>
 							</Grid>
 

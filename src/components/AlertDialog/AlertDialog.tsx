@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { darken } from '@mui/system'
 import { useEffect, useState } from 'react'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 type AlertDialogProps = {
 	title?: string
@@ -62,7 +63,13 @@ const AlertDialog = ({
 						color="error"
 						variant="contained"
 					>
-						{'Disagree'}
+						{dynamicLocalization({
+							en: 'Cancel',
+							ru: 'Отмена',
+							kg: 'Жокко чыгаруу',
+							kz: 'Болдырмау',
+							tr: 'İptal',
+						})}
 					</Button>
 					<Button
 						onClick={() => handleCloseEvent(true)}
@@ -72,7 +79,13 @@ const AlertDialog = ({
 							borderRadius: '5px',
 						}}
 					>
-						{'Agree'}
+						{dynamicLocalization({
+							en: 'Confirm',
+							ru: 'Подтвердить',
+							kg: 'Тасдыкла',
+							kz: 'Растау',
+							tr: 'Onayla',
+						})}
 					</Button>
 				</DialogActions>
 			</Dialog>

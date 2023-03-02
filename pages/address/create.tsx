@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import * as yup from 'yup'
+import PhoneNumberMask from 'src/components/Form/PhoneNumberMask'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -118,6 +119,9 @@ const AddressCreate: NextPageAuth = () => {
 											onChange={handleChange}
 											error={!!touched.phone && !!errors.phone}
 											helperText={touched.phone && errors.phone}
+											InputProps={{
+												inputComponent: PhoneNumberMask as any,
+											}}
 										/>
 									</Grid>
 								</Grid>

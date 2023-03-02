@@ -40,13 +40,13 @@ export const categoryEditForm = [
 		placeholder: '',
 		required: false,
 	},
-
 	{
 		name: 'tax',
 		label: 'tax',
-		type: 'number',
+		type: 'percentage',
 		placeholder: 'tax',
 		required: true,
+		defaultValue: 0,
 	},
 
 	// {
@@ -207,7 +207,7 @@ export const userEditForm = [
 	{
 		name: 'phone',
 		label: 'phone',
-		type: 'text',
+		type: 'phone',
 		placeholder: 'phone',
 		required: true,
 	},
@@ -239,14 +239,14 @@ export const siteSettingsFormEdit = [
 	{
 		name: 'header_phone',
 		label: 'header phone',
-		type: 'text',
+		type: 'phone',
 		placeholder: 'Enter Header phone',
 		required: true,
 	},
 	{
 		name: 'footer_phone',
 		label: 'footer phone',
-		type: 'text',
+		type: 'phone',
 		placeholder: 'Enter footer phone',
 		required: true,
 	},
@@ -334,8 +334,8 @@ export const productVariantFormCreate = [
 	{
 		name: 'discount',
 		label: 'discount',
-		type: 'number',
-		placeholder: '5 (%)',
+		type: 'percentage',
+		placeholder: 'discount',
 		required: true,
 	},
 	{
@@ -388,7 +388,7 @@ export const paymentFormCreate: {
 	{
 		name: 'phone_number',
 		label: 'phone number',
-		type: 'text',
+		type: 'phone',
 		placeholder: 'phone number',
 		required: true,
 	},
