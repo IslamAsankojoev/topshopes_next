@@ -16,10 +16,17 @@ export type IProduct = {
 	description: string
 }
 
-export type IProductPreview = Omit<
-	IProduct,
-	'brand' | 'unit' | 'variants' | 'reviews'
-> & {
+export type IProductPreview = Pick<IProduct,
+ | 'id' 
+ | 'slug'
+ | 'name'
+ | 'category'
+ | 'rating'
+ | 'published'
+ | 'description'
+ | 'shop'
+ >
+& {
 	thumbnail: string
 	discount_price: string
 	price: string

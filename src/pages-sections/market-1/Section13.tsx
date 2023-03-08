@@ -45,10 +45,7 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 								height: '100%',
 							}}>
 								<Link
-									href={{
-										pathname: '/product/[id]',
-										query: { trueID: item.id, id: item.slug },
-									}}
+									href={`/product/${item.id}`}
 								>
 									<a style={{
 										display: 'flex',

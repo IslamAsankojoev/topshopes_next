@@ -84,7 +84,6 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 		name,
 		rating,
 		shop,
-		slug,
 		discount,
 		discount_price,
 		price,
@@ -109,10 +108,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 					<StyledChip color="primary" size="small" label={`${discount}% off`} />
 				)}
 				<Link
-					href={{
-						pathname: '/product/[id]',
-						query: { trueID: id, id: slug },
-					}}
+					href={`/product/${id}`}
 				>
 					<a>
 						<LazyImage
@@ -130,10 +126,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				<FlexBox>
 					<Box flex="1 1 0" minWidth="0px" mr={1}>
 						<Link
-							href={{
-								pathname: '/product/[id]',
-								query: { trueID: id, id: slug },
-							}}
+							href={`/product/${id}`}
 						>
 							<a>
 								<span

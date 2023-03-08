@@ -4,6 +4,7 @@ import {
 	FormControl,
 	InputLabel,
 	MenuItem,
+	Pagination,
 	Select,
 	Stack,
 	Table,
@@ -105,6 +106,8 @@ const MoneyTransfer: NextPageAuth = () => {
 				year: yearValue,
 			}),
 		{
+			keepPreviousData: true,
+			enabled: !!currentPage,
 			select: (data: AxiosResponse<ReportAdmin[]>) =>
 				data.data.filter((item) => item.total_amount),
 		}
@@ -323,11 +326,7 @@ const MoneyTransfer: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<TablePagination
-							onChange={handleChangePage}
-							count={Math.ceil(moneyStats?.length / 20)}
-							page={currentPage}
-						/>
+						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(moneyStats?.length / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
 					</Stack>
 				</Card>
 			) : (

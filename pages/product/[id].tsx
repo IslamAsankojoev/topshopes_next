@@ -1,4 +1,4 @@
-import { Box, Container, Tab, Tabs, styled } from '@mui/material'
+import { Box, Container, Tab, Tabs, styled, Button } from '@mui/material'
 import { ShopsProductsService } from 'src/api/services/products/product.service'
 import { H2 } from 'src/components/Typography'
 import ShopLayout1 from 'src/components/layouts/ShopLayout1'
@@ -30,12 +30,13 @@ const StyledTabs = styled(Tabs)(({ theme }) => ({
 type ProductDetailsProps = {
 	data?: IProduct
 	id?: string
+	queryClient: QueryClient
 }
 // ===============================================================
 
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
 	const { t } = useTranslation('common')
-	const { id } = props
+	const { id, queryClient } = props
 
 	const { data: product, refetch } = useQuery(
 		[`product detail`, id],
@@ -46,23 +47,7 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 		}
 	)
 
-	// const [product, setProduct] = useState(bazaarReactDatabase[2])
 	const [selectedOption, setSelectedOption] = useState(0)
-	// const [relatedProducts, setRelatedProducts] = useState([]);
-	// const [frequentlyBought, setFrequentlyBought] = useState([]);
-
-	/**
-	 * Note:
-	 * ==============================================================
-	 * 1. We used client side rendering with dummy fake data for related products and frequently product
-	 * 2. Product details data is static data, we didn't call any rest api
-	 * 3. If you fetch data from server we recommended you to call getStaticProps function in below.
-	 *    The code is commented if want to call it just uncomment code and put the server url
-	 */
-	// useEffect(() => {
-	//   getRelatedProducts().then((data) => setRelatedProducts(data));
-	//   getFrequentlyBought().then((data) => setFrequentlyBought(data));
-	// }, []);
 
 	const handleOptionClick = (_, value: number) => setSelectedOption(value)
 
@@ -88,7 +73,7 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 				<Box mb={6}>
 					{selectedOption === 0 && <ProductDescription  desc={product.description}/>}
 					{selectedOption === 1 && (
-						<ProductReview product={product} refetch={refetch} />
+						<ProductReview product={product} refetch={refetch} queryClient={queryClient} />
 					)}
 				</Box>
 
@@ -117,15 +102,15 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
-		const { trueID } = ctx.query
+		const { id } = ctx.query
 		const queryClient = new QueryClient()
-		await queryClient.fetchQuery([`product detail`, trueID], () =>
-			ShopsProductsService.get(trueID as string)
+		await queryClient.fetchQuery([`product detail`, id], () =>
+			ShopsProductsService.get(id as string)
 		)
 
 		return {
 			props: {
-				id: trueID,
+				id,
 				// =========
 				dehydratedState: dehydrate(queryClient),
 				...(await serverSideTranslations(ctx.locale as string, [

@@ -1,4 +1,4 @@
-import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
+import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { AttributesServiceAdmin } from 'src/api/services-admin/attributes/attributes.service'
 import Empty from 'src/components/Empty'
@@ -47,13 +47,16 @@ const AttributesList: NextPageAuth = () => {
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
 	const { data: attributes, refetch } = useQuery<any>(
-		`get attributes admin search=${searchValue} page=${currentPage}`,
+		[`get attributes admin search=${searchValue}`, currentPage],
 		() =>
 			AttributesServiceAdmin.getList({
 				search: searchValue,
 				page: currentPage,
-				page_size: 20,
-			})
+				page_size: 10,
+			}),{
+				keepPreviousData: true,
+				enabled: !!currentPage,
+			}
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
@@ -105,11 +108,12 @@ const AttributesList: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<TablePagination
+						{/* <TablePagination
 							onChange={handleChangePage}
 							count={Math.ceil(attributes?.count / 20)}
 							page={currentPage}
-						/>
+						/> */}
+						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(attributes?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
 					</Stack>
 				</Card>
 			) : (

@@ -24,7 +24,7 @@ export const navigations = [
 			{ name: 'attributes', path: '/admin/attributes' },
 			{ name: 'brand', path: '/admin/brands' },
 			{ name: 'brandType', path: '/admin/brands-types' },
-			{ name: 'reviews', path: '/admin/product-reviews' },
+			// { name: 'reviews', path: '/admin/product-reviews' },
 			// { name: 'Color', path: '/admin/colors' },
 			// { name: 'Size', path: '/admin/sizes' },
 		],

@@ -65,14 +65,11 @@ const ShopPage = ({ query }) => {
 			select: (data: ResponseList<IProductPreview>) => data,
 		}
 	)
-
+	
 	const { t } = useTranslation('shop')
 
-	// mui settings
-	// const [view, setView] = useState('grid')
 	const downMd = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
-	// ordering
 	const filterHandler = (params: Record<string, string | number>) => {
 		router.push({
 			pathname: router.pathname,

@@ -1,4 +1,4 @@
-import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
+import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { AdminProductsService } from 'src/api/services-admin/products/products.service'
 import Empty from 'src/components/Empty'
@@ -14,7 +14,7 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { ProductRow } from 'src/pages-sections/admin'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 
@@ -48,16 +48,22 @@ const ProductList: NextPageAuth = () => {
 		data: products,
 		isLoading,
 		refetch,
-	} = useQuery(`products admin search=${searchValue} page=${currentPage}`, () =>
+	} = useQuery([`products admin search=${searchValue}`, currentPage] , () =>
 		AdminProductsService.getList({
 			search: searchValue,
 			page: currentPage,
-			page_size: 20,
-		})
+			page_size: 10,
+		}),
+		{
+			staleTime: 1000 * 60 * 1,
+			keepPreviousData: true,
+			enabled: !!currentPage,
+		}
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
 		useMuiTable({ listData: products?.results })
+
 
 	return (
 		<Box py={4}>
@@ -103,11 +109,7 @@ const ProductList: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<TablePagination
-							onChange={handleChangePage}
-							count={Math.ceil(products?.count / 20)}
-							page={currentPage}
-						/>
+						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(products?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
 					</Stack>
 				</Card>
 			) : (

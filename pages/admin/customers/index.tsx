@@ -1,4 +1,4 @@
-import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
+import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { UsersService } from 'src/api/services-admin/users/users.service'
 import Empty from 'src/components/Empty'
@@ -51,13 +51,17 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
 	const { data: users, refetch } = useQuery(
-		`get users all search=${searchValue} page=${currentPage}`,
+		[`get users all search=${searchValue}`, currentPage],
 		() =>
 			UsersService.getList({
 				search: searchValue,
 				page: currentPage,
-				page_size: 20,
-			})
+				page_size: 10,
+			}),
+			{
+				keepPreviousData: true,
+				enabled: !!currentPage,
+			}
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
@@ -107,11 +111,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<TablePagination
-							onChange={handleChangePage}
-							count={Math.ceil(users?.count / 20)}
-							page={currentPage}
-						/>
+						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(users?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
 					</Stack>
 				</Card>
 			) : (

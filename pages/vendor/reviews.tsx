@@ -1,8 +1,8 @@
-import { RemoveRedEye } from '@mui/icons-material'
 import {
 	Avatar,
 	Box,
 	Card,
+	Pagination,
 	Rating,
 	Stack,
 	Table,
@@ -14,7 +14,6 @@ import Empty from 'src/components/Empty'
 import Scrollbar from 'src/components/Scrollbar'
 import { H3, Paragraph, Small } from 'src/components/Typography'
 import TableHeader from 'src/components/data-table/TableHeader'
-import TablePagination from 'src/components/data-table/TablePagination'
 import { FlexBox } from 'src/components/flex-box'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import useMuiTable from 'src/hooks/useMuiTable'
@@ -22,7 +21,6 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import {
-	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,
 } from 'src/pages-sections/admin'
@@ -30,14 +28,12 @@ import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IReview } from 'src/shared/types/product.types'
-import { ResponseList } from 'src/shared/types/response.types'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
 	{ id: 'customer', label: 'customer', align: 'left' },
 	{ id: 'comment', label: 'review', align: 'left' },
 	{ id: 'rating', label: 'rating', align: 'left' },
-	{ id: 'action', label: 'action', align: 'center' },
 ]
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -59,6 +55,7 @@ const Reviews: NextPageAuth = () => {
 		'get shop reviews',
 		() => ShopsService.getShopReviews(),
 		{
+			keepPreviousData: true,
 			select: (data: IReview[]) => data,
 		}
 	)
@@ -67,7 +64,6 @@ const Reviews: NextPageAuth = () => {
 		order,
 		orderBy,
 		selected,
-		rowsPerPage,
 		filteredList,
 		handleChangePage,
 		handleRequestSort,
@@ -127,11 +123,11 @@ const Reviews: NextPageAuth = () => {
 												/>
 											</StyledTableCell>
 
-											<StyledTableCell align="center">
+											{/* <StyledTableCell align="center">
 												<StyledIconButton>
 													<RemoveRedEye />
 												</StyledIconButton>
-											</StyledTableCell>
+											</StyledTableCell> */}
 										</StyledTableRow>
 									))}
 								</TableBody>
@@ -140,10 +136,7 @@ const Reviews: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<TablePagination
-							onChange={handleChangePage}
-							count={Math.ceil(listData?.length / rowsPerPage)}
-						/>
+						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(listData?.length / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
 					</Stack>
 				</Card>
 			) : (

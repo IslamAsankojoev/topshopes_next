@@ -49,7 +49,6 @@ const config = {
 		},
 	},
 }
-
 const App = ({ Component, pageProps: {session, ...pagePropses} }: TypeAppProps) => {
 	const AnyComponent = Component as any
 	const getLayout = AnyComponent.getLayout ?? ((page) => page)
@@ -76,7 +75,7 @@ const App = ({ Component, pageProps: {session, ...pagePropses} }: TypeAppProps) 
 						<Hydrate state={pagePropses.dehydratedState}>
 							<AppProvider>
 								<MuiTheme>
-									<RTL>{getLayout(<AnyComponent {...pagePropses} />)}</RTL>
+									<RTL>{getLayout(<AnyComponent {...pagePropses} queryClient={queryClient}/>)}</RTL>
 								</MuiTheme>
 							</AppProvider>
 						</Hydrate>

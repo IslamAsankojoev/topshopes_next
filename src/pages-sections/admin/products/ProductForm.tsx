@@ -22,6 +22,7 @@ import * as yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
 
 import { useProductFetch } from './useProductFetch'
+import { id } from 'date-fns/locale'
 
 // ================================================================
 type ProductFormProps = {
@@ -310,8 +311,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 										<Button
 											onClick={() =>
 												push({
-													pathname: '/product/[id]',
-													query: { trueID: values.id, id: values.slug },
+													pathname: `/product/${id}`,
 												})
 											}
 											variant="contained"

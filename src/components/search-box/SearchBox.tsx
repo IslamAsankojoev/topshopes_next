@@ -165,10 +165,7 @@ const SearchBox: FC = () => {
 					<SearchResultCard elevation={2}>
 						{products?.map((item) => (
 							<Link
-								href={{
-									pathname: `/product/[id]`,
-									query: { trueID: item.id, id: item.slug },
-								}}
+								href={`/product/${item.id}`}
 								key={item.id}
 								passHref
 							>

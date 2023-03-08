@@ -12,10 +12,7 @@ const ProductCard2: FC<IProductPreview> = (props) => {
 
 	return (
 		<Link
-			href={{
-				pathname: '/product/[id]',
-				query: { trueID: id, id: slug },
-			}}
+		href={`/product/${id}`}
 		>
 			<a>
 				<HoverBox borderRadius="8px" mb={1}>

@@ -61,7 +61,7 @@ const DropZone: FC<DropZoneProps> = (props) => {
 			}}
 			{...getRootProps()}
 		>
-			<input {...other} {...getInputProps()} />
+			<input {...other} {...getInputProps()}/>
 			<Typography
 				mb={1}
 				color="black.900"

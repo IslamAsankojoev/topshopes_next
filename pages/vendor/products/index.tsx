@@ -1,4 +1,4 @@
-import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
+import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { ProductsService } from 'src/api/services/products/product.service'
 import Empty from 'src/components/Empty'
@@ -19,6 +19,7 @@ import { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
+import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
@@ -50,13 +51,16 @@ const ProductList: NextPageAuth = () => {
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
 	const { data: products, refetch } = useQuery(
-		`products search=${searchValue} page=${currentPage}`,
+		[`products search=${searchValue}`, currentPage],
 		() =>
 			ProductsService.getList({
 				search: searchValue,
 				page: currentPage,
-				page_size: 20,
-			})
+				page_size: 10,
+			}), {
+				enabled: !!currentPage,
+				keepPreviousData: true,
+			}
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
@@ -104,12 +108,11 @@ const ProductList: NextPageAuth = () => {
 						</TableContainer>
 					</Scrollbar>
 
-					<Stack alignItems="center" my={4}>
-						<TablePagination
-							onChange={handleChangePage}
-							count={Math.ceil(products?.count / 20)}
-						/>
+					<MemizeComponent  component={
+						<Stack alignItems="center" my={4}>
+						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(products?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
 					</Stack>
+					}/>
 				</Card>
 			) : (
 				<Empty />

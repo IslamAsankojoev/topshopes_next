@@ -36,10 +36,7 @@ const Section4: FC<Props> = (props) => {
 									?.map((item) => (
 										<Grid item md={3} sm={6} xs={6} key={item.name}>
 											<Link
-												href={{
-													pathname: '/product/[id]',
-													query: { trueID: item.id, id: item.slug },
-												}}
+												href={`/product/${item.id}`}
 												passHref
 											>
 												<a>

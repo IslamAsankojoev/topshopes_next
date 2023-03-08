@@ -39,6 +39,7 @@ const EditProduct: NextPageAuth = () => {
 		refetch,
 	} = useQuery('product get', () => ProductsService.get(id as string), {
 		enabled: !!id,
+		keepPreviousData: true,
 		onError: (e: any) => toast.error(e.message, { autoClose: 5000 }),
 	})
 

@@ -3,7 +3,7 @@ import Card1 from 'src/components/Card1'
 import { FlexBox } from 'src/components/flex-box'
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
-import { FC, memo, ReactNode, useEffect } from 'react'
+import { FC, memo, ReactNode, useCallback, useEffect, useRef } from 'react'
 
 import { common } from 'src/utils/Translate/common'
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
@@ -39,6 +39,7 @@ const CreateForm: FC<CreateFormProps> = ({
 }) => {
 	const { t } = useTranslation('admin')
 	const { t: commonT } = useTranslation('common')
+	const formRef = useRef(null);
 
 	const required = dynamicLocalization(common.required)
 
@@ -138,9 +139,27 @@ const CreateForm: FC<CreateFormProps> = ({
 		handleFormSubmit(formData, values)
 	}
 
+	const handleKeyDown = useCallback((event) => {
+    if (event.keyCode === 13) {
+      handleSubmit();
+    }
+  }, [useFormik]);
+
+
 	useEffect(() => {
 		if (getValues) getValues(values)
 	}, [values])
+	
+
+	useEffect(() => {
+    const form = formRef.current;
+    form.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      form.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [formRef, handleKeyDown]);
+
 
 	return fields ? (
 		<div
@@ -162,7 +181,7 @@ const CreateForm: FC<CreateFormProps> = ({
 					},
 				}}
 			>
-				<form>
+				<form ref={formRef}>
 					<Grid container spacing={3}>
 						{fields?.map((field, id) =>
 							!field.name.endsWith('_search') ? (

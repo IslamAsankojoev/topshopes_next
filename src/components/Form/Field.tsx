@@ -24,6 +24,7 @@ import styles from './Field.module.scss'
 import getTypeOfFile from 'src/utils/getTypeOfFile'
 import Percentege from './Percentege'
 import PhoneNumberMask from './PhoneNumberMask'
+import { toast } from 'react-toastify'
 
 const DynamicTextEditor = dynamic(
 	() => import('src/components/TextEditor/TextEditor'),
@@ -411,6 +412,14 @@ const Field: FC<any> = (props) => {
 
 		const handleFileChange = (files) => {
 			const file = files[0]
+			console.log(file.size)
+			if(file.size > 2000000) {
+				setFileLocaleUrl(null)
+				setFileType(null)
+				other.setFieldValue(other?.name, null)
+				toast.error('Файл должен быть меньше 2 мб')
+				return null
+			}
 			getTypeOfFile(file).then((type) => setFileType(type))
 			if (file) {
 				setFileLocaleUrl(file && window?.URL?.createObjectURL(file))

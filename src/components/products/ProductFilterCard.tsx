@@ -115,10 +115,10 @@ const ProductFilterCard = () => {
 		if (router.query.category) {
 			setCategory(router.query.category as string)
 		}
-		if (router.query.brand) {
+		if (router.query?.brand?.length > 0) {
 			setBrands((router.query.brand as string).split(','))
 		}
-	}, [])
+	}, [router.asPath])
 
 	return (
 		<Card sx={{ p: '18px 27px', overflow: 'auto' }} elevation={1}>
@@ -213,12 +213,13 @@ const ProductFilterCard = () => {
 					label={<Span color="inherit">{item.name}</Span>}
 					control={
 						<Checkbox
-							defaultChecked={brands.includes(item.name)}
 							size="small"
 							color="secondary"
+							defaultChecked={brands.includes(item.name)}
 						/>
 					}
 				/>
+				
 			))}
 
 			<Divider sx={{ my: 3 }} />

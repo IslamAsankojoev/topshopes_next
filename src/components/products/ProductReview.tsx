@@ -9,7 +9,7 @@ import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { useMutation } from 'react-query'
+import { QueryClient, useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { IProduct, IReview } from 'src/shared/types/product.types'
 import * as yup from 'yup'
@@ -19,9 +19,10 @@ import ProductComment from './ProductComment'
 export interface ProductReviewProps {
 	product: IProduct
 	refetch: () => void
+	queryClient: QueryClient
 }
 
-const ProductReview: FC<ProductReviewProps> = ({ product, refetch }) => {
+const ProductReview: FC<ProductReviewProps> = ({ product, refetch, queryClient }) => {
 	const { t } = useTranslation('review')
 	const { user } = useTypedSelector((state) => state.userStore)
 	const [retryreq, setRetryreq] = useState(false)
@@ -33,6 +34,7 @@ const ProductReview: FC<ProductReviewProps> = ({ product, refetch }) => {
 		(values: IReview) => ReviewService.create(product.id, values),
 		{
 			onSuccess: () => {
+				queryClient.invalidateQueries(['product detail', product.id])
 				setRetryreq(true)
 				toast.success('comment sent successfully')
 			},

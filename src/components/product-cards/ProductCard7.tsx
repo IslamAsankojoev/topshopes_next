@@ -30,7 +30,7 @@ const Wrapper = styled(Card)(({ theme }) => ({
 // =========================================================
 
 const ProductCard7: FC<ICartItem> = (product) => {
-	const { category, name, rating, slug, variants, children, qty } = product
+	const { category, name, rating, slug, variants, children, qty, id } = product
 	const { addToCart, removeFromCart, trashFromCart } = useActions()
 
 	const handleAddToCart = useCallback(() => {
@@ -63,7 +63,7 @@ const ProductCard7: FC<ICartItem> = (product) => {
 			</IconButton>
 
 			<FlexBox p={2} rowGap={2} width="100%" flexDirection="column">
-				<Link href={`/product/${slug}`}>
+				<Link href={`/product/${id}`}>
 					<a>
 						<Span ellipsis fontWeight="600" fontSize={18}>
 							{name}

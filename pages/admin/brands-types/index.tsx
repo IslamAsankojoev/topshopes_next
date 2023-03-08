@@ -1,4 +1,4 @@
-import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
+import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import Empty from 'src/components/Empty'
 import Scrollbar from 'src/components/Scrollbar'
@@ -47,13 +47,16 @@ const BrandsTypesList: NextPageAuth = () => {
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
 	const { data: brandsTypes, refetch } = useQuery(
-		`get brandsTypes admin search=${searchValue} page=${currentPage}`,
+		[`get brandsTypes admin search=${searchValue}`, currentPage],
 		() =>
 			BrandTypesService.getList({
 				search: searchValue,
 				page: currentPage,
-				page_size: 20,
-			})
+				page_size: 10,
+			}),{
+				keepPreviousData: true,
+				enabled: !!currentPage,
+			}
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
@@ -105,11 +108,7 @@ const BrandsTypesList: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<TablePagination
-							onChange={handleChangePage}
-							count={Math.ceil(brandsTypes?.count / 20)}
-							page={currentPage}
-						/>
+						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(brandsTypes?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
 					</Stack>
 				</Card>
 			) : (

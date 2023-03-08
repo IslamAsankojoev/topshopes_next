@@ -45,11 +45,7 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 						}}>
 							<BazaarCard sx={{ p: '1rem', height: "100%" }}>
 								<Link
-									href={{
-										pathname: '/product/[id]',
-										query: { trueID: item.id, id: item.slug },
-									}}
-									
+									href={`/product/${item.id}`}
 								>
 									<a style={{
 										display: 'flex',

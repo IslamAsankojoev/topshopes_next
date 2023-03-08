@@ -1,4 +1,4 @@
-import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
+import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { OrdersService } from 'src/api/services-admin/orders/order.service'
 import Empty from 'src/components/Empty'
@@ -57,14 +57,16 @@ const OrderList: NextPageAuth = () => {
 		isLoading,
 		refetch,
 	} = useQuery(
-		`orders admin get search=${searchValue} page=${currentPage}`,
+		[`orders admin get search=${searchValue}`, currentPage],
 		() =>
 			OrdersService.getList({
 				search: searchValue,
 				page: currentPage,
-				page_size: 20,
+				page_size: 10,
 			}),
 		{
+			keepPreviousData: true,
+			enabled: !!currentPage,
 			select: (data: ResponseList<IOrder>) => {
 				return {
 					...data,
@@ -138,11 +140,7 @@ const OrderList: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<TablePagination
-							onChange={handleChangePage}
-							count={Math.ceil(orders?.count / 20)}
-							page={currentPage}
-						/>
+							<Pagination variant="outlined" shape="rounded"  count={Math.ceil(orders?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
 					</Stack>
 				</Card>
 			) : (

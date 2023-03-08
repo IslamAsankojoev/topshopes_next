@@ -42,7 +42,7 @@ const Wrapper = styled(Card)(() => ({
 // ===========================================================
 
 const ProductCard9: FC<{ product: IProductPreview }> = ({ product }) => {
-	const { category, rating, shop, slug, name } = product
+	const { category, rating, shop, slug, name, id } = product
 
 	const { state, dispatch } = useAppContext()
 
@@ -96,7 +96,7 @@ const ProductCard9: FC<{ product: IProductPreview }> = ({ product }) => {
 						height="100%"
 						p={2}
 					>
-						<Link href={`/product/${slug}`}>
+						<Link href={`/product/${id}`}>
 							<a>
 								<H5 fontWeight="600" my="0.5rem">
 									{name}
