@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from "next-auth/providers/credentials";
 import { axiosClassic } from 'src/api/interceptor';
+import { AuthService } from 'src/api/services/auth/auth.service';
 import { getAuthUrl } from 'src/config/api.config';
 
 
@@ -18,10 +19,11 @@ export default NextAuth({
       },  
       async authorize(credentials) {
         const { email, password } = credentials;
-        const { data } = await axiosClassic.post(getAuthUrl('login/'), { email, password });
+        const data = await AuthService.login({ email, password })
         if (data) {
           return {
             ...data,
+            id: data.id,
           }
         } else {
           return null;
@@ -60,14 +62,10 @@ export default NextAuth({
     },
     // @ts-ignore
     async session({session, token}) {
-      session = {
-        ...session,
-        user: {
-          // @ts-ignore
-          accessToken: token.accessToken,
-          refreshToken: token.refreshToken,
-        }
-      }
+      // @ts-ignore
+      session.accessToken = token.accessToken;
+      // @ts-ignore
+      session.refreshToken = token.refreshToken;
       return session;
     },
   }

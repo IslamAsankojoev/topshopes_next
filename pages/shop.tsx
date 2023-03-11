@@ -25,6 +25,7 @@ import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProductPreview } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import SEO from 'src/components/SEO'
+import { useState } from 'react'
 
 // ===================================================
 export const getServerSideProps: GetServerSideProps = async ({
@@ -33,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
 	try {
 		const queryClient = new QueryClient()
-		await queryClient.fetchQuery(['shop products page'], () =>
+		await queryClient.fetchQuery(['shop products page', query], () =>
 			ShopsProductsService.getList(query as Record<string, string | number>)
 		)
 
@@ -55,20 +56,29 @@ export const getServerSideProps: GetServerSideProps = async ({
 // ===================================================
 
 const ShopPage = ({ query }) => {
-	// fetching
 	const router = useRouter()
 	const { data: products } = useQuery(
-		['shop products page'],
-		() => ShopsProductsService.getList(query),
+		['shop products page', query],
+		() => ShopsProductsService.getList({ ...query, page_size: 21}),
 		{
 			enabled: !!query,
 			select: (data: ResponseList<IProductPreview>) => data,
 		}
 	)
+
+
 	
 	const { t } = useTranslation('shop')
 
 	const downMd = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+
+	const paginationHandler = (page: number) => {
+		router.push({
+			pathname: router.pathname,
+			query: { ...router.query, page },
+			
+		}, undefined, { scroll: false })
+	}
 
 	const filterHandler = (params: Record<string, string | number>) => {
 		router.push({
@@ -158,6 +168,7 @@ const ShopPage = ({ query }) => {
 							<ProductCard1List
 								products={products.results}
 								count={products.count}
+								handleChange={paginationHandler}
 							/>
 						) : null}
 					</Grid>

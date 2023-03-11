@@ -109,11 +109,6 @@ const BrandsList: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						{/* <TablePagination
-							onChange={handleChangePage}
-							count={Math.ceil(brands?.count / 100)}
-							page={currentPage}
-						/> */}
 						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(brands?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
 					</Stack>
 				</Card>

@@ -52,11 +52,11 @@ const Signup = () => {
 					});
 					replace('/profile')
 				} catch (e) {
-					toast.error(getErrorMessage(e))
+					console.log(e)
 				}
 			},
 			onError: (e: any) => {
-				toast.error(getErrorMessage(e))
+				console.log(e)
 			},
 		}
 	)

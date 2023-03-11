@@ -16,7 +16,7 @@ const checkoutSchema = yup.object({
 	country: yup.string().required('required'),
 	city: yup.string().required('required'),
 	street: yup.string().required('required'),
-	phone: yup.number().required('required'),
+	phone: yup.string().required('required'),
 })
 
 const initialValues: { [k: string]: any } = {

@@ -9,6 +9,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
+import LazyImage from 'src/components/LazyImage'
 
 // ========================================================================
 type BrandRowProps = {
@@ -45,9 +46,9 @@ const BrandRow: FC<BrandRowProps> = ({ brand, selected, refetch }) => {
 			<StyledTableCell align="center">{name}</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<Avatar
+				<img
 					src={image}
-					sx={{ width: 55, height: 'auto', margin: 'auto', borderRadius: 0 }}
+					style={{ width: 55, height: 35, objectFit: 'contain', margin: 'auto', borderRadius: 0,  }}
 				/>
 			</StyledTableCell>
 

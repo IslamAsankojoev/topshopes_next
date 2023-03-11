@@ -18,6 +18,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 
 import EyeToggleButton from './EyeToggleButton'
 import SocialButtons from './SocialButtons'
+import { toast } from 'react-toastify'
 
 const fbStyle = { background: '#3B5998', color: 'white' }
 const googleStyle = { background: '#4285F4', color: 'white' }
@@ -51,7 +52,6 @@ const Login = () => {
 	const router = useRouter()
 
 	const {data, status} = useSession()
-	
 
 	const {
 		values,
@@ -74,13 +74,24 @@ const Login = () => {
 	// const { mutateAsync } = useMutation('login', () => AuthService.login(values))
 
 	const handleFormSubmit = async () => {
-		await signIn("credentials", {
+		const response = await signIn("credentials", {
       redirect: false,
       email: values.email,
-      password: values.password
+      password: values.password,
     });
-		await profile()
+
+		if (response.status === 401) {
+			toast.error("Не правильный логин или пароль")
+		}
+		if (response.ok) {
+			profile()
+		}
+
+		
 	}
+	useEffect(() => {
+		toast.error(router?.query?.errorCode)
+	}, [router.query])
 
 
 	return (

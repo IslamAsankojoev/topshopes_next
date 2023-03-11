@@ -1,5 +1,5 @@
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
-import { Box, Card, Stack, Table, TableContainer } from '@mui/material'
+import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { PaymentServices } from 'src/api/services-admin/payments/payments.service'
 import Scrollbar from 'src/components/Scrollbar'
@@ -142,7 +142,7 @@ export default function Payouts() {
 				</Scrollbar>
 
 				<Stack alignItems="center" my={4}>
-					<TablePagination onChange={handleChangePage} count={data?.count} />
+					<Pagination variant="outlined" shape="rounded"  count={Math.ceil(data?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
 				</Stack>
 			</Card>
 		</Box>

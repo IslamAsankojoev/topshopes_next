@@ -30,7 +30,7 @@ export const useProductFetch = (
 
 	const { data: categories, isLoading: categoriesLoading } = useQuery(
 		`categories get search=${categoriesSearch}`,
-		() => CategoriesService.getList({search: categoriesSearch || ''}),
+		() => CategoriesService.getList({search: categoriesSearch || '', page_size: 200}),
 		{ 
 			refetchOnWindowFocus: false, 
 			retry: 0,
@@ -40,7 +40,7 @@ export const useProductFetch = (
 
 	const { data: brands, isLoading: brandsLoading } = useQuery(
 		`brands get search=${brandsSearch}`,
-		() => BrandsService.getList({search: brandsSearch || ''}),
+		() => BrandsService.getList({search: brandsSearch || '', page_size: 200}),
 		{
 			refetchOnWindowFocus: false,
 			retry: 0,

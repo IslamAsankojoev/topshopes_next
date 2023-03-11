@@ -136,7 +136,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							label={
 								<Typography
 									fontWeight="650"
-									color="grey.800"
+									color="grey.500"
 									textTransform="capitalize"
 									fontSize="16"
 								>
@@ -163,7 +163,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							label={
 								<Typography
 									fontWeight="650"
-									color="grey.800"
+									color="grey.500"
 									textTransform="capitalize"
 									fontSize="16"
 								>
@@ -207,7 +207,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									label={
 										<Typography
 											fontWeight="650"
-											color="grey.800"
+											color="grey.500"
 											textTransform="capitalize"
 											fontSize="16"
 										>
@@ -245,7 +245,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									label={
 										<Typography
 											fontWeight="650"
-											color="grey.800"
+											color="grey.500"
 											textTransform="capitalize"
 											fontSize="16"
 										>
@@ -266,7 +266,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							label={
 								<Typography
 									fontWeight="650"
-									color="grey.800"
+									color="grey.500"
 									textTransform="capitalize"
 									fontSize="16"
 								>

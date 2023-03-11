@@ -35,7 +35,7 @@ const ProductFilterCard = () => {
 
 	const { data: brandList } = useQuery(
 		'brandList',
-		() => BrandsService.getList(),
+		() => BrandsService.getList({page_size: 100}),
 		{
 			select: (data: ResponseList<IBrand>) => data.results,
 		}
@@ -43,7 +43,7 @@ const ProductFilterCard = () => {
 
 	const { data: categroyList } = useQuery(
 		'categories',
-		() => CategoriesService.getList(),
+		() => CategoriesService.getList({page_size: 100}),
 		{
 			select: (data: ResponseList<ICategory>) => data.results,
 			staleTime: 1000 * 60 * 10,

@@ -194,6 +194,7 @@ const Field: FC<any> = (props) => {
 			<TextField
 				{...other}
 				select
+				// @ts-ignore
 				label=""
 				InputProps={{
 					startAdornment: (

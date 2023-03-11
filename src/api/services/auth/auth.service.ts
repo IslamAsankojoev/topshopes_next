@@ -10,6 +10,7 @@ import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 import { removeToken, saveToStorage, saveToken } from './auth.helpers'
 import { getSession, signIn, signOut } from 'next-auth/react'
+import { IUser } from 'src/shared/types/user.types'
 
 export const AuthService = {
 	register: async ({ email, phone, password }: IRegister) => {
@@ -28,7 +29,7 @@ export const AuthService = {
 
 	login: async ({ email, password }: ILogin) => {
 		try {
-			const response = await axiosClassic.post<IAuthResponse>('auth/login/', {
+			const response = await axiosClassic.post<IUser>('auth/login/', {
 				email,
 				password,
 			})
@@ -59,7 +60,7 @@ export const AuthService = {
 		try {
 			const response = await axiosClassic.post<IAuthResponse>('auth/refresh/', {
 				// @ts-ignore
-				refresh: session.user.refreshToken
+				refresh: session.refreshToken
 			})
 			// if (response.data.access) {
 			// 	saveToken(response.data)

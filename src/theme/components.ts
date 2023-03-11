@@ -1,5 +1,5 @@
 import { Components } from "@mui/material";
-import { blue, dark, grey } from "./themeColors";
+import { blue, dark, grey, primary } from "./themeColors";
 import { fontFamily, fontSize } from "./typography";
 
 // ========================================================
@@ -40,7 +40,7 @@ export const components: Components = {
         position: "fixed",
         overflow: "hidden",
         height: "3px !important",
-        backgroundColor: blue.main,
+        backgroundColor: 'orange',
         zIndex: "99999999 !important",
         borderRadius: "0px 300px 300px 0px !important",
       },

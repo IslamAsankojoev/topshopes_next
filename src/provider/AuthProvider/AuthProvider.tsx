@@ -43,7 +43,6 @@ const AuthProvider: FC<any> = ({
 		})()
 	}, [pathname, asPath, status])
 
-
 	return !isOnlyAdmin && !isOnlyAuth && !isOnlySeller && !isOnlyClient ? (
 		<>{children}</>
 	) : (

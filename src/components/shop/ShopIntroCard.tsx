@@ -94,17 +94,17 @@ const ShopIntroCard: FC<IShop> = ({
 								<Span color="grey.600">{address}</Span>
 							</FlexBox>
 
-							<FlexBox color="grey.600" gap={1} mb={1}>
+							{/* <FlexBox color="grey.600" gap={1} mb={1}>
 								<Call fontSize="small" sx={{ fontSize: 18, mt: '2px' }} />
 								<Span color="grey.600">{phone}</Span>
-							</FlexBox>
+							</FlexBox> */}
 						</Box>
 
-						<a href="mailto:scarletbeauty@xmail.com">
+						{/* <a href="mailto:scarletbeauty@xmail.com">
 							<Button variant="outlined" color="primary" sx={{ my: 1.5 }}>
 								Contact Vendor
 							</Button>
-						</a>
+						</a> */}
 					</FlexBetween>
 				</Box>
 			</FlexBox>
