@@ -2,33 +2,21 @@ import { Typography } from "@mui/material";
 import { FlexRowCenter } from "src/components/flex-box";
 import LazyImage from "src/components/LazyImage";
 import { FC } from "react";
+import { ICategory } from "src/shared/types/product.types";
 
-// ==============================================================
-type MobileCategoryImageBoxProps = {
-  Icon?: any;
-  title: string;
-  imgUrl?: string;
-};
-// ==============================================================
 
-const MobileCategoryImageBox: FC<MobileCategoryImageBoxProps> = ({
-  title,
-  imgUrl,
-  Icon,
+const MobileCategoryImageBox: FC<ICategory> = ({
+  id, name, image, slug, icon, description
 }) => {
   return (
     <FlexRowCenter flexDirection="column">
-      {imgUrl ? (
         <LazyImage
-          src={imgUrl}
+          src={image}
           borderRadius="5px"
           width={100}
           height={100}
           objectFit="cover"
         />
-      ) : (
-        Icon && <Icon size="48px">{Icon}</Icon>
-      )}
       <Typography
         className="ellipsis"
         textAlign="center"
@@ -36,7 +24,7 @@ const MobileCategoryImageBox: FC<MobileCategoryImageBoxProps> = ({
         lineHeight="1"
         mt={1}
       >
-        {title}
+        {name}
       </Typography>
     </FlexRowCenter>
   );

@@ -16,7 +16,7 @@ import MobileMenu from 'src/components/navbar/MobileMenu'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { layoutConstant } from 'src/utils/constants'
 
 import SearchBox from '../search-box/SearchBox'
@@ -72,6 +72,7 @@ const Header: FC<HeaderProps> = ({
 		push(`/login/?redirect=${router.asPath}`)
 	}
 
+
 	return (
 		<HeaderWrapper className={clsx(className)}>
 			<Container
@@ -118,8 +119,9 @@ const Header: FC<HeaderProps> = ({
 					<Box
 						p={0.5}
 						bgcolor="grey.200"
-						// @ts-ignore
 						sx={{
+							border: user?.email ? '2px solid':'none',
+							borderColor: user?.email ? 'success.main' : 'transparent',
 							borderRadius: '50%',
 							cursor: 'pointer',
 							width: 44,
@@ -128,9 +130,9 @@ const Header: FC<HeaderProps> = ({
 							alignItems: 'center',
 							justifyContent: 'center',
 						}}
-						onClick={user ? redirect : handleLogin}
+						onClick={user?.email ? redirect : handleLogin}
 					>
-						{user ? (
+						{user?.email ? (
 							<Avatar
 								src={user?.avatar || '/assets/images/avatars/001-man.svg'}
 							/>
@@ -141,8 +143,11 @@ const Header: FC<HeaderProps> = ({
 
 					<Badge badgeContent={cart?.length} color="primary">
 						<Box
-							ml={2.5}
-							p={1.25}
+							border={cart.length > 0 ? '2px solid' : 'none'}
+							borderColor={cart.length > 0 ? 'primary.main' : 'transparent'}
+							ml={2}
+							width={44}
+							height={44}
 							bgcolor="grey.200"
 							component={IconButton}
 							onClick={toggleSidenav}

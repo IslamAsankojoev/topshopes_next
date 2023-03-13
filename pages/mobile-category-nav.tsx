@@ -10,6 +10,12 @@ import { GetStaticProps, NextPage } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { Fragment, useEffect, useState } from 'react'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { useQuery } from 'react-query'
+import axios from 'axios'
+import { CategoriesService } from 'src/api/services/categories/category.service'
+import { ICategory } from 'src/shared/types/product.types'
+import { ResponseList } from 'src/shared/types/response.types'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -20,25 +26,28 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 
 const MobileCategoryNav: NextPage = () => {
-	const [category, setCategory] = useState<any>(null)
-	const [suggestedList, setSuggestedList] = useState<any[]>([])
-	const [subCategoryList, setSubCategoryList] = useState<any[]>([])
 
-	const handleCategoryClick = (cat: any) => () => {
-		let menuData = cat.menuData
-		if (menuData) setSubCategoryList(menuData.categories || menuData)
-		else setSubCategoryList([])
-
-		setCategory(cat)
+	const {data: category} = useQuery('category page list', 
+	() => CategoriesService.getList({limit: 1000}),
+	{
+		select: (data: ResponseList<ICategory>) => data.results
 	}
+	)
 
-	useEffect(() => setSuggestedList(suggestion), [])
+	// const handleCategoryClick = (cat: any) => () => {
+	// 	let menuData = cat.menuData
+	// 	if (menuData) setSubCategoryList(menuData.categories || menuData)
+	// 	else setSubCategoryList([])
+
+	// 	setCategory(cat)
+	// }
+
 
 	return (
 		<MobileCategoryNavStyle>
 			<Header className="header" />
 
-			<Box className="main-category-holder">
+			{/* <Box className="main-category-holder">
 				{navigations?.map((item) => (
 					<Box
 						key={item.title}
@@ -57,60 +66,26 @@ const MobileCategoryNav: NextPage = () => {
 						</Typography>
 					</Box>
 				))}
-			</Box>
+			</Box> */}
 
 			<Box className="container">
 				<Typography fontWeight="600" fontSize="15px" mb={2}>
-					Recommended Categories
+					{
+						dynamicLocalization({
+							en: 'Categories',
+							ru: 'Категории',
+							kz: 'Категориялар',
+							kg: 'Категориялар',
+							tr: 'Kategoriler',
+						})
+					}
 				</Typography>
-
-				<Box mb={4}>
-					<Grid container spacing={3}>
-						{suggestedList?.map((item: any, ind: number) => (
-							<Grid item lg={1} md={2} sm={3} xs={4} key={ind}>
-								<Link href="/product/search/423423">
-									<a>
-										<MobileCategoryImageBox {...item} />
-									</a>
-								</Link>
-							</Grid>
-						))}
-					</Grid>
-				</Box>
-
-				{category?.menuComponent === 'MegaMenu1' ? (
-					subCategoryList?.map((item, ind) => (
-						<Fragment key={ind}>
-							<Divider />
-							<Accordion>
-								<AccordionHeader px={0} py={1.25}>
-									<Typography fontWeight="600" fontSize="15px">
-										{item.title}
-									</Typography>
-								</AccordionHeader>
-
-								<Box mb={4} mt={1}>
-									<Grid container spacing={3}>
-										{item.subCategories?.map((item: any, ind: number) => (
-											<Grid item lg={1} md={2} sm={3} xs={4} key={ind}>
-												<Link href="/product/search/423423">
-													<a>
-														<MobileCategoryImageBox {...item} />
-													</a>
-												</Link>
-											</Grid>
-										))}
-									</Grid>
-								</Box>
-							</Accordion>
-						</Fragment>
-					))
-				) : (
+			
 					<Box mb={4}>
 						<Grid container spacing={3}>
-							{subCategoryList?.map((item, ind) => (
-								<Grid item lg={1} md={2} sm={3} xs={4} key={ind}>
-									<Link href="/product/search/423423">
+							{category?.map((item) => (
+								<Grid item lg={1} md={2} sm={3} xs={4} key={item.id}>
+									<Link href={`/shop/?category=${item.name}`}>
 										<a>
 											<MobileCategoryImageBox {...item} />
 										</a>
@@ -119,55 +94,11 @@ const MobileCategoryNav: NextPage = () => {
 							))}
 						</Grid>
 					</Box>
-				)}
 			</Box>
 
 			<MobileNavigationBar />
 		</MobileCategoryNavStyle>
 	)
 }
-
-const suggestion = [
-	{
-		title: 'Belt',
-		href: '/belt',
-		imgUrl: '/assets/images/products/categories/belt.png',
-	},
-	{
-		title: 'Hat',
-		href: '/Hat',
-		imgUrl: '/assets/images/products/categories/hat.png',
-	},
-	{
-		title: 'Watches',
-		href: '/Watches',
-		imgUrl: '/assets/images/products/categories/watch.png',
-	},
-	{
-		title: 'Sunglasses',
-		href: '/Sunglasses',
-		imgUrl: '/assets/images/products/categories/sunglass.png',
-	},
-	{
-		title: 'Sneakers',
-		href: '/Sneakers',
-		imgUrl: '/assets/images/products/categories/sneaker.png',
-	},
-	{
-		title: 'Sandals',
-		href: '/Sandals',
-		imgUrl: '/assets/images/products/categories/sandal.png',
-	},
-	{
-		title: 'Formal',
-		href: '/Formal',
-		imgUrl: '/assets/images/products/categories/shirt.png',
-	},
-	{
-		title: 'Casual',
-		href: '/Casual',
-		imgUrl: '/assets/images/products/categories/t-shirt.png',
-	},
-]
 
 export default MobileCategoryNav

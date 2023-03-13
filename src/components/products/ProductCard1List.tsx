@@ -33,7 +33,7 @@ const ProductCard1List: FC<ProductCard1ListProps> = ({
 
 			<FlexBetween flexWrap="wrap" mt={4}>
 				<Span color="grey.600"></Span>
-				<Pagination variant="outlined" shape="rounded" count={Math.ceil(count/21)} onChange={(e, page)=> handleChange(page)} />
+				{count>0 && <Pagination variant="outlined" shape="rounded" count={Math.ceil(count/21)} onChange={(e, page)=> handleChange(page)} />}
 			</FlexBetween>
 		</Fragment>
 	)

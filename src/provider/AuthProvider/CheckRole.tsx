@@ -57,7 +57,7 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 	if (isOnlySeller && is_client && user?.is_seller) return <MemizeComponent component={children}/>
 	if (isOnlySeller && is_client && !user?.is_seller)
 	{
-		router.pathname !== '/404' && router.replace(`/404`)
+		router.pathname !== '/profile' && router.replace(`/profile`)
 		return null
 	}
 
@@ -65,7 +65,7 @@ const CheckRole: FC<TypeComponentAuthFields> = ({
 	if (isOnlyAdmin && is_client && user?.is_superuser) return <MemizeComponent component={children}/>
 	if (isOnlyAdmin && is_client && !user?.is_superuser)
 	{
-		router.pathname !== '/404' && router.replace(`/404`)
+		router.pathname !== '/vendor/products' && router.replace(`/vendor/products`)
 		return null
 	}
 	

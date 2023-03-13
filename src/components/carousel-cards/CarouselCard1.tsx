@@ -2,6 +2,7 @@ import { Box, Grid, styled } from '@mui/material'
 import LazyImage from 'src/components/LazyImage'
 import { FlexBetween } from 'src/components/flex-box'
 import { FC } from 'react'
+import Link from 'next/link'
 
 // styled component
 const StyledBox = styled(FlexBetween)(({ theme }) => ({
@@ -35,10 +36,11 @@ const StyledBox = styled(FlexBetween)(({ theme }) => ({
 // ==================================================
 type CarouselCard1Props = {
 	imgUrl?: string
+	shop_id
 }
 // ==================================================
 
-const CarouselCard1: FC<CarouselCard1Props> = ({ imgUrl }) => {
+const CarouselCard1: FC<CarouselCard1Props> = ({ imgUrl, shop_id }) => {
 	return (
 		<StyledBox>
 			<Grid container spacing={3} alignItems="center" justifyContent="center">
@@ -75,6 +77,10 @@ const CarouselCard1: FC<CarouselCard1Props> = ({ imgUrl }) => {
 						}}
 					/>
 				</Grid> */}
+				<Link href={`/shops/${shop_id}/`} >
+					<a style={{
+					cursor: 'pointer',
+				}}>
 				<Box
 					sx={{
 						width: '100%',
@@ -86,6 +92,8 @@ const CarouselCard1: FC<CarouselCard1Props> = ({ imgUrl }) => {
 				>
 					<LazyImage src={imgUrl} layout="fill" alt='Slide' objectFit='cover' />
 				</Box>
+				</a>
+				</Link>
 			</Grid>
 		</StyledBox>
 	)

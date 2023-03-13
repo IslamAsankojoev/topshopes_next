@@ -10,7 +10,6 @@ import {
 	Typography,
 	styled,
 } from '@mui/material'
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined'
 import DropZone from 'src/components/DropZone'
 import LazyImage from 'src/components/LazyImage'

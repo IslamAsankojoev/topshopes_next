@@ -8,7 +8,7 @@ import ShopIntroCard from 'src/components/shop/ShopIntroCard'
 import Sidenav from 'src/components/sidenav/Sidenav'
 import useWindowSize from 'src/hooks/useWindowSize'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { IShop } from 'src/shared/types/shop.types'
 
@@ -20,22 +20,17 @@ const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 		ShopsService.getShopProducts(shop.id)
 	)
 
+	useEffect(()=>{
+		console.log(shop)
+	}, [])
+
 	return (
 		<ShopLayout1>
 			<Container sx={{ mt: 4, mb: 6 }}>
 				<ShopIntroCard {...shop} />
 
 				<Grid container spacing={3}>
-					<Grid
-						item
-						md={3}
-						xs={12}
-						sx={{ display: { md: 'block', xs: 'none' } }}
-					>
-						<ProductFilterCard />
-					</Grid>
-
-					<Grid item md={9} xs={12}>
+					<Grid item md={12} xs={12}>
 						{isTablet && (
 							<Sidenav
 								position="left"

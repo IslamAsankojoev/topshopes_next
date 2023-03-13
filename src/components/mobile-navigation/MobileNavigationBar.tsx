@@ -10,10 +10,12 @@ import { FC } from 'react'
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 import { StyledNavLink, Wrapper, iconStyle } from './styles'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
 
 const MobileNavigationBar: FC = () => {
 	const width = useWindowSize()
-	const { state } = useAppContext()
+	const {cart, total_items} = useTypedSelector((state) => state.cartStore)
+
 
 	const { t } = useTranslation('common')
 
@@ -21,8 +23,8 @@ const MobileNavigationBar: FC = () => {
 		<Wrapper>
 			{list?.map((item) => (
 				<StyledNavLink href={item.href} key={item.title}>
-					{item.title === 'Cart' ? (
-						<Badge badgeContent={state.cart?.length} color="primary">
+					{item.title === 'cart' ? (
+						<Badge badgeContent={total_items} color="primary">
 							<item.icon fontSize="small" sx={iconStyle} />
 						</Badge>
 					) : (
@@ -38,11 +40,11 @@ const MobileNavigationBar: FC = () => {
 
 const list = [
 	{ title: 'home', icon: Home, href: '/' },
-	// {
-	// 	title: 'categories',
-	// 	icon: CategoryOutlined,
-	// 	href: '/mobile-category-nav',
-	// },
+	{
+		title: 'categories',
+		icon: CategoryOutlined,
+		href: '/mobile-category-nav',
+	},
 	{ title: 'cart', icon: ShoppingBagOutlined, href: '/cart' },
 	{ title: 'profile', icon: User2, href: '/profile' },
 ]

@@ -35,7 +35,6 @@ const MobileCategoryNavStyle = styled("div")(({ theme }) => ({
   },
 
   "& .container": {
-    left: "90px",
     flex: "1 1 0",
     position: "fixed",
     overflowY: "auto",

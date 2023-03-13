@@ -80,6 +80,7 @@ const Variables: FC<VariablesProps> = ({
 		)
 	}, [selectedAttributes])
 
+
 	return (
 		<div
 			style={{

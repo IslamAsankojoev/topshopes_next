@@ -29,7 +29,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 	const router = useRouter()
 	const routerId = router.query.id as string
 
-	const [selectedImage, setSelectedImage] = useState(variants[0].thumbnail)
+	const [selectedImage, setSelectedImage] = useState<string>(variants[0].thumbnail)
 	const [selectedVariant, setSelectedVariant] = useState<IProductVariant>(
 		variants[0]
 	)
@@ -47,9 +47,6 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 		toast.success(`${name} добавлен в корзину`)
 	}
 
-	useEffect(() => {
-			setSelectedVariant(variants[0])
-	}, [variants])
 
 	return (
 		<Box width="100%">
@@ -87,9 +84,12 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 					</FlexBox>
 				</Grid>
 
-				<Grid item md={6} xs={12} alignItems="center">
+				<Grid item md={6} xs={12}  alignItems="center">
+					<Box sx={{
+						position: 'relative',
+						padding: '1rem',
+					}}>
 					<H1 mb={2}>{name}</H1>
-
 					<FlexBox alignItems="center" mb={2}>
 						<Box>{t('brand')}:</Box>
 						<H6 ml={1}>{brand.name}</H6>
@@ -107,13 +107,20 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 						</Box>
 						<H6 lineHeight="1">({rating})</H6>
 					</FlexBox>
-
+					<FlexBox alignItems="center" mb={2}>
+						<Box>{t('soldBy')}:</Box>
+						<Link href={`/shops/${shop.id}`}>
+							<a>
+								<H6 ml={1}>{shop.name}</H6>
+							</a>
+						</Link>
+					</FlexBox>
+					
 					<Box mb={3}>
 						<H2 color="primary.main" mb={0.5} lineHeight="1">
 							{Number(selectedVariant?.price || variants[0]?.price).toFixed(2)}c
 						</H2>
 					</Box>
-
 					<FlexBox alignItems="center" mb={2}>
 						<Box>{t('status')}:</Box>
 						<H6
@@ -124,15 +131,12 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							{selectedVariant?.status || 'unavailable'}
 						</H6>
 					</FlexBox>
-
 					<Variables
 						product={product}
 						setVariant={setSelectedVariant}
 						setImage={setSelectedImage}
 						variant={selectedVariant}
 					/>
-
-					{/* {!cartItem?.qty ? ( */}
 					<BazaarButton
 						color="primary"
 						disabled={
@@ -145,14 +149,8 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 						{t('addCart')}
 					</BazaarButton>
 
-					<FlexBox alignItems="center" mb={2}>
-						<Box>{t('soldBy')}:</Box>
-						<Link href={`/shops/${shop.id}`}>
-							<a>
-								<H6 ml={1}>{shop.name}</H6>
-							</a>
-						</Link>
-					</FlexBox>
+				
+					</Box>
 				</Grid>
 			</Grid>
 		</Box>
