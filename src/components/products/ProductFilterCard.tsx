@@ -35,7 +35,7 @@ const ProductFilterCard = () => {
 
 	const { data: brandList } = useQuery(
 		'brandList',
-		() => BrandsService.getList({page_size: 100}),
+		() => BrandsService.getList({ page_size: 100 }),
 		{
 			select: (data: ResponseList<IBrand>) => data.results,
 		}
@@ -43,7 +43,7 @@ const ProductFilterCard = () => {
 
 	const { data: categroyList } = useQuery(
 		'categories',
-		() => CategoriesService.getList({page_size: 100}),
+		() => CategoriesService.getList({ page_size: 100 }),
 		{
 			select: (data: ResponseList<ICategory>) => data.results,
 			staleTime: 1000 * 60 * 10,
@@ -94,7 +94,7 @@ const ProductFilterCard = () => {
 						max_price: maxPrice,
 						min_price: minPrice,
 						category,
-						brand: brands.join(','),
+						brand: brands,
 					},
 				},
 				undefined,
@@ -115,38 +115,41 @@ const ProductFilterCard = () => {
 		if (router.query.category) {
 			setCategory(router.query.category as string)
 		}
-		if (router.query?.brand?.length > 0) {
-			setBrands((router.query.brand as string).split(','))
-		}
+		// if (router.query?.brand?.length > 0) {
+		// 	setBrands((prev) => [...prev, ...router.query.brand])
+		// }
 	}, [router.asPath])
+
+	// useEffect(() => {
+	// 	console.log('router.query', router.query)
+	// }, [router.query])
 
 	return (
 		<Card sx={{ p: '18px 27px', overflow: 'auto' }} elevation={1}>
 			<H6 mb={1.25}>{commonT('categories')}</H6>
 
 			<Paragraph
-					py={0.75}
-					fontSize="16px"
-					color="grey.800"
-					className="cursor-pointer"
+				py={0.75}
+				fontSize="16px"
+				color="grey.800"
+				className="cursor-pointer"
+			>
+				<Link
+					href={null}
+					onClick={() => handleCategoryChange('')}
+					sx={{
+						fontWeight: router.query.category === '' ? '700' : '500',
+						color: router.query.category === '' ? 'primary.main' : 'inherit',
+						textDecoration: 'none',
+						cursor: 'pointer',
+						'&:hover': {
+							color: 'primary.main',
+						},
+					}}
 				>
-					<Link
-						href={null}
-						onClick={() => handleCategoryChange('')}
-						sx={{
-							fontWeight: router.query.category === '' ? '700' : '500',
-							color:
-								router.query.category === '' ? 'primary.main' : 'inherit',
-							textDecoration: 'none',
-							cursor: 'pointer',
-							'&:hover': {
-								color: 'primary.main',
-							},
-						}}
-					>
 					Все
-					</Link>
-				</Paragraph>
+				</Link>
+			</Paragraph>
 			{categroyList?.map((item) => (
 				<Paragraph
 					py={0.75}
@@ -161,7 +164,9 @@ const ProductFilterCard = () => {
 						sx={{
 							fontWeight: router.query.category === item.name ? '700' : '500',
 							color:
-								router.query.category === item.name ? 'primary.main' : 'inherit',
+								router.query.category === item.name
+									? 'primary.main'
+									: 'inherit',
 							textDecoration: 'none',
 							cursor: 'pointer',
 							'&:hover': {
@@ -173,7 +178,6 @@ const ProductFilterCard = () => {
 					</Link>
 				</Paragraph>
 			))}
-
 
 			<Divider sx={{ mt: 2, mb: 3 }} />
 
@@ -215,11 +219,10 @@ const ProductFilterCard = () => {
 						<Checkbox
 							size="small"
 							color="secondary"
-							defaultChecked={brands.includes(item.name)}
+							defaultChecked={router?.query?.brand?.includes(item.name)}
 						/>
 					}
 				/>
-				
 			))}
 
 			<Divider sx={{ my: 3 }} />
