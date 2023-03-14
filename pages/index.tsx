@@ -169,9 +169,9 @@ export async function getStaticProps({ locale }) {
 		const topRatedBrands = await api.getTopRatedBrand()
 		const mainCarouselData = await api.getMainCarousel()
 
-		const newArrivalsList = await axiosClassic
-			.get<ResponseList<IProductPreview>>('/latest-products/')
-			.then((data) => data.data.results)
+		// const newArrivalsList = await axiosClassic
+		// 	.get<ResponseList<IProductPreview>>('/latest-products/')
+		// 	.then((data) => data.data.results)
 
 		const bigDiscountList = await api.getBigDiscountList()
 
@@ -196,7 +196,7 @@ export async function getStaticProps({ locale }) {
 				topCategories,
 				flashDealsData,
 				topRatedBrands,
-				newArrivalsList,
+				// newArrivalsList,
 				bigDiscountList,
 				mainCarouselData,
 				// topRatedProducts,
