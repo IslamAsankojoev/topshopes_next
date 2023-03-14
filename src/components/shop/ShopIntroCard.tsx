@@ -8,7 +8,7 @@ import YoutubeFilled from 'src/components/icons/YoutubeFilled'
 import { H3, Small, Span } from 'src/components/Typography'
 import { FC, useEffect } from 'react'
 import { IShop } from 'src/shared/types/shop.types'
-import { checkDomen } from '../LazyImage'
+import LazyImage, { checkDomen } from '../LazyImage'
 
 // =======================================================
 type ShopIntroCardProps = {}
@@ -31,24 +31,28 @@ const ShopIntroCard: FC<IShop> = ({
 			<Box
 				height="202px"
 				sx={{
-					background: `url(${checkDomen(cover_picture as string)}) center/cover`,
+					background: `url(${checkDomen(
+						cover_picture as string
+					)}) center/cover`,
 					backgroundColor: 'grey.400',
 					backgroundPosition: 'center 30%',
 				}}
 			/>
 
 			<FlexBox mt={-8} px={3.75} flexWrap="wrap">
-				<Avatar
+				{/* <LazyImage
 					src={checkDomen(profile_picture as string)  || '/assets/images/avatars/001-man.svg'}
+					width="120px"
+					height="120px"
 					sx={{
 						mr: '37px',
-						width: '120px',
-						height: '120px',
+						borderRadius: '50%',
 						border: '4px solid',
 						borderColor: 'grey.100',
 						backgroundColor: 'grey.100',
+						padding: '0px',
 					}}
-				/>
+				/> */}
 
 				<Box
 					sx={{

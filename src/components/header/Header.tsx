@@ -20,6 +20,7 @@ import { FC, useEffect, useState } from 'react'
 import { layoutConstant } from 'src/utils/constants'
 
 import SearchBox from '../search-box/SearchBox'
+import { useSession } from 'next-auth/react'
 
 export const HeaderWrapper = styled(Box)(({ theme }) => ({
 	zIndex: 3,
@@ -32,21 +33,21 @@ export const HeaderWrapper = styled(Box)(({ theme }) => ({
 	},
 }))
 
-// ==============================================================
 type HeaderProps = {
 	isFixed?: boolean
 	className?: string
 	searchBoxType?: 'type1' | 'type2'
 }
-// ==============================================================
 
 const Header: FC<HeaderProps> = ({
 	isFixed,
 	className,
 	searchBoxType = 'type1',
 }) => {
-	const user = useTypedSelector((state) => state.userStore.user)
 	const cart = useTypedSelector((state) => state.cartStore.cart)
+	const user = useTypedSelector((state) => state.userStore.user)
+
+	const {data:session, status} = useSession()
 
 	const { push } = useRouter()
 	const theme = useTheme()
@@ -59,8 +60,10 @@ const Header: FC<HeaderProps> = ({
 
 	const toggleDialog = () => setDialogOpen(!dialogOpen)
 
+	const is_auth = status === 'authenticated'
+
 	const redirect = () => {
-		if (user) {
+		if (is_auth) {
 			push('/profile')
 		}
 		setSidenavOpen(false)
@@ -120,8 +123,8 @@ const Header: FC<HeaderProps> = ({
 						p={0.5}
 						bgcolor="grey.200"
 						sx={{
-							border: user?.email ? '2px solid':'none',
-							borderColor: user?.email ? 'success.main' : 'transparent',
+							border: is_auth ? '2px solid':'none',
+							borderColor: is_auth ? 'success.main' : 'transparent',
 							borderRadius: '50%',
 							cursor: 'pointer',
 							width: 44,
@@ -130,9 +133,9 @@ const Header: FC<HeaderProps> = ({
 							alignItems: 'center',
 							justifyContent: 'center',
 						}}
-						onClick={user?.email ? redirect : handleLogin}
+						onClick={is_auth ? redirect : handleLogin}
 					>
-						{user?.email ? (
+						{is_auth ? (
 							<Avatar
 								src={user?.avatar || '/assets/images/avatars/001-man.svg'}
 							/>
@@ -156,15 +159,6 @@ const Header: FC<HeaderProps> = ({
 						</Box>
 					</Badge>
 				</FlexBox>
-
-				{/* <Dialog
-					open={dialogOpen}
-					fullWidth={isMobile}
-					scroll="body"
-					onClose={toggleDialog}
-				>
-					<Login />
-				</Dialog> */}
 
 				<Drawer open={sidenavOpen} anchor="right" onClose={toggleSidenav}>
 					<MiniCart />

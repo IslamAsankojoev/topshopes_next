@@ -399,7 +399,7 @@ const Field: FC<any> = (props) => {
 	}
 	if (type == 'file') {
 		const getImgUrl = (img: File | Blob | string | any) => {
-			if (!img) return false
+			if (!img) return ''
 
 			if (typeof img != 'string') {
 				return URL?.createObjectURL(img)
@@ -426,6 +426,10 @@ const Field: FC<any> = (props) => {
 				other?.setFieldValue(other?.name, file)
 			}
 		}
+
+		useEffect(() => {
+			console.log('other', other)
+		}, [other])
 
 
 		return (
@@ -496,7 +500,7 @@ const Field: FC<any> = (props) => {
 							}
 						/>
 					</Grid>
-					{fileLocaleUrl || getImgUrl(other?.defaultData[other?.name]) ? (
+					{getImgUrl(other?.defaultData[other?.name]) ? (
 						<Grid
 							display="flex"
 							item
@@ -506,7 +510,7 @@ const Field: FC<any> = (props) => {
 							justifyContent="center"
 							alignItems="center"
 						>
-							{fileType?.startsWith('image') && (
+							{other.previewType === 'image' && (
 								<Image
 									layout="fill"
 									objectFit="contain"
@@ -517,9 +521,9 @@ const Field: FC<any> = (props) => {
 									alt={other?.label}
 								/>
 							)}
-							{fileType?.startsWith('unknown') && (
+							{other.previewType === 'pdf' && (
 									<LazyImage src="/assets/images/pdf.png" layout='fill'/>
-							)}
+							)} 
 						</Grid>
 					) : null}
 				</Grid>

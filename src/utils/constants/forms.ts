@@ -321,6 +321,7 @@ export const productVariantFormCreate = [
 		label: 'thumbnail',
 		type: 'file',
 		placeholder: 'thumbnail',
+		previewType: 'image',
 		required: true,
 		fullWidth: true,
 	},
@@ -406,6 +407,7 @@ export const ShopCreateForm: {
 	label: string
 	type: string
 	fileTypes?: string
+	previewType?: string
 	placeholder: string
 	required: boolean
 	maxLength?: number
@@ -474,6 +476,7 @@ export const ShopCreateForm: {
 		label: 'document',
 		type: 'file',
 		fileTypes: '.pdf',
+		previewType: 'pdf',
 		placeholder: 'document',
 		required: true,
 	},

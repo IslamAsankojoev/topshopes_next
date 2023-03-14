@@ -1,5 +1,12 @@
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
-import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
+import {
+	Box,
+	Card,
+	Pagination,
+	Stack,
+	Table,
+	TableContainer,
+} from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { PaymentServices } from 'src/api/services-admin/payments/payments.service'
 import Scrollbar from 'src/components/Scrollbar'
@@ -50,6 +57,7 @@ export default function Payouts() {
 		},
 		{ id: 'Payments Method', label: t('paymentMethod'), align: 'center' },
 		{ id: 'Phone number', label: t('phone'), align: 'center' },
+		{ id: 'Date', label: t('date'), align: 'center' },
 		{ id: 'Payed', label: t('payed'), align: 'center' },
 	]
 
@@ -119,15 +127,19 @@ export default function Payouts() {
 											<StyledTableCell align="center">
 												{payout.bank_account}
 											</StyledTableCell>
+
 											<StyledTableCell align="center">
 												{payout.payment_type}
 											</StyledTableCell>
+
 											<StyledTableCell align="center">
 												{payout.phone_number}
 											</StyledTableCell>
-											{/* <StyledTableCell align="center">
-											<Avatar src={payout.confirm_photo} />
-										</StyledTableCell> */}
+
+											<StyledTableCell align="center">
+												{new Date(payout.create_at).toLocaleString()}
+											</StyledTableCell>
+
 											<StyledTableCell align="center">
 												<CheckBoxIcon
 													color={payout.is_verified ? 'success' : 'disabled'}
@@ -142,12 +154,16 @@ export default function Payouts() {
 				</Scrollbar>
 
 				<Stack alignItems="center" my={4}>
-					<Pagination variant="outlined" shape="rounded"  count={Math.ceil(data?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
+					<Pagination
+						variant="outlined"
+						shape="rounded"
+						count={Math.ceil(data?.count / 10)}
+						onChange={(e, page) => handleChangePage(e, page)}
+					/>
 				</Stack>
 			</Card>
 		</Box>
 	)
 }
-
 
 Payouts.isOnlyAdmin = true

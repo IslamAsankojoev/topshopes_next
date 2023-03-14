@@ -28,6 +28,7 @@ import Heading from './Heading'
 import NewAddressForm from './NewAddressForm'
 import PaymentDialog from './PaymentDialog'
 import { paymentTranslations, payment_methods, deliveryRegions } from './paymentHelper'
+import { useActions } from 'src/hooks/useActions'
 
 // ====================================================================
 // date types
@@ -55,14 +56,11 @@ const CheckoutForm2: FC = () => {
 
 	// states
 	const { cart } = useTypedSelector((state) => state.cartStore)
-
-	// hooks
-	const router = useRouter()
-
-	// redux
 	const { user } = useTypedSelector((state) => state.userStore)
 
-	// address fetching
+	const router = useRouter()
+	const {clearCart} = useActions()
+
 	const { data: addresses, refetch } = useQuery(
 		'address get',
 		() => AddressesService.getList(),
@@ -121,7 +119,12 @@ const CheckoutForm2: FC = () => {
 				payment_type: values.paymentMethod,
 				phone_number: values.selectedAddress.phone,
 			},
-		})
+		}),
+		{
+			onSuccess: () => {
+				clearCart()
+			},
+		}
 	)
 
 	const deleteAddress = async (

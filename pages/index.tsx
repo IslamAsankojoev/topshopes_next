@@ -16,6 +16,8 @@ import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { ICategory, IProductPreview } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import api from 'src/utils/api/market-1'
+import { axiosClassic } from 'src/api/interceptor'
+import { useEffect } from 'react'
 
 // =================================================================
 type MarketProps = {
@@ -41,6 +43,7 @@ type MarketProps = {
 // =================================================================
 
 const MarketShop: NextPage<MarketProps> = (props) => {
+	const { newArrivalsList = [], topRatedProducts = [] } = props
 	const { data: products } = useQuery(
 		['shop products main'],
 		() =>
@@ -61,11 +64,15 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			staleTime: 1000 * 60 * 10,
 		}
 	)
+
 	return (
 		<ShopLayout1>
-			<SEO title="Topshopes - Home" description='
+			<SEO
+				title="Topshopes - Home"
+				description="
 			Topshopes - Маркетплейс, где вы можете найти все, что вам нужно.
-			' />
+			"
+			/>
 
 			{/* HERO SLIDER SECTION */}
 			<Section1 carouselData={props.mainCarouselData} />
@@ -77,10 +84,10 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			<Section3 categoryList={categories} />
 
 			{/* TOP RATED PRODUCTS */}
-			<Section4 topRatedList={products} topRatedBrands={products} />
+			<Section4 topRatedList={topRatedProducts} topRatedBrands={products} />
 
 			{/* NEW ARRIVAL LIST */}
-			<Section5 newArrivalsList={products} />
+			<Section5 newArrivalsList={newArrivalsList} />
 
 			{/* BIG DISCOUNTS */}
 			<Section13 bigDiscountList={products} />
@@ -146,9 +153,16 @@ export async function getStaticProps({ locale }) {
 		const topCategories = await api.getTopCategories()
 		const topRatedBrands = await api.getTopRatedBrand()
 		const mainCarouselData = await api.getMainCarousel()
-		const newArrivalsList = await api.getNewArrivalList()
+
+		const newArrivalsList = await axiosClassic
+			.get<ResponseList<IProductPreview>>('/latest-products/')
+			.then((data) => data.data.results)
+
 		const bigDiscountList = await api.getBigDiscountList()
-		const topRatedProducts = await api.getTopRatedProduct()
+
+		const topRatedProducts = await axiosClassic
+			.get<ResponseList<IProductPreview>>('/top-rated-products/')
+			.then((data) => data.data.results)
 
 		return {
 			props: {

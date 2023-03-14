@@ -7,25 +7,22 @@ import { useRouter } from 'next/router'
 import { FC, Fragment, useEffect } from 'react'
 import { IProductPreview } from 'src/shared/types/product.types'
 
-// ========================================================
-type ProductCard1ListProps = { products: IProductPreview[]; count?: number, handleChange?: (page: number) => void }
-// ========================================================
+type ProductCard1ListProps = {
+	products: IProductPreview[]
+	count?: number
+	handleChange?: (page: number) => void
+}
 
 const ProductCard1List: FC<ProductCard1ListProps> = ({
-	products,
+	products = [],
 	count,
-	handleChange
+	handleChange,
 }) => {
-
-	useEffect(() => {
-		console.log('count', count)
-	}, [count])
-
 	return (
 		<Fragment>
 			<Grid container spacing={3}>
-				{products?.map((item, ind) => (
-					<Grid item lg={4} sm={6} xs={6} key={ind}>
+				{products?.map((item) => (
+					<Grid item lg={3} sm={4} xs={6} key={item.id}>
 						<ProductCard1 product={item} />
 					</Grid>
 				))}
@@ -33,7 +30,14 @@ const ProductCard1List: FC<ProductCard1ListProps> = ({
 
 			<FlexBetween flexWrap="wrap" mt={4}>
 				<Span color="grey.600"></Span>
-				{count>0 && <Pagination variant="outlined" shape="rounded" count={Math.ceil(count/21)} onChange={(e, page)=> handleChange(page)} />}
+				{!!count && (
+					<Pagination
+						variant="outlined"
+						shape="rounded"
+						count={Math.ceil(count / 21)}
+						onChange={(e, page) => handleChange(page)}
+					/>
+				)}
 			</FlexBetween>
 		</Fragment>
 	)

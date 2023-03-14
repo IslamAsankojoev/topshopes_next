@@ -8,14 +8,13 @@ import { CSSProperties, FC } from 'react'
 import { IProductPreview } from 'src/shared/types/product.types'
 import { getCurrency } from 'src/utils/getCurrency'
 
-
 const ProductCard4: FC<IProductPreview> = ({
 	thumbnail,
 	rating,
 	name,
 	price,
 	discount_price,
-	shop
+	shop,
 }) => {
 	return (
 		<Box>

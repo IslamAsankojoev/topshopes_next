@@ -58,6 +58,13 @@ export interface IPayment {
 	phone_number: string
 	bank_account: string
 	is_verified?: boolean
+	create_at: string
 }
 
-export type IPaymentType = 'elsom' | 'visa' | 'o_dengi' | 'balance' | 'mbank' | 'bakai'
+export type IPaymentType =
+	| 'elsom'
+	| 'visa'
+	| 'o_dengi'
+	| 'balance'
+	| 'mbank'
+	| 'bakai'

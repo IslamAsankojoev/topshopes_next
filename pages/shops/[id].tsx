@@ -16,9 +16,9 @@ const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 	const width = useWindowSize()
 	const isTablet = width < 1025
 
-	const { data: products } = useQuery(['shop products'], () =>
-		ShopsService.getShopProducts(shop.id)
-	)
+	// const { data: products } = useQuery(['shop products'], () =>
+	// 	ShopsService.getShopProducts(shop.id)
+	// )
 
 	useEffect(()=>{
 		console.log(shop)
@@ -44,7 +44,7 @@ const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 							</Sidenav>
 						)}
 
-						<ProductCardList products={products} />
+						<ProductCardList products={shop.products} />
 					</Grid>
 				</Grid>
 			</Container>

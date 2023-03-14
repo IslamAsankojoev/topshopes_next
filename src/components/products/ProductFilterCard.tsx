@@ -159,9 +159,9 @@ const ProductFilterCard = () => {
 						href={null}
 						onClick={() => handleCategoryChange(item.name)}
 						sx={{
-							fontWeight: router.query.category === item.id ? '700' : '500',
+							fontWeight: router.query.category === item.name ? '700' : '500',
 							color:
-								router.query.category === item.id ? 'primary.main' : 'inherit',
+								router.query.category === item.name ? 'primary.main' : 'inherit',
 							textDecoration: 'none',
 							cursor: 'pointer',
 							'&:hover': {

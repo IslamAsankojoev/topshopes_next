@@ -173,7 +173,6 @@ const CreateForm: FC<CreateFormProps> = ({
 				sx={{
 					px: 6,
 					py: 3,
-					mt: 3,
 					width: '100%',
 					maxWidth: maxFormWidth,
 					'@media (max-width: 600px)': {
@@ -205,6 +204,7 @@ const CreateForm: FC<CreateFormProps> = ({
 										isValidating={true}
 										accept={field.fileTypes}
 										maxLength={field.maxLength}
+										previewType={field.previewType}
 									/>
 								</Grid>
 							) : null
