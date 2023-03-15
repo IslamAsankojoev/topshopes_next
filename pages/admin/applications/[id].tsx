@@ -15,6 +15,35 @@ import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 
+const CardsWrapper = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	justify-content: center;
+	align-items: center;
+	grid-gap: 20px;
+
+	@media (max-width: 730px) {
+		grid-template-columns: 1fr;
+	}
+`
+const applicationData = [
+	// 'id',
+	// 'document',
+	{ id: 'INN', name: 'inn' },
+	{ id: 'short_name', name: 'shortName' },
+	{ id: 'full_name', name: 'fullName' },
+	{ id: 'registration_form', name: 'registrationForm' },
+	{ id: 'address', name: 'address' },
+	{ id: 'owner', name: 'owner' },
+	{ id: 'bank_account', name: 'bankAccount' },
+	{ id: 'bik', name: 'bik' },
+	{ id: 'shop_name', name: 'shopName' },
+	{ id: 'comment', name: 'review' },
+	// 'user',
+]
+
+const statuses = ['moderation', 'approved', 'rejected']
+
 export const getServerSideProps = async ({ locale }) => {
 	return {
 		props: {
@@ -102,7 +131,6 @@ const UpdateApplication: NextPageAuth = () => {
 							<Paragraph color="grey.900" sx={{ textTransform: 'uppercase' }}>
 								{getTranslate('status')}:
 							</Paragraph>
-
 							<Select
 								className="order-status-admin"
 								sx={{
@@ -126,7 +154,7 @@ const UpdateApplication: NextPageAuth = () => {
 								{statuses.map((status) => (
 									<MenuItem value={status}>
 										<StatusWrapper status={status as any}>
-											{getTranslate(status)}
+											{status}
 										</StatusWrapper>
 									</MenuItem>
 								))}
@@ -141,34 +169,6 @@ const UpdateApplication: NextPageAuth = () => {
 		</Box>
 	)
 }
-const CardsWrapper = styled.div`
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	justify-content: center;
-	align-items: center;
-	grid-gap: 20px;
-
-	@media (max-width: 730px) {
-		grid-template-columns: 1fr;
-	}
-`
-const applicationData = [
-	// 'id',
-	// 'document',
-	{ id: 'INN', name: 'inn' },
-	{ id: 'short_name', name: 'shortName' },
-	{ id: 'full_name', name: 'fullName' },
-	{ id: 'registration_form', name: 'registrationForm' },
-	{ id: 'address', name: 'address' },
-	{ id: 'owner', name: 'owner' },
-	{ id: 'bank_account', name: 'bankAccount' },
-	{ id: 'bik', name: 'bik' },
-	{ id: 'shop_name', name: 'shopName' },
-	{ id: 'comment', name: 'review' },
-	// 'user',
-]
-
-const statuses = ['moderation', 'approved', 'rejected']
 
 UpdateApplication.isOnlyAdmin = true
 

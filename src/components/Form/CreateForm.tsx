@@ -10,6 +10,7 @@ import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 import * as yup from 'yup'
 
 import Field from './Field'
+import { commonArrowBtnStyle } from '../carousel/CarouselStyled'
 
 interface CreateFormProps {
 	fields: Record<string, any>
@@ -39,7 +40,7 @@ const CreateForm: FC<CreateFormProps> = ({
 }) => {
 	const { t } = useTranslation('admin')
 	const { t: commonT } = useTranslation('common')
-	const formRef = useRef(null);
+	const formRef = useRef(null)
 
 	const required = dynamicLocalization(common.required)
 
@@ -121,6 +122,7 @@ const CreateForm: FC<CreateFormProps> = ({
 		handleSubmit,
 		setFieldTouched,
 		submitForm,
+		setValues,
 		resetForm,
 	} = useFormik({
 		initialValues: clearFileFlieds(defaultData || {}),
@@ -133,33 +135,36 @@ const CreateForm: FC<CreateFormProps> = ({
 
 		Object.keys(values).forEach((key) => {
 			if (!!values[key]) {
+				if (typeof values[key] === 'string' && values[key].endsWith('%'))
+					values[key] = values[key].replace('%', '')
 				formData.append(key, values[key])
 			}
 		}, formData)
+
 		handleFormSubmit(formData, values)
 	}
 
-	const handleKeyDown = useCallback((event) => {
-    if (event.keyCode === 13) {
-      handleSubmit();
-    }
-  }, [useFormik]);
-
+	const handleKeyDown = useCallback(
+		(event) => {
+			if (event.keyCode === 13) {
+				handleSubmit()
+			}
+		},
+		[useFormik]
+	)
 
 	useEffect(() => {
 		if (getValues) getValues(values)
 	}, [values])
-	
 
 	useEffect(() => {
-    const form = formRef.current;
-    form.addEventListener('keydown', handleKeyDown);
+		const form = formRef.current
+		form.addEventListener('keydown', handleKeyDown)
 
-    return () => {
-      form.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [formRef, handleKeyDown]);
-
+		return () => {
+			form.removeEventListener('keydown', handleKeyDown)
+		}
+	}, [formRef, handleKeyDown])
 
 	return fields ? (
 		<div
@@ -205,6 +210,7 @@ const CreateForm: FC<CreateFormProps> = ({
 										accept={field.fileTypes}
 										maxLength={field.maxLength}
 										previewType={field.previewType}
+										setValues={setValues}
 									/>
 								</Grid>
 							) : null

@@ -5,13 +5,13 @@ import ProductCard1 from 'src/components/product-cards/ProductCard1'
 import { FC, Fragment } from 'react'
 import { IProductPreview } from 'src/shared/types/product.types'
 
-type ProductCard1ListProps = {
+type ShopProductCard1ListProps = {
 	products: IProductPreview[]
 	count?: number
 	handleChange?: (page: number) => void
 }
 
-const ProductCard1List: FC<ProductCard1ListProps> = ({
+const ShopProductCard1List: FC<ShopProductCard1ListProps> = ({
 	products = [],
 	count,
 	handleChange,
@@ -20,7 +20,7 @@ const ProductCard1List: FC<ProductCard1ListProps> = ({
 		<Fragment>
 			<Grid container spacing={3}>
 				{products?.map((item) => (
-					<Grid item lg={4} sm={4} xs={6} key={item.id}>
+					<Grid item lg={3} sm={4} xs={6} key={item.id}>
 						<ProductCard1 product={item} />
 					</Grid>
 				))}
@@ -41,4 +41,4 @@ const ProductCard1List: FC<ProductCard1ListProps> = ({
 	)
 }
 
-export default ProductCard1List
+export default ShopProductCard1List

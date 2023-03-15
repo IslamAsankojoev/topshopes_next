@@ -168,12 +168,12 @@ const ProductVariantFormV2: FC<ProductVariantFormProps> = ({
 				await AttributesService.update(attribute.attributeId as string, {
 					product_variant: variantId,
 					attribute: attribute.attributeId,
-					value: attribute.value || 'without',
+					value: attribute.value || '',
 				})
 			} else {
 				await AttributesService.create(variantId as string, {
 					attribute: attribute.attributeNameId,
-					value: attribute.value || 'without',
+					value: attribute.value || '',
 				})
 			}
 		}

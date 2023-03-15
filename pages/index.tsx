@@ -43,7 +43,11 @@ type MarketProps = {
 // =================================================================
 
 const MarketShop: NextPage<MarketProps> = (props) => {
-	const { '0': newArrivalsList, '1': topRatedProducts } = useQueries([
+	const {
+		'0': newArrivalsList,
+		'1': topRatedProducts,
+		'2': bigDiscountList,
+	} = useQueries([
 		{
 			queryKey: 'newArrivalsList',
 			queryFn: () =>
@@ -53,6 +57,13 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			queryKey: 'topRatedProducts',
 			queryFn: () =>
 				axiosClassic.get<ResponseList<IProductPreview>>('/top-rated-products/'),
+		},
+		{
+			queryKey: 'bigDiscountList',
+			queryFn: () =>
+				axiosClassic.get<ResponseList<IProductPreview>>(
+					'/discounted-products/'
+				),
 		},
 	])
 
@@ -105,7 +116,7 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			<Section5 newArrivalsList={newArrivalsList?.data?.data?.results} />
 
 			{/* BIG DISCOUNTS */}
-			<Section13 bigDiscountList={products} />
+			<Section13 bigDiscountList={bigDiscountList?.data?.data?.results} />
 
 			{/* CAR LIST
 			<Section6 carBrands={props.carBrands} carList={products} /> */}

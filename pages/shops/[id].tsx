@@ -2,7 +2,7 @@ import FilterList from '@mui/icons-material/FilterList'
 import { Container, Grid, IconButton } from '@mui/material'
 import { ShopsService } from 'src/api/services/shop/shop.service'
 import ShopLayout1 from 'src/components/layouts/ShopLayout1'
-import ProductCardList from 'src/components/products/ProductCard1List'
+import ShopProductCardList from 'src/components/products/ShopProductCard1List'
 import ProductFilterCard from 'src/components/products/ProductFilterCard'
 import ShopIntroCard from 'src/components/shop/ShopIntroCard'
 import Sidenav from 'src/components/sidenav/Sidenav'
@@ -20,7 +20,7 @@ const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 	// 	ShopsService.getShopProducts(shop.id)
 	// )
 
-	useEffect(()=>{
+	useEffect(() => {
 		console.log(shop)
 	}, [])
 
@@ -44,7 +44,7 @@ const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 							</Sidenav>
 						)}
 
-						<ProductCardList products={shop.products} />
+						<ShopProductCardList products={shop.products} />
 					</Grid>
 				</Grid>
 			</Container>

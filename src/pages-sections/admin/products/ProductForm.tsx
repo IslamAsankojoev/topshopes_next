@@ -15,14 +15,13 @@ import { ContentWrapper } from 'src/components/products/ProductViewDialog'
 import { useFormik } from 'formik'
 import { useActions } from 'src/hooks/useActions'
 import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
+import router, { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 import * as yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
 
 import { useProductFetch } from './useProductFetch'
-import { id } from 'date-fns/locale'
 
 // ================================================================
 type ProductFormProps = {
@@ -44,6 +43,8 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		setOpenDialog(!openDialog)
 		setCategoryValue(category)
 	}
+
+	const id = useRouter().query.id
 
 	const changeCategory = async () => {
 		setFieldValue('category', categoryValue)
@@ -311,7 +312,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 										<Button
 											onClick={() =>
 												push({
-													pathname: `/product/${id}`,
+													pathname: `/product/${id}/`,
 												})
 											}
 											variant="contained"

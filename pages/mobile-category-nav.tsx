@@ -26,12 +26,12 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 
 const MobileCategoryNav: NextPage = () => {
-
-	const {data: category} = useQuery('category page list', 
-	() => CategoriesService.getList({limit: 1000}),
-	{
-		select: (data: ResponseList<ICategory>) => data.results
-	}
+	const { data: category } = useQuery(
+		'category page list',
+		() => CategoriesService.getList({ limit: 1000 }),
+		{
+			select: (data: ResponseList<ICategory>) => data.results,
+		}
 	)
 
 	// const handleCategoryClick = (cat: any) => () => {
@@ -41,7 +41,6 @@ const MobileCategoryNav: NextPage = () => {
 
 	// 	setCategory(cat)
 	// }
-
 
 	return (
 		<MobileCategoryNavStyle>
@@ -70,30 +69,28 @@ const MobileCategoryNav: NextPage = () => {
 
 			<Box className="container">
 				<Typography fontWeight="600" fontSize="15px" mb={2}>
-					{
-						dynamicLocalization({
-							en: 'Categories',
-							ru: 'Категории',
-							kz: 'Категориялар',
-							kg: 'Категориялар',
-							tr: 'Kategoriler',
-						})
-					}
+					{dynamicLocalization({
+						en: 'Categories',
+						ru: 'Категории',
+						kz: 'Категориялар',
+						kg: 'Категориялар',
+						tr: 'Kategoriler',
+					})}
 				</Typography>
-			
-					<Box mb={4}>
-						<Grid container spacing={3}>
-							{category?.map((item) => (
-								<Grid item lg={1} md={2} sm={3} xs={4} key={item.id}>
-									<Link href={`/shop/?category=${item.name}`}>
-										<a>
-											<MobileCategoryImageBox {...item} />
-										</a>
-									</Link>
-								</Grid>
-							))}
-						</Grid>
-					</Box>
+
+				<Box mb={4}>
+					<Grid container rowGap={2}>
+						{category?.map((item) => (
+							<Grid item lg={1} md={2} sm={3} xs={4} key={item.id}>
+								<Link href={`/shop/?category=${item.name}`}>
+									<a>
+										<MobileCategoryImageBox {...item} />
+									</a>
+								</Link>
+							</Grid>
+						))}
+					</Grid>
+				</Box>
 			</Box>
 
 			<MobileNavigationBar />

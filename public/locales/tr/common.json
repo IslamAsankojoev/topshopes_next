@@ -6,7 +6,7 @@
 	"about": "Hakkımızda",
 	"price": "Fiyat",
 	"published": "Yayınlanan",
-	
+
 	"accountSettings": "Hesap ayarları",
 	"action": "Eylem",
 	"addAddress": "Yeni Adresler Ekle",
@@ -67,6 +67,7 @@
 	"placeOrder": "Sepeti Onayla",
 	"product": "Ürün",
 	"products": "Ürün:% s",
+	"products-v2": "Ürün:% s V2",
 	"profile": "Profil",
 	"profileInfo": "Profil bilgisi",
 	"qty": "adet",

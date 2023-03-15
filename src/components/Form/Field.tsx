@@ -1,23 +1,18 @@
-import TaskIcon from '@mui/icons-material/Task'
 import {
 	Autocomplete,
-	Button,
 	Grid,
 	InputAdornment,
 	MenuItem,
 	Switch,
 	TextField,
 	Typography,
-	styled,
 } from '@mui/material'
-import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined'
 import DropZone from 'src/components/DropZone'
 import LazyImage from 'src/components/LazyImage'
-import { H3 } from 'src/components/Typography'
 import MultipleSelect from 'src/components/multiple-select/MultipleSelect'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { FC, memo, useEffect, useState } from 'react'
+import { FC, memo, useState } from 'react'
 
 import styles from './Field.module.scss'
 import getTypeOfFile from 'src/utils/getTypeOfFile'
@@ -33,8 +28,7 @@ const DynamicTextEditor = dynamic(
 const Field: FC<any> = (props) => {
 	const { type, ...other } = props
 
-
-	if(type === 'phone'){
+	if (type === 'phone') {
 		return (
 			<TextField
 				{...other}
@@ -56,22 +50,17 @@ const Field: FC<any> = (props) => {
 				}}
 				inputProps={{
 					maxLength: other.maxLength,
-					
 				}}
 			/>
 		)
 	}
 
-	if(type === 'percentage'){
+	if (type === 'percentage') {
 		return (
 			<TextField
 				{...other}
-				onChange={(e)=>{
-					if(e.target.value === ''){
-						other.onChange('0')
-						return null
-					}
-					other.onChange(e.target.value.replace('%', ''))
+				onChange={(e) => {
+					other.onChange(e)
 				}}
 				label=""
 				InputProps={{
@@ -412,8 +401,7 @@ const Field: FC<any> = (props) => {
 
 		const handleFileChange = (files) => {
 			const file = files[0]
-			console.log(file.size)
-			if(file.size > 2000000) {
+			if (file.size > 2000000) {
 				setFileLocaleUrl(null)
 				setFileType(null)
 				other.setFieldValue(other?.name, null)
@@ -426,11 +414,6 @@ const Field: FC<any> = (props) => {
 				other?.setFieldValue(other?.name, file)
 			}
 		}
-
-		useEffect(() => {
-			console.log('other', other)
-		}, [other])
-
 
 		return (
 			<>
@@ -500,7 +483,7 @@ const Field: FC<any> = (props) => {
 							}
 						/>
 					</Grid>
-					{getImgUrl(other?.defaultData[other?.name]) ? (
+					{fileLocaleUrl || getImgUrl(other?.defaultData[other?.name]) ? (
 						<Grid
 							display="flex"
 							item
@@ -522,8 +505,8 @@ const Field: FC<any> = (props) => {
 								/>
 							)}
 							{other.previewType === 'pdf' && (
-									<LazyImage src="/assets/images/pdf.png" layout='fill'/>
-							)} 
+								<LazyImage src="/assets/images/pdf.png" layout="fill" />
+							)}
 						</Grid>
 					) : null}
 				</Grid>
