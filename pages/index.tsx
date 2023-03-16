@@ -47,6 +47,7 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 		'0': newArrivalsList,
 		'1': topRatedProducts,
 		'2': bigDiscountList,
+		'3': flashDealsData,
 	} = useQueries([
 		{
 			queryKey: 'newArrivalsList',
@@ -63,6 +64,13 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			queryFn: () =>
 				axiosClassic.get<ResponseList<IProductPreview>>(
 					'/discounted-products/'
+				),
+		},
+		{
+			queryKey: 'flashDealsData',
+			queryFn: () =>
+				axiosClassic.get<ResponseList<IProductPreview>>(
+					'/best-selling-products/'
 				),
 		},
 	])
@@ -101,7 +109,7 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			<Section1 carouselData={props.mainCarouselData} />
 
 			{/* FLASH DEALS SECTION */}
-			<Section2 flashDeals={products} />
+			<Section2 flashDeals={flashDealsData?.data?.data?.results.slice(0, 9)} />
 
 			{/* TOP CATEGORIES */}
 			<Section3 categoryList={categories} />

@@ -16,22 +16,23 @@ export type IProduct = {
 	description: string
 }
 
-export type IProductPreview = Pick<IProduct,
- | 'id' 
- | 'slug'
- | 'name'
- | 'category'
- | 'rating'
- | 'published'
- | 'description'
- | 'shop'
- >
-& {
+export type IProductPreview = Pick<
+	IProduct,
+	| 'id'
+	| 'slug'
+	| 'name'
+	| 'category'
+	| 'rating'
+	| 'published'
+	| 'description'
+	| 'shop'
+> & {
 	thumbnail: string
 	discount_price: string
 	price: string
 	discount: string
 	nodeRef?: any
+	created_at?: string
 }
 
 export type IColor = {

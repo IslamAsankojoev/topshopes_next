@@ -46,7 +46,9 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 
 	const user = useTypedSelector((state) => state.userStore.user)
 	const [accessNavs, setAccessNavs] = useState<any>(
-		!user.is_superuser ? navigations.filter((nav) => nav.role === 'vendor') : navigations
+		!user.is_superuser
+			? navigations.filter((nav) => nav.role === 'vendor')
+			: navigations
 	)
 	const router = useRouter()
 	const [onHover, setOnHover] = useState(false)
@@ -63,7 +65,6 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 		router.push(path)
 		setShowMobileSideBar()
 	}
-
 
 	const renderLevels = (data: any) => {
 		return data?.map((item: any, index: any) => {
@@ -192,6 +193,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 						width: 'auto',
 						marginLeft: COMPACT ? undefined : 1,
 					}}
+					onClick={() => handleNavigation('/')}
 				/>
 
 				<ChevronLeftIcon
