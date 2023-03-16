@@ -32,7 +32,7 @@ const CreateCategory: NextPageAuth = () => {
 	} = useRouter()
 
 	const { isLoading, data: user } = useQuery(
-		'get one user',
+		['get one user', id],
 		() => UsersService.get(id as string),
 		{
 			enabled: !!id,

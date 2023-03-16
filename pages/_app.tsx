@@ -45,11 +45,14 @@ const config = {
 		queries: {
 			refetchOnWindowFocus: false,
 			retry: 0,
-			staleTime: 0,
+			cacheTime: 0,
 		},
 	},
 }
-const App = ({ Component, pageProps: {session, ...pagePropses} }: TypeAppProps) => {
+const App = ({
+	Component,
+	pageProps: { session, ...pagePropses },
+}: TypeAppProps) => {
 	const AnyComponent = Component as any
 	const getLayout = AnyComponent.getLayout ?? ((page) => page)
 	const [queryClient] = useState(() => new QueryClient(config))
@@ -71,15 +74,19 @@ const App = ({ Component, pageProps: {session, ...pagePropses} }: TypeAppProps) 
 				<OpenGraphTags />
 			</Head>
 			<SettingsProvider Component={Component} pageProps={pagePropses}>
-					<QueryClientProvider client={queryClient}>
-						<Hydrate state={pagePropses.dehydratedState}>
-							<AppProvider>
-								<MuiTheme>
-									<RTL>{getLayout(<AnyComponent {...pagePropses} queryClient={queryClient}/>)}</RTL>
-								</MuiTheme>
-							</AppProvider>
-						</Hydrate>
-					</QueryClientProvider>
+				<QueryClientProvider client={queryClient}>
+					<Hydrate state={pagePropses.dehydratedState}>
+						<AppProvider>
+							<MuiTheme>
+								<RTL>
+									{getLayout(
+										<AnyComponent {...pagePropses} queryClient={queryClient} />
+									)}
+								</RTL>
+							</MuiTheme>
+						</AppProvider>
+					</Hydrate>
+				</QueryClientProvider>
 			</SettingsProvider>
 		</Fragment>
 	)

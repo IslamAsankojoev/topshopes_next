@@ -30,7 +30,7 @@ const Payment: NextPageAuth = () => {
 	const router = useRouter()
 
 	const { data: payout, refetch } = useQuery(
-		'one payout',
+		['one payout', router.query.id],
 		() => PaymentServices.getPayment(router.query.id as string),
 		{
 			enabled: !!router.query.id,

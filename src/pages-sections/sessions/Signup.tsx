@@ -45,11 +45,11 @@ const Signup = () => {
 			onSuccess: async () => {
 				toast.success(commonT('Registration successful'))
 				try {
-					await signIn("credentials", {
+					await signIn('credentials', {
 						redirect: false,
 						email: values.email,
-						password: values.password
-					});
+						password: values.password,
+					})
 					replace('/profile')
 				} catch (e) {
 					console.log(e)
@@ -61,13 +61,18 @@ const Signup = () => {
 		}
 	)
 
-	const { data: agreementID } = useQuery('agreementID', () => axiosClassic
-	.get('/pages/categories/about-us/')
-	.then((response) => response.data),
-	{
-		select: (data: any) => data.pages[0].id,
-		staleTime: 1000 * 60 * 10,
-	})
+	const { data: agreementID } = useQuery(
+		'agreementID',
+		() =>
+			axiosClassic
+				.get('/pages/categories/about-us/')
+				.then((response) => response.data),
+		{
+			select: (data: any) => data.pages[0].id,
+			staleTime: 1000 * 60 * 10,
+			cacheTime: 1000 * 60 * 10,
+		}
+	)
 
 	const handleFormSubmit = async () => {
 		await mutateAsync()
@@ -79,7 +84,7 @@ const Signup = () => {
 			onSubmit: handleFormSubmit,
 			validationSchema: formSchema,
 		})
-		
+
 	return (
 		<Wrapper elevation={3} passwordVisibility={passwordVisibility}>
 			<form onSubmit={handleSubmit}>

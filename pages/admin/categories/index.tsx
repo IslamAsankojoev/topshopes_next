@@ -1,4 +1,11 @@
-import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
+import {
+	Box,
+	Card,
+	Pagination,
+	Stack,
+	Table,
+	TableContainer,
+} from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { CategoriesService } from 'src/api/services-admin/categories/category.service'
 import Empty from 'src/components/Empty'
@@ -56,10 +63,11 @@ const CategoryList: NextPageAuth = () => {
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,
-			}),{
-				keepPreviousData: true,
-				enabled: !!currentPage,
-			}
+			}),
+		{
+			keepPreviousData: true,
+			enabled: !!currentPage,
+		}
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
@@ -111,7 +119,12 @@ const CategoryList: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(categories?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
+						<Pagination
+							variant="outlined"
+							shape="rounded"
+							count={Math.ceil(categories?.count / 10)}
+							onChange={(e, page) => handleChangePage(e, page)}
+						/>
 					</Stack>
 				</Card>
 			) : (

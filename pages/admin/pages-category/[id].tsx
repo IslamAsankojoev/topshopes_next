@@ -42,7 +42,7 @@ const UpdatePageCategory: NextPageAuth = () => {
 
 	// PageCategory mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
-		'pageCategory admin update',
+		['pageCategory admin update', id],
 		(data: FormData) => PageCategoryService.update(id as string, data),
 		{
 			onSuccess: () => {

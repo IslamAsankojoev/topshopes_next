@@ -41,7 +41,7 @@ const EditProduct: NextPageAuth = () => {
 		isError,
 		refetch,
 	} = useQuery(
-		'product admin get',
+		['product admin get', id],
 		() => AdminProductsService.get(id as string),
 		{
 			enabled: !!id,

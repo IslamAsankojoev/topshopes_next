@@ -73,6 +73,7 @@ const SearchBox: FC = () => {
 				...data?.results,
 			],
 			staleTime: 1000 * 60 * 10,
+			cacheTime: 1000 * 60 * 10,
 		}
 	)
 

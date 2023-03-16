@@ -1,4 +1,11 @@
-import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
+import {
+	Box,
+	Card,
+	Pagination,
+	Stack,
+	Table,
+	TableContainer,
+} from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { ShopsService } from 'src/api/services/shop/shop.service'
 import Empty from 'src/components/Empty'
@@ -26,7 +33,7 @@ const tableHeading = [
 	{ id: 'Created at', label: 'createdAt', align: 'left' },
 	{ id: 'city', label: 'city', align: 'left' },
 	{ id: 'amount', label: 'price', align: 'left' },
-	{id: 'profit', label: 'profit', align: 'left'},
+	{ id: 'profit', label: 'profit', align: 'left' },
 	{ id: 'status', label: 'status', align: 'left' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]
@@ -115,9 +122,18 @@ const OrderList: NextPageAuth = () => {
 						</TableContainer>
 					</Scrollbar>
 
-					<MemizeComponent  component={<Stack alignItems="center" my={4}>
-						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(orders?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
-					</Stack>}/>
+					<MemizeComponent
+						component={
+							<Stack alignItems="center" my={4}>
+								<Pagination
+									variant="outlined"
+									shape="rounded"
+									count={Math.ceil(orders?.count / 10)}
+									onChange={(e, page) => handleChangePage(e, page)}
+								/>
+							</Stack>
+						}
+					/>
 				</Card>
 			) : (
 				<Empty />

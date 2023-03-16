@@ -47,6 +47,7 @@ const ProductFilterCard = () => {
 		{
 			select: (data: ResponseList<ICategory>) => data.results,
 			staleTime: 1000 * 60 * 10,
+			cacheTime: 1000 * 60 * 10,
 		}
 	)
 

@@ -42,15 +42,20 @@ const CategoryMenuCard: FC<CategoryMenuCardProps> = (props) => {
 		{
 			select: (data: ResponseList<ICategory>) => data.results,
 			staleTime: 1000 * 60 * 10,
-		},
+			cacheTime: 1000 * 60 * 10,
+		}
 	)
 
 	const megaMenu: any = { MegaMenu1, MegaMenu2 }
 
 	return (
-		<Wrapper open={open} position={position} style={{
-			minWidth: '100%',
-		}}>
+		<Wrapper
+			open={open}
+			position={position}
+			style={{
+				minWidth: '100%',
+			}}
+		>
 			{categories?.map((item) => {
 				return (
 					<MenuItem>
@@ -65,7 +70,7 @@ const CategoryMenuCard: FC<CategoryMenuCardProps> = (props) => {
 							}}
 							key={item.id}
 						>
-							{item.name} 
+							{item.name}
 						</Link>
 					</MenuItem>
 				)

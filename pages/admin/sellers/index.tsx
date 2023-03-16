@@ -1,4 +1,11 @@
-import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
+import {
+	Box,
+	Card,
+	Pagination,
+	Stack,
+	Table,
+	TableContainer,
+} from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { UsersService } from 'src/api/services-admin/users/users.service'
 import Empty from 'src/components/Empty'
@@ -121,7 +128,12 @@ const SellersList: NextPageAuth<CustomerListProps> = () => {
 							count={Math.ceil(users?.count / 20)}
 							page={currentPage}
 						/> */}
-						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(users?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
+						<Pagination
+							variant="outlined"
+							shape="rounded"
+							count={Math.ceil(users?.count / 10)}
+							onChange={(e, page) => handleChangePage(e, page)}
+						/>
 					</Stack>
 				</Card>
 			) : (

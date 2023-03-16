@@ -1,4 +1,11 @@
-import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
+import {
+	Box,
+	Card,
+	Pagination,
+	Stack,
+	Table,
+	TableContainer,
+} from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { AttributesServiceAdmin } from 'src/api/services-admin/attributes/attributes.service'
 import Empty from 'src/components/Empty'
@@ -53,10 +60,11 @@ const AttributesList: NextPageAuth = () => {
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,
-			}),{
-				keepPreviousData: true,
-				enabled: !!currentPage,
-			}
+			}),
+		{
+			keepPreviousData: true,
+			enabled: !!currentPage,
+		}
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
@@ -113,7 +121,12 @@ const AttributesList: NextPageAuth = () => {
 							count={Math.ceil(attributes?.count / 20)}
 							page={currentPage}
 						/> */}
-						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(attributes?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
+						<Pagination
+							variant="outlined"
+							shape="rounded"
+							count={Math.ceil(attributes?.count / 10)}
+							onChange={(e, page) => handleChangePage(e, page)}
+						/>
 					</Stack>
 				</Card>
 			) : (

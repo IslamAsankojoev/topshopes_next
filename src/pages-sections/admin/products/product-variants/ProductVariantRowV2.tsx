@@ -19,38 +19,25 @@ import {
 } from '../../StyledComponents'
 import { getCurrency } from 'src/utils/getCurrency'
 import { dark, primary } from 'src/theme/themeColors'
+import { getImgUrl } from './productVariantHelper'
 
 // ========================================================================
 type ProductRowProps = {
-	variant: IProductVariant
+	variant: any
 	refetch: () => void
 	dialogForm: ReactNode
 }
 // ========================================================================
 
 const ProductRow: FC<ProductRowProps> = ({ variant, refetch, dialogForm }) => {
-	const {
-		attribute_values,
-		discount,
-		discount_price,
-		id,
-		images,
-		overall_price,
-		price,
-		product,
-		status,
-		stock,
-		thumbnail,
-	} = variant
-
-	const router = useRouter()
+	const { attribute_values, id, images, variant: Variant } = variant
 
 	return (
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
 				<FlexBox alignItems="center" gap={1.5}>
 					<LazyImage
-						src={thumbnail}
+						src={getImgUrl(Variant?.thumbnail)}
 						width={50}
 						height={50}
 						sx={{ borderRadius: '8px' }}
@@ -58,20 +45,22 @@ const ProductRow: FC<ProductRowProps> = ({ variant, refetch, dialogForm }) => {
 				</FlexBox>
 			</StyledTableCell>
 
-			<StyledTableCell align="left">{getCurrency(price)}</StyledTableCell>
+			<StyledTableCell align="left">
+				{getCurrency(Variant?.price)}
+			</StyledTableCell>
 
-			<StyledTableCell align="left">{discount}%</StyledTableCell>
+			<StyledTableCell align="left">{Variant?.discount}%</StyledTableCell>
 
-			<StyledTableCell align="left">{status}</StyledTableCell>
+			<StyledTableCell align="left">{Variant?.status}</StyledTableCell>
 
-			<StyledTableCell align="left">{stock}</StyledTableCell>
+			<StyledTableCell align="left">{Variant?.stock}</StyledTableCell>
 
 			<StyledTableCell
 				sx={{
 					p: 2,
 				}}
 			>
-				{attribute_values.map((attribute_value, index) => {
+				{attribute_values?.map((attribute, index) => {
 					return (
 						<Box
 							className="attribute_item"
@@ -95,9 +84,11 @@ const ProductRow: FC<ProductRowProps> = ({ variant, refetch, dialogForm }) => {
 									fontSize: '10px',
 								}}
 							>
-								{attribute_value.attribute.name}
+								{attribute?.attribute?.name ||
+									attribute?.attributeName ||
+									attribute?.name}
 							</Typography>
-							{attribute_value.value}
+							{attribute?.value || attribute?.attributeValue}
 						</Box>
 					)
 				})}

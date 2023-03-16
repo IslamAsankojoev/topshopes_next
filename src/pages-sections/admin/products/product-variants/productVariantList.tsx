@@ -181,20 +181,25 @@ const ProductVariantList: FC<Props> = ({
 													{commonT('stock')}: {variantCheck(variant)?.stock}
 												</Paragraph>
 												<br />
-												{variant?.attribute_values?.length > 0 && (
+												{variant?.attribute_values?.length && (
 													<Paragraph fontSize={16} color="grey.500">
 														{adminT('attributes')}
 													</Paragraph>
 												)}
-												{variantCheck(variant)?.attribute_values?.map(
-													(attribute: any, ind: number) => (
-														<Paragraph color="grey.700" key={ind + 'attribute'}>
-															{attribute?.attribute?.name ||
-																attribute?.attributeName}
-															:{attribute?.value || attribute?.attributeValue}
-														</Paragraph>
-													)
-												)}
+												{variant?.attribute_values?.map((attribute: any) => (
+													<Paragraph
+														color="grey.700"
+														key={attribute.id + 'attribute'}
+													>
+														{attribute?.attribute?.name ||
+															attribute?.attributeName ||
+															attribute?.name}
+														:{attribute?.value || attribute?.attributeValue}
+													</Paragraph>
+												))}
+												<span>
+													{/* {variantCheck(variant)?.attribute_values?} */}
+												</span>
 											</div>
 											<FlexBox alignItems={'center'}>
 												<ProductVariantForm

@@ -1,4 +1,11 @@
-import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
+import {
+	Box,
+	Card,
+	Pagination,
+	Stack,
+	Table,
+	TableContainer,
+} from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { BrandsService } from 'src/api/services-admin/brands/brand.service'
 import Empty from 'src/components/Empty'
@@ -54,10 +61,11 @@ const BrandsList: NextPageAuth = () => {
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,
-			}),{
-				keepPreviousData: true,
-				enabled: !!currentPage,
-			}
+			}),
+		{
+			keepPreviousData: true,
+			enabled: !!currentPage,
+		}
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
@@ -109,7 +117,12 @@ const BrandsList: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(brands?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
+						<Pagination
+							variant="outlined"
+							shape="rounded"
+							count={Math.ceil(brands?.count / 10)}
+							onChange={(e, page) => handleChangePage(e, page)}
+						/>
 					</Stack>
 				</Card>
 			) : (

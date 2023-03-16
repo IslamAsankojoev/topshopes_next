@@ -189,7 +189,7 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 				...imgs,
 				{ image, id: imgs.length + imgIdCounter },
 			])
-			return
+			return null
 		}
 
 		// если уже есть вариант сразу отправляем запрос

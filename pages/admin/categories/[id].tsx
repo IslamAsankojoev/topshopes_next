@@ -42,7 +42,7 @@ const CreateCategory: NextPageAuth = () => {
 
 	// category fetch
 	const { data: category, isLoading } = useQuery(
-		'category admin get',
+		['category admin get', id],
 		() => CategoriesService.get(id as string),
 		{
 			enabled: !!id,
@@ -52,7 +52,9 @@ const CreateCategory: NextPageAuth = () => {
 	const { data: attributes } = useQuery(
 		`attributes get search=${debounceValue}`,
 		() => AttributesServiceAdmin.getList({ search: debounceValue }),
-		{ select: (data) => data?.results }
+		{
+			select: (data) => data?.results,
+		}
 	)
 
 	// category update

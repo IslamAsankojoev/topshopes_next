@@ -29,19 +29,21 @@ export const getServerSideProps = async ({ locale }) => {
 
 const EditProduct: NextPageAuth = () => {
 	const { t } = useTranslation('adminActions')
-	const {
-		query: { id },
-	} = useRouter()
+	const id = useRouter().query.id
 
 	const {
 		data: product,
 		isError,
 		refetch,
-	} = useQuery('product get v2', () => ProductsService.get(id as string), {
-		enabled: !!id,
-		keepPreviousData: true,
-		onError: (e: any) => toast.error(e.message, { autoClose: 5000 }),
-	})
+	} = useQuery(
+		['product get v2', id],
+		() => ProductsService.get(id as string),
+		{
+			enabled: !!id,
+			keepPreviousData: true,
+			onError: (e: any) => toast.error(e.message, { autoClose: 5000 }),
+		}
+	)
 
 	// product mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
@@ -62,7 +64,7 @@ const EditProduct: NextPageAuth = () => {
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
 		await mutateAsync(data)
-		if (!redirect) push('/vendor/products/')
+		if (!redirect) push('/vendor/products-v2/')
 		replace(asPath, asPath, { shallow: true })
 	}
 

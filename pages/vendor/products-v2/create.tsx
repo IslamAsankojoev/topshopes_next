@@ -96,7 +96,7 @@ const CreateProduct: NextPageAuth = () => {
 				}
 			}
 
-			push('/vendor/products/')
+			push('/vendor/products-v2/')
 		} catch (e) {
 			console.log(e)
 			if (productId) {

@@ -35,7 +35,7 @@ const BrandUpdate: NextPageAuth = () => {
 
 	// brand fetch
 	const { data: brand, isLoading } = useQuery(
-		'brand admin get',
+		['brand admin get', id],
 		() => BrandsService.get(id as string),
 		{ enabled: !!id }
 	)

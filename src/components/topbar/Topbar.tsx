@@ -55,10 +55,12 @@ type TopbarProps = {
 }
 
 const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
-	const { data: settings } = useQuery('get site settings', () =>
-		axiosClassic.get('/settings/').then((response) => response.data),
+	const { data: settings } = useQuery(
+		'get site settings',
+		() => axiosClassic.get('/settings/').then((response) => response.data),
 		{
 			staleTime: 1000 * 60 * 10,
+			cacheTime: 1000 * 60 * 10,
 		}
 	)
 	const { replace, asPath, locale } = useRouter()

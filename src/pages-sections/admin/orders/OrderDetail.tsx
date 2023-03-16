@@ -43,7 +43,7 @@ const OrderDetail: FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 		isLoading,
 		refetch,
 	}: { data: IOrder; isLoading: any; refetch: () => void } = useQuery(
-		'get one vendor order',
+		['get one vendor order', id],
 		() => getOrder(id as string),
 		{
 			select: (data: IOrder) => data,
@@ -54,9 +54,7 @@ const OrderDetail: FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 		}
 	)
 
-	const [orderStatus, setOrderStatus] = useState<IOrderStatus>(
-		order?.status
-	)
+	const [orderStatus, setOrderStatus] = useState<IOrderStatus>(order?.status)
 
 	const { mutateAsync: mutateStatus } = useMutation(
 		'order status update',

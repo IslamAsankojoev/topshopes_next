@@ -86,7 +86,7 @@ const ProductVariantListV2: FC<Props> = ({
 	const deleteVariant = async (item: IProductVariant) => {
 		if (create) {
 			removeVariant(item.id)
-			return
+			return null
 		}
 		await adminCheckFetch(user.is_superuser).delete(item?.id)
 		refetch && (await refetch())
@@ -102,7 +102,7 @@ const ProductVariantListV2: FC<Props> = ({
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
-		useMuiTable({ listData: product.variants })
+		useMuiTable({ listData: variantList(product) })
 
 	useEffect(() => {
 		if (currentCategory) categoryRefetch()
@@ -123,7 +123,7 @@ const ProductVariantListV2: FC<Props> = ({
 				/>
 			</FlexBetween>
 
-			{product.variants?.length > 0 ? (
+			{variantList(product)?.length > 0 ? (
 				<Card>
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 900 }}>
@@ -133,7 +133,7 @@ const ProductVariantListV2: FC<Props> = ({
 									hideSelectBtn
 									orderBy={orderBy}
 									heading={tableHeading}
-									rowCount={variantList.length}
+									rowCount={variantList(product)?.length}
 									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
@@ -147,7 +147,7 @@ const ProductVariantListV2: FC<Props> = ({
 											dialogForm={
 												<ProductVariantFormV2
 													attributes={getAllattributes(
-														variant.attribute_values,
+														variant?.attribute_values,
 														category?.attributes
 													)}
 													refetch={refetch}

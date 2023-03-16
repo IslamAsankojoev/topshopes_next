@@ -30,10 +30,12 @@ const StyledLink = styled('a')(({ theme }) => ({
 
 const Footer: FC = () => {
 	const { t } = useTranslation('common')
-	const { data: settings } = useQuery('get site settings', () =>
-		axiosClassic.get('/settings/').then((response) => response.data),
+	const { data: settings } = useQuery(
+		'get site settings',
+		() => axiosClassic.get('/settings/').then((response) => response.data),
 		{
 			staleTime: 1000 * 60 * 10,
+			cacheTime: 1000 * 60 * 10,
 		}
 	)
 
@@ -44,7 +46,8 @@ const Footer: FC = () => {
 				axiosClassic
 					.get('/pages/categories/about-us/')
 					.then((response) => response.data),
-					staleTime: 1000 * 60 * 10,
+			staleTime: 1000 * 60 * 10,
+			cacheTime: 1000 * 60 * 10,
 		},
 		{
 			queryKey: ['customer care'],
@@ -52,7 +55,8 @@ const Footer: FC = () => {
 				axiosClassic
 					.get('/pages/categories/customer-care/')
 					.then((response) => response.data),
-					staleTime: 1000 * 60 * 10,
+			staleTime: 1000 * 60 * 10,
+			cacheTime: 1000 * 60 * 10,
 		},
 	])
 

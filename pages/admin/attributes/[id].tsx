@@ -36,7 +36,7 @@ const UpdateAttribute: NextPageAuth = () => {
 
 	// brand type fetch
 	const { data: attribute, isLoading } = useQuery(
-		'get attribute',
+		['get attribute', id],
 		() => AttributesServiceAdmin.get(id as string),
 		{
 			enabled: !!id,

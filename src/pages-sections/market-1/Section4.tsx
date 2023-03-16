@@ -8,10 +8,11 @@ import ProductCard5 from 'src/components/product-cards/ProductCard5'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC } from 'react'
+import { IProductPreview } from 'src/shared/types/product.types'
 
 // ==========================================================
 type Props = {
-	topRatedList: any[]
+	topRatedList: IProductPreview[]
 	topRatedBrands: any[]
 }
 // ==========================================================
@@ -35,10 +36,7 @@ const Section4: FC<Props> = (props) => {
 								{topRatedList
 									?.map((item) => (
 										<Grid item md={3} sm={6} xs={6} key={item.name}>
-											<Link
-												href={`/product/${item.id}`}
-												passHref
-											>
+											<Link href={`/product/${item.id}`} passHref>
 												<a>
 													<ProductCard4 {...item} />
 												</a>
@@ -49,8 +47,6 @@ const Section4: FC<Props> = (props) => {
 							</Grid>
 						</BazaarCard>
 					</Grid>
-
-	
 				</Grid>
 			</Container>
 		</Box>

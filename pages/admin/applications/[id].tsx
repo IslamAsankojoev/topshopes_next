@@ -72,7 +72,7 @@ const UpdateApplication: NextPageAuth = () => {
 
 	// application fetch
 	const { data: application, refetch } = useQuery(
-		'get application',
+		['get application', id],
 		() => ApplicationServices.getApplication((id as string) + '/'),
 		{
 			enabled: !!id,

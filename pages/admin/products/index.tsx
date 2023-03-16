@@ -1,4 +1,11 @@
-import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
+import {
+	Box,
+	Card,
+	Pagination,
+	Stack,
+	Table,
+	TableContainer,
+} from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import { AdminProductsService } from 'src/api/services-admin/products/products.service'
 import Empty from 'src/components/Empty'
@@ -48,14 +55,15 @@ const ProductList: NextPageAuth = () => {
 		data: products,
 		isLoading,
 		refetch,
-	} = useQuery([`products admin search=${searchValue}`, currentPage] , () =>
-		AdminProductsService.getList({
-			search: searchValue,
-			page: currentPage,
-			page_size: 10,
-		}),
+	} = useQuery(
+		[`products admin search=${searchValue}`, currentPage],
+		() =>
+			AdminProductsService.getList({
+				search: searchValue,
+				page: currentPage,
+				page_size: 10,
+			}),
 		{
-			staleTime: 1000 * 60 * 1,
 			keepPreviousData: true,
 			enabled: !!currentPage,
 		}
@@ -63,7 +71,6 @@ const ProductList: NextPageAuth = () => {
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
 		useMuiTable({ listData: products?.results })
-
 
 	return (
 		<Box py={4}>
@@ -109,7 +116,12 @@ const ProductList: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(products?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
+						<Pagination
+							variant="outlined"
+							shape="rounded"
+							count={Math.ceil(products?.count / 10)}
+							onChange={(e, page) => handleChangePage(e, page)}
+						/>
 					</Stack>
 				</Card>
 			) : (
