@@ -171,7 +171,7 @@ const ProductVariantListV2: FC<Props> = ({
 														category?.attributes
 													)}
 													refetch={refetch}
-													initialValues={variantCheck(variant, create)}
+													initialValues={variant}
 													createPage={create}
 													variantId={variant?.id}
 													images={variant?.images}
