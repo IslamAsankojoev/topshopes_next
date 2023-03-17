@@ -247,11 +247,12 @@ const CreateForm: FC<CreateFormProps> = ({
 										variant="contained"
 										color="success"
 										size={buttonSize || 'small'}
-										onClick={() => {
-											submitForm()
+										onClick={(e) => {
+											e.preventDefault()
 											Object.keys(fields).forEach((key) => {
 												setFieldTouched(fields[key].name, true)
 											})
+											submitForm()
 										}}
 									>
 										{buttonText || t('save')}

@@ -15,6 +15,7 @@ import { TypeComponentAuthFields } from 'src/shared/types/auth.types'
 import 'simplebar/dist/simplebar.min.css'
 import MuiTheme from 'src/theme/MuiTheme'
 import OpenGraphTags from 'src/utils/OpenGraphTags'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 import '../global.scss'
 import '../src/fake-db'
@@ -73,21 +74,18 @@ const App = ({
 				<meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
 				<OpenGraphTags />
 			</Head>
-			<SettingsProvider Component={Component} pageProps={pagePropses}>
-				<QueryClientProvider client={queryClient}>
+			<QueryClientProvider client={queryClient}>
+				<SettingsProvider Component={Component} pageProps={pagePropses}>
 					<Hydrate state={pagePropses.dehydratedState}>
 						<AppProvider>
 							<MuiTheme>
-								<RTL>
-									{getLayout(
-										<AnyComponent {...pagePropses} queryClient={queryClient} />
-									)}
-								</RTL>
+								<RTL>{getLayout(<AnyComponent {...{ ...pagePropses }} />)}</RTL>
 							</MuiTheme>
 						</AppProvider>
 					</Hydrate>
-				</QueryClientProvider>
-			</SettingsProvider>
+				</SettingsProvider>
+				<ReactQueryDevtools initialIsOpen={false} />
+			</QueryClientProvider>
 		</Fragment>
 	)
 }

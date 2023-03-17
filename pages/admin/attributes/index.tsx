@@ -54,7 +54,7 @@ const AttributesList: NextPageAuth = () => {
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
 	const { data: attributes, refetch } = useQuery<any>(
-		[`get attributes admin search=${searchValue}`, currentPage],
+		[`get attributes admin search`, searchValue + currentPage],
 		() =>
 			AttributesServiceAdmin.getList({
 				search: searchValue,

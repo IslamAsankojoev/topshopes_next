@@ -19,7 +19,7 @@ import {
 } from '../../StyledComponents'
 import { getCurrency } from 'src/utils/getCurrency'
 import { dark, primary } from 'src/theme/themeColors'
-import { getImgUrl } from './productVariantHelper'
+import { getImgUrl, variantCheck } from './productVariantHelper'
 
 // ========================================================================
 type ProductRowProps = {
@@ -30,14 +30,12 @@ type ProductRowProps = {
 // ========================================================================
 
 const ProductRow: FC<ProductRowProps> = ({ variant, refetch, dialogForm }) => {
-	const { attribute_values, id, images, variant: Variant } = variant
-
 	return (
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
 				<FlexBox alignItems="center" gap={1.5}>
 					<LazyImage
-						src={getImgUrl(Variant?.thumbnail)}
+						src={getImgUrl(variant?.thumbnail)}
 						width={50}
 						height={50}
 						sx={{ borderRadius: '8px' }}
@@ -46,21 +44,21 @@ const ProductRow: FC<ProductRowProps> = ({ variant, refetch, dialogForm }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="left">
-				{getCurrency(Variant?.price)}
+				{getCurrency(variant?.price)}
 			</StyledTableCell>
 
-			<StyledTableCell align="left">{Variant?.discount}%</StyledTableCell>
+			<StyledTableCell align="left">{variant?.discount}%</StyledTableCell>
 
-			<StyledTableCell align="left">{Variant?.status}</StyledTableCell>
+			<StyledTableCell align="left">{variant?.status}</StyledTableCell>
 
-			<StyledTableCell align="left">{Variant?.stock}</StyledTableCell>
+			<StyledTableCell align="left">{variant?.stock}</StyledTableCell>
 
 			<StyledTableCell
 				sx={{
 					p: 2,
 				}}
 			>
-				{attribute_values?.map((attribute, index) => {
+				{variant?.attribute_values?.map((attribute, index) => {
 					return (
 						<Box
 							className="attribute_item"

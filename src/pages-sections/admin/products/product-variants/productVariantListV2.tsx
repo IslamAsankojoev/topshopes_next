@@ -12,13 +12,18 @@ import { useQuery } from 'react-query'
 import { IProductVariant } from 'src/shared/types/product.types'
 import { IProduct } from 'src/shared/types/product.types'
 
-import { adminCheckFetch } from './productVariantHelper'
+import {
+	adminCheckFetch,
+	variantCheck,
+	variantList,
+} from './productVariantHelper'
 import ProductVariantFormV2 from './ProductVariantFormV2'
 import Scrollbar from 'src/components/Scrollbar'
 import TableHeader from 'src/components/data-table/TableHeader'
 import useMuiTable from 'src/hooks/useMuiTable'
 import ProductVariantRowV2 from './ProductVariantRowV2'
 import Empty from 'src/components/Empty'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 
 type Props = {
 	refetch?: () => void
@@ -56,8 +61,6 @@ const ProductVariantListV2: FC<Props> = ({
 	)
 
 	// functions
-	const variantCheck = (data) => (create ? data?.variant : data)
-	const variantList = (data) => (create ? data : data?.variants)
 
 	const getAllattributes = (
 		variantAttributes: any,
@@ -101,12 +104,29 @@ const ProductVariantListV2: FC<Props> = ({
 		}
 	)
 
+	const variants = create
+		? product?.map((variantItem) => {
+				return {
+					...variantItem.variant,
+					images: variantItem?.images,
+					attribute_values: variantItem?.attribute_values,
+					id: variantItem?.id,
+				}
+		  })
+		: product.variants
+
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
-		useMuiTable({ listData: variantList(product) })
+		useMuiTable({
+			listData: variants,
+		})
 
 	useEffect(() => {
 		if (currentCategory) categoryRefetch()
 	}, [currentCategory])
+
+	useEffect(() => {
+		console.log('product', variants)
+	}, [variants])
 
 	return (
 		<Card1 sx={{ mb: 3, mt: 3 }}>
@@ -123,7 +143,7 @@ const ProductVariantListV2: FC<Props> = ({
 				/>
 			</FlexBetween>
 
-			{variantList(product)?.length > 0 ? (
+			{variantList(product, create)?.length > 0 ? (
 				<Card>
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 900 }}>
@@ -133,7 +153,7 @@ const ProductVariantListV2: FC<Props> = ({
 									hideSelectBtn
 									orderBy={orderBy}
 									heading={tableHeading}
-									rowCount={variantList(product)?.length}
+									rowCount={variantList(product, create)?.length}
 									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
@@ -151,7 +171,7 @@ const ProductVariantListV2: FC<Props> = ({
 														category?.attributes
 													)}
 													refetch={refetch}
-													initialValues={variantCheck(variant)}
+													initialValues={variantCheck(variant, create)}
 													createPage={create}
 													variantId={variant?.id}
 													images={variant?.images}

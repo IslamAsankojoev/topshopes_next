@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import { ReactNode } from 'react'
+import { QueryClient } from 'react-query'
 
 type getLayout = (page: ReactNode) => ReactNode
 
@@ -11,6 +12,6 @@ export type TypeRoles = {
 }
 
 export type NextPageAuth<P = {}> = NextPage<P> &
-	TypeRoles & { getLayout?: getLayout }
+	TypeRoles & { getLayout?: getLayout; queryClient?: QueryClient }
 
 export type TypeComponentAuthFields = { Component: TypeRoles }
