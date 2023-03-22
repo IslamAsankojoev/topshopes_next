@@ -1,7 +1,13 @@
-import { createContext, FC, useContext, useEffect, useMemo, useReducer } from 'react'
+import {
+	createContext,
+	FC,
+	useContext,
+	useEffect,
+	useMemo,
+	useReducer,
+} from 'react'
 import lodash from 'lodash'
 import { getLocalStorage } from 'src/utils/local-storage/localStorage'
-
 
 type initialState = {
 	cart: CartItem[]
@@ -21,7 +27,6 @@ type cartActionType = {
 }
 type ActionType = cartActionType
 
-
 const initialState = {
 	cart: [],
 }
@@ -38,6 +43,7 @@ const AppContext = createContext<ContextProps>({
 
 const reducer = (state: initialState, action: ActionType) => {
 	let cartList = state.cart
+	// @ts-ignore
 	let array: CartItem[] = lodash.isArray(action.payload) && action.payload
 	// @ts-ignore
 	let payload: CartItem = lodash.isObject(action.payload) && action.payload

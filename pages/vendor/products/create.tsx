@@ -40,70 +40,66 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 
 const CreateProduct: NextPageAuth = () => {
-	// states
+	// fetching
 	const { variants } = useTypedSelector((state) => state.productVariantsStore)
 	const { setVariants } = useActions()
-
 	const { push } = useRouter()
 
-	// fetching
+	const createProduct = async (data: FormData) => {
+		try {
+			// create product
+			const productResponse = await ProductsService.create(data)
+			const productId = productResponse.id
+
+			// create variants with new product
+			const variantPromises = variants.map(async (variant) => {
+				const variantData = formData({
+					...variant.variant,
+					product: productId,
+				})
+				const variantResponse = await ProductVariantService.create(variantData)
+				const imagePromises = variant?.images.map(async (image) => {
+					const imageData = formData({
+						product_variant: variantResponse.id,
+						image: image.image,
+					})
+					await ImagesService.create(imageData)
+				})
+				await Promise.all(imagePromises)
+				const attributePromises = variant?.attribute_values.map(
+					async (attribute) => {
+						if (!attribute.attributeValue && !attribute.value) return
+						if (attribute?.available) {
+							await AttributesService.update(attribute.attributeId as string, {
+								product_variant: variantResponse.id,
+								attribute: attribute.attributeId,
+								value: attribute.attributeValue || attribute.value,
+							})
+						} else {
+							await AttributesService.create(variantResponse.id as string, {
+								attribute: attribute.attributeNameId,
+								value: attribute.attributeValue || attribute.value,
+							})
+						}
+					}
+				)
+				await Promise.all(attributePromises)
+			})
+			await Promise.all(variantPromises)
+
+			push('/vendor/products/')
+		} catch (e) {
+			console.error(e)
+			toast.error('Продукт не был создан: ' + getErrorMessage(e))
+		}
+	}
+
 	const handleFormSubmit = async (data: FormData) => {
 		if (!variants?.length) {
 			toast.error('you must create at least one variant to create a product')
 			return
 		}
-		let productId = null
-		try {
-			// create product
-			const productResponse = await ProductsService.create(data)
-			productId = productResponse.id
-
-			// create variants with new product
-			for (let i of variants) {
-				const variantResponse = await ProductVariantService.create(
-					formData({
-						...i.variant,
-						product: productResponse.id,
-					})
-				)
-
-				// create images with new variant
-				for (let j of i?.images) {
-					await ImagesService.create(
-						formData({
-							product_variant: variantResponse.id,
-							image: j.image,
-						})
-					)
-				}
-
-				// create attributes with new variant
-				for (let attribute of i?.attribute_values) {
-					if (!attribute.attributeValue && !attribute.value) continue
-					if (attribute?.available) {
-						await AttributesService.update(attribute.attributeId as string, {
-							product_variant: variantResponse.id,
-							attribute: attribute.attributeId,
-							value: attribute.attributeValue || attribute.value,
-						})
-					} else {
-						await AttributesService.create(variantResponse.id as string, {
-							attribute: attribute.attributeNameId,
-							value: attribute.attributeValue || attribute.value,
-						})
-					}
-				}
-			}
-
-			push('/vendor/products/')
-		} catch (e) {
-			console.log(e)
-			if (productId) {
-				await ProductsService.delete(productId)
-			}
-			toast.error('Продукт не был создан')
-			toast.error('product: ' + getErrorMessage(e))
-		}
+		await createProduct(data)
 	}
 
 	useEffect(() => {
@@ -116,7 +112,6 @@ const CreateProduct: NextPageAuth = () => {
 
 			<ProductForm
 				initialValues={initialValues}
-				validationSchema={productFormValidationSchemaVendor}
 				handleFormSubmit={handleFormSubmit}
 				update={false}
 			/>

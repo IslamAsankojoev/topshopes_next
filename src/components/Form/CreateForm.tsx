@@ -6,17 +6,21 @@ import { useTranslation } from 'next-i18next'
 import { FC, memo, ReactNode, useCallback, useEffect, useRef } from 'react'
 
 import { common } from 'src/utils/Translate/common'
+import { useForm } from 'react-hook-form'
+
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 import * as yup from 'yup'
 
 import Field from './Field'
-import { commonArrowBtnStyle } from '../carousel/CarouselStyled'
+import useYupValidationResolver from 'src/hooks/useYupValidationResolver'
+import { formDataToObj } from 'src/utils/formData'
+import MemizeComponent from '../MemizeComponent/MemizeComponent'
 
 interface CreateFormProps {
 	fields: Record<string, any>
 	handleFormSubmit: (formData?: FormData, values?: Record<string, any>) => void
 	defaultData: Record<string, any>
-	getValues?: (values: Record<string, any>) => void
+	setAttributes?: (values: Record<string, any>) => void
 	children?: ReactNode
 	maxFormWidth?: string
 	actionButtons?: ReactNode
@@ -28,8 +32,8 @@ interface CreateFormProps {
 const CreateForm: FC<CreateFormProps> = ({
 	fields,
 	handleFormSubmit,
-	defaultData,
-	getValues,
+	defaultData = {},
+	setAttributes,
 	children,
 	maxFormWidth = '600px',
 	actionButtons,
@@ -91,7 +95,7 @@ const CreateForm: FC<CreateFormProps> = ({
 				return acc
 			}
 			if (field.type === 'autocomplete-multiple' && field.required) {
-				acc[field.name] = yup.object().nullable(true)
+				acc[field.name] = yup.object().nullable()
 				return acc
 			}
 			if (field.type === 'multiple-select' && field.required) {
@@ -100,6 +104,15 @@ const CreateForm: FC<CreateFormProps> = ({
 			}
 			return acc
 		}, {})
+	)
+
+	const handleKeyDown = useCallback(
+		(event) => {
+			if (event.keyCode === 13) {
+				console.log(values)
+			}
+		},
+		[useForm]
 	)
 
 	const clearFileFlieds = (data) => {
@@ -112,31 +125,29 @@ const CreateForm: FC<CreateFormProps> = ({
 		return { ...dataDef }
 	}
 
+	const resolver = useYupValidationResolver(validate)
 	const {
-		touched,
-		errors,
-		values,
-		setFieldValue,
-		handleBlur,
-		handleChange,
+		register,
 		handleSubmit,
-		setFieldTouched,
-		submitForm,
-		setValues,
-		resetForm,
-	} = useFormik({
-		initialValues: clearFileFlieds(defaultData || {}),
-		onSubmit: () => handleFormSubmitForm(),
-		validationSchema: validate,
+		getValues,
+		setValue,
+		trigger,
+		watch,
+		formState: { errors },
+	} = useForm({
+		resolver,
+		defaultValues: clearFileFlieds(defaultData || {}),
+		values: clearFileFlieds(defaultData || {}),
 	})
 
-	const handleFormSubmitForm = () => {
+	const values = getValues()
+
+	const handleFormSubmitForm = (e) => {
 		const formData = new FormData()
 
+		// console.log(values)
 		Object.keys(values).forEach((key) => {
 			if (!!values[key]) {
-				if (typeof values[key] === 'string' && values[key].endsWith('%'))
-					values[key] = values[key].replace('%', '')
 				formData.append(key, values[key])
 			}
 		}, formData)
@@ -144,17 +155,8 @@ const CreateForm: FC<CreateFormProps> = ({
 		handleFormSubmit(formData, values)
 	}
 
-	const handleKeyDown = useCallback(
-		(event) => {
-			if (event.keyCode === 13) {
-				handleSubmit()
-			}
-		},
-		[useFormik]
-	)
-
 	useEffect(() => {
-		if (getValues) getValues(values)
+		if (setAttributes) setAttributes(values)
 	}, [values])
 
 	useEffect(() => {
@@ -185,33 +187,53 @@ const CreateForm: FC<CreateFormProps> = ({
 					},
 				}}
 			>
-				<form ref={formRef}>
+				<form
+					encType="multipart/form-data"
+					ref={formRef}
+					onSubmit={handleSubmit((data, event) => {
+						event.preventDefault()
+						handleFormSubmitForm(event)
+					})}
+				>
 					<Grid container spacing={3}>
 						{fields?.map((field, id) =>
 							!field.name.endsWith('_search') ? (
 								<Grid item xs={12} key={id}>
-									<Field
-										type={field.type}
-										fullWidth
-										name={field.name}
-										label={getTranslate(field.label)}
-										color="info"
-										size="medium"
-										placeholder={getTranslate(field.placeholder)}
-										value={values[field.name]}
-										setFieldValue={setFieldValue}
-										onBlur={handleBlur}
-										onChange={handleChange}
-										error={!!touched[field.name] && !!errors[field.name]}
-										helperText={touched[field.name] && errors[field.name]}
-										defaultData={defaultData || {}}
-										allNames={field?.allNames || []}
-										isValidating={true}
-										accept={field.fileTypes}
-										maxLength={field.maxLength}
-										previewType={field.previewType}
-										setValues={setValues}
-									/>
+									{
+										<MemizeComponent
+											component={
+												<Field
+													type={field.type}
+													fullWidth
+													name={field.name}
+													label={getTranslate(field.label)}
+													color="info"
+													size="medium"
+													fieldValue={values[field.name]}
+													placeholder={getTranslate(field.placeholder)}
+													{...(register(field.name),
+													{
+														// required: field.required,
+														defaultValue: defaultData[field?.name],
+													})}
+													onChange={(e) => {
+														setValue(field.name, e.target.value)
+														trigger(field.name)
+													}}
+													error={!!errors[field.name]}
+													helperText={!!errors[field.name]}
+													// defaultData={defaultData || {}}
+													allNames={field?.allNames || []}
+													isValidating={true}
+													accept={field.fileTypes}
+													maxLength={field.maxLength}
+													previewType={field.previewType}
+													setValue={setValue}
+													trigger={trigger}
+												/>
+											}
+										/>
+									}
 								</Grid>
 							) : null
 						)}
@@ -247,13 +269,7 @@ const CreateForm: FC<CreateFormProps> = ({
 										variant="contained"
 										color="success"
 										size={buttonSize || 'small'}
-										onClick={(e) => {
-											e.preventDefault()
-											Object.keys(fields).forEach((key) => {
-												setFieldTouched(fields[key].name, true)
-											})
-											submitForm()
-										}}
+										type="submit"
 									>
 										{buttonText || t('save')}
 									</Button>
@@ -267,4 +283,4 @@ const CreateForm: FC<CreateFormProps> = ({
 	) : null
 }
 
-export default memo(CreateForm)
+export default CreateForm

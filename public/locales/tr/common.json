@@ -102,5 +102,6 @@
 	"yourOrder": "Siparişiniz",
 	"thumbnail": "Resim",
 	"stock": "Stok",
-	"unit": "Birim (adet, kg, L, ml)"
+	"unit": "Birim (adet, kg, L, ml)",
+	"productName": "Ürün Adı"
 }

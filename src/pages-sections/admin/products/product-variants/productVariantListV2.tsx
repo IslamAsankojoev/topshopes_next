@@ -104,36 +104,32 @@ const ProductVariantListV2: FC<Props> = ({
 		}
 	)
 
-	const variants = create
-		? product?.map((variantItem) => {
-				return {
-					...variantItem.variant,
-					images: variantItem?.images,
-					attribute_values: variantItem?.attribute_values,
-					id: variantItem?.id,
-				}
-		  })
-		: product.variants
+	// const variants = create
+	// 	? product?.map((variantItem) => {
+	// 			return {
+	// 				...variantItem.variant,
+	// 				images: variantItem?.images,
+	// 				attribute_values: variantItem?.attribute_values,
+	// 			}
+	// 	  })
+	// 	: product.variants
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
 		useMuiTable({
-			listData: variants,
+			listData: variantList(product, create),
 		})
 
 	useEffect(() => {
 		if (currentCategory) categoryRefetch()
 	}, [currentCategory])
 
-	useEffect(() => {
-		console.log('product', variants)
-	}, [variants])
+	console.log(product)
 
 	return (
 		<Card1 sx={{ mb: 3, mt: 3 }}>
 			<FlexBetween>
 				<h2>{adminT('productVariants')}</h2>
 				<ProductVariantFormV2
-					attributes={category?.attributes}
 					refetch={refetch}
 					initialValues={{}}
 					productId={product?.id}
@@ -162,14 +158,10 @@ const ProductVariantListV2: FC<Props> = ({
 									{filteredList?.map((variant, index) => (
 										<ProductVariantRowV2
 											refetch={refetch}
-											variant={variant}
+											product={variant}
 											key={index}
 											dialogForm={
 												<ProductVariantFormV2
-													attributes={getAllattributes(
-														variant?.attribute_values,
-														category?.attributes
-													)}
 													refetch={refetch}
 													initialValues={variant}
 													createPage={create}

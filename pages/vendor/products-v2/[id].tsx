@@ -12,8 +12,18 @@ import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
-import { IProduct } from 'src/shared/types/product.types'
+import {
+	IProduct,
+	IProductAttribute,
+	IProductAttributeValue,
+	IProductVariant,
+} from 'src/shared/types/product.types'
 import ProductVariantListV2 from 'src/pages-sections/admin/products/product-variants/productVariantListV2'
+import VariantList from 'src/pages-sections/admin/products/product-variants/VariantList'
+import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service'
+import { dataWithCleanImage, formData } from 'src/utils/formData'
+import { AttributesService } from 'src/api/services/attributes/attributes.service'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -46,13 +56,13 @@ const EditProduct: NextPageAuth = () => {
 	)
 
 	// product mutation
-	const { isLoading: mutationLoading, mutateAsync } = useMutation(
+	const { mutateAsync } = useMutation(
 		'product update v2',
 		(data: IProduct) => ProductsService.update(id as string, data),
 		{
 			onSuccess: async () => {
 				toast.success('updated')
-				await refetch()
+				refetch()
 			},
 			onError: (e: any) => {
 				toast.error(e.message)
@@ -60,12 +70,77 @@ const EditProduct: NextPageAuth = () => {
 		}
 	)
 
-	const { push, replace, asPath } = useRouter()
+	const { push } = useRouter()
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
+		if (product.variants.length === 0) {
+			toast.error(
+				dynamicLocalization({
+					ru: 'Добавьте варианты товара',
+					tr: 'Ürün varyantlarını ekleyin',
+					en: 'Add product variants',
+					kg: 'Төрлүктөрдү кошуңуз',
+					kz: 'Төрліктерді қосыңыз',
+				})
+			)
+			return null
+		}
 		await mutateAsync(data)
-		if (!redirect) push('/vendor/products-v2/')
-		replace(asPath, asPath, { shallow: true })
+		push('/vendor/products-v2/')
+	}
+
+	const handleVariantChange = async (data: IProductVariant) => {
+		try {
+			await ProductVariantService.update(data.id, {
+				...dataWithCleanImage(data, 'thumbnail'),
+			})
+
+			const attributePromises = data?.attribute_values.map(
+				async (attrValue: IProductAttributeValue) => {
+					// if (!attrValue.value) return null
+					if (attrValue.id) {
+						await AttributesService.update(attrValue.id.toString(), {
+							product_variant: data.id,
+							value: attrValue.value || '',
+						})
+						return null
+					}
+
+					await AttributesService.create(data.id, {
+						attribute: attrValue.attribute.id,
+						value: attrValue.value || '',
+					})
+				}
+			)
+
+			await Promise.all(attributePromises)
+			refetch()
+		} catch (error) {
+			console.error('Failed to update variant:', error)
+		}
+	}
+
+	const handleVariantRemove = async (id: string) => {
+		await ProductVariantService.delete(id)
+		refetch()
+	}
+
+	const handleVariantCreate = async (data: IProductVariant) => {
+		const createdVariant: IProductVariant = await ProductVariantService.create(
+			formData({
+				...data,
+				product: id as string,
+			})
+		)
+		const attributePromises = data?.attribute_values.map(async (attribute) => {
+			if (!attribute.value) return null
+			await AttributesService.create(createdVariant.id as string, {
+				attribute: attribute.attribute.id,
+				value: attribute.value || '',
+			})
+		})
+		await Promise.all(attributePromises)
+		refetch()
 	}
 
 	return !isError && fetch ? (
@@ -75,16 +150,21 @@ const EditProduct: NextPageAuth = () => {
 				<>
 					<ProductForm
 						initialValues={product}
-						validationSchema={productFormValidationSchemaVendor}
 						handleFormSubmit={handleFormSubmit}
 						update={true}
 						refetch={refetch}
 					/>
 
-					<ProductVariantListV2
+					{/* <ProductVariantListV2
 						refetch={refetch}
 						product={product}
 						isAdmin={false}
+					/> */}
+					<VariantList
+						variants={product.variants}
+						handleVariantChange={handleVariantChange}
+						handleVariantRemove={handleVariantRemove}
+						handleVariantCreate={handleVariantCreate}
 					/>
 				</>
 			) : null}

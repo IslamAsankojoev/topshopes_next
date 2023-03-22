@@ -1,10 +1,17 @@
 import {
 	Autocomplete,
+	Checkbox,
+	FormControl,
+	FormControlLabel,
+	FormGroup,
+	FormLabel,
 	Grid,
 	InputAdornment,
 	MenuItem,
 	Switch,
 	TextField,
+	ToggleButton,
+	ToggleButtonGroup,
 	Typography,
 } from '@mui/material'
 import DropZone from 'src/components/DropZone'
@@ -19,6 +26,7 @@ import getTypeOfFile from 'src/utils/getTypeOfFile'
 import Percentege from './Percentege'
 import PhoneNumberMask from './PhoneNumberMask'
 import { toast } from 'react-toastify'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const DynamicTextEditor = dynamic(
 	() => import('src/components/TextEditor/TextEditor'),
@@ -27,6 +35,7 @@ const DynamicTextEditor = dynamic(
 
 const Field: FC<any> = (props) => {
 	const { type, ...other } = props
+	const [parent, enableAnimations] = useAutoAnimate()
 
 	if (type === 'phone') {
 		return (
@@ -60,14 +69,15 @@ const Field: FC<any> = (props) => {
 			<TextField
 				{...other}
 				onChange={(e) => {
-					other.onChange(e)
+					e.target.value = e.target.value.replace('%', '')
+					other.setValue(other.name, e.target.value)
+					other.trigger(other.name)
 				}}
 				label=""
 				InputProps={{
 					inputComponent: Percentege as any,
 					inputMode: 'numeric',
 					pattern: '[0-9]*' as any,
-					defaultValue: other.defaultValue,
 					startAdornment: (
 						<InputAdornment position="start">
 							<Typography
@@ -213,6 +223,7 @@ const Field: FC<any> = (props) => {
 			<Autocomplete
 				{...other}
 				label=""
+				fullWidth
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">
@@ -227,14 +238,9 @@ const Field: FC<any> = (props) => {
 						</InputAdornment>
 					),
 				}}
-				onChange={(
-					_: any,
-					newValue: {
-						id: string | number
-						label: string | number
-					}
-				) => {
-					other.setFieldValue(other.name, newValue)
+				onChange={(_: any, newValue) => {
+					other.setValue(other.name, newValue)
+					other.trigger(other.name)
 				}}
 				disablePortal
 				options={other.allNames}
@@ -242,12 +248,12 @@ const Field: FC<any> = (props) => {
 					id: string | number
 					name: string | number
 				}) => option?.name}
-				sx={{ width: 300 }}
 				renderInput={(params) => (
 					<TextField
-						onChange={({ target }) =>
-							other.setFieldValue(other.name + '_search', target.value)
-						}
+						onChange={({ target }) => {
+							other.setValue(other.name + '_search', target.value)
+							other.trigger(other.name + '_search')
+						}}
 						{...params}
 					/>
 				)}
@@ -255,9 +261,123 @@ const Field: FC<any> = (props) => {
 		)
 	}
 
+	// if (type === 'toggle') {
+	// 	console.log(other.fieldValue)
+	// 	return (
+	// 		<ToggleButtonGroup orientation="vertical">
+	// 			{other.allNames?.map((select: { id: string; name: string }) => (
+	// 				<ToggleButton
+	// 					key={select.name}
+	// 					value={select.id}
+	// 					selected={other.fieldValue.includes(select.id)}
+	// 					onChange={() => {
+	// 						if (other.fieldValue?.includes(select.id)) {
+	// 							other.setValue(other.name, [
+	// 								...other.fieldValue.filter(
+	// 									(otherValue) => otherValue !== select.id
+	// 								),
+	// 							])
+	// 							other.trigger(other.name)
+	// 							return null
+	// 						}
+
+	// 						if (!!other?.fieldValue?.length) {
+	// 							other.setValue(other.name, [...other?.fieldValue, select.id])
+	// 							other.trigger(other.name)
+	// 							return null
+	// 						}
+
+	// 						if (!other?.fieldValue?.length) {
+	// 							other.setValue(other.name, [select.id])
+	// 							other.trigger(other.name)
+	// 							return null
+	// 						}
+	// 					}}
+	// 				>
+	// 					{select.name}
+	// 				</ToggleButton>
+	// 			))}
+	// 		</ToggleButtonGroup>
+	// 	)
+	// }
+
+	if (type === 'checkboxes') {
+		return (
+			<FormControl
+				component="fieldset"
+				sx={{
+					padding: 2,
+				}}
+			>
+				<FormLabel component="legend">{other.label}</FormLabel>
+				<FormGroup row>
+					{other.allNames?.map((select: { id: string; name: string }) => (
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={other.fieldValue?.includes(select.id)}
+									defaultChecked={other.defaultValue?.some(
+										(id) => id === select.id
+									)}
+									onChange={() => {
+										if (other.fieldValue?.includes(select.id)) {
+											other.setValue(other.name, [
+												...other.fieldValue.filter(
+													(otherValue) => otherValue !== select.id
+												),
+											])
+											other.trigger(other.name)
+											return null
+										}
+
+										if (!!other?.fieldValue?.length) {
+											other.setValue(other.name, [
+												...other?.fieldValue,
+												select.id,
+											])
+											other.trigger(other.name)
+											return null
+										}
+
+										if (!other?.fieldValue?.length) {
+											other.setValue(other.name, [select.id])
+											other.trigger(other.name)
+											return null
+										}
+									}}
+									name={select.name}
+									sx={{
+										display: 'none',
+										'& + span': {
+											padding: '5px 10px',
+											margin: '5px 3px',
+											borderRadius: 1,
+											border: '1px solid',
+											borderColor: 'grey.600',
+											color: 'grey.600',
+											backgroundColor: 'grey.100',
+										},
+										// write style for checked checkbox
+										'&.Mui-checked + span': {
+											borderColor: 'primary.main',
+											color: 'primary.main',
+											backgroundColor: 'primary.light',
+										},
+									}}
+								/>
+							}
+							label={select.name}
+						/>
+					))}
+				</FormGroup>
+			</FormControl>
+		)
+	}
+
 	if (type === 'autocomplete-multiple') {
 		return (
 			<Autocomplete
+				fullWidth
 				{...other}
 				multiple
 				onChange={(
@@ -267,7 +387,8 @@ const Field: FC<any> = (props) => {
 						label: string | number
 					}
 				) => {
-					other.setFieldValue(other.name, newValue)
+					other.setValue(other.name, newValue)
+					other.trigger(other.name)
 				}}
 				disablePortal
 				filterSelectedOptions
@@ -276,7 +397,6 @@ const Field: FC<any> = (props) => {
 					id: string | number
 					name: string | number
 				}) => option?.name}
-				sx={{ width: 300 }}
 				renderInput={(params) => (
 					<TextField
 						label={
@@ -289,9 +409,10 @@ const Field: FC<any> = (props) => {
 								{other.label}
 							</Typography>
 						}
-						onChange={({ target }) =>
-							other.setFieldValue(other.name + '_search', target.value)
-						}
+						onChange={({ target }) => {
+							other.setValue(other.name + '_search', target.value)
+							other.trigger(other.name + '_search')
+						}}
 						{...params}
 					/>
 				)}
@@ -303,13 +424,14 @@ const Field: FC<any> = (props) => {
 		return (
 			<MultipleSelect
 				allNames={other.allNames}
-				defaultValues={other.defaultData[other.name]}
-				onChange={(selected) =>
-					other.setFieldValue(
+				defaultValues={other?.defaultValue}
+				onChange={(selected) => {
+					other.setValue(
 						other.name,
 						selected.map((id) => (isNaN(id) ? id : +id))
 					)
-				}
+					other.trigger(other.name)
+				}}
 				label={other.name}
 			/>
 		)
@@ -320,14 +442,14 @@ const Field: FC<any> = (props) => {
 
 		const onChange = (editorValue: string) => {
 			setValue(editorValue)
-			other.setFieldValue(other.name, editorValue)
+			other.setValue(other.name, editorValue)
 		}
 
 		return (
 			<DynamicTextEditor
 				onChange={onChange}
 				placeholder={other.label}
-				value={other.defaultData[other.label] || value}
+				value={other.defaultValue || value}
 			/>
 		)
 	}
@@ -354,6 +476,7 @@ const Field: FC<any> = (props) => {
 			/>
 		)
 	}
+
 	if (type === 'checkbox') {
 		return (
 			<>
@@ -404,45 +527,21 @@ const Field: FC<any> = (props) => {
 			if (file.size > 2000000) {
 				setFileLocaleUrl(null)
 				setFileType(null)
-				other.setFieldValue(other?.name, null)
+				other.setValue(other?.name, null)
+				other.trigger(other?.name)
 				toast.error('Файл должен быть меньше 2 мб')
 				return null
 			}
 			getTypeOfFile(file).then((type) => setFileType(type))
 			if (file) {
 				setFileLocaleUrl(file && window?.URL?.createObjectURL(file))
-				other?.setFieldValue(other?.name, file)
+				other?.setValue(other?.name, file)
+				other?.trigger(other?.name)
 			}
 		}
 
 		return (
 			<>
-				{/* <div className={styles.file}>
-					<img
-						className={styles.uploadImage}
-						src={
-							fileLocaleUrl ||
-							getImgUrl(other.defaultData[other.name]) ||
-							'/assets/images/placeholder.jpg'
-						}
-						alt="Uploaded image"
-					/>
-					<Button
-						variant="contained"
-						color="info"
-						component="label"
-						className={styles.uploadButton}
-					>
-						{other.label}
-						<input
-							hidden
-							name={other.name}
-							onChange={(e) => handleFileChange(e)}
-							accept="image/*, image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp"
-							type="file"
-						/>
-					</Button>
-				</div> */}
 				<h3 style={{ textTransform: 'uppercase', margin: '15px 0 25px' }}>
 					{other.label}
 				</h3>
@@ -456,16 +555,8 @@ const Field: FC<any> = (props) => {
 				>
 					<Grid
 						item
-						sm={
-							fileLocaleUrl || getImgUrl(other?.defaultData[other?.name])
-								? 6
-								: 12
-						}
-						xs={
-							fileLocaleUrl || getImgUrl(other?.defaultData[other?.name])
-								? 6
-								: 12
-						}
+						sm={fileLocaleUrl || getImgUrl(other?.defaultValue) ? 6 : 12}
+						xs={fileLocaleUrl || getImgUrl(other?.defaultValue) ? 6 : 12}
 					>
 						<DropZone
 							title={other?.name}
@@ -483,7 +574,7 @@ const Field: FC<any> = (props) => {
 							}
 						/>
 					</Grid>
-					{fileLocaleUrl || getImgUrl(other?.defaultData[other?.name]) ? (
+					{fileLocaleUrl || getImgUrl(other?.defaultValue) ? (
 						<Grid
 							display="flex"
 							item
@@ -498,9 +589,7 @@ const Field: FC<any> = (props) => {
 									layout="fill"
 									objectFit="contain"
 									objectPosition="center"
-									src={
-										fileLocaleUrl || getImgUrl(other?.defaultData[other?.name])
-									}
+									src={fileLocaleUrl || getImgUrl(other?.defaultValue)}
 									alt={other?.label}
 								/>
 							)}

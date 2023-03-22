@@ -18,9 +18,10 @@ import { useActions } from 'src/hooks/useActions'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, ReactNode, useEffect, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import {
+	ICategory,
 	IImage,
 	IProductAttributeValue,
 	IProductVariant,
@@ -29,11 +30,11 @@ import { productVariantFormCreate } from 'src/utils/constants/forms'
 import { formData } from 'src/utils/formData'
 
 import ProductAttributes from './productVariantAttribute'
+import { CategoriesService } from 'src/api/services/categories/category.service'
 
 // ==================================================================
 type ProductVariantFormProps = {
 	initialValues: IProductVariant | any
-	attributes: IProductAttributeValue[]
 	variantId?: string | number
 	productId?: string
 	create?: boolean
@@ -54,7 +55,6 @@ const adminCheckFetch = (admin = false) => {
 
 const ProductVariantForm: FC<ProductVariantFormProps> = ({
 	initialValues,
-	attributes,
 	refetch,
 	productId,
 	createPage,
@@ -64,13 +64,26 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 	isAdmin,
 	actionButtons,
 }) => {
-	const { t: commonT } = useTranslation('common')
+	// const { t: commonT } = useTranslation('common')
 	const { t: adminT } = useTranslation('admin')
 	// states
 	const { user } = useTypedSelector((state) => state.userStore)
 	const { imgIdCounter, newAttributes } = useTypedSelector(
 		(state) => state.productVariantsStore
 	)
+	const { currentCategory } = useTypedSelector(
+		(state) => state.productVariantsStore
+	)
+
+	const { data: attributes } = useQuery(
+		'attributes get',
+		() => CategoriesService.get(currentCategory),
+		{
+			enabled: !!currentCategory,
+			select: (data: ICategory) => data.attributes,
+		}
+	)
+
 	const [addCardForm, setAddCardForm] = useState<boolean>(false)
 	const [imagesList, setImagesList] = useState<any[]>(images || [])
 

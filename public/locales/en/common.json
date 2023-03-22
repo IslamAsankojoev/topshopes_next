@@ -101,5 +101,6 @@
 	"yourOrder": "Your order",
 	"thumbnail": "Image",
 	"stock": "Stock",
-	"unit": "Unit (pcs, kg, l, ml)"
+	"unit": "Unit (pcs, kg, l, ml)",
+	"productName": "Product name"
 }

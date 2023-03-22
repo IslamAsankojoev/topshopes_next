@@ -69,18 +69,18 @@ export type IBrand = {
 }
 
 export type IProductVariant = {
-	id: string
-	status: IProductVariantStatus
-	stock: number
-	overall_price: string
+	id?: string
+	status?: IProductVariantStatus
+	stock?: number
+	overall_price?: string
 	price: string
-	discount_price: string
+	discount_price?: string
 	discount: 0
-	product: string
+	product?: string
 	thumbnail: string
 	images: IImage[]
-	attribute_values: IProductAttributeValue[]
-	nodeRef: any
+	attribute_values?: IProductAttributeValue[]
+	nodeRef?: any
 }
 
 export type IProductVariantStatus = 'available' | 'unavailable'
@@ -110,13 +110,13 @@ export type IProductAttribute = {
 
 export type IProductAttributeValue = {
 	available?: boolean
-	id: string | number
-	attribute: IAttribute
-	value: string
-	product_variant: string | number
+	id?: string | number
+	attribute?: IAttribute
+	value?: string
+	product_variant?: string | number
 }
 
 export type IAttribute = {
-	name: string
-	id: number
+	name?: string
+	id?: number
 }

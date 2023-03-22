@@ -24,37 +24,34 @@ interface ProductFetchProps {
 	}
 }
 export const useProductFetch = (
-	isAdmin = false, 
-	{categoriesSearch, brandsSearch, shopsSearch}: Record<string, string>
-	) => {
-
+	isAdmin = false,
+	{ categoriesSearch, brandsSearch, shopsSearch }: Record<string, string>
+) => {
 	const { data: categories, isLoading: categoriesLoading } = useQuery(
 		`categories get search=${categoriesSearch}`,
-		() => CategoriesService.getList({search: categoriesSearch || '', page_size: 200}),
-		{ 
-			refetchOnWindowFocus: false, 
-			retry: 0,
-			select: (data) => data?.results
+		() =>
+			CategoriesService.getList({
+				search: categoriesSearch || '',
+				page_size: 200,
+			}),
+		{
+			select: (data) => data?.results,
 		}
 	)
 
 	const { data: brands, isLoading: brandsLoading } = useQuery(
 		`brands get search=${brandsSearch}`,
-		() => BrandsService.getList({search: brandsSearch || '', page_size: 200}),
+		() => BrandsService.getList({ search: brandsSearch || '', page_size: 200 }),
 		{
-			refetchOnWindowFocus: false,
-			retry: 0,
-			select: (data) => data?.results
+			select: (data) => data?.results,
 		}
 	)
 
 	const { data: shops, isLoading: shopsLoading } = useQuery(
 		`shops get search=${shopsSearch}`,
-		isAdmin ? () => ShopsService.getList({search: shopsSearch || ''}) : null,
+		isAdmin ? () => ShopsService.getList({ search: shopsSearch || '' }) : null,
 		{
-			refetchOnWindowFocus: false,
-			retry: 0,
-			select: (data) => data?.results
+			select: (data) => data?.results,
 		}
 	)
 
@@ -62,10 +59,7 @@ export const useProductFetch = (
 		categories,
 		brands,
 		shops,
-		isLoading:
-			categoriesLoading &&
-			brandsLoading &&
-			shopsLoading,
+		isLoading: categoriesLoading && brandsLoading && shopsLoading,
 	}
 
 	return result

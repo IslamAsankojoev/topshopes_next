@@ -11,6 +11,7 @@ export const categoryEditForm = [
 		type: 'file',
 		placeholder: 'icon',
 		required: true,
+		previewType: 'image',
 	},
 	{
 		name: 'image',
@@ -18,6 +19,7 @@ export const categoryEditForm = [
 		type: 'file',
 		placeholder: 'thumbnail',
 		required: true,
+		previewType: 'image',
 	},
 	{
 		name: 'name',
@@ -32,13 +34,6 @@ export const categoryEditForm = [
 		type: 'text',
 		placeholder: 'description',
 		required: true,
-	},
-	{
-		name: 'attributes_search',
-		label: '',
-		type: 'text',
-		placeholder: '',
-		required: false,
 	},
 	{
 		name: 'tax',
@@ -76,6 +71,7 @@ export const brandEditForm = [
 		type: 'file',
 		placeholder: 'Upload image',
 		required: true,
+		previewType: 'image',
 	},
 	{
 		name: 'name',
@@ -139,6 +135,7 @@ export const pageEditForm = [
 		label: 'image',
 		type: 'file',
 		placeholder: 'image',
+		previewType: 'image',
 	},
 	{
 		name: 'title',

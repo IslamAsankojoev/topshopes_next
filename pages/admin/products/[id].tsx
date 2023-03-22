@@ -83,7 +83,6 @@ const EditProduct: NextPageAuth = () => {
 				<>
 					<ProductForm
 						initialValues={product}
-						validationSchema={productFormValidationSchema}
 						handleFormSubmit={handleFormSubmit}
 						update={true}
 						includeShop

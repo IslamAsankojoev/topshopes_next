@@ -40,9 +40,6 @@ const ProductVariantList: FC<Props> = ({
 
 	// states
 	const { user } = useTypedSelector((state) => state.userStore)
-	const { currentCategory } = useTypedSelector(
-		(state) => state.productVariantsStore
-	)
 
 	// functions
 	const variantCheck = (data) => (create ? data?.variant : data)
@@ -81,25 +78,11 @@ const ProductVariantList: FC<Props> = ({
 		refetch && (await refetch())
 	}
 
-	// fetching
-	const { data: category, refetch: categoryRefetch } = useQuery(
-		'category get',
-		() => CategoriesService.get(currentCategory),
-		{
-			enabled: !!currentCategory,
-		}
-	)
-
-	useEffect(() => {
-		if (currentCategory) categoryRefetch()
-	}, [currentCategory])
-
 	return (
 		<Card1 sx={{ mb: 3, mt: 3 }}>
 			<FlexBetween>
 				<h2>{adminT('productVariants')}</h2>
 				<ProductVariantForm
-					attributes={category?.attributes}
 					refetch={refetch}
 					initialValues={{}}
 					productId={product?.id}
@@ -203,10 +186,6 @@ const ProductVariantList: FC<Props> = ({
 											</div>
 											<FlexBox alignItems={'center'}>
 												<ProductVariantForm
-													attributes={getAllattributes(
-														variant.attribute_values,
-														category?.attributes
-													)}
 													refetch={refetch}
 													initialValues={variantCheck(variant)}
 													createPage={create}

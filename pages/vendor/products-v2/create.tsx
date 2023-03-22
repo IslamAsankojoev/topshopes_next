@@ -117,7 +117,6 @@ const CreateProduct: NextPageAuth = () => {
 
 			<ProductForm
 				initialValues={initialValues}
-				validationSchema={productFormValidationSchemaVendor}
 				handleFormSubmit={handleFormSubmit}
 				update={false}
 			/>

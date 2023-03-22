@@ -2,18 +2,17 @@ import * as yup from 'yup'
 
 // form field validation schema
 export const productFormValidationSchemaVendor = yup.object().shape({
-	title: yup.string().required('title required'),
-	published: yup.boolean().required('published required'),
-	category: yup.string().required('shop required'),
-	brand: yup.string().required('brand required'),
-	unit: yup.string().required('unit required'),
+	name: yup.string().required('Name required'),
+	category: yup.string().required('Category required'),
+	brand: yup.string().required('Brand required'),
+	unit: yup.string().required('Unit required'),
+	description: yup.string().required('Description required'),
 })
 
 export const productFormValidationSchema = yup.object().shape({
-	title: yup.string().required('title required'),
-	published: yup.boolean().required('published required'),
-	category: yup.string().required('shop required'),
-	brand: yup.string().required('brand required'),
-	unit: yup.string().required('unit required'),
-	shop: yup.string().required('shop required'),
+	name: yup.string().required('Name required'),
+	category: yup.string().required('Category required'),
+	brand: yup.string().required('Brand required'),
+	unit: yup.string().required('Unit required'),
+	description: yup.string().required('Description required'),
 })

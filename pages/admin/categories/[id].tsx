@@ -16,7 +16,7 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { ICategory } from 'src/shared/types/product.types'
 import { categoryEditForm } from 'src/utils/constants/forms'
-import { formData } from 'src/utils/formData'
+import { formData, formDataToObj } from 'src/utils/formData'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -45,6 +45,12 @@ const CreateCategory: NextPageAuth = () => {
 		['category admin get', id],
 		() => CategoriesService.get(id as string),
 		{
+			select: (data) => {
+				return {
+					...data,
+					attributes: data?.attributes?.map((attr) => attr.id),
+				}
+			},
 			enabled: !!id,
 		}
 	)
@@ -80,15 +86,10 @@ const CreateCategory: NextPageAuth = () => {
 			}
 		}
 
-		await mutateAsync(
-			formData({
-				...clearData,
-				attributes: data?.attributes?.map((attr) => attr.id),
-			})
-		)
+		await mutateAsync(formData(clearData))
 	}
 
-	const getValues = (values) => {
+	const setAttributes = (values) => {
 		setAttributeSearch(values.attributes_search)
 	}
 
@@ -106,14 +107,14 @@ const CreateCategory: NextPageAuth = () => {
 					{
 						name: 'attributes',
 						label: 'attributes',
-						type: 'autocomplete-multiple',
+						type: 'checkboxes',
 						placeholder: 'Enter attributes',
 						allNames: attributes,
 						required: true,
 					},
 				]}
 				handleFormSubmit={handleFormSubmit}
-				getValues={getValues}
+				setAttributes={setAttributes}
 			/>
 		</Box>
 	)

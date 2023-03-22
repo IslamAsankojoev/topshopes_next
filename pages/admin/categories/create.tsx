@@ -71,12 +71,11 @@ const CreateCategory: NextPageAuth = () => {
 			formData({
 				...clearData,
 				tax: clearData?.tax ? clearData.tax : 0,
-				attributes: data?.attributes?.map((attr) => attr.id),
 			})
 		)
 	}
 
-	const getValues = (values) => {
+	const setAttributes = (values) => {
 		setAttributeSearch(values.attributes_search)
 	}
 
@@ -88,20 +87,20 @@ const CreateCategory: NextPageAuth = () => {
 		<Box py={4}>
 			<H3 mb={2}>{t('addNewCategory')}</H3>
 			<CreateForm
-				defaultData={{ tax: 0 }}
+				defaultData={{ tax: 0, attributes: [] }}
 				fields={[
 					...categoryEditForm,
 					{
 						name: 'attributes',
 						label: 'attributes',
-						type: 'autocomplete-multiple',
+						type: 'checkboxes',
 						placeholder: 'Enter attributes',
 						allNames: attributes,
 						required: true,
 					},
 				]}
 				handleFormSubmit={handleFormSubmit}
-				getValues={getValues}
+				setAttributes={setAttributes}
 			/>
 		</Box>
 	)

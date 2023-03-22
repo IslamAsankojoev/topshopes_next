@@ -8,12 +8,14 @@ import { useRouter } from 'next/router'
 import { FC } from 'react'
 import { toast } from 'react-toastify'
 import { IProductPreview } from 'src/shared/types/product.types'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 
 import {
 	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,
 } from '../StyledComponents'
+import { darken } from '@mui/system'
 
 // ========================================================================
 type ProductRowProps = { product: IProductPreview; refetch: () => void }
@@ -39,8 +41,21 @@ const ProductRowV2: FC<ProductRowProps> = ({ product, refetch }) => {
 	}
 
 	return (
-		<StyledTableRow tabIndex={-1} role="checkbox">
-			<StyledTableCell align="left">
+		<StyledTableRow
+			tabIndex={-1}
+			role="checkbox"
+			sx={{
+				cursor: 'pointer',
+				transition: 'all 0.2s ease-in-out',
+				'&:hover': {
+					backgroundColor: darken('#F3F5F9', 0.1),
+				},
+			}}
+		>
+			<StyledTableCell
+				align="left"
+				onClick={() => router.push(`${router.pathname}/${id}`)}
+			>
 				<FlexBox alignItems="center" gap={1.5}>
 					<LazyImage
 						src={thumbnail}
@@ -54,15 +69,23 @@ const ProductRowV2: FC<ProductRowProps> = ({ product, refetch }) => {
 				</FlexBox>
 			</StyledTableCell>
 
-			<StyledTableCell align="left">{category}</StyledTableCell>
+			<StyledTableCell
+				align="left"
+				onClick={() => router.push(`${router.pathname}/${id}`)}
+			>
+				{category}
+			</StyledTableCell>
 
-			<StyledTableCell align="left">{price}c</StyledTableCell>
+			<StyledTableCell
+				align="left"
+				onClick={() => router.push(`${router.pathname}/${id}`)}
+			>
+				{price}c
+			</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<StyledIconButton
-					onClick={() => router.push(`${router.pathname}/${id}`)}
-				>
-					<Edit />
+				<StyledIconButton onClick={() => router.push(`/product/${id}/`)}>
+					<VisibilityIcon />
 				</StyledIconButton>
 
 				<StyledIconButton onClick={onDelete}>

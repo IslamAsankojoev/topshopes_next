@@ -1,5 +1,4 @@
 import {
-	Autocomplete,
 	Button,
 	Card,
 	Dialog,
@@ -12,22 +11,23 @@ import { AdminProductsService } from 'src/api/services-admin/products/products.s
 import { Paragraph } from 'src/components/Typography'
 import { FlexBox } from 'src/components/flex-box'
 import { ContentWrapper } from 'src/components/products/ProductViewDialog'
-import { useFormik } from 'formik'
 import { useActions } from 'src/hooks/useActions'
 import { useTranslation } from 'next-i18next'
-import router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 import * as yup from 'yup'
-import { Assign, ObjectShape } from 'yup/lib/object'
-
 import { useProductFetch } from './useProductFetch'
+import { ICategory } from 'src/shared/types/product.types'
+import AsyncSelect from 'react-select/async'
+import { useForm } from 'react-hook-form'
+import useYupValidationResolver from 'src/hooks/useYupValidationResolver'
+import { productFormValidationSchema } from 'src/components/validationSchema'
 
 // ================================================================
 type ProductFormProps = {
 	initialValues: any
 	handleFormSubmit: (values: any, redirect?: boolean) => void
-	validationSchema: yup.ObjectSchema<Assign<ObjectShape, any>>
 	update?: boolean
 	includeShop?: boolean
 	refetch?: () => void
@@ -35,321 +35,267 @@ type ProductFormProps = {
 // ================================================================
 
 const ProductForm: FC<ProductFormProps> = (props) => {
-	// dialog
-	const [openDialog, setOpenDialog] = useState(false)
-	const [categoryValue, setCategoryValue] = useState<any>({})
-
-	const toggleDialog = (category?: { id: string | number; name: string }) => {
-		setOpenDialog(!openDialog)
-		setCategoryValue(category)
-	}
-
-	const id = useRouter().query.id
-
-	const changeCategory = async () => {
-		setFieldValue('category', categoryValue)
-		setCurrentCategory(values.category?.id || '')
-
-		if (values.category?.id && update) {
-			;(async () => {
-				await AdminProductsService.update(values?.id as string, {
-					category: categoryValue.id,
-				})
-				props.refetch && (await props.refetch())
-			})()
-		}
-		setOpenDialog(false)
-	}
-
-	// translate
 	const { t: adminT } = useTranslation('admin')
 	const { t: commonT } = useTranslation('common')
+	const { initialValues, handleFormSubmit, update } = props
+	const {
+		push,
+		query: { id },
+	} = useRouter()
 
-	const { initialValues, validationSchema, handleFormSubmit, update } = props
+	const resolver = useYupValidationResolver(productFormValidationSchema)
+	const {
+		handleSubmit,
+		formState: { errors },
+		getValues,
+		setValue,
+		trigger,
+		reset,
+	} = useForm({
+		resolver,
+		defaultValues: {
+			...initialValues,
+			category: initialValues?.category?.id,
+			brand: initialValues?.brand?.id,
+		},
+	})
 
-	const { push } = useRouter()
-
-	// states
-	const [redirect, setRedirect] = useState<boolean>(false)
-
-	const [categoriesSearch, setCategoriesSearch] = useState<string>('')
-	const [brandsSearch, setBrandsSearch] = useState<string>('')
-	const [shopsSearch, setShopsSearch] = useState<string>('')
-
-	// actions
+	const values = getValues()
 	const { setCurrentCategory } = useActions()
 
-	const {
-		values,
-		errors,
-		touched,
-		handleBlur,
-		handleChange,
-		handleSubmit,
-		setFieldValue,
-	} = useFormik({
-		initialValues,
-		onSubmit: () => {
-			const { reviews, shop, variants, category, brand, ...other } = values
-			const clearData = { ...other, category: category?.id, brand: brand?.id }
-			handleFormSubmit(clearData, redirect)
-		},
-		validationSchema: validationSchema,
-	})
+	// const [openDialog, setOpenDialog] = useState(false)
 
-	//data fetching
-	const { brands, categories } = useProductFetch(props.includeShop, {
-		categoriesSearch,
-		brandsSearch,
-		shopsSearch,
-	})
+	const { brands, categories } = useProductFetch(props.includeShop, {})
 
-	const autocompleteProps = {
-		category: {
-			name: 'category',
-			options: categories || [],
-			getOptionLabel: (option) =>
-				option?.name ? option?.name + ` - (${option?.tax}%)` : '',
-			error: !!touched.category && !!errors.category,
-			helperText: touched.category && errors.category,
-		},
-		brand: {
-			name: 'brand',
-			options: brands || [],
-			getOptionLabel: (option) => option?.name || '',
-			error: !!touched.brand && !!errors.brand,
-			helperText: touched.brand && errors.brand,
-		},
+	const toggleDialog = (value) => {
+		// setOpenDialog(!openDialog)
+		setCurrentCategory(value)
+
+		setValue('category', value)
+		trigger('category')
+	}
+
+	// const changeCategory = async () => {
+	// 	if (categoryID && update) {
+	// 		;(async () => {
+	// 			await AdminProductsService.update(values?.id as string, {
+	// 				category: categoryID,
+	// 			})
+	// 			props?.refetch()
+	// 		})()
+	// 	}
+	// 	setOpenDialog(false)
+	// }
+
+	const handleProductSubmit = (_, event) => {
+		event.preventDefault()
+		handleFormSubmit(values)
 	}
 
 	useEffect(() => {
-		setCurrentCategory(values.category?.id || '')
-	}, [values.category])
+		if (initialValues.category) toggleDialog(initialValues.category.id)
+		if (initialValues.brand) setValue('brand', initialValues.brand.id)
+	}, [initialValues])
 
 	return (
-		<Card sx={{ p: 6 }}>
-			<form onSubmit={handleSubmit}>
+		<Card sx={{ p: 3, overflow: 'initial' }}>
+			<form onSubmit={handleSubmit(handleProductSubmit)}>
 				<Grid container spacing={3}>
-					<Grid item sm={6} xs={12}>
-						<TextField
-							fullWidth
-							name="name"
-							label={
-								<Typography
-									fontWeight="650"
-									color="grey.500"
-									textTransform="capitalize"
-									fontSize="16"
-								>
-									{commonT('name')}
-								</Typography>
-							}
-							color="info"
-							size="medium"
-							placeholder={commonT('name')}
-							value={values.name}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.name && !!errors.name}
-							helperText={touched.name && errors.name}
-						/>
-					</Grid>
-
-					<Grid item sm={6} xs={12}>
-						<TextField
-							fullWidth
-							color="info"
-							size="medium"
-							name="unit"
-							label={
-								<Typography
-									fontWeight="650"
-									color="grey.500"
-									textTransform="capitalize"
-									fontSize="16"
-								>
-									{commonT('unit')}
-								</Typography>
-							}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							placeholder={commonT('unit')}
-							value={values.unit}
-							error={!!touched.unit && !!errors.unit}
-							helperText={touched.unit && errors.unit}
-						/>
-					</Grid>
-
-					<Grid item sm={6} xs={12}>
-						<Autocomplete
-							{...autocompleteProps.category}
-							disabled={update}
-							fullWidth
-							color="info"
-							size="medium"
-							placeholder={commonT('categories')}
-							value={values.category}
-							// @ts-ignore
-							onChange={(
-								event: any,
-								newValue: { id: string | number; name: string } | null
-							) => {
-								if (newValue) toggleDialog(newValue)
-							}}
-							onBlur={handleBlur}
-							renderInput={(params) => (
-								<TextField
-									error={autocompleteProps.category.error}
-									helperText={autocompleteProps.category.helperText}
-									{...params}
-									onChange={({ target }) => {
-										setCategoriesSearch(target.value)
-									}}
-									label={
-										<Typography
-											fontWeight="650"
-											color="grey.500"
-											textTransform="capitalize"
-											fontSize="16"
-										>
-											{commonT('categories')}
-										</Typography>
-									}
-								/>
-							)}
-						/>
-					</Grid>
-					<Grid item sm={6} xs={12}>
-						<Autocomplete
-							{...autocompleteProps.brand}
-							fullWidth
-							color="info"
-							size="medium"
-							onBlur={handleBlur}
-							// @ts-ignore
-							onChange={(
-								_: any,
-								newValue: { id: string | number; label: string } | null
-							) => {
-								setFieldValue('brand', newValue)
-							}}
-							placeholder={commonT('brand')}
-							value={values.brand}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									error={autocompleteProps.brand.error}
-									helperText={autocompleteProps.brand.helperText}
-									onChange={({ target }) => {
-										setBrandsSearch(target.value)
-									}}
-									label={
-										<Typography
-											fontWeight="650"
-											color="grey.500"
-											textTransform="capitalize"
-											fontSize="16"
-										>
-											{commonT('brand')}
-										</Typography>
-									}
-								/>
-							)}
-						/>
-					</Grid>
-
-					<Grid item xs={12}>
-						<TextField
-							multiline
-							rows={4}
-							fullWidth
-							name="description"
-							label={
-								<Typography
-									fontWeight="650"
-									color="grey.500"
-									textTransform="capitalize"
-									fontSize="16"
-								>
-									{commonT('description')}
-								</Typography>
-							}
-							color="info"
-							size="medium"
-							placeholder={commonT('description')}
-							value={values.description}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.description && !!errors.description}
-							helperText={touched.description && errors.description}
-						/>
-					</Grid>
-
-					<Grid item xs={12}>
-						<Card
+					<Grid item sm={12} xs={12}>
+						<FlexBox
 							sx={{
-								border: '1px solid #E4E7EB',
-								position: 'fixed',
-								display: 'flex',
-								bottom: 0,
-								right: 0,
-								zIndex: 100,
-								padding: '8px!important',
-								backgroundColor: '#F7F9FC',
-								'@media (max-width: 768px)': {
-									width: '100%',
-									justifyContent: 'center',
+								gridGap: '10px',
+								'@media (max-width: 600px)': {
+									flexDirection: 'column-reverse',
+									gridGap: '15px',
 								},
 							}}
 						>
-							<FlexBox
-								flexWrap={'wrap'}
-								justifyContent={'flex-end'}
-								sx={{ gridGap: '10px' }}
+							<TextField
+								onChange={(e) => {
+									setValue('name', e.target.value)
+									trigger('name')
+								}}
+								defaultValue={initialValues.name}
+								error={!!errors.name}
+								helperText={!!errors.name && errors.name.message}
+								id="name"
+								name="name"
+								fullWidth
+								label={commonT('productName')}
+								color="info"
+								size="medium"
+								placeholder={commonT('productName')}
+								sx={{
+									'@media (max-width: 600px)': {
+										mt: 2,
+									},
+								}}
+							/>
+							<Button
+								variant="contained"
+								color="success"
+								size="small"
+								type="submit"
+								sx={{
+									px: 3,
+									whiteSpace: 'nowrap',
+									fontSize: '16px',
+									fontWeight: 'bold',
+									height: '50px',
+									minWidth: '150px',
+								}}
 							>
-								{update ? (
-									<>
-										<Button
-											onClick={() =>
-												push({
-													pathname: `/product/${id}/`,
-												})
-											}
-											variant="contained"
-											color="secondary"
-											size="small"
-										>
-											{adminT('goView')}
-										</Button>
-										<Button
-											variant="contained"
-											color="primary"
-											type="submit"
-											size="small"
-										>
-											{adminT('saveExit')}
-										</Button>
-									</>
-								) : null}
-								<Button
-									onClick={() => setRedirect(true)}
-									variant="contained"
-									color="success"
-									type="submit"
-									size="small"
-								>
-									{update ? commonT('save') : adminT('createProduct')}
-								</Button>
-							</FlexBox>
-						</Card>
+								{update ? commonT('save') : adminT('createProduct')}
+							</Button>
+						</FlexBox>
+					</Grid>
+
+					<Grid item sm={4} xs={12}>
+						<TextField
+							onChange={(e) => {
+								setValue('unit', e.target.value)
+								trigger('unit')
+							}}
+							defaultValue={initialValues.unit}
+							error={!!errors.unit}
+							helperText={!!errors.unit && errors.unit.message}
+							name="unit"
+							id="unit"
+							fullWidth
+							color="info"
+							size="medium"
+							label={commonT('unit')}
+							placeholder={commonT('unit')}
+						/>
+					</Grid>
+
+					<Grid item sm={4} xs={6}>
+						<AsyncSelect
+							defaultOptions={categories?.map((category) => {
+								return {
+									value: category.id,
+									label: `${category.name} - ${category.tax}%`,
+								}
+							})}
+							defaultValue={
+								initialValues?.category?.id
+									? {
+											value: initialValues?.category?.id,
+											label: `${initialValues?.category?.name} - ${initialValues?.category?.tax}%`,
+									  }
+									: null
+							}
+							onChange={(selectedCategory) => {
+								toggleDialog(selectedCategory.value)
+							}}
+							maxMenuHeight={400}
+							aria-invalid={!!errors.category}
+							styles={{
+								control: (base, state) => ({
+									...base,
+									borderColor: state.isFocused
+										? '#3f51b5'
+										: !!errors.category
+										? '#f44336'
+										: '#e0e0e0',
+									'&:hover': {
+										borderColor: state.isFocused
+											? '#3f51b5'
+											: !!errors.category
+											? '#f44336'
+											: '#e0e0e0',
+									},
+									padding: '0.4rem 1rem',
+									borderRadius: '0.5rem',
+								}),
+							}}
+							placeholder={dynamicLocalization({
+								ru: 'Выберите категорию',
+								tr: 'Kategori seçin',
+								en: 'Select category',
+								kg: 'Категорияны тандоо',
+								kz: 'Категорияны тандоо',
+							})}
+						/>
+					</Grid>
+
+					<Grid item sm={4} xs={6}>
+						<AsyncSelect
+							defaultOptions={brands?.map((brand) => {
+								return {
+									value: brand.id,
+									label: brand.name,
+								}
+							})}
+							defaultValue={
+								initialValues?.brand?.id
+									? {
+											value: initialValues?.brand?.id,
+											label: initialValues?.brand?.name,
+									  }
+									: null
+							}
+							onChange={(selectedBrand) => {
+								setValue('brand', selectedBrand.value)
+								trigger('brand')
+							}}
+							styles={{
+								control: (base, state) => ({
+									...base,
+									borderColor: state.isFocused
+										? '#3f51b5'
+										: !!errors.category
+										? '#f44336'
+										: '#e0e0e0',
+									'&:hover': {
+										borderColor: state.isFocused
+											? '#3f51b5'
+											: !!errors.category
+											? '#f44336'
+											: '#e0e0e0',
+									},
+									padding: '0.4rem 1rem',
+									borderRadius: '0.5rem',
+								}),
+							}}
+							placeholder={dynamicLocalization({
+								ru: 'Выберите бренд',
+								tr: 'Marka seçin',
+								en: 'Select brand',
+								kg: 'Бренд тандоо',
+								kz: 'Бренд тандоо',
+							})}
+						/>
+					</Grid>
+
+					<Grid item xs={12}>
+						<TextField
+							onChange={(e) => {
+								setValue('description', e.target.value)
+								trigger('description')
+							}}
+							defaultValue={values.description}
+							error={!!errors.description}
+							helperText={!!errors.description && errors.description.message}
+							id="description"
+							name="description"
+							multiline
+							rows={4}
+							fullWidth
+							label={commonT('description')}
+							color="info"
+							size="medium"
+							placeholder={commonT('description')}
+						/>
 					</Grid>
 				</Grid>
 			</form>
 
-			<Dialog
+			{/* <Dialog
 				open={openDialog}
 				maxWidth={false}
-				onClose={toggleDialog}
+				onClose={() => setOpenDialog(false)}
 				sx={{ zIndex: 1501 }}
 			>
 				<DialogContent
@@ -391,7 +337,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									<Button
 										variant="contained"
 										color="error"
-										onClick={() => toggleDialog()}
+										onClick={() => setOpenDialog(false)}
 									>
 										{dynamicLocalization(translations.cancel)}
 									</Button>
@@ -402,7 +348,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 											color: 'dark',
 											borderRadius: '5px',
 										}}
-										onClick={changeCategory}
+										// onClick={changeCategory}
 									>
 										{dynamicLocalization(translations.ok)}
 									</Button>
@@ -411,7 +357,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 						</Grid>
 					</ContentWrapper>
 				</DialogContent>
-			</Dialog>
+			</Dialog> */}
 		</Card>
 	)
 }
@@ -444,6 +390,12 @@ const translations = {
 		tr: 'İptal',
 		kz: 'Болдырмау',
 		kg: 'Жокко чыгаруу',
+	},
+}
+
+const styles = {
+	placeholder: {
+		color: '#9b9b9b',
 	},
 }
 

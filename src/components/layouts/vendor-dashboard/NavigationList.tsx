@@ -102,21 +102,21 @@ export const navigations = [
 	// 	role: 'admin',
 	// },
 	{ type: 'label', label: 'store', role: 'vendor' },
+	// {
+	// 	name: 'products',
+	// 	icon: duotone.Products,
+	// 	children: [
+	// 		{ name: 'productList', path: '/vendor/products' },
+	// 		{ name: 'createProduct', path: '/vendor/products/create' },
+	// 	],
+	// 	role: 'vendor',
+	// },
 	{
 		name: 'products',
 		icon: duotone.Products,
 		children: [
-			{ name: 'productList', path: '/vendor/products' },
-			{ name: 'createProduct', path: '/vendor/products/create' },
-		],
-		role: 'vendor',
-	},
-	{
-		name: 'products-v2',
-		icon: duotone.Products,
-		children: [
 			{ name: 'productList', path: '/vendor/products-v2' },
-			{ name: 'createProduct', path: '/vendor/products-v2/create' },
+			{ name: 'createProduct', path: '/vendor/products-v2/createV2' },
 		],
 		role: 'vendor',
 	},

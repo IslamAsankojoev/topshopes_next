@@ -5,7 +5,7 @@ import LazyImage from 'src/components/LazyImage'
 import { Paragraph, Small } from 'src/components/Typography'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import { useRouter } from 'next/router'
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import {
 	IProductPreview,
@@ -23,13 +23,20 @@ import { getImgUrl, variantCheck } from './productVariantHelper'
 
 // ========================================================================
 type ProductRowProps = {
-	variant: any
+	product: any
 	refetch: () => void
 	dialogForm: ReactNode
 }
 // ========================================================================
 
-const ProductRow: FC<ProductRowProps> = ({ variant, refetch, dialogForm }) => {
+const ProductRow: FC<ProductRowProps> = ({ product, refetch, dialogForm }) => {
+	const [variant, setVariant] = useState<IProductVariant>(null)
+
+	useEffect(() => {
+		setVariant(product?.variant)
+		console.log('product', product)
+	}, [product])
+
 	return (
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
@@ -82,11 +89,11 @@ const ProductRow: FC<ProductRowProps> = ({ variant, refetch, dialogForm }) => {
 									fontSize: '10px',
 								}}
 							>
-								{attribute?.attribute?.name ||
-									attribute?.attributeName ||
-									attribute?.name}
+								{/* @ts-ignore */}
+								{attribute?.name}
 							</Typography>
-							{attribute?.value || attribute?.attributeValue}
+							{/* @ts-ignore */}
+							{attribute?.value}
 						</Box>
 					)
 				})}
