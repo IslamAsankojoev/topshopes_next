@@ -1,12 +1,6 @@
 import styled from '@emotion/styled'
-import {
-	MarkunreadMailbox,
-	Payment,
-	ShoppingBag,
-} from '@mui/icons-material'
-import {
-	useTheme,
-} from '@mui/material'
+import { MarkunreadMailbox, Payment, ShoppingBag } from '@mui/icons-material'
+import { useTheme } from '@mui/material'
 import { styled as muiStyled } from '@mui/material/styles'
 import { OrdersService } from 'src/api/services/orders/orders.service'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'

@@ -37,6 +37,7 @@ import { useSession } from 'next-auth/react'
 import { StyledTableCell, StyledTableRow } from 'src/pages-sections/admin'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation'
+import ApexChart from 'src/components/ApexChart/ApexChart'
 
 export type ReportAdmin = {
 	id: string
@@ -166,11 +167,11 @@ const MoneyTransfer: NextPageAuth = () => {
 									value={monthValue}
 									label="Month"
 									onChange={handleChangeMonth}
-                  sx={{
-                    "&>div": {
-                      p: '10px 20px 10px 10px',
-                    }
-                  }}
+									sx={{
+										'&>div': {
+											p: '10px 20px 10px 10px',
+										},
+									}}
 								>
 									{month.map((item) => (
 										<MenuItem value={item.id}>{item.label}</MenuItem>
@@ -178,10 +179,10 @@ const MoneyTransfer: NextPageAuth = () => {
 								</Select>
 							</FormControl>
 							<FormControl
-              sx={{
-                p: 0,
-              }}
-              >
+								sx={{
+									p: 0,
+								}}
+							>
 								<InputLabel id="demo-simple-select-label">Year</InputLabel>
 								<Select
 									labelId="demo-simple-select-label"
@@ -189,11 +190,11 @@ const MoneyTransfer: NextPageAuth = () => {
 									value={yearValue}
 									label="Year"
 									onChange={handleChangeYear}
-                  sx={{
-                    "&>div": {
-                      p: '10px 20px 10px 10px',
-                    }
-                  }}
+									sx={{
+										'&>div': {
+											p: '10px 20px 10px 10px',
+										},
+									}}
 								>
 									{year.map((item) => (
 										<MenuItem value={item.id}>{item.label}</MenuItem>
@@ -204,10 +205,10 @@ const MoneyTransfer: NextPageAuth = () => {
 								sx={{
 									backgroundColor: 'primary.100',
 									p: 2,
-                  "@media (max-width: 600px)": {
-                    p: .5,
-                    py: 1.3,
-                  }
+									'@media (max-width: 600px)': {
+										p: 0.5,
+										py: 1.3,
+									},
 								}}
 							>
 								<Box
@@ -225,7 +226,7 @@ const MoneyTransfer: NextPageAuth = () => {
 									/>
 									<Typography
 										sx={{
-                      minWidth: '50px',
+											minWidth: '50px',
 											color: 'primary.900',
 											fontWeight: 'bold',
 										}}
@@ -238,10 +239,10 @@ const MoneyTransfer: NextPageAuth = () => {
 								sx={{
 									backgroundColor: 'success.100',
 									p: 2,
-                  "@media (max-width: 600px)": {
-                    p: .5,
-                    py: 1.3,
-                  }
+									'@media (max-width: 600px)': {
+										p: 0.5,
+										py: 1.3,
+									},
 								}}
 							>
 								<Box
@@ -259,7 +260,7 @@ const MoneyTransfer: NextPageAuth = () => {
 									/>
 									<Typography
 										sx={{
-                      minWidth: '50px',
+											minWidth: '50px',
 											color: 'success.900',
 											fontWeight: 'bold',
 										}}
@@ -300,7 +301,7 @@ const MoneyTransfer: NextPageAuth = () => {
 													alignItems: 'center',
 												}}
 											>
-												<InsertInvitationIcon
+												<LightModeIcon
 													sx={{
 														color: 'primary.800',
 														marginRight: 2,
@@ -326,7 +327,9 @@ const MoneyTransfer: NextPageAuth = () => {
 													color: 'inherit',
 												}}
 											>
-												{getCurrency(moneyStats.total_amount - moneyStats.total_tax)}
+												{getCurrency(
+													moneyStats.total_amount - moneyStats.total_tax
+												)}
 											</StyledTableCell>
 										</StyledTableRow>
 									))}
@@ -336,11 +339,26 @@ const MoneyTransfer: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(moneyStats?.length / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
+						<Pagination
+							variant="outlined"
+							shape="rounded"
+							count={Math.ceil(moneyStats?.length / 10)}
+							onChange={(e, page) => handleChangePage(e, page)}
+						/>
 					</Stack>
 				</Card>
 			) : (
 				<Empty />
+			)}
+
+			{!!window && (
+				<Card
+					sx={{
+						mt: 4,
+					}}
+				>
+					<ApexChart data={moneyStats} />
+				</Card>
 			)}
 		</Box>
 	)

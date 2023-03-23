@@ -64,6 +64,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	const { setCurrentCategory } = useActions()
 
 	// const [openDialog, setOpenDialog] = useState(false)
+	const [thisCategory, setThisCategory] = useState<ICategory>(null)
 
 	const { brands, categories } = useProductFetch(props.includeShop, {})
 
@@ -91,6 +92,16 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 		event.preventDefault()
 		handleFormSubmit(values)
 	}
+
+	useEffect(() => {
+		setThisCategory(
+			categories?.find((category) => category.id === initialValues.category.id)
+		)
+	}, [categories, initialValues])
+
+	useEffect(() => {
+		console.log('thisCategory', thisCategory)
+	}, [thisCategory])
 
 	useEffect(() => {
 		if (initialValues.category) toggleDialog(initialValues.category.id)
@@ -182,7 +193,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 								initialValues?.category?.id
 									? {
 											value: initialValues?.category?.id,
-											label: `${initialValues?.category?.name} - ${initialValues?.category?.tax}%`,
+											label: initialValues?.category?.name,
 									  }
 									: null
 							}

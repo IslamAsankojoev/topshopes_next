@@ -10,6 +10,9 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IOrder } from 'src/shared/types/order.types'
 import { IProduct } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'react-i18next'
 
 type DashboardProps = {
 	cardList: any[]
@@ -17,7 +20,20 @@ type DashboardProps = {
 	stockOutProducts: any[]
 }
 
+export const getServerSideProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, [
+				'common',
+				'admin',
+				'adminActions',
+			])),
+		},
+	}
+}
+
 const VendorDashboard: NextPageAuth<DashboardProps> = (props) => {
+	const { t } = useTranslation('common')
 
 	const { data: orders } = useQuery(
 		`orders stats`,

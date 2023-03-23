@@ -91,6 +91,8 @@
 	"soldBy": "Сатылган",
 	"status": "Статус",
 	"store": "Дүкөн",
+	"createStore": "Дүкөндү жасоо",
+	"adminPanel": "Админ панели",
 	"street": "Көчө",
 	"subtotal": "Аралык сумма",
 	"total": "Бардыгы",

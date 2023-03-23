@@ -15,43 +15,52 @@ import { IProduct, IReview } from 'src/shared/types/product.types'
 import * as yup from 'yup'
 
 import ProductComment from './ProductComment'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 export interface ProductReviewProps {
 	product: IProduct
-	refetch: () => void
-	queryClient: QueryClient
 }
 
-const ProductReview: FC<ProductReviewProps> = ({ product, refetch, queryClient }) => {
+const ProductReview: FC<ProductReviewProps> = ({ product }) => {
 	const { t } = useTranslation('review')
 	const { user } = useTypedSelector((state) => state.userStore)
-	const [retryreq, setRetryreq] = useState(false)
-
 	const router = useRouter()
 
+	const reloadPageWithParams = () => {
+		const cleanPath = router.asPath.split('?')[0]
+
+		router.replace(
+			{
+				pathname: cleanPath,
+				query: { comment: 'success' },
+			},
+			undefined,
+			{ scroll: false }
+		)
+	}
 	const { mutateAsync } = useMutation(
 		'send a comment',
-		(values: IReview) => ReviewService.create(product.id, values),
+		(values: IReview) => ReviewService.create(product?.id, values),
 		{
-			onSuccess: () => {
-				queryClient.invalidateQueries(['product detail', product.id])
-				setRetryreq(true)
-				toast.success('comment sent successfully')
+			onSuccess: async () => {
+				toast.success(
+					dynamicLocalization({
+						ru: 'Ваш отзыв успешно отправлен',
+						tr: 'Yorumunuz başarıyla gönderildi',
+						en: 'Your review has been sent successfully',
+						kg: 'Сиздин отзыв жөнөтүлдү',
+						kz: 'Сіздің пікіріңіз жіберілді',
+					})
+				)
+				reloadPageWithParams()
 			},
 		}
 	)
 
 	const handleFormSubmit = async (values: any, { resetForm }: any) => {
-		mutateAsync({ product_variant: product?.variants[0].id, ...values })
+		mutateAsync({ product_variant: product?.variants[0]?.id, ...values })
 		resetForm()
 	}
-
-	useEffect(() => {
-		if (retryreq) {
-			refetch()
-			setRetryreq(false)
-		}
-	}, [retryreq])
 
 	const {
 		dirty,

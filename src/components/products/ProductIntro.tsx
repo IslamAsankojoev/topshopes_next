@@ -29,7 +29,9 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 	const router = useRouter()
 	const routerId = router.query.id as string
 
-	const [selectedImage, setSelectedImage] = useState<string>(variants[0].thumbnail)
+	const [selectedImage, setSelectedImage] = useState<string>(
+		variants[0].thumbnail
+	)
 	const [selectedVariant, setSelectedVariant] = useState<IProductVariant>(
 		variants[0]
 	)
@@ -38,7 +40,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 		(state) => state.cartStore.cart
 	)
 	const cartItem = cartList.find(
-		(item) => item.id === id || item.id === routerId
+		(item) => item?.id === id || item?.id === routerId
 	)
 
 	const { addToCart } = useActions()
@@ -46,7 +48,6 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 		addToCart({ ...product, variants: [selectedVariant] })
 		toast.success(`${name} добавлен в корзину`)
 	}
-
 
 	return (
 		<Box width="100%">
@@ -78,78 +79,83 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 								layout="fill"
 								loading="eager"
 								objectFit="contain"
-								src={selectedImage || variants[0].thumbnail}
+								src={selectedImage || variants[0]?.thumbnail}
 							/>
 						</div>
 					</FlexBox>
 				</Grid>
 
-				<Grid item md={6} xs={12}  alignItems="center">
-					<Box sx={{
-						position: 'relative',
-						padding: '1rem',
-					}}>
-					<H1 mb={2}>{name}</H1>
-					<FlexBox alignItems="center" mb={2}>
-						<Box>{t('brand')}:</Box>
-						<H6 ml={1}>{brand.name}</H6>
-					</FlexBox>
-
-					<FlexBox alignItems="center" mb={2}>
-						<Box lineHeight="1">{t('rated')}:</Box>
-						<Box mx={1} lineHeight="1">
-							<BazaarRating
-								color="warn"
-								fontSize="1.25rem"
-								value={Number(rating)}
-								readOnly
-							/>
-						</Box>
-						<H6 lineHeight="1">({rating})</H6>
-					</FlexBox>
-					<FlexBox alignItems="center" mb={2}>
-						<Box>{t('soldBy')}:</Box>
-						<Link href={`/shops/${shop.id}`}>
-							<a>
-								<H6 ml={1}>{shop.name}</H6>
-							</a>
-						</Link>
-					</FlexBox>
-					
-					<Box mb={3}>
-						<H2 color="primary.main" mb={0.5} lineHeight="1">
-							{Number(selectedVariant?.price || variants[0]?.price).toFixed(2)}c
-						</H2>
-					</Box>
-					<FlexBox alignItems="center" mb={2}>
-						<Box>{t('status')}:</Box>
-						<H6
-							ml={1}
-							textTransform="capitalize"
-							color={selectedVariant?.status === 'available' ? 'green' : 'red'}
-						>
-							{selectedVariant?.status || 'unavailable'}
-						</H6>
-					</FlexBox>
-					<Variables
-						product={product}
-						setVariant={setSelectedVariant}
-						setImage={setSelectedImage}
-						variant={selectedVariant}
-					/>
-					<BazaarButton
-						color="primary"
-						disabled={
-							!selectedVariant || selectedVariant.status === 'unavailable'
-						}
-						variant="contained"
-						onClick={handleAddToCart}
-						sx={{ mb: 4.5, px: '1.75rem', height: 40, color: 'white' }}
+				<Grid item md={6} xs={12} alignItems="center">
+					<Box
+						sx={{
+							position: 'relative',
+							padding: '1rem',
+						}}
 					>
-						{t('addCart')}
-					</BazaarButton>
+						<H1 mb={2}>{name}</H1>
+						<FlexBox alignItems="center" mb={2}>
+							<Box>{t('brand')}:</Box>
+							<H6 ml={1}>{brand?.name}</H6>
+						</FlexBox>
 
-				
+						<FlexBox alignItems="center" mb={2}>
+							<Box lineHeight="1">{t('rated')}:</Box>
+							<Box mx={1} lineHeight="1">
+								<BazaarRating
+									color="warn"
+									fontSize="1.25rem"
+									value={Number(rating)}
+									readOnly
+								/>
+							</Box>
+							<H6 lineHeight="1">({rating})</H6>
+						</FlexBox>
+						<FlexBox alignItems="center" mb={2}>
+							<Box>{t('soldBy')}:</Box>
+							<Link href={`/shops/${shop?.id}`}>
+								<a>
+									<H6 ml={1}>{shop?.name}</H6>
+								</a>
+							</Link>
+						</FlexBox>
+
+						<Box mb={3}>
+							<H2 color="primary.main" mb={0.5} lineHeight="1">
+								{Number(selectedVariant?.price || variants[0]?.price).toFixed(
+									2
+								)}
+								c
+							</H2>
+						</Box>
+						<FlexBox alignItems="center" mb={2}>
+							<Box>{t('status')}:</Box>
+							<H6
+								ml={1}
+								textTransform="capitalize"
+								color={
+									selectedVariant?.status === 'available' ? 'green' : 'red'
+								}
+							>
+								{selectedVariant?.status || 'unavailable'}
+							</H6>
+						</FlexBox>
+						<Variables
+							product={product}
+							setVariant={setSelectedVariant}
+							setImage={setSelectedImage}
+							variant={selectedVariant}
+						/>
+						<BazaarButton
+							color="primary"
+							disabled={
+								!selectedVariant || selectedVariant?.status === 'unavailable'
+							}
+							variant="contained"
+							onClick={handleAddToCart}
+							sx={{ mb: 4.5, px: '1.75rem', height: 40, color: 'white' }}
+						>
+							{t('addCart')}
+						</BazaarButton>
 					</Box>
 				</Grid>
 			</Grid>

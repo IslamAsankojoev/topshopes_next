@@ -6,14 +6,17 @@ import {
 	FormGroup,
 	FormLabel,
 	Grid,
+	IconButton,
 	InputAdornment,
 	MenuItem,
 	Switch,
 	TextField,
 	ToggleButton,
 	ToggleButtonGroup,
+	Tooltip,
 	Typography,
 } from '@mui/material'
+import CheckIcon from '@mui/icons-material/Check'
 import DropZone from 'src/components/DropZone'
 import LazyImage from 'src/components/LazyImage'
 import MultipleSelect from 'src/components/multiple-select/MultipleSelect'
@@ -27,6 +30,8 @@ import Percentege from './Percentege'
 import PhoneNumberMask from './PhoneNumberMask'
 import { toast } from 'react-toastify'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import HelpIcon from '@mui/icons-material/Help'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 const DynamicTextEditor = dynamic(
 	() => import('src/components/TextEditor/TextEditor'),
@@ -309,7 +314,30 @@ const Field: FC<any> = (props) => {
 					padding: 2,
 				}}
 			>
-				<FormLabel component="legend">{other.label}</FormLabel>
+				<FormLabel component="legend">
+					<Typography
+						fontWeight="700"
+						color="grey.800"
+						textTransform="capitalize"
+						fontSize="16"
+					>
+						{other.label}
+						<Tooltip
+							title={dynamicLocalization({
+								ru: 'Выберите несколько атрибутов, которые можно будет указать для каждого товара',
+								tr: 'Birden fazla özellik seçebilirsiniz',
+								en: 'Select multiple attributes that can be specified for each product',
+								kg: 'Бир нече таалаган атрибуттарды бир нече маалыматтарга таалаган болуу мүмкүн',
+								kz: 'Бір нәтижеде бірнеше атрибуттарды бірнеше мәліметтерге тағайындауға болады',
+							})}
+							placement="right"
+						>
+							<IconButton>
+								<HelpIcon fontSize="small" />
+							</IconButton>
+						</Tooltip>
+					</Typography>
+				</FormLabel>
 				<FormGroup row>
 					{other.allNames?.map((select: { id: string; name: string }) => (
 						<FormControlLabel
@@ -351,22 +379,33 @@ const Field: FC<any> = (props) => {
 										'& + span': {
 											padding: '5px 10px',
 											margin: '5px 3px',
-											borderRadius: 1,
-											border: '1px solid',
+											borderRadius: 10,
+											border: '1.5px solid',
 											borderColor: 'grey.600',
 											color: 'grey.600',
 											backgroundColor: 'grey.100',
+											fontWeight: 600,
 										},
-										// write style for checked checkbox
 										'&.Mui-checked + span': {
-											borderColor: 'primary.main',
-											color: 'primary.main',
-											backgroundColor: 'primary.light',
+											borderColor: 'info.600',
+											color: 'info.600',
+											backgroundColor: 'info.100',
+											display: 'flex',
+											alignItems: 'center',
 										},
 									}}
 								/>
 							}
-							label={select.name}
+							label={
+								other.fieldValue.includes(select.id) ? (
+									<>
+										<CheckIcon fontSize="small" />
+										{select.name}
+									</>
+								) : (
+									select.name
+								)
+							}
 						/>
 					))}
 				</FormGroup>

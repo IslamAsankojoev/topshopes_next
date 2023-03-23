@@ -90,6 +90,8 @@
 	"soldBy": "Сатушы",
 	"status": "Күй",
 	"store": "Дүкен",
+	"createStore": "Дүкен жасау",
+	"adminPanel": "Админ панелі",
 	"street": "Көше",
 	"subtotal": "Аралық жиынтық",
 	"total": "Барлығы",

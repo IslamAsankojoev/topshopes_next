@@ -31,7 +31,8 @@ import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientR
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
-	{ id: 'category', label: 'category', align: 'left' },
+	{ id: 'category', label: 'categories', align: 'left' },
+	{ id: 'shop', label: 'shop', align: 'left' },
 	{ id: 'price', label: 'price', align: 'left' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]
@@ -59,7 +60,7 @@ const ProductList: NextPageAuth = () => {
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
 	const { data: products, refetch } = useQuery(
-		[`products search=${searchValue}`, currentPage],
+		[`products search=`, searchValue + currentPage],
 		() =>
 			ProductsService.getList({
 				search: searchValue,

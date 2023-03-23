@@ -1,11 +1,7 @@
 import { axiosClassic, instance } from 'src/api/interceptor'
 import Cookies from 'js-cookie'
 import { toast } from 'react-toastify'
-import {
-	IAuthResponse,
-	ILogin,
-	IRegister,
-} from 'src/store/user/user.interface'
+import { IAuthResponse, ILogin, IRegister } from 'src/store/user/user.interface'
 import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 import { removeToken, saveToStorage, saveToken } from './auth.helpers'
@@ -42,12 +38,10 @@ export const AuthService = {
 
 	logout: async () => {
 		try {
-			// removeToken() 
-			signOut(
-				{
-					callbackUrl: '/login',
-				}
-			)
+			// removeToken()
+			signOut({
+				callbackUrl: '/login',
+			})
 			localStorage.removeItem('user')
 		} catch (error) {
 			toast.error(`auth: ${getErrorMessage(error)}`)
@@ -56,11 +50,11 @@ export const AuthService = {
 	},
 
 	refresh: async () => {
-		const session = await getSession();
+		const session = await getSession()
 		try {
 			const response = await axiosClassic.post<IAuthResponse>('auth/refresh/', {
 				// @ts-ignore
-				refresh: session.refreshToken
+				refresh: session.refreshToken,
 			})
 			// if (response.data.access) {
 			// 	saveToken(response.data)

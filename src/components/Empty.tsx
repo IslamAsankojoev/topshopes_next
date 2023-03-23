@@ -1,26 +1,36 @@
 import styled from '@emotion/styled'
 import { Box } from '@mui/material'
 import Image from 'next/image'
+import { FC } from 'react'
 
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 import { H2 } from './Typography'
 
-const Empty = () => {
+interface EmptyProps {
+	children?: any
+}
+
+const Empty: FC<EmptyProps> = ({ children }) => {
 	return (
 		<Wrapper>
 			{/* <Content> */}
-			<Box sx={{
-				minHeight: '60vh',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-			}}>
+			<Box
+				sx={{
+					minHeight: '60vh',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					flexDirection: 'column',
+					rowGap: '20px',
+				}}
+			>
 				<img
 					src={'/assets/images/empty-box.webp'}
 					alt={'empty'}
-					style={{ maxWidth: '300px' }}
+					style={{ maxWidth: children ? '200px' : '300px' }}
 				/>
+				{children}
 			</Box>
 
 			{/* <H2>{dynamicLocalization(translations.empty)}</H2> */}

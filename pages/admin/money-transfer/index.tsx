@@ -34,6 +34,7 @@ import { getCurrency } from 'src/utils/getCurrency'
 import SellIcon from '@mui/icons-material/Sell'
 import { useSession } from 'next-auth/react'
 import { StyledTableCell, StyledTableRow } from 'src/pages-sections/admin'
+import ApexChart from 'src/components/ApexChart/ApexChart'
 
 export type ReportAdmin = {
 	id: string

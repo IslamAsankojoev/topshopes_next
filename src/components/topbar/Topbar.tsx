@@ -1,21 +1,16 @@
 import { CallOutlined, ExpandMore, MailOutline } from '@mui/icons-material'
 import { Box, Container, MenuItem, styled } from '@mui/material'
-import TouchRipple from '@mui/material/ButtonBase'
-import { axiosClassic } from 'src/api/interceptor'
 import Image from 'src/components/BazaarImage'
-import BazaarMenu from 'src/components/BazaarMenu'
-import { Span } from 'src/components/Typography'
 import { FlexBox } from 'src/components/flex-box'
-import NavLink from 'src/components/nav-link/NavLink'
-import { languages } from 'src/config/languages.config'
-import Cookies from 'js-cookie'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { FC, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { ISiteSettings } from 'src/shared/types/site-settings.types'
 import { layoutConstant } from 'src/utils/constants'
 import { SiteSettings } from 'src/utils/constants/site-settings'
+import LanguagesSwitch from '../Languages/LanguagesSwitch'
+import { axiosClassic } from 'src/api/interceptor'
+import { Span } from '../Typography'
+import { FC } from 'react'
 
 const TopbarWrapper = styled(Box, {
 	shouldForwardProp: (props) => props !== 'bgColor',
@@ -63,18 +58,6 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 			cacheTime: 1000 * 60 * 10,
 		}
 	)
-	const { replace, asPath, locale } = useRouter()
-
-	const [language, setLanguage] = useState(locale)
-
-	const handleLanguageClick = (lang: typeof language) => () => {
-		Cookies.set('i18nextLng', lang)
-		replace(asPath, asPath, { locale: lang })
-	}
-
-	useEffect(() => {
-		setLanguage(locale)
-	}, [locale])
 
 	return (
 		<TopbarWrapper bgColor={bgColor}>
@@ -114,32 +97,7 @@ const Topbar: FC<TopbarProps> = ({ bgColor, siteSettings }) => {
 				</FlexBox>
 
 				<FlexBox className="topbarRight" alignItems="center">
-					{/* <NavLink className="link" href="/faq">
-            Theme FAQ&quot;s
-          </NavLink>
-
-          <NavLink className="link" href="/help">
-            Need Help?
-          </NavLink> */}
-
-					<BazaarMenu
-						handler={
-							<TouchRipple className="handler marginRight">
-								<Span className="menuTitle">{language.toUpperCase()}</Span>
-								<ExpandMore fontSize="inherit" />
-							</TouchRipple>
-						}
-					>
-						{languages?.map((item) => (
-							<MenuItem
-								className="menuItem"
-								key={item}
-								onClick={handleLanguageClick(item)}
-							>
-								<Span className="menuTitle">{item.toUpperCase()}</Span>
-							</MenuItem>
-						))}
-					</BazaarMenu>
+					<LanguagesSwitch />
 				</FlexBox>
 			</Container>
 		</TopbarWrapper>

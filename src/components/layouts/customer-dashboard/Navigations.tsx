@@ -1,5 +1,6 @@
 import {
 	CreditCard,
+	Dashboard,
 	FavoriteBorder,
 	Logout,
 	Person,
@@ -10,7 +11,6 @@ import {
 import ShoppingBagOutlined from '@mui/icons-material/ShoppingBagOutlined'
 import { Card, Typography, styled } from '@mui/material'
 import { FlexBox } from 'src/components/flex-box'
-import CustomerService from 'src/components/icons/CustomerService'
 import NavLink, { NavLinkProps } from 'src/components/nav-link/NavLink'
 import { useActions } from 'src/hooks/useActions'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
@@ -18,7 +18,6 @@ import lodash from 'lodash'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC, Fragment } from 'react'
-import { signOut } from 'next-auth/react'
 
 // custom styled components
 const MainContainer = styled(Card)(({ theme }) => ({
@@ -64,14 +63,20 @@ const Navigations = () => {
 	const is_seller = user?.is_seller
 	const is_client = lodash.isEmpty(user) ? false : true
 	const is_only_client = !is_seller && is_client
+	const is_only_superuser = user?.is_superuser
 
 	const logoutHandler = async () => {
 		logout()
-		await signOut()
 	}
 
 	return (
-		<MainContainer sx={{ pt: 3 }}>
+		<Card
+			sx={{
+				p: 3,
+				pl: 0,
+			}}
+		>
+			{/* <MainContainer sx={{ pt: 3 }}> */}
 			{linkList?.map((itemNav) => (
 				<Fragment key={itemNav.title}>
 					{itemNav.list?.map((item) => {
@@ -132,6 +137,25 @@ const Navigations = () => {
 								</StyledNavLink>
 							)
 						}
+						// @ts-ignore
+						if (is_only_superuser && itemNav.role === 'is_only_superuser') {
+							return (
+								<StyledNavLink
+									href={item.href}
+									key={item.title}
+									isCurrentPath={pathname.includes(item.href)}
+								>
+									<FlexBox alignItems="center" gap={1}>
+										<item.icon
+											color="inherit"
+											fontSize="small"
+											className="nav-icon"
+										/>
+										<span>{t(item.title)}</span>
+									</FlexBox>
+								</StyledNavLink>
+							)
+						}
 					})}
 				</Fragment>
 			))}
@@ -152,7 +176,8 @@ const Navigations = () => {
 					<span>{t('logout')}</span>
 				</FlexBox>
 			</span>
-		</MainContainer>
+			{/* </MainContainer> */}
+		</Card>
 	)
 }
 
@@ -182,12 +207,6 @@ const linkList = [
 				title: 'wishlist',
 				icon: FavoriteBorder,
 			},
-			// {
-			//   href: '/support-tickets',
-			//   title: 'Support Tickets',
-			//   icon: CustomerService,
-			//   count: 1,
-			// },
 		],
 		role: 'is_client',
 	},
@@ -195,18 +214,28 @@ const linkList = [
 	{
 		title: 'shopPanel',
 		list: [
-			{ href: '/vendor/shop-settings', title: 'store', icon: Store },
 			{
-				href: '/vendor/products',
-				title: 'products',
-				icon: Widgets,
+				href: '/vendor/products-v2/',
+				title: 'store',
+				icon: Store,
 			},
 		],
 		role: 'is_seller',
 	},
 	{
+		title: 'admin',
+		list: [
+			{
+				href: '/vendor/dashboard',
+				title: 'adminPanel',
+				icon: Dashboard,
+			},
+		],
+		role: 'is_only_superuser',
+	},
+	{
 		title: 'shop',
-		list: [{ href: '/shop-request', title: 'store', icon: Store }],
+		list: [{ href: '/shop-request', title: 'createStore', icon: Store }],
 		role: 'is_only_client',
 	},
 ]

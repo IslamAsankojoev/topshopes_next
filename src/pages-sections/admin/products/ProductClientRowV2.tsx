@@ -1,5 +1,5 @@
 import { Delete, Edit } from '@mui/icons-material'
-import { Box } from '@mui/material'
+import { Box, Tooltip } from '@mui/material'
 import { ProductsService } from 'src/api/services/products/product.service'
 import LazyImage from 'src/components/LazyImage'
 import { Paragraph, Small } from 'src/components/Typography'
@@ -16,18 +16,27 @@ import {
 	StyledTableRow,
 } from '../StyledComponents'
 import { darken } from '@mui/system'
+import { getCurrency } from 'src/utils/getCurrency'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 // ========================================================================
-type ProductRowProps = { product: IProductPreview; refetch: () => void }
+type ProductRowProps = {
+	product: IProductPreview
+	refetch: () => void
+	is_superuser?: boolean
+}
 // ========================================================================
 
-const ProductRowV2: FC<ProductRowProps> = ({ product, refetch }) => {
-	const { category, name, published, slug, thumbnail, price, id } = product
+const ProductRowV2: FC<ProductRowProps> = ({
+	product,
+	refetch,
+	is_superuser,
+}) => {
+	const { category, name, thumbnail, shop, price, id } = product
 
-	// state
 	const router = useRouter()
 
-	//handlers
 	const onDelete = async () => {
 		if (window.confirm('Are you sure you want to delete this product?')) {
 			try {
@@ -48,7 +57,7 @@ const ProductRowV2: FC<ProductRowProps> = ({ product, refetch }) => {
 				cursor: 'pointer',
 				transition: 'all 0.2s ease-in-out',
 				'&:hover': {
-					backgroundColor: darken('#F3F5F9', 0.1),
+					backgroundColor: 'grey.200',
 				},
 			}}
 		>
@@ -73,24 +82,53 @@ const ProductRowV2: FC<ProductRowProps> = ({ product, refetch }) => {
 				align="left"
 				onClick={() => router.push(`${router.pathname}/${id}`)}
 			>
-				{category}
+				{category.name || category}
 			</StyledTableCell>
 
 			<StyledTableCell
 				align="left"
 				onClick={() => router.push(`${router.pathname}/${id}`)}
 			>
-				{price}c
+				{shop?.name && shop?.name}
+			</StyledTableCell>
+
+			<StyledTableCell
+				align="left"
+				onClick={() => router.push(`${router.pathname}/${id}`)}
+			>
+				{getCurrency(price)}
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
 				<StyledIconButton onClick={() => router.push(`/product/${id}/`)}>
-					<VisibilityIcon />
+					<Tooltip
+						title={dynamicLocalization({
+							ru: 'Предпросмотр',
+							tr: 'Önizleme',
+							en: 'Preview',
+							kg: 'Көрүү',
+							kz: 'Алдын ала қарау',
+						})}
+					>
+						<VisibilityIcon />
+					</Tooltip>
 				</StyledIconButton>
 
-				<StyledIconButton onClick={onDelete}>
-					<Delete />
-				</StyledIconButton>
+				{!is_superuser && (
+					<StyledIconButton onClick={onDelete}>
+						<Tooltip
+							title={dynamicLocalization({
+								ru: 'Удалить',
+								tr: 'Sil',
+								en: 'Delete',
+								kg: 'Жою',
+								kz: 'Жою',
+							})}
+						>
+							<Delete />
+						</Tooltip>
+					</StyledIconButton>
+				)}
 			</StyledTableCell>
 		</StyledTableRow>
 	)

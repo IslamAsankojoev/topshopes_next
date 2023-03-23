@@ -8,11 +8,11 @@ import ProductReview from 'src/components/products/ProductReview'
 import { GetServerSideProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProduct } from 'src/shared/types/product.types'
 import SEO from 'src/components/SEO'
-
+import { useRouter } from 'next/router'
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,
@@ -30,19 +30,20 @@ const StyledTabs = styled(Tabs)(({ theme }) => ({
 type ProductDetailsProps = {
 	data?: IProduct
 	id?: string
-	queryClient: QueryClient
 }
 // ===============================================================
 
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
 	const { t } = useTranslation('common')
-	const { id, queryClient } = props
+	const { query } = useRouter()
 
 	const { data: product, refetch } = useQuery(
-		[`product detail`, id],
-		() => ShopsProductsService.get(id as string),
+		[`product detail`, query.id],
+		() => ShopsProductsService.get(query.id as string),
 		{
-			enabled: !!id,
+			enabled: !!query.id,
+			cacheTime: 0,
+			staleTime: 0,
 			select: (data: IProduct) => data,
 		}
 	)
@@ -51,9 +52,13 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 
 	const handleOptionClick = (_, value: number) => setSelectedOption(value)
 
+	useEffect(() => {
+		query.comment === 'success' && setSelectedOption(1)
+	}, [query])
+
 	return (
 		<ShopLayout1>
-			<SEO title={`Topshopes - ${product.name}`} />
+			<SEO title={`Topshopes - ${product?.name}`} />
 			<Container sx={{ my: 4 }}>
 				{product ? <ProductIntro product={product} /> : <H2>Loading...</H2>}
 
@@ -71,10 +76,10 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 				</StyledTabs>
 
 				<Box mb={6}>
-					{selectedOption === 0 && <ProductDescription  desc={product.description}/>}
-					{selectedOption === 1 && (
-						<ProductReview product={product} refetch={refetch} queryClient={queryClient} />
+					{selectedOption === 0 && (
+						<ProductDescription desc={product?.description} />
 					)}
+					{selectedOption === 1 && <ProductReview product={product} />}
 				</Box>
 
 				{/* {frequentlyBought && <FrequentlyBought productsData={frequentlyBought} />}

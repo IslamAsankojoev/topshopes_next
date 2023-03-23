@@ -6,6 +6,7 @@ import { FC } from 'react'
 import { IOrder } from 'src/shared/types/order.types'
 
 import DataListTable from './table'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 // table column list
 const tableHeading = [
@@ -25,7 +26,15 @@ const RecentPurchase: FC<RecentPurchaseProps> = ({ data }) => {
 	return (
 		<Card>
 			<FlexBetween px={3} py={2.5}>
-				<H5>Recent Purchases</H5>
+				<H5>
+					{dynamicLocalization({
+						ru: 'Последние заказы',
+						tr: 'Son siparişler',
+						en: 'Recent Orders',
+						kg: 'Соңку заказдар',
+						kz: 'Соңғы тапсырмалар',
+					})}
+				</H5>
 
 				<Button
 					size="small"
@@ -35,7 +44,13 @@ const RecentPurchase: FC<RecentPurchaseProps> = ({ data }) => {
 						router.push('/admin/orders')
 					}}
 				>
-					All Orders
+					{dynamicLocalization({
+						ru: 'Все заказы',
+						tr: 'Tüm siparişler',
+						en: 'All Orders',
+						kg: 'Бардык заказдар',
+						kz: 'Барлық тапсырмалар',
+					})}
 				</Button>
 			</FlexBetween>
 

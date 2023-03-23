@@ -91,6 +91,8 @@
 	"soldBy": "Satıcı",
 	"status": "Durum",
 	"store": "Mağaza",
+	"createStore": "Mağaza Oluştur",
+	"adminPanel": "Yönetici Paneli",
 	"street": "Sokak",
 	"subtotal": "Urun Toplamı",
 	"total": "Toplam",

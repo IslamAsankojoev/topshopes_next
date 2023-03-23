@@ -108,7 +108,7 @@ const StyledTableRow = styled(TableRow)<{ status?: any }>(
 				break
 			default:
 				color = '#333'
-				backgroundColor = '#F6F8FA'
+				backgroundColor = 'white'
 				break
 		}
 

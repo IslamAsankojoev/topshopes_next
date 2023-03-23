@@ -54,7 +54,8 @@ const SearchBox: FC = () => {
 
 	const { data: products } = useQuery(
 		[`search products search=${debounceValue}`],
-		() => ShopsProductsService.getList({ search: debounceValue, page_size: 6 }),
+		() =>
+			ShopsProductsService.getList({ search: debounceValue, page_size: 10 }),
 		{
 			enabled: !!search,
 			select: (data: ResponseList<IProductPreview>) => data.results,
@@ -64,20 +65,7 @@ const SearchBox: FC = () => {
 
 	const parentRef = useRef()
 
-	const { data: categories } = useQuery(
-		'categories',
-		() => CategoriesService.getList(),
-		{
-			select: (data: ResponseList<ICategory>) => [
-				{ id: 'all', name: t('allCategories') },
-				...data?.results,
-			],
-			staleTime: 1000 * 60 * 10,
-			cacheTime: 1000 * 60 * 10,
-		}
-	)
-
-	const handleCategoryChange = (cat: any) => () => setCategory(cat)
+	// const handleCategoryChange = (cat: any) => () => setCategory(cat)
 	const hanldeSearch = ({ target }) => {
 		setSearch(target.value)
 	}
@@ -86,16 +74,14 @@ const SearchBox: FC = () => {
 
 	const submitHandler = (e) => {
 		e.preventDefault()
-		push(
-			{
-				pathname: '/shop',
-				query: {
-					search,
-					page: 1,
-					category: category.id,
-				},
-			}
-		)
+		push({
+			pathname: '/shop',
+			query: {
+				search,
+				page: 1,
+				category: category.id,
+			},
+		})
 	}
 
 	const handleDocumentClick = () => setResultList([])
@@ -104,32 +90,32 @@ const SearchBox: FC = () => {
 		return () => window.removeEventListener('click', handleDocumentClick)
 	}, [])
 
-	const categoryDropdown = (
-		<BazaarMenu
-			direction="left"
-			sx={{ zIndex: 1502 }}
-			handler={
-				<DropDownHandler
-					px={3}
-					gap={0.5}
-					height="100%"
-					color="grey.700"
-					bgcolor="grey.100"
-					alignItems="center"
-					component={TouchRipple}
-				>
-					{category?.name}
-					<KeyboardArrowDownOutlined fontSize="small" color="inherit" />
-				</DropDownHandler>
-			}
-		>
-			{categories?.map((item) => (
-				<MenuItem key={item?.id} onClick={handleCategoryChange(item)}>
-					{item?.name}
-				</MenuItem>
-			))}
-		</BazaarMenu>
-	)
+	// const categoryDropdown = (
+	// 	<BazaarMenu
+	// 		direction="left"
+	// 		sx={{ zIndex: 1502 }}
+	// 		handler={
+	// 			<DropDownHandler
+	// 				px={3}
+	// 				gap={0.5}
+	// 				height="100%"
+	// 				color="grey.700"
+	// 				bgcolor="grey.100"
+	// 				alignItems="center"
+	// 				component={TouchRipple}
+	// 			>
+	// 				{category?.name}
+	// 				<KeyboardArrowDownOutlined fontSize="small" color="inherit" />
+	// 			</DropDownHandler>
+	// 		}
+	// 	>
+	// 		{categories?.map((item) => (
+	// 			<MenuItem key={item?.id} onClick={handleCategoryChange(item)}>
+	// 				{item?.name}
+	// 			</MenuItem>
+	// 		))}
+	// 	</BazaarMenu>
+	// )
 
 	return (
 		<Box
@@ -157,19 +143,21 @@ const SearchBox: FC = () => {
 								borderColor: 'primary.main',
 							},
 						},
-						endAdornment: categoryDropdown,
+						// endAdornment: categoryDropdown,
 						startAdornment: <SearchOutlinedIcon fontSize="small" />,
 					}}
 				/>
 
 				{!!resultList?.length && (
-					<SearchResultCard elevation={2}>
+					<SearchResultCard
+						elevation={2}
+						sx={{
+							maxHeight: 400,
+							overflowY: 'auto',
+						}}
+					>
 						{products?.map((item) => (
-							<Link
-								href={`/product/${item.id}`}
-								key={item.id}
-								passHref
-							>
+							<Link href={`/product/${item.id}`} key={item.id} passHref>
 								<MenuItem>{item.name}</MenuItem>
 							</Link>
 						))}
@@ -180,11 +168,11 @@ const SearchBox: FC = () => {
 	)
 }
 
-const dummySearchResult = [
-	'Macbook Air 13',
-	'Asus K555LA',
-	'Acer Aspire X453',
-	'iPad Mini 3',
-]
+// const dummySearchResult = [
+// 	'Macbook Air 13',
+// 	'Asus K555LA',
+// 	'Acer Aspire X453',
+// 	'iPad Mini 3',
+// ]
 
 export default SearchBox

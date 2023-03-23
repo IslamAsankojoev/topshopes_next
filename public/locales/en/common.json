@@ -90,6 +90,8 @@
 	"soldBy": "Sold By",
 	"status": "Status",
 	"store": "Store",
+	"createStore": "Create Store",
+	"adminPanel": "Admin Panel",
 	"street": "Street",
 	"subtotal": "Subtotal",
 	"total": "Total",

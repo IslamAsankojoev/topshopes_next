@@ -11,13 +11,7 @@ import { statusTranslation } from 'src/utils/Translate/common'
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 import { getCurrency } from 'src/utils/getCurrency'
 
-const OrderRow: FC<IOrderShort> = ({
-	created_at,
-	id,
-	status,
-	total_price
-}) => {
-
+const OrderRow: FC<IOrderShort> = ({ created_at, id, status, total_price }) => {
 	return (
 		<Link href={`/orders/${id}`}>
 			<a>

@@ -13,6 +13,7 @@ import { FC } from 'react'
 
 import AccountPopover from './popovers/AccountPopover'
 import NotificationsPopover from './popovers/NoficationPopover'
+import LanguagesSwitch from 'src/components/Languages/LanguagesSwitch'
 
 // custom styled components
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
@@ -92,11 +93,12 @@ const DashboardNavbar: FC<DashboardNavbarProps> = ({ handleDrawerToggle }) => {
 
 					<FlexBox alignItems="center" gap={2}>
 						{/* <StyledInputBase
-              placeholder="Search anything..."
-              startAdornment={<Search sx={{ color: 'grey.500', mr: 1 }} />}
-            /> */}
+							placeholder="Search anything..."
+							startAdornment={<Search sx={{ color: 'grey.500', mr: 1 }} />}
+						/> */}
 
 						{/* <NotificationsPopover /> */}
+						<LanguagesSwitch />
 						<AccountPopover />
 					</FlexBox>
 				</StyledToolBar>

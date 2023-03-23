@@ -46,7 +46,7 @@ const TableHeader: FC<TableHeaderProps> = (props) => {
 	} = props
 
 	return (
-		<TableHead sx={{ backgroundColor: 'grey.200' }}>
+		<TableHead sx={{ backgroundColor: 'grey.300' }}>
 			<TableRow>
 				{!hideSelectBtn && (
 					<StyledTableCell align="left">
@@ -65,8 +65,9 @@ const TableHeader: FC<TableHeaderProps> = (props) => {
 						key={headCell.id}
 						align={headCell.align}
 						sortDirection={orderBy === headCell.id ? order : false}
+						sx={{ color: 'grey.800', fontWeight: 800 }}
 					>
-						<TableSortLabel
+						{/* <TableSortLabel
 							active={orderBy === headCell.id}
 							onClick={() => onRequestSort(headCell.id)}
 							direction={orderBy === headCell.id ? order : 'asc'}
@@ -74,11 +75,11 @@ const TableHeader: FC<TableHeaderProps> = (props) => {
 							IconComponent={() => (
 								<UpDown sx={{ fontSize: 14, ml: 1, color: 'grey.600' }} />
 							)}
-						>
-							{commonT(headCell.label) == headCell.label
-								? adminT(headCell.label)
-								: commonT(headCell.label)}
-						</TableSortLabel>
+						> */}
+						{commonT(headCell.label) == headCell.label
+							? adminT(headCell.label)
+							: commonT(headCell.label)}
+						{/* </TableSortLabel> */}
 					</StyledTableCell>
 				))}
 			</TableRow>

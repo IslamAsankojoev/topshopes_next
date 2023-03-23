@@ -2020,10 +2020,10 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apexcharts@^3.18.0, apexcharts@^3.35.2:
-  version "3.36.3"
-  resolved "https://registry.npmjs.org/apexcharts/-/apexcharts-3.36.3.tgz"
-  integrity sha512-8/FXEs0ohXMff07Gv28XjhPwEJphIUdq2/wii/pcvi54Tw6z1mjrV8ydN8rlWi/ve8BAPBefJkLmRWv7UOBsLw==
+apexcharts@^3.18.0, apexcharts@^3.37.2:
+  version "3.37.2"
+  resolved "https://registry.npmjs.org/apexcharts/-/apexcharts-3.37.2.tgz"
+  integrity sha512-BE5+WgIjnJgLlNPiIVqH47mzhSeSHfzg5jMUN1PVZ3fxM6ZL8WEB6aaNAh0l3c9K6PitimWo7xho48Zp7mBG2w==
   dependencies:
     svg.draggable.js "^2.2.2"
     svg.easing.js "^2.0.0"

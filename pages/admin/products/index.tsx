@@ -24,6 +24,8 @@ import { ProductRow } from 'src/pages-sections/admin'
 import { ReactElement, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
+import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientRowV2'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -39,7 +41,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
 	{ id: 'category', label: 'categories', align: 'left' },
-	// { id: 'brand', label: 'Brand', align: 'left' },
+	{ id: 'shop', label: 'shop', align: 'left' },
 	{ id: 'price', label: 'price', align: 'left' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]
@@ -50,13 +52,14 @@ const ProductList: NextPageAuth = () => {
 	const [currentPage, setCurrentPage] = useState(1)
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+	const user = useTypedSelector((state) => state.userStore.user)
 
 	const {
 		data: products,
 		isLoading,
 		refetch,
 	} = useQuery(
-		[`products admin search=${searchValue}`, currentPage],
+		[`products admin search=`, searchValue + currentPage],
 		() =>
 			AdminProductsService.getList({
 				search: searchValue,
@@ -104,10 +107,11 @@ const ProductList: NextPageAuth = () => {
 
 								<TableBody>
 									{filteredList?.map((product, index) => (
-										<ProductRow
+										<ProductClientRowV2
 											refetch={refetch}
 											product={product}
 											key={index}
+											is_superuser={user?.is_superuser}
 										/>
 									))}
 								</TableBody>

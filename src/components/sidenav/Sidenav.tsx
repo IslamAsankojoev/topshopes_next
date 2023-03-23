@@ -37,11 +37,11 @@ const Sidenav: FC<SidenavProps> = (props) => {
 				<Scrollbar autoHide={false}>{children}</Scrollbar>
 			</Drawer>
 
-			{handle &&
+			{/* {handle &&
 				cloneElement(handle, {
 					onClick: toggleSidenav || handleToggleSidenav,
 					className: clsx(handle.props?.className, 'handle'),
-				})}
+				})} */}
 		</Wrapper>
 	)
 }

@@ -43,6 +43,8 @@ const VariantRow: FC<VariantRowProps> = ({
 			role="checkbox"
 			sx={{
 				height: '75px',
+				// pointerEvents: 'none',
+				// position: 'relative',
 			}}
 		>
 			<StyledTableCell align="left">
