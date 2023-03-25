@@ -68,13 +68,15 @@ export const statusDisabled = (
 	status: { name: IOrderStatus; label: string },
 	isAdmin: boolean
 ) => {
-	return isAdmin ? false : status.name === 'payment_error' || status.name === 'pending' || status.name === 'paid'
+	return isAdmin
+		? false
+		: status.name === 'payment_error' ||
+				status.name === 'pending' ||
+				status.name === 'paid'
 }
 
 const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
-	const [orderStatus, setOrderStatus] = useState<IOrderStatus>(
-		order.status
-	)
+	const [orderStatus, setOrderStatus] = useState<IOrderStatus>(order.status)
 
 	const {
 		address,
@@ -151,7 +153,12 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
 					color: 'inherit',
 				}}
 			>
-				{isAdmin ? (getCurrency(Number(total_price) - (Number(product_variant.overall_price) * quantity))): getCurrency(Number(product_variant.overall_price) * quantity)}
+				{isAdmin
+					? getCurrency(
+							Number(total_price) -
+								Number(product_variant.overall_price) * quantity
+					  )
+					: getCurrency(Number(product_variant.overall_price) * quantity)}
 			</StyledTableCell>
 
 			<StyledTableCell align="left">

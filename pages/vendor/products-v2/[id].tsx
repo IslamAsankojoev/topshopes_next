@@ -91,9 +91,12 @@ const EditProduct: NextPageAuth = () => {
 
 	const handleVariantChange = async (data: IProductVariant) => {
 		try {
-			await ProductVariantService.update(data.id, {
-				...dataWithCleanImage(data, 'thumbnail'),
-			})
+			await ProductVariantService.update(
+				data.id,
+				formData({
+					...dataWithCleanImage(data, 'thumbnail'),
+				})
+			)
 
 			const attributePromises = data?.attribute_values.map(
 				async (attrValue: IProductAttributeValue) => {

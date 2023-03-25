@@ -115,10 +115,10 @@ const EditProduct: NextPageAuth = () => {
 						return null
 					}
 
-					await AttributesServiceAdmin.create(data.id, {
-						attribute: attrValue.attribute.id,
-						value: attrValue.value || '',
-					})
+					// await AttributesServiceAdmin.create(data.id, {
+					// 	attribute: attrValue.attribute.id,
+					// 	value: attrValue.value || '',
+					// })
 				}
 			)
 
