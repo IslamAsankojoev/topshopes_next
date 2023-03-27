@@ -1,5 +1,5 @@
 import { Delete, Edit } from '@mui/icons-material'
-import {  Box } from '@mui/material'
+import { Box } from '@mui/material'
 import { AdminProductsService } from 'src/api/services-admin/products/products.service'
 import LazyImage from 'src/components/LazyImage'
 import { Paragraph, Small } from 'src/components/Typography'
@@ -20,7 +20,7 @@ type ProductRowProps = { product: IProductPreview; refetch: () => void }
 // ========================================================================
 
 const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
-	const { category, name, published, price, thumbnail, id } = product
+	const { category, name, is_published, price, thumbnail, id } = product
 
 	// state
 	const router = useRouter()

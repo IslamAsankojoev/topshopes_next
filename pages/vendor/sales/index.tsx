@@ -1,7 +1,9 @@
 import {
 	Box,
+	Button,
 	Card,
 	FormControl,
+	IconButton,
 	InputLabel,
 	MenuItem,
 	Pagination,
@@ -11,6 +13,7 @@ import {
 	TableContainer,
 	Typography,
 } from '@mui/material'
+import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined'
 import TableBody from '@mui/material/TableBody'
 import Empty from 'src/components/Empty'
 import Scrollbar from 'src/components/Scrollbar'
@@ -24,7 +27,7 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import MoneyTransferRow from 'src/pages-sections/admin/TransferMoneyRow'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useRef, useState } from 'react'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
 import { useQuery } from 'react-query'
@@ -38,6 +41,16 @@ import { StyledTableCell, StyledTableRow } from 'src/pages-sections/admin'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation'
 import ApexChart from 'src/components/ApexChart/ApexChart'
+import { ReportsService } from 'src/api/services/reports/reports.service'
+import { IReport } from 'src/shared/types/report.types'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import getMonthMultilang from 'src/utils/constants/getMonthMultilang'
+import { useRouter } from 'next/router'
+import { DateRange } from 'react-date-range'
+import 'react-date-range/dist/styles.css' // main css file
+import 'react-date-range/dist/theme/default.css' // theme css file
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+import useOnClickOutside from 'src/hooks/useOnClickOutside'
 
 export type ReportAdmin = {
 	id: string
@@ -65,29 +78,35 @@ const tableHeading = [
 	{ id: 'profit', label: 'profit', align: 'left' },
 ]
 
-const month = [
-	{ id: 1, label: 'January' },
-	{ id: 2, label: 'February' },
-	{ id: 3, label: 'March' },
-	{ id: 4, label: 'April' },
-	{ id: 5, label: 'May' },
-	{ id: 6, label: 'June' },
-	{ id: 7, label: 'July' },
-	{ id: 8, label: 'August' },
-	{ id: 9, label: 'September' },
-	{ id: 10, label: 'October' },
-	{ id: 11, label: 'November' },
-	{ id: 12, label: 'December' },
-]
+type RangeDate = {
+	startDate: Date
+	endDate: Date
+	key: string
+}
 
-const year = [
-	{ id: 2022, label: '2022' },
-	{ id: 2023, label: '2023' },
-]
+const newDate = new Date()
+const prevMonth: Date = new Date(newDate)
+prevMonth.setDate(prevMonth.getDate() - 7)
+const today = new Date()
+const tomorrow: Date = new Date(today)
+tomorrow.setDate(tomorrow.getDate() + 1)
 
-const MoneyTransfer: NextPageAuth = () => {
+const SellerReports: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
+	const rangeModalRef = useRef()
+
+	const [rangeDate, setRangeDate] = useState<RangeDate[]>([
+		{
+			startDate: prevMonth,
+			endDate: new Date(),
+			key: 'selection',
+		},
+	])
+
+	const [rangeOpen, setRangeOpen] = useState(false)
+
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const currentDate = new Date()
 	const dayOfMonth = currentDate.getDate()
@@ -101,45 +120,47 @@ const MoneyTransfer: NextPageAuth = () => {
 	const [currentPage, setCurrentPage] = useState(1)
 	const { data: session, status } = useSession()
 
+	const router = useRouter()
+
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
-	const { data: moneyStats, refetch } = useQuery(
-		'get money statistics',
+	const { data: reportsPaid, refetch } = useQuery(
+		['get reports paid', rangeDate],
 		() =>
-			makeRequest(true).post('report-client/', {
-				month: monthValue,
-				year: yearValue,
-			}),
+			ReportsService.getPaidList(rangeDate[0].startDate, rangeDate[0].endDate),
 		{
+			enabled: !!rangeDate[0].startDate,
 			keepPreviousData: true,
-			select: (data: AxiosResponse<ReportAdmin[]>) =>
-				data.data.filter((item) => item.total_amount),
+			select: (data: IReport[]) =>
+				data.map((item) => {
+					return {
+						...item,
+						profit: Number(item.profit),
+						total_price: Number(item.total_price),
+					}
+				}),
 		}
 	)
 
-	const allTotoalAmount = moneyStats?.reduce(
-		(acc, cur) => acc + cur.total_amount,
+	const allTotoalAmount = reportsPaid?.reduce(
+		(acc, cur) => acc + cur.total_price,
 		0
 	)
-	const allTotoalTax = moneyStats?.reduce((acc, cur) => acc + cur.total_tax, 0)
+	const allTotoalProfit = reportsPaid?.reduce((acc, cur) => acc + cur.profit, 0)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
-		useMuiTable({ listData: moneyStats })
+		useMuiTable({ listData: reportsPaid })
 
-	const handleChangeMonth = (event: any) => {
-		setMonthValue(event.target.value as number)
-	}
-
-	const handleChangeYear = (event: any) => {
-		setYearValue(event.target.value as number)
-	}
+	useOnClickOutside(rangeModalRef, () => setRangeOpen(false))
 
 	useEffect(() => {
 		refetch()
-	}, [yearValue, monthValue])
+		setRangeOpen(false)
+		console.log('rangeDate', rangeDate)
+	}, [rangeDate])
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('moneyTransfer')}</H3>
 
 			<SearchArea
@@ -156,57 +177,68 @@ const MoneyTransfer: NextPageAuth = () => {
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'space-around',
-								gap: 2,
+								gap: 1,
+								position: 'relative',
 							}}
 						>
-							<FormControl>
-								<InputLabel id="demo-simple-select-label">Month</InputLabel>
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									value={monthValue}
-									label="Month"
-									onChange={handleChangeMonth}
+							<Box ref={parent}>
+								<Button
+									onClick={() => setRangeOpen(!rangeOpen)}
 									sx={{
-										'&>div': {
-											p: '10px 20px 10px 10px',
+										borderRadius: 2,
+										backgroundColor: 'grey.700',
+										p: 2,
+										color: 'white',
+										'&:hover': {
+											backgroundColor: 'grey.800',
+										},
+										'@media (max-width: 600px)': {
+											p: 0.7,
+											py: 1.3,
 										},
 									}}
 								>
-									{month.map((item) => (
-										<MenuItem value={item.id}>{item.label}</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-							<FormControl
-								sx={{
-									p: 0,
-								}}
-							>
-								<InputLabel id="demo-simple-select-label">Year</InputLabel>
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									value={yearValue}
-									label="Year"
-									onChange={handleChangeYear}
-									sx={{
-										'&>div': {
-											p: '10px 20px 10px 10px',
-										},
-									}}
-								>
-									{year.map((item) => (
-										<MenuItem value={item.id}>{item.label}</MenuItem>
-									))}
-								</Select>
-							</FormControl>
+									<InsertInvitationIcon
+										sx={{
+											marginRight: 1,
+										}}
+									/>
+									{dynamicLocalization({
+										ru: `${rangeDate[0].startDate.toLocaleDateString()} - ${rangeDate[0].endDate?.toLocaleDateString()}`,
+										tr: `${rangeDate[0].startDate.toLocaleDateString()} - ${rangeDate[0].endDate?.toLocaleDateString()}`,
+										en: `${rangeDate[0].startDate.toLocaleDateString()} - ${rangeDate[0].endDate?.toLocaleDateString()}`,
+										kg: `${rangeDate[0].startDate.toLocaleDateString()} - ${rangeDate[0].endDate?.toLocaleDateString()}`,
+										kz: `${rangeDate[0].startDate.toLocaleDateString()} - ${rangeDate[0].endDate?.toLocaleDateString()}`,
+									})}
+								</Button>
+								{!!rangeOpen && (
+									<Card
+										ref={rangeModalRef}
+										sx={{
+											position: 'absolute',
+											top: '120%',
+											zIndex: 1,
+											boxShadow: 3,
+											border: '1.5px solid #E4E9EE',
+										}}
+									>
+										<DateRange
+											rangeColors={['#4F576A']}
+											editableDateInputs={true}
+											onChange={(item) => setRangeDate([item.selection])}
+											moveRangeOnFirstSelection={false}
+											ranges={rangeDate}
+											maxDate={new Date(tomorrow)}
+										/>
+									</Card>
+								)}
+							</Box>
 							<Card
 								sx={{
 									backgroundColor: 'primary.100',
 									p: 2,
 									'@media (max-width: 600px)': {
-										p: 0.5,
+										p: 0.7,
 										py: 1.3,
 									},
 								}}
@@ -240,7 +272,7 @@ const MoneyTransfer: NextPageAuth = () => {
 									backgroundColor: 'success.100',
 									p: 2,
 									'@media (max-width: 600px)': {
-										p: 0.5,
+										p: 0.7,
 										py: 1.3,
 									},
 								}}
@@ -265,7 +297,7 @@ const MoneyTransfer: NextPageAuth = () => {
 											fontWeight: 'bold',
 										}}
 									>
-										{getCurrency(allTotoalAmount - allTotoalTax, true)}
+										{getCurrency(allTotoalProfit, true)}
 									</Typography>
 								</Box>
 							</Card>
@@ -284,13 +316,13 @@ const MoneyTransfer: NextPageAuth = () => {
 									hideSelectBtn
 									orderBy={orderBy}
 									heading={tableHeading}
-									rowCount={moneyStats?.length}
+									rowCount={reportsPaid?.length}
 									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
 
 								<TableBody>
-									{filteredList?.map((moneyStats, index) => (
+									{filteredList?.map((reportPaid: IReport, index) => (
 										<StyledTableRow tabIndex={-1} role="checkbox">
 											<StyledTableCell
 												align="left"
@@ -303,13 +335,26 @@ const MoneyTransfer: NextPageAuth = () => {
 											>
 												<LightModeIcon
 													sx={{
-														color: 'primary.800',
+														color: 'primary.main',
 														marginRight: 2,
 													}}
 												/>
-												{dayOfMonth === moneyStats.day
-													? 'Today'
-													: moneyStats.day + ' day'}
+												{dayOfMonth ===
+												new Date(reportPaid.created_at).getDate()
+													? `${getMonthMultilang(
+															new Date(reportPaid.created_at),
+															router.locale
+													  )} (${dynamicLocalization({
+															ru: 'Сегодня',
+															tr: 'Bugün',
+															en: 'Today',
+															kg: 'Бүгүн',
+															kz: 'Бүгін',
+													  })})`
+													: getMonthMultilang(
+															new Date(reportPaid.created_at),
+															router.locale
+													  )}
 											</StyledTableCell>
 											<StyledTableCell
 												align="left"
@@ -318,7 +363,7 @@ const MoneyTransfer: NextPageAuth = () => {
 													p: 2,
 												}}
 											>
-												{getCurrency(moneyStats.total_amount)}
+												{getCurrency(reportPaid.total_price)}
 											</StyledTableCell>
 
 											<StyledTableCell
@@ -327,9 +372,7 @@ const MoneyTransfer: NextPageAuth = () => {
 													color: 'inherit',
 												}}
 											>
-												{getCurrency(
-													moneyStats.total_amount - moneyStats.total_tax
-												)}
+												{getCurrency(reportPaid.profit)}
 											</StyledTableCell>
 										</StyledTableRow>
 									))}
@@ -342,7 +385,7 @@ const MoneyTransfer: NextPageAuth = () => {
 						<Pagination
 							variant="outlined"
 							shape="rounded"
-							count={Math.ceil(moneyStats?.length / 10)}
+							count={Math.ceil(reportsPaid?.length / 10)}
 							onChange={(e, page) => handleChangePage(e, page)}
 						/>
 					</Stack>
@@ -357,17 +400,49 @@ const MoneyTransfer: NextPageAuth = () => {
 						mt: 4,
 					}}
 				>
-					<ApexChart data={moneyStats} />
+					<ApexChart
+						categories={
+							!!reportsPaid?.length
+								? reportsPaid.map((item) => item.created_at)
+								: []
+						}
+						series={[
+							{
+								name: dynamicLocalization({
+									ru: 'Продажи',
+									tr: 'Satışlar',
+									en: 'Sales',
+									kg: 'Продажи',
+									kz: 'Продажи',
+								}),
+								data: !!reportsPaid?.length
+									? reportsPaid.map((item) => item.total_price)
+									: [],
+							},
+							{
+								name: dynamicLocalization({
+									ru: 'Прибыль',
+									tr: 'Kâr',
+									en: 'Profit',
+									kg: 'Прибыль',
+									kz: 'Прибыль',
+								}),
+								data: !!reportsPaid?.length
+									? reportsPaid.map((item) => item.profit)
+									: [],
+							},
+						]}
+					/>
 				</Card>
 			)}
 		</Box>
 	)
 }
 
-MoneyTransfer.isOnlySeller = true
+SellerReports.isOnlySeller = true
 
-MoneyTransfer.getLayout = function getLayout(page: ReactElement) {
+SellerReports.getLayout = function getLayout(page: ReactElement) {
 	return <VendorDashboardLayout>{page}</VendorDashboardLayout>
 }
 
-export default MoneyTransfer
+export default SellerReports

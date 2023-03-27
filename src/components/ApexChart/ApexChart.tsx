@@ -1,34 +1,43 @@
 import { FC, useEffect, useState } from 'react'
-// import ReactApexChart from 'react-apexcharts'
 import dynamic from 'next/dynamic'
+import { ApexOptions } from 'apexcharts'
+import { useRouter } from 'next/router'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 type ChartData = {
-	data: any
+	series: {
+		name: string
+		data: number[]
+	}[]
+	categories: any
 }
 
-const ApexChart: FC<ChartData> = ({ data }) => {
+const ApexChart: FC<ChartData> = ({ series, categories }) => {
 	const [client, setClient] = useState(false)
+	const router = useRouter()
 
-	const options = {
+	const options: ApexOptions = {
 		chart: {
 			id: 'basic-bar',
+			// stacked: true,
 		},
+		colors: ['#fc5a03', '#1ddb5f'],
 		xaxis: {
-			categories: data?.map((item) => item.day),
+			type: 'datetime',
+			categories: categories,
 		},
-		markers: {
-			size: 0,
+		fill: {
+			type: 'gradient',
+			gradient: {
+				shadeIntensity: 1,
+				inverseColors: false,
+				opacityFrom: 0.45,
+				opacityTo: 0.05,
+				stops: [20, 100, 100, 100],
+			},
 		},
 	}
-
-	const series = [
-		{
-			name: 'Sales',
-			data: data?.map((item) => item.total_amount),
-		},
-	]
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {

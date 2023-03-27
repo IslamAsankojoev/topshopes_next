@@ -16,10 +16,14 @@ const ShopProductCard1List: FC<ShopProductCard1ListProps> = ({
 	count,
 	handleChange,
 }) => {
+	const publishedProducts = products.filter(
+		(item: IProductPreview) => item.is_published === true
+	)
+
 	return (
 		<Fragment>
 			<Grid container spacing={3}>
-				{products?.map((item) => (
+				{publishedProducts?.map((item) => (
 					<Grid item lg={3} sm={4} xs={6} key={item.id}>
 						<ProductCard1 product={item} />
 					</Grid>
@@ -32,7 +36,7 @@ const ShopProductCard1List: FC<ShopProductCard1ListProps> = ({
 					<Pagination
 						variant="outlined"
 						shape="rounded"
-						count={Math.ceil(count / 21)}
+						count={Math.ceil(publishedProducts.length / 21)}
 						onChange={(e, page) => handleChange(page)}
 					/>
 				)}

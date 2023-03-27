@@ -28,12 +28,24 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
 import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientRowV2'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
 	{ id: 'category', label: 'categories', align: 'left' },
 	{ id: 'shop', label: 'shop', align: 'left' },
 	{ id: 'price', label: 'price', align: 'left' },
+	{
+		id: 'publish',
+		label: dynamicLocalization({
+			ru: 'Опубликовано',
+			tr: 'Yayınlandı',
+			en: 'Published',
+			kg: 'Опубликовано',
+			kz: 'Опубликовано',
+		}),
+		align: 'center',
+	},
 	{ id: 'action', label: 'action', align: 'center' },
 ]
 
@@ -57,8 +69,6 @@ const ProductList: NextPageAuth = () => {
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
 
-	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
-
 	const { data: products, refetch } = useQuery(
 		[`products search=`, searchValue + currentPage],
 		() =>
@@ -75,6 +85,13 @@ const ProductList: NextPageAuth = () => {
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
 		useMuiTable({ listData: products?.results })
+
+	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+
+	const handleSwitchPublish = async (id: string, is_published: boolean) => {
+		await ProductsService.update(id, { is_published: is_published })
+		refetch()
+	}
 
 	return (
 		<Box py={4}>
@@ -111,6 +128,7 @@ const ProductList: NextPageAuth = () => {
 											refetch={refetch}
 											product={product}
 											key={index}
+											handleSwitchPublish={handleSwitchPublish}
 										/>
 									))}
 								</TableBody>

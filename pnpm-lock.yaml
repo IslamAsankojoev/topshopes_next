@@ -32,7 +32,7 @@ specifiers:
   '@types/react-draft-wysiwyg': ^1.13.4
   '@types/react-scroll': ^1.8.2
   '@types/stylis': ^4.0.2
-  apexcharts: ^3.35.2
+  apexcharts: ^3.37.2
   array-move: ^4.0.0
   axios: ^0.24.0
   axios-mock-adapter: ^1.20.0
@@ -68,6 +68,7 @@ specifiers:
   pure-react-carousel: ^1.27.6
   react: ^17.0.1
   react-apexcharts: ^1.4.0
+  react-date-range: ^1.4.0
   react-dom: 17.0.2
   react-draft-wysiwyg: ^1.15.0
   react-dropzone: ^11.4.2
@@ -118,7 +119,7 @@ dependencies:
   '@types/js-cookie': 3.0.2
   '@types/next-auth': 3.15.0_dwjfwrt6uv2f53xn6wotzcxyoa
   '@types/react-draft-wysiwyg': 1.13.4
-  apexcharts: 3.36.3
+  apexcharts: 3.37.2
   array-move: 4.0.0
   axios: 0.24.0
   axios-mock-adapter: 1.21.2_axios@0.24.0
@@ -145,7 +146,8 @@ dependencies:
   pdfjs-dist: 3.2.146
   pure-react-carousel: 1.30.1_sfoxds7t5ydpegc3knd667wn6m
   react: 17.0.2
-  react-apexcharts: 1.4.0_rurziszfowucu2gmkqclv6xeru
+  react-apexcharts: 1.4.0_ar6fnhmsymm3v5wwvfsqdsfpme
+  react-date-range: 1.4.0_u7llumuttikfkadt5pfsmapgmy
   react-dom: 17.0.2_react@17.0.2
   react-draft-wysiwyg: 1.15.0_eohllgbpgcuys7z7debz4xshj4
   react-dropzone: 11.7.1_react@17.0.2
@@ -2886,8 +2888,8 @@ packages:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
-  /apexcharts/3.36.3:
-    resolution: {integrity: sha512-8/FXEs0ohXMff07Gv28XjhPwEJphIUdq2/wii/pcvi54Tw6z1mjrV8ydN8rlWi/ve8BAPBefJkLmRWv7UOBsLw==}
+  /apexcharts/3.37.2:
+    resolution: {integrity: sha512-BE5+WgIjnJgLlNPiIVqH47mzhSeSHfzg5jMUN1PVZ3fxM6ZL8WEB6aaNAh0l3c9K6PitimWo7xho48Zp7mBG2w==}
     dependencies:
       svg.draggable.js: 2.2.2
       svg.easing.js: 2.0.0
@@ -5557,15 +5559,29 @@ packages:
       strip-json-comments: 2.0.1
     dev: false
 
-  /react-apexcharts/1.4.0_rurziszfowucu2gmkqclv6xeru:
+  /react-apexcharts/1.4.0_ar6fnhmsymm3v5wwvfsqdsfpme:
     resolution: {integrity: sha512-DrcMV4aAMrUG+n6412yzyATWEyCDWlpPBBhVbpzBC4PDeuYU6iF84SmExbck+jx5MUm4U5PM3/T307Mc3kzc9Q==}
     peerDependencies:
       apexcharts: ^3.18.0
       react: '>=0.13'
     dependencies:
-      apexcharts: 3.36.3
+      apexcharts: 3.37.2
       prop-types: 15.8.1
       react: 17.0.2
+    dev: false
+
+  /react-date-range/1.4.0_u7llumuttikfkadt5pfsmapgmy:
+    resolution: {integrity: sha512-+9t0HyClbCqw1IhYbpWecjsiaftCeRN5cdhsi9v06YdimwyMR2yYHWcgVn3URwtN/txhqKpEZB6UX1fHpvK76w==}
+    peerDependencies:
+      date-fns: 2.0.0-alpha.7 || >=2.0.0
+      react: ^0.14 || ^15.0.0-rc || >=15.0
+    dependencies:
+      classnames: 2.3.2
+      date-fns: 2.29.3
+      prop-types: 15.8.1
+      react: 17.0.2
+      react-list: 0.8.17_react@17.0.2
+      shallow-equal: 1.2.1
     dev: false
 
   /react-dom/17.0.2_react@17.0.2:
@@ -5665,6 +5681,15 @@ packages:
 
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+
+  /react-list/0.8.17_react@17.0.2:
+    resolution: {integrity: sha512-pgmzGi0G5uGrdHzMhgO7KR1wx5ZXVvI3SsJUmkblSAKtewIhMwbQiMuQiTE83ozo04BQJbe0r3WIWzSO0dR1xg==}
+    peerDependencies:
+      react: 0.14 || 15 - 18
+    dependencies:
+      prop-types: 15.8.1
+      react: 17.0.2
+    dev: false
 
   /react-number-format/5.1.3_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-N4XVBXDEIu9qVZIIwKTfCwhPh1fWx/i50I6XnMLsckj7OHi7A85+AMCzUmMCpx05usVVee14Rr/P7MUY0Pp2Kg==}
@@ -6018,6 +6043,10 @@ packages:
 
   /setimmediate/1.0.5:
     resolution: {integrity: sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==}
+    dev: false
+
+  /shallow-equal/1.2.1:
+    resolution: {integrity: sha512-S4vJDjHHMBaiZuT9NPb616CSmLf618jawtv3sufLl6ivK8WocjAo58cXwbRV1cgqxH0Qbv+iUt6m05eqEa2IRA==}
     dev: false
 
   /sharp/0.31.3:

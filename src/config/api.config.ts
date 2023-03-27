@@ -36,6 +36,8 @@ export const getShopsUrl = (string: string) => `shops/${string}`
 export const getReviewUrl = (string: string) =>
 	`shops/products/${string}/review/`
 
+export const getReportsUrl = (string: string) => `orderList/${string}`
+
 // Admin
 export const getOrdersUrlAdmin = (string: string) => `admin/orders/${string}`
 export const getPaymentsUrlAdmin = (string: string) =>

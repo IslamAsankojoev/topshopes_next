@@ -59,25 +59,33 @@ const ShopPage = ({ query }) => {
 	const router = useRouter()
 	const { data: products } = useQuery(
 		['shop products page', query],
-		() => ShopsProductsService.getList({ ...query, page_size: 21}),
+		() => ShopsProductsService.getList({ ...query, page_size: 21 }),
 		{
 			enabled: !!query,
-			select: (data: ResponseList<IProductPreview>) => data,
+			select: (data: ResponseList<IProductPreview>) => {
+				return {
+					...data,
+					results: data.results.filter((product: IProductPreview) => {
+						return product.is_published === true
+					}),
+				}
+			},
 		}
 	)
 
-
-	
 	const { t } = useTranslation('shop')
 
 	const downMd = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
 	const paginationHandler = (page: number) => {
-		router.push({
-			pathname: router.pathname,
-			query: { ...router.query, page },
-			
-		}, undefined, { scroll: false })
+		router.push(
+			{
+				pathname: router.pathname,
+				query: { ...router.query, page },
+			},
+			undefined,
+			{ scroll: false }
+		)
 	}
 
 	const filterHandler = (params: Record<string, string | number>) => {
@@ -89,7 +97,7 @@ const ShopPage = ({ query }) => {
 
 	return (
 		<ShopLayout1>
-			<SEO title={'Магазин'} description='Topshopes - Магазин'/>
+			<SEO title={'Магазин'} description="Topshopes - Магазин" />
 			<Container sx={{ mt: 4, mb: 6 }}>
 				<Card
 					elevation={1}

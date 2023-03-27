@@ -7,6 +7,7 @@ export const productFormValidationSchemaVendor = yup.object().shape({
 	brand: yup.string().required('Brand required'),
 	unit: yup.string().required('Unit required'),
 	description: yup.string().required('Description required'),
+	is_published: yup.boolean().required('Publish required'),
 })
 
 export const productFormValidationSchema = yup.object().shape({
@@ -15,4 +16,5 @@ export const productFormValidationSchema = yup.object().shape({
 	brand: yup.string().required('Brand required'),
 	unit: yup.string().required('Unit required'),
 	description: yup.string().required('Description required'),
+	is_published: yup.boolean().required('Publish required'),
 })

@@ -1,5 +1,11 @@
 import { Delete, Edit } from '@mui/icons-material'
-import { Box, Tooltip } from '@mui/material'
+import {
+	Box,
+	FormControlLabel,
+	FormGroup,
+	Switch,
+	Tooltip,
+} from '@mui/material'
 import { ProductsService } from 'src/api/services/products/product.service'
 import LazyImage from 'src/components/LazyImage'
 import { Paragraph, Small } from 'src/components/Typography'
@@ -25,6 +31,7 @@ type ProductRowProps = {
 	product: IProductPreview
 	refetch: () => void
 	is_superuser?: boolean
+	handleSwitchPublish?: (id: string, is_pablished: boolean) => void
 }
 // ========================================================================
 
@@ -32,6 +39,7 @@ const ProductRowV2: FC<ProductRowProps> = ({
 	product,
 	refetch,
 	is_superuser,
+	handleSwitchPublish,
 }) => {
 	const { category, name, thumbnail, shop, price, id } = product
 
@@ -97,6 +105,44 @@ const ProductRowV2: FC<ProductRowProps> = ({
 				onClick={() => router.push(`${router.pathname}/${id}`)}
 			>
 				{getCurrency(price)}
+			</StyledTableCell>
+
+			<StyledTableCell align="center">
+				<FormGroup
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}
+				>
+					<FormControlLabel
+						control={
+							<Switch
+								checked={product?.is_published}
+								onChange={() => handleSwitchPublish(id, !product?.is_published)}
+								color="success"
+							/>
+						}
+						label={
+							product?.is_published
+								? dynamicLocalization({
+										ru: 'Опубликовано',
+										tr: 'Yayınlandı',
+										en: 'Published',
+										kg: 'Жарияланды',
+										kz: 'Жарияланды',
+								  })
+								: dynamicLocalization({
+										ru: 'Не опубликовано',
+										tr: 'Yayınlanmadı',
+										en: 'Not published',
+										kg: 'Жарияланбады',
+										kz: 'Жарияланбады',
+								  })
+						}
+					/>
+				</FormGroup>
 			</StyledTableCell>
 
 			<StyledTableCell align="center">

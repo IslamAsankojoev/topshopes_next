@@ -1,12 +1,6 @@
 import styled from '@emotion/styled'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import {
-	Box,
-	Button,
-	Card,
-	Divider,
-	Typography,
-} from '@mui/material'
+import { Box, Button, Card, Divider, Typography } from '@mui/material'
 import { OrdersService } from 'src/api/services/orders/orders.service'
 import LazyImage from 'src/components/LazyImage'
 import { H3, H6, Paragraph } from 'src/components/Typography'
@@ -22,7 +16,7 @@ import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 import { StatusWrapper } from '../StyledComponents'
 import { useState } from 'react'
 import { getCurrency } from 'src/utils/getCurrency'
-
+import { statusTranslation } from 'src/utils/Translate/common'
 
 const ClientOrderDetail = () => {
 	const { t } = useTranslation('common')
@@ -47,9 +41,7 @@ const ClientOrderDetail = () => {
 		}
 	)
 
-	const [orderStatus, setOrderStatus] = useState<IOrderStatus>(
-		order?.status
-	)
+	const [orderStatus, setOrderStatus] = useState<IOrderStatus>(order?.status)
 
 	return !isLoading ? (
 		<FlexBox flexDirection="column" justifyContent="center" alignItems="center">
@@ -98,7 +90,9 @@ const ClientOrderDetail = () => {
 						>
 							{id?.slice(0, 8)}
 						</Paragraph>
-						<StatusWrapper status={order.status}>{order.status}</StatusWrapper>
+						<StatusWrapper status={order.status}>
+							{dynamicLocalization(statusTranslation[order.status])}
+						</StatusWrapper>
 					</FlexBox>
 
 					{order.delivered_at ? (

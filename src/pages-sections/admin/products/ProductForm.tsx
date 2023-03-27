@@ -3,7 +3,10 @@ import {
 	Card,
 	Dialog,
 	DialogContent,
+	FormControlLabel,
+	FormGroup,
 	Grid,
+	Switch,
 	TextField,
 	Typography,
 } from '@mui/material'
@@ -100,22 +103,27 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	}, [categories, initialValues])
 
 	useEffect(() => {
-		console.log('thisCategory', thisCategory)
-	}, [thisCategory])
-
-	useEffect(() => {
 		if (initialValues.category) toggleDialog(initialValues.category.id)
 		if (initialValues.brand) setValue('brand', initialValues.brand.id)
+		if (initialValues.is_pablished) {
+			setValue('is_published', initialValues.is_published)
+			trigger('is_published')
+		}
 	}, [initialValues])
+
+	useEffect(() => {
+		console.log('values', values)
+	}, [values])
 
 	return (
 		<Card sx={{ p: 3, overflow: 'initial' }}>
 			<form onSubmit={handleSubmit(handleProductSubmit)}>
 				<Grid container spacing={3}>
-					<Grid item sm={12} xs={12}>
+					<Grid item sm={12} xs={12} display="flex" columnGap={5}>
 						<FlexBox
 							sx={{
 								gridGap: '10px',
+								flex: 1,
 								'@media (max-width: 600px)': {
 									flexDirection: 'column-reverse',
 									gridGap: '15px',
@@ -143,6 +151,46 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									},
 								}}
 							/>
+
+							<FormGroup
+								sx={{
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<FormControlLabel
+									control={
+										<Switch
+											checked={values.is_published}
+											// value={values?.is_published}
+											onChange={(e) => {
+												setValue('is_published', e.target.checked)
+												trigger('is_published')
+											}}
+											color="success"
+										/>
+									}
+									label={
+										values.is_published
+											? dynamicLocalization({
+													ru: 'Опубликовано',
+													tr: 'Yayınlandı',
+													en: 'Published',
+													kg: 'Жарияланды',
+													kz: 'Жарияланды',
+											  })
+											: dynamicLocalization({
+													ru: 'Не опубликовано',
+													tr: 'Yayınlanmadı',
+													en: 'Not published',
+													kg: 'Жарияланбады',
+													kz: 'Жарияланбады',
+											  })
+									}
+								/>
+							</FormGroup>
 							<Button
 								variant="contained"
 								color="success"

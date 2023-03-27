@@ -12,8 +12,8 @@ export type IProduct = {
 	unit: string
 	variants: IProductVariant[]
 	reviews: IReview[]
-	published: boolean
 	description: string
+	is_published: boolean
 }
 
 export type IProductPreview = Pick<
@@ -23,9 +23,9 @@ export type IProductPreview = Pick<
 	| 'name'
 	| 'category'
 	| 'rating'
-	| 'published'
 	| 'description'
 	| 'shop'
+	| 'is_published'
 > & {
 	thumbnail: string
 	discount_price: string

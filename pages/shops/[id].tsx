@@ -16,14 +16,6 @@ const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 	const width = useWindowSize()
 	const isTablet = width < 1025
 
-	// const { data: products } = useQuery(['shop products'], () =>
-	// 	ShopsService.getShopProducts(shop.id)
-	// )
-
-	useEffect(() => {
-		console.log(shop)
-	}, [])
-
 	return (
 		<ShopLayout1>
 			<Container sx={{ mt: 4, mb: 6 }}>
