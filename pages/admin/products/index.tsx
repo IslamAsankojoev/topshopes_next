@@ -26,6 +26,8 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientRowV2'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import useSorter from 'src/hooks/useSorter'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -39,32 +41,46 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	}
 }
 const tableHeading = [
-	{ id: 'name', label: 'name', align: 'left' },
-	{ id: 'category', label: 'categories', align: 'left' },
-	{ id: 'shop', label: 'shop', align: 'left' },
-	{ id: 'price', label: 'price', align: 'left' },
-	{ id: 'action', label: 'action', align: 'center' },
+	{ id: 'name', label: 'name', align: 'left', sortable: true },
+	{ id: 'category', label: 'categories', align: 'center', sortable: false },
+	{ id: 'shop', label: 'shop', align: 'center', sortable: false },
+	{ id: 'price', label: 'price', align: 'center', sortable: false },
+	{
+		id: 'publish',
+		label: dynamicLocalization({
+			ru: 'Опубликовано',
+			tr: 'Yayınlandı',
+			en: 'Published',
+			kg: 'Опубликовано',
+			kz: 'Опубликовано',
+		}),
+		align: 'center',
+		sortable: false,
+	},
+	{ id: 'action', label: 'action', align: 'center', sortable: false },
 ]
+
+type Order = 'asc' | 'desc'
 
 const ProductList: NextPageAuth = () => {
 	const { t } = useTranslation('admin')
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
 
-	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
-	const user = useTypedSelector((state) => state.userStore.user)
+	const { order, orderBy, ordering, handleSorting } = useSorter()
 
 	const {
 		data: products,
 		isLoading,
 		refetch,
 	} = useQuery(
-		[`products admin search=`, searchValue + currentPage],
+		[`products admin search=`, searchValue + currentPage + orderBy + order],
 		() =>
 			AdminProductsService.getList({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,
+				ordering: ordering,
 			}),
 		{
 			keepPreviousData: true,
@@ -72,8 +88,21 @@ const ProductList: NextPageAuth = () => {
 		}
 	)
 
-	const { order, orderBy, selected, filteredList, handleRequestSort } =
-		useMuiTable({ listData: products?.results })
+	const { selected, filteredList, handleRequestSort } = useMuiTable({
+		listData: products?.results,
+	})
+
+	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+	const user = useTypedSelector((state) => state.userStore.user)
+
+	const handleSwitchPublish = async (id: string, is_published: boolean) => {
+		await AdminProductsService.update(id, { is_published: is_published })
+		refetch()
+	}
+
+	useEffect(() => {
+		refetch()
+	}, [order, orderBy])
 
 	return (
 		<Box py={4}>
@@ -102,7 +131,7 @@ const ProductList: NextPageAuth = () => {
 									heading={tableHeading}
 									rowCount={products?.count}
 									numSelected={selected?.length}
-									onRequestSort={handleRequestSort}
+									onRequestSort={handleSorting}
 								/>
 
 								<TableBody>
@@ -112,6 +141,7 @@ const ProductList: NextPageAuth = () => {
 											product={product}
 											key={index}
 											is_superuser={user?.is_superuser}
+											handleSwitchPublish={handleSwitchPublish}
 										/>
 									))}
 								</TableBody>

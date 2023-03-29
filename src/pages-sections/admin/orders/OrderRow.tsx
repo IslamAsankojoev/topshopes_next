@@ -111,47 +111,75 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
 
 	const router = useRouter()
 
+	const handleEdit = () => {
+		router.push(isAdmin ? `/admin/orders/${id}` : `/vendor/orders/${id}`)
+	}
+
 	return id ? (
-		<StyledTableRow tabIndex={-1} role="checkbox" status={stats}>
+		<StyledTableRow
+			tabIndex={-1}
+			role="checkbox"
+			status={stats}
+			sx={{
+				height: '50px',
+				cursor: 'pointer',
+				transition: 'all 0.2s ease-in-out',
+				'&:hover': {
+					opacity: 0.8,
+				},
+			}}
+		>
 			<StyledTableCell
-				align="left"
+				align="center"
 				sx={{
 					color: 'inherit!important',
 				}}
+				onClick={handleEdit}
 			>
 				{id.slice(0, 8)}
 			</StyledTableCell>
 			<StyledTableCell
-				align="left"
+				align="center"
 				sx={{
 					color: 'inherit',
 				}}
+				onClick={handleEdit}
 			>
 				{quantity}
 			</StyledTableCell>
 
-			<StyledTableCell align="left" sx={{ fontWeight: 400, color: 'inherit' }}>
+			<StyledTableCell
+				align="center"
+				sx={{ fontWeight: 400, color: 'inherit' }}
+				onClick={handleEdit}
+			>
 				{new Date(created_at).toLocaleString()}
 			</StyledTableCell>
 
-			<StyledTableCell align="left" sx={{ fontWeight: 400, color: 'inherit' }}>
+			<StyledTableCell
+				align="center"
+				sx={{ fontWeight: 400, color: 'inherit' }}
+				onClick={handleEdit}
+			>
 				{address?.city}
 			</StyledTableCell>
 
 			<StyledTableCell
-				align="left"
+				align="center"
 				sx={{
 					color: 'inherit',
 				}}
+				onClick={handleEdit}
 			>
 				{getCurrency(total_price)}
 			</StyledTableCell>
 
 			<StyledTableCell
-				align="left"
+				align="center"
 				sx={{
 					color: 'inherit',
 				}}
+				onClick={handleEdit}
 			>
 				{isAdmin
 					? getCurrency(
@@ -161,7 +189,7 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
 					: getCurrency(Number(product_variant.overall_price) * quantity)}
 			</StyledTableCell>
 
-			<StyledTableCell align="left">
+			<StyledTableCell align="center">
 				<FormControl fullWidth variant="outlined">
 					<Select
 						className="order-status-admin"
@@ -211,30 +239,6 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
 						))}
 					</Select>
 				</FormControl>
-			</StyledTableCell>
-
-			<StyledTableCell
-				align="center"
-				sx={{
-					color: 'inherit',
-				}}
-			>
-				<StyledIconButton
-					sx={{
-						color: 'inherit',
-					}}
-					onClick={() =>
-						router.push(
-							isAdmin ? `/admin/orders/${id}` : `/vendor/orders/${id}`
-						)
-					}
-				>
-					<RemoveRedEye
-						sx={{
-							color: 'inherit',
-						}}
-					/>
-				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>
 	) : null

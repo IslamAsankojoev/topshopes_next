@@ -6,6 +6,7 @@ import Topbar from 'src/components/topbar/Topbar'
 import { FC, Fragment, useCallback, useState } from 'react'
 import Navbar from 'src/components/navbar/Navbar'
 import { ISiteSettings } from 'src/shared/types/site-settings.types'
+import MobileNavigationBar2 from '../mobile-navigation/MobileNavigationBar2'
 
 /**
  *  Used in:
@@ -55,6 +56,7 @@ const ShopLayout1: FC<ShopLayout1Props> = ({
 			</div>
 
 			<MobileNavigationBar />
+			{/* <MobileNavigationBar2 /> */}
 			<Footer />
 		</Fragment>
 	)

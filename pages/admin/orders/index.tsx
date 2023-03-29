@@ -21,12 +21,13 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { OrderRow } from 'src/pages-sections/admin'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IOrder } from 'src/shared/types/order.types'
 import { ResponseList } from 'src/shared/types/response.types'
+import useSorter from 'src/hooks/useSorter'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -41,14 +42,19 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 }
 // table column list
 const tableHeading = [
-	{ id: 'id', label: 'orderId', align: 'left' },
-	{ id: 'qty', label: 'qty', align: 'left' },
-	{ id: 'created_at', label: 'createdAt', align: 'left' },
-	{ id: 'billingAddress', label: 'billingAddress', align: 'left' },
-	{ id: 'price', label: 'price', align: 'left' },
-	{ id: 'profit', label: 'profit', align: 'left' },
-	{ id: 'status', label: 'status', align: 'left' },
-	{ id: 'action', label: 'action', align: 'center' },
+	{ id: 'id', label: 'id', align: 'center', sortable: true },
+	{ id: 'quantity', label: 'quantity', align: 'center', sortable: true },
+	{ id: 'created_at', label: 'createdAt', align: 'center', sortable: true },
+	{
+		id: 'billingAddress',
+		label: 'billingAddress',
+		align: 'center',
+		sortable: false,
+	},
+	{ id: 'price', label: 'price', align: 'center', sortable: true },
+	{ id: 'profit', label: 'profit', align: 'center', sortable: true },
+	{ id: 'status', label: 'status', align: 'center', sortable: true },
+	// { id: 'action', label: 'action', align: 'center' },
 ]
 
 const OrderList: NextPageAuth = () => {
@@ -56,6 +62,7 @@ const OrderList: NextPageAuth = () => {
 	const { t } = useTranslation('adminActions')
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
+	const { order, orderBy, ordering, handleSorting } = useSorter()
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
@@ -64,12 +71,13 @@ const OrderList: NextPageAuth = () => {
 		isLoading,
 		refetch,
 	} = useQuery(
-		[`orders admin get search=${searchValue}`, currentPage],
+		[`orders admin get search=`, searchValue + currentPage + order + orderBy],
 		() =>
 			OrdersService.getList({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,
+				ordering: ordering,
 			}),
 		{
 			keepPreviousData: true,
@@ -89,18 +97,16 @@ const OrderList: NextPageAuth = () => {
 		}
 	)
 
-	const {
-		order,
-		orderBy,
-		selected,
-		rowsPerPage,
-		filteredList,
-		handleRequestSort,
-	} = useMuiTable({
-		listData: orders?.results,
-		defaultSort: 'purchaseDate',
-		defaultOrder: 'desc',
-	})
+	const { selected, rowsPerPage, filteredList, handleRequestSort } =
+		useMuiTable({
+			listData: orders?.results,
+			defaultSort: 'purchaseDate',
+			defaultOrder: 'desc',
+		})
+
+	useEffect(() => {
+		refetch()
+	}, [order, orderBy])
 
 	return (
 		<Box py={4}>
@@ -127,7 +133,7 @@ const OrderList: NextPageAuth = () => {
 									heading={tableHeading}
 									rowCount={orders?.count}
 									numSelected={selected?.length}
-									onRequestSort={handleRequestSort}
+									onRequestSort={handleSorting}
 								/>
 
 								<TableBody>

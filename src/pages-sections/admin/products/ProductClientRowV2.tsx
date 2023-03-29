@@ -70,7 +70,7 @@ const ProductRowV2: FC<ProductRowProps> = ({
 			}}
 		>
 			<StyledTableCell
-				align="left"
+				align="center"
 				onClick={() => router.push(`${router.pathname}/${id}`)}
 			>
 				<FlexBox alignItems="center" gap={1.5}>
@@ -87,21 +87,21 @@ const ProductRowV2: FC<ProductRowProps> = ({
 			</StyledTableCell>
 
 			<StyledTableCell
-				align="left"
+				align="center"
 				onClick={() => router.push(`${router.pathname}/${id}`)}
 			>
 				{category.name || category}
 			</StyledTableCell>
 
 			<StyledTableCell
-				align="left"
+				align="center"
 				onClick={() => router.push(`${router.pathname}/${id}`)}
 			>
 				{shop?.name && shop?.name}
 			</StyledTableCell>
 
 			<StyledTableCell
-				align="left"
+				align="center"
 				onClick={() => router.push(`${router.pathname}/${id}`)}
 			>
 				{getCurrency(price)}

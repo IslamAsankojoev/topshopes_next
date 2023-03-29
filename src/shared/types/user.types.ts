@@ -1,4 +1,5 @@
 import { IOrderShort } from './order.types'
+import { IShop } from './shop.types'
 
 export interface IUser {
 	id: string
@@ -10,6 +11,7 @@ export interface IUser {
 	verified: boolean
 	is_superuser: boolean
 	is_seller: boolean
+	shop?: IShop
 }
 
 export interface IAddress {

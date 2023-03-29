@@ -35,7 +35,10 @@ export const getServerSideProps: GetServerSideProps = async ({
 	try {
 		const queryClient = new QueryClient()
 		await queryClient.fetchQuery(['shop products page', query], () =>
-			ShopsProductsService.getList(query as Record<string, string | number>)
+			ShopsProductsService.getList({ ...query, page_size: 18 } as Record<
+				string,
+				string | number
+			>)
 		)
 
 		return {
@@ -59,14 +62,14 @@ const ShopPage = ({ query }) => {
 	const router = useRouter()
 	const { data: products } = useQuery(
 		['shop products page', query],
-		() => ShopsProductsService.getList({ ...query, page_size: 21 }),
+		() => ShopsProductsService.getList({ ...query, page_size: 18 }),
 		{
 			enabled: !!query,
 			select: (data: ResponseList<IProductPreview>) => {
 				return {
 					...data,
 					results: data.results.filter((product: IProductPreview) => {
-						return product.is_published === true
+						return product.name
 					}),
 				}
 			},
@@ -94,6 +97,8 @@ const ShopPage = ({ query }) => {
 			query: { ...router.query, ...params, page: 1 },
 		})
 	}
+
+	console.log(products)
 
 	return (
 		<ShopLayout1>

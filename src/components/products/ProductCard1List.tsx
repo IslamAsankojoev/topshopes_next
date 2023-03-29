@@ -32,7 +32,7 @@ const ProductCard1List: FC<ProductCard1ListProps> = ({
 					<Pagination
 						variant="outlined"
 						shape="rounded"
-						count={Math.ceil(count / 21)}
+						count={Math.ceil(count / 18)}
 						onChange={(e, page) => handleChange(page)}
 					/>
 				)}

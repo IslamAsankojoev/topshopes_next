@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IUser } from 'src/shared/types/user.types'
+import Lodash from 'lodash'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -39,9 +40,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	}
 }
 const tableHeading = [
+	{ id: 'email', label: 'Email', align: 'left' },
 	{ id: 'first_name', label: 'firstName', align: 'left' },
 	{ id: 'phone', label: 'phone', align: 'left' },
-	{ id: 'email', label: 'Email', align: 'left' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]
 
@@ -105,13 +106,15 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 								/>
 
 								<TableBody>
-									{filteredList?.map((customer, index) => (
-										<CustomerRow
-											refetch={refetch}
-											customer={customer}
-											key={index}
-										/>
-									))}
+									{Lodash.orderBy(filteredList, ['email'])?.map(
+										(customer, index) => (
+											<CustomerRow
+												refetch={refetch}
+												customer={customer}
+												key={index}
+											/>
+										)
+									)}
 								</TableBody>
 							</Table>
 						</TableContainer>

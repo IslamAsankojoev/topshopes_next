@@ -43,15 +43,23 @@ const BrandsTypesRow: FC<BrandsTypesRowProps> = ({
 			role="checkbox"
 			selected={isItemSelected}
 			aria-checked={isItemSelected}
+			sx={{
+				cursor: 'pointer',
+				transition: 'all 0.2s ease-in-out',
+				'&:hover': {
+					backgroundColor: 'grey.200',
+				},
+			}}
+			onClick={handleEdit}
 		>
 			<StyledTableCell align="center">
 				<CategoryWrapper>{BrandTypeName}</CategoryWrapper>
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<StyledIconButton onClick={handleEdit}>
+				{/* <StyledIconButton onClick={handleEdit}>
 					<Edit />
-				</StyledIconButton>
+				</StyledIconButton> */}
 
 				<StyledIconButton onClick={handleRemove}>
 					<Delete />

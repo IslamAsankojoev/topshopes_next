@@ -11,8 +11,8 @@ export interface IShop {
 	phone: string
 	cover_picture: string
 	profile_picture: string
-	socialLinks: ILinks[]
-	products: IProductPreview[]
+	socialLinks?: ILinks[]
+	products?: IProductPreview[]
 }
 
 export interface ILinks {

@@ -39,16 +39,18 @@ const AttributesRow: FC<AttributesRowProps> = ({ name, selected, refetch }) => {
 			role="checkbox"
 			selected={isItemSelected}
 			aria-checked={isItemSelected}
+			sx={{
+				cursor: 'pointer',
+				transition: 'all 0.2s ease-in-out',
+				'&:hover': {
+					backgroundColor: 'grey.200',
+				},
+			}}
+			onClick={handleEdit}
 		>
-			<StyledTableCell align="center">
-				<CategoryWrapper>{attributeName}</CategoryWrapper>
-			</StyledTableCell>
+			<StyledTableCell align="center">{attributeName}</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<StyledIconButton onClick={handleEdit}>
-					<Edit />
-				</StyledIconButton>
-
 				<StyledIconButton onClick={handleRemove}>
 					<Delete />
 				</StyledIconButton>

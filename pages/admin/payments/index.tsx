@@ -24,6 +24,7 @@ import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { IPayment } from 'src/shared/types/order.types'
 import { ResponseList } from 'src/shared/types/response.types'
+import Lodash from 'lodash'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -114,40 +115,46 @@ export default function Payouts() {
 							/>
 
 							<TableBody>
-								{filteredList.map((payout: IPayment) => (
-									<Link href={`/admin/payments/${payout.id}`}>
-										<StyledTableRow
-											role="checkbox"
-											key={payout.id}
-											color="primary"
-											sx={{
-												cursor: 'pointer!important',
-											}}
-										>
-											<StyledTableCell align="center">
-												{payout.bank_account}
-											</StyledTableCell>
+								{Lodash.orderBy(filteredList, (obj) => new Date(obj.create_at))
+									.map((payout: IPayment) => (
+										<Link href={`/admin/payments/${payout.id}`}>
+											<StyledTableRow
+												role="checkbox"
+												key={payout.id}
+												color="primary"
+												sx={{
+													transition: 'all 0.3s ease-in-out',
+													cursor: 'pointer!important',
+													'&:hover': {
+														backgroundColor: 'grey.200',
+													},
+												}}
+											>
+												<StyledTableCell align="center">
+													{payout.bank_account}
+												</StyledTableCell>
 
-											<StyledTableCell align="center">
-												{payout.payment_type}
-											</StyledTableCell>
+												<StyledTableCell align="center">
+													{payout.payment_type}
+												</StyledTableCell>
 
-											<StyledTableCell align="center">
-												{payout.phone_number}
-											</StyledTableCell>
+												<StyledTableCell align="center">
+													{payout.phone_number}
+												</StyledTableCell>
 
-											<StyledTableCell align="center">
-												{new Date(payout.create_at).toLocaleString()}
-											</StyledTableCell>
+												<StyledTableCell align="center">
+													{new Date(payout.create_at).toLocaleString()}
+												</StyledTableCell>
 
-											<StyledTableCell align="center">
-												<CheckBoxIcon
-													color={payout.is_verified ? 'success' : 'disabled'}
-												/>
-											</StyledTableCell>
-										</StyledTableRow>
-									</Link>
-								))}
+												<StyledTableCell align="center">
+													<CheckBoxIcon
+														color={payout.is_verified ? 'success' : 'disabled'}
+													/>
+												</StyledTableCell>
+											</StyledTableRow>
+										</Link>
+									))
+									.reverse()}
 							</TableBody>
 						</Table>
 					</TableContainer>

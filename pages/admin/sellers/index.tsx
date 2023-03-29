@@ -13,7 +13,6 @@ import Scrollbar from 'src/components/Scrollbar'
 import { H3 } from 'src/components/Typography'
 import SearchArea from 'src/components/dashboard/SearchArea'
 import TableHeader from 'src/components/data-table/TableHeader'
-import TablePagination from 'src/components/data-table/TablePagination'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import useMuiTable from 'src/hooks/useMuiTable'
 import { GetStaticProps } from 'next'
@@ -40,16 +39,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	}
 }
 const tableHeading = [
+	{ id: 'email', label: 'Email', align: 'left' },
 	{ id: 'first_name', label: 'FirstName', align: 'left' },
 	{ id: 'phone', label: 'Phone', align: 'left' },
-	{ id: 'email', label: 'Email', align: 'left' },
 	{ id: 'shop', label: 'Shop', align: 'left' },
 ]
 
 type CustomerListProps = { customers: IUser[] }
 
 const SellersList: NextPageAuth<CustomerListProps> = () => {
-	const { t: adminT } = useTranslation('admin')
+	// const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
 
@@ -59,9 +58,9 @@ const SellersList: NextPageAuth<CustomerListProps> = () => {
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
 	const { data: users, refetch } = useQuery(
-		[`get users all sellers search=${searchValue}`, currentPage],
+		[`get users all sellers search=`, searchValue + currentPage],
 		() =>
-			UsersService.getList({
+			UsersService.getSellers({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,
@@ -123,11 +122,6 @@ const SellersList: NextPageAuth<CustomerListProps> = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						{/* <TablePagination
-							onChange={handleChangePage}
-							count={Math.ceil(users?.count / 20)}
-							page={currentPage}
-						/> */}
 						<Pagination
 							variant="outlined"
 							shape="rounded"

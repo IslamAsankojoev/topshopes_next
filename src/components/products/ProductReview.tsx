@@ -1,5 +1,5 @@
 import { Rating } from '@mui/lab'
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import { ReviewService } from 'src/api/services/review/Review.service'
 import { H2, H5 } from 'src/components/Typography'
 import { FlexBox } from 'src/components/flex-box'
@@ -9,13 +9,17 @@ import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { QueryClient, useMutation } from 'react-query'
+import { QueryClient, useMutation, useQuery, useQueryClient } from 'react-query'
 import { toast } from 'react-toastify'
 import { IProduct, IReview } from 'src/shared/types/product.types'
 import * as yup from 'yup'
+import { v4 } from 'uuid'
 
 import ProductComment from './ProductComment'
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { ShopsProductsService } from 'src/api/services/products/product.service'
+import { useForm } from 'react-hook-form'
+import useYupValidationResolver from 'src/hooks/useYupValidationResolver'
 
 export interface ProductReviewProps {
 	product: IProduct
@@ -23,21 +27,23 @@ export interface ProductReviewProps {
 
 const ProductReview: FC<ProductReviewProps> = ({ product }) => {
 	const { t } = useTranslation('review')
+
+	const queryClient = useQueryClient()
+
 	const { user } = useTypedSelector((state) => state.userStore)
 	const router = useRouter()
 
-	const reloadPageWithParams = () => {
-		const cleanPath = router.asPath.split('?')[0]
+	const [rating, setRating] = useState(0)
 
-		router.replace(
-			{
-				pathname: cleanPath,
-				query: { comment: 'success' },
-			},
-			undefined,
-			{ scroll: false }
-		)
-	}
+	const { data: comments, refetch } = useQuery(
+		[`product comments`, router.query.id],
+		() => ShopsProductsService.get(router.query.id as string),
+		{
+			enabled: !!router.query.id,
+			select: (data: IProduct) => data.reviews,
+		}
+	)
+
 	const { mutateAsync } = useMutation(
 		'send a comment',
 		(values: IReview) => ReviewService.create(product?.id, values),
@@ -52,35 +58,48 @@ const ProductReview: FC<ProductReviewProps> = ({ product }) => {
 						kz: 'Сіздің пікіріңіз жіберілді',
 					})
 				)
-				reloadPageWithParams()
+				queryClient
+					.invalidateQueries([`product comments`, router.query.id])
+					.then(() => {
+						refetch()
+					})
 			},
 		}
 	)
-
-	const handleFormSubmit = async (values: any, { resetForm }: any) => {
-		mutateAsync({ product_variant: product?.variants[0]?.id, ...values })
-		resetForm()
-	}
+	const resolver = useYupValidationResolver(reviewSchema)
 
 	const {
-		dirty,
-		values,
-		errors,
-		touched,
-		isValid,
-		handleBlur,
-		handleChange,
+		getValues,
+		setValue,
 		handleSubmit,
-		setFieldValue,
-	} = useFormik({
-		onSubmit: handleFormSubmit,
-		initialValues: initialValues,
-		validationSchema: reviewSchema,
+		trigger,
+		formState: { errors },
+	} = useForm({
+		resolver,
 	})
+
+	const values = getValues()
+
+	const handleFormSubmit = async (values: any) => {
+		await mutateAsync({ product_variant: product?.variants[0]?.id, ...values })
+		setValue('rating', 0)
+		trigger('rating')
+		setValue('comment', '')
+		trigger('comment')
+	}
+
+	const handleSubmitForm = async (e) => {
+		e.preventDefault()
+		await handleSubmit(handleFormSubmit)()
+	}
+
+	// useEffect(() => {
+	// 	console.log('values', values)
+	// }, [values])
 
 	return (
 		<Box>
-			{product?.reviews
+			{comments
 				?.map((item: any) => <ProductComment {...item} key={item.id} />)
 				.reverse()}
 
@@ -89,19 +108,38 @@ const ProductReview: FC<ProductReviewProps> = ({ product }) => {
 			</H2>
 
 			{user ? (
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={handleSubmitForm}>
 					<Box mb={2.5}>
 						<FlexBox mb={1.5} gap={0.5}>
 							<H5 color="grey.700">{t('yourRating')}</H5>
 							<H5 color="error.main">*</H5>
 						</FlexBox>
-
 						<Rating
 							color="warn"
 							size="medium"
-							value={values.rating}
-							onChange={(_, value: any) => setFieldValue('rating', value)}
+							name="rating"
+							id="rating"
+							value={!!values.rating ? values.rating : null}
+							onChange={(_, value: any) => {
+								if (value) {
+									setValue('rating', value)
+									trigger('rating')
+									return null
+								}
+								setValue('rating', 0)
+								trigger('rating')
+							}}
+							sx={{
+								'& .MuiRating-iconEmpty': {
+									color: errors.rating ? 'error.main' : 'grey.500',
+								},
+							}}
 						/>
+						{errors.rating && (
+							<Typography color="error.main" variant="body2">
+								{errors.rating.message}
+							</Typography>
+						)}
 					</Box>
 
 					<Box mb={3}>
@@ -112,16 +150,19 @@ const ProductReview: FC<ProductReviewProps> = ({ product }) => {
 
 						<TextField
 							rows={8}
+							value={values.comment}
 							multiline
 							fullWidth
 							name="comment"
 							variant="outlined"
-							onBlur={handleBlur}
-							value={values.comment}
-							onChange={handleChange}
 							placeholder={t('writeReviewHere')}
-							error={!!touched.comment && !!errors.comment}
-							helperText={touched.comment && errors.comment}
+							id="comment"
+							onChange={(e) => {
+								setValue('comment', e.target.value)
+								trigger('comment')
+							}}
+							error={!!errors.comment}
+							helperText={errors.comment?.message}
 						/>
 					</Box>
 
@@ -129,7 +170,7 @@ const ProductReview: FC<ProductReviewProps> = ({ product }) => {
 						variant="contained"
 						color="primary"
 						type="submit"
-						disabled={!(dirty && isValid)}
+						// disabled={}
 					>
 						{t('send')}
 					</Button>
@@ -149,8 +190,11 @@ const initialValues = {
 }
 
 const reviewSchema = yup.object().shape({
-	rating: yup.number().required('required'),
-	comment: yup.string().required('required'),
+	rating: yup
+		.number()
+		.min(1, 'Rating must be greater than 0')
+		.required('Rating is required'),
+	comment: yup.string().required('Comment is required'),
 })
 
 export default ProductReview

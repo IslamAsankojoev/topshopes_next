@@ -10,29 +10,39 @@ import { IOrderShort } from 'src/shared/types/order.types'
 import { statusTranslation } from 'src/utils/Translate/common'
 import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 import { getCurrency } from 'src/utils/getCurrency'
+import { FlexBox } from 'src/components/flex-box'
 
 const OrderRow: FC<IOrderShort> = ({ created_at, id, status, total_price }) => {
 	return (
 		<Link href={`/orders/${id}`}>
 			<a>
-				<TableRow sx={{ my: '1rem', padding: '6px 18px' }}>
+				<TableRow
+					sx={{
+						my: '1rem',
+						padding: '6px 18px',
+						transition: 'all 0.2s ease-in-out',
+						'&:hover': {
+							backgroundColor: 'grey.200',
+						},
+					}}
+				>
 					<H5 m={0.75} textAlign="left">
 						{id.slice(0, 8)}
 					</H5>
-					<Box m={0.75}>
+					<FlexBox m={0.75}>
 						<StatusWrapper status={status}>
 							{dynamicLocalization(statusTranslation[status])}
 						</StatusWrapper>
-					</Box>
-					<Typography className="pre" m={0.75} textAlign="left">
+					</FlexBox>
+					<FlexBox className="pre" m={0.75} textAlign="left">
 						{format(new Date(created_at), ' dd.MM.yyyy')}
-					</Typography>
+					</FlexBox>
 
-					<Typography m={0.75} textAlign="left">
+					<FlexBox m={0.75} textAlign="left">
 						{getCurrency(total_price)}
-					</Typography>
+					</FlexBox>
 
-					<Typography
+					{/* <FlexBox
 						color="grey.600"
 						textAlign="center"
 						sx={{
@@ -50,7 +60,7 @@ const OrderRow: FC<IOrderShort> = ({ created_at, id, status, total_price }) => {
 								}}
 							/>
 						</IconButton>
-					</Typography>
+					</FlexBox> */}
 				</TableRow>
 			</a>
 		</Link>

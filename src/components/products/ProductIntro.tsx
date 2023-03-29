@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Grid } from '@mui/material'
+import { Box, Card, Grid } from '@mui/material'
 import BazaarButton from 'src/components/BazaarButton'
 import BazaarRating from 'src/components/BazaarRating'
 import LazyImage from 'src/components/LazyImage'
@@ -10,13 +10,20 @@ import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { IProduct, IProductVariant } from 'src/shared/types/product.types'
+import {
+	IProduct,
+	IProductPreview,
+	IProductVariant,
+} from 'src/shared/types/product.types'
 import { ICartItem } from 'src/store/cart/cart.interface'
 
 import { FlexBox } from '../flex-box'
 
 import Variables from './Variables'
 import { toast } from 'react-toastify'
+import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import Favorite from '@mui/icons-material/Favorite'
+import { getCurrency } from 'src/utils/getCurrency'
 
 type ProductIntroProps = {
 	product: IProduct
@@ -39,15 +46,41 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 	const cartList: ICartItem[] = useTypedSelector(
 		(state) => state.cartStore.cart
 	)
-	const cartItem = cartList.find(
+	const wishlist: IProductPreview[] = useTypedSelector(
+		(state) => state.wishStore.items
+	)
+
+	const in_wishlist = wishlist.find(
 		(item) => item?.id === id || item?.id === routerId
 	)
 
-	const { addToCart } = useActions()
+	const { addToCart, toggleWish } = useActions()
 	const handleAddToCart = () => {
 		addToCart({ ...product, variants: [selectedVariant] })
-		toast.success(`${name} добавлен в корзину`)
 	}
+
+	const toggleWishItem = () => {
+		toggleWish({
+			id: product.id,
+			category: product.category,
+			thumbnail: product.variants[0].thumbnail,
+			name: product.name,
+			description: product.description,
+			price: product.variants[0].price,
+			discount: product.variants[0].discount + '',
+			shop: product.shop,
+			discount_price: product.variants[0].discount_price,
+			is_published: product.is_published,
+			rating: product.rating,
+			slug: product.slug,
+			created_at: product.created_at,
+			nodeRef: product.variants[0].nodeRef,
+		})
+	}
+
+	useEffect(() => {
+		console.log(selectedVariant?.status)
+	}, [selectedVariant])
 
 	return (
 		<Box width="100%">
@@ -60,18 +93,20 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 					justifyContent="center"
 					display="flex"
 				>
-					<FlexBox
-						justifyContent="center"
-						alignItems="center"
-						mb={6}
+					<Card
 						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
 							position: 'relative',
+							boxShadow: 2,
+							backgroundColor: 'white',
 						}}
 					>
 						<div
 							style={{
-								width: '300px',
-								height: '300px',
+								width: '450px',
+								height: '450px',
 							}}
 						>
 							<LazyImage
@@ -82,7 +117,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 								src={selectedImage || variants[0]?.thumbnail}
 							/>
 						</div>
-					</FlexBox>
+					</Card>
 				</Grid>
 
 				<Grid item md={6} xs={12} alignItems="center">
@@ -120,12 +155,30 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 						</FlexBox>
 
 						<Box mb={3}>
-							<H2 color="primary.main" mb={0.5} lineHeight="1">
+							{/* <H2 color="primary.main" mb={0.5} lineHeight="1">
 								{Number(selectedVariant?.price || variants[0]?.price).toFixed(
 									2
 								)}
 								c
-							</H2>
+							</H2> */}
+
+							<FlexBox alignItems="center" gap={1} mt={0.5}>
+								<H2 color="primary.main">
+									{getCurrency(
+										selectedVariant?.discount_price || selectedVariant?.price
+									)}
+								</H2>
+
+								{!!selectedVariant?.discount && (
+									<H2 color="grey.600" fontWeight={600}>
+										<del>
+											{getCurrency(
+												!!selectedVariant?.discount && selectedVariant?.price
+											)}
+										</del>
+									</H2>
+								)}
+							</FlexBox>
 						</Box>
 						<FlexBox alignItems="center" mb={2}>
 							<Box>{t('status')}:</Box>
@@ -136,7 +189,11 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 									selectedVariant?.status === 'available' ? 'green' : 'red'
 								}
 							>
-								{selectedVariant?.status || 'unavailable'}
+								{selectedVariant?.status
+									? selectedVariant?.status === 'available'
+										? t('available')
+										: t('unavailable')
+									: t('unavailable')}
 							</H6>
 						</FlexBox>
 						<Variables
@@ -145,17 +202,51 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							setImage={setSelectedImage}
 							variant={selectedVariant}
 						/>
-						<BazaarButton
-							color="primary"
-							disabled={
-								!selectedVariant || selectedVariant?.status === 'unavailable'
-							}
-							variant="contained"
-							onClick={handleAddToCart}
-							sx={{ mb: 4.5, px: '1.75rem', height: 40, color: 'white' }}
-						>
-							{t('addCart')}
-						</BazaarButton>
+						<FlexBox gap={2}>
+							<BazaarButton
+								color="secondary"
+								disabled={
+									!selectedVariant || selectedVariant?.status === 'unavailable'
+								}
+								variant="contained"
+								onClick={handleAddToCart}
+								sx={{
+									mb: 4.5,
+									px: '1.75rem',
+									height: 40,
+									color: 'white',
+									'@media (max-width: 600px)': {
+										fontSize: '0.8rem',
+									},
+								}}
+							>
+								{t('addCart')}
+							</BazaarButton>
+							<BazaarButton
+								color="error"
+								variant={in_wishlist ? 'contained' : 'outlined'}
+								onClick={toggleWishItem}
+								sx={{
+									mb: 4.5,
+									px: '1.75rem',
+									height: 40,
+									'@media (max-width: 600px)': {
+										fontSize: '0.8rem',
+									},
+								}}
+							>
+								<Favorite fontSize="small" sx={{ mr: 1 }} />
+								{in_wishlist
+									? dynamicLocalization({
+											ru: 'Удалить из избранных',
+											tr: 'Favorilerden kaldır',
+											en: 'Remove from favorites',
+											kg: 'Удалить из избранных',
+											kz: 'Удалить из избранных',
+									  })
+									: t('addToWishlist')}
+							</BazaarButton>
+						</FlexBox>
 					</Box>
 				</Grid>
 			</Grid>

@@ -42,7 +42,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 const tableHeading = [
 	{ id: 'short_name', label: 'shop', align: 'center' },
 	{ id: 'status', label: 'status', align: 'center' },
-	{ id: 'action', label: 'action', align: 'center' },
+	// { id: 'action', label: 'action', align: 'center' },
 ]
 
 const Applications: NextPageAuth = () => {

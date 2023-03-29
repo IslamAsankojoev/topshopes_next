@@ -107,9 +107,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				{!!discount && (
 					<StyledChip color="primary" size="small" label={`${discount}% off`} />
 				)}
-				<Link
-					href={`/product/${id}`}
-				>
+				<Link href={`/product/${id}`}>
 					<a>
 						<LazyImage
 							src={thumbnail}
@@ -125,9 +123,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 			<ContentWrapper>
 				<FlexBox>
 					<Box flex="1 1 0" minWidth="0px" mr={1}>
-						<Link
-							href={`/product/${id}`}
-						>
+						<Link href={`/product/${id}`}>
 							<a>
 								<span
 									style={{
@@ -170,7 +166,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
 							<Box fontWeight="600" color="primary.main">
-							{getCurrency(discount_price || price)}
+								{getCurrency(discount_price || price)}
 							</Box>
 
 							{!!discount && (

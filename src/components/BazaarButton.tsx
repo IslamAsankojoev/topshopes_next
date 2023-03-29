@@ -1,9 +1,10 @@
-import { Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Button } from '@mui/material'
+import { styled } from '@mui/material/styles'
 
 const BazaarButton = styled(Button)({
-  minWidth: 0,
-  minHeight: 0,
-});
+	minWidth: 0,
+	minHeight: 0,
+	textTransform: 'none',
+})
 
-export default BazaarButton;
+export default BazaarButton

@@ -41,7 +41,7 @@ const OrderList: FC<OrderListProps> = () => {
 					}}
 				>
 					<H5 color="grey.600" my={0} mx={0.75} textAlign="left">
-						{t('order')} #
+						#{t('order')}
 					</H5>
 
 					<H5 color="grey.600" my={0} mx={0.75} textAlign="left">
@@ -55,7 +55,7 @@ const OrderList: FC<OrderListProps> = () => {
 					<H5 color="grey.600" my={0} mx={0.75} textAlign="left">
 						{t('total')}
 					</H5>
-					<H5 flex="0 0 0 !important" color="grey.600" px={2.75} my={0} />
+					{/* <H5 flex="0 0 0 !important" color="grey.600" px={2.75} my={0} /> */}
 				</TableRow>
 
 				{orders?.results?.map((item) => (

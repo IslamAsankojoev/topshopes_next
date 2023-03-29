@@ -28,7 +28,6 @@ const AccountPopover = () => {
 
 	const handleLogout = async () => {
 		logout()
-		await signOut()
 	}
 
 	return (

@@ -32,9 +32,9 @@ import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
-	{ id: 'category', label: 'categories', align: 'left' },
-	{ id: 'shop', label: 'shop', align: 'left' },
-	{ id: 'price', label: 'price', align: 'left' },
+	{ id: 'category', label: 'categories', align: 'center' },
+	{ id: 'shop', label: 'shop', align: 'center' },
+	{ id: 'price', label: 'price', align: 'center' },
 	{
 		id: 'publish',
 		label: dynamicLocalization({

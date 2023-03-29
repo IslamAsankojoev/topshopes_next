@@ -39,19 +39,23 @@ const ApplicationsRow: FC<AttributesRowProps> = ({ name, selected }) => {
 			role="checkbox"
 			selected={isItemSelected}
 			aria-checked={isItemSelected}
+			onClick={handleEdit}
+			sx={{
+				cursor: 'pointer',
+				transition: 'all 0.2s ease-in-out',
+				'&:hover': {
+					backgroundColor: '#323747',
+				},
+			}}
 		>
-			<StyledTableCell align="center" sx={{
-				color: 'inherit',
-			}}>
-					<StatusWrapper status={status}>
-						{short_name}
-					</StatusWrapper>
-			</StyledTableCell>
-
-			<StyledTableCell align="center" sx={{
-				color: 'inherit',
-			}}>
-				{t(status)}
+			<StyledTableCell
+				align="center"
+				sx={{
+					color: 'inherit',
+					height: '40px',
+				}}
+			>
+				{short_name}
 			</StyledTableCell>
 
 			<StyledTableCell
@@ -60,18 +64,7 @@ const ApplicationsRow: FC<AttributesRowProps> = ({ name, selected }) => {
 					color: 'inherit',
 				}}
 			>
-				<StyledIconButton
-					onClick={handleEdit}
-					sx={{
-						color: 'inherit',
-					}}
-				>
-					<VisibilitySharp
-						sx={{
-							color: 'inherit',
-						}}
-					/>
-				</StyledIconButton>
+				{t(status)}
 			</StyledTableCell>
 		</StyledTableRow>
 	)

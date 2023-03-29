@@ -6,10 +6,7 @@ import { useRouter } from 'next/router'
 import { FC } from 'react'
 import { IUser } from 'src/shared/types/user.types'
 
-import {
-	StyledTableCell,
-	StyledTableRow,
-} from './StyledComponents'
+import { StyledTableCell, StyledTableRow } from './StyledComponents'
 
 // ========================================================================
 type CustomerRowProps = { customer: IUser; refetch: () => void }
@@ -25,9 +22,12 @@ const SellerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 		verified,
 		id,
 		is_seller,
+		shop,
 	} = customer
 
 	const { push } = useRouter()
+
+	const nameFiller = first_name ? first_name : email.split('@')[0]
 
 	//handlers
 	const onDelete = async () => {
@@ -44,10 +44,17 @@ const SellerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 	return customer ? (
 		<StyledTableRow tabIndex={-1} role="checkbox">
 			<StyledTableCell align="left">
-				<FlexBox alignItems="center" gap={1.5}>
-					<Avatar src={avatar} sx={{}} />
-					<Paragraph>{first_name}</Paragraph>
+				<FlexBox alignItems="center" gap={1.5} p={1}>
+					<Avatar
+						src={avatar || '/assets/images/avatars/001-man.svg'}
+						sx={{}}
+					/>
+					<Paragraph>{email}</Paragraph>
 				</FlexBox>
+			</StyledTableCell>
+
+			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+				{first_name || nameFiller}
 			</StyledTableCell>
 
 			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
@@ -55,11 +62,7 @@ const SellerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 			</StyledTableCell>
 
 			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-				{email}
-			</StyledTableCell>
-
-			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-				{is_seller}
+				{shop?.name}
 			</StyledTableCell>
 
 			{/* <StyledTableCell align="left" sx={{ fontWeight: 400 }}>

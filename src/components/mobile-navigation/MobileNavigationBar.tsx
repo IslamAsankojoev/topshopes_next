@@ -14,8 +14,7 @@ import { useTypedSelector } from 'src/hooks/useTypedSelector'
 
 const MobileNavigationBar: FC = () => {
 	const width = useWindowSize()
-	const {cart, total_items} = useTypedSelector((state) => state.cartStore)
-
+	const { cart, total_items } = useTypedSelector((state) => state.cartStore)
 
 	const { t } = useTranslation('common')
 
@@ -40,6 +39,11 @@ const MobileNavigationBar: FC = () => {
 
 const list = [
 	{ title: 'home', icon: Home, href: '/' },
+	{
+		title: 'shop',
+		icon: ShoppingBagOutlined,
+		href: '/shop',
+	},
 	{
 		title: 'categories',
 		icon: CategoryOutlined,

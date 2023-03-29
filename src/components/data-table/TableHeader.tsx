@@ -67,19 +67,27 @@ const TableHeader: FC<TableHeaderProps> = (props) => {
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{ color: 'grey.800', fontWeight: 800 }}
 					>
-						{/* <TableSortLabel
-							active={orderBy === headCell.id}
-							onClick={() => onRequestSort(headCell.id)}
-							direction={orderBy === headCell.id ? order : 'asc'}
-							sx={{ '& .MuiTableSortLabel-icon': { opacity: 1 } }}
-							IconComponent={() => (
-								<UpDown sx={{ fontSize: 14, ml: 1, color: 'grey.600' }} />
-							)}
-						> */}
-						{commonT(headCell.label) == headCell.label
-							? adminT(headCell.label)
-							: commonT(headCell.label)}
-						{/* </TableSortLabel> */}
+						{headCell.sortable ? (
+							<TableSortLabel
+								active={orderBy === headCell.id}
+								onClick={() => onRequestSort(headCell.id)}
+								direction={orderBy === headCell.id ? order : 'asc'}
+								sx={{ '& .MuiTableSortLabel-icon': { opacity: 1 } }}
+								IconComponent={() => (
+									<UpDown sx={{ fontSize: 14, ml: 1, color: 'grey.600' }} />
+								)}
+							>
+								{commonT(headCell.label) == headCell.label
+									? adminT(headCell.label)
+									: commonT(headCell.label)}
+							</TableSortLabel>
+						) : (
+							<span>
+								{commonT(headCell.label) == headCell.label
+									? adminT(headCell.label)
+									: commonT(headCell.label)}
+							</span>
+						)}
 					</StyledTableCell>
 				))}
 			</TableRow>

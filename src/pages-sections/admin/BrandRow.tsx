@@ -40,6 +40,14 @@ const BrandRow: FC<BrandRowProps> = ({ brand, selected, refetch }) => {
 			role="checkbox"
 			selected={isItemSelected}
 			aria-checked={isItemSelected}
+			sx={{
+				cursor: 'pointer',
+				transition: 'all 0.2s ease-in-out',
+				'&:hover': {
+					backgroundColor: 'grey.200',
+				},
+			}}
+			onClick={handleEdit}
 		>
 			{/* <StyledTableCell align="center">{id}</StyledTableCell> */}
 
@@ -48,7 +56,13 @@ const BrandRow: FC<BrandRowProps> = ({ brand, selected, refetch }) => {
 			<StyledTableCell align="center">
 				<img
 					src={image}
-					style={{ width: 55, height: 35, objectFit: 'contain', margin: 'auto', borderRadius: 0,  }}
+					style={{
+						width: 55,
+						height: 35,
+						objectFit: 'contain',
+						margin: 'auto',
+						borderRadius: 0,
+					}}
 				/>
 			</StyledTableCell>
 
@@ -56,9 +70,9 @@ const BrandRow: FC<BrandRowProps> = ({ brand, selected, refetch }) => {
 				{/* <StyledIconButton>
 					<RemoveRedEye />
 				</StyledIconButton> */}
-				<StyledIconButton onClick={handleEdit}>
+				{/* <StyledIconButton onClick={handleEdit}>
 					<Edit />
-				</StyledIconButton>
+				</StyledIconButton> */}
 
 				<StyledIconButton onClick={handleRemove}>
 					<Delete />

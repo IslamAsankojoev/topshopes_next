@@ -66,6 +66,7 @@ const CreatePages: NextPageAuth = () => {
 			<H3 mb={2}>{t('addNewPage')}</H3>
 			{isLoading ? <Loading /> : null}
 			<CreateForm
+				maxFormWidth="100%"
 				defaultData={{}}
 				fields={[
 					...pageEditForm,
@@ -74,9 +75,9 @@ const CreatePages: NextPageAuth = () => {
 						label: 'Category',
 						type: 'select',
 						placeholder: 'Enter category',
-						allNames: categories?.results?.map((c) => ({
-							id: c?.id,
-							name: c?.title,
+						allNames: categories?.results?.map((category) => ({
+							id: category?.id,
+							name: category?.title,
 						})),
 						required: true,
 						fullWidth: true,

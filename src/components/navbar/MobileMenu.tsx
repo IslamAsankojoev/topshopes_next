@@ -8,7 +8,7 @@ import {
 	IconButton,
 } from '@mui/material'
 import Scrollbar from 'src/components/Scrollbar'
-import { H6 } from 'src/components/Typography'
+import { H4, H5, H6 } from 'src/components/Typography'
 import NavLink from 'src/components/nav-link/NavLink'
 import navbarNavigations from 'src/data/navbarNavigations'
 import { useTranslation } from 'next-i18next'
@@ -73,16 +73,19 @@ const MobileMenu: FC = () => {
 			if (item.extLink) {
 				return (
 					<Button
+						variant="contained"
+						color="secondary"
 						sx={{
 							display: 'block',
 							width: '100%',
+							backgroundColor: 'secondary.600',
 						}}
 						key={index}
 						onClick={() => {
 							push(item.url)
 						}}
 					>
-						<H6 py={1}>{t(item.title)}</H6>
+						<H5 py={1}>{t(item.title)}</H5>
 					</Button>
 				)
 			}
@@ -133,12 +136,19 @@ const MobileMenu: FC = () => {
 						justifyContent="center"
 						px={5}
 						py={8}
+						gap={2}
 					>
 						<IconButton
 							onClick={() => setOpenDrawer(false)}
 							sx={{ position: 'absolute', right: 30, top: 15 }}
 						>
-							<Clear fontSize="small" />
+							<Clear
+								fontSize="large"
+								sx={{
+									fontSize: '1.9rem',
+									color: 'grey.600',
+								}}
+							/>
 						</IconButton>
 
 						{renderLevels(updateNavigations)}

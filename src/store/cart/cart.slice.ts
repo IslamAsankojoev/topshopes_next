@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify'
 import { getLocalStorage } from 'src/utils/local-storage/localStorage'
 
 import { ICartInitial, ICartItem } from './cart.interface'
@@ -33,6 +34,7 @@ const cartSlice = createSlice({
 			)
 			state.total_items = state.cart?.length
 			localStorage.setItem('cart', JSON.stringify(state.cart))
+			toast.success(`${payload.name} добавлен в корзину`)
 		},
 		removeFromCart: (state, { payload }: PayloadAction<ICartItem>) => {
 			const exist = state.cart.find(
@@ -91,7 +93,7 @@ const cartSlice = createSlice({
 			state.total_price = 0
 			state.total_items = 0
 			localStorage.removeItem('cart')
-		}
+		},
 	},
 })
 

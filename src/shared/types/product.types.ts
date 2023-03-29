@@ -14,6 +14,7 @@ export type IProduct = {
 	reviews: IReview[]
 	description: string
 	is_published: boolean
+	created_at: string
 }
 
 export type IProductPreview = Pick<
@@ -26,13 +27,13 @@ export type IProductPreview = Pick<
 	| 'description'
 	| 'shop'
 	| 'is_published'
+	| 'created_at'
 > & {
 	thumbnail: string
 	discount_price: string
 	price: string
 	discount: string
 	nodeRef?: any
-	created_at?: string
 }
 
 export type IColor = {

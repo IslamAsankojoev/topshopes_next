@@ -13,6 +13,10 @@ import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProduct } from 'src/shared/types/product.types'
 import SEO from 'src/components/SEO'
 import { useRouter } from 'next/router'
+import { relatedProducts } from 'src/fake-db/server/related-products/related-data'
+import RelatedProducts from 'src/components/products/RelatedProducts'
+import FrequentlyBought from 'src/components/products/FrequentlyBought'
+import AvailableShops from 'src/components/products/AvailableShops'
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,
@@ -42,8 +46,6 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 		() => ShopsProductsService.get(query.id as string),
 		{
 			enabled: !!query.id,
-			cacheTime: 0,
-			staleTime: 0,
 			select: (data: IProduct) => data,
 		}
 	)
@@ -71,7 +73,9 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 					<Tab className="inner-tab" label={t('description')} />
 					<Tab
 						className="inner-tab"
-						label={`${t('review')} ${product?.reviews.length}`}
+						label={`${t('review')} ${
+							!!product?.reviews.length ? product?.reviews.length : ''
+						}`}
 					/>
 				</StyledTabs>
 
@@ -82,11 +86,11 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 					{selectedOption === 1 && <ProductReview product={product} />}
 				</Box>
 
-				{/* {frequentlyBought && <FrequentlyBought productsData={frequentlyBought} />}
+				{/* {frequentlyBought && <FrequentlyBought productsData={FrequentlyBought} />} */}
 
-        <AvailableShops />
+				{/* <AvailableShops /> */}
 
-        {relatedProducts && <RelatedProducts productsData={relatedProducts} />} */}
+				{/* {relatedProducts && <RelatedProducts productsData={relatedProducts} />} */}
 			</Container>
 		</ShopLayout1>
 	)

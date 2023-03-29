@@ -181,15 +181,15 @@ export const userEditForm = [
 		required: false,
 	},
 	{
-		name: 'firstName',
-		label: 'firstName',
+		name: 'first_name',
+		label: 'last_name',
 		type: 'text',
 		placeholder: 'firstName',
 		required: true,
 	},
 	{
-		name: 'lastName',
-		label: 'lastName',
+		name: 'last_name',
+		label: 'last_name',
 		type: 'text',
 		placeholder: 'lastName',
 		required: false,
@@ -209,13 +209,13 @@ export const userEditForm = [
 		required: true,
 	},
 
-	{
-		name: 'password',
-		label: 'password',
-		type: 'text',
-		placeholder: 'password',
-		required: false,
-	},
+	// {
+	// 	name: 'password',
+	// 	label: 'password',
+	// 	type: 'text',
+	// 	placeholder: 'password',
+	// 	required: false,
+	// },
 ]
 
 export const siteSettingsFormEdit = [

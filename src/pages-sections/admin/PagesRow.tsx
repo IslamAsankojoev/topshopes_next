@@ -42,6 +42,14 @@ const PagesRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 			role="checkbox"
 			selected={isItemSelected}
 			aria-checked={isItemSelected}
+			sx={{
+				cursor: 'pointer',
+				transition: 'all 0.2s ease-in-out',
+				'&:hover': {
+					backgroundColor: 'grey.200',
+				},
+			}}
+			onClick={handleEdit}
 		>
 			<StyledTableCell align="left">
 				<CategoryWrapper>{title}</CategoryWrapper>
@@ -54,9 +62,9 @@ const PagesRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 			<StyledTableCell align="left">{date_updated}</StyledTableCell>
 
 			<StyledTableCell align="left">
-				<StyledIconButton onClick={handleEdit}>
+				{/* <StyledIconButton onClick={handleEdit}>
 					<Edit />
-				</StyledIconButton>
+				</StyledIconButton> */}
 
 				<StyledIconButton onClick={handleRemove}>
 					<Delete />

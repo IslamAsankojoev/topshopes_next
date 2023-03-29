@@ -28,14 +28,14 @@ import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
 
 // table column list
 const tableHeading = [
-	{ id: 'id', label: 'orderId', align: 'left' },
-	{ id: 'qty', label: 'qty', align: 'left' },
-	{ id: 'Created at', label: 'createdAt', align: 'left' },
-	{ id: 'city', label: 'city', align: 'left' },
-	{ id: 'amount', label: 'price', align: 'left' },
-	{ id: 'profit', label: 'profit', align: 'left' },
-	{ id: 'status', label: 'status', align: 'left' },
-	{ id: 'action', label: 'action', align: 'center' },
+	{ id: 'id', label: 'orderId', align: 'center' },
+	{ id: 'qty', label: 'qty', align: 'center' },
+	{ id: 'Created at', label: 'createdAt', align: 'center' },
+	{ id: 'city', label: 'city', align: 'center' },
+	{ id: 'amount', label: 'price', align: 'center' },
+	{ id: 'profit', label: 'profit', align: 'center' },
+	{ id: 'status', label: 'status', align: 'center' },
+	// { id: 'action', label: 'action', align: 'center' },
 ]
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

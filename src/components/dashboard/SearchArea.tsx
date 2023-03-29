@@ -17,7 +17,13 @@ type SearchAreaProps = {
 // ===============================================================
 
 const SearchArea: FC<SearchAreaProps> = (props) => {
-	const { searchPlaceholder, buttonText, handleSearch, searchOff, sideComponent } = props
+	const {
+		searchPlaceholder,
+		buttonText,
+		handleSearch,
+		searchOff,
+		sideComponent,
+	} = props
 
 	const [searchValue, setSearchValue] = useState('')
 	const debounceValue = useDebounce(searchValue as string)
@@ -38,19 +44,19 @@ const SearchArea: FC<SearchAreaProps> = (props) => {
 				/>
 			)}
 			<Box>
-			{sideComponent}
-			{buttonText ? (
-				<Button
-					color="info"
-					fullWidth={downSM}
-					variant="contained"
-					startIcon={<Add />}
-					sx={{ minHeight: 44 }}
-					onClick={props.handleBtnClick}
-				>
-					{buttonText}
-				</Button>
-			) : null}
+				{sideComponent}
+				{buttonText ? (
+					<Button
+						color="info"
+						fullWidth={downSM}
+						variant="contained"
+						startIcon={<Add />}
+						sx={{ minHeight: 44 }}
+						onClick={props.handleBtnClick}
+					>
+						{buttonText}
+					</Button>
+				) : null}
 			</Box>
 		</FlexBox>
 	)

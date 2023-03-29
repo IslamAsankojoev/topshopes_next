@@ -22,6 +22,8 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 
 	const { push } = useRouter()
 
+	const nameFiller = first_name ? first_name : email.split('@')[0]
+
 	//handlers
 	const onDelete = async () => {
 		if (window.confirm('Are you sure?')) {
@@ -34,21 +36,39 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 		}
 	}
 
+	const handleEdit = () => {
+		push(`customers/${id}`)
+	}
+
 	return customer ? (
-		<StyledTableRow tabIndex={-1} role="checkbox">
+		<StyledTableRow
+			tabIndex={-1}
+			role="checkbox"
+			sx={{
+				cursor: 'pointer',
+				transition: 'all 0.2s ease-in-out',
+				'&:hover': {
+					backgroundColor: 'grey.200',
+				},
+			}}
+			onClick={handleEdit}
+		>
 			<StyledTableCell align="left">
-				<FlexBox alignItems="center" gap={1.5}>
-					<Avatar src={avatar} sx={{}} />
-					<Paragraph>{first_name}</Paragraph>
+				<FlexBox alignItems="center" gap={1.5} p={1}>
+					<Avatar
+						src={avatar || '/assets/images/avatars/001-man.svg'}
+						sx={{}}
+					/>
+					<Paragraph>{email}</Paragraph>
 				</FlexBox>
 			</StyledTableCell>
 
 			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-				{phone}
+				{first_name || nameFiller}
 			</StyledTableCell>
 
 			<StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-				{email}
+				{phone}
 			</StyledTableCell>
 
 			{/* <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
@@ -56,13 +76,13 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 			</StyledTableCell> */}
 
 			<StyledTableCell align="center">
-				<StyledIconButton
+				{/* <StyledIconButton
 					onClick={() => {
 						push(`customers/${id}`)
 					}}
 				>
 					<Edit />
-				</StyledIconButton>
+				</StyledIconButton> */}
 
 				<StyledIconButton onClick={onDelete}>
 					<Delete />

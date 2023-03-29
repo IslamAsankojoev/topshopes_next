@@ -212,11 +212,11 @@ const linkList = [
 	},
 
 	{
-		title: 'shopPanel',
+		title: 'myShop',
 		list: [
 			{
 				href: '/vendor/products-v2/',
-				title: 'store',
+				title: 'myShop',
 				icon: Store,
 			},
 		],

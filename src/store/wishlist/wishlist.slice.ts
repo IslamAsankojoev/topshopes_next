@@ -23,7 +23,6 @@ export const wishlistSlice = createSlice({
 					(item) => item.id !== action.payload.id
 				)
 				localStorage.setItem('wishlist', JSON.stringify(state.items))
-				toast.error('Удалено из избранного')
 			}
 		},
 		setWishList: (state, action: PayloadAction<IProductPreview[]>) => {
