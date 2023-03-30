@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 
 import { useQuery } from 'react-query'
 import { IOrder, IOrderStatus } from 'src/shared/types/order.types'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 import { StatusWrapper } from '../StyledComponents'
 import { useState } from 'react'
@@ -91,7 +91,7 @@ const ClientOrderDetail = () => {
 							{id?.slice(0, 8)}
 						</Paragraph>
 						<StatusWrapper status={order.status}>
-							{dynamicLocalization(statusTranslation[order.status])}
+							{localize(statusTranslation[order.status])}
 						</StatusWrapper>
 					</FlexBox>
 
@@ -104,7 +104,7 @@ const ClientOrderDetail = () => {
 								color="primary.main"
 								bgcolor="primary.light"
 							>
-								{dynamicLocalization({
+								{localize({
 									ru: 'Предполагаемая дата поставки',
 									en: 'Estimated Delivery Date',
 									kz: 'Болжалды жеткізу күні',

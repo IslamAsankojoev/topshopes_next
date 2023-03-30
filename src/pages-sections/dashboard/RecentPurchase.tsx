@@ -6,7 +6,7 @@ import { FC } from 'react'
 import { IOrder } from 'src/shared/types/order.types'
 
 import DataListTable from './table'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 // table column list
 const tableHeading = [
@@ -27,7 +27,7 @@ const RecentPurchase: FC<RecentPurchaseProps> = ({ data }) => {
 		<Card>
 			<FlexBetween px={3} py={2.5}>
 				<H5>
-					{dynamicLocalization({
+					{localize({
 						ru: 'Последние заказы',
 						tr: 'Son siparişler',
 						en: 'Recent Orders',
@@ -44,7 +44,7 @@ const RecentPurchase: FC<RecentPurchaseProps> = ({ data }) => {
 						router.push('/admin/orders')
 					}}
 				>
-					{dynamicLocalization({
+					{localize({
 						ru: 'Все заказы',
 						tr: 'Tüm siparişler',
 						en: 'All Orders',

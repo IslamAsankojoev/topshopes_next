@@ -52,7 +52,12 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 		{
 			queryKey: 'newArrivalsList',
 			queryFn: () =>
-				axiosClassic.get<ResponseList<IProductPreview>>('/latest-products/'),
+				axiosClassic.get<ResponseList<IProductPreview>>('/latest-products/', {
+					params: {
+						page: 1,
+						page_size: 6,
+					},
+				}),
 		},
 		{
 			queryKey: 'topRatedProducts',

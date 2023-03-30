@@ -8,7 +8,7 @@ import { StatusWrapper } from 'src/pages-sections/admin'
 import { FC } from 'react'
 import { IOrderShort } from 'src/shared/types/order.types'
 import { statusTranslation } from 'src/utils/Translate/common'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import { getCurrency } from 'src/utils/getCurrency'
 import { FlexBox } from 'src/components/flex-box'
 
@@ -31,7 +31,7 @@ const OrderRow: FC<IOrderShort> = ({ created_at, id, status, total_price }) => {
 					</H5>
 					<FlexBox m={0.75}>
 						<StatusWrapper status={status}>
-							{dynamicLocalization(statusTranslation[status])}
+							{localize(statusTranslation[status])}
 						</StatusWrapper>
 					</FlexBox>
 					<FlexBox className="pre" m={0.75} textAlign="left">

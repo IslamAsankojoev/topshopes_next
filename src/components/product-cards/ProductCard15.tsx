@@ -3,7 +3,7 @@ import LazyImage from 'src/components/LazyImage'
 import { H6, Paragraph } from 'src/components/Typography'
 import { FC } from 'react'
 import { statusTranslation } from 'src/utils/Translate/common'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 const StyledCard = styled(Box)(({ theme }) => ({
 	textAlign: 'center',
@@ -46,7 +46,7 @@ const ProductCard15: FC<Props> = (props) => {
 				{title}
 			</H6>
 			<Paragraph color="grey.600">
-				{dynamicLocalization(statusTranslation[available])}
+				{localize(statusTranslation[available])}
 			</Paragraph>
 		</StyledCard>
 	)

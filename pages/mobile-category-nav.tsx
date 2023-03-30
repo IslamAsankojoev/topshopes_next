@@ -10,7 +10,7 @@ import { GetStaticProps, NextPage } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { Fragment, useEffect, useState } from 'react'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import { CategoriesService } from 'src/api/services/categories/category.service'
@@ -69,7 +69,7 @@ const MobileCategoryNav: NextPage = () => {
 
 			<Box className="container">
 				<Typography fontWeight="600" fontSize="15px" mb={2}>
-					{dynamicLocalization({
+					{localize({
 						en: 'Categories',
 						ru: 'Категории',
 						kz: 'Категориялар',

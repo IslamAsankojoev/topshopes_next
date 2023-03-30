@@ -19,15 +19,19 @@ import { useMutation, useQuery } from 'react-query'
 import { ResponseList } from 'src/shared/types/response.types'
 import { IAddress } from 'src/shared/types/user.types'
 import { common } from 'src/utils/Translate/common'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import * as yup from 'yup'
-import {MouseEvent} from 'react'
+import { MouseEvent } from 'react'
 
 import EditAddressForm from './EditAddressForm'
 import Heading from './Heading'
 import NewAddressForm from './NewAddressForm'
 import PaymentDialog from './PaymentDialog'
-import { paymentTranslations, payment_methods, deliveryRegions } from './paymentHelper'
+import {
+	paymentTranslations,
+	payment_methods,
+	deliveryRegions,
+} from './paymentHelper'
 import { useActions } from 'src/hooks/useActions'
 
 // ====================================================================
@@ -44,11 +48,11 @@ const initialValues = {
 }
 
 const checkoutFormValidationSchema = yup.object().shape({
-	selectedAddress: yup.mixed().required(dynamicLocalization(common.required)),
-	paymentMethod: yup.string().required(dynamicLocalization(common.required)),
-	deliveryRegion: yup.string().required(dynamicLocalization(common.required)),
-	bankAccount: yup.string().required(dynamicLocalization(common.required)),
-	screenshot: yup.mixed().required(dynamicLocalization(common.required)),
+	selectedAddress: yup.mixed().required(localize(common.required)),
+	paymentMethod: yup.string().required(localize(common.required)),
+	deliveryRegion: yup.string().required(localize(common.required)),
+	bankAccount: yup.string().required(localize(common.required)),
+	screenshot: yup.mixed().required(localize(common.required)),
 })
 
 const CheckoutForm2: FC = () => {
@@ -59,7 +63,7 @@ const CheckoutForm2: FC = () => {
 	const { user } = useTypedSelector((state) => state.userStore)
 
 	const router = useRouter()
-	const {clearCart} = useActions()
+	const { clearCart } = useActions()
 
 	const { data: addresses, refetch } = useQuery(
 		'address get',
@@ -109,17 +113,19 @@ const CheckoutForm2: FC = () => {
 		validationSchema: checkoutFormValidationSchema,
 	})
 
-	const { mutateAsync: orderAsync } = useMutation('order create', () =>
-		ProfilePaymentService.pay({
-			cart,
-			address: values.selectedAddress,
-			data: {
-				bank_account: values.bankAccount,
-				confirm_photo: values.screenshot,
-				payment_type: values.paymentMethod,
-				phone_number: values.selectedAddress.phone,
-			},
-		}),
+	const { mutateAsync: orderAsync } = useMutation(
+		'order create',
+		() =>
+			ProfilePaymentService.pay({
+				cart,
+				address: values.selectedAddress,
+				data: {
+					bank_account: values.bankAccount,
+					confirm_photo: values.screenshot,
+					payment_type: values.paymentMethod,
+					phone_number: values.selectedAddress.phone,
+				},
+			}),
 		{
 			onSuccess: () => {
 				clearCart()
@@ -127,18 +133,15 @@ const CheckoutForm2: FC = () => {
 		}
 	)
 
-	const deleteAddress = async (
-		e: MouseEvent<HTMLElement>,
-		id: string
-	) => {
+	const deleteAddress = async (e: MouseEvent<HTMLElement>, id: string) => {
 		e.stopPropagation()
 		await AddressesService.delete(id)
 		await refetch()
 		if (id == values.selectedAddress?.id) setFieldValue('selectedAddress', null)
 	}
 
-	useEffect(()=>{
-		if(addresses?.length > 0 && !values.selectedAddress){
+	useEffect(() => {
+		if (addresses?.length > 0 && !values.selectedAddress) {
 			setFieldValue('selectedAddress', addresses[0])
 		}
 	}, [values.selectedAddress, addresses])
@@ -198,7 +201,6 @@ const CheckoutForm2: FC = () => {
 				) : null}
 			</Card1>
 
-
 			{/* <Card1 sx={{ mb: 3 }}>
 				<Heading number={2} title={'Выберите регион доставки'} />
 				<RadioWrapper>
@@ -236,15 +238,20 @@ const CheckoutForm2: FC = () => {
 							onClick={() => setFieldValue('paymentMethod', method.id)}
 						>
 							<img src={method.icon.src} alt={method.name} />
-							<Typography sx={{
-								padding: '10px 10px',
-							}}>
+							<Typography
+								sx={{
+									padding: '10px 10px',
+								}}
+							>
 								{method.name}
 								<br />
 								<b>{method.bank_account}</b>
-								</Typography>
-							
-							<PaymentDialog images={method?.images} text={method.instruction}/>
+							</Typography>
+
+							<PaymentDialog
+								images={method?.images}
+								text={method.instruction}
+							/>
 						</RadioItem>
 					))}
 				</RadioWrapper>
@@ -256,8 +263,8 @@ const CheckoutForm2: FC = () => {
 				<TextField
 					sx={{ m: '25px 0 0' }}
 					autoComplete="on"
-					label={dynamicLocalization(paymentTranslations.cardPhoneNumber)}
-					placeholder={dynamicLocalization(paymentTranslations.cardPhoneNumber)}
+					label={localize(paymentTranslations.cardPhoneNumber)}
+					placeholder={localize(paymentTranslations.cardPhoneNumber)}
 					name={'bankAccount'}
 					value={values.bankAccount}
 					onChange={handleChange}

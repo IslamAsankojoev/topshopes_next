@@ -8,7 +8,7 @@ import { FC, memo, ReactNode, useCallback, useEffect, useRef } from 'react'
 import { common } from 'src/utils/Translate/common'
 import { useForm } from 'react-hook-form'
 
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import * as yup from 'yup'
 
 import Field from './Field'
@@ -46,7 +46,7 @@ const CreateForm: FC<CreateFormProps> = ({
 	const { t: commonT } = useTranslation('common')
 	const formRef = useRef(null)
 
-	const required = dynamicLocalization(common.required)
+	const required = localize(common.required)
 
 	const getTranslate = (word: string) => {
 		// если нету в admin то возьмет из common

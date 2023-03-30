@@ -14,7 +14,7 @@ import { IOrder } from 'src/shared/types/order.types'
 import { IProduct } from 'src/shared/types/product.types'
 
 import TableHeader from './TableHeader'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import { statusTranslation } from 'src/utils/Translate/common'
 
 // styled components
@@ -97,7 +97,7 @@ const DataListTable: FC<ListTableProps> = ({
 
 										<StyledTableCell align="left">
 											<StatusWrapper status={status}>
-												{dynamicLocalization(statusTranslation[status])}
+												{localize(statusTranslation[status])}
 											</StatusWrapper>
 										</StyledTableCell>
 

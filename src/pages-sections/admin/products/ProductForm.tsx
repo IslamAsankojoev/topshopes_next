@@ -18,7 +18,7 @@ import { useActions } from 'src/hooks/useActions'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import * as yup from 'yup'
 import { useProductFetch } from './useProductFetch'
 import { ICategory } from 'src/shared/types/product.types'
@@ -174,14 +174,14 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									}
 									label={
 										values.is_published
-											? dynamicLocalization({
+											? localize({
 													ru: 'Опубликовано',
 													tr: 'Yayınlandı',
 													en: 'Published',
 													kg: 'Жарияланды',
 													kz: 'Жарияланды',
 											  })
-											: dynamicLocalization({
+											: localize({
 													ru: 'Не опубликовано',
 													tr: 'Yayınlanmadı',
 													en: 'Not published',
@@ -269,7 +269,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									borderRadius: '0.5rem',
 								}),
 							}}
-							placeholder={dynamicLocalization({
+							placeholder={localize({
 								ru: 'Выберите категорию',
 								tr: 'Kategori seçin',
 								en: 'Select category',
@@ -318,7 +318,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									borderRadius: '0.5rem',
 								}),
 							}}
-							placeholder={dynamicLocalization({
+							placeholder={localize({
 								ru: 'Выберите бренд',
 								tr: 'Marka seçin',
 								en: 'Select brand',
@@ -380,11 +380,11 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									fontSize="20px"
 									fontWeight="700"
 								>
-									{dynamicLocalization(translations.warning)}
+									{localize(translations.warning)}
 								</Typography>
 
 								<Paragraph textAlign="center" my={2} color="error">
-									{dynamicLocalization(translations.warningInfo)}
+									{localize(translations.warningInfo)}
 								</Paragraph>
 							</Grid>
 							<Grid item xs={12} alignSelf="center">
@@ -398,7 +398,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 										color="error"
 										onClick={() => setOpenDialog(false)}
 									>
-										{dynamicLocalization(translations.cancel)}
+										{localize(translations.cancel)}
 									</Button>
 
 									<Button
@@ -409,7 +409,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 										}}
 										// onClick={changeCategory}
 									>
-										{dynamicLocalization(translations.ok)}
+										{localize(translations.ok)}
 									</Button>
 								</FlexBox>
 							</Grid>

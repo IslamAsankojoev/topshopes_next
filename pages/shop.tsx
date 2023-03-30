@@ -98,8 +98,6 @@ const ShopPage = ({ query }) => {
 		})
 	}
 
-	console.log(products)
-
 	return (
 		<ShopLayout1>
 			<SEO title={'Магазин'} description="Topshopes - Магазин" />

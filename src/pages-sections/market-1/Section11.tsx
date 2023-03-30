@@ -3,6 +3,7 @@ import CategorySectionHeader from 'src/components/CategorySectionHeader'
 import ProductCard1 from 'src/components/product-cards/ProductCard1'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
+import { localize } from 'src/utils/Translate/localize'
 
 type Props = { moreItems: any[] }
 
@@ -18,6 +19,13 @@ const Section11: FC<Props> = ({ moreItems }) => {
 						<ProductCard1 hoverEffect product={item} />
 					</Grid>
 				))}
+				<button>
+					{localize({
+						ru: 'Показать еще',
+						tr: 'Daha fazla göster',
+						en: 'Show more',
+					})}
+				</button>
 			</Grid>
 		</Container>
 	)

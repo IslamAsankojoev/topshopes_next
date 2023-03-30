@@ -7,7 +7,7 @@ import { useAppContext } from 'src/contexts/AppContext'
 import useWindowSize from 'src/hooks/useWindowSize'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 import { StyledNavLink, Wrapper, iconStyle } from './styles'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'

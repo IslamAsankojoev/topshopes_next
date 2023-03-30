@@ -1,6 +1,6 @@
 import Cookie from 'js-cookie'
 
-export const dynamicLocalization = (data: {
+export const localize = (data: {
 	ru: string
 	en?: string
 	tr?: string

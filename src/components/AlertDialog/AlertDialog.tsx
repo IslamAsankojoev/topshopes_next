@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { darken } from '@mui/system'
 import { useEffect, useState } from 'react'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 type AlertDialogProps = {
 	title?: string
@@ -63,7 +63,7 @@ const AlertDialog = ({
 						color="error"
 						variant="contained"
 					>
-						{dynamicLocalization({
+						{localize({
 							en: 'Cancel',
 							ru: 'Отмена',
 							kg: 'Жокко чыгаруу',
@@ -79,7 +79,7 @@ const AlertDialog = ({
 							borderRadius: '5px',
 						}}
 					>
-						{dynamicLocalization({
+						{localize({
 							en: 'Confirm',
 							ru: 'Подтвердить',
 							kg: 'Тасдыкла',

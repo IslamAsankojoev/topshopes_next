@@ -28,7 +28,7 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
 import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientRowV2'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
@@ -37,7 +37,7 @@ const tableHeading = [
 	{ id: 'price', label: 'price', align: 'center' },
 	{
 		id: 'publish',
-		label: dynamicLocalization({
+		label: localize({
 			ru: 'Опубликовано',
 			tr: 'Yayınlandı',
 			en: 'Published',

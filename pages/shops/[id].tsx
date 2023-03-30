@@ -11,10 +11,35 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { FC, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { IShop } from 'src/shared/types/shop.types'
+import { useRouter } from 'next/router'
+import ProductCard1List from 'src/components/products/ProductCard1List'
 
-const Shop: FC<{ shop: IShop }> = ({ shop }) => {
+const Shop: FC<{ shop: IShop }> = () => {
 	const width = useWindowSize()
 	const isTablet = width < 1025
+	const router = useRouter()
+
+	const {
+		data: shop,
+		isLoading,
+		error,
+	} = useQuery('shop', () =>
+		ShopsService.get(router.query.id as string, {
+			...router.query,
+			page_size: 18,
+		})
+	)
+
+	const paginationHandler = (page: number) => {
+		router.push(
+			{
+				pathname: router.pathname,
+				query: { ...router.query, page },
+			},
+			undefined,
+			{ scroll: false }
+		)
+	}
 
 	return (
 		<ShopLayout1>
@@ -36,7 +61,21 @@ const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 							</Sidenav>
 						)}
 
-						<ShopProductCardList products={shop.products} />
+						<Grid container spacing={3}>
+							<Grid item md={3} sx={{ display: { md: 'block', xs: 'none' } }}>
+								<ProductFilterCard />
+							</Grid>
+
+							<Grid item md={9} xs={12}>
+								{shop?.products?.length ? (
+									<ProductCard1List
+										products={shop?.products}
+										count={shop?.products?.length}
+										handleChange={paginationHandler}
+									/>
+								) : null}
+							</Grid>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Container>
@@ -47,12 +86,8 @@ const Shop: FC<{ shop: IShop }> = ({ shop }) => {
 export default Shop
 
 export const getServerSideProps = async (context) => {
-	const { id } = context.query
-	const shop = await ShopsService.get(id)
-
 	return {
 		props: {
-			shop,
 			...(await serverSideTranslations(context.locale as string, [
 				'common',
 				'shop',

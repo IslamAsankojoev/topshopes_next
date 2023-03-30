@@ -8,7 +8,7 @@ import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { IOrder, IOrderStatus } from 'src/shared/types/order.types'
 import { statusTranslation } from 'src/utils/Translate/common'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 import {
 	StatusWrapper,
@@ -28,39 +28,39 @@ export const statuses: {
 }[] = [
 	{
 		name: 'payment_error',
-		label: dynamicLocalization(statusTranslation.paymentError),
+		label: localize(statusTranslation.paymentError),
 	},
 	{
 		name: 'pending',
-		label: dynamicLocalization(statusTranslation.pending),
+		label: localize(statusTranslation.pending),
 	},
 	{
 		name: 'paid',
-		label: dynamicLocalization(statusTranslation.paid),
+		label: localize(statusTranslation.paid),
 	},
 	{
 		name: 'ready',
-		label: dynamicLocalization(statusTranslation.ready),
+		label: localize(statusTranslation.ready),
 	},
 	{
 		name: 'shop_decline',
-		label: dynamicLocalization(statusTranslation.shop_decline),
+		label: localize(statusTranslation.shop_decline),
 	},
 	{
 		name: 'delivering',
-		label: dynamicLocalization(statusTranslation.delivering),
+		label: localize(statusTranslation.delivering),
 	},
 	{
 		name: 'delivered',
-		label: dynamicLocalization(statusTranslation.delivered),
+		label: localize(statusTranslation.delivered),
 	},
 	{
 		name: 'canceled',
-		label: dynamicLocalization(statusTranslation.canceled),
+		label: localize(statusTranslation.canceled),
 	},
 	{
 		name: 'completed',
-		label: dynamicLocalization(statusTranslation.completed),
+		label: localize(statusTranslation.completed),
 	},
 ]
 

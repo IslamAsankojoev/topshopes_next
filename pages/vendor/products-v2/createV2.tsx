@@ -19,7 +19,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IProductVariant } from 'src/shared/types/product.types'
 import { formData } from 'src/utils/formData'
 import { getErrorMessage } from 'src/utils/getErrorMessage'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import { v4 } from 'uuid'
 
 const initialValues = {
@@ -40,7 +40,7 @@ const CreateProductV2: NextPageAuth = () => {
 	const handleFormSubmit = async (data: FormData) => {
 		if (variants.length === 0) {
 			toast.error(
-				dynamicLocalization({
+				localize({
 					ru: 'Добавьте варианты товара',
 					tr: 'Ürün varyantlarını ekleyin',
 					en: 'Add product variants',

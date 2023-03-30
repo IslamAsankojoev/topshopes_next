@@ -20,8 +20,7 @@ import { ICartItem } from 'src/store/cart/cart.interface'
 import { FlexBox } from '../flex-box'
 
 import Variables from './Variables'
-import { toast } from 'react-toastify'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import Favorite from '@mui/icons-material/Favorite'
 import { getCurrency } from 'src/utils/getCurrency'
 
@@ -43,9 +42,9 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 		variants[0]
 	)
 
-	const cartList: ICartItem[] = useTypedSelector(
-		(state) => state.cartStore.cart
-	)
+	// const cartList: ICartItem[] = useTypedSelector(
+	// 	(state) => state.cartStore.cart
+	// )
 	const wishlist: IProductPreview[] = useTypedSelector(
 		(state) => state.wishStore.items
 	)
@@ -202,7 +201,14 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							setImage={setSelectedImage}
 							variant={selectedVariant}
 						/>
-						<FlexBox gap={2}>
+						<FlexBox
+							gap={2}
+							sx={{
+								'@media (max-width: 600px)': {
+									flexDirection: 'column',
+								},
+							}}
+						>
 							<BazaarButton
 								color="secondary"
 								disabled={
@@ -211,13 +217,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 								variant="contained"
 								onClick={handleAddToCart}
 								sx={{
-									mb: 4.5,
-									px: '1.75rem',
-									height: 40,
-									color: 'white',
-									'@media (max-width: 600px)': {
-										fontSize: '0.8rem',
-									},
+									p: '.7rem 1rem',
 								}}
 							>
 								{t('addCart')}
@@ -227,17 +227,13 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 								variant={in_wishlist ? 'contained' : 'outlined'}
 								onClick={toggleWishItem}
 								sx={{
-									mb: 4.5,
-									px: '1.75rem',
-									height: 40,
-									'@media (max-width: 600px)': {
-										fontSize: '0.8rem',
-									},
+									p: '.7rem 1rem',
+									border: '1px solid #CA475F!important',
 								}}
 							>
 								<Favorite fontSize="small" sx={{ mr: 1 }} />
 								{in_wishlist
-									? dynamicLocalization({
+									? localize({
 											ru: 'Удалить из избранных',
 											tr: 'Favorilerden kaldır',
 											en: 'Remove from favorites',

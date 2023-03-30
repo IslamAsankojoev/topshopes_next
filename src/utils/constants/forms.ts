@@ -2,7 +2,7 @@ import { IPayment } from 'src/shared/types/order.types'
 import { IShopForm } from 'src/shared/types/shop.types'
 import { IUser } from 'src/shared/types/user.types'
 import { statusTranslation } from 'src/utils/Translate/common'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 export const categoryEditForm = [
 	{
@@ -344,11 +344,11 @@ export const productVariantFormCreate = [
 		allNames: [
 			{
 				id: 'available',
-				name: dynamicLocalization(statusTranslation.available),
+				name: localize(statusTranslation.available),
 			},
 			{
 				id: 'unavailable',
-				name: dynamicLocalization(statusTranslation.unavailable),
+				name: localize(statusTranslation.unavailable),
 			},
 		],
 		required: true,

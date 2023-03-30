@@ -87,10 +87,12 @@ const ProductFilterCard = () => {
 	}
 
 	useEffect(() => {
+		const clearPath = router.asPath.split('?')[0]
+
 		if (isMounted) {
 			router.push(
 				{
-					pathname: '/shop/',
+					pathname: clearPath,
 					query: {
 						max_price: maxPrice,
 						min_price: minPrice,
@@ -120,10 +122,6 @@ const ProductFilterCard = () => {
 		// 	setBrands((prev) => [...prev, ...router.query.brand])
 		// }
 	}, [router.asPath])
-
-	// useEffect(() => {
-	// 	console.log('router.query', router.query)
-	// }, [router.query])
 
 	return (
 		<Card sx={{ p: '18px 27px', overflow: 'auto' }} elevation={1}>

@@ -26,7 +26,7 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientRowV2'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import useSorter from 'src/hooks/useSorter'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -47,13 +47,7 @@ const tableHeading = [
 	{ id: 'price', label: 'price', align: 'center', sortable: false },
 	{
 		id: 'publish',
-		label: dynamicLocalization({
-			ru: 'Опубликовано',
-			tr: 'Yayınlandı',
-			en: 'Published',
-			kg: 'Опубликовано',
-			kz: 'Опубликовано',
-		}),
+		label: localize({ ru: 'Опубликовано', tr: 'Yayınlandı', en: 'Published' }),
 		align: 'center',
 		sortable: false,
 	},

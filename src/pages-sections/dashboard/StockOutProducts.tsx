@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { FC } from 'react'
 
 import DataListTable from './table'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 // table column list
 const tableHeading = [
@@ -24,7 +24,7 @@ const StockOutProducts: FC<StockOutProductsProps> = ({ data }) => {
 		<Card sx={{ height: '100%' }}>
 			<FlexBetween px={3} py={2.5}>
 				<H5>
-					{dynamicLocalization({
+					{localize({
 						ru: 'Склад товаров',
 						tr: 'Ürün stokları',
 						en: 'Stock Out Products',
@@ -41,7 +41,7 @@ const StockOutProducts: FC<StockOutProductsProps> = ({ data }) => {
 						router.push('/admin/products')
 					}}
 				>
-					{dynamicLocalization({
+					{localize({
 						ru: 'Все товары',
 						tr: 'Tüm ürünler',
 						en: 'All Products',

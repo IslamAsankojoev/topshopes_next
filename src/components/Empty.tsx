@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import Image from 'next/image'
 import { FC } from 'react'
 
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 import { H2 } from './Typography'
 
@@ -33,7 +33,7 @@ const Empty: FC<EmptyProps> = ({ children }) => {
 				{children}
 			</Box>
 
-			{/* <H2>{dynamicLocalization(translations.empty)}</H2> */}
+			{/* <H2>{localize(translations.empty)}</H2> */}
 			{/* </Content> */}
 		</Wrapper>
 	)

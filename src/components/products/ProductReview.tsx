@@ -16,7 +16,7 @@ import * as yup from 'yup'
 import { v4 } from 'uuid'
 
 import ProductComment from './ProductComment'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import { ShopsProductsService } from 'src/api/services/products/product.service'
 import { useForm } from 'react-hook-form'
 import useYupValidationResolver from 'src/hooks/useYupValidationResolver'
@@ -50,7 +50,7 @@ const ProductReview: FC<ProductReviewProps> = ({ product }) => {
 		{
 			onSuccess: async () => {
 				toast.success(
-					dynamicLocalization({
+					localize({
 						ru: 'Ваш отзыв успешно отправлен',
 						tr: 'Yorumunuz başarıyla gönderildi',
 						en: 'Your review has been sent successfully',

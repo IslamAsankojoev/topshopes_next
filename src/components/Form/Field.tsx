@@ -31,7 +31,7 @@ import PhoneNumberMask from './PhoneNumberMask'
 import { toast } from 'react-toastify'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import HelpIcon from '@mui/icons-material/Help'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 const DynamicTextEditor = dynamic(
 	() => import('src/components/TextEditor/TextEditor'),
@@ -323,7 +323,7 @@ const Field: FC<any> = (props) => {
 					>
 						{other.label}
 						<Tooltip
-							title={dynamicLocalization({
+							title={localize({
 								ru: 'Выберите несколько атрибутов, которые можно будет указать для каждого товара',
 								tr: 'Birden fazla özellik seçebilirsiniz',
 								en: 'Select multiple attributes that can be specified for each product',

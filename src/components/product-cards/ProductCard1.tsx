@@ -11,6 +11,7 @@ import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import Link from 'next/link'
 import { CSSProperties, FC, useRef } from 'react'
 import { IProductPreview } from 'src/shared/types/product.types'
+import { v4 } from 'uuid'
 
 import { FlexBox } from '../flex-box'
 import { getCurrency } from 'src/utils/getCurrency'
@@ -80,7 +81,7 @@ type ProductCard1Props = {
 
 const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const {
-		id,
+		id = v4(),
 		name,
 		rating,
 		shop,
@@ -95,11 +96,12 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
 
 	const { toggleWish } = useActions()
-	const inWishList = wishListItems.some((item) => item.id === id)
+	const inWishList = wishListItems.some((item) => item?.id === id)
 
 	const toggleIsFavorite = () => {
 		toggleWish(props.product)
 	}
+	console.log('product', props.product)
 
 	return (
 		<StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}>

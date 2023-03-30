@@ -24,7 +24,7 @@ import {
 import { darken } from '@mui/system'
 import { getCurrency } from 'src/utils/getCurrency'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 // ========================================================================
 type ProductRowProps = {
@@ -126,14 +126,14 @@ const ProductRowV2: FC<ProductRowProps> = ({
 						}
 						label={
 							product?.is_published
-								? dynamicLocalization({
+								? localize({
 										ru: 'Опубликовано',
 										tr: 'Yayınlandı',
 										en: 'Published',
 										kg: 'Жарияланды',
 										kz: 'Жарияланды',
 								  })
-								: dynamicLocalization({
+								: localize({
 										ru: 'Не опубликовано',
 										tr: 'Yayınlanmadı',
 										en: 'Not published',
@@ -148,7 +148,7 @@ const ProductRowV2: FC<ProductRowProps> = ({
 			<StyledTableCell align="center">
 				<StyledIconButton onClick={() => router.push(`/product/${id}/`)}>
 					<Tooltip
-						title={dynamicLocalization({
+						title={localize({
 							ru: 'Предпросмотр',
 							tr: 'Önizleme',
 							en: 'Preview',
@@ -163,7 +163,7 @@ const ProductRowV2: FC<ProductRowProps> = ({
 				{!is_superuser && (
 					<StyledIconButton onClick={onDelete}>
 						<Tooltip
-							title={dynamicLocalization({
+							title={localize({
 								ru: 'Удалить',
 								tr: 'Sil',
 								en: 'Delete',

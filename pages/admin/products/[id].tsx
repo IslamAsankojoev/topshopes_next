@@ -24,7 +24,7 @@ import { AttributesService } from 'src/api/services/attributes/attributes.servic
 import VariantList from 'src/pages-sections/admin/products/product-variants/VariantList'
 import { AttributesServiceAdmin } from 'src/api/services-admin/attributes/attributes.service'
 import { ProductVariantAdminService } from 'src/api/services-admin/product-variants/product-variants.service'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -80,7 +80,7 @@ const EditProduct: NextPageAuth = () => {
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
 		if (product.variants.length === 0) {
 			toast.error(
-				dynamicLocalization({
+				localize({
 					ru: 'Добавьте варианты товара',
 					tr: 'Ürün varyantlarını ekleyin',
 					en: 'Add product variants',

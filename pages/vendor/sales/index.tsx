@@ -2,38 +2,28 @@ import {
 	Box,
 	Button,
 	Card,
-	FormControl,
-	IconButton,
-	InputLabel,
-	MenuItem,
 	Pagination,
-	Select,
 	Stack,
 	Table,
 	TableContainer,
 	Typography,
 } from '@mui/material'
-import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined'
 import TableBody from '@mui/material/TableBody'
 import Empty from 'src/components/Empty'
 import Scrollbar from 'src/components/Scrollbar'
 import { H3 } from 'src/components/Typography'
 import SearchArea from 'src/components/dashboard/SearchArea'
 import TableHeader from 'src/components/data-table/TableHeader'
-import TablePagination from 'src/components/data-table/TablePagination'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import useMuiTable from 'src/hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import MoneyTransferRow from 'src/pages-sections/admin/TransferMoneyRow'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
-import { makeRequest } from 'src/api/interceptor'
-import axios, { AxiosResponse } from 'axios'
 import { getCurrency } from 'src/utils/getCurrency'
 import SellIcon from '@mui/icons-material/Sell'
 import { useSession } from 'next-auth/react'
@@ -43,7 +33,7 @@ import InsertInvitationIcon from '@mui/icons-material/InsertInvitation'
 import ApexChart from 'src/components/ApexChart/ApexChart'
 import { ReportsService } from 'src/api/services/reports/reports.service'
 import { IReport } from 'src/shared/types/report.types'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import getMonthMultilang from 'src/utils/constants/getMonthMultilang'
 import { useRouter } from 'next/router'
 import { DateRange } from 'react-date-range'
@@ -51,6 +41,7 @@ import 'react-date-range/dist/styles.css' // main css file
 import 'react-date-range/dist/theme/default.css' // theme css file
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import useOnClickOutside from 'src/hooks/useOnClickOutside'
+import { v4 } from 'uuid'
 
 export type ReportAdmin = {
 	id: string
@@ -119,13 +110,14 @@ const SellerReports: NextPageAuth = () => {
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
 	const { data: session, status } = useSession()
+	const [restart, setRestart] = useState(v4())
 
 	const router = useRouter()
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
 	const { data: reportsPaid, refetch } = useQuery(
-		['get reports paid', rangeDate],
+		['get reports paid', restart],
 		() =>
 			ReportsService.getPaidList(rangeDate[0].startDate, rangeDate[0].endDate),
 		{
@@ -153,11 +145,14 @@ const SellerReports: NextPageAuth = () => {
 
 	useOnClickOutside(rangeModalRef, () => setRangeOpen(false))
 
+	const handleRangeChange = () => {
+		setRestart(v4())
+		setRangeOpen(false)
+	}
+
 	useEffect(() => {
 		refetch()
-		setRangeOpen(false)
-		console.log('rangeDate', rangeDate)
-	}, [rangeDate])
+	}, [restart])
 
 	return (
 		<Box py={4} ref={parent}>
@@ -203,7 +198,7 @@ const SellerReports: NextPageAuth = () => {
 											marginRight: 1,
 										}}
 									/>
-									{dynamicLocalization({
+									{localize({
 										ru: `${rangeDate[0].startDate.toLocaleDateString()} - ${rangeDate[0].endDate?.toLocaleDateString()}`,
 										tr: `${rangeDate[0].startDate.toLocaleDateString()} - ${rangeDate[0].endDate?.toLocaleDateString()}`,
 										en: `${rangeDate[0].startDate.toLocaleDateString()} - ${rangeDate[0].endDate?.toLocaleDateString()}`,
@@ -230,6 +225,21 @@ const SellerReports: NextPageAuth = () => {
 											ranges={rangeDate}
 											maxDate={new Date(tomorrow)}
 										/>
+										<Button
+											onClick={handleRangeChange}
+											fullWidth
+											color="secondary"
+											sx={{
+												backgroundColor: '#4F576A',
+											}}
+											variant="contained"
+										>
+											{localize({
+												ru: 'Применить',
+												tr: 'Uygula',
+												en: 'Apply',
+											})}
+										</Button>
 									</Card>
 								)}
 							</Box>
@@ -344,7 +354,7 @@ const SellerReports: NextPageAuth = () => {
 													? `${getMonthMultilang(
 															new Date(reportPaid.created_at),
 															router.locale
-													  )} (${dynamicLocalization({
+													  )} (${localize({
 															ru: 'Сегодня',
 															tr: 'Bugün',
 															en: 'Today',
@@ -408,7 +418,7 @@ const SellerReports: NextPageAuth = () => {
 						}
 						series={[
 							{
-								name: dynamicLocalization({
+								name: localize({
 									ru: 'Продажи',
 									tr: 'Satışlar',
 									en: 'Sales',
@@ -420,7 +430,7 @@ const SellerReports: NextPageAuth = () => {
 									: [],
 							},
 							{
-								name: dynamicLocalization({
+								name: localize({
 									ru: 'Прибыль',
 									tr: 'Kâr',
 									en: 'Profit',

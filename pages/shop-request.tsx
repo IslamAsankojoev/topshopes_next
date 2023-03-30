@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { ShopCreateForm } from 'src/utils/constants/forms'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -106,27 +106,25 @@ const ShopRequest: NextPageAuth = () => {
 										handleFormSubmit={handleCreateShop}
 										fields={fields}
 										defaultData={{}}
-										buttonText={dynamicLocalization(
-											{
-												en: 'Send request',
-												ru: 'Отправить заявку',
-												kg: 'Жөнөтүү',
-												kz: 'Жөнөтүү',
-												tr: 'İstek gönder',
-											}
-										)}
+										buttonText={localize({
+											en: 'Send request',
+											ru: 'Отправить заявку',
+											kg: 'Жөнөтүү',
+											kz: 'Жөнөтүү',
+											tr: 'İstek gönder',
+										})}
 										buttonPosition="static"
 										buttonSize="large"
 									/>
 									<AlertDialog
-										title={dynamicLocalization({
+										title={localize({
 											en: 'Are you sure?',
 											ru: 'Вы уверены?',
 											kg: 'Вы уверены?',
 											kz: 'Вы уверены?',
 											tr: 'Emin misiniz?',
 										})}
-										description={dynamicLocalization({
+										description={localize({
 											en: 'By clicking Agree you agree to the terms and conditions of the application. You will be notified email once your application approved or rejected.',
 											ru: 'Нажимая кнопку «Согласен», вы соглашаетесь с условиями заявки. Вы получите уведомление по электронной почте, когда ваша заявка будет одобрена или отклонена.',
 											kg: 'Нажимая кнопку «Согласен», вы соглашаетесь с условиями заявки. Вы получите уведомление по электронной почте, когда ваша заявка будет одобрена или отклонена.',

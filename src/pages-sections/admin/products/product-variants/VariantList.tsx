@@ -28,7 +28,7 @@ import VariantForm from './VariantForm'
 import VariantRow from './VariantRow'
 import lodash from 'lodash'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { dynamicLocalization } from 'src/utils/Translate/dynamicLocalization'
+import { localize } from 'src/utils/Translate/localize'
 import { H2, H3 } from 'src/components/Typography'
 import { useRouter } from 'next/router'
 
@@ -97,7 +97,7 @@ const VariantList: FC<Props> = ({
 							}
 							disabled={false}
 						>
-							{dynamicLocalization({
+							{localize({
 								ru: 'Добавить вариант',
 								tr: 'Varyant Ekle',
 								en: 'Add Variant',
@@ -168,7 +168,7 @@ const VariantList: FC<Props> = ({
 							padding="0px 20px"
 							margin="0px"
 						>
-							{dynamicLocalization({
+							{localize({
 								ru: 'Варианты не добавлены, добавьте вариант перед тем как создать товар',
 								tr: 'Varyantlar eklenmedi, ürün oluşturmadan önce varyant ekleyin',
 								en: 'Variants are not added, add a variant before creating a product',
@@ -188,7 +188,7 @@ const VariantList: FC<Props> = ({
 						}
 						disabled={false}
 					>
-						{dynamicLocalization({
+						{localize({
 							ru: 'Добавить вариант',
 							tr: 'Varyant Ekle',
 							en: 'Add Variant',
