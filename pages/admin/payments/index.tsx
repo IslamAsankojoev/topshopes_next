@@ -25,6 +25,7 @@ import { useMutation, useQuery } from 'react-query'
 import { IPayment } from 'src/shared/types/order.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import Lodash from 'lodash'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -49,6 +50,7 @@ Payouts.getLayout = function getLayout(page: ReactElement) {
 
 export default function Payouts() {
 	const { t } = useTranslation('payments')
+	const [parent, enableAnimate] = useAutoAnimate()
 	// table column list
 	const tableHeading = [
 		{
@@ -97,7 +99,7 @@ export default function Payouts() {
 	} = useMuiTable({ listData: data?.results, defaultSort: 'no' })
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{t('payouts')}</H3>
 
 			<Card>

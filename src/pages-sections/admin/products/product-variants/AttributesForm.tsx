@@ -15,7 +15,6 @@ const AttributesForm: FC<Props> = ({
 	attributeValues,
 	initialAttributes = [],
 }) => {
-	console.log('initialAttributes', initialAttributes)
 	return (
 		<form
 			style={{

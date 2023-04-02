@@ -14,6 +14,7 @@ import { ReviewRow } from 'src/pages-sections/admin'
 import { ReactElement } from 'react'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import api from 'src/utils/api/dashboard'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
@@ -26,6 +27,7 @@ type ProductReviewsProps = { reviews: any[] }
 
 const ProductReviews: NextPageAuth<ProductReviewsProps> = ({ reviews }) => {
 	const { t: adminT } = useTranslation('admin')
+	const [parent, enableAnimate] = useAutoAnimate()
 	const {
 		order,
 		orderBy,
@@ -37,7 +39,7 @@ const ProductReviews: NextPageAuth<ProductReviewsProps> = ({ reviews }) => {
 	} = useMuiTable({ listData: reviews })
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('reviews')}</H3>
 
 			{filteredList?.length ? (

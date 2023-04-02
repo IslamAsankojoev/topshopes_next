@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import OrderList from 'src/pages-sections/orders/OrderList'
 import { NextPageAuth } from 'src/shared/types/auth.types'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -18,6 +19,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const Orders: NextPageAuth = () => {
 	const { t } = useTranslation('common')
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	return (
 		<CustomerDashboardLayout>
@@ -26,7 +28,9 @@ const Orders: NextPageAuth = () => {
 				icon={ShoppingBag}
 				navigation={<CustomerDashboardNavigation />}
 			/>
-			<OrderList />
+			<span ref={parent}>
+				<OrderList />
+			</span>
 		</CustomerDashboardLayout>
 	)
 }

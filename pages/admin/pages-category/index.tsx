@@ -17,6 +17,7 @@ import PageCategoryRow from 'src/pages-sections/admin/PageCategoryRow'
 import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -38,6 +39,7 @@ const PageCategoryList: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const {
 		data: pageCategory,
@@ -51,7 +53,7 @@ const PageCategoryList: NextPageAuth = () => {
 		useMuiTable({ listData: pageCategory?.results })
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('pagesCategory')}</H3>
 			{isLoading ? <Loading /> : null}
 			<SearchArea

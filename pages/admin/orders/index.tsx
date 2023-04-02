@@ -28,6 +28,8 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IOrder } from 'src/shared/types/order.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import useSorter from 'src/hooks/useSorter'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -43,7 +45,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 // table column list
 const tableHeading = [
 	{ id: 'id', label: 'id', align: 'center', sortable: true },
-	{ id: 'quantity', label: 'quantity', align: 'center', sortable: true },
+	{
+		id: 'quantity',
+		label: localize({
+			ru: 'Количество',
+			tr: 'Miktar',
+			en: 'Quantity',
+		}),
+		align: 'center',
+		sortable: true,
+	},
 	{ id: 'created_at', label: 'createdAt', align: 'center', sortable: true },
 	{
 		id: 'billingAddress',
@@ -63,6 +74,7 @@ const OrderList: NextPageAuth = () => {
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
 	const { order, orderBy, ordering, handleSorting } = useSorter()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
@@ -109,7 +121,7 @@ const OrderList: NextPageAuth = () => {
 	}, [order, orderBy])
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('orders')}</H3>
 
 			<SearchArea

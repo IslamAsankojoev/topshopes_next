@@ -25,6 +25,7 @@ import { useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 // table column list
 const tableHeading = [
@@ -54,6 +55,7 @@ const OrderList: NextPageAuth = () => {
 	const { t } = useTranslation('common')
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
@@ -86,7 +88,7 @@ const OrderList: NextPageAuth = () => {
 		})
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{t('orders')}</H3>
 
 			<SearchArea

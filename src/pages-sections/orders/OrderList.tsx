@@ -11,6 +11,7 @@ import { IOrder, IOrderShort } from 'src/shared/types/order.types'
 import { ResponseList } from 'src/shared/types/response.types'
 
 import OrderRow from './OrderRow'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 // ============================================================
 type OrderListProps = {}

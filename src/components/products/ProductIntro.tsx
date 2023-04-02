@@ -77,10 +77,6 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 		})
 	}
 
-	useEffect(() => {
-		console.log(selectedVariant?.status)
-	}, [selectedVariant])
-
 	return (
 		<Box width="100%">
 			<Grid container spacing={3} justifyContent="space-around">

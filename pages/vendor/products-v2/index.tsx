@@ -29,6 +29,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
 import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientRowV2'
 import { localize } from 'src/utils/Translate/localize'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
@@ -65,6 +66,7 @@ const ProductList: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
@@ -94,7 +96,7 @@ const ProductList: NextPageAuth = () => {
 	}
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('products')}</H3>
 
 			<SearchArea

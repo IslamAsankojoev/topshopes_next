@@ -35,6 +35,7 @@ import SellIcon from '@mui/icons-material/Sell'
 import { useSession } from 'next-auth/react'
 import { StyledTableCell, StyledTableRow } from 'src/pages-sections/admin'
 import ApexChart from 'src/components/ApexChart/ApexChart'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export type ReportAdmin = {
 	id: string
@@ -85,6 +86,7 @@ const year = [
 const MoneyTransfer: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const currentDate = new Date()
 	const monthNumber = currentDate.getMonth() + 1
@@ -136,7 +138,7 @@ const MoneyTransfer: NextPageAuth = () => {
 	}, [yearValue, monthValue])
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('moneyTransfer')}</H3>
 
 			<SearchArea

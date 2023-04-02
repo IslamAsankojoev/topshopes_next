@@ -123,8 +123,6 @@ const ProductVariantListV2: FC<Props> = ({
 		if (currentCategory) categoryRefetch()
 	}, [currentCategory])
 
-	console.log(product)
-
 	return (
 		<Card1 sx={{ mb: 3, mt: 3 }}>
 			<FlexBetween>

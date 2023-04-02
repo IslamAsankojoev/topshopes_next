@@ -86,6 +86,7 @@ const SellerReports: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
 	const rangeModalRef = useRef()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const [rangeDate, setRangeDate] = useState<RangeDate[]>([
 		{
@@ -96,8 +97,6 @@ const SellerReports: NextPageAuth = () => {
 	])
 
 	const [rangeOpen, setRangeOpen] = useState(false)
-
-	const [parent, enableAnimate] = useAutoAnimate()
 
 	const currentDate = new Date()
 	const dayOfMonth = currentDate.getDate()

@@ -25,6 +25,7 @@ import { ReactElement, useState } from 'react'
 
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -50,6 +51,7 @@ const CategoryList: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
@@ -74,7 +76,7 @@ const CategoryList: NextPageAuth = () => {
 		useMuiTable({ listData: categories?.results })
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('categories')}</H3>
 
 			<SearchArea

@@ -24,6 +24,7 @@ import { BrandRow } from 'src/pages-sections/admin'
 import { ReactElement, useState } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'center' },
@@ -46,8 +47,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 const BrandsList: NextPageAuth = () => {
 	const { t } = useTranslation('adminActions')
 	const { t: adminT } = useTranslation('admin')
-
 	const { push } = useRouter()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
@@ -72,7 +73,7 @@ const BrandsList: NextPageAuth = () => {
 		useMuiTable({ listData: brands?.results })
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('brands')}</H3>
 
 			<SearchArea

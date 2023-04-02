@@ -34,7 +34,6 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch, dialogForm }) => {
 
 	useEffect(() => {
 		setVariant(product?.variant)
-		console.log('product', product)
 	}, [product])
 
 	return (

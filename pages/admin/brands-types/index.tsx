@@ -1,4 +1,11 @@
-import { Box, Card, Pagination, Stack, Table, TableContainer } from '@mui/material'
+import {
+	Box,
+	Card,
+	Pagination,
+	Stack,
+	Table,
+	TableContainer,
+} from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import Empty from 'src/components/Empty'
 import Scrollbar from 'src/components/Scrollbar'
@@ -18,6 +25,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 
 import { BrandTypesService } from 'src/api/services-admin/brand-types/brandTypes.service'
 import BrandsTypesRow from 'src/pages-sections/admin/BrandsTypesRow'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -40,6 +48,7 @@ const BrandsTypesList: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 
 	const { push } = useRouter()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
@@ -53,17 +62,18 @@ const BrandsTypesList: NextPageAuth = () => {
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,
-			}),{
-				keepPreviousData: true,
-				enabled: !!currentPage,
-			}
+			}),
+		{
+			keepPreviousData: true,
+			enabled: !!currentPage,
+		}
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
 		useMuiTable({ listData: brandsTypes?.results })
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('brandType')}</H3>
 
 			<SearchArea
@@ -108,7 +118,12 @@ const BrandsTypesList: NextPageAuth = () => {
 					</Scrollbar>
 
 					<Stack alignItems="center" my={4}>
-						<Pagination variant="outlined" shape="rounded"  count={Math.ceil(brandsTypes?.count / 10)} onChange={(e, page)=> handleChangePage(e, page)}/>
+						<Pagination
+							variant="outlined"
+							shape="rounded"
+							count={Math.ceil(brandsTypes?.count / 10)}
+							onChange={(e, page) => handleChangePage(e, page)}
+						/>
 					</Stack>
 				</Card>
 			) : (

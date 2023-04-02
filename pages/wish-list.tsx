@@ -12,6 +12,7 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IProductPreview } from 'src/shared/types/product.types'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -23,6 +24,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const WishList: NextPageAuth = () => {
 	const { t } = useTranslation('common')
+	const [parent, enableAnimate] = useAutoAnimate()
 	const wihListItems = useTypedSelector((state) => state.wishStore.items)
 	return (
 		<CustomerDashboardLayout>
@@ -38,7 +40,7 @@ const WishList: NextPageAuth = () => {
 				// }
 			/>
 
-			<Grid container spacing={3}>
+			<Grid container spacing={3} ref={parent}>
 				{wihListItems
 					?.map((item: IProductPreview | any) => (
 						<Grid item lg={4} sm={6} xs={6} ref={item.nodeRef}>

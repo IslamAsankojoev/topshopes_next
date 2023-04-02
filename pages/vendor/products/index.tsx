@@ -30,6 +30,7 @@ import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
 import { ResponseList } from 'src/shared/types/response.types'
 import { IProductPreview } from 'src/shared/types/product.types'
 import lodash from 'lodash'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
@@ -54,6 +55,7 @@ const ProductList: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
@@ -87,7 +89,7 @@ const ProductList: NextPageAuth = () => {
 		useMuiTable({ listData: products?.results })
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('products')}</H3>
 
 			<SearchArea

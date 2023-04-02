@@ -27,6 +27,7 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IUser } from 'src/shared/types/user.types'
 import Lodash from 'lodash'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -52,6 +53,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
@@ -76,7 +78,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 		useMuiTable({ listData: users?.results })
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('members')}</H3>
 
 			<SearchArea

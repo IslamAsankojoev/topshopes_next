@@ -18,6 +18,7 @@ import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -42,6 +43,7 @@ const PagesList: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
 	const { push } = useRouter()
+	const [parent, enableAnimate] = useAutoAnimate()
 	const {
 		data: pages,
 		refetch,
@@ -52,7 +54,7 @@ const PagesList: NextPageAuth = () => {
 		useMuiTable({ listData: pages?.results })
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('pageList')}</H3>
 
 			<SearchArea

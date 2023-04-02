@@ -101,7 +101,6 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const toggleIsFavorite = () => {
 		toggleWish(props.product)
 	}
-	console.log('product', props.product)
 
 	return (
 		<StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}>

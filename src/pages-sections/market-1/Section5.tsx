@@ -13,7 +13,6 @@ interface Props {
 const Section5: FC<Props> = ({ newArrivalsList }) => {
 	const { t } = useTranslation('home')
 
-	console.log('newArrivalsList', newArrivalsList)
 	return (
 		<CategorySectionCreator
 			icon={<NewArrival />}

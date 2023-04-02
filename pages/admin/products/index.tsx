@@ -28,6 +28,7 @@ import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientR
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { localize } from 'src/utils/Translate/localize'
 import useSorter from 'src/hooks/useSorter'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -60,6 +61,7 @@ const ProductList: NextPageAuth = () => {
 	const { t } = useTranslation('admin')
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const { order, orderBy, ordering, handleSorting } = useSorter()
 
@@ -99,7 +101,7 @@ const ProductList: NextPageAuth = () => {
 	}, [order, orderBy])
 
 	return (
-		<Box py={4}>
+		<Box py={4} ref={parent}>
 			<H3 mb={2}>{t('products')}</H3>
 
 			<SearchArea
