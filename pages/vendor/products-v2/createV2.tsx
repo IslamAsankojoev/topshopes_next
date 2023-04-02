@@ -53,8 +53,8 @@ const CreateProductV2: NextPageAuth = () => {
 
 		try {
 			// create product
-			const productResponse = await ProductsService.create(data)
-			const productId = productResponse.id
+			const productResponse = await ProductsService.create(data) // create product
+			const productId = productResponse.id // get product id
 
 			// create variants with new product
 			const variantPromises = variants.map(async (variant) => {
@@ -65,8 +65,8 @@ const CreateProductV2: NextPageAuth = () => {
 					thumbnail: variant.thumbnail,
 					stock: variant.stock,
 					status: variant.status,
-				})
-				const variantResponse = await ProductVariantService.create(variantData)
+				}) // create variant data
+				const variantResponse = await ProductVariantService.create(variantData) // create variant
 
 				// const imagePromises = variant?.images.map(async (image) => {
 				// 	const imageData = formData({
@@ -85,11 +85,12 @@ const CreateProductV2: NextPageAuth = () => {
 							value: attribute.value,
 						})
 					}
-				)
-				await Promise.all(attributePromises)
+				) // create attributes
+				await Promise.all(attributePromises) // wait for all attributes to be created
 			})
-			await Promise.all(variantPromises)
-			push(`/vendor/products-v2/`)
+			await Promise.all(variantPromises) // wait for all variants to be created
+			localeVariantsClear() // clear local variants
+			push(`/vendor/products-v2/`) // redirect to products list
 		} catch (e) {
 			console.error(e)
 			toast.error('Продукт не был создан: ' + getErrorMessage(e))
