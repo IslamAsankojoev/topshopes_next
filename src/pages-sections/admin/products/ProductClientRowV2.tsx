@@ -11,7 +11,7 @@ import LazyImage from 'src/components/LazyImage'
 import { Paragraph, Small } from 'src/components/Typography'
 import { FlexBox } from 'src/components/flex-box'
 import { useRouter } from 'next/router'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { IProductPreview } from 'src/shared/types/product.types'
 import VisibilityIcon from '@mui/icons-material/Visibility'
@@ -31,7 +31,7 @@ type ProductRowProps = {
 	product: IProductPreview
 	refetch: () => void
 	is_superuser?: boolean
-	handleSwitchPublish?: (id: string, is_pablished: boolean) => void
+	switchPublish?: (id: string, is_pablished: boolean) => void
 }
 // ========================================================================
 
@@ -39,14 +39,32 @@ const ProductRowV2: FC<ProductRowProps> = ({
 	product,
 	refetch,
 	is_superuser,
-	handleSwitchPublish,
+	switchPublish,
 }) => {
 	const { category, name, thumbnail, shop, price, id } = product
+	const [isPublished, setIsPublished] = useState(false)
 
 	const router = useRouter()
 
+	const handleSwitchPublish = (id: string, is_published: boolean) => {
+		setIsPublished(is_published)
+		switchPublish(id, is_published)
+	}
+
+	useEffect(() => {
+		setIsPublished(product.is_published)
+	}, [product.is_published])
+
 	const onDelete = async () => {
-		if (window.confirm('Are you sure you want to delete this product?')) {
+		if (
+			window.confirm(
+				localize({
+					ru: 'Вы действительно хотите удалить товар?',
+					tr: 'Gerçekten ürünü silmek istiyor musunuz?',
+					en: 'Are you sure you want to delete the product?',
+				})
+			)
+		) {
 			try {
 				await ProductsService.delete(id)
 				refetch()
@@ -119,7 +137,7 @@ const ProductRowV2: FC<ProductRowProps> = ({
 					<FormControlLabel
 						control={
 							<Switch
-								checked={product?.is_published}
+								checked={isPublished}
 								onChange={() => handleSwitchPublish(id, !product?.is_published)}
 								color="success"
 							/>

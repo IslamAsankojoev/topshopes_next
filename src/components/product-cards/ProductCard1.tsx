@@ -96,7 +96,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
 
 	const { toggleWish } = useActions()
-	const inWishList = wishListItems.some((item) => item?.id === id)
+	const isInWishList = wishListItems.some((item) => item?.id === id)
 
 	const toggleIsFavorite = () => {
 		toggleWish(props.product)
@@ -185,7 +185,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						justifyContent={'flex-start'}
 					>
 						<IconButton onClick={toggleIsFavorite}>
-							{inWishList ? (
+							{isInWishList ? (
 								<Favorite color="primary" fontSize="small" />
 							) : (
 								<FavoriteBorder fontSize="small" color="disabled" />

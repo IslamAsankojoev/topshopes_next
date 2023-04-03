@@ -56,7 +56,7 @@ const VariantList: FC<Props> = ({
 	handleVariantCreate,
 }) => {
 	const { t: adminT } = useTranslation('admin')
-	// const { t: commonT } = useTranslation('common')
+
 	const [variantFormOpen, setVariantFormOpen] = useState(false)
 	const [parent, enableAnimations] = useAutoAnimate()
 	const user = useTypedSelector((state) => state.userStore.user)
@@ -133,7 +133,7 @@ const VariantList: FC<Props> = ({
 									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
-								<TableBody ref={parent}>
+								<TableBody>
 									{lodash.orderBy(filteredList, ['id']).map((variant) => (
 										<VariantRow
 											key={variant.id}

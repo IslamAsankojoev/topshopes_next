@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { ProductForm } from 'src/pages-sections/admin'
 import ProductVariantList from 'src/pages-sections/admin/products/product-variants/productVariantList'
 import { productFormValidationSchemaVendor } from 'src/pages-sections/admin/products/productFormValidationSchema'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
@@ -24,6 +24,7 @@ import { ProductVariantService } from 'src/api/services/product-variants/product
 import { dataWithCleanImage, formData } from 'src/utils/formData'
 import { AttributesService } from 'src/api/services/attributes/attributes.service'
 import { localize } from 'src/utils/Translate/localize'
+import lodash from 'lodash'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -39,7 +40,11 @@ export const getServerSideProps = async ({ locale }) => {
 
 const EditProduct: NextPageAuth = () => {
 	const { t } = useTranslation('adminActions')
-	const id = useRouter().query.id
+	const {
+		push,
+		query: { id },
+	} = useRouter()
+	const [variantsBlackList, setVariantsBlackList] = useState<string[]>([])
 
 	const {
 		data: product,
@@ -53,7 +58,7 @@ const EditProduct: NextPageAuth = () => {
 			keepPreviousData: true,
 			onError: (e: any) => toast.error(e.message, { autoClose: 5000 }),
 		}
-	)
+	) // product query
 
 	// product mutation
 	const { mutateAsync } = useMutation(
@@ -68,12 +73,16 @@ const EditProduct: NextPageAuth = () => {
 				toast.error(e.message)
 			},
 		}
-	)
+	) // product mutation
 
-	const { push } = useRouter()
+	const filteredVariantsList = lodash.filter(
+		product?.variants,
+		(item) => !lodash.includes(variantsBlackList, item.id)
+	) // filter variants list
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
-		if (product.variants.length === 0) {
+		if (filteredVariantsList?.length === 0) {
+			// check if variants list is empty
 			toast.error(
 				localize({
 					ru: 'Добавьте варианты товара',
@@ -82,11 +91,17 @@ const EditProduct: NextPageAuth = () => {
 					kg: 'Төрлүктөрдү кошуңуз',
 					kz: 'Төрліктерді қосыңыз',
 				})
-			)
+			) // show error toast
 			return null
 		}
-		await mutateAsync(data)
-		push('/vendor/products-v2/')
+		await mutateAsync(data) // update product
+
+		const variantsPromises = variantsBlackList.map((id) => {
+			return ProductVariantService.delete(id) // delete each variant
+		})
+
+		await Promise.all(variantsPromises) // wait for all promises to resolve
+		push('/vendor/products-v2/') // redirect to products list
 	}
 
 	const handleVariantChange = async (data: IProductVariant) => {
@@ -96,7 +111,7 @@ const EditProduct: NextPageAuth = () => {
 				formData({
 					...dataWithCleanImage(data, 'thumbnail'),
 				})
-			)
+			) // update variant
 
 			const attributePromises = data?.attribute_values.map(
 				async (attrValue: IProductAttributeValue) => {
@@ -114,7 +129,7 @@ const EditProduct: NextPageAuth = () => {
 						value: attrValue.value || '',
 					})
 				}
-			)
+			) // update each attribute
 
 			await Promise.all(attributePromises)
 			refetch()
@@ -124,8 +139,8 @@ const EditProduct: NextPageAuth = () => {
 	}
 
 	const handleVariantRemove = async (id: string) => {
-		await ProductVariantService.delete(id)
-		refetch()
+		setVariantsBlackList((prev) => [...prev, id])
+		// refetch()
 	}
 
 	const handleVariantCreate = async (data: IProductVariant) => {
@@ -164,7 +179,7 @@ const EditProduct: NextPageAuth = () => {
 						isAdmin={false}
 					/> */}
 					<VariantList
-						variants={product.variants}
+						variants={filteredVariantsList}
 						handleVariantChange={handleVariantChange}
 						handleVariantRemove={handleVariantRemove}
 						handleVariantCreate={handleVariantCreate}

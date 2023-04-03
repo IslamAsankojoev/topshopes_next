@@ -22,9 +22,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ProductRow } from 'src/pages-sections/admin'
 import ProductClientRow from 'src/pages-sections/admin/products/ProductClientRow'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
 import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientRowV2'
@@ -68,11 +68,13 @@ const ProductList: NextPageAuth = () => {
 	const { push } = useRouter()
 	const [parent, enableAnimate] = useAutoAnimate()
 
+	const queryClient = useQueryClient()
+
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
 
 	const { data: products, refetch } = useQuery(
-		[`products search=`, searchValue + currentPage],
+		[`products`, searchValue + currentPage],
 		() =>
 			ProductsService.getList({
 				search: searchValue,
@@ -90,9 +92,11 @@ const ProductList: NextPageAuth = () => {
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
-	const handleSwitchPublish = async (id: string, is_published: boolean) => {
+	const switchPublish = async (id: string, is_published: boolean) => {
 		await ProductsService.update(id, { is_published: is_published })
-		refetch()
+		queryClient
+			.invalidateQueries([`products`, searchValue + currentPage])
+			.then(() => refetch())
 	}
 
 	return (
@@ -130,7 +134,7 @@ const ProductList: NextPageAuth = () => {
 											refetch={refetch}
 											product={product}
 											key={index}
-											handleSwitchPublish={handleSwitchPublish}
+											switchPublish={switchPublish}
 										/>
 									))}
 								</TableBody>

@@ -91,7 +91,7 @@ const ProductList: NextPageAuth = () => {
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 	const user = useTypedSelector((state) => state.userStore.user)
 
-	const handleSwitchPublish = async (id: string, is_published: boolean) => {
+	const switchPublish = async (id: string, is_published: boolean) => {
 		await AdminProductsService.update(id, { is_published: is_published })
 		refetch()
 	}
@@ -137,7 +137,7 @@ const ProductList: NextPageAuth = () => {
 											product={product}
 											key={index}
 											is_superuser={user?.is_superuser}
-											handleSwitchPublish={handleSwitchPublish}
+											switchPublish={switchPublish}
 										/>
 									))}
 								</TableBody>

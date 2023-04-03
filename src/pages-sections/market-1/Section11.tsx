@@ -19,14 +19,14 @@ const Section11: FC<Props> = ({ moreItems }) => {
 						<ProductCard1 hoverEffect product={item} />
 					</Grid>
 				))}
-				<button>
-					{localize({
-						ru: 'Показать еще',
-						tr: 'Daha fazla göster',
-						en: 'Show more',
-					})}
-				</button>
 			</Grid>
+			<button>
+				{localize({
+					ru: 'Показать еще',
+					tr: 'Daha fazla göster',
+					en: 'Show more',
+				})}
+			</button>
 		</Container>
 	)
 }
