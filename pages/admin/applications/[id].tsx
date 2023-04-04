@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Box, Card, Divider, MenuItem } from '@mui/material'
+import { Box, Button, Card, Divider, Link, MenuItem } from '@mui/material'
 import { ApplicationServices } from 'src/api/services-admin/applications/applications.service'
 import Loading from 'src/components/Loading'
 import { H3, H6, Paragraph } from 'src/components/Typography'
@@ -167,6 +167,7 @@ const UpdateApplication: NextPageAuth = () => {
 								/>
 							)}
 						</FlexBetween>
+						<Divider />
 						{applicationData.map((app, ind) => (
 							<div key={ind}>
 								<FlexBetween my={1.5}>
@@ -181,16 +182,31 @@ const UpdateApplication: NextPageAuth = () => {
 								<Divider />
 							</div>
 						))}
+						<Link href={application?.document} target="_blank">
+							{localize({
+								ru: 'Посмотреть документ в новой вкладке',
+								tr: 'Belgeyi yeni sekmede görüntüle',
+								en: 'View document in new tab',
+							})}
+						</Link>
 					</FlexBox>
 				</Card>
-				<Card>
-					{/* <PDFviewer pdfUrl={application?.document} /> */}
-					<iframe
-						src={application?.document}
-						width="100%"
-						height="600px"
-					></iframe>
-				</Card>
+				<span>
+					<Card>
+						<object
+							data={application?.document}
+							type="application/pdf"
+							width="100%"
+							height="590px"
+						>
+							<p>
+								<a href={application?.document}>
+									{getTranslate('download_document')}
+								</a>
+							</p>
+						</object>
+					</Card>
+				</span>
 			</CardsWrapper>
 		</Box>
 	)

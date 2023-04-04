@@ -6,13 +6,14 @@ import {
 	Grid,
 	IconButton,
 	MenuItem,
+	Pagination,
 	TextField,
 	Theme,
 } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { ShopsProductsService } from 'src/api/services/shops-products/ShopsProducts.service'
-import { H5, Paragraph } from 'src/components/Typography'
-import { FlexBox } from 'src/components/flex-box'
+import { H5, Paragraph, Span } from 'src/components/Typography'
+import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import ShopLayout1 from 'src/components/layouts/ShopLayout1'
 import ProductCard1List from 'src/components/products/ProductCard1List'
 import ProductFilterCard from 'src/components/products/ProductFilterCard'
@@ -25,7 +26,8 @@ import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProductPreview } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import SEO from 'src/components/SEO'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { localize } from 'src/utils/Translate/localize'
 
 // ===================================================
 export const getServerSideProps: GetServerSideProps = async ({
@@ -92,34 +94,57 @@ const ShopPage = ({ query }) => {
 	}
 
 	const filterHandler = (params: Record<string, string | number>) => {
-		router.push({
-			pathname: router.pathname,
-			query: { ...router.query, ...params, page: 1 },
-		})
+		router.push(
+			{
+				pathname: router.pathname,
+				query: { ...router.query, ...params, page: 1 },
+			},
+			undefined,
+			{ scroll: false }
+		)
 	}
+
+	useEffect(() => {
+		router.replace(router.asPath, router.asPath + '#shop-page')
+	}, [router.query.page])
 
 	return (
 		<ShopLayout1>
 			<SEO title={'Магазин'} description="Topshopes - Магазин" />
-			<Container sx={{ mt: 4, mb: 6 }}>
+			<Container
+				sx={{
+					mb: 4,
+				}}
+			>
+				<Box
+					id="shop-page"
+					sx={{
+						width: '100%!important',
+						height: '10px!important',
+						marginTop: 2,
+						marginBottom: 2,
+					}}
+				></Box>
 				<Card
 					elevation={1}
 					sx={{
-						mb: '55px',
 						display: 'flex',
 						flexWrap: 'wrap',
 						alignItems: 'center',
 						justifyContent: 'space-between',
-						p: {
-							sm: '1rem 1.25rem',
-							md: '0.5rem 1.25rem',
-							xs: '1.25rem 1.25rem 0.25rem',
-						},
+						p: '1rem 1.25rem',
 					}}
 				>
 					<Box>
 						<H5>{t('shopPage')}</H5>
-						{/* <Paragraph color="grey.600">48 results found</Paragraph> */}
+						<Paragraph color="grey.600">
+							{products?.count}{' '}
+							{localize({
+								ru: 'товаров',
+								tr: 'ürünler',
+								en: 'products',
+							})}
+						</Paragraph>
 					</Box>
 
 					<FlexBox
@@ -129,9 +154,11 @@ const ShopPage = ({ query }) => {
 						my="0.5rem"
 					>
 						<FlexBox alignItems="center" gap={1} flex="1 1 0">
-							<Paragraph color="grey.600" whiteSpace="pre">
-								{t('sort')}:
-							</Paragraph>
+							{!downMd && (
+								<Paragraph color="grey.600" whiteSpace="pre">
+									{t('sort')}:
+								</Paragraph>
+							)}
 
 							<TextField
 								select
@@ -168,8 +195,22 @@ const ShopPage = ({ query }) => {
 						</FlexBox>
 					</FlexBox>
 				</Card>
+				<FlexBetween
+					flexWrap="wrap"
+					sx={{ mt: 3, mb: 3 }}
+					justifyContent="center"
+				>
+					{!!products?.count && (
+						<Pagination
+							variant="text"
+							shape="rounded"
+							count={Math.ceil(products?.count / 18)}
+							onChange={(e, page) => paginationHandler(page)}
+						/>
+					)}
+				</FlexBetween>
 
-				<Grid container spacing={3}>
+				<Grid container spacing={2}>
 					<Grid item md={3} sx={{ display: { md: 'block', xs: 'none' } }}>
 						<ProductFilterCard />
 					</Grid>

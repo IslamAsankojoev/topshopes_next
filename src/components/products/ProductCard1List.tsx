@@ -26,11 +26,10 @@ const ProductCard1List: FC<ProductCard1ListProps> = ({
 				))}
 			</Grid>
 
-			<FlexBetween flexWrap="wrap" mt={4}>
-				<Span color="grey.600"></Span>
+			<FlexBetween flexWrap="wrap" mt={4} justifyContent="center">
 				{!!count && (
 					<Pagination
-						variant="outlined"
+						variant="text"
 						shape="rounded"
 						count={Math.ceil(count / 18)}
 						onChange={(e, page) => handleChange(page)}
