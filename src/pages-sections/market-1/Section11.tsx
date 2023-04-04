@@ -1,14 +1,16 @@
-import { Container, Grid } from '@mui/material'
+import { Button, Container, Grid } from '@mui/material'
 import CategorySectionHeader from 'src/components/CategorySectionHeader'
 import ProductCard1 from 'src/components/product-cards/ProductCard1'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 import { localize } from 'src/utils/Translate/localize'
+import { useRouter } from 'next/router'
 
 type Props = { moreItems: any[] }
 
 const Section11: FC<Props> = ({ moreItems }) => {
 	const { t } = useTranslation('home')
+	const { push } = useRouter()
 	return (
 		<Container sx={{ mb: '70px' }}>
 			<CategorySectionHeader title={t('moreForYou')} seeMoreLink="/shop" />
@@ -20,13 +22,20 @@ const Section11: FC<Props> = ({ moreItems }) => {
 					</Grid>
 				))}
 			</Grid>
-			<button>
+			<Button
+				variant="contained"
+				color="primary"
+				sx={{ m: 'auto', mt: '50px', display: 'block', textTransform: 'none' }}
+				onClick={() => {
+					push('/shop')
+				}}
+			>
 				{localize({
-					ru: 'Показать еще',
+					en: 'See More',
+					ru: 'Посмотреть больше',
 					tr: 'Daha fazla göster',
-					en: 'Show more',
 				})}
-			</button>
+			</Button>
 		</Container>
 	)
 }

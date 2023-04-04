@@ -1,19 +1,19 @@
 import styled from '@emotion/styled'
-import { Box, Card, Divider, MenuItem, Select } from '@mui/material'
+import { Box, Card, Divider, MenuItem } from '@mui/material'
 import { ApplicationServices } from 'src/api/services-admin/applications/applications.service'
 import Loading from 'src/components/Loading'
 import { H3, H6, Paragraph } from 'src/components/Typography'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
-import { Pdf } from 'src/components/pdf-viewer/Pdf'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { StatusWrapper } from 'src/pages-sections/admin'
 import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
+import Select from 'react-select'
+import { localize } from 'src/utils/Translate/localize'
 
 const CardsWrapper = styled.div`
 	display: grid;
@@ -42,7 +42,34 @@ const applicationData = [
 	// 'user',
 ]
 
-const statuses = ['moderation', 'approved', 'rejected']
+// const statuses = ['moderation', 'approved', 'rejected']
+
+const options = [
+	{
+		value: 'moderation',
+		label: localize({
+			ru: 'На модерации',
+			tr: 'Moderasyonda',
+			en: 'Moderation',
+		}),
+	},
+	{
+		value: 'approved',
+		label: localize({
+			ru: 'Одобрено',
+			tr: 'Onaylandı',
+			en: 'Approved',
+		}),
+	},
+	{
+		value: 'rejected',
+		label: localize({
+			ru: 'Отклонено',
+			tr: 'Reddedildi',
+			en: 'Rejected',
+		}),
+	},
+]
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -66,7 +93,6 @@ const UpdateApplication: NextPageAuth = () => {
 	}
 
 	const {
-		push,
 		query: { id },
 	} = useRouter()
 
@@ -94,6 +120,14 @@ const UpdateApplication: NextPageAuth = () => {
 		}
 	)
 
+	const handleChangeStatus = async (status: string) => {
+		await mutateAsync({ status })
+	}
+
+	// useEffect(() => {
+	// 	console.log(currentStatus)
+	// }, [application])
+
 	return (
 		<Box py={4}>
 			<H3 mb={2} sx={{ textTransform: 'uppercase' }}>
@@ -104,6 +138,7 @@ const UpdateApplication: NextPageAuth = () => {
 				<Card
 					sx={{
 						p: 4,
+						overflow: 'visible',
 					}}
 				>
 					<FlexBox
@@ -113,6 +148,25 @@ const UpdateApplication: NextPageAuth = () => {
 							flexDirection: 'column',
 						}}
 					>
+						<FlexBetween my={1.5}>
+							<Paragraph color="grey.900" sx={{ textTransform: 'uppercase' }}>
+								{getTranslate('status')}:
+							</Paragraph>
+							{application?.status && (
+								<Select
+									options={options}
+									defaultValue={{
+										value: application?.status,
+										label: options.find(
+											(predicate) => predicate.value === application?.status
+										)?.label,
+									}}
+									onChange={(e) => {
+										handleChangeStatus(e.value)
+									}}
+								/>
+							)}
+						</FlexBetween>
 						{applicationData.map((app, ind) => (
 							<div key={ind}>
 								<FlexBetween my={1.5}>
@@ -127,43 +181,15 @@ const UpdateApplication: NextPageAuth = () => {
 								<Divider />
 							</div>
 						))}
-						<FlexBetween my={1.5}>
-							<Paragraph color="grey.900" sx={{ textTransform: 'uppercase' }}>
-								{getTranslate('status')}:
-							</Paragraph>
-							<Select
-								className="order-status-admin"
-								sx={{
-									'& .MuiSelect-select': {
-										padding: '0px!important',
-										fontSize: '1rem',
-										fontWeight: 400,
-										color: 'text.primary',
-										backgroundColor: 'background.paper',
-										border: '0px solid!important',
-										borderColor: 'divider',
-										'& fieldset': {
-											display: 'none!important',
-										},
-									},
-								}}
-								onChange={(e) => mutateAsync({ status: e.target.value })}
-								disableUnderline={true}
-								value={application?.status}
-							>
-								{statuses.map((status) => (
-									<MenuItem value={status}>
-										<StatusWrapper status={status as any}>
-											{status}
-										</StatusWrapper>
-									</MenuItem>
-								))}
-							</Select>
-						</FlexBetween>
 					</FlexBox>
 				</Card>
 				<Card>
-					<Pdf document={application?.document} />
+					{/* <PDFviewer pdfUrl={application?.document} /> */}
+					<iframe
+						src={application?.document}
+						width="100%"
+						height="600px"
+					></iframe>
 				</Card>
 			</CardsWrapper>
 		</Box>
