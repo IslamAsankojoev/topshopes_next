@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Box, Button, Card, Divider, Link, MenuItem } from '@mui/material'
+import { Box, Card, Divider, Link, MenuItem } from '@mui/material'
 import { ApplicationServices } from 'src/api/services-admin/applications/applications.service'
 import Loading from 'src/components/Loading'
 import { H3, H6, Paragraph } from 'src/components/Typography'
@@ -21,7 +21,6 @@ const CardsWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 	grid-gap: 20px;
-
 	@media (max-width: 730px) {
 		grid-template-columns: 1fr;
 	}

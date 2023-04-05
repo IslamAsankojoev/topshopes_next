@@ -4,8 +4,8 @@ import { toast } from 'react-toastify'
 import { IAuthResponse, ILogin, IRegister } from 'src/store/user/user.interface'
 import { getErrorMessage } from 'src/utils/getErrorMessage'
 
-import { removeToken, saveToStorage, saveToken } from './auth.helpers'
-import { getSession, signIn, signOut } from 'next-auth/react'
+import { saveToStorage } from './auth.helpers'
+import { getSession, signOut } from 'next-auth/react'
 import { IUser } from 'src/shared/types/user.types'
 
 export const AuthService = {
@@ -38,11 +38,10 @@ export const AuthService = {
 
 	logout: async () => {
 		try {
-			// removeToken()
-			signOut({
+			const response = await signOut({
 				callbackUrl: '/login',
 			})
-			localStorage.removeItem('user')
+			if (!!response) localStorage.removeItem('user')
 		} catch (error) {
 			toast.error(`auth: ${getErrorMessage(error)}`)
 			throw error
@@ -56,9 +55,6 @@ export const AuthService = {
 				// @ts-ignore
 				refresh: session.refreshToken,
 			})
-			// if (response.data.access) {
-			// 	saveToken(response.data)
-			// }
 			return response.data
 		} catch (error) {
 			toast.error(`auth: ${getErrorMessage(error)}`)

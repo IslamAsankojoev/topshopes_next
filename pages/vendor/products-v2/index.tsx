@@ -65,20 +65,20 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 const ProductList: NextPageAuth = () => {
 	const { t: adminT } = useTranslation('admin')
 	const { t } = useTranslation('adminActions')
-	const { push } = useRouter()
+	const { push, replace, asPath, query } = useRouter()
 	const [parent, enableAnimate] = useAutoAnimate()
 
 	const queryClient = useQueryClient()
 
 	const [searchValue, setSearchValue] = useState('')
-	const [currentPage, setCurrentPage] = useState(1)
+	const [currentPage, setCurrentPage] = useState(Number(query?.page) || 1)
 
 	const { data: products, refetch } = useQuery(
 		[`products`, searchValue + currentPage],
 		() =>
 			ProductsService.getList({
 				search: searchValue,
-				page: currentPage,
+				page: currentPage.toString(),
 				page_size: 10,
 			}),
 		{
@@ -90,7 +90,12 @@ const ProductList: NextPageAuth = () => {
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
 		useMuiTable({ listData: products?.results })
 
-	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
+	const handleChangePage = (_: unknown, newPage: number) => {
+		replace({
+			pathname: asPath.split('?')[0],
+			query: { ...query, page: newPage },
+		})
+	}
 
 	const switchPublish = async (id: string, is_published: boolean) => {
 		await ProductsService.update(id, { is_published: is_published })
@@ -99,13 +104,17 @@ const ProductList: NextPageAuth = () => {
 			.then(() => refetch())
 	}
 
+	useEffect(() => {
+		setCurrentPage(Number(query?.page) || 1)
+	}, [query?.page])
+
 	return (
 		<Box py={4} ref={parent}>
 			<H3 mb={2}>{adminT('products')}</H3>
 
 			<SearchArea
 				handleSearch={(value: string) => {
-					setCurrentPage(1)
+					// handleChangePage(null, 1)
 					setSearchValue(value)
 				}}
 				buttonText={t('addNewProduct')}
@@ -148,6 +157,7 @@ const ProductList: NextPageAuth = () => {
 								<Pagination
 									variant="outlined"
 									shape="rounded"
+									page={currentPage}
 									count={Math.ceil(products?.count / 10)}
 									onChange={(e, page) => handleChangePage(e, page)}
 								/>

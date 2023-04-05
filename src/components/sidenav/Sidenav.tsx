@@ -1,7 +1,8 @@
-import { Box, Drawer, styled } from '@mui/material'
+import { Box, Drawer, styled, Tooltip } from '@mui/material'
 import clsx from 'clsx'
 import Scrollbar from 'src/components/Scrollbar'
 import { FC, cloneElement, useEffect, useState, ReactElement } from 'react'
+import Toggle from '../icons/Toggle'
 
 // styled component
 const Wrapper = styled(Box)(() => ({ '& .handle': { cursor: 'pointer' } }))
@@ -36,12 +37,11 @@ const Sidenav: FC<SidenavProps> = (props) => {
 			>
 				<Scrollbar autoHide={false}>{children}</Scrollbar>
 			</Drawer>
-
-			{/* {handle &&
+			{handle &&
 				cloneElement(handle, {
 					onClick: toggleSidenav || handleToggleSidenav,
 					className: clsx(handle.props?.className, 'handle'),
-				})} */}
+				})}
 		</Wrapper>
 	)
 }

@@ -1,4 +1,5 @@
 import { FilterList } from '@mui/icons-material'
+import TuneIcon from '@mui/icons-material/Tune'
 import {
 	Box,
 	Card,
@@ -26,7 +27,7 @@ import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProductPreview } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import SEO from 'src/components/SEO'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { localize } from 'src/utils/Translate/localize'
 
 // ===================================================
@@ -62,6 +63,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 const ShopPage = ({ query }) => {
 	const router = useRouter()
+	const scrollElementRef = useRef(null)
 	const { data: products } = useQuery(
 		['shop products page', query],
 		() => ShopsProductsService.getList({ ...query, page_size: 18 }),
@@ -105,7 +107,10 @@ const ShopPage = ({ query }) => {
 	}
 
 	useEffect(() => {
-		router.replace(router.asPath, router.asPath + '#shop-page')
+		scrollElementRef.current.scrollIntoView({
+			behavior: 'smooth',
+			block: 'nearest',
+		})
 	}, [router.query.page])
 
 	return (
@@ -117,7 +122,7 @@ const ShopPage = ({ query }) => {
 				}}
 			>
 				<Box
-					id="shop-page"
+					ref={scrollElementRef}
 					sx={{
 						width: '100%!important',
 						height: '10px!important',
@@ -184,8 +189,8 @@ const ShopPage = ({ query }) => {
 							{downMd && (
 								<Sidenav
 									handle={
-										<IconButton>
-											<FilterList fontSize="small" />
+										<IconButton color="secondary">
+											<TuneIcon fontSize="small" />
 										</IconButton>
 									}
 								>
@@ -204,6 +209,7 @@ const ShopPage = ({ query }) => {
 						<Pagination
 							variant="text"
 							shape="rounded"
+							page={Number(router.query.page) || 1}
 							count={Math.ceil(products?.count / 18)}
 							onChange={(e, page) => paginationHandler(page)}
 						/>

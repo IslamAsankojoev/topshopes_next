@@ -14,26 +14,6 @@ const userSlice = createSlice({
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
-		// builder.addCase(register.pending, (state) => {
-		// 	state.isLoading = true
-		// })
-		// builder.addCase(register.fulfilled, (state, action: PayloadAction<any>) => {
-		// 	state.user = action.payload
-		// 	state.isLoading = false
-		// })
-		// builder.addCase(register.rejected, (state) => {
-		// 	state.isLoading = false
-		// })
-		// builder.addCase(login.pending, (state) => {
-		// 	state.isLoading = true
-		// })
-		// builder.addCase(login.fulfilled, (state, action: PayloadAction<any>) => {
-		// 	state.user = action.payload
-		// 	state.isLoading = false
-		// })
-		// builder.addCase(login.rejected, (state) => {
-		// 	state.isLoading = false
-		// })
 		builder.addCase(logout.pending, (state) => {
 			state.isLoading = true
 		})

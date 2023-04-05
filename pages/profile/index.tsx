@@ -1,7 +1,7 @@
 import Person from '@mui/icons-material/Person'
 import { Avatar, Box, Button, Card, Grid, Typography } from '@mui/material'
 import TableRow from 'src/components/TableRow'
-import { H3, H5, Small } from 'src/components/Typography'
+import { H5, Small } from 'src/components/Typography'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import UserDashboardHeader from 'src/components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'src/components/layouts/customer-dashboard'
@@ -11,7 +11,6 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
-import { useEffect } from 'react'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -133,13 +132,6 @@ const Profile: NextPageAuth = () => {
 		)
 	)
 }
-
-const infoList = [
-	{ title: '16', subtitle: 'All Orders' },
-	{ title: '02', subtitle: 'Awaiting Payments' },
-	{ title: '00', subtitle: 'Awaiting Shipment' },
-	{ title: '01', subtitle: 'Awaiting Delivery' },
-]
 
 Profile.isOnlyAuth = true
 

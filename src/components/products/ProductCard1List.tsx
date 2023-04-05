@@ -4,6 +4,7 @@ import { FlexBetween } from 'src/components/flex-box'
 import ProductCard1 from 'src/components/product-cards/ProductCard1'
 import { FC, Fragment } from 'react'
 import { IProductPreview } from 'src/shared/types/product.types'
+import { useRouter } from 'next/router'
 
 type ProductCard1ListProps = {
 	products: IProductPreview[]
@@ -16,6 +17,8 @@ const ProductCard1List: FC<ProductCard1ListProps> = ({
 	count,
 	handleChange,
 }) => {
+	const router = useRouter()
+
 	return (
 		<Fragment>
 			<Grid container spacing={3}>
@@ -31,6 +34,7 @@ const ProductCard1List: FC<ProductCard1ListProps> = ({
 					<Pagination
 						variant="text"
 						shape="rounded"
+						page={Number(router.query.page) || 1}
 						count={Math.ceil(count / 18)}
 						onChange={(e, page) => handleChange(page)}
 					/>
