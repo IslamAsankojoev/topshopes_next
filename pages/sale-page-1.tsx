@@ -1,20 +1,12 @@
 import { NextPage } from 'next'
 import { useEffect, useRef, useState } from 'react'
-import { Box, Chip, Container, Grid, Pagination, styled } from '@mui/material'
-import SEO from 'src/components/SEO'
-import SaleNavbar from 'src/components/navbar/SaleNavbar'
+import { Box, Chip, styled } from '@mui/material'
 import SaleLayout from 'src/components/layouts/SaleLayout'
-import ProductCard1 from 'src/components/product-cards/ProductCard1'
-import { FlexBetween, FlexBox, FlexRowCenter } from 'src/components/flex-box'
-import { H1, H5, Span } from 'src/components/Typography'
-import appIcons from 'src/components/icons'
-import productDB from 'src/data/product-database'
-import { renderProductCount } from '../src/lib'
+import { FlexRowCenter } from 'src/components/flex-box'
 import useScroller from 'src/hooks/useScroller'
 import Product from 'src/models/product.model'
 import Category from 'src/models/category.model'
 import api from 'src/utils/__api__/sales'
-import { v4 } from 'uuid'
 
 // import productsList from "data/product-database";
 

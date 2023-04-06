@@ -8,7 +8,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { FC } from 'react'
 
 import gmailImg from '../public/assets/images/banner.webp'
-import SEO from '../src/components/SEO'
+import SEO from 'src/components/SEO'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -23,7 +23,7 @@ const AboutPage: FC = () => {
 
 	return (
 		<ShopLayout1>
-			<SEO title="О нас" description='О компании Topshopes' />
+			<SEO title="О нас" description="О компании Topshopes" />
 			<Container sx={{ pb: '2rem', pt: '2rem' }}>
 				<Grid container spacing={{ xs: 2, md: 10 }}>
 					<Grid item xs={12} sm={6} alignSelf={'center'}>

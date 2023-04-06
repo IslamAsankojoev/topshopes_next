@@ -16,18 +16,15 @@ export const wishlistSlice = createSlice({
 			const exist = state.items.find((item) => item.id === action.payload.id)
 			if (!exist) {
 				state.items.push(action.payload)
-				localStorage.setItem('wishlist', JSON.stringify(state.items))
 				toast.success(`${action.payload.name} добавлен в избранное`)
 			} else {
 				state.items = state.items.filter(
 					(item) => item.id !== action.payload.id
 				)
-				localStorage.setItem('wishlist', JSON.stringify(state.items))
 			}
 		},
 		setWishList: (state, action: PayloadAction<IProductPreview[]>) => {
 			state.items = action.payload
-			localStorage.setItem('wishlist', JSON.stringify(state.items))
 		},
 	},
 })

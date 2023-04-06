@@ -23,7 +23,7 @@ import SearchBox from '../search-box/SearchBox'
 import { useSession } from 'next-auth/react'
 
 export const HeaderWrapper = styled(Box)(({ theme }) => ({
-	zIndex: 3,
+	zIndex: 15004,
 	position: 'relative',
 	height: layoutConstant.headerHeight,
 	transition: 'height 250ms ease-in-out',
@@ -46,19 +46,20 @@ const Header: FC<HeaderProps> = ({
 }) => {
 	const cart = useTypedSelector((state) => state.cartStore.cart)
 	const user = useTypedSelector((state) => state.userStore.user)
+	const [cartTotal, setCartTotal] = useState(0)
 
-	const {data:session, status} = useSession()
+	const { data: session, status } = useSession()
 
 	const { push } = useRouter()
 	const theme = useTheme()
-	const [dialogOpen, setDialogOpen] = useState(false)
+	// const [dialogOpen, setDialogOpen] = useState(false)
 	const [sidenavOpen, setSidenavOpen] = useState(false)
 
 	const isMobile = useMediaQuery(theme.breakpoints.down('xs'))
 	const downMd = useMediaQuery(theme.breakpoints.down(1150))
 	const router = useRouter()
 
-	const toggleDialog = () => setDialogOpen(!dialogOpen)
+	// const toggleDialog = () => setDialogOpen(!dialogOpen)
 
 	const is_auth = status === 'authenticated'
 
@@ -75,98 +76,103 @@ const Header: FC<HeaderProps> = ({
 		push(`/login/?redirect=${router.asPath}`)
 	}
 
+	useEffect(() => {
+		setCartTotal(cart?.length)
+	}, [cart])
 
 	return (
-		<HeaderWrapper className={clsx(className)}>
-			<Container
-				sx={{
-					gap: 2,
-					height: '100%',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-				}}
-			>
-				<FlexBox
-					mr={2}
-					minWidth="170px"
-					alignItems="center"
-					sx={{ display: { xs: 'none', md: 'flex' } }}
+		cart && (
+			<HeaderWrapper className={clsx(className)}>
+				<Container
+					sx={{
+						gap: 2,
+						height: '100%',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+					}}
 				>
-					<Link href="/">
-						<a>
-							<Image height={44} src="/assets/images/logo.svg" alt="logo" />
-						</a>
-					</Link>
-
-					{isFixed && (
-						<CategoryMenu>
-							<FlexBox color="grey.600" alignItems="center" ml={2}>
-								<BazaarButton color="inherit">
-									<Category fontSize="small" color="inherit" />
-									<KeyboardArrowDown fontSize="small" color="inherit" />
-								</BazaarButton>
-							</FlexBox>
-						</CategoryMenu>
-					)}
-				</FlexBox>
-
-				<FlexBox justifyContent="center" flex="1 1 0">
-					<SearchBox />
-				</FlexBox>
-
-				<FlexBox
-					alignItems="center"
-					sx={{ display: { xs: 'none', md: 'flex' } }}
-				>
-					<Box
-						p={0.5}
-						bgcolor="grey.200"
-						sx={{
-							border: is_auth ? '2px solid':'none',
-							borderColor: is_auth ? 'success.main' : 'transparent',
-							borderRadius: '50%',
-							cursor: 'pointer',
-							width: 44,
-							height: 44,
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
-						onClick={is_auth ? redirect : handleLogin}
+					<FlexBox
+						mr={2}
+						minWidth="170px"
+						alignItems="center"
+						sx={{ display: { xs: 'none', md: 'flex' } }}
 					>
-						{is_auth ? (
-							<Avatar
-								src={user?.avatar || '/assets/images/avatars/001-man.svg'}
-							/>
-						) : (
-							<PersonOutline />
+						<Link href="/">
+							<a>
+								<Image height={44} src="/assets/images/logo.svg" alt="logo" />
+							</a>
+						</Link>
+
+						{isFixed && (
+							<CategoryMenu>
+								<FlexBox color="grey.600" alignItems="center" ml={2}>
+									<BazaarButton color="inherit">
+										<Category fontSize="small" color="inherit" />
+										<KeyboardArrowDown fontSize="small" color="inherit" />
+									</BazaarButton>
+								</FlexBox>
+							</CategoryMenu>
 						)}
-					</Box>
+					</FlexBox>
 
-					<Badge badgeContent={cart?.length} color="primary">
+					<FlexBox justifyContent="center" flex="1 1 0">
+						<SearchBox />
+					</FlexBox>
+
+					<FlexBox
+						alignItems="center"
+						sx={{ display: { xs: 'none', md: 'flex' } }}
+					>
 						<Box
-							border={cart.length > 0 ? '2px solid' : 'none'}
-							borderColor={cart.length > 0 ? 'primary.main' : 'transparent'}
-							ml={2}
-							width={44}
-							height={44}
+							p={0.5}
 							bgcolor="grey.200"
-							component={IconButton}
-							onClick={toggleSidenav}
+							sx={{
+								border: is_auth ? '2px solid' : 'none',
+								borderColor: is_auth ? 'success.main' : 'transparent',
+								borderRadius: '50%',
+								cursor: 'pointer',
+								width: 44,
+								height: 44,
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+							}}
+							onClick={is_auth ? redirect : handleLogin}
 						>
-							<ShoppingBagOutlined />
+							{is_auth ? (
+								<Avatar
+									src={user?.avatar || '/assets/images/avatars/001-man.svg'}
+								/>
+							) : (
+								<PersonOutline />
+							)}
 						</Box>
-					</Badge>
-				</FlexBox>
 
-				<Drawer open={sidenavOpen} anchor="right" onClose={toggleSidenav}>
-					<MiniCart />
-				</Drawer>
+						<Badge badgeContent={cartTotal} color="primary">
+							<Box
+								border={cartTotal > 0 ? '2px solid' : 'none'}
+								borderColor={cartTotal > 0 ? 'primary.main' : 'transparent'}
+								ml={2}
+								width={44}
+								height={44}
+								bgcolor="grey.200"
+								component={IconButton}
+								onClick={toggleSidenav}
+							>
+								<ShoppingBagOutlined />
+							</Box>
+						</Badge>
+					</FlexBox>
 
-				{downMd && <MobileMenu />}
-			</Container>
-		</HeaderWrapper>
+					<Drawer open={sidenavOpen} anchor="right" onClose={toggleSidenav}>
+						<MiniCart />
+					</Drawer>
+
+					{downMd && <MobileMenu />}
+				</Container>
+			</HeaderWrapper>
+		)
 	)
 }
 

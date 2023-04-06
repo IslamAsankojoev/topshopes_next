@@ -7,8 +7,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { SiteSettings } from 'src/utils/constants/site-settings'
 
-import SEO from '../src/components/SEO'
-import ContactsForm from '../src/pages-sections/contacts/ContactsForm'
+import SEO from 'src/components/SEO'
+import ContactsForm from 'src/pages-sections/contacts/ContactsForm'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	try {
@@ -45,7 +45,10 @@ const ContactsPage: NextPage<{ map: string; data: any }> = () => {
 	)
 	return (
 		<ShopLayout1>
-			<SEO title="Контакты" description='Topshopes контакты, свяжитесь с нами' />
+			<SEO
+				title="Контакты"
+				description="Topshopes контакты, свяжитесь с нами"
+			/>
 			<Container sx={{ pb: '1rem' }}>
 				<Wrapper>
 					<ContactsInfo>

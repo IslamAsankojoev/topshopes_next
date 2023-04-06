@@ -1,7 +1,6 @@
 import { CameraAlt, CameraEnhance } from '@mui/icons-material'
-import { Avatar, Badge, Box, Button, Card, Grid, SxProps } from '@mui/material'
+import { Avatar, Box, Button, Card, Grid, SxProps } from '@mui/material'
 import TextField from '@mui/material/TextField'
-import { UsersService } from 'src/api/services-admin/users/users.service'
 import { H3 } from 'src/components/Typography'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import { Formik } from 'formik'
@@ -14,6 +13,9 @@ import { useRouter } from 'next/router'
 import { FC, Fragment, ReactElement, useState } from 'react'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import * as yup from 'yup'
+import { AuthService } from 'src/api/services/auth/auth.service'
+import { toast } from 'react-toastify'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -81,9 +83,11 @@ const AccountSetting: NextPageAuth = () => {
 	const { profile } = useActions()
 
 	const handleFileChange = (e) => {
-		const file = e.target.files[0]
-		setFile(file)
-		setFileLocaleUrl(URL.createObjectURL(file))
+		const file = e?.target?.files[0]
+		if (file) {
+			setFile(file)
+			setFileLocaleUrl(URL?.createObjectURL(file))
+		}
 	}
 
 	const initialValues = {
@@ -99,13 +103,19 @@ const AccountSetting: NextPageAuth = () => {
 		formData.append('last_name', values.last_name)
 		formData.append('email', values.email)
 		formData.append('phone', values.phone)
-		formData.append('password', values.password)
-		formData.append('birthday', values.birthday)
-		formData.append('verified', 'true')
 		if (file) {
 			formData.append('avatar', file)
 		}
-		await UsersService.update(user.id, formData)
+		const res = await AuthService.update(formData)
+		if (res) {
+			toast.success(
+				localize({
+					ru: 'Профиль успешно обновлен',
+					tr: 'Profil başarıyla güncellendi',
+					en: 'Profile successfully updated',
+				})
+			)
+		}
 
 		profile()
 	}
@@ -235,7 +245,7 @@ const AccountSetting: NextPageAuth = () => {
 												helperText={touched.phone && errors.phone}
 											/>
 										</Grid>
-										<Grid item md={6} xs={12}>
+										{/* <Grid item md={6} xs={12}>
 											<TextField
 												fullWidth
 												type="password"
@@ -250,7 +260,7 @@ const AccountSetting: NextPageAuth = () => {
 												error={!!touched.password && !!errors.password}
 												helperText={touched.password && errors.password}
 											/>
-										</Grid>
+										</Grid> */}
 										{/* <Grid item md={6} xs={12}>
                     <Autocomplete
                       fullWidth

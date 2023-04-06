@@ -16,31 +16,33 @@ const AuthProvider: FC<any> = ({
 	const { data: session, status } = useSession()
 
 	useEffect(() => {
-		if (status === "loading") return null
+		if (status === 'loading') return null
 		;(async () => {
 			try {
-
 				// logout if user is not auth and try to access to auth page
-					if (isOnlyAuth && !session.user) logout()
-					if (isOnlySeller && !session.user) logout()
-					if (isOnlyAdmin && !session.user) logout()
-					if (isOnlyClient && !session.user) logout()
+				if (isOnlyAuth && !session.user) logout()
+				if (isOnlySeller && !session.user) logout()
+				if (isOnlyAdmin && !session.user) logout()
+				if (isOnlyClient && !session.user) logout()
 
-					// refresh token if user is auth and try to access to auth page
-					if (
-						(isOnlyAuth && !!session.user) ||
-						(isOnlyAdmin && !!session.user) ||
-						(isOnlySeller && !!session.user) ||
-						(isOnlyClient && !!session.user)
-					) {
-						const res = await AuthService.refresh()
-						// refresh token and get new user data
-						if (!!session?.user && res) profile()
-					}
+				// refresh token if user is auth and try to access to auth page
+				if (
+					(isOnlyAuth && !!session.user) ||
+					(isOnlyAdmin && !!session.user) ||
+					(isOnlySeller && !!session.user) ||
+					(isOnlyClient && !!session.user)
+				) {
+					const res = await AuthService.refresh()
+					// refresh token and get new user data
+					if (!!session?.user && res) profile()
+				}
 			} catch (e) {
 				logout()
 			}
 		})()
+
+		return () =>
+			localStorage.setItem('referer_path', JSON.stringify(asPath) || '')
 	}, [pathname, asPath, status])
 
 	return !isOnlyAdmin && !isOnlyAuth && !isOnlySeller && !isOnlyClient ? (

@@ -11,7 +11,11 @@ export type TypeRoles = {
 	isOnlyClient?: boolean
 }
 
-export type NextPageAuth<P = {}> = NextPage<P> &
-	TypeRoles & { getLayout?: getLayout; queryClient?: QueryClient }
+type OtherTypes = {
+	getLayout?: getLayout
+	queryClient?: QueryClient
+}
+
+export type NextPageAuth<P = {}> = NextPage<P> & TypeRoles & OtherTypes
 
 export type TypeComponentAuthFields = { Component: TypeRoles }

@@ -4,6 +4,7 @@ import {
 	AccordionSummary,
 	Box,
 	Button,
+	darken,
 	Drawer,
 	IconButton,
 } from '@mui/material'
@@ -74,11 +75,14 @@ const MobileMenu: FC = () => {
 				return (
 					<Button
 						variant="contained"
-						color="secondary"
 						sx={{
 							display: 'block',
 							width: '100%',
-							backgroundColor: 'secondary.600',
+							backgroundColor: 'grey.300',
+							boxShadow: 'none',
+							'&:hover, &:focus': {
+								backgroundColor: 'grey.400',
+							},
 						}}
 						key={index}
 						onClick={() => {
@@ -101,13 +105,13 @@ const MobileMenu: FC = () => {
 	return (
 		<Fragment>
 			<IconButton
-				onClick={() => setOpenDrawer(true)}
+				onClick={() => setOpenDrawer((prev) => !prev)}
 				sx={{
 					flexShrink: 0,
 					border: (theme) => `1px solid ${theme.palette.grey[400]}`,
 				}}
 			>
-				<Menu />
+				{openDrawer ? <Clear /> : <Menu />}
 			</IconButton>
 
 			<Drawer
@@ -133,12 +137,12 @@ const MobileMenu: FC = () => {
 						height="100%"
 						display="flex"
 						flexDirection="column"
-						justifyContent="center"
-						px={5}
-						py={8}
+						justifyContent="flex-start"
+						px={8}
+						py={20}
 						gap={2}
 					>
-						<IconButton
+						{/* <IconButton
 							onClick={() => setOpenDrawer(false)}
 							sx={{ position: 'absolute', right: 30, top: 15 }}
 						>
@@ -149,6 +153,19 @@ const MobileMenu: FC = () => {
 									color: 'grey.600',
 								}}
 							/>
+						</IconButton> */}
+						<IconButton
+							onClick={() => setOpenDrawer(false)}
+							sx={{
+								flexShrink: 0,
+								border: (theme) => `1px solid ${theme.palette.grey[400]}`,
+								position: 'absolute',
+								transition: 'all 0.3s ease',
+								right: openDrawer ? '15px' : 0,
+								top: openDrawer ? 45 : 0,
+							}}
+						>
+							<Clear />
 						</IconButton>
 
 						{renderLevels(updateNavigations)}

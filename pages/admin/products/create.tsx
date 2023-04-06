@@ -17,8 +17,7 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { getErrorMessage } from 'src/utils/getErrorMessage'
 
-import { productFormValidationSchema } from '../../../src/pages-sections/admin/products/productFormValidationSchema'
-import { formData } from '../../../src/utils/formData'
+import { formData } from 'src/utils/formData'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {

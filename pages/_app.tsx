@@ -18,7 +18,7 @@ import OpenGraphTags from 'src/utils/OpenGraphTags'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
 import '../global.scss'
-import '../src/fake-db'
+import 'src/fake-db'
 
 type MyAppProps = AppProps & {
 	Component: NextPage & {

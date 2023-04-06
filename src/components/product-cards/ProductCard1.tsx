@@ -9,7 +9,7 @@ import { Span } from 'src/components/Typography'
 import { useActions } from 'src/hooks/useActions'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import Link from 'next/link'
-import { CSSProperties, FC, useRef } from 'react'
+import { CSSProperties, FC, useEffect, useRef, useState } from 'react'
 import { IProductPreview } from 'src/shared/types/product.types'
 import { v4 } from 'uuid'
 
@@ -94,13 +94,17 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 	const CurrentCard = useRef(null)
 	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
+	const [isInWishList, setIsInWishList] = useState(false)
 
 	const { toggleWish } = useActions()
-	const isInWishList = wishListItems.some((item) => item?.id === id)
 
 	const toggleIsFavorite = () => {
 		toggleWish(props.product)
 	}
+
+	useEffect(() => {
+		setIsInWishList(wishListItems.some((item) => item.id === id))
+	}, [wishListItems])
 
 	return (
 		<StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}>
@@ -185,7 +189,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 						justifyContent={'flex-start'}
 					>
 						<IconButton onClick={toggleIsFavorite}>
-							{isInWishList ? (
+							{!!isInWishList ? (
 								<Favorite color="primary" fontSize="small" />
 							) : (
 								<FavoriteBorder fontSize="small" color="disabled" />

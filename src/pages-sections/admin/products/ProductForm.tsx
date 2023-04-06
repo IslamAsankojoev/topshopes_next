@@ -421,41 +421,4 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	)
 }
 
-const translations = {
-	warning: {
-		en: 'WARNING!',
-		ru: 'ПРЕДУПРЕЖДЕНИЕ!',
-		tr: 'UYARI!',
-		kz: 'ЕСКЕРТУ!',
-		kg: 'ЭСКЕРТҮҮ!',
-	},
-	warningInfo: {
-		en: 'All already existing attributes will be removed, do you agree with that?',
-		ru: 'Все уже существующие атрибуты будут удалены, вы с этим согласны?',
-		tr: 'Halihazırda var olan tüm özellikler kaldırılacak, buna katılıyor musunuz?',
-		kz: 'Барлық бұрыннан бар атрибуттар жойылады, сіз мұнымен келісесіз бе?',
-		kg: 'Бар болгон атрибуттардын баары өчүрүлөт, буга макулсузбу?',
-	},
-	ok: {
-		en: 'Ok',
-		ru: 'Хорошо',
-		tr: 'Tamam',
-		kz: 'Жарайды',
-		kg: 'Макул',
-	},
-	cancel: {
-		en: 'Cancel',
-		ru: 'Отмена',
-		tr: 'İptal',
-		kz: 'Болдырмау',
-		kg: 'Жокко чыгаруу',
-	},
-}
-
-const styles = {
-	placeholder: {
-		color: '#9b9b9b',
-	},
-}
-
 export default ProductForm

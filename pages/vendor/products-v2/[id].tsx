@@ -5,26 +5,23 @@ import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ProductForm } from 'src/pages-sections/admin'
-import ProductVariantList from 'src/pages-sections/admin/products/product-variants/productVariantList'
-import { productFormValidationSchemaVendor } from 'src/pages-sections/admin/products/productFormValidationSchema'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import {
 	IProduct,
-	IProductAttribute,
 	IProductAttributeValue,
 	IProductVariant,
 } from 'src/shared/types/product.types'
-import ProductVariantListV2 from 'src/pages-sections/admin/products/product-variants/productVariantListV2'
 import VariantList from 'src/pages-sections/admin/products/product-variants/VariantList'
 import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service'
 import { dataWithCleanImage, formData } from 'src/utils/formData'
 import { AttributesService } from 'src/api/services/attributes/attributes.service'
 import { localize } from 'src/utils/Translate/localize'
-import lodash from 'lodash'
+import { filter as _filter, includes as _includes } from 'lodash'
+import getRefererPath from 'src/utils/getRefererPath'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -75,9 +72,9 @@ const EditProduct: NextPageAuth = () => {
 		}
 	) // product mutation
 
-	const filteredVariantsList = lodash.filter(
+	const filteredVariantsList = _filter(
 		product?.variants,
-		(item) => !lodash.includes(variantsBlackList, item.id)
+		(item) => !_includes(variantsBlackList, item.id)
 	) // filter variants list
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
@@ -101,7 +98,7 @@ const EditProduct: NextPageAuth = () => {
 		})
 
 		await Promise.all(variantsPromises) // wait for all promises to resolve
-		push('/vendor/products-v2/') // redirect to products list
+		push(getRefererPath() || '/vendor/products-v2/') // redirect to products list
 	}
 
 	const handleVariantChange = async (data: IProductVariant) => {

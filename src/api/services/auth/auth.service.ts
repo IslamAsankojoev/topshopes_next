@@ -1,5 +1,4 @@
 import { axiosClassic, instance } from 'src/api/interceptor'
-import Cookies from 'js-cookie'
 import { toast } from 'react-toastify'
 import { IAuthResponse, ILogin, IRegister } from 'src/store/user/user.interface'
 import { getErrorMessage } from 'src/utils/getErrorMessage'
@@ -39,7 +38,7 @@ export const AuthService = {
 	logout: async () => {
 		try {
 			const response = await signOut({
-				callbackUrl: '/login',
+				callbackUrl: `/login?redirect=${window?.location?.pathname || '/'}`,
 			})
 			if (!!response) localStorage.removeItem('user')
 		} catch (error) {

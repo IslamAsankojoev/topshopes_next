@@ -25,7 +25,7 @@ export const adminCheckFetch = (admin = false) => {
 export const getImgUrl = (img: File | Blob | string | any) => {
 	if (!img) return '#'
 	if (typeof img != 'string') {
-		return URL.createObjectURL(img)
+		return img && URL.createObjectURL(img)
 	}
 	return img
 }

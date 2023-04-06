@@ -42,16 +42,10 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 		variants[0]
 	)
 
-	// const cartList: ICartItem[] = useTypedSelector(
-	// 	(state) => state.cartStore.cart
-	// )
 	const wishlist: IProductPreview[] = useTypedSelector(
 		(state) => state.wishStore.items
 	)
-
-	const in_wishlist = wishlist.find(
-		(item) => item?.id === id || item?.id === routerId
-	)
+	const [isInWishlist, setIsInWishlist] = useState<boolean>(false)
 
 	const { addToCart, toggleWish } = useActions()
 	const handleAddToCart = () => {
@@ -76,6 +70,12 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 			nodeRef: product.variants[0].nodeRef,
 		})
 	}
+
+	useEffect(() => {
+		setIsInWishlist(
+			wishlist.find((item) => item?.id === id || item?.id === routerId) as any
+		)
+	}, [wishlist])
 
 	return (
 		<Box width="100%">
@@ -220,7 +220,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							</BazaarButton>
 							<BazaarButton
 								color="error"
-								variant={in_wishlist ? 'contained' : 'outlined'}
+								variant={isInWishlist ? 'contained' : 'outlined'}
 								onClick={toggleWishItem}
 								sx={{
 									p: '.7rem 1rem',
@@ -228,7 +228,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 								}}
 							>
 								<Favorite fontSize="small" sx={{ mr: 1 }} />
-								{in_wishlist
+								{isInWishlist
 									? localize({
 											ru: 'Удалить из избранных',
 											tr: 'Favorilerden kaldır',
