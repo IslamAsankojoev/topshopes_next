@@ -78,7 +78,6 @@ specifiers:
   react-select: ^5.7.1
   react-toastify: ^9.1.1
   redux: ^4.2.0
-  redux-persist: ^6.0.0
   reduxjs-toolkit-persist: ^7.2.1
   sass: ^1.56.1
   sharp: ^0.31.3
@@ -147,7 +146,6 @@ dependencies:
   react-query: 3.39.3_sfoxds7t5ydpegc3knd667wn6m
   react-scroll: 1.8.9_sfoxds7t5ydpegc3knd667wn6m
   react-select: 5.7.2_7flab2xmjtutrqlkivvio3ufby
-  redux-persist: 6.0.0_react@17.0.2+redux@4.2.1
   reduxjs-toolkit-persist: 7.2.1_@reduxjs+toolkit@1.9.3
   sass: 1.60.0
   sharp: 0.31.3
@@ -5461,19 +5459,6 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.1
-
-  /redux-persist/6.0.0_react@17.0.2+redux@4.2.1:
-    resolution: {integrity: sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==}
-    peerDependencies:
-      react: '>=16'
-      redux: '>4.0.0'
-    peerDependenciesMeta:
-      react:
-        optional: true
-    dependencies:
-      react: 17.0.2
-      redux: 4.2.1
-    dev: false
 
   /redux-thunk/2.4.2_redux@4.2.1:
     resolution: {integrity: sha512-+P3TjtnP0k/FEjcBL5FZpoovtvrTNT/UXd4/sluaSyrURlSlhLSzEdfsTBW7WsKB6yPvgd7q/iZPICFjW4o57Q==}
