@@ -1,14 +1,10 @@
-import FilterList from '@mui/icons-material/FilterList'
-import { Container, Grid, IconButton } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import { ShopsService } from 'src/api/services/shop/shop.service'
 import ShopLayout1 from 'src/components/layouts/ShopLayout1'
-import ShopProductCardList from 'src/components/products/ShopProductCard1List'
-import ProductFilterCard from 'src/components/products/ProductFilterCard'
 import ShopIntroCard from 'src/components/shop/ShopIntroCard'
-import Sidenav from 'src/components/sidenav/Sidenav'
 import useWindowSize from 'src/hooks/useWindowSize'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { IShop } from 'src/shared/types/shop.types'
 import { useRouter } from 'next/router'
@@ -48,7 +44,7 @@ const Shop: FC<{ shop: IShop }> = () => {
 
 				<Grid container spacing={3}>
 					<Grid item md={12} xs={12}>
-						{isTablet && (
+						{/* {isTablet && (
 							<Sidenav
 								position="left"
 								handle={
@@ -59,16 +55,19 @@ const Shop: FC<{ shop: IShop }> = () => {
 							>
 								<ProductFilterCard />
 							</Sidenav>
-						)}
+						)} */}
 
 						<Grid container spacing={3}>
-							<Grid item md={3} sx={{ display: { md: 'block', xs: 'none' } }}>
+							{/* <Grid item md={3} sx={{ display: { md: 'block', xs: 'none' } }}>
 								<ProductFilterCard />
-							</Grid>
+							</Grid> */}
 
-							<Grid item md={9} xs={12}>
+							<Grid item md={12} xs={12}>
 								{shop?.products?.length ? (
 									<ProductCard1List
+										xs={6}
+										sm={4}
+										lg={3}
 										products={shop?.products}
 										count={shop?.products?.length}
 										handleChange={paginationHandler}

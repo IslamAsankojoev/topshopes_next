@@ -3,8 +3,8 @@ import { Provider } from 'react-redux'
 import AuthProvider from './AuthProvider/AuthProvider'
 import ToastifyProvider from './ToastifyProvider'
 import { SessionProvider } from 'next-auth/react'
-import store from 'src/store/store'
-import PesristProvider from './PersistProvider'
+import store, { persistor } from 'src/store/store'
+import { PersistGate } from 'reduxjs-toolkit-persist/integration/react'
 
 const MainProvider: FC<any> = ({ children, Component, pageProps }) => {
 	return (
@@ -12,9 +12,9 @@ const MainProvider: FC<any> = ({ children, Component, pageProps }) => {
 			<SessionProvider session={pageProps.session}>
 				<ToastifyProvider />
 				<Provider store={store}>
-					<PesristProvider>
+					<PersistGate loading={null} persistor={persistor}>
 						<AuthProvider Component={Component}>{children}</AuthProvider>
-					</PesristProvider>
+					</PersistGate>
 				</Provider>
 			</SessionProvider>
 		</>

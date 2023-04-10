@@ -4,12 +4,10 @@ import {
 	AccordionSummary,
 	Box,
 	Button,
-	darken,
 	Drawer,
 	IconButton,
 } from '@mui/material'
-import Scrollbar from 'src/components/Scrollbar'
-import { H4, H5, H6 } from 'src/components/Typography'
+import { H5, H6 } from 'src/components/Typography'
 import NavLink from 'src/components/nav-link/NavLink'
 import navbarNavigations from 'src/data/navbarNavigations'
 import { useTranslation } from 'next-i18next'

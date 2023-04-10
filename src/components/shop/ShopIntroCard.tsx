@@ -1,14 +1,10 @@
-import { Call, Place } from '@mui/icons-material'
-import { Avatar, Box, Button, Card, Rating } from '@mui/material'
+import { Place } from '@mui/icons-material'
+import { Box, Card, Rating } from '@mui/material'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
-import FacebookFilled from 'src/components/icons/FacebookFilled'
-import InstagramFilled from 'src/components/icons/InstagramFilled'
-import TwitterFilled from 'src/components/icons/TwitterFilled'
-import YoutubeFilled from 'src/components/icons/YoutubeFilled'
 import { H3, Small, Span } from 'src/components/Typography'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { IShop } from 'src/shared/types/shop.types'
-import LazyImage, { checkDomen } from '../LazyImage'
+import { checkDomen } from '../LazyImage'
 
 // =======================================================
 type ShopIntroCardProps = {}
@@ -90,12 +86,12 @@ const ShopIntroCard: FC<IShop> = ({
 
 					<FlexBetween flexWrap="wrap">
 						<Box>
-							<FlexBox alignItems="center" gap={1} mb={2}>
+							{/* <FlexBox alignItems="center" gap={1} mb={2}>
 								<Rating color="warn" size="small" value={5} readOnly />
 								<Small color="grey.600" display="block">
 									(45)
 								</Small>
-							</FlexBox>
+							</FlexBox> */}
 
 							<FlexBox color="grey.600" gap={1} mb={1} maxWidth={270}>
 								<Place fontSize="small" sx={{ fontSize: 18, mt: '3px' }} />

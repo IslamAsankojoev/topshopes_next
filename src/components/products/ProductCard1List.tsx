@@ -10,12 +10,18 @@ type ProductCard1ListProps = {
 	products: IProductPreview[]
 	count?: number
 	handleChange?: (page: number) => void
+	lg?: number
+	sm?: number
+	xs?: number
 }
 
 const ProductCard1List: FC<ProductCard1ListProps> = ({
 	products = [],
 	count,
 	handleChange,
+	lg,
+	sm,
+	xs,
 }) => {
 	const router = useRouter()
 
@@ -23,7 +29,7 @@ const ProductCard1List: FC<ProductCard1ListProps> = ({
 		<Fragment>
 			<Grid container spacing={3}>
 				{products?.map((item) => (
-					<Grid item lg={4} sm={4} xs={6} key={item.id}>
+					<Grid item lg={lg || 4} sm={sm || 4} xs={xs || 6} key={item.id}>
 						<ProductCard1 product={item} />
 					</Grid>
 				))}

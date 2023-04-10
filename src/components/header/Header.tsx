@@ -46,7 +46,6 @@ const Header: FC<HeaderProps> = ({
 }) => {
 	const cart = useTypedSelector((state) => state.cartStore.cart)
 	const user = useTypedSelector((state) => state.userStore.user)
-	const [cartTotal, setCartTotal] = useState(0)
 
 	const { data: session, status } = useSession()
 
@@ -75,10 +74,6 @@ const Header: FC<HeaderProps> = ({
 	const handleLogin = () => {
 		push(`/login/?redirect=${router.asPath}`)
 	}
-
-	useEffect(() => {
-		setCartTotal(cart?.length)
-	}, [cart])
 
 	return (
 		cart && (
@@ -149,10 +144,10 @@ const Header: FC<HeaderProps> = ({
 							)}
 						</Box>
 
-						<Badge badgeContent={cartTotal} color="primary">
+						<Badge badgeContent={cart.length} color="primary">
 							<Box
-								border={cartTotal > 0 ? '2px solid' : 'none'}
-								borderColor={cartTotal > 0 ? 'primary.main' : 'transparent'}
+								border={cart.length > 0 ? '2px solid' : 'none'}
+								borderColor={cart.length > 0 ? 'primary.main' : 'transparent'}
 								ml={2}
 								width={44}
 								height={44}
