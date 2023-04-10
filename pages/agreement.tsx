@@ -21,7 +21,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const AgreementPage: FC = () => {
 	const { t } = useTranslation('about')
-
+// asdas
 	return (
 		<ShopLayout1>
 			<SEO title="Политика соглашения для пользователей" description='Политика соглашения для пользователей' />
