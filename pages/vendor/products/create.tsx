@@ -18,6 +18,7 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { formData } from 'src/utils/formData'
 import { getErrorMessage } from 'src/utils/getErrorMessage'
+import { localize } from 'src/utils/Translate/localize'
 
 const initialValues = {
 	title: '',
@@ -89,14 +90,26 @@ const CreateProduct: NextPageAuth = () => {
 
 			push('/vendor/products/')
 		} catch (e) {
+			toast.error(
+				localize({
+					ru: 'Ошибка при создании продукта',
+					tr: 'Ürün oluşturulurken hata oluştu',
+					en: 'Error creating product',
+				})
+			)
 			console.error(e)
-			toast.error('Продукт не был создан: ' + getErrorMessage(e))
 		}
 	}
 
 	const handleFormSubmit = async (data: FormData) => {
 		if (!variants?.length) {
-			toast.error('you must create at least one variant to create a product')
+			toast.error(
+				localize({
+					ru: 'Добавьте варианты продукта',
+					tr: 'Ürün varyantlarını ekleyin',
+					en: 'Add product variants',
+				})
+			)
 			return
 		}
 		await createProduct(data)

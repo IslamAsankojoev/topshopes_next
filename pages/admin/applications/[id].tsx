@@ -111,7 +111,7 @@ const UpdateApplication: NextPageAuth = () => {
 			ApplicationServices.updateApplication((id as string) + '/', data),
 		{
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e)
 			},
 			onSuccess: async () => {
 				await refetch()

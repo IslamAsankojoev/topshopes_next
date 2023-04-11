@@ -63,11 +63,17 @@ const EditProduct: NextPageAuth = () => {
 		(data: IProduct) => AdminProductsService.update(id as string, data),
 		{
 			onSuccess: async () => {
-				toast.success('success')
+				toast.success(
+					localize({
+						ru: 'Обновлен',
+						tr: 'Güncellendi',
+						en: 'Updated',
+					})
+				)
 				await refetch()
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)
@@ -76,7 +82,7 @@ const EditProduct: NextPageAuth = () => {
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
 		if (product.variants.length === 0) {
-			toast.error(
+			toast.info(
 				localize({
 					ru: 'Добавьте варианты товара',
 					tr: 'Ürün varyantlarını ekleyin',

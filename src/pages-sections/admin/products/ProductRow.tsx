@@ -32,7 +32,6 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				await AdminProductsService.delete(id)
 				refetch()
 			} catch (e: unknown) {
-				toast.error('An error has occurred')
 				console.log(e)
 			}
 		}

@@ -568,7 +568,7 @@ const Field: FC<any> = (props) => {
 				setFileType(null)
 				other.setValue(other?.name, null)
 				other.trigger(other?.name)
-				toast.error('Файл должен быть меньше 2 мб')
+				toast.info('Файл должен быть меньше 2 мб')
 				return null
 			}
 			getTypeOfFile(file).then((type) => setFileType(type))

@@ -19,6 +19,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { formData } from 'src/utils/formData'
 import { getErrorMessage } from 'src/utils/getErrorMessage'
 import ProductVariantListV2 from 'src/pages-sections/admin/products/product-variants/productVariantListV2'
+import { localize } from 'src/utils/Translate/localize'
 
 const initialValues = {
 	title: '',
@@ -50,7 +51,13 @@ const CreateProduct: NextPageAuth = () => {
 	// fetching
 	const handleFormSubmit = async (data: FormData) => {
 		if (!variants?.length) {
-			toast.error('you must create at least one variant to create a product')
+			toast.error(
+				localize({
+					ru: 'Добавьте варианты товара',
+					tr: 'Ürün varyantlarını ekleyin',
+					en: 'Add product variants',
+				})
+			)
 			return
 		}
 		let productId = null
@@ -102,8 +109,13 @@ const CreateProduct: NextPageAuth = () => {
 			if (productId) {
 				await ProductsService.delete(productId)
 			}
-			toast.error('Продукт не был создан')
-			toast.error('product: ' + getErrorMessage(e))
+			toast.error(
+				localize({
+					ru: 'Ошибка при создании продукта',
+					tr: 'Ürün oluşturulurken hata oluştu',
+					en: 'Error creating product',
+				})
+			)
 		}
 	}
 

@@ -63,11 +63,17 @@ const EditProduct: NextPageAuth = () => {
 		(data: IProduct) => ProductsService.update(id as string, data),
 		{
 			onSuccess: async () => {
-				toast.success('updated')
+				toast.success(
+					localize({
+						ru: 'Обновлен',
+						tr: 'Güncellendi',
+						en: 'Updated',
+					})
+				)
 				refetch()
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	) // product mutation

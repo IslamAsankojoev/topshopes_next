@@ -24,6 +24,7 @@ import { StatusWrapper } from '../StyledComponents'
 
 import { statusDisabled, statuses } from './OrderRow'
 import { FC, useState } from 'react'
+import { localize } from 'src/utils/Translate/localize'
 
 const OrderDetail: FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 	const { t } = useTranslation('common')
@@ -61,7 +62,13 @@ const OrderDetail: FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 		(status: IOrderStatus) => patchOrder(order?.id, { status }),
 		{
 			onSuccess: async (data) => {
-				toast.success('Order status updated')
+				toast.success(
+					localize({
+						ru: 'Статус обновлен',
+						tr: 'Durum güncellendi',
+						en: 'Status updated',
+					})
+				)
 				setOrderStatus(data.status)
 				await refetch()
 			},

@@ -16,6 +16,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IPages } from 'src/shared/types/pages.types'
 import { pageEditForm } from 'src/utils/constants/forms'
 import { formData } from 'src/utils/formData'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -50,7 +51,13 @@ const UpdatePages: NextPageAuth = () => {
 		(data: FormData | IPages) => PagesService.update(id as string, data),
 		{
 			onSuccess: () => {
-				toast.success('Page updated')
+				toast.success(
+					localize({
+						ru: 'Обновлен',
+						tr: 'Güncellendi',
+						en: 'Updated',
+					})
+				)
 				push('/admin/pages-list')
 			},
 		}

@@ -39,11 +39,10 @@ const CreatePages: NextPageAuth = () => {
 		(data: FormData) => PagesService.create(data),
 		{
 			onSuccess: () => {
-				toast.success('Page created')
 				push('/admin/pages-list')
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

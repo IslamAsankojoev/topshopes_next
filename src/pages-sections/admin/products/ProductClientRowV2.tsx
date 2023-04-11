@@ -69,7 +69,6 @@ const ProductRowV2: FC<ProductRowProps> = ({
 				await ProductsService.delete(id)
 				refetch()
 			} catch (e: unknown) {
-				toast.error('An error has occurred')
 				console.log(e)
 			}
 		}

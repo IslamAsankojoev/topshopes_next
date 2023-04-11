@@ -13,6 +13,7 @@ import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IProduct } from 'src/shared/types/product.types'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -49,11 +50,17 @@ const EditProduct: NextPageAuth = () => {
 		(data: IProduct) => ProductsService.update(id as string, data),
 		{
 			onSuccess: async () => {
-				toast.success('updated')
+				toast.success(
+					localize({
+						ru: 'Обновлен',
+						tr: 'Güncellendi',
+						en: 'Updated',
+					})
+				)
 				await refetch()
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

@@ -102,7 +102,6 @@ const ProductVariantForm: FC<ProductVariantFormProps> = ({
 		{
 			onSuccess: async () => {
 				refetch && (await refetch())
-				toast.success('product variant updated successfully')
 				setAddCardForm(false)
 			},
 		}

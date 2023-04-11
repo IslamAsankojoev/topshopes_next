@@ -17,6 +17,7 @@ import { IShop } from 'src/shared/types/shop.types'
 import { formData } from 'src/utils/formData'
 import { removeImg } from 'src/utils/removeImg'
 import * as Yup from 'yup'
+import { localize } from 'src/utils/Translate/localize'
 
 const initialValues = {
 	name: '',
@@ -53,21 +54,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 const ShopSettings: NextPageAuth = () => {
 	const { t: storeT } = useTranslation('store')
 	const { t: commonT } = useTranslation('common')
-	// const [links, setLinks] = useState([
-	// 	{ id: 1, name: 'Links', value: 'https://www.productbanner.com' },
-	// ])
-
-	// const handleAddLink = () => {
-	// 	setLinks((state) => [
-	// 		...state,
-	// 		{ id: Date.now(), name: 'Links', value: 'https://www.google.com' },
-	// 	])
-	// }
-
-	// const handleDeleteLink = (id: number) => () => {
-	// 	setLinks((state) => state.filter((item) => item.id !== id))
-	// }
-
 	const { push } = useRouter()
 
 	// shop fetching
@@ -79,6 +65,18 @@ const ShopSettings: NextPageAuth = () => {
 				const { products, socialLinks, ...shopData } = data
 				return shopData
 			},
+			onError: () => {
+				toast.info(
+					localize({
+						ru: 'Для того чтобы добавлять товары, необходимо создать магазин и заполнить основные настройки',
+						tr: 'Ürün eklemek için önce mağaza oluşturmanız ve temel ayarlarınızı doldurmanız gerekmektedir',
+						en: 'To add products, you must first create a store and fill in the basic settings',
+					}),
+					{
+						autoClose: 20000,
+					}
+				)
+			},
 		}
 	)
 
@@ -88,7 +86,6 @@ const ShopSettings: NextPageAuth = () => {
 		(data: FormData) => ShopService.create(data),
 		{
 			onSuccess: () => {
-				toast.success('shop successfully created')
 				push('/vendor/products')
 			},
 		}
@@ -99,16 +96,20 @@ const ShopSettings: NextPageAuth = () => {
 		(data: FormData) => ShopService.update(null, data),
 		{
 			onSuccess: () => {
-				toast.success('shop successfully updated')
+				toast.success(
+					localize({
+						ru: 'Обновлен',
+						tr: 'Güncellendi',
+						en: 'Updated',
+					})
+				)
 				push('/vendor/products')
 			},
 		}
 	)
 
 	// images
-	const [coverPicture, setCoverPicture] = useState(
-		shop?.cover_picture || ''
-	)
+	const [coverPicture, setCoverPicture] = useState(shop?.cover_picture || '')
 	const [profilePicture, setProfilePicture] = useState(
 		shop?.profile_picture || ''
 	)
@@ -128,10 +129,25 @@ const ShopSettings: NextPageAuth = () => {
 	}
 
 	const handleDelete = async () => {
-		if (!window.confirm('Are you sure you want to delete this store?')) return
+		if (
+			!window.confirm(
+				localize({
+					ru: 'Вы действительно хотите удалить магазин?',
+					tr: 'Mağazayı silmek istediğinize emin misiniz?',
+					en: 'Are you sure you want to delete the store?',
+				})
+			)
+		)
+			return
 
 		ShopService.delete(null)
-		toast.success('shop successfully deleted')
+		toast.success(
+			localize({
+				ru: 'Магазин удален',
+				tr: 'Mağaza silindi',
+				en: 'Store deleted',
+			})
+		)
 		push('/vendor/products')
 	}
 
@@ -154,6 +170,7 @@ const ShopSettings: NextPageAuth = () => {
 			setValues(shop)
 			setCoverPicture(shop.cover_picture)
 			setProfilePicture(shop.profile_picture)
+			return null
 		}
 	}, [shop])
 

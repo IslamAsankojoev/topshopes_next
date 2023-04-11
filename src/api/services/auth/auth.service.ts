@@ -17,6 +17,7 @@ export const AuthService = {
 			})
 			return response.data
 		} catch (error) {
+			console.dir(error)
 			toast.error(`auth: ${getErrorMessage(error)}`)
 			throw error
 		}

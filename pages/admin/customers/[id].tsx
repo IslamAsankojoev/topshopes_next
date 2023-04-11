@@ -12,6 +12,7 @@ import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { userEditForm } from 'src/utils/constants/forms'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -45,11 +46,17 @@ const CreateCategory: NextPageAuth = () => {
 		(data: FormData) => UsersService.update(id as string, data),
 		{
 			onSuccess: () => {
-				toast.success('User updated successfully')
+				toast.success(
+					localize({
+						ru: 'Обновлен',
+						tr: 'Güncellendi',
+						en: 'Updated',
+					})
+				)
 				push('/admin/customers')
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

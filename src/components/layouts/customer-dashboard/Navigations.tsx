@@ -17,7 +17,9 @@ import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import lodash from 'lodash'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { FC, Fragment } from 'react'
+import { FC, Fragment, useEffect } from 'react'
+import { useQuery } from 'react-query'
+import { ShopService } from 'src/api/services/shop/shop.service'
 
 // custom styled components
 const MainContainer = styled(Card)(({ theme }) => ({
@@ -58,6 +60,75 @@ const Navigations = () => {
 	const { t } = useTranslation('common')
 	const { pathname } = useRouter()
 	const { logout } = useActions()
+	const { data: shop, isLoading } = useQuery(
+		'shop get',
+		() => ShopService.getList(),
+		{
+			select: (data) => {
+				const { products, socialLinks, ...shopData } = data
+				return shopData
+			},
+		}
+	)
+
+	const linkList = [
+		{
+			title: 'accountSettings',
+			list: [
+				{ href: '/profile', title: 'profileInfo', icon: Person },
+				{
+					href: '/address',
+					title: 'addresses',
+					icon: Place,
+				},
+			],
+			role: 'is_client',
+		},
+		{
+			title: 'dashboard',
+			list: [
+				{
+					href: '/orders',
+					title: 'orders',
+					icon: ShoppingBagOutlined,
+				},
+				{
+					href: '/wish-list',
+					title: 'wishlist',
+					icon: FavoriteBorder,
+				},
+			],
+			role: 'is_client',
+		},
+
+		{
+			title: 'myShop',
+			list: [
+				{
+					href: !!shop ? '/vendor/products-v2/' : '/vendor/shop-settings',
+					title: 'myShop',
+					icon: Store,
+				},
+			],
+			role: 'is_seller',
+		},
+		{
+			title: 'admin',
+			list: [
+				{
+					href: '/vendor/dashboard',
+					title: 'adminPanel',
+					icon: Dashboard,
+				},
+			],
+			role: 'is_only_superuser',
+		},
+		{
+			title: 'shop',
+			list: [{ href: '/shop-request', title: 'createStore', icon: Store }],
+			role: 'is_only_client',
+		},
+	]
 
 	const user = useTypedSelector((state) => state.userStore.user)
 	const is_seller = user?.is_seller
@@ -68,7 +139,6 @@ const Navigations = () => {
 	const logoutHandler = async () => {
 		logout()
 	}
-
 	return (
 		<Card
 			sx={{
@@ -181,62 +251,4 @@ const Navigations = () => {
 	)
 }
 
-const linkList = [
-	{
-		title: 'accountSettings',
-		list: [
-			{ href: '/profile', title: 'profileInfo', icon: Person },
-			{
-				href: '/address',
-				title: 'addresses',
-				icon: Place,
-			},
-		],
-		role: 'is_client',
-	},
-	{
-		title: 'dashboard',
-		list: [
-			{
-				href: '/orders',
-				title: 'orders',
-				icon: ShoppingBagOutlined,
-			},
-			{
-				href: '/wish-list',
-				title: 'wishlist',
-				icon: FavoriteBorder,
-			},
-		],
-		role: 'is_client',
-	},
-
-	{
-		title: 'myShop',
-		list: [
-			{
-				href: '/vendor/products-v2/',
-				title: 'myShop',
-				icon: Store,
-			},
-		],
-		role: 'is_seller',
-	},
-	{
-		title: 'admin',
-		list: [
-			{
-				href: '/vendor/dashboard',
-				title: 'adminPanel',
-				icon: Dashboard,
-			},
-		],
-		role: 'is_only_superuser',
-	},
-	{
-		title: 'shop',
-		list: [{ href: '/shop-request', title: 'createStore', icon: Store }],
-		role: 'is_only_client',
-	},
-]
 export default Navigations

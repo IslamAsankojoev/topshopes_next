@@ -54,4 +54,4 @@ export const ShopsService = {
 	},
 }
 
-export const ShopService = CRUDservice(getShopUrl, 'Shop')
+export const ShopService = CRUDservice(getShopUrl, 'Shop', true, false)

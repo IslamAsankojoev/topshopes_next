@@ -13,6 +13,7 @@ import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { pageCategoryEditForm } from 'src/utils/constants/forms'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -34,15 +35,14 @@ const CreatePageCategory: NextPageAuth = () => {
 
 	// PageCategory mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
-		'pageCategory admin update',
+		'pageCategory admin create',
 		(data: FormData) => PageCategoryService.create(data),
 		{
 			onSuccess: () => {
-				toast.success('success')
 				push('/admin/pages-category')
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

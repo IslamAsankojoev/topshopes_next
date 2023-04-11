@@ -1,7 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { AuthService } from 'src/api/services/auth/auth.service'
-import Cookie from 'js-cookie'
-import { toast } from 'react-toastify'
 
 import { ILogin, IRegister } from './user.interface'
 

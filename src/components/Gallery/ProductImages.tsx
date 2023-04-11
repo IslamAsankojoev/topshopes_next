@@ -14,6 +14,7 @@ import { useTranslation } from 'next-i18next'
 import { ChangeEvent, FC } from 'react'
 import { toast } from 'react-toastify'
 import { IImage } from 'src/shared/types/product.types'
+import { localize } from 'src/utils/Translate/localize'
 
 interface IProductImages {
 	images: IImage[]
@@ -37,7 +38,13 @@ const ProductImages: FC<IProductImages> = ({ images, remove, add }) => {
 
 	const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
 		if ([...e.target.files]?.length > 5) {
-			toast.error('You can upload max 5 images')
+			toast.info(
+				localize({
+					ru: 'Максимальное количество изображений 5',
+					tr: 'Maksimum resim sayısı 5',
+					en: 'Maximum image count 5',
+				})
+			)
 		}
 		const images = [...e.target.files].slice(0, 5)
 		if (!images) return

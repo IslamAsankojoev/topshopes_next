@@ -14,6 +14,7 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IProductAttribute } from 'src/shared/types/product.types'
 import { attributeEditForm } from 'src/utils/constants/forms'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -37,11 +38,10 @@ const CreateAttribute: NextPageAuth = () => {
 		(data: IProductAttribute) => AttributesServiceAdmin.create(data),
 		{
 			onSuccess: () => {
-				toast.success('success')
 				push('/admin/attributes')
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

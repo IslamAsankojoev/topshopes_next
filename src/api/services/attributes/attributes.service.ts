@@ -14,7 +14,6 @@ export const AttributesService = {
 			)
 			return response.data
 		} catch (error) {
-			toast.error(`attribute: ${getErrorMessage(error)}`)
 			throw error
 		}
 	},

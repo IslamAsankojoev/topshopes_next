@@ -3,7 +3,7 @@ import useId from '@mui/material/utils/useId'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { AttributesService } from 'src/api/services/attributes/attributes.service'
 import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service'
@@ -33,13 +33,14 @@ const initialValues = {
 const CreateProductV2: NextPageAuth = () => {
 	const localVariants = useTypedSelector((state) => state.localVariantsStore)
 	const variants: IProductVariant[] = Object.values(localVariants)
+	const [productID, setProductID] = useState<string | null>(null)
 	const { push } = useRouter()
 	const { localVariantAdd, localVariantRemove, localeVariantsClear } =
 		useActions()
 
 	const handleFormSubmit = async (data: FormData) => {
 		if (variants.length === 0) {
-			toast.error(
+			toast.warning(
 				localize({
 					ru: 'Добавьте варианты товара',
 					tr: 'Ürün varyantlarını ekleyin',
@@ -55,6 +56,7 @@ const CreateProductV2: NextPageAuth = () => {
 			// create product
 			const productResponse = await ProductsService.create(data) // create product
 			const productId = productResponse.id // get product id
+			setProductID(productId) // set product id
 
 			// create variants with new product
 			const variantPromises = variants.map(async (variant) => {
@@ -92,8 +94,15 @@ const CreateProductV2: NextPageAuth = () => {
 			localeVariantsClear() // clear local variants
 			push(`/vendor/products-v2/`) // redirect to products list
 		} catch (e) {
+			ProductsService.delete(productID as string)
 			console.error(e)
-			toast.error('Продукт не был создан: ' + getErrorMessage(e))
+			toast.error(
+				localize({
+					ru: 'Ошибка при создании продукта',
+					tr: 'Ürün oluşturulurken hata oluştu',
+					en: 'Error creating product',
+				})
+			)
 		}
 	}
 

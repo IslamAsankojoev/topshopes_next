@@ -12,6 +12,7 @@ import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { brandEditForm } from 'src/utils/constants/forms'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -46,11 +47,17 @@ const BrandUpdate: NextPageAuth = () => {
 		(data: FormData) => BrandsService.update(id as string, data),
 		{
 			onSuccess: () => {
-				toast.success('success')
+				toast.success(
+					localize({
+						ru: 'Обновлен',
+						tr: 'Güncellendi',
+						en: 'Updated',
+					})
+				)
 				push('/admin/brands')
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

@@ -99,7 +99,11 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
 		{
 			onSuccess: (data: any) => {
 				refetch()
-				toast.success('Order status updated')
+				toast.success(localize({
+					ru: 'Статус обновлен',
+					tr: 'Durum güncellendi',
+					en: 'Status updated',
+				}))
 				setOrderStatus(data?.status)
 			},
 		}

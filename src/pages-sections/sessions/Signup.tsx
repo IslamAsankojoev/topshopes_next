@@ -23,6 +23,7 @@ import { axiosClassic } from 'src/api/interceptor'
 import { useAuthRedirect } from 'src/hooks/useAuthRedirect'
 import { signIn } from 'next-auth/react'
 import PhoneNumberMask from 'src/components/Form/PhoneNumberMask'
+import { localize } from 'src/utils/Translate/localize'
 
 const Signup = () => {
 	useAuthRedirect()
@@ -43,7 +44,13 @@ const Signup = () => {
 		() => AuthService.register(values),
 		{
 			onSuccess: async () => {
-				toast.success(commonT('Registration successful'))
+				toast.success(
+					localize({
+						ru: 'Вы успешно зарегистрировались',
+						tr: 'Başarıyla kayıt oldunuz',
+						en: 'You have successfully registered',
+					})
+				)
 				try {
 					await signIn('credentials', {
 						redirect: false,

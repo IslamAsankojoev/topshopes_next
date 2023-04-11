@@ -110,9 +110,9 @@ const AccountSetting: NextPageAuth = () => {
 		if (res) {
 			toast.success(
 				localize({
-					ru: 'Профиль успешно обновлен',
-					tr: 'Profil başarıyla güncellendi',
-					en: 'Profile successfully updated',
+					ru: 'Обновлен',
+					tr: 'Güncellendi',
+					en: 'Updated',
 				})
 			)
 		}

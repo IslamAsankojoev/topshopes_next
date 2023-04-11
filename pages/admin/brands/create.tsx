@@ -13,6 +13,7 @@ import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { brandEditForm } from 'src/utils/constants/forms'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -37,11 +38,10 @@ const CreateBrand: NextPageAuth = () => {
 		(data: FormData) => BrandsService.create(data),
 		{
 			onSuccess: () => {
-				toast.success('success')
 				push('/admin/brands')
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

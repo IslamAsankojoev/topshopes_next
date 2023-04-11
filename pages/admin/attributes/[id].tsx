@@ -14,6 +14,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IAttribute, IProductAttribute } from 'src/shared/types/product.types'
 import { brandTypeEditForm } from 'src/utils/constants/forms'
 import lodash from 'lodash'
+import { localize } from 'src/utils/Translate/localize'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -59,11 +60,17 @@ const UpdateAttribute: NextPageAuth = () => {
 			AttributesServiceAdmin.update(id as string, data),
 		{
 			onSuccess: () => {
-				toast.success('success')
+				toast.success(
+					localize({
+						ru: 'Обновлен',
+						tr: 'Güncellendi',
+						en: 'Updated',
+					})
+				)
 				push('/admin/attributes')
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

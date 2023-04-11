@@ -31,6 +31,7 @@ import { formData } from 'src/utils/formData'
 
 import ProductAttributes from './productVariantAttribute'
 import { CategoriesService } from 'src/api/services/categories/category.service'
+import { localize } from 'src/utils/Translate/localize'
 
 // ==================================================================
 type ProductVariantFormProps = {
@@ -103,7 +104,13 @@ const ProductVariantFormV2: FC<ProductVariantFormProps> = ({
 		{
 			onSuccess: async () => {
 				refetch && (await refetch())
-				toast.success('product variant updated successfully')
+				toast.success(
+					localize({
+						ru: 'Обновлен',
+						tr: 'Güncellendi',
+						en: 'Updated',
+					})
+				)
 				setAddCardForm(false)
 			},
 		}

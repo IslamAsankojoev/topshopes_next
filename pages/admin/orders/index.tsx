@@ -104,7 +104,7 @@ const OrderList: NextPageAuth = () => {
 				}
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

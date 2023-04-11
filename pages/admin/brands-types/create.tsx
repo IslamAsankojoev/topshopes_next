@@ -39,11 +39,10 @@ const CreateBrandTypes: NextPageAuth = () => {
 		(data: FormData) => BrandTypesService.create(data),
 		{
 			onSuccess: () => {
-				toast.success('success')
 				push('/admin/brands-types')
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

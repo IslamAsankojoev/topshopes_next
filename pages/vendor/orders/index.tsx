@@ -75,7 +75,7 @@ const OrderList: NextPageAuth = () => {
 			enabled: !!currentPage,
 			keepPreviousData: true,
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

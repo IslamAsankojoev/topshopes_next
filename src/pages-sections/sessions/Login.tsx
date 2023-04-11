@@ -14,7 +14,7 @@ import { FC, useCallback, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import * as yup from 'yup'
 
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 import EyeToggleButton from './EyeToggleButton'
 import SocialButtons from './SocialButtons'
@@ -51,7 +51,7 @@ const Login = () => {
 	const { profile } = useActions()
 	const router = useRouter()
 
-	const {data, status} = useSession()
+	const { data, status } = useSession()
 
 	const {
 		values,
@@ -74,25 +74,22 @@ const Login = () => {
 	// const { mutateAsync } = useMutation('login', () => AuthService.login(values))
 
 	const handleFormSubmit = async () => {
-		const response = await signIn("credentials", {
-      redirect: false,
-      email: values.email,
-      password: values.password,
-    });
+		const response = await signIn('credentials', {
+			redirect: false,
+			email: values.email,
+			password: values.password,
+		})
 
 		if (response.status === 401) {
-			toast.error("Не правильный логин или пароль")
+			toast.error('Не правильный логин или пароль')
 		}
 		if (response.ok) {
 			profile()
 		}
-
-		
 	}
 	useEffect(() => {
 		toast.error(router?.query?.errorCode)
 	}, [router.query])
-
 
 	return (
 		<Wrapper elevation={3} passwordVisibility={passwordVisibility}>

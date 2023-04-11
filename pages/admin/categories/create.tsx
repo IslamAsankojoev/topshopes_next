@@ -44,11 +44,10 @@ const CreateCategory: NextPageAuth = () => {
 		(data: FormData) => CategoriesService.create(data),
 		{
 			onSuccess: () => {
-				toast.success('success')
 				push('/admin/categories')
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

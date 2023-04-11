@@ -35,7 +35,7 @@ const ColorRow: FC<ColorRowProps> = ({ color, selected, refetch }) => {
 				refetch()
 			},
 			onError: (e: any) => {
-				toast.error(e.message)
+				console.error(e.message)
 			},
 		}
 	)

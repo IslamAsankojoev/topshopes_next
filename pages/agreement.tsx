@@ -21,10 +21,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const AgreementPage: FC = () => {
 	const { t } = useTranslation('about')
-// asdas
+	// test commit
 	return (
 		<ShopLayout1>
-			<SEO title="Политика соглашения для пользователей" description='Политика соглашения для пользователей' />
+			<SEO
+				title="Политика соглашения для пользователей"
+				description="Политика соглашения для пользователей"
+			/>
 			<Container sx={{ mt: 4, mb: 6, px: 6 }}>
 				<h1>ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</h1>
 				www.topshopes.com Принципы конфиденциальности сайта. Настоящая политика

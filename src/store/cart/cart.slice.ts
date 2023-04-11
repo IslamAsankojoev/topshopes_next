@@ -27,9 +27,9 @@ const cartSlice = createSlice({
 							: x
 					),
 				]
-				toast.success(`${payload.name} добавлен в корзину`)
 			} else {
 				state.cart = [...state.cart, { ...payload, qty: 1 }]
+				toast.success(`${payload.name} добавлен в корзину`)
 			}
 			state.total_price = state.cart.reduce(
 				(acc, item) => acc + item.qty * parseInt(item.variants[0].price),

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 
 import { sendMessage } from '../../components/bot/TelegramBotMeassage'
 import Icon from '../../components/icons/FaIcon/Icon'
+import { localize } from 'src/utils/Translate/localize'
 
 interface formDataType {
 	username: string
@@ -49,10 +50,15 @@ const ContactsForm = () => {
 				phone: '',
 				message: '',
 			})
-			toast.success('успешно отправлено')
+			toast.success(
+				localize({
+					ru: 'Вопрос отправлен',
+					tr: 'Soru gönderildi',
+					en: 'Question sent',
+				})
+			)
 		} catch (e: unknown) {
 			console.log(e)
-			toast.error('не отправлено')
 		}
 	}
 
