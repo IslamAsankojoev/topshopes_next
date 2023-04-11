@@ -17,5 +17,4 @@ module.exports = {
 	publicRuntimeConfig: {
 		theme: 'DEFAULT',
 	},
-	output: 'standalone',
 }
