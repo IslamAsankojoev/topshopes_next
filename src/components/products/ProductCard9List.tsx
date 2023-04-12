@@ -1,7 +1,7 @@
 import { Pagination } from '@mui/material'
 import { FlexBetween } from 'src/components/flex-box'
 import ProductCard9 from 'src/components/product-cards/ProductCard9'
-import productDatabase from 'src/data/product-database'
+// import productDatabase from 'src/data/product-database'
 import { FC } from 'react'
 
 import { IProduct, IProductPreview } from 'src/shared/types/product.types'

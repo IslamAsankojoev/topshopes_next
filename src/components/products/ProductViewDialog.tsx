@@ -1,4 +1,4 @@
-import { Add, Close, Remove } from '@mui/icons-material'
+import { Close } from '@mui/icons-material'
 import {
 	Box,
 	Dialog,
@@ -15,13 +15,7 @@ import { H1, H2, H6, Paragraph } from 'src/components/Typography'
 import { FlexBox } from 'src/components/flex-box'
 import { useAppContext } from 'src/contexts/AppContext'
 import { FC } from 'react'
-import {
-	IProduct,
-	IProductPreview,
-	IProductVariant,
-} from 'src/shared/types/product.types'
-
-import Variables from './Variables'
+import { IProductPreview } from 'src/shared/types/product.types'
 
 export const ContentWrapper = styled(Box)(({ theme }) => ({
 	'& .carousel:hover': {

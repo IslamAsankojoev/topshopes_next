@@ -9,7 +9,7 @@ import { getCurrency } from 'src/utils/getCurrency'
 import { StyledTableCell, StyledTableRow } from '../../StyledComponents'
 import { getImgUrl } from './productVariantHelper'
 import VariantForm from './VariantForm'
-import lodash from 'lodash'
+import orderBy from 'lodash-es/orderBy'
 
 interface VariantRowProps {
 	variant: IProductVariant
@@ -71,8 +71,7 @@ const VariantRow: FC<VariantRowProps> = ({
 					p: 2,
 				}}
 			>
-				{lodash
-					.orderBy(attribute_values, (obj) => obj.attribute.name)
+				{orderBy(attribute_values, (obj) => obj.attribute.name)
 					?.map((attribute, index) => {
 						return (
 							<Box

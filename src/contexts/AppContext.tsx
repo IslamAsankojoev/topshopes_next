@@ -6,7 +6,7 @@ import {
 	useMemo,
 	useReducer,
 } from 'react'
-import lodash from 'lodash'
+import { isArray, isObject } from 'lodash-es'
 import { getLocalStorage } from 'src/utils/local-storage/localStorage'
 
 type initialState = {
@@ -44,9 +44,9 @@ const AppContext = createContext<ContextProps>({
 const reducer = (state: initialState, action: ActionType) => {
 	let cartList = state.cart
 	// @ts-ignore
-	let array: CartItem[] = lodash.isArray(action.payload) && action.payload
+	let array: CartItem[] = isArray(action.payload) && action.payload
 	// @ts-ignore
-	let payload: CartItem = lodash.isObject(action.payload) && action.payload
+	let payload: CartItem = isObject(action.payload) && action.payload
 	let exist = cartList.find((item) => item.id === payload.id)
 	switch (action.type) {
 		case 'CHANGE_CART_AMOUNT':

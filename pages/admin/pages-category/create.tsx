@@ -10,10 +10,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
-import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { pageCategoryEditForm } from 'src/utils/constants/forms'
-import { localize } from 'src/utils/Translate/localize'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {

@@ -1,6 +1,5 @@
 import { Box, Container, Grid, styled } from '@mui/material'
 import { axiosClassic } from 'src/api/interceptor'
-import AppStore from 'src/components/AppStore'
 import BazaarIconButton from 'src/components/BazaarIconButton'
 import Image from 'src/components/BazaarImage'
 import { Paragraph } from 'src/components/Typography'
@@ -14,7 +13,6 @@ import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { FC } from 'react'
 import { useQueries, useQuery } from 'react-query'
-import { ISiteSettings } from 'src/shared/types/site-settings.types'
 import { SiteSettings } from 'src/utils/constants/site-settings'
 
 // styled component

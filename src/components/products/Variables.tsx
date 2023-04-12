@@ -1,18 +1,6 @@
-import {
-	Box,
-	FormControl,
-	FormControlLabel,
-	Radio,
-	RadioGroup,
-	ToggleButton,
-	ToggleButtonGroup,
-} from '@mui/material'
+import { FormControl } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
-import {
-	IProduct,
-	IProductAttributeValue,
-	IProductVariant,
-} from 'src/shared/types/product.types'
+import { IProduct, IProductVariant } from 'src/shared/types/product.types'
 
 import AttributeSelect from './AttributeSelect'
 
@@ -79,7 +67,6 @@ const Variables: FC<VariablesProps> = ({
 			)?.thumbnail
 		)
 	}, [selectedAttributes])
-
 
 	return (
 		<div

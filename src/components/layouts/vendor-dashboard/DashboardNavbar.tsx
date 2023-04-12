@@ -1,4 +1,3 @@
-import { Search } from '@mui/icons-material'
 import { Box, Button, Theme, styled, useMediaQuery } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Container from '@mui/material/Container'
@@ -12,7 +11,6 @@ import { useRouter } from 'next/router'
 import { FC } from 'react'
 
 import AccountPopover from './popovers/AccountPopover'
-import NotificationsPopover from './popovers/NoficationPopover'
 import LanguagesSwitch from 'src/components/Languages/LanguagesSwitch'
 
 // custom styled components

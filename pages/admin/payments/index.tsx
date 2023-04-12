@@ -12,7 +12,6 @@ import { PaymentServices } from 'src/api/services-admin/payments/payments.servic
 import Scrollbar from 'src/components/Scrollbar'
 import { H3 } from 'src/components/Typography'
 import TableHeader from 'src/components/data-table/TableHeader'
-import TablePagination from 'src/components/data-table/TablePagination'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import useMuiTable from 'src/hooks/useMuiTable'
 import { GetStaticProps } from 'next'
@@ -24,7 +23,7 @@ import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { IPayment } from 'src/shared/types/order.types'
 import { ResponseList } from 'src/shared/types/response.types'
-import Lodash from 'lodash'
+
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -117,46 +116,51 @@ export default function Payouts() {
 							/>
 
 							<TableBody>
-								{Lodash.orderBy(filteredList, (obj) => new Date(obj.create_at))
-									.map((payout: IPayment) => (
-										<Link href={`/admin/payments/${payout.id}`}>
-											<StyledTableRow
-												role="checkbox"
-												key={payout.id}
-												color="primary"
-												sx={{
-													transition: 'all 0.3s ease-in-out',
-													cursor: 'pointer!important',
-													'&:hover': {
-														backgroundColor: 'grey.200',
-													},
-												}}
-											>
-												<StyledTableCell align="center">
-													{payout.bank_account}
-												</StyledTableCell>
+								{
+									//@ts-ignore
+									orderBy(filteredList, (obj) => new Date(obj.create_at))
+										.map((payout: IPayment) => (
+											<Link href={`/admin/payments/${payout.id}`}>
+												<StyledTableRow
+													role="checkbox"
+													key={payout.id}
+													color="primary"
+													sx={{
+														transition: 'all 0.3s ease-in-out',
+														cursor: 'pointer!important',
+														'&:hover': {
+															backgroundColor: 'grey.200',
+														},
+													}}
+												>
+													<StyledTableCell align="center">
+														{payout.bank_account}
+													</StyledTableCell>
 
-												<StyledTableCell align="center">
-													{payout.payment_type}
-												</StyledTableCell>
+													<StyledTableCell align="center">
+														{payout.payment_type}
+													</StyledTableCell>
 
-												<StyledTableCell align="center">
-													{payout.phone_number}
-												</StyledTableCell>
+													<StyledTableCell align="center">
+														{payout.phone_number}
+													</StyledTableCell>
 
-												<StyledTableCell align="center">
-													{new Date(payout.create_at).toLocaleString()}
-												</StyledTableCell>
+													<StyledTableCell align="center">
+														{new Date(payout.create_at).toLocaleString()}
+													</StyledTableCell>
 
-												<StyledTableCell align="center">
-													<CheckBoxIcon
-														color={payout.is_verified ? 'success' : 'disabled'}
-													/>
-												</StyledTableCell>
-											</StyledTableRow>
-										</Link>
-									))
-									.reverse()}
+													<StyledTableCell align="center">
+														<CheckBoxIcon
+															color={
+																payout.is_verified ? 'success' : 'disabled'
+															}
+														/>
+													</StyledTableCell>
+												</StyledTableRow>
+											</Link>
+										))
+										.reverse()
+								}
 							</TableBody>
 						</Table>
 					</TableContainer>

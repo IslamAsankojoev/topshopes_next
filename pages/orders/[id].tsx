@@ -1,4 +1,3 @@
-import styled from '@emotion/styled'
 import { MarkunreadMailbox, Payment, ShoppingBag } from '@mui/icons-material'
 import { useTheme } from '@mui/material'
 import { styled as muiStyled } from '@mui/material/styles'

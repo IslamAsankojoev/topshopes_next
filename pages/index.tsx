@@ -17,7 +17,6 @@ import { ICategory, IProductPreview } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import api from 'src/utils/api/market-1'
 import { axiosClassic } from 'src/api/interceptor'
-import { useEffect } from 'react'
 
 // =================================================================
 type MarketProps = {

@@ -16,7 +16,7 @@ import MobileMenu from 'src/components/navbar/MobileMenu'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { layoutConstant } from 'src/utils/constants'
 
 import SearchBox from '../search-box/SearchBox'

@@ -13,17 +13,15 @@ import Scrollbar from 'src/components/Scrollbar'
 import { H3 } from 'src/components/Typography'
 import SearchArea from 'src/components/dashboard/SearchArea'
 import TableHeader from 'src/components/data-table/TableHeader'
-import TablePagination from 'src/components/data-table/TablePagination'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import useMuiTable from 'src/hooks/useMuiTable'
-import lodash from 'lodash'
+import sortBy from 'lodash-es/sortBy'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { OrderRow } from 'src/pages-sections/admin'
 import { ReactElement, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IOrder } from 'src/shared/types/order.types'
 import { ResponseList } from 'src/shared/types/response.types'
@@ -149,16 +147,14 @@ const OrderList: NextPageAuth = () => {
 								/>
 
 								<TableBody>
-									{lodash
-										.sortBy(filteredList, 'created_at')
-										?.map((order, index) => (
-											<OrderRow
-												isAdmin={true}
-												order={order}
-												key={index}
-												refetch={refetch}
-											/>
-										))}
+									{sortBy(filteredList, 'created_at')?.map((order, index) => (
+										<OrderRow
+											isAdmin={true}
+											order={order}
+											key={index}
+											refetch={refetch}
+										/>
+									))}
 								</TableBody>
 							</Table>
 						</TableContainer>

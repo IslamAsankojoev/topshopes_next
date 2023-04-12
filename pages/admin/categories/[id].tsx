@@ -10,13 +10,11 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
-
 import { useMutation, useQuery } from 'react-query'
-import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { ICategory } from 'src/shared/types/product.types'
 import { categoryEditForm } from 'src/utils/constants/forms'
-import { formData, formDataToObj } from 'src/utils/formData'
+import { formData } from 'src/utils/formData'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {

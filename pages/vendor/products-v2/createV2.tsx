@@ -1,16 +1,14 @@
 import { Box, Button } from '@mui/material'
-import useId from '@mui/material/utils/useId'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { toast } from 'react-toastify'
 import { AttributesService } from 'src/api/services/attributes/attributes.service'
 import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service'
 import { ProductsService } from 'src/api/services/products/product.service'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import { H3 } from 'src/components/Typography'
-import { productFormValidationSchemaVendor } from 'src/components/validationSchema'
 import { useActions } from 'src/hooks/useActions'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { ProductForm } from 'src/pages-sections/admin'
@@ -18,9 +16,7 @@ import VariantList from 'src/pages-sections/admin/products/product-variants/Vari
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IProductVariant } from 'src/shared/types/product.types'
 import { formData } from 'src/utils/formData'
-import { getErrorMessage } from 'src/utils/getErrorMessage'
 import { localize } from 'src/utils/Translate/localize'
-import { v4 } from 'uuid'
 
 const initialValues = {
 	title: '',

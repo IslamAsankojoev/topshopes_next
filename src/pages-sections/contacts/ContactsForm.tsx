@@ -6,7 +6,6 @@ import { ChangeEvent, FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import { sendMessage } from '../../components/bot/TelegramBotMeassage'
-import Icon from '../../components/icons/FaIcon/Icon'
 import { localize } from 'src/utils/Translate/localize'
 
 interface formDataType {
@@ -66,11 +65,9 @@ const ContactsForm = () => {
 		<ContactForm>
 			<Text>
 				<p>
-					<Icon size={'14px'} iconName={'FaMapMarkedAlt'} />
 					<span>{t('address')}</span>
 				</p>
 				<p>
-					<Icon size={'14px'} iconName={'FaPhoneAlt'} />
 					<span>+996 550 022 101</span>
 				</p>
 			</Text>

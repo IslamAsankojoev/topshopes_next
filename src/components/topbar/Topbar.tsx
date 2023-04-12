@@ -1,5 +1,5 @@
-import { CallOutlined, ExpandMore, MailOutline } from '@mui/icons-material'
-import { Box, Container, MenuItem, styled } from '@mui/material'
+import { CallOutlined, MailOutline } from '@mui/icons-material'
+import { Box, Container, styled } from '@mui/material'
 import Image from 'src/components/BazaarImage'
 import { FlexBox } from 'src/components/flex-box'
 import Link from 'next/link'

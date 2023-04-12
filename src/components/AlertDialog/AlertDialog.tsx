@@ -5,8 +5,6 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
-import { darken } from '@mui/system'
-import { useEffect, useState } from 'react'
 import { localize } from 'src/utils/Translate/localize'
 
 type AlertDialogProps = {

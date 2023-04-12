@@ -20,7 +20,7 @@ import { ProductVariantService } from 'src/api/services/product-variants/product
 import { dataWithCleanImage, formData } from 'src/utils/formData'
 import { AttributesService } from 'src/api/services/attributes/attributes.service'
 import { localize } from 'src/utils/Translate/localize'
-import { filter as _filter, includes as _includes } from 'lodash'
+import { filter as _filter, includes as _includes } from 'lodash-es'
 import getRefererPath from 'src/utils/getRefererPath'
 
 export const getServerSideProps = async ({ locale }) => {

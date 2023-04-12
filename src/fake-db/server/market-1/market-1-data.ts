@@ -1,4 +1,4 @@
-import bazaarReactDatabase from 'src/data/bazaar-react-database'
+// import bazaarReactDatabase from 'src/data/bazaar-react-database'
 
 export const mainCarouselData = [
 	{
@@ -245,72 +245,72 @@ export const mobileShopList = ['herman miller', 'otobi', 'hatil', 'steelcase']
 export const opticsBrandList = ['ray-ban', 'zeiss', 'occular', 'apple', 'titan']
 export const opticsShopList = ['herman miller', 'zeiss', 'hatil', 'steelcase']
 
-export const bottomCategoryList = [
-	{
-		name: 'Automobile',
-		imgUrl: bazaarReactDatabase[13 + 100].imgUrl,
-	},
-	{
-		name: 'Car',
-		imgUrl: bazaarReactDatabase[2 * 13 + 100].imgUrl,
-	},
-	{
-		name: 'Fashion',
-		imgUrl: bazaarReactDatabase[3 * 13 + 100].imgUrl,
-	},
-	{
-		name: 'Mobile',
-		imgUrl: bazaarReactDatabase[4 * 13 + 100].imgUrl,
-	},
-	{
-		name: 'Laptop',
-		imgUrl: bazaarReactDatabase[5 * 13 + 100].imgUrl,
-	},
-	{
-		name: 'Desktop',
-		imgUrl: bazaarReactDatabase[6 * 13 + 100].imgUrl,
-	},
-	{
-		name: 'Tablet',
-		imgUrl: bazaarReactDatabase[7 * 13 + 100].imgUrl,
-	},
-	{
-		name: 'Fashion',
-		imgUrl: bazaarReactDatabase[8 * 13 + 100].imgUrl,
-	},
-	{
-		name: 'Electronics',
-		imgUrl: bazaarReactDatabase[9 * 13 + 100].imgUrl,
-	},
-	{
-		name: 'Furniture',
-		imgUrl: bazaarReactDatabase[10 * 13 + 100].imgUrl,
-	},
-	{
-		name: 'Camera',
-		imgUrl: bazaarReactDatabase[11 * 13 + 100].imgUrl,
-	},
-	{
-		name: 'Electronics',
-		imgUrl: bazaarReactDatabase[100].imgUrl,
-	},
-]
+// export const bottomCategoryList = [
+// 	{
+// 		name: 'Automobile',
+// 		imgUrl: bazaarReactDatabase[13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Car',
+// 		imgUrl: bazaarReactDatabase[2 * 13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Fashion',
+// 		imgUrl: bazaarReactDatabase[3 * 13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Mobile',
+// 		imgUrl: bazaarReactDatabase[4 * 13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Laptop',
+// 		imgUrl: bazaarReactDatabase[5 * 13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Desktop',
+// 		imgUrl: bazaarReactDatabase[6 * 13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Tablet',
+// 		imgUrl: bazaarReactDatabase[7 * 13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Fashion',
+// 		imgUrl: bazaarReactDatabase[8 * 13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Electronics',
+// 		imgUrl: bazaarReactDatabase[9 * 13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Furniture',
+// 		imgUrl: bazaarReactDatabase[10 * 13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Camera',
+// 		imgUrl: bazaarReactDatabase[11 * 13 + 100].imgUrl,
+// 	},
+// 	{
+// 		name: 'Electronics',
+// 		imgUrl: bazaarReactDatabase[100].imgUrl,
+// 	},
+// ]
 
-export const serviceList = [
-	{
-		icon: 'Truck',
-		title: 'Worldwide Delivery',
-	},
-	{
-		icon: 'CreditCardVerified',
-		title: 'Safe Payment',
-	},
-	{
-		icon: 'Shield',
-		title: 'Shop With Confidence',
-	},
-	{
-		icon: 'CustomerService',
-		title: '24/7 Support',
-	},
-]
+// export const serviceList = [
+// 	{
+// 		icon: 'Truck',
+// 		title: 'Worldwide Delivery',
+// 	},
+// 	{
+// 		icon: 'CreditCardVerified',
+// 		title: 'Safe Payment',
+// 	},
+// 	{
+// 		icon: 'Shield',
+// 		title: 'Shop With Confidence',
+// 	},
+// 	{
+// 		icon: 'CustomerService',
+// 		title: '24/7 Support',
+// 	},
+// ]

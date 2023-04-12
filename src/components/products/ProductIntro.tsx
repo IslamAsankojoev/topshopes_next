@@ -15,7 +15,6 @@ import {
 	IProductPreview,
 	IProductVariant,
 } from 'src/shared/types/product.types'
-import { ICartItem } from 'src/store/cart/cart.interface'
 
 import { FlexBox } from '../flex-box'
 

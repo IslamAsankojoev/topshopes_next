@@ -12,7 +12,6 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
 import { useMutation, useQuery } from 'react-query'
-import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IPages } from 'src/shared/types/pages.types'
 import { pageEditForm } from 'src/utils/constants/forms'

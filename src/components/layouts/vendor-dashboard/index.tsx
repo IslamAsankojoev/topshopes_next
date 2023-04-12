@@ -3,7 +3,6 @@ import { Fragment, useState } from 'react'
 
 import DashboardNavbar from './DashboardNavbar'
 import DashboardSidebar from './DashboardSidebar'
-import ReloadButton from './ReloadButton'
 
 // styled components
 const BodyWrapper = styled(Box)<{ compact: number }>(({ theme, compact }) => ({

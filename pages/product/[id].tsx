@@ -13,10 +13,6 @@ import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProduct } from 'src/shared/types/product.types'
 import SEO from 'src/components/SEO'
 import { useRouter } from 'next/router'
-import { relatedProducts } from 'src/fake-db/server/related-products/related-data'
-import RelatedProducts from 'src/components/products/RelatedProducts'
-import FrequentlyBought from 'src/components/products/FrequentlyBought'
-import AvailableShops from 'src/components/products/AvailableShops'
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,

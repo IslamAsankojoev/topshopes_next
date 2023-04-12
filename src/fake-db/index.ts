@@ -21,7 +21,7 @@ import './server/healthbeauty-shop/navigationDB'
 import './server/healthbeauty-shop/productsDB'
 import './server/healthbeauty-shop/servicesDB'
 import './server/market-1/carouselsDB'
-import './server/market-1/sectionsDB'
+// import './server/market-1/sectionsDB'
 import './server/related-products/productsDB'
 
 Mock.onAny().passThrough()

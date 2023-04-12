@@ -16,7 +16,7 @@ import { useQuery } from 'react-query'
 import { IBrand, ICategory } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import { useEffect, useState } from 'react'
-import lodash from 'lodash'
+import debounce from 'lodash-es/debounce'
 
 const ProductFilterCard = () => {
 	const router = useRouter()
@@ -73,7 +73,7 @@ const ProductFilterCard = () => {
 		}
 	}
 
-	const debouncedHandlePriceChange = lodash.debounce(handlePriceChange, 1000)
+	const debouncedHandlePriceChange = debounce(handlePriceChange, 1000)
 
 	const handlePriceValueChange = (e) => {
 		const { name, value } = e.target

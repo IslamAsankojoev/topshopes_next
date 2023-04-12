@@ -1,4 +1,3 @@
-import { FilterList } from '@mui/icons-material'
 import TuneIcon from '@mui/icons-material/Tune'
 import {
 	Box,
@@ -13,7 +12,7 @@ import {
 } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { ShopsProductsService } from 'src/api/services/shops-products/ShopsProducts.service'
-import { H5, Paragraph, Span } from 'src/components/Typography'
+import { H5, Paragraph } from 'src/components/Typography'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import ShopLayout1 from 'src/components/layouts/ShopLayout1'
 import ProductCard1List from 'src/components/products/ProductCard1List'
@@ -27,7 +26,7 @@ import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProductPreview } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import SEO from 'src/components/SEO'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { localize } from 'src/utils/Translate/localize'
 
 // ===================================================

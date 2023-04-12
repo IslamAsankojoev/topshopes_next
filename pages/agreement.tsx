@@ -1,13 +1,11 @@
 import styled from '@emotion/styled'
 import { Container } from '@mui/system'
-import { axiosClassic } from 'src/api/interceptor'
 import ShopLayout1 from 'src/components/layouts/ShopLayout1'
 import SEO from 'src/components/SEO'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { FC, useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { FC } from 'react'
 
 import gmailImg from '../public/assets/images/banner.webp'
 

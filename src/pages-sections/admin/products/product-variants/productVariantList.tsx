@@ -8,7 +8,7 @@ import { H6, Paragraph } from 'src/components/Typography'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import { useActions } from 'src/hooks/useActions'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
-import Lodash from 'lodash'
+import sortBy from 'lodash-es/sortBy'
 import { useTranslation } from 'next-i18next'
 import { FC, Fragment, useEffect } from 'react'
 import { useQuery } from 'react-query'
@@ -97,90 +97,93 @@ const ProductVariantList: FC<Props> = ({
 				container
 				spacing={1.3}
 			>
-				{Lodash.sortBy(variantList(product), 'id')?.map(
-					(variant: IProductVariant, ind: number) => (
-						<Grid item md={3} sm={4} xs={12} ref={variant.nodeRef}>
-							<VariantCard>
-								<LazyImage
-									width={150}
-									height={200}
-									objectFit={'contain'}
-									objectPosition={'center'}
-									src={getImgUrl(variantCheck(variant)?.thumbnail)}
-									alt={'thumbnail'}
-								/>
+				{
+					// @ts-ignore
+					sortBy(variantList(product), 'id')?.map(
+						(variant: IProductVariant, ind: number) => (
+							<Grid item md={3} sm={4} xs={12} ref={variant.nodeRef}>
+								<VariantCard>
+									<LazyImage
+										width={150}
+										height={200}
+										objectFit={'contain'}
+										objectPosition={'center'}
+										src={getImgUrl(variantCheck(variant)?.thumbnail)}
+										alt={'thumbnail'}
+									/>
 
-								<FlexBox
-									justifyContent={'space-between'}
-									sx={{
-										padding: '1rem',
-									}}
-								>
-									<div>
-										<Paragraph fontSize={16} color="grey.500">
-											{adminT('variantDetails')} - {variantCheck(variant)?.id}
-										</Paragraph>
-										<H6 mb={0.5} fontSize={14}>
-											{commonT('price')}: {variantCheck(variant)?.price}
-										</H6>
-										<Paragraph fontSize={14} color="grey.700">
-											{commonT('discount')}: {variantCheck(variant)?.discount}
-										</Paragraph>
-										<Paragraph fontSize={14} color="grey.700">
-											{commonT('status')}: {variantCheck(variant)?.status}
-										</Paragraph>
-										<Paragraph fontSize={14} color="grey.700">
-											{commonT('stock')}: {variantCheck(variant)?.stock}
-										</Paragraph>
-										<br />
-										{variant?.attribute_values?.length && (
+									<FlexBox
+										justifyContent={'space-between'}
+										sx={{
+											padding: '1rem',
+										}}
+									>
+										<div>
 											<Paragraph fontSize={16} color="grey.500">
-												{adminT('attributes')}
+												{adminT('variantDetails')} - {variantCheck(variant)?.id}
 											</Paragraph>
-										)}
-										{variant?.attribute_values?.map((attribute: any) => (
-											<Paragraph
-												color="grey.700"
-												key={attribute.id + 'attribute'}
-											>
-												{attribute?.attribute?.name ||
-													attribute?.attributeName ||
-													attribute?.name}
-												:{attribute?.value || attribute?.attributeValue}
+											<H6 mb={0.5} fontSize={14}>
+												{commonT('price')}: {variantCheck(variant)?.price}
+											</H6>
+											<Paragraph fontSize={14} color="grey.700">
+												{commonT('discount')}: {variantCheck(variant)?.discount}
 											</Paragraph>
-										))}
-										<span>
-											{/* {variantCheck(variant)?.attribute_values?} */}
-										</span>
-									</div>
-									<FlexBox alignItems={'center'}>
-										<ProductVariantForm
-											refetch={refetch}
-											initialValues={variantCheck(variant)}
-											createPage={create}
-											variantId={variant?.id}
-											images={variant?.images}
-											actionButtons={
-												<Fragment>
-													{!isAdmin ? (
-														<Button
-															variant="contained"
-															size="small"
-															color="error"
-															onClick={(e) => deleteVariant(variant)}
-														>
-															<Close />
-														</Button>
-													) : null}
-												</Fragment>
-											}
-										/>
+											<Paragraph fontSize={14} color="grey.700">
+												{commonT('status')}: {variantCheck(variant)?.status}
+											</Paragraph>
+											<Paragraph fontSize={14} color="grey.700">
+												{commonT('stock')}: {variantCheck(variant)?.stock}
+											</Paragraph>
+											<br />
+											{variant?.attribute_values?.length && (
+												<Paragraph fontSize={16} color="grey.500">
+													{adminT('attributes')}
+												</Paragraph>
+											)}
+											{variant?.attribute_values?.map((attribute: any) => (
+												<Paragraph
+													color="grey.700"
+													key={attribute.id + 'attribute'}
+												>
+													{attribute?.attribute?.name ||
+														attribute?.attributeName ||
+														attribute?.name}
+													:{attribute?.value || attribute?.attributeValue}
+												</Paragraph>
+											))}
+											<span>
+												{/* {variantCheck(variant)?.attribute_values?} */}
+											</span>
+										</div>
+										<FlexBox alignItems={'center'}>
+											<ProductVariantForm
+												refetch={refetch}
+												initialValues={variantCheck(variant)}
+												createPage={create}
+												variantId={variant?.id}
+												images={variant?.images}
+												actionButtons={
+													<Fragment>
+														{!isAdmin ? (
+															<Button
+																variant="contained"
+																size="small"
+																color="error"
+																onClick={(e) => deleteVariant(variant)}
+															>
+																<Close />
+															</Button>
+														) : null}
+													</Fragment>
+												}
+											/>
+										</FlexBox>
 									</FlexBox>
-								</FlexBox>
-							</VariantCard>
-						</Grid>
+								</VariantCard>
+							</Grid>
+						)
 					)
-				)}
+				}
 			</Grid>
 		</Card1>
 	)

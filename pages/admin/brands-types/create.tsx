@@ -9,10 +9,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
-import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
-import { IBrandTypes } from 'src/shared/types/brand-types.types'
-
 import { BrandTypesService } from 'src/api/services-admin/brand-types/brandTypes.service'
 import { brandTypeEditForm } from 'src/utils/constants/forms'
 

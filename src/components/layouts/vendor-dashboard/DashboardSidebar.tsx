@@ -5,7 +5,7 @@ import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 
 import LayoutDrawer from '../LayoutDrawer'
 

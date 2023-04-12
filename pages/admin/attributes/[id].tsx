@@ -7,13 +7,13 @@ import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { ReactElement } from 'react'
+import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IAttribute, IProductAttribute } from 'src/shared/types/product.types'
 import { brandTypeEditForm } from 'src/utils/constants/forms'
-import lodash from 'lodash'
+import isEmpty from 'lodash-es/isEmpty'
 import { localize } from 'src/utils/Translate/localize'
 
 export const getServerSideProps = async ({ locale }) => {
@@ -30,8 +30,6 @@ export const getServerSideProps = async ({ locale }) => {
 
 const UpdateAttribute: NextPageAuth = () => {
 	const { t } = useTranslation('adminActions')
-
-	const queryClient = useQueryClient()
 
 	const {
 		push,
@@ -86,7 +84,7 @@ const UpdateAttribute: NextPageAuth = () => {
 	return (
 		<Box py={4}>
 			<H3 mb={2}>{t('editAttribute')}</H3>
-			{!lodash.isEmpty(attribute) && (
+			{!isEmpty(attribute) && (
 				<CreateForm
 					defaultData={attribute}
 					fields={brandTypeEditForm}

@@ -1,6 +1,10 @@
 const { i18n } = require('./next-i18next.config')
 
-module.exports = {
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+	enabled: process.env.ANALYZE === 'true',
+})
+
+module.exports = withBundleAnalyzer({
 	distDir: 'build',
 	devIndicators: {
 		buildActivity: false,
@@ -17,4 +21,4 @@ module.exports = {
 	publicRuntimeConfig: {
 		theme: 'DEFAULT',
 	},
-}
+})
