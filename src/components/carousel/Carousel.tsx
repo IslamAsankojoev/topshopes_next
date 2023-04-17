@@ -15,6 +15,7 @@ import {
 	StyledDotGroup,
 	StyledSlider,
 } from './CarouselStyled'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 // ===================================================================
 export interface CarouselProps {
@@ -74,6 +75,7 @@ const Carousel: FC<CarouselProps> = ({
 }) => {
 	// site settings
 	const { settings } = useSettings()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	return (
 		<StyledCarouselProvider

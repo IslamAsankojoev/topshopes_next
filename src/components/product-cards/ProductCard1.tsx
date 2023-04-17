@@ -15,6 +15,7 @@ import { v4 } from 'uuid'
 
 import { FlexBox } from '../flex-box'
 import { getCurrency } from 'src/utils/getCurrency'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const StyledBazaarCard = styled(BazaarCard)(() => ({
 	height: '100%',
@@ -95,6 +96,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	const CurrentCard = useRef(null)
 	const wishListItems = useTypedSelector((state) => state.wishStore?.items)
 	const [isInWishList, setIsInWishList] = useState(false)
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const { toggleWish } = useActions()
 
@@ -113,7 +115,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 					<StyledChip color="primary" size="small" label={`${discount}% off`} />
 				)}
 				<Link href={`/product/${id}`}>
-					<a>
+					<a ref={parent}>
 						<LazyImage
 							src={thumbnail}
 							width={200}

@@ -4,6 +4,7 @@ import ProductCard1 from 'src/components/product-cards/ProductCard1'
 import { FC, Fragment } from 'react'
 import { IProductPreview } from 'src/shared/types/product.types'
 import { useRouter } from 'next/router'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 type ProductCard1ListProps = {
 	products: IProductPreview[]
@@ -23,10 +24,11 @@ const ProductCard1List: FC<ProductCard1ListProps> = ({
 	xs,
 }) => {
 	const router = useRouter()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	return (
 		<Fragment>
-			<Grid container spacing={3}>
+			<Grid container spacing={3} ref={parent}>
 				{products?.map((item) => (
 					<Grid item lg={lg || 4} sm={sm || 4} xs={xs || 6} key={item.id}>
 						<ProductCard1 product={item} />

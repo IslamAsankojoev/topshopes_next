@@ -4,6 +4,7 @@ import Carousel from 'src/components/carousel/Carousel'
 import Models from 'src/models'
 import { NextPage } from 'next'
 import useWindowSize from 'src/hooks/useWindowSize'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 // ======================================================
 type Props = { carouselData: Models['MainCarouselItem'][] }
@@ -11,6 +12,7 @@ type Props = { carouselData: Models['MainCarouselItem'][] }
 
 const Section1: NextPage<Props> = ({ carouselData }) => {
 	const width = useWindowSize()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const mainCarouselData = [
 		{

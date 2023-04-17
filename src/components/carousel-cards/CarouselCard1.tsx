@@ -3,6 +3,7 @@ import LazyImage from 'src/components/LazyImage'
 import { FlexBetween } from 'src/components/flex-box'
 import { FC } from 'react'
 import Link from 'next/link'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 // styled component
 const StyledBox = styled(FlexBetween)(({ theme }) => ({
@@ -77,22 +78,29 @@ const CarouselCard1: FC<CarouselCard1Props> = ({ imgUrl, shop_id }) => {
 						}}
 					/>
 				</Grid> */}
-				<Link href={`/shops/${shop_id}/`} >
-					<a style={{
-					cursor: 'pointer',
-				}}>
-				<Box
-					sx={{
-						width: '100%',
-						height: '365px',
-						"@media (max-width: 991px)": {
-							height: '70vw',
-						},
-					}}
-				>
-					<LazyImage src={imgUrl} layout="fill" alt='Slide' objectFit='cover' />
-				</Box>
-				</a>
+				<Link href={`/shops/${shop_id}/`}>
+					<a
+						style={{
+							cursor: 'pointer',
+						}}
+					>
+						<Box
+							sx={{
+								width: '100%',
+								height: '365px',
+								'@media (max-width: 991px)': {
+									height: '70vw',
+								},
+							}}
+						>
+							<LazyImage
+								src={imgUrl}
+								layout="fill"
+								alt="Slide"
+								objectFit="cover"
+							/>
+						</Box>
+					</a>
 				</Link>
 			</Grid>
 		</StyledBox>

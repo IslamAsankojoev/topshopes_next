@@ -14,6 +14,7 @@ import { FlexBox } from 'src/components/flex-box'
 import Link from 'next/link'
 import { IProductPreview } from 'src/shared/types/product.types'
 import { getCurrency } from 'src/utils/getCurrency'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 // =============================================================
 type Props = { flashDeals: IProductPreview[] }
@@ -23,6 +24,7 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 	const { t } = useTranslation('home')
 	const [visibleSlides, setVisibleSlides] = useState(4)
 	const width = useWindowSize()
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	useEffect(() => {
 		if (width < 500) setVisibleSlides(2)
