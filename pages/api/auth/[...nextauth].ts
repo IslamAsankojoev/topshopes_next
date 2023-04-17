@@ -2,6 +2,25 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { AuthService } from 'src/api/services/auth/auth.service'
 
+export type IToken = {
+	accessToken: string
+	refreshToken: string
+}
+
+type IUser = {
+	id: string
+	email: string
+	access: string
+	refresh: string
+}
+
+export type ISession = {
+	user: IUser
+	expires: string
+	accessToken: string
+	refreshToken: string
+}
+
 export default NextAuth({
 	secret: process.env.SECRET_KEY,
 	providers: [
@@ -39,25 +58,20 @@ export default NextAuth({
 		error: '/login',
 	},
 	callbacks: {
-		//@ts-ignore
 		async signIn() {
 			return true
 		},
 		// @ts-ignore
-		async jwt({ token, user }) {
+		async jwt({ token, user }: { token: IToken; user: IUser }) {
 			if (user) {
-				// @ts-ignore
 				token.accessToken = user.access
-				// @ts-ignore
 				token.refreshToken = user.refresh
 			}
 			return token
 		},
 		// @ts-ignore
-		async session({ session, token }) {
-			// @ts-ignore
+		async session({ session, token }: { session: ISession; token: IToken }) {
 			session.accessToken = token.accessToken
-			// @ts-ignore
 			session.refreshToken = token.refreshToken
 			return session
 		},

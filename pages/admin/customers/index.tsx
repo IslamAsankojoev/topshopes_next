@@ -20,6 +20,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { CustomerRow } from 'src/pages-sections/admin'
 import { ReactElement, useState } from 'react'
+import { orderBy as LOrderBy } from 'lodash-es'
 
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -76,7 +77,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 		useMuiTable({ listData: users?.results })
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{adminT('members')}</H3>
 
 			<SearchArea
@@ -90,49 +91,50 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 				searchPlaceholder={t('editUser')}
 			/>
 
-			{filteredList?.length ? (
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 900 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={users?.count}
-									numSelected={selected?.length}
-									onRequestSort={handleRequestSort}
-								/>
+			<span ref={parent}>
+				{filteredList?.length ? (
+					<Card>
+						<Scrollbar>
+							<TableContainer sx={{ minWidth: 900 }}>
+								<Table>
+									<TableHeader
+										order={order}
+										hideSelectBtn
+										orderBy={orderBy}
+										heading={tableHeading}
+										rowCount={users?.count}
+										numSelected={selected?.length}
+										onRequestSort={handleRequestSort}
+									/>
 
-								<TableBody>
-									{
-										// @ts-ignore
-										orderBy(filteredList, ['email'])?.map((customer, index) => (
-											<CustomerRow
-												refetch={refetch}
-												customer={customer}
-												key={index}
-											/>
-										))
-									}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
+									<TableBody>
+										{LOrderBy(filteredList, ['email'])?.map(
+											(customer, index) => (
+												<CustomerRow
+													refetch={refetch}
+													customer={customer}
+													key={index}
+												/>
+											)
+										)}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Scrollbar>
 
-					<Stack alignItems="center" my={4}>
-						<Pagination
-							variant="outlined"
-							shape="rounded"
-							count={Math.ceil(users?.count / 10)}
-							onChange={(e, page) => handleChangePage(e, page)}
-						/>
-					</Stack>
-				</Card>
-			) : (
-				<Empty />
-			)}
+						<Stack alignItems="center" my={4}>
+							<Pagination
+								variant="outlined"
+								shape="rounded"
+								count={Math.ceil(users?.count / 10)}
+								onChange={(e, page) => handleChangePage(e, page)}
+							/>
+						</Stack>
+					</Card>
+				) : (
+					<Empty />
+				)}
+			</span>
 		</Box>
 	)
 }

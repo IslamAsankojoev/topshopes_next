@@ -18,7 +18,7 @@ import useMuiTable from 'src/hooks/useMuiTable'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { Fragment, ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
@@ -105,7 +105,7 @@ const ProductList: NextPageAuth = () => {
 	}, [query?.page])
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{adminT('products')}</H3>
 
 			<SearchArea
@@ -118,52 +118,54 @@ const ProductList: NextPageAuth = () => {
 				searchPlaceholder={t('searchingFor')}
 			/>
 
-			{products?.count ? (
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 900 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={products?.count}
-									numSelected={selected?.length}
-									onRequestSort={handleRequestSort}
-								/>
+			<span ref={parent}>
+				{products?.count ? (
+					<Card>
+						<Scrollbar>
+							<TableContainer sx={{ minWidth: 900 }}>
+								<Table>
+									<TableHeader
+										order={order}
+										hideSelectBtn
+										orderBy={orderBy}
+										heading={tableHeading}
+										rowCount={products?.count}
+										numSelected={selected?.length}
+										onRequestSort={handleRequestSort}
+									/>
 
-								<TableBody>
-									{filteredList?.map((product, index) => (
-										<ProductClientRowV2
-											refetch={refetch}
-											product={product}
-											key={index}
-											switchPublish={switchPublish}
-										/>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
+									<TableBody>
+										{filteredList?.map((product, index) => (
+											<ProductClientRowV2
+												refetch={refetch}
+												product={product}
+												key={index}
+												switchPublish={switchPublish}
+											/>
+										))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Scrollbar>
 
-					<MemizeComponent
-						component={
-							<Stack alignItems="center" my={4}>
-								<Pagination
-									variant="outlined"
-									shape="rounded"
-									page={currentPage}
-									count={Math.ceil(products?.count / 10)}
-									onChange={(e, page) => handleChangePage(e, page)}
-								/>
-							</Stack>
-						}
-					/>
-				</Card>
-			) : (
-				<Empty />
-			)}
+						<MemizeComponent
+							component={
+								<Stack alignItems="center" my={4}>
+									<Pagination
+										variant="outlined"
+										shape="rounded"
+										page={currentPage}
+										count={Math.ceil(products?.count / 10)}
+										onChange={(e, page) => handleChangePage(e, page)}
+									/>
+								</Stack>
+							}
+						/>
+					</Card>
+				) : (
+					<Empty />
+				)}
+			</span>
 		</Box>
 	)
 }

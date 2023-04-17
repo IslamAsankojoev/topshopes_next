@@ -99,7 +99,7 @@ const ProductList: NextPageAuth = () => {
 	}, [order, orderBy])
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{t('products')}</H3>
 
 			<SearchArea
@@ -113,48 +113,50 @@ const ProductList: NextPageAuth = () => {
 
 			{isLoading ? <Loading /> : null}
 
-			{filteredList?.length ? (
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 900 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={products?.count}
-									numSelected={selected?.length}
-									onRequestSort={handleSorting}
-								/>
+			<span ref={parent}>
+				{filteredList?.length ? (
+					<Card>
+						<Scrollbar>
+							<TableContainer sx={{ minWidth: 900 }}>
+								<Table>
+									<TableHeader
+										order={order}
+										hideSelectBtn
+										orderBy={orderBy}
+										heading={tableHeading}
+										rowCount={products?.count}
+										numSelected={selected?.length}
+										onRequestSort={handleSorting}
+									/>
 
-								<TableBody>
-									{filteredList?.map((product, index) => (
-										<ProductClientRowV2
-											refetch={refetch}
-											product={product}
-											key={index}
-											is_superuser={user?.is_superuser}
-											switchPublish={switchPublish}
-										/>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
+									<TableBody>
+										{filteredList?.map((product, index) => (
+											<ProductClientRowV2
+												refetch={refetch}
+												product={product}
+												key={index}
+												is_superuser={user?.is_superuser}
+												switchPublish={switchPublish}
+											/>
+										))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Scrollbar>
 
-					<Stack alignItems="center" my={4}>
-						<Pagination
-							variant="outlined"
-							shape="rounded"
-							count={Math.ceil(products?.count / 10)}
-							onChange={(e, page) => handleChangePage(e, page)}
-						/>
-					</Stack>
-				</Card>
-			) : (
-				<Empty />
-			)}
+						<Stack alignItems="center" my={4}>
+							<Pagination
+								variant="outlined"
+								shape="rounded"
+								count={Math.ceil(products?.count / 10)}
+								onChange={(e, page) => handleChangePage(e, page)}
+							/>
+						</Stack>
+					</Card>
+				) : (
+					<Empty />
+				)}
+			</span>
 		</Box>
 	)
 }

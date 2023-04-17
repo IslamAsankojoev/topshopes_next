@@ -119,7 +119,7 @@ const OrderList: NextPageAuth = () => {
 	}, [order, orderBy])
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{adminT('orders')}</H3>
 
 			<SearchArea
@@ -131,47 +131,49 @@ const OrderList: NextPageAuth = () => {
 				searchPlaceholder={t('searchingFor')}
 			/>
 
-			{filteredList?.length ? (
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 900 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={orders?.count}
-									numSelected={selected?.length}
-									onRequestSort={handleSorting}
-								/>
+			<span ref={parent}>
+				{filteredList?.length ? (
+					<Card>
+						<Scrollbar>
+							<TableContainer sx={{ minWidth: 900 }}>
+								<Table>
+									<TableHeader
+										order={order}
+										hideSelectBtn
+										orderBy={orderBy}
+										heading={tableHeading}
+										rowCount={orders?.count}
+										numSelected={selected?.length}
+										onRequestSort={handleSorting}
+									/>
 
-								<TableBody>
-									{sortBy(filteredList, 'created_at')?.map((order, index) => (
-										<OrderRow
-											isAdmin={true}
-											order={order}
-											key={index}
-											refetch={refetch}
-										/>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
+									<TableBody>
+										{sortBy(filteredList, 'created_at')?.map((order, index) => (
+											<OrderRow
+												isAdmin={true}
+												order={order}
+												key={index}
+												refetch={refetch}
+											/>
+										))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Scrollbar>
 
-					<Stack alignItems="center" my={4}>
-						<Pagination
-							variant="outlined"
-							shape="rounded"
-							count={Math.ceil(orders?.count / 10)}
-							onChange={(e, page) => handleChangePage(e, page)}
-						/>
-					</Stack>
-				</Card>
-			) : (
-				<Empty />
-			)}
+						<Stack alignItems="center" my={4}>
+							<Pagination
+								variant="outlined"
+								shape="rounded"
+								count={Math.ceil(orders?.count / 10)}
+								onChange={(e, page) => handleChangePage(e, page)}
+							/>
+						</Stack>
+					</Card>
+				) : (
+					<Empty />
+				)}
+			</span>
 		</Box>
 	)
 }

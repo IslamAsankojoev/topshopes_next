@@ -2,7 +2,6 @@ import axios from 'axios'
 import { API_URL } from 'src/config/api.config'
 import Cookie from 'js-cookie'
 
-
 // import { removeToken } from './services/auth/auth.helpers'
 import { AuthService } from './services/auth/auth.service'
 import { getSession, signOut } from 'next-auth/react'
@@ -21,11 +20,11 @@ export const instance = axios.create({
 	},
 })
 
-instance.interceptors.request.use( async (config) => {
-	const session = await getSession();
-		// @ts-ignore
-	if (config.headers && session?.accessToken)
+instance.interceptors.request.use(async (config) => {
+	const session = await getSession()
 	// @ts-ignore
+	if (config.headers && session?.accessToken)
+		// @ts-ignore
 		config.headers.Authorization = `Bearer ${session?.accessToken}`
 	return config
 })

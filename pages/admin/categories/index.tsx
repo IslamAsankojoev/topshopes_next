@@ -74,7 +74,7 @@ const CategoryList: NextPageAuth = () => {
 		useMuiTable({ listData: categories?.results })
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{adminT('categories')}</H3>
 
 			<SearchArea
@@ -88,48 +88,49 @@ const CategoryList: NextPageAuth = () => {
 				}}
 				searchPlaceholder={t('searchingFor')}
 			/>
+			<span ref={parent}>
+				{filteredList?.length ? (
+					<Card>
+						<Scrollbar>
+							<TableContainer sx={{ minWidth: 900 }}>
+								<Table>
+									<TableHeader
+										order={order}
+										hideSelectBtn
+										orderBy={orderBy}
+										heading={tableHeading}
+										rowCount={categories?.count}
+										numSelected={selected?.length}
+										onRequestSort={handleRequestSort}
+									/>
 
-			{filteredList?.length ? (
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 900 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={categories?.count}
-									numSelected={selected?.length}
-									onRequestSort={handleRequestSort}
-								/>
+									<TableBody>
+										{filteredList?.map((category, index) => (
+											<CategoryRow
+												item={category}
+												key={index}
+												selected={selected}
+												refetch={refetch}
+											/>
+										))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Scrollbar>
 
-								<TableBody>
-									{filteredList?.map((category, index) => (
-										<CategoryRow
-											item={category}
-											key={index}
-											selected={selected}
-											refetch={refetch}
-										/>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
-
-					<Stack alignItems="center" my={4}>
-						<Pagination
-							variant="outlined"
-							shape="rounded"
-							count={Math.ceil(categories?.count / 10)}
-							onChange={(e, page) => handleChangePage(e, page)}
-						/>
-					</Stack>
-				</Card>
-			) : (
-				<Empty />
-			)}
+						<Stack alignItems="center" my={4}>
+							<Pagination
+								variant="outlined"
+								shape="rounded"
+								count={Math.ceil(categories?.count / 10)}
+								onChange={(e, page) => handleChangePage(e, page)}
+							/>
+						</Stack>
+					</Card>
+				) : (
+					<Empty />
+				)}
+			</span>
 		</Box>
 	)
 }

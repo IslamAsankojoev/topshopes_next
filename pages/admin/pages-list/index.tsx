@@ -54,7 +54,7 @@ const PagesList: NextPageAuth = () => {
 		useMuiTable({ listData: pages?.results })
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{adminT('pageList')}</H3>
 
 			<SearchArea
@@ -69,38 +69,40 @@ const PagesList: NextPageAuth = () => {
 
 			{isLoading ? <Loading /> : null}
 
-			{filteredList?.length ? (
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 900 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={pages?.count}
-									numSelected={selected?.length}
-									onRequestSort={handleRequestSort}
-								/>
+			<span ref={parent}>
+				{filteredList?.length ? (
+					<Card>
+						<Scrollbar>
+							<TableContainer sx={{ minWidth: 900 }}>
+								<Table>
+									<TableHeader
+										order={order}
+										hideSelectBtn
+										orderBy={orderBy}
+										heading={tableHeading}
+										rowCount={pages?.count}
+										numSelected={selected?.length}
+										onRequestSort={handleRequestSort}
+									/>
 
-								<TableBody>
-									{filteredList?.map((page) => (
-										<PagesRow
-											item={page}
-											key={page?.id}
-											selected={selected}
-											refetch={refetch}
-										/>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
-				</Card>
-			) : (
-				<Empty />
-			)}
+									<TableBody>
+										{filteredList?.map((page) => (
+											<PagesRow
+												item={page}
+												key={page?.id}
+												selected={selected}
+												refetch={refetch}
+											/>
+										))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Scrollbar>
+					</Card>
+				) : (
+					<Empty />
+				)}
+			</span>
 		</Box>
 	)
 }

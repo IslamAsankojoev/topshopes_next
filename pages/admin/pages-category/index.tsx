@@ -53,7 +53,7 @@ const PageCategoryList: NextPageAuth = () => {
 		useMuiTable({ listData: pageCategory?.results })
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{adminT('pagesCategory')}</H3>
 			{isLoading ? <Loading /> : null}
 			<SearchArea
@@ -66,38 +66,40 @@ const PageCategoryList: NextPageAuth = () => {
 				searchOff={true}
 			/>
 
-			{filteredList?.length ? (
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 600 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={pageCategory?.count}
-									numSelected={selected?.length}
-									onRequestSort={handleRequestSort}
-								/>
+			<span ref={parent}>
+				{filteredList?.length ? (
+					<Card>
+						<Scrollbar>
+							<TableContainer sx={{ minWidth: 600 }}>
+								<Table>
+									<TableHeader
+										order={order}
+										hideSelectBtn
+										orderBy={orderBy}
+										heading={tableHeading}
+										rowCount={pageCategory?.count}
+										numSelected={selected?.length}
+										onRequestSort={handleRequestSort}
+									/>
 
-								<TableBody>
-									{filteredList?.map((size, index) => (
-										<PageCategoryRow
-											name={size}
-											key={index}
-											selected={selected}
-											refetch={refetch}
-										/>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
-				</Card>
-			) : (
-				<Empty />
-			)}
+									<TableBody>
+										{filteredList?.map((size, index) => (
+											<PageCategoryRow
+												name={size}
+												key={index}
+												selected={selected}
+												refetch={refetch}
+											/>
+										))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Scrollbar>
+					</Card>
+				) : (
+					<Empty />
+				)}
+			</span>
 		</Box>
 	)
 }

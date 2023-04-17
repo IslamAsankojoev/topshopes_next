@@ -26,7 +26,6 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { getCurrency } from 'src/utils/getCurrency'
 import SellIcon from '@mui/icons-material/Sell'
-import { useSession } from 'next-auth/react'
 import { StyledTableCell, StyledTableRow } from 'src/pages-sections/admin'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation'
@@ -108,7 +107,6 @@ const SellerReports: NextPageAuth = () => {
 
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
-	const { data: session, status } = useSession()
 	const [restart, setRestart] = useState(v4())
 
 	const router = useRouter()

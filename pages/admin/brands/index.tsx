@@ -72,7 +72,7 @@ const BrandsList: NextPageAuth = () => {
 		useMuiTable({ listData: brands?.results })
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{adminT('brands')}</H3>
 
 			<SearchArea
@@ -86,48 +86,49 @@ const BrandsList: NextPageAuth = () => {
 				}}
 				searchPlaceholder={t('searchingFor')}
 			/>
+			<span ref={parent}>
+				{filteredList?.length ? (
+					<Card>
+						<Scrollbar>
+							<TableContainer sx={{ minWidth: 600 }}>
+								<Table>
+									<TableHeader
+										order={order}
+										hideSelectBtn
+										orderBy={orderBy}
+										heading={tableHeading}
+										rowCount={brands?.length}
+										numSelected={selected?.length}
+										onRequestSort={handleRequestSort}
+									/>
 
-			{filteredList?.length ? (
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 600 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={brands?.length}
-									numSelected={selected?.length}
-									onRequestSort={handleRequestSort}
-								/>
+									<TableBody>
+										{filteredList?.map((brand, index) => (
+											<BrandRow
+												brand={brand}
+												key={index}
+												selected={selected}
+												refetch={refetch}
+											/>
+										))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Scrollbar>
 
-								<TableBody>
-									{filteredList?.map((brand, index) => (
-										<BrandRow
-											brand={brand}
-											key={index}
-											selected={selected}
-											refetch={refetch}
-										/>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
-
-					<Stack alignItems="center" my={4}>
-						<Pagination
-							variant="outlined"
-							shape="rounded"
-							count={Math.ceil(brands?.count / 10)}
-							onChange={(e, page) => handleChangePage(e, page)}
-						/>
-					</Stack>
-				</Card>
-			) : (
-				<Empty />
-			)}
+						<Stack alignItems="center" my={4}>
+							<Pagination
+								variant="outlined"
+								shape="rounded"
+								count={Math.ceil(brands?.count / 10)}
+								onChange={(e, page) => handleChangePage(e, page)}
+							/>
+						</Stack>
+					</Card>
+				) : (
+					<Empty />
+				)}
+			</span>
 		</Box>
 	)
 }

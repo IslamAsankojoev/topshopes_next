@@ -3,7 +3,7 @@ import { useActions } from 'src/hooks/useActions'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { FC, useEffect } from 'react'
-import { useSession, signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false })
 

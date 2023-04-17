@@ -22,6 +22,7 @@ import { AttributesService } from 'src/api/services/attributes/attributes.servic
 import { localize } from 'src/utils/Translate/localize'
 import { filter as _filter, includes as _includes } from 'lodash-es'
 import getRefererPath from 'src/utils/getRefererPath'
+import Loading from 'src/components/Loading'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -42,6 +43,7 @@ const EditProduct: NextPageAuth = () => {
 		query: { id },
 	} = useRouter()
 	const [variantsBlackList, setVariantsBlackList] = useState<string[]>([])
+	const [updateLoading, setUpdateLoading] = useState<boolean>(false)
 
 	const {
 		data: product,
@@ -73,6 +75,7 @@ const EditProduct: NextPageAuth = () => {
 				refetch()
 			},
 			onError: (e: any) => {
+				setUpdateLoading(false)
 				console.error(e.message)
 			},
 		}
@@ -84,6 +87,7 @@ const EditProduct: NextPageAuth = () => {
 	) // filter variants list
 
 	const handleFormSubmit = async (data: IProduct, redirect: boolean) => {
+		setUpdateLoading(true)
 		if (filteredVariantsList?.length === 0) {
 			// check if variants list is empty
 			toast.error(
@@ -105,6 +109,7 @@ const EditProduct: NextPageAuth = () => {
 
 		await Promise.all(variantsPromises) // wait for all promises to resolve
 		push(getRefererPath() || '/vendor/products-v2/') // redirect to products list
+		setUpdateLoading(false)
 	}
 
 	const handleVariantChange = async (data: IProductVariant) => {
@@ -187,6 +192,7 @@ const EditProduct: NextPageAuth = () => {
 						handleVariantRemove={handleVariantRemove}
 						handleVariantCreate={handleVariantCreate}
 					/>
+					{updateLoading ? <Loading /> : null}
 				</>
 			) : null}
 		</Box>

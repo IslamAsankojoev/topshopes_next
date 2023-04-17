@@ -31,7 +31,6 @@ import { makeRequest } from 'src/api/interceptor'
 import { AxiosResponse } from 'axios'
 import { getCurrency } from 'src/utils/getCurrency'
 import SellIcon from '@mui/icons-material/Sell'
-import { useSession } from 'next-auth/react'
 import { StyledTableCell, StyledTableRow } from 'src/pages-sections/admin'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
@@ -95,7 +94,6 @@ const MoneyTransfer: NextPageAuth = () => {
 
 	const [searchValue, setSearchValue] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
-	const { data: session, status } = useSession()
 
 	const handleChangePage = (_, newPage: number) => setCurrentPage(newPage)
 
@@ -136,7 +134,7 @@ const MoneyTransfer: NextPageAuth = () => {
 	}, [yearValue, monthValue])
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{adminT('moneyTransfer')}</H3>
 
 			<SearchArea
@@ -271,72 +269,74 @@ const MoneyTransfer: NextPageAuth = () => {
 				}
 			/>
 
-			{filteredList?.length ? (
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 900 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={moneyStats?.length}
-									numSelected={selected?.length}
-									onRequestSort={handleRequestSort}
-								/>
+			<span ref={parent}>
+				{filteredList?.length ? (
+					<Card>
+						<Scrollbar>
+							<TableContainer sx={{ minWidth: 900 }}>
+								<Table>
+									<TableHeader
+										order={order}
+										hideSelectBtn
+										orderBy={orderBy}
+										heading={tableHeading}
+										rowCount={moneyStats?.length}
+										numSelected={selected?.length}
+										onRequestSort={handleRequestSort}
+									/>
 
-								<TableBody>
-									{filteredList?.map((moneyStats, index) => (
-										<StyledTableRow tabIndex={-1} role="checkbox">
-											<StyledTableCell
-												align="left"
-												sx={{
-													color: 'inherit',
-													p: 2,
-													display: 'flex',
-													alignItems: 'center',
-												}}
-											>
-												{moneyStats.name}
-											</StyledTableCell>
-											<StyledTableCell
-												align="left"
-												sx={{
-													color: 'inherit',
-													p: 2,
-												}}
-											>
-												{getCurrency(moneyStats.total_amount)}
-											</StyledTableCell>
+									<TableBody>
+										{filteredList?.map((moneyStats, index) => (
+											<StyledTableRow tabIndex={-1} role="checkbox">
+												<StyledTableCell
+													align="left"
+													sx={{
+														color: 'inherit',
+														p: 2,
+														display: 'flex',
+														alignItems: 'center',
+													}}
+												>
+													{moneyStats.name}
+												</StyledTableCell>
+												<StyledTableCell
+													align="left"
+													sx={{
+														color: 'inherit',
+														p: 2,
+													}}
+												>
+													{getCurrency(moneyStats.total_amount)}
+												</StyledTableCell>
 
-											<StyledTableCell
-												align="left"
-												sx={{
-													color: 'inherit',
-												}}
-											>
-												{getCurrency(moneyStats.total_tax)}
-											</StyledTableCell>
-										</StyledTableRow>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
+												<StyledTableCell
+													align="left"
+													sx={{
+														color: 'inherit',
+													}}
+												>
+													{getCurrency(moneyStats.total_tax)}
+												</StyledTableCell>
+											</StyledTableRow>
+										))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Scrollbar>
 
-					<Stack alignItems="center" my={4}>
-						<Pagination
-							variant="outlined"
-							shape="rounded"
-							count={Math.ceil(moneyStats?.length / 10)}
-							onChange={(e, page) => handleChangePage(e, page)}
-						/>
-					</Stack>
-				</Card>
-			) : (
-				<Empty />
-			)}
+						<Stack alignItems="center" my={4}>
+							<Pagination
+								variant="outlined"
+								shape="rounded"
+								count={Math.ceil(moneyStats?.length / 10)}
+								onChange={(e, page) => handleChangePage(e, page)}
+							/>
+						</Stack>
+					</Card>
+				) : (
+					<Empty />
+				)}
+			</span>
 		</Box>
 	)
 }

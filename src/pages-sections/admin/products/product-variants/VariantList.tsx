@@ -26,7 +26,7 @@ import {
 import { formDataToObj } from 'src/utils/formData'
 import VariantForm from './VariantForm'
 import VariantRow from './VariantRow'
-import orderBy from 'lodash-es/orderBy'
+import { orderBy as LOrderBy } from 'lodash-es'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { localize } from 'src/utils/Translate/localize'
 import { H2, H3 } from 'src/components/Typography'
@@ -134,19 +134,16 @@ const VariantList: FC<Props> = ({
 									onRequestSort={handleRequestSort}
 								/>
 								<TableBody>
-									{
-										// @ts-ignore
-										orderBy(filteredList, ['id']).map((variant) => (
-											<VariantRow
-												key={variant.id}
-												variant={variant}
-												variantFormOpen={variantFormOpen}
-												enableAnimations={enableAnimations}
-												handleChange={handleVariantChange}
-												handleRemove={handleVariantRemove}
-											/>
-										))
-									}
+									{LOrderBy(filteredList, 'id').map((variant) => (
+										<VariantRow
+											key={variant.id}
+											variant={variant}
+											variantFormOpen={variantFormOpen}
+											enableAnimations={enableAnimations}
+											handleChange={handleVariantChange}
+											handleRemove={handleVariantRemove}
+										/>
+									))}
 								</TableBody>
 							</Table>
 						</TableContainer>

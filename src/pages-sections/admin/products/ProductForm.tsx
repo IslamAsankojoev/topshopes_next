@@ -60,6 +60,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 			...initialValues,
 			category: initialValues?.category?.id,
 			brand: initialValues?.brand?.id,
+			is_pablished: initialValues?.is_pablished || false,
 		},
 	})
 
@@ -110,10 +111,6 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 			trigger('is_published')
 		}
 	}, [initialValues])
-
-	useEffect(() => {
-		console.log('values', values)
-	}, [values])
 
 	return (
 		<Card sx={{ p: 3, overflow: 'initial' }}>

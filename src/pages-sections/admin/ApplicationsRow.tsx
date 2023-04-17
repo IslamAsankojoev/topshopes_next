@@ -44,7 +44,7 @@ const ApplicationsRow: FC<AttributesRowProps> = ({ name, selected }) => {
 				cursor: 'pointer',
 				transition: 'all 0.2s ease-in-out',
 				'&:hover': {
-					backgroundColor: '#323747',
+					opacity: 0.8,
 				},
 			}}
 		>

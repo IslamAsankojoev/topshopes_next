@@ -8,6 +8,7 @@ import { AttributesService } from 'src/api/services/attributes/attributes.servic
 import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service'
 import { ProductsService } from 'src/api/services/products/product.service'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
+import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
 import { useActions } from 'src/hooks/useActions'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
@@ -30,11 +31,13 @@ const CreateProductV2: NextPageAuth = () => {
 	const localVariants = useTypedSelector((state) => state.localVariantsStore)
 	const variants: IProductVariant[] = Object.values(localVariants)
 	const [productID, setProductID] = useState<string | null>(null)
+	const [createLoading, setCreateLoading] = useState(false)
 	const { push } = useRouter()
 	const { localVariantAdd, localVariantRemove, localeVariantsClear } =
 		useActions()
 
 	const handleFormSubmit = async (data: FormData) => {
+		setCreateLoading(true)
 		if (variants.length === 0) {
 			toast.warning(
 				localize({
@@ -89,6 +92,7 @@ const CreateProductV2: NextPageAuth = () => {
 			await Promise.all(variantPromises) // wait for all variants to be created
 			localeVariantsClear() // clear local variants
 			push(`/vendor/products-v2/`) // redirect to products list
+			setCreateLoading(false)
 		} catch (e) {
 			ProductsService.delete(productID as string)
 			console.error(e)
@@ -99,6 +103,7 @@ const CreateProductV2: NextPageAuth = () => {
 					en: 'Error creating product',
 				})
 			)
+			setCreateLoading(false)
 		}
 	}
 
@@ -118,7 +123,6 @@ const CreateProductV2: NextPageAuth = () => {
 	return fetch ? (
 		<Box py={4}>
 			<H3 mb={2}>Добавить новый продукт</H3>
-
 			<ProductForm
 				initialValues={initialValues}
 				handleFormSubmit={handleFormSubmit}
@@ -131,6 +135,7 @@ const CreateProductV2: NextPageAuth = () => {
 				handleVariantRemove={handleRemoveVariant}
 				handleVariantCreate={handleCreateVariant}
 			/>
+			{createLoading ? <Loading /> : null}
 		</Box>
 	) : null
 }

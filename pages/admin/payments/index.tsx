@@ -98,7 +98,7 @@ export default function Payouts() {
 	} = useMuiTable({ listData: data?.results, defaultSort: 'no' })
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{t('payouts')}</H3>
 
 			<Card>
@@ -115,53 +115,55 @@ export default function Payouts() {
 								onRequestSort={handleRequestSort}
 							/>
 
-							<TableBody>
-								{
-									//@ts-ignore
-									orderBy(filteredList, (obj) => new Date(obj.create_at))
-										.map((payout: IPayment) => (
-											<Link href={`/admin/payments/${payout.id}`}>
-												<StyledTableRow
-													role="checkbox"
-													key={payout.id}
-													color="primary"
-													sx={{
-														transition: 'all 0.3s ease-in-out',
-														cursor: 'pointer!important',
-														'&:hover': {
-															backgroundColor: 'grey.200',
-														},
-													}}
-												>
-													<StyledTableCell align="center">
-														{payout.bank_account}
-													</StyledTableCell>
+							<span ref={parent}>
+								<TableBody>
+									{
+										//@ts-ignore
+										orderBy(filteredList, (obj) => new Date(obj.create_at))
+											.map((payout: IPayment) => (
+												<Link href={`/admin/payments/${payout.id}`}>
+													<StyledTableRow
+														role="checkbox"
+														key={payout.id}
+														color="primary"
+														sx={{
+															transition: 'all 0.3s ease-in-out',
+															cursor: 'pointer!important',
+															'&:hover': {
+																backgroundColor: 'grey.200',
+															},
+														}}
+													>
+														<StyledTableCell align="center">
+															{payout.bank_account}
+														</StyledTableCell>
 
-													<StyledTableCell align="center">
-														{payout.payment_type}
-													</StyledTableCell>
+														<StyledTableCell align="center">
+															{payout.payment_type}
+														</StyledTableCell>
 
-													<StyledTableCell align="center">
-														{payout.phone_number}
-													</StyledTableCell>
+														<StyledTableCell align="center">
+															{payout.phone_number}
+														</StyledTableCell>
 
-													<StyledTableCell align="center">
-														{new Date(payout.create_at).toLocaleString()}
-													</StyledTableCell>
+														<StyledTableCell align="center">
+															{new Date(payout.create_at).toLocaleString()}
+														</StyledTableCell>
 
-													<StyledTableCell align="center">
-														<CheckBoxIcon
-															color={
-																payout.is_verified ? 'success' : 'disabled'
-															}
-														/>
-													</StyledTableCell>
-												</StyledTableRow>
-											</Link>
-										))
-										.reverse()
-								}
-							</TableBody>
+														<StyledTableCell align="center">
+															<CheckBoxIcon
+																color={
+																	payout.is_verified ? 'success' : 'disabled'
+																}
+															/>
+														</StyledTableCell>
+													</StyledTableRow>
+												</Link>
+											))
+											.reverse()
+									}
+								</TableBody>
+							</span>
 						</Table>
 					</TableContainer>
 				</Scrollbar>

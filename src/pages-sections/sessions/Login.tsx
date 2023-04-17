@@ -1,6 +1,5 @@
 import { Button, Card, CardProps, Grid } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { AuthService } from 'src/api/services/auth/auth.service'
 import BazaarButton from 'src/components/BazaarButton'
 import BazaarTextField from 'src/components/BazaarTextField'
 import { H3, Small } from 'src/components/Typography'
@@ -11,10 +10,9 @@ import { useAuthRedirect } from 'src/hooks/useAuthRedirect'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC, useCallback, useEffect, useState } from 'react'
-import { useMutation } from 'react-query'
 import * as yup from 'yup'
 
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 
 import EyeToggleButton from './EyeToggleButton'
 import SocialButtons from './SocialButtons'
@@ -50,8 +48,6 @@ const Login = () => {
 	const [passwordVisibility, setPasswordVisibility] = useState(false)
 	const { profile } = useActions()
 	const router = useRouter()
-
-	const { data, status } = useSession()
 
 	const {
 		values,

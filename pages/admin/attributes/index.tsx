@@ -72,7 +72,7 @@ const AttributesList: NextPageAuth = () => {
 		useMuiTable({ listData: attributes?.results })
 
 	return (
-		<Box py={4} ref={parent}>
+		<Box py={4}>
 			<H3 mb={2}>{adminT('attributes')}</H3>
 
 			<SearchArea
@@ -86,53 +86,54 @@ const AttributesList: NextPageAuth = () => {
 				}}
 				searchPlaceholder={t('searchingFor')}
 			/>
+			<span ref={parent}>
+				{filteredList?.length ? (
+					<Card>
+						<Scrollbar>
+							<TableContainer sx={{ minWidth: 600 }}>
+								<Table>
+									<TableHeader
+										order={order}
+										hideSelectBtn
+										orderBy={orderBy}
+										heading={tableHeading}
+										rowCount={attributes?.length}
+										numSelected={selected?.length}
+										onRequestSort={handleRequestSort}
+									/>
 
-			{filteredList?.length ? (
-				<Card>
-					<Scrollbar>
-						<TableContainer sx={{ minWidth: 600 }}>
-							<Table>
-								<TableHeader
-									order={order}
-									hideSelectBtn
-									orderBy={orderBy}
-									heading={tableHeading}
-									rowCount={attributes?.length}
-									numSelected={selected?.length}
-									onRequestSort={handleRequestSort}
-								/>
+									<TableBody>
+										{filteredList?.map((bt, index) => (
+											<AttributesRow
+												name={bt}
+												key={index}
+												selected={selected}
+												refetch={refetch}
+											/>
+										))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Scrollbar>
 
-								<TableBody>
-									{filteredList?.map((bt, index) => (
-										<AttributesRow
-											name={bt}
-											key={index}
-											selected={selected}
-											refetch={refetch}
-										/>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Scrollbar>
-
-					<Stack alignItems="center" my={4}>
-						{/* <TablePagination
+						<Stack alignItems="center" my={4}>
+							{/* <TablePagination
 							onChange={handleChangePage}
 							count={Math.ceil(attributes?.count / 20)}
 							page={currentPage}
 						/> */}
-						<Pagination
-							variant="outlined"
-							shape="rounded"
-							count={Math.ceil(attributes?.count / 10)}
-							onChange={(e, page) => handleChangePage(e, page)}
-						/>
-					</Stack>
-				</Card>
-			) : (
-				<Empty />
-			)}
+							<Pagination
+								variant="outlined"
+								shape="rounded"
+								count={Math.ceil(attributes?.count / 10)}
+								onChange={(e, page) => handleChangePage(e, page)}
+							/>
+						</Stack>
+					</Card>
+				) : (
+					<Empty />
+				)}
+			</span>
 		</Box>
 	)
 }
