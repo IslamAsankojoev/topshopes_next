@@ -171,7 +171,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 
 						<FlexBox alignItems="center" gap={1} mt={0.5}>
 							<Box fontWeight="600" color="primary.main">
-								{getCurrency(discount_price || price)}
+								{getCurrency(!!discount ? discount_price : price)}
 							</Box>
 
 							{!!discount && (

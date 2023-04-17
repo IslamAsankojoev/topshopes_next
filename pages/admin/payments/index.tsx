@@ -23,6 +23,7 @@ import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { IPayment } from 'src/shared/types/order.types'
 import { ResponseList } from 'src/shared/types/response.types'
+import { orderBy as LOrderBy } from 'lodash-es'
 
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
@@ -101,82 +102,79 @@ export default function Payouts() {
 		<Box py={4}>
 			<H3 mb={2}>{t('payouts')}</H3>
 
-			<Card>
-				<Scrollbar>
-					<TableContainer sx={{ minWidth: 600 }}>
-						<Table>
-							<TableHeader
-								order={order}
-								hideSelectBtn
-								orderBy={orderBy}
-								heading={tableHeading}
-								rowCount={data?.results?.length}
-								numSelected={selected.length}
-								onRequestSort={handleRequestSort}
-							/>
+			<span ref={parent}>
+				<Card>
+					<Scrollbar>
+						<TableContainer sx={{ minWidth: 600 }}>
+							<Table>
+								<TableHeader
+									order={order}
+									hideSelectBtn
+									orderBy={orderBy}
+									heading={tableHeading}
+									rowCount={data?.results?.length}
+									numSelected={selected.length}
+									onRequestSort={handleRequestSort}
+								/>
 
-							<span ref={parent}>
 								<TableBody>
-									{
-										//@ts-ignore
-										orderBy(filteredList, (obj) => new Date(obj.create_at))
-											.map((payout: IPayment) => (
-												<Link href={`/admin/payments/${payout.id}`}>
-													<StyledTableRow
-														role="checkbox"
-														key={payout.id}
-														color="primary"
-														sx={{
-															transition: 'all 0.3s ease-in-out',
-															cursor: 'pointer!important',
-															'&:hover': {
-																backgroundColor: 'grey.200',
-															},
-														}}
-													>
-														<StyledTableCell align="center">
-															{payout.bank_account}
-														</StyledTableCell>
+									{LOrderBy(filteredList, (obj) => new Date(obj.create_at))
+										.map((payout: IPayment) => (
+											<Link href={`/admin/payments/${payout.id}`}>
+												<StyledTableRow
+													role="checkbox"
+													key={payout.id}
+													color="primary"
+													sx={{
+														transition: 'all 0.3s ease-in-out',
+														cursor: 'pointer!important',
+														'&:hover': {
+															backgroundColor: 'grey.200',
+														},
+													}}
+												>
+													<StyledTableCell align="center">
+														{payout.bank_account}
+													</StyledTableCell>
 
-														<StyledTableCell align="center">
-															{payout.payment_type}
-														</StyledTableCell>
+													<StyledTableCell align="center">
+														{payout.payment_type}
+													</StyledTableCell>
 
-														<StyledTableCell align="center">
-															{payout.phone_number}
-														</StyledTableCell>
+													<StyledTableCell align="center">
+														{payout.phone_number}
+													</StyledTableCell>
 
-														<StyledTableCell align="center">
-															{new Date(payout.create_at).toLocaleString()}
-														</StyledTableCell>
+													<StyledTableCell align="center">
+														{new Date(payout.create_at).toLocaleString()}
+													</StyledTableCell>
 
-														<StyledTableCell align="center">
-															<CheckBoxIcon
-																color={
-																	payout.is_verified ? 'success' : 'disabled'
-																}
-															/>
-														</StyledTableCell>
-													</StyledTableRow>
-												</Link>
-											))
-											.reverse()
-									}
+													<StyledTableCell align="center">
+														<CheckBoxIcon
+															color={
+																payout.is_verified ? 'success' : 'disabled'
+															}
+														/>
+													</StyledTableCell>
+												</StyledTableRow>
+											</Link>
+										))
+										.reverse()}
 								</TableBody>
-							</span>
-						</Table>
-					</TableContainer>
-				</Scrollbar>
+							</Table>
+						</TableContainer>
+					</Scrollbar>
 
-				<Stack alignItems="center" my={4}>
-					<Pagination
-						variant="outlined"
-						shape="rounded"
-						count={Math.ceil(data?.count / 10)}
-						onChange={(e, page) => handleChangePage(e, page)}
-					/>
-				</Stack>
-			</Card>
+					<Stack alignItems="center" my={4}>
+						<Pagination
+							variant="outlined"
+							shape="rounded"
+							count={Math.ceil(data?.count / 10)}
+							onChange={(e, page) => handleChangePage(e, page)}
+						/>
+					</Stack>
+				</Card>
+			</span>
 		</Box>
 	)
 }

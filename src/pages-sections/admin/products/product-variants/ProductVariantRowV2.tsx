@@ -1,17 +1,12 @@
-import { Delete, Edit } from '@mui/icons-material'
 import { Box, Card, Typography } from '@mui/material'
-import { ProductsService } from 'src/api/services/products/product.service'
 import LazyImage from 'src/components/LazyImage'
 import { Paragraph, Small } from 'src/components/Typography'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
-import { useRouter } from 'next/router'
 import { FC, ReactNode, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
 import {
 	IProductPreview,
 	IProductVariant,
 } from 'src/shared/types/product.types'
-import TocIcon from '@mui/icons-material/Toc'
 import {
 	StyledIconButton,
 	StyledTableCell,

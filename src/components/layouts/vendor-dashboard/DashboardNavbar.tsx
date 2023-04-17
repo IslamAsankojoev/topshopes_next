@@ -9,9 +9,11 @@ import Toggle from 'src/components/icons/Toggle'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
+import Image from 'next/image'
 
 import AccountPopover from './popovers/AccountPopover'
 import LanguagesSwitch from 'src/components/Languages/LanguagesSwitch'
+import { localize } from 'src/utils/Translate/localize'
 
 // custom styled components
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
@@ -48,6 +50,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 	borderRadius: '8px',
 	backgroundColor: theme.palette.grey[100],
 	[theme.breakpoints.down('xs')]: { display: 'none' },
+	textTransform: 'none',
 }))
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -82,9 +85,24 @@ const DashboardNavbar: FC<DashboardNavbarProps> = ({ handleDrawerToggle }) => {
 
 					<CustomButton
 						onClick={() => router.push('/')}
-						startIcon={<Globe sx={{ color: 'grey.900' }} />}
+						startIcon={
+							<>
+								{/* <Globe sx={{ color: 'grey.900' }} /> */}
+								<Image
+									alt="Logo"
+									width={30}
+									height={30}
+									src="/assets/images/logoCompact.ico"
+									style={{ marginLeft: 8 }}
+								/>
+							</>
+						}
 					>
-						{t('browseWebsite')}
+						{localize({
+							ru: 'TopShopes на главную',
+							tr: 'TopShopes ana sayfaya',
+							en: 'TopShopes to main page',
+						})}
 					</CustomButton>
 
 					<Box flexGrow={1} />

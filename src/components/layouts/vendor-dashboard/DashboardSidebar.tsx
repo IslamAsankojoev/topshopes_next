@@ -157,7 +157,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 	if (downLg) {
 		return (
 			<LayoutDrawer open={showMobileSideBar} onClose={setShowMobileSideBar}>
-				<Box p={2} maxHeight={TOP_HEADER_AREA}>
+				{/* <Box p={2} maxHeight={TOP_HEADER_AREA}>
 					<Image
 						alt="Logo"
 						width={60}
@@ -165,7 +165,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 						src="/assets/images/logoWhite.svg"
 						style={{ marginLeft: 8 }}
 					/>
-				</Box>
+				</Box> */}
 				{content}
 			</LayoutDrawer>
 		)
@@ -177,7 +177,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 			onMouseEnter={() => setOnHover(true)}
 			onMouseLeave={() => sidebarCompact && setOnHover(false)}
 		>
-			<FlexBetween
+			{/* <FlexBetween
 				p={2}
 				maxHeight={TOP_HEADER_AREA}
 				justifyContent={COMPACT ? 'center' : 'space-between'}
@@ -202,7 +202,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 					onClick={setSidebarCompact}
 					sidebarcompact={sidebarCompact ? 1 : undefined}
 				/>
-			</FlexBetween>
+			</FlexBetween> */}
 
 			{content}
 		</SidebarWrapper>

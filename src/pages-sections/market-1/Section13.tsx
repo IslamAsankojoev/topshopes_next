@@ -33,26 +33,33 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 		<CategorySectionCreator
 			icon={<GiftBox />}
 			title={t('bigDiscounts')}
-			seeMoreLink="/shop"
+			seeMoreLink="/shop?ordering=-total_sales"
 		>
 			<Box my="-0.25rem">
 				<Carousel totalSlides={9} visibleSlides={visibleSlides}>
 					{bigDiscountList?.map((item) => (
-						<Box py={0.5} key={item.id} sx={{
-							height: '100%',
-						}}>
-							<BazaarCard sx={{ p: '1rem' }} style={{
+						<Box
+							py={0.5}
+							key={item.id}
+							sx={{
 								height: '100%',
-							}}>
-								<Link
-									href={`/product/${item.id}`}
-								>
-									<a style={{
-										display: 'flex',
-										flexDirection: 'column',
-										height: '100%',
-										justifyContent: 'space-around',
-									}}>
+							}}
+						>
+							<BazaarCard
+								sx={{ p: '1rem' }}
+								style={{
+									height: '100%',
+								}}
+							>
+								<Link href={`/product/${item.id}/`}>
+									<a
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+											height: '100%',
+											justifyContent: 'space-around',
+										}}
+									>
 										<HoverBox borderRadius="8px" mb={1}>
 											<LazyImage
 												width={100}
@@ -63,19 +70,25 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 											/>
 										</HoverBox>
 										<Box>
-										<H4 fontWeight="600" fontSize="14px" mb={0.5}>
-											{item.name}
-										</H4>
-
-										<FlexBox gap={1}>
-											<H4 fontWeight="600" fontSize="14px" color="primary.main">
-												{getCurrency(item.discount_price || item.price)}
+											<H4 fontWeight="600" fontSize="14px" mb={0.5}>
+												{item.name}
 											</H4>
 
-											<H4 fontWeight="600" fontSize="14px" color="grey.600">
-												<del>{getCurrency(!!item.discount && item.price)}</del>
-											</H4>
-										</FlexBox>
+											<FlexBox gap={1}>
+												<H4
+													fontWeight="600"
+													fontSize="14px"
+													color="primary.main"
+												>
+													{getCurrency(item.discount_price || item.price)}
+												</H4>
+
+												<H4 fontWeight="600" fontSize="14px" color="grey.600">
+													<del>
+														{getCurrency(!!item.discount && item.price)}
+													</del>
+												</H4>
+											</FlexBox>
 										</Box>
 									</a>
 								</Link>

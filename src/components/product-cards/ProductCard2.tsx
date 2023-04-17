@@ -6,14 +6,11 @@ import { FC } from 'react'
 import { getCurrency } from 'src/utils/getCurrency'
 import { IProductPreview } from 'src/shared/types/product.types'
 
-
 const ProductCard2: FC<IProductPreview> = (props) => {
-	const { thumbnail, name, price, id, slug, discount_price } = props
+	const { thumbnail, name, price, id, slug, discount_price, discount } = props
 
 	return (
-		<Link
-		href={`/product/${id}`}
-		>
+		<Link href={`/product/${id}`}>
 			<a>
 				<HoverBox borderRadius="8px" mb={1}>
 					<LazyImage
@@ -28,7 +25,7 @@ const ProductCard2: FC<IProductPreview> = (props) => {
 					{name}
 				</H4>
 				<H4 fontSize={14} color="primary.main">
-					{getCurrency(discount_price || price)}
+					{getCurrency(!!discount ? discount_price : price)}
 				</H4>
 			</a>
 		</Link>

@@ -170,7 +170,7 @@ const ShopPage = ({ query }) => {
 								size="small"
 								variant="outlined"
 								value={router?.query?.ordering || sortOptions[0].value}
-								defaultValue={sortOptions[0].value}
+								defaultValue={router?.query?.ordering || sortOptions[0].value}
 								sx={{ flex: '1 1 0', minWidth: '150px' }}
 								onChange={({ target }) =>
 									filterHandler({ ordering: target.value })
@@ -240,6 +240,30 @@ const sortOptions = [
 	{ label: 'novelties', value: '-created_at' },
 	{ label: 'priceLow', value: 'price' },
 	{ label: 'priceHigh', value: '-price' },
+	{
+		label: localize({
+			ru: 'По рейтингу',
+			tr: 'Puanına göre',
+			en: 'By rating',
+		}),
+		value: '-rating',
+	},
+	{
+		label: localize({
+			ru: 'Хиты продаж',
+			tr: 'En çok satanlar',
+			en: 'Bestsellers',
+		}),
+		value: '-total_sales',
+	},
+	{
+		label: localize({
+			ru: 'Скидки',
+			tr: 'İndirimler',
+			en: 'Discounts',
+		}),
+		value: '-discount_price',
+	},
 ]
 
 export default ShopPage

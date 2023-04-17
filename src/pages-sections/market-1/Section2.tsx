@@ -13,7 +13,6 @@ import { H4 } from 'src/components/Typography'
 import { FlexBox } from 'src/components/flex-box'
 import Link from 'next/link'
 import { IProductPreview } from 'src/shared/types/product.types'
-import currency from 'currency.js'
 import { getCurrency } from 'src/utils/getCurrency'
 
 // =============================================================
@@ -36,7 +35,7 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 		<CategorySectionCreator
 			icon={<Light color="primary" />}
 			title={t('flashDeals')}
-			seeMoreLink="/shop"
+			seeMoreLink="/shop?ordering=-total_sales"
 		>
 			<Carousel totalSlides={9} visibleSlides={visibleSlides}>
 				{flashDeals?.map((item) => (

@@ -15,6 +15,7 @@ const ProductCard4: FC<IProductPreview> = ({
 	price,
 	discount_price,
 	shop,
+	discount,
 }) => {
 	return (
 		<Box>
@@ -40,7 +41,7 @@ const ProductCard4: FC<IProductPreview> = ({
 				{name}
 			</H4>
 			<H4 fontSize={14} textAlign="center" color="primary.main">
-				{getCurrency(discount_price || price)}
+				{getCurrency(!!discount ? discount_price : price)}
 			</H4>
 		</Box>
 	)
