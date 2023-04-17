@@ -159,7 +159,9 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							<FlexBox alignItems="center" gap={1} mt={0.5}>
 								<H2 color="primary.main">
 									{getCurrency(
-										selectedVariant?.discount_price || selectedVariant?.price
+										!!selectedVariant?.discount
+											? selectedVariant?.discount_price
+											: selectedVariant?.price
 									)}
 								</H2>
 
