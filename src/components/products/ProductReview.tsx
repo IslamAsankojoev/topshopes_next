@@ -91,10 +91,6 @@ const ProductReview: FC<ProductReviewProps> = ({ product }) => {
 		await handleSubmit(handleFormSubmit)()
 	}
 
-	// useEffect(() => {
-	// 	console.log('values', values)
-	// }, [values])
-
 	return (
 		<Box>
 			{comments

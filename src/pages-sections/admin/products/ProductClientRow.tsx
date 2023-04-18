@@ -32,7 +32,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				await ProductsService.delete(id)
 				refetch()
 			} catch (e: unknown) {
-				console.log(e)
+				console.error(e)
 			}
 		}
 	}

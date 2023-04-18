@@ -102,7 +102,7 @@ const CreateProduct: NextPageAuth = () => {
 
 			push('/vendor/products-v2/')
 		} catch (e) {
-			console.log(e)
+			console.error(e)
 			if (productId) {
 				await ProductsService.delete(productId)
 			}

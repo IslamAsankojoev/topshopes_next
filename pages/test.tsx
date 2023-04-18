@@ -8,10 +8,6 @@ function Test() {
 		ShopsProductsService.getList({ page_size: 200 })
 	)
 
-	useEffect(() => {
-		console.log(data)
-	}, [data])
-
 	return (
 		<div
 			style={{

@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { FC, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import useScrollToSavedPosition from 'src/hooks/useScrollToSavedPosition'
 
 const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false })
 

@@ -122,10 +122,6 @@ const UpdateApplication: NextPageAuth = () => {
 		await mutateAsync({ status })
 	}
 
-	// useEffect(() => {
-	// 	console.log(currentStatus)
-	// }, [application])
-
 	return (
 		<Box py={4}>
 			<H3 mb={2} sx={{ textTransform: 'uppercase' }}>

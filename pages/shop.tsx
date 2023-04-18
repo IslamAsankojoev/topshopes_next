@@ -26,8 +26,9 @@ import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProductPreview } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import SEO from 'src/components/SEO'
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { localize } from 'src/utils/Translate/localize'
+import useScrollToSavedPosition from 'src/hooks/useScrollToSavedPosition'
 
 // ===================================================
 export const getServerSideProps: GetServerSideProps = async ({
@@ -63,6 +64,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 const ShopPage = ({ query }) => {
 	const router = useRouter()
 	const scrollElementRef = useRef(null)
+
 	const { data: products } = useQuery(
 		['shop products page', query],
 		() => ShopsProductsService.getList({ ...query, page_size: 18 }),
@@ -90,7 +92,7 @@ const ShopPage = ({ query }) => {
 				query: { ...router.query, page },
 			},
 			undefined,
-			{ scroll: false }
+			{ scroll: true }
 		)
 	}
 
@@ -105,12 +107,12 @@ const ShopPage = ({ query }) => {
 		)
 	}
 
-	useEffect(() => {
-		scrollElementRef.current.scrollIntoView({
-			behavior: 'smooth',
-			block: 'nearest',
-		})
-	}, [router.query.page])
+	// useEffect(() => {
+	// 	scrollElementRef.current.scrollIntoView({
+	// 		behavior: 'smooth',
+	// 		block: 'nearest',
+	// 	})
+	// }, [router.query.page])
 
 	return (
 		<ShopLayout1>

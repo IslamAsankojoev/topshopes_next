@@ -4,6 +4,7 @@ import { FC, memo } from 'react'
 import { TypeComponentAuthFields } from 'src/shared/types/auth.types'
 import { useSession } from 'next-auth/react'
 import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
+import useScrollToSavedPosition from 'src/hooks/useScrollToSavedPosition'
 
 const CheckRole: FC<TypeComponentAuthFields> = ({
 	children,

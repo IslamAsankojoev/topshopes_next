@@ -59,11 +59,11 @@ const Signup = () => {
 					})
 					replace('/profile')
 				} catch (e) {
-					console.log(e)
+					console.error(e)
 				}
 			},
 			onError: (e: any) => {
-				console.log(e)
+				console.error(e)
 			},
 		}
 	)

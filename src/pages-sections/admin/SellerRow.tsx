@@ -36,7 +36,7 @@ const SellerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 				await UsersService.delete(id)
 				refetch()
 			} catch (e: unknown) {
-				console.log(e)
+				console.error(e)
 			}
 		}
 	}
