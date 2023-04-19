@@ -43,19 +43,19 @@ const useScrollToSavedPosition = () => {
 			})
 		)
 	}, [scrollPosition])
-	//
-	// function handlePopstate(event) {
-	// 	localStorage.setItem('prevPageScrollPosition', '0')
-	// }
 
-	// useEffect(() => {
-	// 	window.addEventListener('popstate', handlePopstate)
-
-	// 	// Удаляем обработчик события при размонтировании компонента
-	// 	return () => {
-	// 		window.removeEventListener('popstate', handlePopstate)
+	// 	function handlePopstate(event) {
+	// 		localStorage.setItem('prevPageScrollPosition', '0')
 	// 	}
-	// }, [router.asPath])
+
+	// 	useEffect(() => {
+	// 		window.addEventListener('popstate', handlePopstate)
+
+	// 		// Удаляем обработчик события при размонтировании компонента
+	// 		return () => {
+	// 			window.removeEventListener('popstate', handlePopstate)
+	// 		}
+	// 	}, [router.asPath])
 }
 
 export default useScrollToSavedPosition
