@@ -41,9 +41,6 @@ const AuthProvider: FC<any> = ({
 				logout()
 			}
 		})()
-
-		return () =>
-			localStorage.setItem('referer_path', JSON.stringify(asPath) || '')
 	}, [pathname, asPath, status])
 
 	return !isOnlyAdmin && !isOnlyAuth && !isOnlySeller && !isOnlyClient ? (

@@ -92,7 +92,7 @@ const ShopPage = ({ query }) => {
 				query: { ...router.query, page },
 			},
 			undefined,
-			{ scroll: true }
+			{ scroll: false }
 		)
 	}
 
@@ -107,12 +107,19 @@ const ShopPage = ({ query }) => {
 		)
 	}
 
-	// useEffect(() => {
-	// 	scrollElementRef.current.scrollIntoView({
-	// 		behavior: 'smooth',
-	// 		block: 'nearest',
-	// 	})
-	// }, [router.query.page])
+	useEffect(() => {
+		if (
+			router.asPath.split('/')[1] ===
+			JSON.parse(localStorage.getItem('referer_path')).split('/')[1]
+		) {
+			scrollElementRef.current.scrollIntoView({
+				behavior: 'instant',
+				block: 'nearest',
+			})
+		}
+	}, [router.query.page])
+
+	useScrollToSavedPosition()
 
 	return (
 		<ShopLayout1>
@@ -142,7 +149,15 @@ const ShopPage = ({ query }) => {
 					}}
 				>
 					<Box>
-						<H5>{t('shopPage')}</H5>
+						<H5>
+							{t('shopPage')}{' '}
+							{router.query.search &&
+								`${localize({
+									ru: 'по запросу',
+									tr: 'sorguya göre',
+									en: 'by request',
+								})}: ${router.query.search}`}
+						</H5>
 						<Paragraph color="grey.600">
 							{products?.count}{' '}
 							{localize({

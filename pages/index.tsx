@@ -103,6 +103,8 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 		}
 	)
 
+	useScrollToSavedPosition()
+
 	return (
 		<ShopLayout1>
 			<SEO

@@ -14,6 +14,7 @@ import { IProduct } from 'src/shared/types/product.types'
 import SEO from 'src/components/SEO'
 import { useRouter } from 'next/router'
 import useScrollToTop from 'src/hooks/useScrollToTop'
+import useScrollToSavedPosition from 'src/hooks/useScrollToSavedPosition'
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,
@@ -37,7 +38,6 @@ type ProductDetailsProps = {
 const ProductDetails: FC<ProductDetailsProps> = (props) => {
 	const { t } = useTranslation('common')
 	const { query } = useRouter()
-	useScrollToTop()
 
 	const { data: product, refetch } = useQuery(
 		[`product detail`, query.id],

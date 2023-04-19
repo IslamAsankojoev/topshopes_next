@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import KeyboardArrowDownOutlined from '@mui/icons-material/KeyboardArrowDownOutlined'
 import SearchOutlined from '@mui/icons-material/SearchOutlined'
-import { Box, Card, MenuItem, TextField } from '@mui/material'
+import { Box, Button, Card, MenuItem, TextField } from '@mui/material'
 import TouchRipple from '@mui/material/ButtonBase'
 import { styled } from '@mui/material/styles'
 import { debounce } from '@mui/material/utils'
@@ -17,6 +17,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import { ICategory, IProductPreview } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
+import { localize } from 'src/utils/Translate/localize'
 
 // styled components
 // also used in the GrocerySearchBox component
@@ -48,20 +49,20 @@ const SearchBox: FC = () => {
 
 	const [category, setCategory] = useState({ id: '', name: t('allCategories') })
 
-	const [resultList, setResultList] = useState([])
+	// const [resultList, setResultList] = useState([])
 	const [search, setSearch] = useState<string>('')
-	const debounceValue = useDebounce(search)
+	// const debounceValue = useDebounce(search)
 
-	const { data: products } = useQuery(
-		[`search products search=${debounceValue}`],
-		() =>
-			ShopsProductsService.getList({ search: debounceValue, page_size: 10 }),
-		{
-			enabled: !!search,
-			select: (data: ResponseList<IProductPreview>) => data.results,
-			onSuccess: (data) => setResultList(data || []),
-		}
-	)
+	// const { data: products } = useQuery(
+	// 	[`search products search=${debounceValue}`],
+	// 	() =>
+	// 		ShopsProductsService.getList({ search: debounceValue, page_size: 10 }),
+	// 	{
+	// 		enabled: !!search,
+	// 		select: (data: ResponseList<IProductPreview>) => data.results,
+	// 		onSuccess: (data) => setResultList(data || []),
+	// 	}
+	// )
 
 	const parentRef = useRef()
 
@@ -84,11 +85,11 @@ const SearchBox: FC = () => {
 		})
 	}
 
-	const handleDocumentClick = () => setResultList([])
-	useEffect(() => {
-		window.addEventListener('click', handleDocumentClick)
-		return () => window.removeEventListener('click', handleDocumentClick)
-	}, [])
+	// const handleDocumentClick = () => setResultList([])
+	// useEffect(() => {
+	// 	window.addEventListener('click', handleDocumentClick)
+	// 	return () => window.removeEventListener('click', handleDocumentClick)
+	// }, [])
 
 	// const categoryDropdown = (
 	// 	<BazaarMenu
@@ -136,18 +137,45 @@ const SearchBox: FC = () => {
 						sx: {
 							height: 44,
 							paddingRight: 0,
-							borderRadius: 300,
+							borderRadius: 100,
 							color: 'grey.700',
 							overflow: 'hidden',
 							'&:hover .MuiOutlinedInput-notchedOutline': {
-								borderColor: 'primary.main',
+								borderColor: 'grey.500',
 							},
 						},
-						// endAdornment: categoryDropdown,
-						startAdornment: <SearchOutlinedIcon fontSize="small" />,
+						endAdornment: (
+							<Button
+								onClick={submitHandler}
+								variant="contained"
+								sx={{
+									borderRadius: 0,
+									p: 4,
+									backgroundColor: 'grey.300',
+									'&:hover': {
+										backgroundColor: 'grey.400',
+									},
+								}}
+							>
+								{localize({
+									ru: 'Найти',
+									tr: 'Bul',
+									en: 'Search',
+								})}
+							</Button>
+						),
+						startAdornment: (
+							<SearchOutlinedIcon
+								fontSize="small"
+								sx={{
+									cursor: 'pointer',
+								}}
+								onClick={submitHandler}
+							/>
+						),
 					}}
 				/>
-
+				{/* 
 				{!!resultList?.length && (
 					<SearchResultCard
 						elevation={2}
@@ -162,7 +190,7 @@ const SearchBox: FC = () => {
 							</Link>
 						))}
 					</SearchResultCard>
-				)}
+				)} */}
 			</form>
 		</Box>
 	)

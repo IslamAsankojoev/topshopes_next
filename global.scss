@@ -33,3 +33,10 @@
 input.MuiInputBase-input {
 	padding: 15px !important;
 }
+
+img {
+	user-select: none;
+}
+.smooth-scroll {
+	scroll-behavior: smooth;
+}
