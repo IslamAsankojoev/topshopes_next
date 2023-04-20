@@ -40,7 +40,6 @@ const CreateProductV2: NextPageAuth = () => {
 		useActions()
 
 	const handleFormSubmit = async (data: FormData) => {
-		setCreateLoading(true)
 		if (variants.length === 0) {
 			toast.warning(
 				localize({
@@ -53,6 +52,7 @@ const CreateProductV2: NextPageAuth = () => {
 			)
 			return null
 		}
+		setCreateLoading(true)
 
 		try {
 			// create product
@@ -124,12 +124,10 @@ const CreateProductV2: NextPageAuth = () => {
 	}
 
 	const handleCloneVariant = (data: IProductVariant) => {
-		const cloneSound = new Audio('public/clone.mp3')
 		localVariantAdd({
 			...data,
 			id: v4(),
 		})
-		cloneSound.play()
 	}
 
 	return fetch ? (

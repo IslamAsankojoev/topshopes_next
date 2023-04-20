@@ -67,7 +67,11 @@ const VariantForm: FC<Props> = ({
 	}
 
 	useEffect(() => {
-		setAttributeValues(initialVariant?.attribute_values)
+		const assignObject = {}
+		initialVariant?.attribute_values.forEach((a) => {
+			Object.assign(assignObject, { [a.attribute.name]: a })
+		})
+		setAttributeValues(assignObject)
 	}, [initialVariant?.attribute_values])
 
 	return (
