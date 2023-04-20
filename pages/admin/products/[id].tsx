@@ -94,7 +94,7 @@ const EditProduct: NextPageAuth = () => {
 			return null
 		}
 		await mutateAsync(data)
-		push('/admin/products-v2/')
+		push('/admin/products/')
 	}
 
 	if (mutationLoading) {

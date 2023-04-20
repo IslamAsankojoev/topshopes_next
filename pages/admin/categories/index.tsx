@@ -105,10 +105,10 @@ const CategoryList: NextPageAuth = () => {
 									/>
 
 									<TableBody>
-										{filteredList?.map((category, index) => (
+										{filteredList?.map((category) => (
 											<CategoryRow
 												item={category}
-												key={index}
+												key={category.id}
 												selected={selected}
 												refetch={refetch}
 											/>

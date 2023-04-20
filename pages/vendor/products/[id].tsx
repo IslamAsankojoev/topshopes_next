@@ -108,7 +108,7 @@ const EditProduct: NextPageAuth = () => {
 		})
 
 		await Promise.all(variantsPromises) // wait for all promises to resolve
-		push(getRefererPath() || '/vendor/products-v2/') // redirect to products list
+		push(getRefererPath() || '/vendor/products/') // redirect to products list
 		setUpdateLoading(false)
 	}
 

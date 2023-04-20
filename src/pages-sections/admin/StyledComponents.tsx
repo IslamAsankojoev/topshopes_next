@@ -25,7 +25,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const CategoryWrapper = styled(Box)(({ theme }) => ({
 	fontSize: 13,
 	padding: '2px 6px',
-	// borderRadius: '16px',
+	borderRadius: '5px',
 	display: 'inline-block',
 	color: theme.palette.grey[900],
 	backgroundColor: theme.palette.grey[200],

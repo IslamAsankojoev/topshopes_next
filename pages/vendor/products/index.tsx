@@ -114,7 +114,7 @@ const ProductList: NextPageAuth = () => {
 					setSearchValue(value)
 				}}
 				buttonText={t('addNewProduct')}
-				handleBtnClick={() => push('/vendor/products-v2/createV2')}
+				handleBtnClick={() => push('/vendor/products/create')}
 				searchPlaceholder={t('searchingFor')}
 			/>
 

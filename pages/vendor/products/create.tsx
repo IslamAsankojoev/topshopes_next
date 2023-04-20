@@ -91,7 +91,7 @@ const CreateProductV2: NextPageAuth = () => {
 			})
 			await Promise.all(variantPromises) // wait for all variants to be created
 			localeVariantsClear() // clear local variants
-			push(`/vendor/products-v2/`) // redirect to products list
+			push(`/vendor/products/`) // redirect to products list
 			setCreateLoading(false)
 		} catch (e) {
 			ProductsService.delete(productID as string)

@@ -65,6 +65,8 @@ const CreateCategory: NextPageAuth = () => {
 			}
 		}
 
+		console.log(clearData)
+
 		await mutateAsync(
 			formData({
 				...clearData,

@@ -324,11 +324,9 @@ const Field: FC<any> = (props) => {
 						{other.label}
 						<Tooltip
 							title={localize({
-								ru: 'Выберите несколько атрибутов, которые можно будет указать для каждого товара',
-								tr: 'Birden fazla özellik seçebilirsiniz',
-								en: 'Select multiple attributes that can be specified for each product',
-								kg: 'Бир нече таалаган атрибуттарды бир нече маалыматтарга таалаган болуу мүмкүн',
-								kz: 'Бір нәтижеде бірнеше атрибуттарды бірнеше мәліметтерге тағайындауға болады',
+								ru: 'Выберите несколько атрибутов, которые можно будет указать для каждого товара этой категории',
+								tr: 'Bu kategorideki her ürün için belirtebileceğiniz birden çok özelliği seçin',
+								en: 'Select multiple attributes that you can specify for each product in this category',
 							})}
 							placement="right"
 						>
@@ -397,7 +395,7 @@ const Field: FC<any> = (props) => {
 								/>
 							}
 							label={
-								other.fieldValue.includes(select.id) ? (
+								other?.fieldValue?.includes(select.id) ? (
 									<>
 										<CheckIcon fontSize="small" />
 										{select.name}

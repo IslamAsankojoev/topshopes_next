@@ -115,8 +115,8 @@ export const navigations = [
 		name: 'products',
 		icon: duotone.Products,
 		children: [
-			{ name: 'productList', path: '/vendor/products-v2' },
-			{ name: 'createProduct', path: '/vendor/products-v2/createV2' },
+			{ name: 'productList', path: '/vendor/products' },
+			{ name: 'createProduct', path: '/vendor/products/create' },
 		],
 		role: 'vendor',
 	},

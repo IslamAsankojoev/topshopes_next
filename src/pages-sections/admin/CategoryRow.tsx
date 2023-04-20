@@ -26,7 +26,7 @@ const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 	const isItemSelected = selected.indexOf(name) !== -1
 
 	const handleRemove = async () => {
-		if (!confirm('Are you sure you want to delete this category?')) return
+		if (!confirm('Are you sure you want to delete this category?')) return null
 		await CategoriesService.delete(id)
 		refetch()
 	}
@@ -48,19 +48,20 @@ const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 					backgroundColor: 'grey.200',
 				},
 			}}
-			onClick={handleEdit}
 		>
-			<StyledTableCell align="left">{name}</StyledTableCell>
+			<StyledTableCell align="left" onClick={handleEdit}>
+				{name}
+			</StyledTableCell>
 
-			<StyledTableCell align="left">
+			<StyledTableCell align="left" onClick={handleEdit}>
 				<CategoryWrapper>{name}</CategoryWrapper>
 			</StyledTableCell>
 
-			<StyledTableCell align="left">
+			<StyledTableCell align="left" onClick={handleEdit}>
 				{icon ? <Avatar src={icon} sx={{ borderRadius: '8px' }} /> : 'none'}
 			</StyledTableCell>
 
-			<StyledTableCell align="left">
+			<StyledTableCell align="left" onClick={handleEdit}>
 				<Avatar src={image} sx={{ borderRadius: '8px' }} />
 			</StyledTableCell>
 

@@ -105,7 +105,7 @@ const Navigations = () => {
 			title: 'myShop',
 			list: [
 				{
-					href: !!shop ? '/vendor/products-v2/' : '/vendor/shop-settings',
+					href: !!shop ? '/vendor/products/' : '/vendor/shop-settings',
 					title: 'myShop',
 					icon: Store,
 				},
