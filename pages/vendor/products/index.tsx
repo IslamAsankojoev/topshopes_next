@@ -95,9 +95,8 @@ const ProductList: NextPageAuth = () => {
 
 	const switchPublish = async (id: string, is_published: boolean) => {
 		await ProductsService.update(id, { is_published: is_published })
-		queryClient
-			.invalidateQueries([`products`, searchValue + currentPage])
-			.then(() => refetch())
+		queryClient.invalidateQueries([`products`, searchValue + currentPage])
+		// .then(() => refetch())
 	}
 
 	useEffect(() => {

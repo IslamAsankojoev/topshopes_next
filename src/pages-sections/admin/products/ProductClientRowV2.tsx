@@ -15,6 +15,7 @@ import { FC, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { IProductPreview } from 'src/shared/types/product.types'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+import CheckIcon from '@mui/icons-material/Check'
 
 import {
 	StyledIconButton,
@@ -131,6 +132,8 @@ const ProductRowV2: FC<ProductRowProps> = ({
 						flexDirection: 'row',
 						justifyContent: 'center',
 						alignItems: 'center',
+						width: '200px',
+						margin: '0 auto',
 					}}
 				>
 					<FormControlLabel
@@ -142,7 +145,7 @@ const ProductRowV2: FC<ProductRowProps> = ({
 							/>
 						}
 						label={
-							product?.is_published
+							isPublished
 								? localize({
 										ru: 'Опубликовано',
 										tr: 'Yayınlandı',

@@ -47,6 +47,7 @@ interface Props {
 	handleVariantChange: (variant: IProductVariant) => void
 	handleVariantRemove: (id: string) => void
 	handleVariantCreate: (variant: IProductVariant) => void
+	handleVariantClone?: (variant: IProductVariant) => void
 }
 
 const VariantList: FC<Props> = ({
@@ -54,6 +55,7 @@ const VariantList: FC<Props> = ({
 	handleVariantChange,
 	handleVariantRemove,
 	handleVariantCreate,
+	handleVariantClone,
 }) => {
 	const { t: adminT } = useTranslation('admin')
 
@@ -142,6 +144,7 @@ const VariantList: FC<Props> = ({
 											enableAnimations={enableAnimations}
 											handleChange={handleVariantChange}
 											handleRemove={handleVariantRemove}
+											handleClone={handleVariantClone}
 										/>
 									))}
 								</TableBody>

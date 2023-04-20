@@ -1,4 +1,5 @@
 import { Box, Button } from '@mui/material'
+import { clone } from 'merge'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
@@ -18,6 +19,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IProductVariant } from 'src/shared/types/product.types'
 import { formData } from 'src/utils/formData'
 import { localize } from 'src/utils/Translate/localize'
+import { v4 } from 'uuid'
 
 const initialValues = {
 	title: '',
@@ -31,6 +33,7 @@ const CreateProductV2: NextPageAuth = () => {
 	const localVariants = useTypedSelector((state) => state.localVariantsStore)
 	const variants: IProductVariant[] = Object.values(localVariants)
 	const [productID, setProductID] = useState<string | null>(null)
+
 	const [createLoading, setCreateLoading] = useState(false)
 	const { push } = useRouter()
 	const { localVariantAdd, localVariantRemove, localeVariantsClear } =
@@ -120,6 +123,15 @@ const CreateProductV2: NextPageAuth = () => {
 		localVariantAdd(data)
 	}
 
+	const handleCloneVariant = (data: IProductVariant) => {
+		const cloneSound = new Audio('public/clone.mp3')
+		localVariantAdd({
+			...data,
+			id: v4(),
+		})
+		cloneSound.play()
+	}
+
 	return fetch ? (
 		<Box py={4}>
 			<H3 mb={2}>Добавить новый продукт</H3>
@@ -134,6 +146,7 @@ const CreateProductV2: NextPageAuth = () => {
 				handleVariantChange={handleChangeVariant}
 				handleVariantRemove={handleRemoveVariant}
 				handleVariantCreate={handleCreateVariant}
+				handleVariantClone={handleCloneVariant}
 			/>
 			{createLoading ? <Loading /> : null}
 		</Box>

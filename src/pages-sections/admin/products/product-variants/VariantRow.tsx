@@ -10,12 +10,14 @@ import { StyledTableCell, StyledTableRow } from '../../StyledComponents'
 import { getImgUrl } from './productVariantHelper'
 import VariantForm from './VariantForm'
 import orderBy from 'lodash-es/orderBy'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 interface VariantRowProps {
 	variant: IProductVariant
 	variantFormOpen: boolean
 	handleRemove: (id: string) => void
 	handleChange: (data: IProductVariant) => void
+	handleClone?: (data: IProductVariant) => void
 	enableAnimations: (enabled: boolean) => void
 }
 
@@ -24,6 +26,7 @@ const VariantRow: FC<VariantRowProps> = ({
 	enableAnimations,
 	handleChange,
 	handleRemove,
+	handleClone,
 }) => {
 	const { thumbnail, price, discount, status, stock, attribute_values, id } =
 		variant
@@ -106,6 +109,35 @@ const VariantRow: FC<VariantRowProps> = ({
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
+				<Button
+					size="small"
+					variant="contained"
+					sx={{
+						width: '40px',
+						height: '30px',
+						mr: 1,
+						p: 0,
+						borderRadius: '4px',
+						transition: 'all 0.3s ease',
+						'&:hover': {
+							transform: 'scale(1.4)',
+						},
+					}}
+					color="secondary"
+					onClick={() => handleClone(variant)}
+				>
+					{/* <ContentCopyIcon /> */}
+					<img
+						src="https://i.pinimg.com/originals/b5/f4/05/b5f405e21abff867a56ca7a4458b8955.jpg"
+						alt=""
+						width="100%"
+						height="100%"
+						style={{
+							borderRadius: '4px',
+							objectFit: 'cover',
+						}}
+					/>
+				</Button>
 				<Button
 					size="small"
 					variant="contained"
