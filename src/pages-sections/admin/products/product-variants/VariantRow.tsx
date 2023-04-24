@@ -3,14 +3,12 @@ import { Box, Button, Typography } from '@mui/material'
 import React, { FC, useEffect, useState } from 'react'
 import { FlexBox } from 'src/components/flex-box'
 import LazyImage from 'src/components/LazyImage'
-import { useActions } from 'src/hooks/useActions'
 import { IProductVariant } from 'src/shared/types/product.types'
 import { getCurrency } from 'src/utils/getCurrency'
 import { StyledTableCell, StyledTableRow } from '../../StyledComponents'
 import { getImgUrl } from './productVariantHelper'
 import VariantForm from './VariantForm'
 import orderBy from 'lodash-es/orderBy'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 interface VariantRowProps {
 	variant: IProductVariant
@@ -46,8 +44,6 @@ const VariantRow: FC<VariantRowProps> = ({
 			role="checkbox"
 			sx={{
 				height: '75px',
-				// pointerEvents: 'none',
-				// position: 'relative',
 			}}
 		>
 			<StyledTableCell align="left">
@@ -126,7 +122,6 @@ const VariantRow: FC<VariantRowProps> = ({
 					color="secondary"
 					onClick={() => handleClone(variant)}
 				>
-					{/* <ContentCopyIcon /> */}
 					<img
 						src="https://i.pinimg.com/originals/b5/f4/05/b5f405e21abff867a56ca7a4458b8955.jpg"
 						alt=""

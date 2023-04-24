@@ -124,10 +124,13 @@ const CreateProductV2: NextPageAuth = () => {
 	}
 
 	const handleCloneVariant = (data: IProductVariant) => {
+		const audioClone = new Audio('/clone.mp3')
 		localVariantAdd({
 			...data,
 			id: v4(),
 		})
+
+		audioClone.play()
 	}
 
 	return fetch ? (
