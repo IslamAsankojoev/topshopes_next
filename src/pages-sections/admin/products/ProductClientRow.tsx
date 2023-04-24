@@ -72,7 +72,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 				</StyledIconButton>
 
 				<StyledIconButton onClick={onDelete}>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

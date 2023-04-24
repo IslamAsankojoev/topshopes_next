@@ -23,7 +23,7 @@ import { v4 } from 'uuid'
 
 const initialValues = {
 	title: '',
-	published: false,
+	is_published: true,
 	category: '',
 	brand: '',
 	unit: '',

@@ -1,4 +1,5 @@
 export const API_URL = `${process.env.SERVER_URL}/server/`
+export const SITE_URL = process.env.SERVER_URL
 
 // Client
 export const getAuthUrl = (string: string) => `auth/${string}`

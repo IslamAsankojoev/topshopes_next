@@ -85,7 +85,7 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 				</StyledIconButton> */}
 
 				<StyledIconButton onClick={onDelete}>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

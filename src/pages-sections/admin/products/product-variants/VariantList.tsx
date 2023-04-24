@@ -67,6 +67,7 @@ const VariantList: FC<Props> = ({
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
 		useMuiTable({
 			listData: variants,
+			perPage: 1000,
 		})
 
 	const handleCreateForm = (data: IProductVariant) => {

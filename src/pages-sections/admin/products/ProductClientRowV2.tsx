@@ -32,7 +32,7 @@ type ProductRowProps = {
 	product: IProductPreview
 	refetch: () => void
 	is_superuser?: boolean
-	switchPublish?: (id: string, is_pablished: boolean) => void
+	switchPublish?: (id: string, is_published: boolean) => void
 }
 // ========================================================================
 
@@ -191,7 +191,7 @@ const ProductRowV2: FC<ProductRowProps> = ({
 								kz: 'Жою',
 							})}
 						>
-							<Delete />
+							<Delete color="error" />
 						</Tooltip>
 					</StyledIconButton>
 				)}

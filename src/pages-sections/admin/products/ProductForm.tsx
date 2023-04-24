@@ -60,7 +60,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 			...initialValues,
 			category: initialValues?.category?.id,
 			brand: initialValues?.brand?.id,
-			is_pablished: initialValues?.is_pablished || false,
+			is_published: initialValues?.is_published || false,
 		},
 	})
 
@@ -106,7 +106,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	useEffect(() => {
 		if (initialValues.category) toggleDialog(initialValues.category.id)
 		if (initialValues.brand) setValue('brand', initialValues.brand.id)
-		if (initialValues.is_pablished) {
+		if (initialValues.is_published) {
 			setValue('is_published', initialValues.is_published)
 			trigger('is_published')
 		}
@@ -155,6 +155,10 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									flexDirection: 'row',
 									justifyContent: 'center',
 									alignItems: 'center',
+									width: '300px',
+									'@media (max-width: 600px)': {
+										width: '100%',
+									},
 								}}
 							>
 								<FormControlLabel
@@ -234,6 +238,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									label: `${category.name} - ${category.tax}%`,
 								}
 							})}
+							isSearchable={false}
 							defaultValue={
 								initialValues?.category?.id
 									? {
@@ -284,6 +289,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 									label: brand.name,
 								}
 							})}
+							isSearchable={false}
 							defaultValue={
 								initialValues?.brand?.id
 									? {

@@ -62,7 +62,7 @@ const PageCategoryRow: FC<PageCategoryRowProps> = ({
 				</StyledIconButton> */}
 
 				<StyledIconButton onClick={handleRemove}>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

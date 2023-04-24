@@ -62,7 +62,7 @@ const BrandsTypesRow: FC<BrandsTypesRowProps> = ({
 				</StyledIconButton> */}
 
 				<StyledIconButton onClick={handleRemove}>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

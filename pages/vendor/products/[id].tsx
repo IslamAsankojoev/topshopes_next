@@ -17,12 +17,16 @@ import {
 } from 'src/shared/types/product.types'
 import VariantList from 'src/pages-sections/admin/products/product-variants/VariantList'
 import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service'
-import { dataWithCleanImage, formData } from 'src/utils/formData'
+import { dataWithCleanImage, formData, formDataToObj } from 'src/utils/formData'
 import { AttributesService } from 'src/api/services/attributes/attributes.service'
 import { localize } from 'src/utils/Translate/localize'
 import { filter as _filter, includes as _includes } from 'lodash-es'
 import getRefererPath from 'src/utils/getRefererPath'
 import Loading from 'src/components/Loading'
+import axios from 'axios'
+import httpToHttps from 'src/utils/httpToHttps'
+import { makeRequest } from 'src/api/interceptor'
+import ThumbnailService from 'src/api/services/download/thumbnail.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -169,6 +173,36 @@ const EditProduct: NextPageAuth = () => {
 		refetch()
 	}
 
+	const handleVariantClone = async (variant: IProductVariant) => {
+		const audioClone = new Audio('/clone.mp3')
+		const { id: _, ...rest } = variant
+
+		const { data: Blob } = await ThumbnailService.download(variant.id)
+
+		const dataForm = formData({
+			...rest,
+			product: id as string,
+		})
+
+		dataForm.append('thumbnail', Blob, variant.thumbnail.split('/').pop())
+
+		const createdVariant: IProductVariant = await ProductVariantService.create(
+			dataForm
+		)
+		const attributePromises = variant?.attribute_values.map(
+			async (attribute) => {
+				if (!attribute.value) return null
+				await AttributesService.create(createdVariant.id as string, {
+					attribute: attribute.attribute.id,
+					value: attribute.value || '',
+				})
+			}
+		)
+		await Promise.all(attributePromises)
+		audioClone.play()
+		refetch()
+	}
+
 	return !isError && fetch ? (
 		<Box py={4}>
 			<H3 mb={2}>{t('editProduct')}</H3>
@@ -191,6 +225,7 @@ const EditProduct: NextPageAuth = () => {
 						handleVariantChange={handleVariantChange}
 						handleVariantRemove={handleVariantRemove}
 						handleVariantCreate={handleVariantCreate}
+						handleVariantClone={handleVariantClone}
 					/>
 					{updateLoading ? <Loading /> : null}
 				</>

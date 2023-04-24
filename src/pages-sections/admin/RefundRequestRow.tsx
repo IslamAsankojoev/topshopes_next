@@ -53,7 +53,7 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({ request }) => {
 				</StyledIconButton>
 
 				<StyledIconButton>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

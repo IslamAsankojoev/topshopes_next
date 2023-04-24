@@ -67,7 +67,7 @@ const PagesRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 				</StyledIconButton> */}
 
 				<StyledIconButton onClick={handleRemove}>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

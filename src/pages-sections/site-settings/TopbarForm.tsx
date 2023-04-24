@@ -114,7 +114,7 @@ const TopbarForm: FC = () => {
 
 											<Grid item xs={2}>
 												<IconButton onClick={() => arrayHelper.remove(index)}>
-													<Delete />
+													<Delete color="error" />
 												</IconButton>
 											</Grid>
 										</Grid>

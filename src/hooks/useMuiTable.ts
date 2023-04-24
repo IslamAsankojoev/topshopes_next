@@ -34,14 +34,20 @@ type HookProps = {
 	listData: any[]
 	defaultSort?: string
 	defaultOrder?: 'asc' | 'desc'
+	perPage?: number
 }
 // ================================================================
 
 const useMuiTable = (props: HookProps) => {
-	const { listData = [], defaultSort = 'name', defaultOrder = 'asc' } = props
+	const {
+		listData = [],
+		defaultSort = 'name',
+		defaultOrder = 'asc',
+		perPage = 10,
+	} = props
 
 	const [page, setPage] = useState(0)
-	const [rowsPerPage, setRowsPerPage] = useState(10)
+	const [rowsPerPage, setRowsPerPage] = useState(perPage)
 	const [orderBy, setOrderBy] = useState(defaultSort)
 	const [selected, setSelected] = useState<string[]>([])
 	const [order, setOrder] = useState<Order>(defaultOrder)

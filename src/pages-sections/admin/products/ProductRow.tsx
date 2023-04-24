@@ -77,7 +77,7 @@ const ProductRow: FC<ProductRowProps> = ({ product, refetch }) => {
 					<Edit />
 				</StyledIconButton>
 				<StyledIconButton onClick={onDelete}>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

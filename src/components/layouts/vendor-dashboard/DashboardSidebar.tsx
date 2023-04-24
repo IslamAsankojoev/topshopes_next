@@ -24,7 +24,7 @@ import {
 import { navigations } from './NavigationList'
 import SidebarAccordion from './SidebarAccordion'
 
-const TOP_HEADER_AREA = 70
+const TOP_HEADER_AREA = 0
 
 // -----------------------------------------------------------------------------
 type DashboardSidebarProps = {
@@ -144,6 +144,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 			autoHide
 			clickOnTrack={false}
 			sx={{
+				position: 'relative',
 				overflowX: 'hidden',
 				maxHeight: `calc(100vh - ${TOP_HEADER_AREA}px)`,
 			}}
@@ -151,13 +152,23 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 			<NavWrapper compact={sidebarCompact}>
 				{renderLevels(accessNavs)}
 			</NavWrapper>
+			<Box
+				sx={{
+					position: 'sticky',
+					bottom: 0,
+					left: 0,
+					width: '100%',
+					height: `70px`,
+					background: 'linear-gradient(0deg, #2B3445 30%, #00000000 100%)',
+				}}
+			></Box>
 		</Scrollbar>
 	)
 
 	if (downLg) {
 		return (
 			<LayoutDrawer open={showMobileSideBar} onClose={setShowMobileSideBar}>
-				{/* <Box p={2} maxHeight={TOP_HEADER_AREA}>
+				<Box p={2} maxHeight={TOP_HEADER_AREA}>
 					<Image
 						alt="Logo"
 						width={60}
@@ -165,7 +176,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 						src="/assets/images/logoWhite.svg"
 						style={{ marginLeft: 8 }}
 					/>
-				</Box> */}
+				</Box>
 				{content}
 			</LayoutDrawer>
 		)

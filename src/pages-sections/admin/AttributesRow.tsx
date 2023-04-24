@@ -52,7 +52,7 @@ const AttributesRow: FC<AttributesRowProps> = ({ name, selected, refetch }) => {
 
 			<StyledTableCell align="center">
 				<StyledIconButton onClick={handleRemove}>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

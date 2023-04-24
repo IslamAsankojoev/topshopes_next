@@ -75,7 +75,7 @@ const BrandRow: FC<BrandRowProps> = ({ brand, selected, refetch }) => {
 				</StyledIconButton> */}
 
 				<StyledIconButton onClick={handleRemove}>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

@@ -68,7 +68,7 @@ const SellerRow: FC<SellerRowProps> = ({ seller }) => {
 				</StyledIconButton>
 
 				<StyledIconButton>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>

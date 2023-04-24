@@ -34,7 +34,7 @@ const ReviewRow: FC<ReviewRowProps> = ({ review }) => {
 
 			<StyledTableCell align="center">
 				<StyledIconButton>
-					<Delete />
+					<Delete color="error" />
 				</StyledIconButton>
 			</StyledTableCell>
 		</StyledTableRow>
