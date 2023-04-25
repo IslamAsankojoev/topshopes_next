@@ -87,7 +87,7 @@ const AttributeSelect: FC<AttributeSelectProps> = ({
 				}}
 				aria-label="Platform"
 			>
-				{attribute_values.map((attribute_value) => {
+				{attribute_values.sort().map((attribute_value) => {
 					return (
 						<ToggleButton
 							sx={{

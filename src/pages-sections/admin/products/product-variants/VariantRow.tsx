@@ -57,10 +57,6 @@ const VariantRow: FC<VariantRowProps> = ({
 		enableAnimations(false)
 	}, [])
 
-	useEffect(() => {
-		console.log('variant', variant.ordering)
-	}, [variant])
-
 	return (
 		<StyledTableRow
 			tabIndex={-1}
@@ -85,7 +81,7 @@ const VariantRow: FC<VariantRowProps> = ({
 
 			<StyledTableCell align="left">{discount + '%'}</StyledTableCell>
 
-			<StyledTableCell align="left">{status}</StyledTableCell>
+			<StyledTableCell align="left">{status + ordering}</StyledTableCell>
 
 			<StyledTableCell align="left">{stock}</StyledTableCell>
 

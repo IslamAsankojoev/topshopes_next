@@ -3,7 +3,7 @@ import { clone } from 'merge'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { AttributesService } from 'src/api/services/attributes/attributes.service'
 import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service'
@@ -37,8 +37,12 @@ const CreateProductV2: NextPageAuth = () => {
 
 	const [createLoading, setCreateLoading] = useState(false)
 	const { push } = useRouter()
-	const { localVariantAdd, localVariantRemove, localeVariantsClear } =
-		useActions()
+	const {
+		localVariantAdd,
+		localVariantRemove,
+		localeVariantsClear,
+		localeVariantsClone,
+	} = useActions()
 
 	const handleFormSubmit = async (data: FormData) => {
 		if (variants.length === 0) {
@@ -158,16 +162,19 @@ const CreateProductV2: NextPageAuth = () => {
 
 	const handleCloneVariant = (data: IProductVariant) => {
 		setCloneLoading(data.id)
-		setTimeout(() => {
-			const audioClone = new Audio('/clone.mp3')
-			localVariantAdd({
-				...data,
-				id: v4(),
-			})
-			setCloneLoading(null)
-			audioClone.play()
-		}, 1000)
+		const audioClone = new Audio('/clone.mp3')
+		console.log(variants.length + 1)
+		localVariantAdd({
+			...data,
+			id: v4(),
+			ordering: variants?.length + 1,
+		})
+		setCloneLoading(null)
+		audioClone.play()
 	}
+	useEffect(() => {
+		console.log(variants)
+	}, [variants])
 
 	return fetch ? (
 		<Box py={4}>

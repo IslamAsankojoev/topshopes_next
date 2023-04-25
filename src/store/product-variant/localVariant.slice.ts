@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IProductVariant } from 'src/shared/types/product.types'
+import { v4 } from 'uuid'
 
 // import { IProductVariant } from 'src/shared/types/product.types'
 
@@ -14,13 +15,16 @@ const LocalVariantSlice = createSlice({
 	reducers: {
 		localVariantAdd: (state, action: PayloadAction<IProductVariant>) => {
 			const { id } = action.payload
-			state[id] = action.payload
+			state[id] = {
+				...action.payload,
+				ordering: action.payload.ordering || 1,
+			}
 		},
 		localVariantRemove: (state, action: PayloadAction<string>) => {
 			const id = action.payload
 			delete state[id]
 		},
-		localeVariantsClear: (state) => {
+		localeVariantsClear: (_) => {
 			return {}
 		},
 	},

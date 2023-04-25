@@ -176,7 +176,7 @@ const ProductRowV2: FC<ProductRowProps> = ({
 							kz: 'Алдын ала қарау',
 						})}
 					>
-						<VisibilityIcon />
+						<VisibilityIcon color="info" />
 					</Tooltip>
 				</StyledIconButton>
 

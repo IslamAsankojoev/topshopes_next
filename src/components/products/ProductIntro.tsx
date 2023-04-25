@@ -93,14 +93,14 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							justifyContent: 'center',
 							alignItems: 'center',
 							position: 'relative',
-							boxShadow: 2,
-							backgroundColor: 'white',
+							backgroundColor: 'transparent',
+							boxShadow: 'none',
 						}}
 					>
 						<div
 							style={{
-								width: '450px',
-								height: '450px',
+								width: '500px',
+								height: '500px',
 							}}
 						>
 							<LazyImage
