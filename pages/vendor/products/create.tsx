@@ -33,6 +33,7 @@ const CreateProductV2: NextPageAuth = () => {
 	const localVariants = useTypedSelector((state) => state.localVariantsStore)
 	const variants: IProductVariant[] = Object.values(localVariants)
 	const [productID, setProductID] = useState<string | null>(null)
+	const [cloneLoading, setCloneLoading] = useState<null | string>(null)
 
 	const [createLoading, setCreateLoading] = useState(false)
 	const { push } = useRouter()
@@ -110,8 +111,40 @@ const CreateProductV2: NextPageAuth = () => {
 		}
 	}
 
+	const handleUpOrdering = async (
+		variant: IProductVariant,
+		prevVariant: IProductVariant
+	) => {
+		localVariantRemove(variant?.id)
+		localVariantAdd({
+			...variant,
+			ordering: prevVariant.ordering,
+		})
+		localVariantRemove(prevVariant?.id)
+		localVariantAdd({
+			...prevVariant,
+			ordering: variant.ordering,
+		})
+	}
+
+	const handleDownOrdering = async (
+		variant: IProductVariant,
+		nextVariant: IProductVariant
+	) => {
+		localVariantRemove(variant?.id)
+		localVariantAdd({
+			...variant,
+			ordering: nextVariant.ordering,
+		})
+		localVariantRemove(nextVariant?.id)
+		localVariantAdd({
+			...nextVariant,
+			ordering: variant.ordering,
+		})
+	}
+
 	const handleChangeVariant = (data: IProductVariant) => {
-		data?.id && localVariantRemove(data.id)
+		localVariantRemove(data?.id)
 		localVariantAdd(data)
 	}
 
@@ -124,13 +157,16 @@ const CreateProductV2: NextPageAuth = () => {
 	}
 
 	const handleCloneVariant = (data: IProductVariant) => {
-		const audioClone = new Audio('/clone.mp3')
-		localVariantAdd({
-			...data,
-			id: v4(),
-		})
-
-		audioClone.play()
+		setCloneLoading(data.id)
+		setTimeout(() => {
+			const audioClone = new Audio('/clone.mp3')
+			localVariantAdd({
+				...data,
+				id: v4(),
+			})
+			setCloneLoading(null)
+			audioClone.play()
+		}, 1000)
 	}
 
 	return fetch ? (
@@ -148,6 +184,9 @@ const CreateProductV2: NextPageAuth = () => {
 				handleVariantRemove={handleRemoveVariant}
 				handleVariantCreate={handleCreateVariant}
 				handleVariantClone={handleCloneVariant}
+				cloneLoading={cloneLoading}
+				handleUpOrdering={handleUpOrdering}
+				handleDownOrdering={handleDownOrdering}
 			/>
 			{createLoading ? <Loading /> : null}
 		</Box>

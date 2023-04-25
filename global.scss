@@ -40,3 +40,11 @@ img {
 .smooth-scroll {
 	scroll-behavior: smooth;
 }
+
+// hide the ordering buttons on the first and last row
+.variant_row:first-child .up-ordering {
+	display: none;
+}
+.variant_row:last-child .down-ordering {
+	display: none;
+}

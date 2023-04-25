@@ -7,7 +7,7 @@ import {
 	TableContainer,
 	Typography,
 } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { CategoriesService } from 'src/api/services/categories/category.service'
@@ -32,6 +32,13 @@ import { localize } from 'src/utils/Translate/localize'
 import { H2, H3 } from 'src/components/Typography'
 import { useRouter } from 'next/router'
 
+import Reorder, {
+	reorder,
+	reorderImmutable,
+	reorderFromTo,
+	reorderFromToImmutable,
+} from 'react-reorder'
+
 const tableHeading = [
 	{ id: 'image', label: 'image', align: 'left' },
 	{ id: 'price', label: 'price', align: 'left' },
@@ -48,6 +55,15 @@ interface Props {
 	handleVariantRemove: (id: string) => void
 	handleVariantCreate: (variant: IProductVariant) => void
 	handleVariantClone?: (variant: IProductVariant) => void
+	cloneLoading?: null | string
+	handleUpOrdering?: (
+		variant: IProductVariant,
+		prevVariant: IProductVariant
+	) => void
+	handleDownOrdering?: (
+		variant: IProductVariant,
+		nextVariant: IProductVariant
+	) => void
 }
 
 const VariantList: FC<Props> = ({
@@ -56,6 +72,9 @@ const VariantList: FC<Props> = ({
 	handleVariantRemove,
 	handleVariantCreate,
 	handleVariantClone,
+	cloneLoading,
+	handleUpOrdering,
+	handleDownOrdering,
 }) => {
 	const { t: adminT } = useTranslation('admin')
 
@@ -73,6 +92,43 @@ const VariantList: FC<Props> = ({
 	const handleCreateForm = (data: IProductVariant) => {
 		handleVariantCreate(data)
 		setVariantFormOpen(false)
+	}
+
+	const filteredListLodash = LOrderBy(filteredList, 'ordering')
+
+	const handleUpOrderingRow = (variant: IProductVariant, mapIndex: number) => {
+		const currentVariantIndex = filteredListLodash.findIndex(
+			(v: IProductVariant) => v.id === variant.id
+		)
+		handleUpOrdering(
+			{
+				...variant,
+				ordering: mapIndex,
+			},
+			{
+				...filteredListLodash[currentVariantIndex - 1],
+				ordering: mapIndex - 1,
+			}
+		)
+	}
+
+	const handleDownOrderingRow = (
+		variant: IProductVariant,
+		mapIndex: number
+	) => {
+		const currentVariantIndex = filteredListLodash.findIndex(
+			(v: IProductVariant) => v.id === variant.id
+		)
+		handleDownOrdering(
+			{
+				...variant,
+				ordering: mapIndex,
+			},
+			{
+				...filteredListLodash[currentVariantIndex + 1],
+				ordering: mapIndex + 1,
+			}
+		)
 	}
 
 	return (
@@ -136,9 +192,10 @@ const VariantList: FC<Props> = ({
 									numSelected={selected?.length}
 									onRequestSort={handleRequestSort}
 								/>
-								<TableBody>
-									{LOrderBy(filteredList, 'id').map((variant) => (
+								<TableBody ref={parent}>
+									{filteredListLodash.map((variant, index) => (
 										<VariantRow
+											mapIndex={index}
 											key={variant.id}
 											variant={variant}
 											variantFormOpen={variantFormOpen}
@@ -146,6 +203,9 @@ const VariantList: FC<Props> = ({
 											handleChange={handleVariantChange}
 											handleRemove={handleVariantRemove}
 											handleClone={handleVariantClone}
+											cloneLoading={cloneLoading}
+											handleUpOrdering={handleUpOrderingRow}
+											handleDownOrdering={handleDownOrderingRow}
 										/>
 									))}
 								</TableBody>

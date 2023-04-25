@@ -82,6 +82,7 @@ export type IProductVariant = {
 	images: IImage[]
 	attribute_values?: IProductAttributeValue[]
 	nodeRef?: any
+	ordering: null | number
 }
 
 export type IProductVariantStatus = 'available' | 'unavailable'

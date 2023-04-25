@@ -1,5 +1,5 @@
 import { Close, Edit } from '@mui/icons-material'
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, Grid, Typography } from '@mui/material'
 import React, { FC, useEffect, useState } from 'react'
 import { FlexBox } from 'src/components/flex-box'
 import LazyImage from 'src/components/LazyImage'
@@ -9,6 +9,9 @@ import { StyledTableCell, StyledTableRow } from '../../StyledComponents'
 import { getImgUrl } from './productVariantHelper'
 import VariantForm from './VariantForm'
 import orderBy from 'lodash-es/orderBy'
+import { LoadingButton } from '@mui/lab'
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 interface VariantRowProps {
 	variant: IProductVariant
@@ -17,6 +20,10 @@ interface VariantRowProps {
 	handleChange: (data: IProductVariant) => void
 	handleClone?: (data: IProductVariant) => void
 	enableAnimations: (enabled: boolean) => void
+	cloneLoading?: null | string
+	mapIndex?: number
+	handleUpOrdering?: (variant: IProductVariant, mapIndex: number) => void
+	handleDownOrdering?: (variant: IProductVariant, mapIndex: number) => void
 }
 
 const VariantRow: FC<VariantRowProps> = ({
@@ -25,9 +32,21 @@ const VariantRow: FC<VariantRowProps> = ({
 	handleChange,
 	handleRemove,
 	handleClone,
+	cloneLoading,
+	handleUpOrdering,
+	handleDownOrdering,
+	mapIndex,
 }) => {
-	const { thumbnail, price, discount, status, stock, attribute_values, id } =
-		variant
+	const {
+		thumbnail,
+		price,
+		discount,
+		status,
+		stock,
+		attribute_values,
+		id,
+		ordering,
+	} = variant
 	const [openVariant, setOpenVariant] = useState(false)
 
 	const handleRemoveThis = () => {
@@ -38,10 +57,15 @@ const VariantRow: FC<VariantRowProps> = ({
 		enableAnimations(false)
 	}, [])
 
+	useEffect(() => {
+		console.log('variant', variant.ordering)
+	}, [variant])
+
 	return (
 		<StyledTableRow
 			tabIndex={-1}
 			role="checkbox"
+			className="variant_row"
 			sx={{
 				height: '75px',
 			}}
@@ -104,53 +128,80 @@ const VariantRow: FC<VariantRowProps> = ({
 					.reverse()}
 			</StyledTableCell>
 
-			<StyledTableCell align="center">
-				<Button
-					size="small"
-					variant="contained"
-					sx={{
-						width: '40px',
-						height: '30px',
-						mr: 1,
-						p: 0,
-						borderRadius: '4px',
-						transition: 'all 0.3s ease',
-						'&:hover': {
-							transform: 'scale(1.4)',
-						},
-					}}
-					color="secondary"
-					onClick={() => handleClone(variant)}
-				>
-					<img
-						src="https://i.pinimg.com/originals/b5/f4/05/b5f405e21abff867a56ca7a4458b8955.jpg"
-						alt=""
-						width="100%"
-						height="100%"
-						style={{
+			<StyledTableCell align="right">
+				<FlexBox columnGap={1}>
+					<LoadingButton
+						size="small"
+						loadingPosition="start"
+						variant="contained"
+						sx={{
+							color: 'white',
+							width: '40px',
+							height: '30px',
+							p: 0,
 							borderRadius: '4px',
-							objectFit: 'cover',
+							transition: 'all 0.3s ease',
+							'&:active': {
+								transform: 'scale(0.9)',
+							},
+							'&:hover': {
+								transform: 'scale(1.05)',
+							},
 						}}
-					/>
-				</Button>
-				<Button
-					size="small"
-					variant="contained"
-					color="secondary"
-					sx={{ mr: 1 }}
-					onClick={() => setOpenVariant(true)}
-				>
-					<Edit />
-				</Button>
-				<Button
-					size="small"
-					variant="contained"
-					color="error"
-					onClick={handleRemoveThis}
-				>
-					<Close />
-				</Button>
+						color="secondary"
+						onClick={() => handleClone(variant)}
+					>
+						<img
+							src={
+								cloneLoading === variant.id
+									? 'https://pa1.narvii.com/6707/686c3b62427e1d3fb06402d4849cce5dcb759aef_hq.gif'
+									: 'https://i.pinimg.com/originals/b5/f4/05/b5f405e21abff867a56ca7a4458b8955.jpg'
+							}
+							alt=""
+							width="100%"
+							height="100%"
+							style={{
+								borderRadius: '4px',
+								objectFit: 'cover',
+							}}
+						/>
+						{/* {cloneLoading === variant.id ? 'Cloning' : 'Clone'} */}
+					</LoadingButton>
+					<Button
+						size="small"
+						variant="contained"
+						color="secondary"
+						onClick={() => setOpenVariant(true)}
+					>
+						<Edit />
+					</Button>
+					<Button
+						size="small"
+						variant="contained"
+						color="error"
+						onClick={handleRemoveThis}
+					>
+						<Close />
+					</Button>
+					<Button
+						size="small"
+						variant="contained"
+						className="up-ordering"
+						onClick={() => handleUpOrdering(variant, mapIndex)}
+					>
+						<ArrowDropUpIcon />
+					</Button>
+					<Button
+						size="small"
+						variant="contained"
+						className="down-ordering"
+						onClick={() => handleDownOrdering(variant, mapIndex)}
+					>
+						<ArrowDropDownIcon />
+					</Button>
+				</FlexBox>
 			</StyledTableCell>
+
 			<VariantForm
 				initialVariant={variant}
 				setOpen={setOpenVariant}

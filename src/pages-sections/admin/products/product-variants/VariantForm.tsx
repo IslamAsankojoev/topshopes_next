@@ -50,8 +50,9 @@ const VariantForm: FC<Props> = ({
 		}
 	)
 
-	const [attributeValues, setAttributeValues] =
-		useState<Record<string, IProductAttribute>>(null)
+	const [attributeValues, setAttributeValues] = useState<
+		Record<string, IProductAttribute>
+	>({})
 
 	const handleChangeWithAttribute = async (data: FormData | any) => {
 		data = formDataToObj(data) as IProductVariant
@@ -68,9 +69,10 @@ const VariantForm: FC<Props> = ({
 
 	useEffect(() => {
 		const assignObject = {}
-		initialVariant?.attribute_values.forEach((a) => {
-			Object.assign(assignObject, { [a.attribute.name]: a })
-		})
+		initialVariant?.attribute_values?.length &&
+			initialVariant?.attribute_values.forEach((a) => {
+				Object.assign(assignObject, { [a.attribute.name]: a })
+			})
 		setAttributeValues(assignObject)
 	}, [initialVariant?.attribute_values])
 

@@ -48,6 +48,7 @@ const EditProduct: NextPageAuth = () => {
 	} = useRouter()
 	const [variantsBlackList, setVariantsBlackList] = useState<string[]>([])
 	const [updateLoading, setUpdateLoading] = useState<boolean>(false)
+	const [cloneLoading, setCloneLoading] = useState<null | string>(null)
 
 	const {
 		data: product,
@@ -116,6 +117,54 @@ const EditProduct: NextPageAuth = () => {
 		setUpdateLoading(false)
 	}
 
+	const handleUpOrdering = async (
+		variant: IProductVariant,
+		prevVariant: IProductVariant
+	) => {
+		try {
+			const currentVariantPromise = await ProductVariantService.update(
+				variant?.id,
+				{
+					ordering: prevVariant?.ordering,
+				}
+			)
+			const prevVariantPromise = await ProductVariantService.update(
+				prevVariant?.id,
+				{
+					ordering: variant?.ordering,
+				}
+			)
+			await Promise.all([currentVariantPromise, prevVariantPromise])
+			refetch()
+		} catch (e) {
+			console.error(e.message)
+		}
+	}
+
+	const handleDownOrdering = async (
+		variant: IProductVariant,
+		nextVariant: IProductVariant
+	) => {
+		try {
+			const currentVariantPromise = await ProductVariantService.update(
+				variant?.id,
+				{
+					ordering: nextVariant?.ordering,
+				}
+			)
+			const nextVariantPromise = await ProductVariantService.update(
+				nextVariant?.id,
+				{
+					ordering: variant?.ordering,
+				}
+			)
+			await Promise.all([currentVariantPromise, nextVariantPromise])
+			refetch()
+		} catch (e) {
+			console.error(e.message)
+		}
+	}
+
 	const handleVariantChange = async (data: IProductVariant) => {
 		try {
 			await ProductVariantService.update(
@@ -174,6 +223,7 @@ const EditProduct: NextPageAuth = () => {
 	}
 
 	const handleVariantClone = async (variant: IProductVariant) => {
+		setCloneLoading(variant.id)
 		const audioClone = new Audio('/clone.mp3')
 		const { id: _, ...rest } = variant
 
@@ -199,6 +249,7 @@ const EditProduct: NextPageAuth = () => {
 			}
 		)
 		await Promise.all(attributePromises)
+		setCloneLoading(null)
 		audioClone.play()
 		refetch()
 	}
@@ -226,6 +277,9 @@ const EditProduct: NextPageAuth = () => {
 						handleVariantRemove={handleVariantRemove}
 						handleVariantCreate={handleVariantCreate}
 						handleVariantClone={handleVariantClone}
+						cloneLoading={cloneLoading}
+						handleDownOrdering={handleDownOrdering}
+						handleUpOrdering={handleUpOrdering}
 					/>
 					{updateLoading ? <Loading /> : null}
 				</>
