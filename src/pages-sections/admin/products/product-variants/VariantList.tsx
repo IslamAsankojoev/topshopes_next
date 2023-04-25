@@ -32,13 +32,6 @@ import { localize } from 'src/utils/Translate/localize'
 import { H2, H3 } from 'src/components/Typography'
 import { useRouter } from 'next/router'
 
-import Reorder, {
-	reorder,
-	reorderImmutable,
-	reorderFromTo,
-	reorderFromToImmutable,
-} from 'react-reorder'
-
 const tableHeading = [
 	{ id: 'image', label: 'image', align: 'left' },
 	{ id: 'price', label: 'price', align: 'left' },
