@@ -37,12 +37,8 @@ const CreateProductV2: NextPageAuth = () => {
 
 	const [createLoading, setCreateLoading] = useState(false)
 	const { push } = useRouter()
-	const {
-		localVariantAdd,
-		localVariantRemove,
-		localeVariantsClear,
-		localeVariantsClone,
-	} = useActions()
+	const { localVariantAdd, localVariantRemove, localeVariantsClear } =
+		useActions()
 
 	const handleFormSubmit = async (data: FormData) => {
 		if (variants.length === 0) {

@@ -39,7 +39,7 @@ function buildFormData(formData: FormData, data: any, parentKey?: string) {
 	if (data && typeof data === 'object' && !(data instanceof Date)) {
 		if (Array.isArray(data)) {
 			for (let i = 0; i < data.length; i++) {
-				buildFormData(formData, data[i], `${parentKey}[${i}]`)
+				buildFormData(formData, data[i], `${parentKey}`)
 			}
 		} else if (data instanceof File) {
 			formData.append(parentKey, data)
@@ -48,7 +48,7 @@ function buildFormData(formData: FormData, data: any, parentKey?: string) {
 				if (Object.prototype.hasOwnProperty.call(data, key)) {
 					const value = data[key]
 					if (parentKey) {
-						buildFormData(formData, value, `${parentKey}[${key}]`)
+						buildFormData(formData, value, `${parentKey}`)
 					} else {
 						buildFormData(formData, value, key)
 					}

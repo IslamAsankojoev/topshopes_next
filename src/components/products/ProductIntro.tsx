@@ -108,6 +108,9 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 								layout="fill"
 								loading="eager"
 								objectFit="contain"
+								style={{
+									transition: 'all 0.3s ease-in-out',
+								}}
 								src={selectedImage || variants[0]?.thumbnail}
 							/>
 						</div>

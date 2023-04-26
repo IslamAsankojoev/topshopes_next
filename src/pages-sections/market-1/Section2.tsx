@@ -74,7 +74,9 @@ const Section2: FC<Props> = ({ flashDeals }) => {
 
 										<FlexBox gap={1}>
 											<H4 fontWeight="600" fontSize="14px" color="primary.main">
-												{getCurrency(item.discount_price || item.price)}
+												{getCurrency(
+													!!item.discount ? item.discount_price : item.price
+												)}
 											</H4>
 
 											<H4 fontWeight="600" fontSize="14px" color="grey.600">

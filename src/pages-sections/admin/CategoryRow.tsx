@@ -2,7 +2,7 @@ import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
 import { CategoriesService } from 'src/api/services-admin/categories/category.service'
 import { useRouter } from 'next/router'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { ICategory } from 'src/shared/types/product.types'
 
 import {
@@ -11,6 +11,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
+import { width } from '@mui/system'
 
 // ========================================================================
 type CategoryRowProps = {
@@ -22,7 +23,8 @@ type CategoryRowProps = {
 
 const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 	const { reload, push } = useRouter()
-	const { featured, icon, id, name, image, parent, slug } = item
+	const { featured, icon, id, name, image, parent, slug, tax, attributes } =
+		item
 	const isItemSelected = selected.indexOf(name) !== -1
 
 	const handleRemove = async () => {
@@ -50,19 +52,22 @@ const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 			}}
 		>
 			<StyledTableCell align="left" onClick={handleEdit}>
-				{name}
-			</StyledTableCell>
-
-			<StyledTableCell align="left" onClick={handleEdit}>
 				<CategoryWrapper>{name}</CategoryWrapper>
 			</StyledTableCell>
 
-			<StyledTableCell align="left" onClick={handleEdit}>
-				{icon ? <Avatar src={icon} sx={{ borderRadius: '8px' }} /> : 'none'}
+			{/* <StyledTableCell align="left" onClick={handleEdit}>
+				<CategoryWrapper>{name}</CategoryWrapper>
+			</StyledTableCell> */}
+
+			<StyledTableCell align="center" onClick={handleEdit}>
+				{tax}%
 			</StyledTableCell>
 
-			<StyledTableCell align="left" onClick={handleEdit}>
-				<Avatar src={image} sx={{ borderRadius: '8px' }} />
+			<StyledTableCell align="center" onClick={handleEdit}>
+				<Avatar
+					src={image}
+					sx={{ borderRadius: '4px', width: '80px', margin: '0 auto' }}
+				/>
 			</StyledTableCell>
 
 			{/* <StyledTableCell align="left">{level}</StyledTableCell> */}

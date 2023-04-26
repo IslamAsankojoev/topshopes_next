@@ -80,7 +80,9 @@ const Section13: FC<Props> = ({ bigDiscountList }) => {
 													fontSize="14px"
 													color="primary.main"
 												>
-													{getCurrency(item.discount_price || item.price)}
+													{getCurrency(
+														!!item.discount ? item.discount_price : item.price
+													)}
 												</H4>
 
 												<H4 fontWeight="600" fontSize="14px" color="grey.600">

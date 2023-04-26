@@ -39,9 +39,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 // table column list
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
-	{ id: 'category', label: 'categories', align: 'left' },
-	{ id: 'Icon', label: 'icon', align: 'left' },
-	{ id: 'Image', label: 'thumbnail', align: 'left' },
+	// { id: 'category', label: 'categories', align: 'left' },
+	{ id: 'Tax', label: 'tax', align: 'center' },
+	{ id: 'Image', label: 'thumbnail', align: 'center' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]
 

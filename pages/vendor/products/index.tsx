@@ -20,12 +20,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { Fragment, ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
 import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientRowV2'
 import { localize } from 'src/utils/Translate/localize'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { IProduct } from 'src/shared/types/product.types'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
@@ -93,10 +94,19 @@ const ProductList: NextPageAuth = () => {
 		})
 	}
 
+	const { isLoading, mutateAsync } = useMutation(
+		'update product publish',
+		({ id, is_published }: { id: string; is_published: boolean }) =>
+			ProductsService.update(id, { is_published: is_published }),
+		{
+			onSuccess: (data: IProduct) => {
+				queryClient.invalidateQueries([`products`, searchValue + currentPage])
+			},
+		}
+	)
+
 	const switchPublish = async (id: string, is_published: boolean) => {
-		await ProductsService.update(id, { is_published: is_published })
-		queryClient.invalidateQueries([`products`, searchValue + currentPage])
-		// .then(() => refetch())
+		await mutateAsync({ id, is_published })
 	}
 
 	useEffect(() => {

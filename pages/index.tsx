@@ -19,6 +19,7 @@ import api from 'src/utils/api/market-1'
 import { axiosClassic } from 'src/api/interceptor'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import useScrollToSavedPosition from 'src/hooks/useScrollToSavedPosition'
+import { getAllProductsUrl } from 'src/config/api.config'
 
 // =================================================================
 type MarketProps = {
@@ -53,30 +54,35 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 		{
 			queryKey: 'newArrivalsList',
 			queryFn: () =>
-				axiosClassic.get<ResponseList<IProductPreview>>('/latest-products/', {
-					params: {
-						page: 1,
-						page_size: 6,
-					},
-				}),
+				axiosClassic.get<ResponseList<IProductPreview>>(
+					getAllProductsUrl('?ordering=-created_at&page_size=6'),
+					{
+						params: {
+							page: 1,
+							page_size: 6,
+						},
+					}
+				),
 		},
 		{
 			queryKey: 'topRatedProducts',
 			queryFn: () =>
-				axiosClassic.get<ResponseList<IProductPreview>>('/top-rated-products/'),
+				axiosClassic.get<ResponseList<IProductPreview>>(
+					getAllProductsUrl('?ordering=-rating&page_size=6')
+				),
 		},
 		{
 			queryKey: 'bigDiscountList',
 			queryFn: () =>
 				axiosClassic.get<ResponseList<IProductPreview>>(
-					'/discounted-products/'
+					getAllProductsUrl('?ordering=-discount_price&page_size=9')
 				),
 		},
 		{
 			queryKey: 'flashDealsData',
 			queryFn: () =>
 				axiosClassic.get<ResponseList<IProductPreview>>(
-					'/best-selling-products/'
+					getAllProductsUrl('?ordering=-total_sales&page_size=9')
 				),
 		},
 	])
@@ -102,8 +108,6 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			cacheTime: 1000 * 60 * 10,
 		}
 	)
-
-	useScrollToSavedPosition()
 
 	return (
 		<ShopLayout1>

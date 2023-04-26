@@ -26,13 +26,16 @@ import { darken } from '@mui/system'
 import { getCurrency } from 'src/utils/getCurrency'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { localize } from 'src/utils/Translate/localize'
+import SuccessNotify from 'src/components/SuccessNotify/SuccessNotify'
+import { v4 } from 'uuid'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 // ========================================================================
 type ProductRowProps = {
 	product: IProductPreview
 	refetch: () => void
 	is_superuser?: boolean
-	switchPublish?: (id: string, is_published: boolean) => void
+	switchPublish?: (id: string, is_published: boolean) => Promise<void>
 }
 // ========================================================================
 
@@ -44,12 +47,16 @@ const ProductRowV2: FC<ProductRowProps> = ({
 }) => {
 	const { category, name, thumbnail, shop, price, id } = product
 	const [isPublished, setIsPublished] = useState(false)
+	const [publishLoaded, setPublishLoaded] = useState(null)
+	const [parent, enableAnimate] = useAutoAnimate()
 
 	const router = useRouter()
 
 	const handleSwitchPublish = (id: string, is_published: boolean) => {
 		setIsPublished(is_published)
-		switchPublish(id, is_published)
+		switchPublish(id, is_published).then(() => {
+			setPublishLoaded(v4())
+		})
 	}
 
 	useEffect(() => {
@@ -126,43 +133,51 @@ const ProductRowV2: FC<ProductRowProps> = ({
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
-				<FormGroup
+				<Box
 					sx={{
+						position: 'relative',
 						display: 'flex',
 						flexDirection: 'row',
-						justifyContent: 'center',
-						alignItems: 'center',
-						width: '200px',
+						justifyContent: 'flex-end',
 						margin: '0 auto',
 					}}
 				>
-					<FormControlLabel
-						control={
-							<Switch
-								checked={isPublished}
-								onChange={() => handleSwitchPublish(id, !product?.is_published)}
-								color="success"
-							/>
-						}
-						label={
-							isPublished
-								? localize({
-										ru: 'Опубликовано',
-										tr: 'Yayınlandı',
-										en: 'Published',
-										kg: 'Жарияланды',
-										kz: 'Жарияланды',
-								  })
-								: localize({
-										ru: 'Не опубликовано',
-										tr: 'Yayınlanmadı',
-										en: 'Not published',
-										kg: 'Жарияланбады',
-										kz: 'Жарияланбады',
-								  })
-						}
-					/>
-				</FormGroup>
+					<FormGroup
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							alignItems: 'center',
+							width: '200px',
+						}}
+					>
+						<FormControlLabel
+							control={
+								<Switch
+									checked={isPublished}
+									onChange={() =>
+										handleSwitchPublish(id, !product?.is_published)
+									}
+									color="success"
+								/>
+							}
+							label={
+								isPublished
+									? localize({
+											ru: 'Опубликовано',
+											tr: 'Yayınlandı',
+											en: 'Published',
+									  })
+									: localize({
+											ru: 'Не опубликовано',
+											tr: 'Yayınlanmadı',
+											en: 'Not published',
+									  })
+							}
+						/>
+					</FormGroup>
+					<SuccessNotify toggleOpen={publishLoaded} />
+				</Box>
 			</StyledTableCell>
 
 			<StyledTableCell align="center">
@@ -172,11 +187,9 @@ const ProductRowV2: FC<ProductRowProps> = ({
 							ru: 'Предпросмотр',
 							tr: 'Önizleme',
 							en: 'Preview',
-							kg: 'Көрүү',
-							kz: 'Алдын ала қарау',
 						})}
 					>
-						<VisibilityIcon color="info" />
+						<VisibilityIcon color="secondary" />
 					</Tooltip>
 				</StyledIconButton>
 
@@ -187,8 +200,6 @@ const ProductRowV2: FC<ProductRowProps> = ({
 								ru: 'Удалить',
 								tr: 'Sil',
 								en: 'Delete',
-								kg: 'Жою',
-								kz: 'Жою',
 							})}
 						>
 							<Delete color="error" />

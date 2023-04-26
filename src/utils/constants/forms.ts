@@ -5,14 +5,14 @@ import { statusTranslation } from 'src/utils/Translate/common'
 import { localize } from 'src/utils/Translate/localize'
 
 export const categoryEditForm = [
-	{
-		name: 'icon',
-		label: 'icon',
-		type: 'file',
-		placeholder: 'icon',
-		required: true,
-		previewType: 'image',
-	},
+	// {
+	// 	name: 'icon',
+	// 	label: 'icon',
+	// 	type: 'file',
+	// 	placeholder: 'icon',
+	// 	required: false,
+	// 	previewType: 'image',
+	// },
 	{
 		name: 'image',
 		label: 'thumbnail',
