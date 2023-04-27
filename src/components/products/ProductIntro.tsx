@@ -124,31 +124,27 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							padding: '1rem',
 						}}
 					>
-						<H1 mb={2}>{name}</H1>
-						<FlexBox alignItems="center" mb={2}>
-							<Box>{t('brand')}:</Box>
-							<H6 ml={1}>{brand?.name}</H6>
-						</FlexBox>
-
-						<FlexBox alignItems="center" mb={2}>
-							<Box lineHeight="1">{t('rated')}:</Box>
-							<Box mx={1} lineHeight="1">
+						<H1 mb={1}>{name}</H1>
+						<FlexBox alignItems="flex-start" mb={2} flexDirection="column">
+							<Box>
+								{t('brand')}: {brand?.name}
+							</Box>
+							<Box>
+								{t('rated')}:
 								<BazaarRating
 									color="warn"
 									fontSize="1.25rem"
 									value={Number(rating)}
 									readOnly
 								/>
+								({rating})
 							</Box>
-							<H6 lineHeight="1">({rating})</H6>
-						</FlexBox>
-						<FlexBox alignItems="center" mb={2}>
-							<Box>{t('soldBy')}:</Box>
-							<Link href={`/shops/${shop?.id}`}>
-								<a>
-									<H6 ml={1}>{shop?.name}</H6>
-								</a>
-							</Link>
+							<Box>
+								{t('soldBy')}:
+								<Link href={`/shops/${shop?.id}`}>
+									<a>{shop?.name}</a>
+								</Link>
+							</Box>
 						</FlexBox>
 
 						<Box mb={3}>
@@ -201,6 +197,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							setImage={setSelectedImage}
 							variant={selectedVariant}
 						/>
+						<br />
 						<FlexBox
 							gap={2}
 							sx={{
@@ -237,8 +234,6 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 											ru: 'Удалить из избранных',
 											tr: 'Favorilerden kaldır',
 											en: 'Remove from favorites',
-											kg: 'Удалить из избранных',
-											kz: 'Удалить из избранных',
 									  })
 									: t('addToWishlist')}
 							</BazaarButton>

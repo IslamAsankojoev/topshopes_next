@@ -53,83 +53,70 @@ const AttributeSelect: FC<AttributeSelectProps> = ({
 	}, [])
 
 	return (
-		<Card
-			style={{
-				borderRadius: '0.5rem',
-				padding: '0.5rem',
-				marginBottom: '0.5rem',
-				backgroundColor: '#fff',
-				display: 'inline-block',
-			}}
-		>
-			<Typography
-				sx={{
-					fontSize: '0.8rem',
-					fontWeight: 'bold',
-					padding: '0.2rem 0.5rem',
-					textTransform: 'uppercase',
+		<>
+			<Card
+				style={{
+					marginBottom: '0.5rem',
+					backgroundColor: 'transparent',
+					display: 'inline-block',
+					boxShadow: 'none',
 				}}
 			>
-				{attribute_name}
-			</Typography>
-			<ToggleButtonGroup
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					flexWrap: 'wrap',
-					justifyContent: 'space-between',
-				}}
-				color="primary"
-				value={selectedAttribute}
-				exclusive
-				onChange={(event: MouseEvent<HTMLElement>, attribute: any) => {
-					handleAttribute(event, attribute)
-				}}
-				aria-label="Platform"
-			>
-				{attribute_values.sort().map((attribute_value) => {
-					return (
-						<ToggleButton
-							sx={{
-								position: 'relative',
-								padding:
-									attribute_name === 'color'
-										? '0.4rem 1rem 0.4rem 1rem'
-										: '0.4rem 0.7rem',
-								border: '.1px solid #dfdfdf!important',
-								borderRadius: '0.3rem!important',
-								overflow: 'hidden',
-								marginRight: '10px',
-							}}
-							key={attribute_value}
-							value={attribute_value}
-							aria-label={attribute_value}
-						>
-							<span
-								style={{
-									position: 'absolute',
-									bottom: 0,
-									right: 0,
-									width: '100%',
-									height: '8px',
-									backgroundColor:
-										attribute_name === 'color'
-											? attribute_value
-											: 'transparent',
+				<Typography
+					sx={{
+						fontSize: '11px',
+						fontWeight: 'bold',
+						padding: '0.4rem 0.4rem',
+						textTransform: 'uppercase',
+					}}
+				>
+					{attribute_name}
+				</Typography>
+				<ToggleButtonGroup
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+						flexWrap: 'wrap',
+						justifyContent: 'flex-start',
+						gap: '0.5rem',
+					}}
+					color="primary"
+					value={selectedAttribute}
+					exclusive
+					onChange={(event: MouseEvent<HTMLElement>, attribute: any) => {
+						handleAttribute(event, attribute)
+					}}
+					aria-label="Platform"
+				>
+					{attribute_values.sort().map((attribute_value) => {
+						return (
+							<ToggleButton
+								sx={{
+									position: 'relative',
+									padding: '0.4rem 0.7rem',
+									border: '.1px solid #dfdfdf!important',
+									borderRadius: '0.5rem!important',
+									overflow: 'hidden',
+									backgroundColor: '#ffffff',
 								}}
-							></span>
-							<span
-								style={{
-									zIndex: 4,
-								}}
+								key={attribute_value}
+								value={attribute_value}
+								aria-label={attribute_value}
 							>
-								{attribute_value}
-							</span>
-						</ToggleButton>
-					)
-				})}
-			</ToggleButtonGroup>
-		</Card>
+								<Typography
+									sx={{
+										fontSize: '14px',
+										fontWeight: '500',
+									}}
+								>
+									{attribute_value}
+								</Typography>
+							</ToggleButton>
+						)
+					})}
+				</ToggleButtonGroup>
+			</Card>
+		</>
 	)
 }
 
