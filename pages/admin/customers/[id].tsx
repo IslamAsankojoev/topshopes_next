@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { UsersService } from 'src/api/services-admin/users/users.service'
 import CreateForm from 'src/components/Form/CreateForm'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
@@ -13,6 +12,7 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { userEditForm } from 'src/utils/constants/forms'
 import { localize } from 'src/utils/Translate/localize'
+import { api_admin } from 'src/api/index.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -34,7 +34,7 @@ const CreateCategory: NextPageAuth = () => {
 
 	const { isLoading, data: user } = useQuery(
 		['get one user', id],
-		() => UsersService.get(id as string),
+		() => api_admin.users.UsersService.get(id as string),
 		{
 			enabled: !!id,
 		}
@@ -43,7 +43,7 @@ const CreateCategory: NextPageAuth = () => {
 	// category create
 	const { mutateAsync } = useMutation(
 		'admin create user',
-		(data: FormData) => UsersService.update(id as string, data),
+		(data: FormData) => api_admin.users.UsersService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success(

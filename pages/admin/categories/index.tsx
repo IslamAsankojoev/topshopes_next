@@ -24,6 +24,7 @@ import { ReactElement, useState } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -59,7 +60,7 @@ const CategoryList: NextPageAuth = () => {
 	const { data: categories, refetch } = useQuery(
 		[`get categories admin search=${searchValue}`, currentPage],
 		() =>
-			CategoriesService.getList({
+			api_admin.categories.CategoriesService.getList({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,

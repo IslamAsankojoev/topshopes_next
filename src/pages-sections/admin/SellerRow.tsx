@@ -7,6 +7,7 @@ import { FC } from 'react'
 import { IUser } from 'src/shared/types/user.types'
 
 import { StyledTableCell, StyledTableRow } from './StyledComponents'
+import { api_admin } from 'src/api/index.service'
 
 // ========================================================================
 type CustomerRowProps = { customer: IUser; refetch: () => void }
@@ -33,7 +34,7 @@ const SellerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 	const onDelete = async () => {
 		if (window.confirm('Are you sure?')) {
 			try {
-				await UsersService.delete(id)
+				await api_admin.users.UsersService.delete(id)
 				refetch()
 			} catch (e: unknown) {
 				console.error(e)

@@ -12,6 +12,7 @@ import orderBy from 'lodash-es/orderBy'
 import { LoadingButton } from '@mui/lab'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import { localize } from 'src/utils/Translate/localize'
 
 interface VariantRowProps {
 	variant: IProductVariant
@@ -81,7 +82,13 @@ const VariantRow: FC<VariantRowProps> = ({
 
 			<StyledTableCell align="left">{discount + '%'}</StyledTableCell>
 
-			<StyledTableCell align="left">{status + ordering}</StyledTableCell>
+			<StyledTableCell align="left">
+				{localize({
+					ru: status === 'available' ? 'Доступно' : 'Не доступно',
+					en: status === 'available' ? 'Available' : 'Not available',
+					tr: status === 'available' ? 'Mümkün' : 'Mümkün deyil',
+				})}
+			</StyledTableCell>
 
 			<StyledTableCell align="left">{stock}</StyledTableCell>
 
@@ -124,8 +131,8 @@ const VariantRow: FC<VariantRowProps> = ({
 					.reverse()}
 			</StyledTableCell>
 
-			<StyledTableCell align="right">
-				<FlexBox columnGap={1}>
+			<StyledTableCell align="center">
+				<FlexBox columnGap={1} justifyContent="center">
 					<LoadingButton
 						size="small"
 						loadingPosition="start"

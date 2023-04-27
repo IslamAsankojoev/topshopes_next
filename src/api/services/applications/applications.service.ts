@@ -1,10 +1,10 @@
-import { makeRequest } from 'src/api/interceptor'
+import { axiosAuth } from 'src/api/interceptor'
 import { getApplicationsUrl } from 'src/config/api.config'
 
 export const ApplicationServices = {
 	getApplications: async () => {
 		try {
-			const { data } = await makeRequest(true).get(getApplicationsUrl(''))
+			const { data } = await axiosAuth(true).get(getApplicationsUrl(''))
 			return data
 		} catch (error) {
 			throw new Error(error)
@@ -12,7 +12,7 @@ export const ApplicationServices = {
 	},
 	getApplication: async (id: string) => {
 		try {
-			const { data } = await makeRequest(true).get(getApplicationsUrl(id))
+			const { data } = await axiosAuth(true).get(getApplicationsUrl(id))
 			return data
 		} catch (error) {
 			throw new Error(error)
@@ -20,10 +20,7 @@ export const ApplicationServices = {
 	},
 	createApplication: async (data: any) => {
 		try {
-			const response = await makeRequest(true).post(
-				getApplicationsUrl(''),
-				data
-			)
+			const response = await axiosAuth(true).post(getApplicationsUrl(''), data)
 			return response
 		} catch (error) {
 			throw new Error(error)

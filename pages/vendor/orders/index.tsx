@@ -24,6 +24,7 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import MemizeComponent from 'src/components/MemizeComponent/MemizeComponent'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api } from 'src/api/index.service'
 
 // table column list
 const tableHeading = [
@@ -64,7 +65,7 @@ const OrderList: NextPageAuth = () => {
 	} = useQuery(
 		[`orders get search=${searchValue}`, currentPage],
 		() =>
-			ShopsService.getShopOrders({
+			api.shops.ShopsService.getShopOrders({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,

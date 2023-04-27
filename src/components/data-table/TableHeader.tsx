@@ -13,7 +13,7 @@ import { ChangeEvent, FC } from 'react'
 // styled components
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	fontWeight: 600,
-	padding: '16px 20px',
+	padding: '10px 0px',
 	color: theme.palette.grey[900],
 }))
 
@@ -47,7 +47,16 @@ const TableHeader: FC<TableHeaderProps> = (props) => {
 
 	return (
 		<TableHead sx={{ backgroundColor: 'grey.300' }}>
-			<TableRow>
+			<TableRow
+				sx={{
+					'&> th:first-child': {
+						paddingLeft: '10px!important',
+					},
+					'&> th:last-child': {
+						paddingRight: '10px!important',
+					},
+				}}
+			>
 				{!hideSelectBtn && (
 					<StyledTableCell align="left">
 						<Checkbox

@@ -17,6 +17,7 @@ import {
 	StyledTableRow,
 } from '../StyledComponents'
 import { getCurrency } from 'src/utils/getCurrency'
+import { api, api_admin } from 'src/api/index.service'
 
 // ========================================================================
 type OrderRowProps = { order: IOrder; isAdmin?: boolean; refetch: () => void }
@@ -90,8 +91,8 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
 	} = order
 
 	const patchOrder = isAdmin
-		? OrdersService.update
-		: ShopsService.updateShopOrder
+		? api_admin.orders.OrdersService.update
+		: api.shops.ShopsService.updateShopOrder
 
 	const { mutateAsync: mutateStatus } = useMutation(
 		'order status update',
@@ -99,11 +100,13 @@ const OrderRow: FC<OrderRowProps> = ({ order, isAdmin, refetch }) => {
 		{
 			onSuccess: (data: any) => {
 				refetch()
-				toast.success(localize({
-					ru: 'Статус обновлен',
-					tr: 'Durum güncellendi',
-					en: 'Status updated',
-				}))
+				toast.success(
+					localize({
+						ru: 'Статус обновлен',
+						tr: 'Durum güncellendi',
+						en: 'Status updated',
+					})
+				)
 				setOrderStatus(data?.status)
 			},
 		}

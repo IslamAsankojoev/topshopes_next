@@ -8,7 +8,6 @@ import {
 	TableContainer,
 } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { PaymentServices } from 'src/api/services-admin/payments/payments.service'
 import Scrollbar from 'src/components/Scrollbar'
 import { H3 } from 'src/components/Typography'
 import TableHeader from 'src/components/data-table/TableHeader'
@@ -26,6 +25,7 @@ import { ResponseList } from 'src/shared/types/response.types'
 import { orderBy as LOrderBy } from 'lodash-es'
 
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -66,7 +66,7 @@ export default function Payouts() {
 
 	const { data, refetch } = useQuery(
 		'payouts',
-		() => PaymentServices.getPayments(),
+		() => api_admin.payments.PaymentServices.getPayments(),
 		{
 			retry: 0,
 			select: (data: ResponseList<IPayment>) => data,
@@ -76,7 +76,7 @@ export default function Payouts() {
 	const { mutateAsync } = useMutation(
 		'update payment',
 		({ id, data }: { id: string; data: any }) =>
-			PaymentServices.updatePayment(id, data),
+			api_admin.payments.PaymentServices.updatePayment(id, data),
 		{
 			onSuccess: () => {
 				refetch()

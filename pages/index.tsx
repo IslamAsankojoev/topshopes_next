@@ -1,5 +1,3 @@
-import { CategoriesService } from 'src/api/services/categories/category.service'
-import { ShopsProductsService } from 'src/api/services/shops-products/ShopsProducts.service'
 import SEO from 'src/components/SEO'
 import ShopLayout1 from 'src/components/layouts/ShopLayout1'
 import Models from 'src/models'
@@ -15,13 +13,9 @@ import Section13 from 'src/pages-sections/market-1/Section13'
 import { QueryClient, dehydrate, useQuery, useQueries } from 'react-query'
 import { ICategory, IProductPreview } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
-import api from 'src/utils/api/market-1'
-import { axiosClassic } from 'src/api/interceptor'
-import { useEffect, useLayoutEffect, useState } from 'react'
-import useScrollToSavedPosition from 'src/hooks/useScrollToSavedPosition'
-import { getAllProductsUrl } from 'src/config/api.config'
+import staticApi from 'src/utils/api/market-1'
+import { api } from 'src/api/index.service'
 
-// =================================================================
 type MarketProps = {
 	carList?: any[]
 	carBrands?: any[]
@@ -42,7 +36,6 @@ type MarketProps = {
 	topRatedProducts?: any[]
 	bottomCategories?: any[]
 }
-// =================================================================
 
 const MarketShop: NextPage<MarketProps> = (props) => {
 	const {
@@ -54,43 +47,41 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 		{
 			queryKey: 'newArrivalsList',
 			queryFn: () =>
-				axiosClassic.get<ResponseList<IProductPreview>>(
-					getAllProductsUrl('?ordering=-created_at&page_size=6'),
-					{
-						params: {
-							page: 1,
-							page_size: 6,
-						},
-					}
-				),
+				api.products.ShopsProductsService.getList({
+					page_size: 6,
+					ordering: '-created_at',
+				}),
 		},
 		{
 			queryKey: 'topRatedProducts',
 			queryFn: () =>
-				axiosClassic.get<ResponseList<IProductPreview>>(
-					getAllProductsUrl('?ordering=-rating&page_size=6')
-				),
+				api.products.ShopsProductsService.getList({
+					page_size: 6,
+					ordering: '-rating',
+				}),
 		},
 		{
 			queryKey: 'bigDiscountList',
 			queryFn: () =>
-				axiosClassic.get<ResponseList<IProductPreview>>(
-					getAllProductsUrl('?ordering=-discount_price&page_size=9')
-				),
+				api.products.ShopsProductsService.getList({
+					page_size: 9,
+					ordering: '-discount_price',
+				}),
 		},
 		{
 			queryKey: 'flashDealsData',
 			queryFn: () =>
-				axiosClassic.get<ResponseList<IProductPreview>>(
-					getAllProductsUrl('?ordering=-total_sales&page_size=9')
-				),
+				api.products.ShopsProductsService.getList({
+					page_size: 9,
+					ordering: '-total_sales',
+				}),
 		},
 	])
 
 	const { data: products } = useQuery(
 		['shop products main'],
 		() =>
-			ShopsProductsService.getList({
+			api.products.ShopsProductsService.getList({
 				page: 1,
 				page_size: 8,
 			}),
@@ -101,7 +92,7 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 
 	const { data: categories = [] } = useQuery(
 		'categories',
-		() => CategoriesService.getList(),
+		() => api.categories.CategoriesService.getList(),
 		{
 			select: (data: ResponseList<ICategory>) => data.results,
 			staleTime: 1000 * 60 * 10,
@@ -175,43 +166,30 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 
 export async function getStaticProps({ locale }) {
 	try {
-		// =========
 		const queryClient = new QueryClient()
 		await queryClient.fetchQuery(['shop products main'], () =>
-			ShopsProductsService.getList({
+			api.products.ShopsProductsService.getList({
 				page: 1,
 				page_size: 9,
 			})
 		)
-		// =========
 
-		const carList = await api.getCarList()
-		const carBrands = await api.getCarBrands()
-		const moreItems = await api.getMoreItems()
-		const mobileList = await api.getMobileList()
-		const opticsList = await api.getOpticsList()
-		const mobileShops = await api.getMobileShops()
-		const opticsShops = await api.getOpticsShops()
-		const serviceList = await api.getServiceList()
-		const mobileBrands = await api.getMobileBrands()
-		const flashDealsData = await api.getFlashDeals()
-		const opticsBrands = await api.getOpticsBrands()
-		const bottomCategories = await api.getCategories()
-		const topCategories = await api.getTopCategories()
-		const topRatedBrands = await api.getTopRatedBrand()
-		const mainCarouselData = await api.getMainCarousel()
-
-		// const newArrivalsList = await axiosClassic
-		// 	.get<ResponseList<IProductPreview>>('/latest-products/')
-		// 	.then((data) => data.data.results)
-
-		const bigDiscountList = await api.getBigDiscountList()
-
-		// const topRatedProducts = await axiosClassic
-		// 	.get<ResponseList<IProductPreview>>('/top-rated-products/')
-		// 	.then((data) => data.data.results)
-
-		// const topRatedProducts = await api
+		const carList = await staticApi.getCarList()
+		const carBrands = await staticApi.getCarBrands()
+		const moreItems = await staticApi.getMoreItems()
+		const mobileList = await staticApi.getMobileList()
+		const opticsList = await staticApi.getOpticsList()
+		const mobileShops = await staticApi.getMobileShops()
+		const opticsShops = await staticApi.getOpticsShops()
+		const serviceList = await staticApi.getServiceList()
+		const mobileBrands = await staticApi.getMobileBrands()
+		const flashDealsData = await staticApi.getFlashDeals()
+		const opticsBrands = await staticApi.getOpticsBrands()
+		const bottomCategories = await staticApi.getCategories()
+		const topCategories = await staticApi.getTopCategories()
+		const topRatedBrands = await staticApi.getTopRatedBrand()
+		const mainCarouselData = await staticApi.getMainCarousel()
+		const bigDiscountList = await staticApi.getBigDiscountList()
 
 		return {
 			props: {

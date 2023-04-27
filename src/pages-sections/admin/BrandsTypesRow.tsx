@@ -7,7 +7,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
-import { BrandTypesService } from '../../api/services-admin/brand-types/brandTypes.service'
+import { api_admin } from 'src/api/index.service'
 
 // ========================================================================
 type BrandsTypesRowProps = {
@@ -33,7 +33,7 @@ const BrandsTypesRow: FC<BrandsTypesRowProps> = ({
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this Brands Types?')) return
-		await BrandTypesService.delete(id)
+		await api_admin.brandTypes.BrandTypesService.delete(id)
 		refetch()
 	}
 

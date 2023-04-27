@@ -1,6 +1,5 @@
 import Place from '@mui/icons-material/Place'
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { AddressesService } from 'src/api/services/addresses/addresses.service'
 import Card1 from 'src/components/Card1'
 import UserDashboardHeader from 'src/components/header/UserDashboardHeader'
 import CustomerDashboardLayout from 'src/components/layouts/customer-dashboard'
@@ -15,6 +14,7 @@ import { useRouter } from 'next/router'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import * as yup from 'yup'
 import PhoneNumberMask from 'src/components/Form/PhoneNumberMask'
+import { api } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -37,7 +37,7 @@ const AddressCreate: NextPageAuth = () => {
 	// handle form submit
 	const handleFormSubmit = async (values: any) => {
 		if (!user) return
-		await AddressesService.create({ ...values, user: user.id })
+		await api.address.AddressesService.create({ ...values, user: user.id })
 		push('/address')
 	}
 

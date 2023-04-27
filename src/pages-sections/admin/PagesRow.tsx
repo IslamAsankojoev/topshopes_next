@@ -1,6 +1,5 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { PagesService } from 'src/api/services-admin/pages/pages.service'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 import { IPages } from 'src/shared/types/pages.types'
@@ -11,6 +10,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
+import { api_admin } from 'src/api/index.service'
 
 // ========================================================================
 type CategoryRowProps = {
@@ -28,7 +28,7 @@ const PagesRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this page?')) return
-		await PagesService.delete(id)
+		await api_admin.pages.PagesService.delete(id)
 		refetch()
 	}
 

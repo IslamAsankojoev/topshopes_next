@@ -25,14 +25,15 @@ import { StatusWrapper } from '../StyledComponents'
 import { statusDisabled, statuses } from './OrderRow'
 import { FC, useState } from 'react'
 import { localize } from 'src/utils/Translate/localize'
+import { api, api_admin } from 'src/api/index.service'
 
 const OrderDetail: FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 	const { t } = useTranslation('common')
 
 	const getOrder = isAdmin ? OrdersService.get : ShopsService.getShopOrder
 	const patchOrder = isAdmin
-		? OrdersService.update
-		: ShopsService.updateShopOrder
+		? api_admin.orders.OrdersService.update
+		: api.shops.ShopsService.updateShopOrder
 
 	const {
 		push,

@@ -1,13 +1,10 @@
-import { Box, Button } from '@mui/material'
-import { clone } from 'merge'
+import { Box } from '@mui/material'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { AttributesService } from 'src/api/services/attributes/attributes.service'
-import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service'
-import { ProductsService } from 'src/api/services/products/product.service'
+import { api } from 'src/api/index.service'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
@@ -57,7 +54,7 @@ const CreateProductV2: NextPageAuth = () => {
 
 		try {
 			// create product
-			const productResponse = await ProductsService.create(data) // create product
+			const productResponse = await api.products.ProductsService.create(data) // create product
 			const productId = productResponse.id // get product id
 			setProductID(productId) // set product id
 
@@ -71,7 +68,9 @@ const CreateProductV2: NextPageAuth = () => {
 					stock: variant.stock,
 					status: variant.status,
 				}) // create variant data
-				const variantResponse = await ProductVariantService.create(variantData) // create variant
+				const variantResponse = await api.variants.ProductVariantService.create(
+					variantData
+				) // create variant
 
 				// const imagePromises = variant?.images.map(async (image) => {
 				// 	const imageData = formData({
@@ -85,10 +84,13 @@ const CreateProductV2: NextPageAuth = () => {
 				const attributePromises = variant?.attribute_values.map(
 					async (attribute) => {
 						if (!attribute.value) return null
-						await AttributesService.create(variantResponse.id as string, {
-							attribute: attribute.attribute.id,
-							value: attribute.value,
-						})
+						await api.attributes.AttributesService.create(
+							variantResponse.id as string,
+							{
+								attribute: attribute.attribute.id,
+								value: attribute.value,
+							}
+						)
 					}
 				) // create attributes
 				await Promise.all(attributePromises) // wait for all attributes to be created
@@ -98,7 +100,7 @@ const CreateProductV2: NextPageAuth = () => {
 			push(`/vendor/products/`) // redirect to products list
 			setCreateLoading(false)
 		} catch (e) {
-			ProductsService.delete(productID as string)
+			api.products.ProductsService.delete(productID as string)
 			console.error(e)
 			toast.error(
 				localize({

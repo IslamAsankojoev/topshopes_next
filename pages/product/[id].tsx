@@ -1,5 +1,4 @@
 import { Box, Container, Tab, Tabs, styled, Button } from '@mui/material'
-import { ShopsProductsService } from 'src/api/services/products/product.service'
 import { H2 } from 'src/components/Typography'
 import ShopLayout1 from 'src/components/layouts/ShopLayout1'
 import ProductDescription from 'src/components/products/ProductDescription'
@@ -13,8 +12,7 @@ import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IProduct } from 'src/shared/types/product.types'
 import SEO from 'src/components/SEO'
 import { useRouter } from 'next/router'
-import useScrollToTop from 'src/hooks/useScrollToTop'
-import useScrollToSavedPosition from 'src/hooks/useScrollToSavedPosition'
+import { api } from 'src/api/index.service'
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
 	minHeight: 0,
@@ -41,7 +39,7 @@ const ProductDetails: FC<ProductDetailsProps> = (props) => {
 
 	const { data: product, refetch } = useQuery(
 		[`product detail`, query.id],
-		() => ShopsProductsService.get(query.id as string),
+		() => api.products.ShopsProductsService.get(query.id as string),
 		{
 			enabled: !!query.id,
 			select: (data: IProduct) => data,
@@ -108,7 +106,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		const { id } = ctx.query
 		const queryClient = new QueryClient()
 		await queryClient.fetchQuery([`product detail`, id], () =>
-			ShopsProductsService.get(id as string)
+			api.products.ShopsProductsService.get(id as string)
 		)
 
 		return {

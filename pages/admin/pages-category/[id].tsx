@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { PageCategoryService } from 'src/api/services-admin/pages-categories/pagesCategories.service'
 import CreateForm from 'src/components/Form/CreateForm'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
@@ -13,6 +12,7 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { pageCategoryEditForm } from 'src/utils/constants/forms'
 import { localize } from 'src/utils/Translate/localize'
+import { api_admin } from 'src/api/index.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -35,7 +35,7 @@ const UpdatePageCategory: NextPageAuth = () => {
 	// PageCategory fetch
 	const { data: size, isLoading } = useQuery(
 		'pageCategory admin get',
-		() => PageCategoryService.get(id as string),
+		() => api_admin.pageCategories.PageCategoryService.get(id as string),
 		{
 			enabled: !!id,
 		}
@@ -44,7 +44,8 @@ const UpdatePageCategory: NextPageAuth = () => {
 	// PageCategory mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		['pageCategory admin update', id],
-		(data: FormData) => PageCategoryService.update(id as string, data),
+		(data: FormData) =>
+			api_admin.pageCategories.PageCategoryService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success(

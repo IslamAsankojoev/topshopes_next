@@ -27,6 +27,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import { IUser } from 'src/shared/types/user.types'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -62,7 +63,7 @@ const SellersList: NextPageAuth<CustomerListProps> = () => {
 	const { data: users, refetch } = useQuery(
 		[`get users all sellers search=`, searchValue + currentPage],
 		() =>
-			UsersService.getSellers({
+			api_admin.users.UsersService.getSellers({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,

@@ -1,15 +1,12 @@
-import { Delete, Edit } from '@mui/icons-material'
-import { Avatar } from '@mui/material'
-import { BrandsService } from 'src/api/services-admin/brands/brand.service'
+import { Delete } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
-
 import {
 	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
-import LazyImage from 'src/components/LazyImage'
+import { api_admin } from 'src/api/index.service'
 
 // ========================================================================
 type BrandRowProps = {
@@ -30,7 +27,7 @@ const BrandRow: FC<BrandRowProps> = ({ brand, selected, refetch }) => {
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure?')) return
-		await BrandsService.delete(id)
+		await api_admin.brands.BrandsService.delete(id)
 		refetch()
 	}
 

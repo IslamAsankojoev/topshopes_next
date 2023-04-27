@@ -1,4 +1,6 @@
 import duotone from 'src/components/icons/duotone'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import { localize } from 'src/utils/Translate/localize'
 
 export const navigations = [
 	{ type: 'label', label: 'admin', role: 'admin' },
@@ -173,6 +175,26 @@ export const navigations = [
 		name: 'accountSetting',
 		icon: duotone.AccountSetting,
 		path: '/vendor/account-setting',
+		role: 'vendor',
+	},
+	{
+		name: localize({
+			ru: 'Свернуть',
+			en: 'Collapse',
+			tr: 'Daralt',
+		}),
+		icon: duotone.Logout,
+		path: 'collapse',
+		role: 'vendor',
+	},
+	{
+		name: localize({
+			ru: 'Выйти',
+			en: 'Logout',
+			tr: 'Çıkış Yap',
+		}),
+		icon: duotone.Session,
+		path: 'logout',
 		role: 'vendor',
 	},
 ]

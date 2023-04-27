@@ -43,10 +43,12 @@ img {
 
 // hide the ordering buttons on the first and last row
 .variant_row:first-child .up-ordering {
-	display: none;
+	opacity: 0;
+	pointer-events: none;
 }
 .variant_row:last-child .down-ordering {
-	display: none;
+	opacity: 0;
+	pointer-events: none;
 }
 
 #product-image {

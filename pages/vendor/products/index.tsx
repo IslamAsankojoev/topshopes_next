@@ -27,12 +27,13 @@ import ProductClientRowV2 from 'src/pages-sections/admin/products/ProductClientR
 import { localize } from 'src/utils/Translate/localize'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { IProduct } from 'src/shared/types/product.types'
+import { api } from 'src/api/index.service'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left' },
-	{ id: 'category', label: 'categories', align: 'center' },
-	{ id: 'shop', label: 'shop', align: 'center' },
 	{ id: 'price', label: 'price', align: 'center' },
+	{ id: 'category', label: 'categories', align: 'left' },
+	{ id: 'shop', label: 'shop', align: 'left' },
 	{
 		id: 'publish',
 		label: localize({
@@ -73,7 +74,7 @@ const ProductList: NextPageAuth = () => {
 	const { data: products, refetch } = useQuery(
 		[`products`, searchValue + currentPage],
 		() =>
-			ProductsService.getList({
+			api.products.ProductsService.getList({
 				search: searchValue,
 				page: currentPage.toString(),
 				page_size: 10,
@@ -97,7 +98,7 @@ const ProductList: NextPageAuth = () => {
 	const { isLoading, mutateAsync } = useMutation(
 		'update product publish',
 		({ id, is_published }: { id: string; is_published: boolean }) =>
-			ProductsService.update(id, { is_published: is_published }),
+			api.products.ProductsService.update(id, { is_published: is_published }),
 		{
 			onSuccess: (data: IProduct) => {
 				queryClient.invalidateQueries([`products`, searchValue + currentPage])

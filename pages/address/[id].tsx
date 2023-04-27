@@ -1,6 +1,5 @@
 import Place from '@mui/icons-material/Place'
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { AddressesService } from 'src/api/services/addresses/addresses.service'
 import Card1 from 'src/components/Card1'
 import Loading from 'src/components/Loading'
 import UserDashboardHeader from 'src/components/header/UserDashboardHeader'
@@ -14,6 +13,7 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import * as yup from 'yup'
 import { useTranslation } from 'react-i18next'
+import { api } from 'src/api/index.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -38,7 +38,7 @@ const AddressEditor: NextPageAuth = () => {
 
 	const { data, isLoading } = useQuery(
 		'get one user address',
-		() => AddressesService.get(id as string),
+		() => api.address.AddressesService.get(id as string),
 		{
 			enabled: !!id,
 		}
@@ -46,7 +46,7 @@ const AddressEditor: NextPageAuth = () => {
 
 	// handle form submit
 	const handleFormSubmit = async (values: any) => {
-		await AddressesService.update(id as string, values)
+		await api.address.AddressesService.update(id as string, values)
 		push('/address')
 	}
 

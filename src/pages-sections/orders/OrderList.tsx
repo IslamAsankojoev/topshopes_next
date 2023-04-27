@@ -1,5 +1,4 @@
 import { Pagination } from '@mui/material'
-import { OrdersService } from 'src/api/services/orders/orders.service'
 import TableRow from 'src/components/TableRow'
 import { H5 } from 'src/components/Typography'
 import { FlexBox } from 'src/components/flex-box'
@@ -12,6 +11,7 @@ import { ResponseList } from 'src/shared/types/response.types'
 
 import OrderRow from './OrderRow'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api } from 'src/api/index.service'
 
 // ============================================================
 type OrderListProps = {}
@@ -24,7 +24,7 @@ const OrderList: FC<OrderListProps> = () => {
 	const { isLoading, data: orders } = useQuery(
 		`orders page=${query?.page}`,
 		() =>
-			OrdersService.getList({
+			api.orders.OrdersService.getList({
 				page: (query?.page as string) || 1,
 				page_size: 20,
 			})

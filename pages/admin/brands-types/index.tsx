@@ -21,9 +21,9 @@ import { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
-import { BrandTypesService } from 'src/api/services-admin/brand-types/brandTypes.service'
 import BrandsTypesRow from 'src/pages-sections/admin/BrandsTypesRow'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -56,7 +56,7 @@ const BrandsTypesList: NextPageAuth = () => {
 	const { data: brandsTypes, refetch } = useQuery(
 		[`get brandsTypes admin search=${searchValue}`, currentPage],
 		() =>
-			BrandTypesService.getList({
+			api_admin.brandTypes.BrandTypesService.getList({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,

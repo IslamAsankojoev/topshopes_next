@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { AttributesServiceAdmin } from 'src/api/services-admin/attributes/attributes.service'
 import CreateForm from 'src/components/Form/CreateForm'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
@@ -15,6 +14,7 @@ import { IAttribute, IProductAttribute } from 'src/shared/types/product.types'
 import { brandTypeEditForm } from 'src/utils/constants/forms'
 import isEmpty from 'lodash-es/isEmpty'
 import { localize } from 'src/utils/Translate/localize'
+import { api_admin } from 'src/api/index.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -43,7 +43,7 @@ const UpdateAttribute: NextPageAuth = () => {
 		refetch,
 	} = useQuery(
 		['get attribute', id],
-		() => AttributesServiceAdmin.get(id as string),
+		() => api_admin.attributes.AttributesServiceAdmin.get(id as string),
 		{
 			cacheTime: 0,
 			enabled: !!id,
@@ -55,7 +55,7 @@ const UpdateAttribute: NextPageAuth = () => {
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'attribute admin update',
 		(data: IProductAttribute) =>
-			AttributesServiceAdmin.update(id as string, data),
+			api_admin.attributes.AttributesServiceAdmin.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success(

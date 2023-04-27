@@ -1,6 +1,5 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { UsersService } from 'src/api/services-admin/users/users.service'
 import { Paragraph } from 'src/components/Typography'
 import { FlexBox } from 'src/components/flex-box'
 import { useRouter } from 'next/router'
@@ -12,6 +11,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
+import { api_admin } from 'src/api/index.service'
 
 // ========================================================================
 type CustomerRowProps = { customer: IUser; refetch: () => void }
@@ -27,12 +27,8 @@ const CustomerRow: FC<CustomerRowProps> = ({ customer, refetch }) => {
 	//handlers
 	const onDelete = async () => {
 		if (window.confirm('Are you sure?')) {
-			try {
-				await UsersService.delete(id)
-				refetch()
-			} catch (e: unknown) {
-				console.error(e)
-			}
+			await api_admin.users.UsersService.delete(id)
+			refetch()
 		}
 	}
 

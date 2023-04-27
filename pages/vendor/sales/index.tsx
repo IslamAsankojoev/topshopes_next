@@ -30,7 +30,6 @@ import { StyledTableCell, StyledTableRow } from 'src/pages-sections/admin'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation'
 import ApexChart from 'src/components/ApexChart/ApexChart'
-import { ReportsService } from 'src/api/services/reports/reports.service'
 import { IReport } from 'src/shared/types/report.types'
 import { localize } from 'src/utils/Translate/localize'
 import getMonthMultilang from 'src/utils/constants/getMonthMultilang'
@@ -41,6 +40,7 @@ import 'react-date-range/dist/theme/default.css' // theme css file
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import useOnClickOutside from 'src/hooks/useOnClickOutside'
 import { v4 } from 'uuid'
+import { api } from 'src/api/index.service'
 
 export type ReportAdmin = {
 	id: string
@@ -116,7 +116,10 @@ const SellerReports: NextPageAuth = () => {
 	const { data: reportsPaid, refetch } = useQuery(
 		['get reports paid', restart],
 		() =>
-			ReportsService.getPaidList(rangeDate[0].startDate, rangeDate[0].endDate),
+			api.reports.ReportsService.getPaidList(
+				rangeDate[0].startDate,
+				rangeDate[0].endDate
+			),
 		{
 			enabled: !!rangeDate[0].startDate,
 			keepPreviousData: true,

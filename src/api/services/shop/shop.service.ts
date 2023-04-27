@@ -1,4 +1,4 @@
-import { makeRequest } from 'src/api/interceptor'
+import { axiosAuth } from 'src/api/interceptor'
 import {
 	getShopOrdersUrl,
 	getShopProductsUrl,
@@ -12,7 +12,7 @@ export const ShopsService = {
 	...CRUDservice(getShopsUrl, 'Shop'),
 	getShopProducts: async (id: string) => {
 		try {
-			const response = await makeRequest().get(getShopProductsUrl(id))
+			const response = await axiosAuth().get(getShopProductsUrl(id))
 			return response.data
 		} catch (error) {
 			throw error
@@ -20,7 +20,7 @@ export const ShopsService = {
 	},
 	getShopOrders: async (params: Record<string, string | number>) => {
 		try {
-			const response = await makeRequest(true).get(getShopOrdersUrl(''), {
+			const response = await axiosAuth(true).get(getShopOrdersUrl(''), {
 				params,
 			})
 			return response.data
@@ -30,7 +30,7 @@ export const ShopsService = {
 	},
 	getShopOrder: async (id: string) => {
 		try {
-			const response = await makeRequest(true).get(getShopOrdersUrl(id))
+			const response = await axiosAuth(true).get(getShopOrdersUrl(id))
 			return response.data
 		} catch (error) {
 			throw error
@@ -38,7 +38,7 @@ export const ShopsService = {
 	},
 	updateShopOrder: async (id: string, data: FormData | any) => {
 		try {
-			const response = await makeRequest(true).patch(getShopOrdersUrl(id), data)
+			const response = await axiosAuth(true).patch(getShopOrdersUrl(id), data)
 			return response.data
 		} catch (error) {
 			throw error
@@ -46,7 +46,7 @@ export const ShopsService = {
 	},
 	getShopReviews: async () => {
 		try {
-			const response = await makeRequest(true).get(getShopUrl('reviews/'))
+			const response = await axiosAuth(true).get(getShopUrl('reviews/'))
 			return response.data
 		} catch (error) {
 			throw error

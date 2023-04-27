@@ -1,13 +1,12 @@
-import { Delete, Edit } from '@mui/icons-material'
+import { Delete } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 import {
-	CategoryWrapper,
 	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
-import { AttributesServiceAdmin } from 'src/api/services-admin/attributes/attributes.service'
+import { api_admin } from 'src/api/index.service'
 
 // ========================================================================
 type AttributesRowProps = {
@@ -29,7 +28,7 @@ const AttributesRow: FC<AttributesRowProps> = ({ name, selected, refetch }) => {
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this attribute?')) return
-		await AttributesServiceAdmin.delete(id)
+		await api_admin.attributes.AttributesServiceAdmin.delete(id)
 		refetch()
 	}
 

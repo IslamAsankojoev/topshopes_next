@@ -20,6 +20,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	paddingBottom: 2,
 	color: theme.palette.grey[900],
 	borderBottom: `1px solid ${theme.palette.grey[300]}`,
+	paddingLeft: 2,
+	paddingRight: 2,
 }))
 
 const CategoryWrapper = styled(Box)(({ theme }) => ({
@@ -120,6 +122,14 @@ const StyledTableRow = styled(TableRow)<{ status?: any }>(
 			},
 			backgroundColor: backgroundColor,
 			color: color,
+			display: 'table-row',
+			padding: '0px 10px',
+			'&> td:first-child': {
+				paddingLeft: 10,
+			},
+			'&> td:last-child': {
+				paddingRight: 10,
+			},
 		}
 	}
 )

@@ -1,7 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CheckIcon from '@mui/icons-material/Check'
 import { Box, Button, Card, Grid } from '@mui/material'
-import { PaymentServices } from 'src/api/services-admin/payments/payments.service'
 import LazyImage from 'src/components/LazyImage'
 import { H3, Paragraph } from 'src/components/Typography'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
@@ -13,6 +12,7 @@ import { ReactElement } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IPayment } from 'src/shared/types/order.types'
+import { api_admin } from 'src/api/index.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -31,7 +31,8 @@ const Payment: NextPageAuth = () => {
 
 	const { data: payout, refetch } = useQuery(
 		['one payout', router.query.id],
-		() => PaymentServices.getPayment(router.query.id as string),
+		() =>
+			api_admin.payments.PaymentServices.getPayment(router.query.id as string),
 		{
 			enabled: !!router.query.id,
 			select: (data: IPayment) => data,
@@ -41,7 +42,7 @@ const Payment: NextPageAuth = () => {
 	const { mutateAsync } = useMutation(
 		'update payout',
 		() =>
-			PaymentServices.updatePayment(payout?.id, {
+			api_admin.payments.PaymentServices.updatePayment(payout?.id, {
 				...payout,
 				is_verified: !payout?.is_verified,
 			}),

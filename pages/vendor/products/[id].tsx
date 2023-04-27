@@ -25,7 +25,7 @@ import getRefererPath from 'src/utils/getRefererPath'
 import Loading from 'src/components/Loading'
 import axios from 'axios'
 import httpToHttps from 'src/utils/httpToHttps'
-import { makeRequest } from 'src/api/interceptor'
+import { axiosAuth } from 'src/api/interceptor'
 import ThumbnailService from 'src/api/services/download/thumbnail.service'
 
 export const getServerSideProps = async ({ locale }) => {

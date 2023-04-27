@@ -1,6 +1,4 @@
 import { Box } from '@mui/material'
-import { PageCategoryService } from 'src/api/services-admin/pages-categories/pagesCategories.service'
-import { PagesService } from 'src/api/services-admin/pages/pages.service'
 import CreateForm from 'src/components/Form/CreateForm'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
@@ -16,6 +14,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IPages } from 'src/shared/types/pages.types'
 import { pageEditForm } from 'src/utils/constants/forms'
 import { formData } from 'src/utils/formData'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -35,7 +34,7 @@ const CreatePages: NextPageAuth = () => {
 	// pages create
 	const { isLoading, mutateAsync } = useMutation(
 		'page admin create',
-		(data: FormData) => PagesService.create(data),
+		(data: FormData) => api_admin.pages.PagesService.create(data),
 		{
 			onSuccess: () => {
 				push('/admin/pages-list')
@@ -47,7 +46,7 @@ const CreatePages: NextPageAuth = () => {
 	)
 
 	const { data: categories } = useQuery(`categoryPage admin get`, () =>
-		PageCategoryService.getList({ page_size: 100 })
+		api_admin.pageCategories.PageCategoryService.getList({ page_size: 100 })
 	)
 
 	const handleFormSubmit = async (_: any, values: IPages) => {

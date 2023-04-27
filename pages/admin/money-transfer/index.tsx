@@ -27,7 +27,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
-import { makeRequest } from 'src/api/interceptor'
+import { axiosAuth } from 'src/api/interceptor'
 import { AxiosResponse } from 'axios'
 import { getCurrency } from 'src/utils/getCurrency'
 import SellIcon from '@mui/icons-material/Sell'
@@ -100,7 +100,7 @@ const MoneyTransfer: NextPageAuth = () => {
 	const { data: moneyStats, refetch } = useQuery(
 		'get money statistics',
 		() =>
-			makeRequest(true).post('report-admin/', {
+			axiosAuth(true).post('report-admin/', {
 				month: monthValue,
 				year: yearValue,
 			}),

@@ -1,7 +1,6 @@
 import { MarkunreadMailbox, Payment, ShoppingBag } from '@mui/icons-material'
 import { useTheme } from '@mui/material'
 import { styled as muiStyled } from '@mui/material/styles'
-import { OrdersService } from 'src/api/services/orders/orders.service'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import UserDashboardHeader from 'src/components/header/UserDashboardHeader'
 import Delivery from 'src/components/icons/Delivery'
@@ -18,6 +17,7 @@ import ClientOrderDetail from 'src/pages-sections/admin/orders/ClientOrderDetail
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IOrder } from 'src/shared/types/order.types'
+import { api } from 'src/api/index.service'
 
 const StyledFlexbox = muiStyled(FlexBetween)(({ theme }) => ({
 	flexWrap: 'wrap',
@@ -50,24 +50,24 @@ const OrderDetails: NextPageAuth = () => {
 
 	const { data: order } = useQuery(
 		'get one order',
-		() => OrdersService.get(router.query.id as string),
+		() => api.orders.OrdersService.get(router.query.id as string),
 		{
 			enabled: !!router?.query?.id,
 			select: (data) => data as IOrder,
 		}
 	)
 
-	const stepIconList = [
-		Payment,
-		PackageBox,
-		TruckFilled,
-		MarkunreadMailbox,
-		Delivery,
-	]
+	// const stepIconList = [
+	// 	Payment,
+	// 	PackageBox,
+	// 	TruckFilled,
+	// 	MarkunreadMailbox,
+	// 	Delivery,
+	// ]
 
-	const width = useWindowSize()
-	const theme = useTheme()
-	const breakpoint = 350
+	// const width = useWindowSize()
+	// const theme = useTheme()
+	// const breakpoint = 350
 
 	return order ? (
 		<CustomerDashboardLayout>

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { AttributesServiceAdmin } from 'src/api/services-admin/attributes/attributes.service'
 import { CategoriesService } from 'src/api/services-admin/categories/category.service'
 import CreateForm from 'src/components/Form/CreateForm'
 import Loading from 'src/components/Loading'
@@ -15,6 +14,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { ICategory } from 'src/shared/types/product.types'
 import { categoryEditForm } from 'src/utils/constants/forms'
 import { formData } from 'src/utils/formData'
+import { api_admin } from 'src/api/index.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -41,7 +41,7 @@ const CreateCategory: NextPageAuth = () => {
 	// category fetch
 	const { data: category, isLoading } = useQuery(
 		['category admin get', id],
-		() => CategoriesService.get(id as string),
+		() => api_admin.categories.CategoriesService.get(id as string),
 		{
 			select: (data) => {
 				return {
@@ -55,7 +55,10 @@ const CreateCategory: NextPageAuth = () => {
 
 	const { data: attributes } = useQuery(
 		`attributes get search=${debounceValue}`,
-		() => AttributesServiceAdmin.getList({ search: debounceValue }),
+		() =>
+			api_admin.attributes.AttributesServiceAdmin.getList({
+				search: debounceValue,
+			}),
 		{
 			select: (data) => data?.results,
 		}

@@ -24,6 +24,7 @@ import { ReactElement, useState } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api_admin } from 'src/api/index.service'
 
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'center' },
@@ -57,7 +58,7 @@ const BrandsList: NextPageAuth = () => {
 	const { data: brands, refetch } = useQuery(
 		[`get brands admin search=${searchValue}`, currentPage],
 		() =>
-			BrandsService.getList({
+			api_admin.brands.BrandsService.getList({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,

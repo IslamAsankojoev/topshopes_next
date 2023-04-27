@@ -27,6 +27,7 @@ import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { localize } from 'src/utils/Translate/localize'
 import useSorter from 'src/hooks/useSorter'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -39,11 +40,12 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 		},
 	}
 }
+
 const tableHeading = [
 	{ id: 'name', label: 'name', align: 'left', sortable: true },
-	{ id: 'category', label: 'categories', align: 'center', sortable: false },
-	{ id: 'shop', label: 'shop', align: 'center', sortable: false },
 	{ id: 'price', label: 'price', align: 'center', sortable: false },
+	{ id: 'category', label: 'categories', align: 'left', sortable: false },
+	{ id: 'shop', label: 'shop', align: 'left', sortable: false },
 	{
 		id: 'publish',
 		label: localize({ ru: 'Опубликовано', tr: 'Yayınlandı', en: 'Published' }),
@@ -70,7 +72,7 @@ const ProductList: NextPageAuth = () => {
 	} = useQuery(
 		[`products admin search=`, searchValue + currentPage + orderBy + order],
 		() =>
-			AdminProductsService.getList({
+			api_admin.products.AdminProductsService.getList({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,
@@ -90,7 +92,9 @@ const ProductList: NextPageAuth = () => {
 	const user = useTypedSelector((state) => state.userStore.user)
 
 	const switchPublish = async (id: string, is_published: boolean) => {
-		await AdminProductsService.update(id, { is_published: is_published })
+		await api_admin.products.AdminProductsService.update(id, {
+			is_published: is_published,
+		})
 		refetch()
 	}
 

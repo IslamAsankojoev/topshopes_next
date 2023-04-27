@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { AttributesServiceAdmin } from 'src/api/services-admin/attributes/attributes.service'
 import CreateForm from 'src/components/Form/CreateForm'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
@@ -13,6 +12,7 @@ import { useMutation } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IProductAttribute } from 'src/shared/types/product.types'
 import { attributeEditForm } from 'src/utils/constants/forms'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -33,7 +33,8 @@ const CreateAttribute: NextPageAuth = () => {
 	// attributes type create
 	const { isLoading, mutateAsync } = useMutation(
 		'attributes admin create',
-		(data: IProductAttribute) => AttributesServiceAdmin.create(data),
+		(data: IProductAttribute) =>
+			api_admin.attributes.AttributesServiceAdmin.create(data),
 		{
 			onSuccess: () => {
 				push('/admin/attributes')

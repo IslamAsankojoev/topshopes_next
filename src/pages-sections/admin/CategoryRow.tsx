@@ -1,8 +1,7 @@
-import { Delete, Edit } from '@mui/icons-material'
+import { Delete } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
-import { CategoriesService } from 'src/api/services-admin/categories/category.service'
 import { useRouter } from 'next/router'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { ICategory } from 'src/shared/types/product.types'
 
 import {
@@ -11,7 +10,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
-import { width } from '@mui/system'
+import { api_admin } from 'src/api/index.service'
 
 // ========================================================================
 type CategoryRowProps = {
@@ -29,7 +28,7 @@ const CategoryRow: FC<CategoryRowProps> = ({ item, selected, refetch }) => {
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this category?')) return null
-		await CategoriesService.delete(id)
+		await api_admin.categories.CategoriesService.delete(id)
 		refetch()
 	}
 

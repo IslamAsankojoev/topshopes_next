@@ -7,7 +7,6 @@ import {
 	TableContainer,
 } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { OrdersService } from 'src/api/services-admin/orders/order.service'
 import Empty from 'src/components/Empty'
 import Scrollbar from 'src/components/Scrollbar'
 import { H3 } from 'src/components/Typography'
@@ -28,6 +27,7 @@ import { ResponseList } from 'src/shared/types/response.types'
 import useSorter from 'src/hooks/useSorter'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { localize } from 'src/utils/Translate/localize'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -83,7 +83,7 @@ const OrderList: NextPageAuth = () => {
 	} = useQuery(
 		[`orders admin get search=`, searchValue + currentPage + order + orderBy],
 		() =>
-			OrdersService.getList({
+			api_admin.orders.OrdersService.getList({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,

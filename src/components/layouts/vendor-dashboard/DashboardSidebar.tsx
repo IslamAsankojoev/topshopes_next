@@ -23,6 +23,8 @@ import {
 } from './LayoutStyledComponents'
 import { navigations } from './NavigationList'
 import SidebarAccordion from './SidebarAccordion'
+import { signOut } from 'next-auth/react'
+import { useActions } from 'src/hooks/useActions'
 
 const TOP_HEADER_AREA = 0
 
@@ -51,6 +53,7 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 			: navigations
 	)
 	const router = useRouter()
+	const { logout } = useActions()
 	const [onHover, setOnHover] = useState(false)
 	const downLg = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
@@ -115,7 +118,19 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 							key={item.name}
 							className="navItem"
 							active={activeRoute(item.path)}
-							onClick={() => handleNavigation(item.path)}
+							onClick={() => {
+								if (item.path === 'collapse') {
+									setSidebarCompact()
+									return null
+								}
+								if (item.path === 'logout') {
+									logout()
+									return null
+								}
+
+								handleNavigation(item.path)
+								return null
+							}}
 						>
 							{item?.icon ? (
 								<ListIconWrapper>
@@ -206,13 +221,13 @@ const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 					}}
 					onClick={() => handleNavigation('/')}
 				/>
-
-				<ChevronLeftIcon
+				Свернуть
+				 <ChevronLeftIcon
 					color="disabled"
 					compact={COMPACT}
 					onClick={setSidebarCompact}
 					sidebarcompact={sidebarCompact ? 1 : undefined}
-				/>
+				/> 
 			</FlexBetween> */}
 
 			{content}

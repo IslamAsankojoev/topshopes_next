@@ -1,4 +1,4 @@
-import { makeRequest } from 'src/api/interceptor'
+import { axiosAuth } from 'src/api/interceptor'
 import { toast } from 'react-toastify'
 import { getErrorMessage } from 'src/utils/getErrorMessage'
 
@@ -11,7 +11,7 @@ export const CRUDservice = (
 	return {
 		getList: async (params?: Record<string, string | number>) => {
 			try {
-				const response = await makeRequest(auth).get(url(''), { params })
+				const response = await axiosAuth(auth).get(url(''), { params })
 				return response.data
 			} catch (error) {
 				turnOnNotification &&
@@ -21,7 +21,7 @@ export const CRUDservice = (
 		},
 		get: async (id: string, params?: Record<string, string | number>) => {
 			try {
-				const response = await makeRequest(auth).get(url(`${id}/`), { params })
+				const response = await axiosAuth(auth).get(url(`${id}/`), { params })
 				return response.data
 			} catch (error) {
 				turnOnNotification &&
@@ -31,7 +31,7 @@ export const CRUDservice = (
 		},
 		update: async (id: string | null, data: FormData | any) => {
 			try {
-				const response = await makeRequest(auth).patch(
+				const response = await axiosAuth(auth).patch(
 					url(id ? `${id}/` : ''),
 					data
 				)
@@ -44,7 +44,7 @@ export const CRUDservice = (
 		},
 		create: async (data: FormData | any) => {
 			try {
-				const response = await makeRequest(auth).post(url(''), data)
+				const response = await axiosAuth(auth).post(url(''), data)
 				return response.data
 			} catch (error) {
 				turnOnNotification &&
@@ -54,7 +54,7 @@ export const CRUDservice = (
 		},
 		delete: async (id: string | null) => {
 			try {
-				const response = await makeRequest(auth).delete(url(id ? `${id}/` : ''))
+				const response = await axiosAuth(auth).delete(url(id ? `${id}/` : ''))
 				return response.data
 			} catch (error) {
 				turnOnNotification &&

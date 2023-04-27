@@ -1,6 +1,5 @@
 import { Box, Card, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { PagesService } from 'src/api/services-admin/pages/pages.service'
 import Empty from 'src/components/Empty'
 import Loading from 'src/components/Loading'
 import Scrollbar from 'src/components/Scrollbar'
@@ -19,6 +18,7 @@ import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -48,7 +48,7 @@ const PagesList: NextPageAuth = () => {
 		data: pages,
 		refetch,
 		isLoading,
-	} = useQuery(`categories admin`, () => PagesService.getList())
+	} = useQuery(`categories admin`, () => api_admin.pages.PagesService.getList())
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =
 		useMuiTable({ listData: pages?.results })

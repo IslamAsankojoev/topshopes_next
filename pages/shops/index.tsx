@@ -9,6 +9,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useQuery } from 'react-query'
 import { ResponseList } from 'src/shared/types/response.types'
 import { IShop } from 'src/shared/types/shop.types'
+import { api } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -21,7 +22,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 const ShopList = () => {
 	const { data: shops, isLoading } = useQuery(
 		'get all shops',
-		() => ShopsService.getList(),
+		() => api.shops.ShopsService.getList(),
 		{
 			select: (data: ResponseList<IShop>) => data.results,
 		}

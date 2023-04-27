@@ -11,7 +11,6 @@ import {
 	Theme,
 } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { ShopsProductsService } from 'src/api/services/shops-products/ShopsProducts.service'
 import { H5, Paragraph } from 'src/components/Typography'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
 import ShopLayout1 from 'src/components/layouts/ShopLayout1'
@@ -29,6 +28,7 @@ import SEO from 'src/components/SEO'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { localize } from 'src/utils/Translate/localize'
 import useScrollToSavedPosition from 'src/hooks/useScrollToSavedPosition'
+import { api } from 'src/api/index.service'
 
 // ===================================================
 export const getServerSideProps: GetServerSideProps = async ({
@@ -38,10 +38,10 @@ export const getServerSideProps: GetServerSideProps = async ({
 	try {
 		const queryClient = new QueryClient()
 		await queryClient.fetchQuery(['shop products page', query], () =>
-			ShopsProductsService.getList({ ...query, page_size: 18 } as Record<
-				string,
-				string | number
-			>)
+			api.products.ShopsProductsService.getList({
+				...query,
+				page_size: 18,
+			} as Record<string, string | number>)
 		)
 
 		return {
@@ -67,7 +67,8 @@ const ShopPage = ({ query }) => {
 
 	const { data: products } = useQuery(
 		['shop products page', query],
-		() => ShopsProductsService.getList({ ...query, page_size: 18 }),
+		() =>
+			api.products.ShopsProductsService.getList({ ...query, page_size: 18 }),
 		{
 			enabled: !!query,
 			select: (data: ResponseList<IProductPreview>) => {

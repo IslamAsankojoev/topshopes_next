@@ -1,6 +1,5 @@
 import { Delete, Edit, Place } from '@mui/icons-material'
 import { Button, IconButton, Pagination, Typography } from '@mui/material'
-import { AddressesService } from 'src/api/services/addresses/addresses.service'
 import TableRow from 'src/components/TableRow'
 import { FlexBox } from 'src/components/flex-box'
 import UserDashboardHeader from 'src/components/header/UserDashboardHeader'
@@ -13,6 +12,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
+import { api } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -33,14 +33,14 @@ const AddressList: NextPageAuth = () => {
 	const { data: addresses, refetch } = useQuery(
 		`address get page=${query?.page}`,
 		() =>
-			AddressesService.getList({
+			api.address.AddressesService.getList({
 				page: (query?.page as string) || 1,
 				page_size: 20,
 			})
 	)
 
 	const handleDelete = async (id: string) => {
-		await AddressesService.delete(id as string)
+		await api.address.AddressesService.delete(id as string)
 		refetch()
 	}
 
@@ -108,7 +108,6 @@ const AddressList: NextPageAuth = () => {
 		</CustomerDashboardLayout>
 	)
 }
-
 
 AddressList.isOnlyAuth = true
 

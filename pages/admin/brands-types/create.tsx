@@ -10,8 +10,8 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
-import { BrandTypesService } from 'src/api/services-admin/brand-types/brandTypes.service'
 import { brandTypeEditForm } from 'src/utils/constants/forms'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -33,7 +33,7 @@ const CreateBrandTypes: NextPageAuth = () => {
 	// brand type create
 	const { isLoading, mutateAsync } = useMutation(
 		'brandTypes admin create',
-		(data: FormData) => BrandTypesService.create(data),
+		(data: FormData) => api_admin.brandTypes.BrandTypesService.create(data),
 		{
 			onSuccess: () => {
 				push('/admin/brands-types')

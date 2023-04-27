@@ -1,6 +1,5 @@
 import { Box, Card, Table, TableContainer } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { PageCategoryService } from 'src/api/services-admin/pages-categories/pagesCategories.service'
 import Empty from 'src/components/Empty'
 import Loading from 'src/components/Loading'
 import Scrollbar from 'src/components/Scrollbar'
@@ -18,6 +17,7 @@ import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -46,7 +46,7 @@ const PageCategoryList: NextPageAuth = () => {
 		isLoading,
 		refetch,
 	} = useQuery<any>(`page-category admin get`, () =>
-		PageCategoryService.getList()
+		api_admin.pageCategories.PageCategoryService.getList()
 	)
 
 	const { order, orderBy, selected, filteredList, handleRequestSort } =

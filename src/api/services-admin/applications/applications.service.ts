@@ -1,4 +1,4 @@
-import { makeRequest } from 'src/api/interceptor'
+import { axiosAuth } from 'src/api/interceptor'
 import { getApplicationsUrlAdmin } from 'src/config/api.config'
 import { toast } from 'react-toastify'
 import { getErrorMessage } from 'src/utils/getErrorMessage'
@@ -6,12 +6,9 @@ import { getErrorMessage } from 'src/utils/getErrorMessage'
 export const ApplicationServices = {
 	getApplications: async (params: any) => {
 		try {
-			const { data } = await makeRequest(true).get(
-				getApplicationsUrlAdmin(''),
-				{
-					params,
-				}
-			)
+			const { data } = await axiosAuth(true).get(getApplicationsUrlAdmin(''), {
+				params,
+			})
 			return data
 		} catch (error) {
 			toast.error(getErrorMessage(error))
@@ -19,7 +16,7 @@ export const ApplicationServices = {
 	},
 	getApplication: async (id: string) => {
 		try {
-			const { data } = await makeRequest(true).get(getApplicationsUrlAdmin(id))
+			const { data } = await axiosAuth(true).get(getApplicationsUrlAdmin(id))
 			return data
 		} catch (error) {
 			toast.error(getErrorMessage(error))
@@ -27,7 +24,7 @@ export const ApplicationServices = {
 	},
 	updateApplication: async (id: string, data: any) => {
 		try {
-			const response = await makeRequest(true).patch(
+			const response = await axiosAuth(true).patch(
 				getApplicationsUrlAdmin(id),
 				data
 			)

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { BrandTypesService } from 'src/api/services-admin/brand-types/brandTypes.service'
 import CreateForm from 'src/components/Form/CreateForm'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
@@ -13,6 +12,7 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { brandTypeEditForm } from 'src/utils/constants/forms'
 import { localize } from 'src/utils/Translate/localize'
+import { api_admin } from 'src/api/index.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -37,7 +37,7 @@ const CreateBrandType: NextPageAuth = () => {
 	// brand type fetch
 	const { data: brandType, isLoading } = useQuery(
 		'get brandType one',
-		() => BrandTypesService.get(id as string),
+		() => api_admin.brandTypes.BrandTypesService.get(id as string),
 		{
 			enabled: !!id,
 		}
@@ -46,7 +46,8 @@ const CreateBrandType: NextPageAuth = () => {
 	// brand type update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'brandTypes admin update',
-		(data: FormData) => BrandTypesService.update(id as string, data),
+		(data: FormData) =>
+			api_admin.brandTypes.BrandTypesService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success(

@@ -9,6 +9,7 @@ import { useQuery } from 'react-query'
 import { IShop } from 'src/shared/types/shop.types'
 import { useRouter } from 'next/router'
 import ProductCard1List from 'src/components/products/ProductCard1List'
+import { api } from 'src/api/index.service'
 
 const Shop: FC<{ shop: IShop }> = () => {
 	const width = useWindowSize()
@@ -20,7 +21,7 @@ const Shop: FC<{ shop: IShop }> = () => {
 		isLoading,
 		error,
 	} = useQuery('shop', () =>
-		ShopsService.get(router.query.id as string, {
+		api.shops.ShopsService.get(router.query.id as string, {
 			...router.query,
 			page_size: 18,
 		})

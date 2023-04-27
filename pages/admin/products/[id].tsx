@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { AdminProductsService } from 'src/api/services-admin/products/products.service'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
@@ -17,11 +16,9 @@ import {
 	IProductVariant,
 } from 'src/shared/types/product.types'
 import { dataWithCleanImage, formData } from 'src/utils/formData'
-import { AttributesService } from 'src/api/services/attributes/attributes.service'
 import VariantList from 'src/pages-sections/admin/products/product-variants/VariantList'
-import { AttributesServiceAdmin } from 'src/api/services-admin/attributes/attributes.service'
-import { ProductVariantAdminService } from 'src/api/services-admin/product-variants/product-variants.service'
 import { localize } from 'src/utils/Translate/localize'
+import { api, api_admin } from 'src/api/index.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -50,7 +47,7 @@ const EditProduct: NextPageAuth = () => {
 		refetch,
 	} = useQuery(
 		['product admin get', id],
-		() => AdminProductsService.get(id as string),
+		() => api_admin.products.AdminProductsService.get(id as string),
 		{
 			enabled: !!id,
 			onError: (e: any) => toast.error(e.message, { autoClose: 5000 }),
@@ -60,7 +57,8 @@ const EditProduct: NextPageAuth = () => {
 	// product mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'product admin update',
-		(data: IProduct) => AdminProductsService.update(id as string, data),
+		(data: IProduct) =>
+			api_admin.products.AdminProductsService.update(id as string, data),
 		{
 			onSuccess: async () => {
 				toast.success(
@@ -103,7 +101,7 @@ const EditProduct: NextPageAuth = () => {
 
 	const handleVariantChange = async (data: IProductVariant) => {
 		try {
-			await ProductVariantAdminService.update(data.id, {
+			await api_admin.variants.ProductVariantAdminService.update(data.id, {
 				...dataWithCleanImage(data, 'thumbnail'),
 			})
 
@@ -111,10 +109,13 @@ const EditProduct: NextPageAuth = () => {
 				async (attrValue: IProductAttributeValue) => {
 					// if (!attrValue.value) return null
 					if (attrValue.id) {
-						await AttributesServiceAdmin.update(attrValue.id.toString(), {
-							product_variant: data.id,
-							value: attrValue.value || '',
-						})
+						await api_admin.attributes.AttributesServiceAdmin.update(
+							attrValue.id.toString(),
+							{
+								product_variant: data.id,
+								value: attrValue.value || '',
+							}
+						)
 						return null
 					}
 
@@ -133,13 +134,13 @@ const EditProduct: NextPageAuth = () => {
 	}
 
 	const handleVariantRemove = async (id: string) => {
-		await ProductVariantAdminService.delete(id)
+		await api_admin.variants.ProductVariantAdminService.delete(id)
 		refetch()
 	}
 
 	const handleVariantCreate = async (data: IProductVariant) => {
 		const createdVariant: IProductVariant =
-			await ProductVariantAdminService.create(
+			await api_admin.variants.ProductVariantAdminService.create(
 				formData({
 					...data,
 					product: id as string,
@@ -147,10 +148,13 @@ const EditProduct: NextPageAuth = () => {
 			)
 		const attributePromises = data?.attribute_values.map(async (attribute) => {
 			if (!attribute.value) return null
-			await AttributesService.create(createdVariant.id as string, {
-				attribute: attribute.attribute.id,
-				value: attribute.value || '',
-			})
+			await api.attributes.AttributesService.create(
+				createdVariant.id as string,
+				{
+					attribute: attribute.attribute.id,
+					value: attribute.value || '',
+				}
+			)
 		})
 		await Promise.all(attributePromises)
 		refetch()

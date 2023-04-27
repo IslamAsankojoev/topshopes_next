@@ -7,7 +7,6 @@ import {
 	TableContainer,
 } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { ApplicationServices } from 'src/api/services-admin/applications/applications.service'
 import Empty from 'src/components/Empty'
 import Scrollbar from 'src/components/Scrollbar'
 import { H3 } from 'src/components/Typography'
@@ -24,6 +23,7 @@ import { ReactElement, useState } from 'react'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -59,7 +59,7 @@ const Applications: NextPageAuth = () => {
 	const { data: applications, refetch } = useQuery<any>(
 		[`get applications admin search=${searchValue}`, currentPage],
 		() =>
-			ApplicationServices.getApplications({
+			api_admin.applications.ApplicationServices.getApplications({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,

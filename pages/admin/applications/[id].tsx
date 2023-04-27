@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { Box, Card, Divider, Link } from '@mui/material'
-import { ApplicationServices } from 'src/api/services-admin/applications/applications.service'
 import Loading from 'src/components/Loading'
 import { H3, H6, Paragraph } from 'src/components/Typography'
 import { FlexBetween, FlexBox } from 'src/components/flex-box'
@@ -13,6 +12,7 @@ import { useMutation, useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import Select from 'react-select'
 import { localize } from 'src/utils/Translate/localize'
+import { api_admin } from 'src/api/index.service'
 
 const CardsWrapper = styled.div`
 	display: grid;
@@ -97,7 +97,10 @@ const UpdateApplication: NextPageAuth = () => {
 	// application fetch
 	const { data: application, refetch } = useQuery(
 		['get application', id],
-		() => ApplicationServices.getApplication((id as string) + '/'),
+		() =>
+			api_admin.applications.ApplicationServices.getApplication(
+				(id as string) + '/'
+			),
 		{
 			enabled: !!id,
 		}
@@ -107,7 +110,10 @@ const UpdateApplication: NextPageAuth = () => {
 	const { mutateAsync, isLoading } = useMutation(
 		'application admin update',
 		(data: any) =>
-			ApplicationServices.updateApplication((id as string) + '/', data),
+			api_admin.applications.ApplicationServices.updateApplication(
+				(id as string) + '/',
+				data
+			),
 		{
 			onError: (e: any) => {
 				console.error(e)

@@ -3,7 +3,6 @@ import { ColorsService } from 'src/api/services/colors/colors.service'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 import { useMutation } from 'react-query'
-import { toast } from 'react-toastify'
 import {
 	StyledIconButton,
 	StyledTableCell,

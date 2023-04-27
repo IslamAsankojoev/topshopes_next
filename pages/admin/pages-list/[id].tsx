@@ -1,6 +1,4 @@
 import { Box } from '@mui/material'
-import { PageCategoryService } from 'src/api/services-admin/pages-categories/pagesCategories.service'
-import { PagesService } from 'src/api/services-admin/pages/pages.service'
 import CreateForm from 'src/components/Form/CreateForm'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
@@ -9,7 +7,6 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
-
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
@@ -17,6 +14,7 @@ import { IPages } from 'src/shared/types/pages.types'
 import { pageEditForm } from 'src/utils/constants/forms'
 import { formData } from 'src/utils/formData'
 import { localize } from 'src/utils/Translate/localize'
+import { api_admin } from 'src/api/index.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -39,7 +37,7 @@ const UpdatePages: NextPageAuth = () => {
 	// page fetching
 	const { data: page, isLoading } = useQuery(
 		'page admin get',
-		() => PagesService.get(id as string),
+		() => api_admin.pages.PagesService.get(id as string),
 		{
 			enabled: !!id,
 		}
@@ -48,7 +46,8 @@ const UpdatePages: NextPageAuth = () => {
 	// page update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'page admin update',
-		(data: FormData | IPages) => PagesService.update(id as string, data),
+		(data: FormData | IPages) =>
+			api_admin.pages.PagesService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success(
@@ -64,7 +63,7 @@ const UpdatePages: NextPageAuth = () => {
 	)
 
 	const { data: categories } = useQuery(`categoryPage admin get`, () =>
-		PageCategoryService.getList({ page_size: 100 })
+		api_admin.pageCategories.PageCategoryService.getList({ page_size: 100 })
 	)
 
 	const handleFormSubmit = async (_: any, values: IPages) => {

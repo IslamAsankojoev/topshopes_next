@@ -13,6 +13,7 @@ import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { brandEditForm } from 'src/utils/constants/forms'
 import { localize } from 'src/utils/Translate/localize'
+import { api_admin } from 'src/api/index.service'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -37,14 +38,15 @@ const BrandUpdate: NextPageAuth = () => {
 	// brand fetch
 	const { data: brand, isLoading } = useQuery(
 		['brand admin get', id],
-		() => BrandsService.get(id as string),
+		() => api_admin.brands.BrandsService.get(id as string),
 		{ enabled: !!id }
 	)
 
 	// brand update
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'brand admin update',
-		(data: FormData) => BrandsService.update(id as string, data),
+		(data: FormData) =>
+			api_admin.brands.BrandsService.update(id as string, data),
 		{
 			onSuccess: () => {
 				toast.success(

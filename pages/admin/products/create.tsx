@@ -1,8 +1,4 @@
 import { Box } from '@mui/material'
-import { AttributesService } from 'src/api/services/attributes/attributes.service'
-import { ImagesService } from 'src/api/services/images/images.service'
-import { ProductVariantService } from 'src/api/services/product-variants/product-variants.service'
-import { ProductsService } from 'src/api/services/products/product.service'
 import { H3 } from 'src/components/Typography'
 import VendorDashboardLayout from 'src/components/layouts/vendor-dashboard'
 import { useActions } from 'src/hooks/useActions'
@@ -19,6 +15,7 @@ import { getErrorMessage } from 'src/utils/getErrorMessage'
 
 import { formData } from 'src/utils/formData'
 import { localize } from 'src/utils/Translate/localize'
+import { api } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -64,12 +61,12 @@ const CreateProduct: NextPageAuth = () => {
 		let productId = null
 		try {
 			// create product
-			const productResponse = await ProductsService.create(data)
+			const productResponse = await api.products.ProductsService.create(data)
 			productId = productResponse.id
 
 			// create variants with new product
 			for (let i of variants) {
-				const variantResponse = await ProductVariantService.create(
+				const variantResponse = await api.variants.ProductVariantService.create(
 					formData({
 						...i.variant,
 						product: productResponse.id,
@@ -77,7 +74,7 @@ const CreateProduct: NextPageAuth = () => {
 				)
 				// create images with new variant
 				for (let j of i?.images) {
-					await ImagesService.create(
+					await api.images.ImagesService.create(
 						formData({
 							product_variant: variantResponse.id,
 							image: j.image,
@@ -88,23 +85,29 @@ const CreateProduct: NextPageAuth = () => {
 				// create attributes with new variant
 				for (let attribute of i?.attribute_values) {
 					if (attribute?.available) {
-						await AttributesService.update(attribute.attributeId as string, {
-							product_variant: variantResponse.id,
-							attribute: attribute.attributeId,
-							value: attribute?.attributeValue || attribute?.value,
-						})
+						await api.attributes.AttributesService.update(
+							attribute.attributeId as string,
+							{
+								product_variant: variantResponse.id,
+								attribute: attribute.attributeId,
+								value: attribute?.attributeValue || attribute?.value,
+							}
+						)
 					} else {
-						await AttributesService.create(variantResponse.id as string, {
-							attribute: attribute.attributeNameId,
-							value: attribute?.attributeValue || attribute?.value,
-						})
+						await api.attributes.AttributesService.create(
+							variantResponse.id as string,
+							{
+								attribute: attribute.attributeNameId,
+								value: attribute?.attributeValue || attribute?.value,
+							}
+						)
 					}
 				}
 			}
 			push('/admin/products/')
 		} catch (e) {
 			if (productId) {
-				await ProductsService.delete(productId)
+				await api.products.ProductsService.delete(productId)
 			}
 			toast.error(
 				localize({

@@ -7,7 +7,6 @@ import {
 	TableContainer,
 } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
-import { UsersService } from 'src/api/services-admin/users/users.service'
 import Empty from 'src/components/Empty'
 import Scrollbar from 'src/components/Scrollbar'
 import { H3 } from 'src/components/Typography'
@@ -21,12 +20,12 @@ import { useRouter } from 'next/router'
 import { CustomerRow } from 'src/pages-sections/admin'
 import { ReactElement, useState } from 'react'
 import { orderBy as LOrderBy } from 'lodash-es'
-
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { IUser } from 'src/shared/types/user.types'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -62,7 +61,7 @@ const CustomerList: NextPageAuth<CustomerListProps> = () => {
 	const { data: users, refetch } = useQuery(
 		[`get users all search=${searchValue}`, currentPage],
 		() =>
-			UsersService.getList({
+			api_admin.users.UsersService.getList({
 				search: searchValue,
 				page: currentPage,
 				page_size: 10,

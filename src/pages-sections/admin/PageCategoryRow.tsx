@@ -7,7 +7,7 @@ import {
 	StyledTableCell,
 	StyledTableRow,
 } from './StyledComponents'
-import { PageCategoryService } from 'src/api/services-admin/pages-categories/pagesCategories.service'
+import { api_admin } from 'src/api/index.service'
 
 // ========================================================================
 type PageCategoryRowProps = {
@@ -33,7 +33,7 @@ const PageCategoryRow: FC<PageCategoryRowProps> = ({
 
 	const handleRemove = async () => {
 		if (!confirm('Are you sure you want to delete this category?')) return
-		await PageCategoryService.delete(id)
+		await api_admin.pageCategories.PageCategoryService.delete(id)
 		refetch()
 	}
 

@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { API_URL } from 'src/config/api.config'
-import Cookie from 'js-cookie'
 
-// import { removeToken } from './services/auth/auth.helpers'
 import { AuthService } from './services/auth/auth.service'
 import { getSession, signOut } from 'next-auth/react'
 
@@ -53,7 +51,7 @@ instance.interceptors.response.use(
 	}
 )
 
-export const makeRequest = (auth: boolean = false) => {
+export const axiosAuth = (auth: boolean = false) => {
 	if (auth) {
 		return instance
 	}

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { PageCategoryService } from 'src/api/services-admin/pages-categories/pagesCategories.service'
 import CreateForm from 'src/components/Form/CreateForm'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
@@ -12,6 +11,7 @@ import { ReactElement } from 'react'
 import { useMutation } from 'react-query'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { pageCategoryEditForm } from 'src/utils/constants/forms'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -34,7 +34,8 @@ const CreatePageCategory: NextPageAuth = () => {
 	// PageCategory mutation
 	const { isLoading: mutationLoading, mutateAsync } = useMutation(
 		'pageCategory admin create',
-		(data: FormData) => PageCategoryService.create(data),
+		(data: FormData) =>
+			api_admin.pageCategories.PageCategoryService.create(data),
 		{
 			onSuccess: () => {
 				push('/admin/pages-category')

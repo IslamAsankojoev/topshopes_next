@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { SiteSettingsService } from 'src/api/services-admin/site-settings/siteSettings.service'
 import CreateForm from 'src/components/Form/CreateForm'
 import Loading from 'src/components/Loading'
 import { H3 } from 'src/components/Typography'
@@ -12,6 +11,7 @@ import { useMutation, useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 import { NextPageAuth } from 'src/shared/types/auth.types'
 import { siteSettingsFormEdit } from 'src/utils/constants/forms'
+import { api_admin } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -27,13 +27,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 const SiteSettings: NextPageAuth = () => {
 	const { t } = useTranslation('admin')
 	const { data, isLoading } = useQuery('site-settings admin get', () =>
-		SiteSettingsService.getList()
+		api_admin.siteSettings.SiteSettingsService.getList()
 	)
 
 	// site settings mutate
 	const { mutateAsync } = useMutation(
 		'site-settings admin update',
-		(data: FormData) => SiteSettingsService.update('', data),
+		(data: FormData) =>
+			api_admin.siteSettings.SiteSettingsService.update('', data),
 		{
 			onSuccess: () => {
 				toast.success('settings saved successfully')

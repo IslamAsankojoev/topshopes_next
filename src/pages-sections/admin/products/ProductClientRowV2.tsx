@@ -6,18 +6,16 @@ import {
 	Switch,
 	Tooltip,
 } from '@mui/material'
-import { ProductsService } from 'src/api/services/products/product.service'
 import LazyImage from 'src/components/LazyImage'
 import { Paragraph, Small } from 'src/components/Typography'
 import { FlexBox } from 'src/components/flex-box'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
 import { IProductPreview } from 'src/shared/types/product.types'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import CheckIcon from '@mui/icons-material/Check'
 
 import {
+	CategoryWrapper,
 	StyledIconButton,
 	StyledTableCell,
 	StyledTableRow,
@@ -29,6 +27,7 @@ import { localize } from 'src/utils/Translate/localize'
 import SuccessNotify from 'src/components/SuccessNotify/SuccessNotify'
 import { v4 } from 'uuid'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { api } from 'src/api/index.service'
 
 // ========================================================================
 type ProductRowProps = {
@@ -74,7 +73,7 @@ const ProductRowV2: FC<ProductRowProps> = ({
 			)
 		) {
 			try {
-				await ProductsService.delete(id)
+				await api.products.ProductsService.delete(id)
 				refetch()
 			} catch (e: unknown) {
 				console.error(e)
@@ -95,7 +94,7 @@ const ProductRowV2: FC<ProductRowProps> = ({
 			}}
 		>
 			<StyledTableCell
-				align="center"
+				align="left"
 				onClick={() => router.push(`${router.pathname}/${id}`)}
 			>
 				<FlexBox alignItems="center" gap={1.5}>
@@ -106,23 +105,15 @@ const ProductRowV2: FC<ProductRowProps> = ({
 						sx={{ borderRadius: '8px' }}
 					/>
 					<Box>
-						<Paragraph>{name}</Paragraph>
+						<Paragraph
+							sx={{
+								lineHeight: '1.2',
+							}}
+						>
+							{name}
+						</Paragraph>
 					</Box>
 				</FlexBox>
-			</StyledTableCell>
-
-			<StyledTableCell
-				align="center"
-				onClick={() => router.push(`${router.pathname}/${id}`)}
-			>
-				{category.name || category}
-			</StyledTableCell>
-
-			<StyledTableCell
-				align="center"
-				onClick={() => router.push(`${router.pathname}/${id}`)}
-			>
-				{shop?.name && shop?.name}
 			</StyledTableCell>
 
 			<StyledTableCell
@@ -132,13 +123,39 @@ const ProductRowV2: FC<ProductRowProps> = ({
 				{getCurrency(price)}
 			</StyledTableCell>
 
+			<StyledTableCell
+				align="left"
+				onClick={() => router.push(`${router.pathname}/${id}`)}
+			>
+				<CategoryWrapper>{category.name || category}</CategoryWrapper>
+			</StyledTableCell>
+
+			<StyledTableCell
+				align="left"
+				onClick={() => router.push(`${router.pathname}/${id}`)}
+			>
+				<Box
+					sx={{
+						display: 'inline-block',
+						backgroundColor: 'grey.300',
+						color: 'block',
+						padding: '0.3rem',
+						fontSize: '0.8rem',
+						borderRadius: '0.3rem',
+						transition: 'all 0.2s ease-in-out',
+					}}
+				>
+					{shop?.name && shop?.name}
+				</Box>
+			</StyledTableCell>
+
 			<StyledTableCell align="center">
 				<Box
 					sx={{
 						position: 'relative',
 						display: 'flex',
 						flexDirection: 'row',
-						justifyContent: 'flex-end',
+						justifyContent: 'center',
 						margin: '0 auto',
 					}}
 				>
@@ -148,10 +165,14 @@ const ProductRowV2: FC<ProductRowProps> = ({
 							flexDirection: 'row',
 							justifyContent: 'center',
 							alignItems: 'center',
-							width: '200px',
+							whiteSpace: 'nowrap',
+							width: '180px',
 						}}
 					>
 						<FormControlLabel
+							sx={{
+								margin: 0,
+							}}
 							control={
 								<Switch
 									checked={isPublished}

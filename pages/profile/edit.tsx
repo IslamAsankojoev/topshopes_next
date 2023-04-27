@@ -24,6 +24,7 @@ import { NextPageAuth } from 'src/shared/types/auth.types'
 import { formData } from 'src/utils/formData'
 import { getLocalStorage } from 'src/utils/local-storage/localStorage'
 import * as yup from 'yup'
+import { api } from 'src/api/index.service'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -44,7 +45,7 @@ const ProfileEditor: NextPageAuth = () => {
 
 	const { mutateAsync } = useMutation(
 		'update profile',
-		(values: FormData) => AuthService.update(values),
+		(values: FormData) => api.auth.AuthService.update(values),
 		{
 			onSuccess: () => {
 				push('/profile')
