@@ -15,6 +15,7 @@ import { ICategory, IProductPreview } from 'src/shared/types/product.types'
 import { ResponseList } from 'src/shared/types/response.types'
 import staticApi from 'src/utils/api/market-1'
 import { api } from 'src/api/index.service'
+import { useEffect } from 'react'
 
 type MarketProps = {
 	carList?: any[]
@@ -113,22 +114,22 @@ const MarketShop: NextPage<MarketProps> = (props) => {
 			<Section1 carouselData={props.mainCarouselData} />
 
 			{/* FLASH DEALS SECTION */}
-			<Section2 flashDeals={flashDealsData?.data?.data?.results.slice(0, 9)} />
+			<Section2 flashDeals={flashDealsData?.data?.results.slice(0, 9)} />
 
 			{/* TOP CATEGORIES */}
 			<Section3 categoryList={categories} />
 
 			{/* TOP RATED PRODUCTS */}
 			<Section4
-				topRatedList={topRatedProducts?.data?.data?.results}
+				topRatedList={topRatedProducts?.data?.results}
 				topRatedBrands={products}
 			/>
 
 			{/* NEW ARRIVAL LIST */}
-			<Section5 newArrivalsList={newArrivalsList?.data?.data?.results} />
+			<Section5 newArrivalsList={newArrivalsList?.data?.results} />
 
 			{/* BIG DISCOUNTS */}
-			<Section13 bigDiscountList={bigDiscountList?.data?.data?.results} />
+			<Section13 bigDiscountList={bigDiscountList?.data?.results} />
 
 			{/* CAR LIST
 			<Section6 carBrands={props.carBrands} carList={products} /> */}
