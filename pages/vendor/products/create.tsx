@@ -23,7 +23,7 @@ const initialValues = {
 	is_published: true,
 	category: '',
 	brand: '',
-	unit: '',
+	unit: 'шт',
 }
 
 const CreateProductV2: NextPageAuth = () => {

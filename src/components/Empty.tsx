@@ -71,15 +71,4 @@ const Wrapper = styled.div`
 	}
 `
 
-// const Content = styled.div`
-// 	display: flex;
-// 	align-items: center;
-// 	flex-direction: column;
-// 	justify-content: center;
-
-// 	padding: 20px;
-// 	border-radius: 10px;
-// 	border: 2px solid;
-// `
-
 export default Empty

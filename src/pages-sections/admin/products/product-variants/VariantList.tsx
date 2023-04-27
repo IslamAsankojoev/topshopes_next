@@ -213,9 +213,9 @@ const VariantList: FC<Props> = ({
 							color="grey.700"
 							textAlign="center"
 							padding="0px 20px"
-							margin="0px"
 							fontSize="25px"
 							fontWeight="bold"
+							margin="10px 0px 0px 0px"
 						>
 							{adminT('productVariants')}
 						</Typography>
@@ -223,7 +223,7 @@ const VariantList: FC<Props> = ({
 							color="grey.600"
 							textAlign="center"
 							padding="0px 20px"
-							margin="0px"
+							margin="0px 0px 20px 0px"
 						>
 							{localize({
 								ru: 'Варианты не добавлены, добавьте вариант перед тем как создать товар',
@@ -260,10 +260,11 @@ const VariantList: FC<Props> = ({
 					sx={{
 						display: 'flex',
 						justifyContent: 'center',
-						alignItems: 'center',
+						alignItems: 'flex-start',
 						position: 'absolute',
 						top: 0,
 						left: 0,
+						paddingTop: '150px',
 						width: '100%',
 						height: '100%',
 						// backgroundColor: 'rgba(0, 0, 0,0.6)',
@@ -294,6 +295,8 @@ const VariantList: FC<Props> = ({
 							fontWeight: 'bold',
 							padding: '20px 40px',
 							borderRadius: '5px',
+							position: 'sticky!important',
+							top: '0!important',
 						}}
 					>
 						Доступ запрещен
