@@ -79,14 +79,15 @@ const CreateCategory: NextPageAuth = () => {
 	)
 
 	const handleFormSubmit = async (_: any, data: ICategory) => {
-		const clearData = {}
+		const clearData: ICategory | any = {}
 		for (let key in data) {
 			if (data[key]) {
 				clearData[key] = data[key]
 			}
 		}
+		const { icon, ...rest } = clearData
 
-		await mutateAsync(formData(clearData))
+		await mutateAsync(formData(rest))
 	}
 
 	const setAttributes = (values) => {

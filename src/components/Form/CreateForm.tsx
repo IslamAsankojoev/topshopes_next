@@ -12,7 +12,6 @@ import * as yup from 'yup'
 
 import Field from './Field'
 import useYupValidationResolver from 'src/hooks/useYupValidationResolver'
-import MemizeComponent from '../MemizeComponent/MemizeComponent'
 
 interface CreateFormProps {
 	fields: Record<string, any>
@@ -197,38 +196,34 @@ const CreateForm: FC<CreateFormProps> = ({
 							!field.name.endsWith('_search') ? (
 								<Grid item xs={12} key={id}>
 									{
-										<MemizeComponent
-											component={
-												<Field
-													type={field.type}
-													fullWidth
-													name={field.name}
-													label={getTranslate(field.label)}
-													color="info"
-													size="medium"
-													fieldValue={values[field.name]}
-													placeholder={getTranslate(field.placeholder)}
-													{...(register(field.name),
-													{
-														// required: field.required,
-														defaultValue: defaultData[field?.name],
-													})}
-													onChange={(e) => {
-														setValue(field.name, e.target.value)
-														trigger(field.name)
-													}}
-													error={!!errors[field.name]}
-													helperText={!!errors[field.name]}
-													// defaultData={defaultData || {}}
-													allNames={field?.allNames || []}
-													isValidating={true}
-													accept={field.fileTypes}
-													maxLength={field.maxLength}
-													previewType={field.previewType}
-													setValue={setValue}
-													trigger={trigger}
-												/>
-											}
+										<Field
+											type={field.type}
+											fullWidth
+											name={field.name}
+											label={getTranslate(field.label)}
+											color="info"
+											size="medium"
+											fieldValue={values[field.name]}
+											placeholder={getTranslate(field.placeholder)}
+											{...(register(field.name),
+											{
+												// required: field.required,
+												defaultValue: defaultData[field?.name],
+											})}
+											onChange={(e) => {
+												setValue(field.name, e.target.value)
+												trigger(field.name)
+											}}
+											error={!!errors[field.name]}
+											helperText={!!errors[field.name]}
+											// defaultData={defaultData || {}}
+											allNames={field?.allNames || []}
+											isValidating={true}
+											accept={field.fileTypes}
+											maxLength={field.maxLength}
+											previewType={field.previewType}
+											setValue={setValue}
+											trigger={trigger}
 										/>
 									}
 								</Grid>
