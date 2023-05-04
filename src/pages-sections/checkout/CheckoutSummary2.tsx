@@ -5,6 +5,7 @@ import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 import { getCurrency } from 'src/utils/getCurrency'
+import { animated, useSpring } from 'react-spring'
 
 const CheckoutSummary2: FC = () => {
 	const { t } = useTranslation('common')
@@ -13,6 +14,10 @@ const CheckoutSummary2: FC = () => {
 	const { cart, total_items, total_price } = useTypedSelector(
 		(state) => state.cartStore
 	)
+	const animated_total_price = useSpring({
+		number: total_price,
+		from: { number: 0 },
+	})
 	return (
 		<Box>
 			<Paragraph color="secondary.900" fontWeight={700} mb={2}>
@@ -41,7 +46,11 @@ const CheckoutSummary2: FC = () => {
 
 			<FlexBetween mb={0.5}>
 				<Paragraph color="grey.600">{t('subtotal')}:</Paragraph>
-				<Paragraph fontWeight="700">{getCurrency(total_price)}</Paragraph>
+				<Paragraph fontWeight="700">
+					<animated.span>
+						{animated_total_price.number.to((x) => getCurrency(x))}
+					</animated.span>
+				</Paragraph>
 			</FlexBetween>
 
 			<FlexBetween mb={0.5}>
@@ -53,7 +62,11 @@ const CheckoutSummary2: FC = () => {
 
 			<FlexBetween fontWeight="700" mb={1}>
 				<Paragraph>{t('total')}:</Paragraph>
-				<Paragraph fontWeight="700">{getCurrency(total_price)}</Paragraph>
+				<Paragraph fontWeight="700">
+					<animated.span>
+						{animated_total_price.number.to((x) => getCurrency(x))}
+					</animated.span>
+				</Paragraph>
 			</FlexBetween>
 
 			<Divider sx={{ borderColor: 'grey.300', mb: 2 }} />

@@ -9,6 +9,8 @@ import { useActions } from 'src/hooks/useActions'
 import Link from 'next/link'
 import { FC, useCallback } from 'react'
 import { ICartItem } from 'src/store/cart/cart.interface'
+import { animated, useSpring } from 'react-spring'
+import { getCurrency } from 'src/utils/getCurrency'
 
 // styled components
 const Wrapper = styled(Card)(({ theme }) => ({
@@ -32,6 +34,10 @@ const Wrapper = styled(Card)(({ theme }) => ({
 const ProductCard7: FC<ICartItem> = (product) => {
 	const { category, name, rating, slug, variants, children, qty, id } = product
 	const { addToCart, removeFromCart, trashFromCart } = useActions()
+	const animated_total_price = useSpring({
+		number: Number(variants[0]?.price) * qty,
+		from: { number: 0 },
+	})
 
 	const handleAddToCart = useCallback(() => {
 		addToCart(product)
@@ -73,11 +79,13 @@ const ProductCard7: FC<ICartItem> = (product) => {
 
 				<FlexBox gap={1} flexWrap="wrap" alignItems="center">
 					<Span color="grey.600">
-						{Number(variants[0]?.price).toFixed(2)}c x {qty}
+						{getCurrency(Number(variants[0]?.price))} x {qty}
 					</Span>
 
 					<Span fontWeight={600} color="primary.main">
-						{(Number(variants[0]?.price) * qty).toFixed(2)}c
+						<animated.span>
+							{animated_total_price.number.to((x) => getCurrency(x))}
+						</animated.span>
 					</Span>
 				</FlexBox>
 

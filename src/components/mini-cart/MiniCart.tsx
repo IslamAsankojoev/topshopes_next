@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { FC, useCallback } from 'react'
 import { ICartItem } from 'src/store/cart/cart.interface'
 import { getCurrency } from 'src/utils/getCurrency'
+import { useSpring, animated } from '@react-spring/web'
 
 // =========================================================
 type MiniCartProps = { toggleSidenav?: () => void }
@@ -30,6 +31,10 @@ const MiniCart: FC<MiniCartProps> = ({ toggleSidenav }) => {
 		total_items,
 	} = useTypedSelector((state) => state.cartStore)
 	const { addToCart, removeFromCart, trashFromCart } = useActions()
+	const total_price_animated = useSpring({
+		number: total_price,
+		from: { number: 0 },
+	})
 
 	// handle add to cart
 
@@ -100,86 +105,95 @@ const MiniCart: FC<MiniCartProps> = ({ toggleSidenav }) => {
 					</FlexBox>
 				)}
 
-				{cartList?.map((item: ICartItem) => (
-					<FlexBox
-						py={2}
-						px={2.5}
-						key={item.id}
-						alignItems="center"
-						borderBottom={`1px solid ${palette.divider}`}
-					>
-						<FlexBox alignItems="center" flexDirection="column">
-							<BazaarButton
-								color="primary"
-								variant="outlined"
-								onClick={handleAddToCart(item)}
-								sx={{ height: '32px', width: '32px', borderRadius: '300px' }}
-							>
-								<Add fontSize="small" />
-							</BazaarButton>
+				{cartList?.map((item: ICartItem) => {
+					const item_animated_total_price = useSpring({
+						number: item.qty * Number(item?.variants[0]?.price),
+						from: { number: 0 },
+					})
 
-							<Box fontWeight={600} fontSize="15px" my="3px">
-								{item.qty}
-							</Box>
+					return (
+						<FlexBox
+							py={2}
+							px={2.5}
+							key={item.id}
+							alignItems="center"
+							borderBottom={`1px solid ${palette.divider}`}
+						>
+							<FlexBox alignItems="center" flexDirection="column">
+								<BazaarButton
+									color="primary"
+									variant="outlined"
+									onClick={handleAddToCart(item)}
+									sx={{ height: '32px', width: '32px', borderRadius: '300px' }}
+								>
+									<Add fontSize="small" />
+								</BazaarButton>
 
-							<BazaarButton
-								color="primary"
-								variant="outlined"
-								disabled={item.qty === 1}
-								onClick={handleRemoveFromCart(item)}
-								sx={{ height: '32px', width: '32px', borderRadius: '300px' }}
-							>
-								<Remove fontSize="small" />
-							</BazaarButton>
-						</FlexBox>
+								<Box fontWeight={600} fontSize="15px" my="3px">
+									{item.qty}
+								</Box>
 
-						<Link href={`/product/${item.id}`}>
-							<a>
-								<BazaarAvatar
-									mx={2}
-									width={76}
-									height={76}
-									alt={item.name}
-									src={
-										item?.variants[0]?.thumbnail ||
-										'/assets/images/products/iphone-x.png'
-									}
-								/>
-							</a>
-						</Link>
+								<BazaarButton
+									color="primary"
+									variant="outlined"
+									disabled={item.qty === 1}
+									onClick={handleRemoveFromCart(item)}
+									sx={{ height: '32px', width: '32px', borderRadius: '300px' }}
+								>
+									<Remove fontSize="small" />
+								</BazaarButton>
+							</FlexBox>
 
-						<Box flex="1 1 0">
 							<Link href={`/product/${item.id}`}>
 								<a>
-									<H5 className="title" fontSize="14px">
-										{item.name}
-									</H5>
+									<BazaarAvatar
+										mx={2}
+										width={76}
+										height={76}
+										alt={item.name}
+										src={
+											item?.variants[0]?.thumbnail ||
+											'/assets/images/products/iphone-x.png'
+										}
+									/>
 								</a>
 							</Link>
 
-							<Tiny color="grey.600">
-								{getCurrency(item?.variants[0]?.price)} x {item.qty}
-							</Tiny>
+							<Box flex="1 1 0">
+								<Link href={`/product/${item.id}`}>
+									<a>
+										<H5 className="title" fontSize="14px">
+											{item.name}
+										</H5>
+									</a>
+								</Link>
 
-							<Box
-								fontWeight={600}
-								fontSize="14px"
-								color="primary.main"
-								mt={0.5}
-							>
-								{getCurrency(item.qty * Number(item?.variants[0]?.price))}
+								<Tiny color="grey.600">
+									{getCurrency(item?.variants[0]?.price)} x {item.qty}
+								</Tiny>
+
+								<Box
+									fontWeight={600}
+									fontSize="14px"
+									color="primary.main"
+									mt={0.5}
+								>
+									<animated.span>
+										{item_animated_total_price.number.to((x) => getCurrency(x))}
+									</animated.span>
+								</Box>
 							</Box>
-						</Box>
 
-						<BazaarIconButton
-							ml={2.5}
-							size="small"
-							onClick={handleTrashFromCart(item)}
-						>
-							<Close fontSize="small" />
-						</BazaarIconButton>
-					</FlexBox>
-				))}
+							<BazaarIconButton
+								ml={2.5}
+								size="small"
+								onClick={handleTrashFromCart(item)}
+							>
+								<Close fontSize="small" />
+							</BazaarIconButton>
+						</FlexBox>
+					)
+				})}
 			</Box>
 
 			{!!cartList?.length && (
@@ -192,7 +206,11 @@ const MiniCart: FC<MiniCartProps> = ({ toggleSidenav }) => {
 							sx={{ mb: '0.75rem', height: '40px' }}
 							onClick={toggleSidenav}
 						>
-							{t('checkoutNow')} {getCurrency(total_price)}
+							{t('checkoutNow')}
+							&nbsp;&nbsp;
+							<animated.span>
+								{total_price_animated.number.to((x) => getCurrency(x))}
+							</animated.span>
 						</BazaarButton>
 					</Link>
 

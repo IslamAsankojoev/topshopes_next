@@ -11,6 +11,8 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import { ICartItem } from 'src/store/cart/cart.interface'
+import { animated, useSpring } from 'react-spring'
+import { getCurrency } from 'src/utils/getCurrency'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -22,9 +24,11 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const Cart: NextPage = () => {
 	const { t } = useTranslation()
-	const { cart, total_price } = useTypedSelector(
-		(state) => state.cartStore
-	)
+	const { cart, total_price } = useTypedSelector((state) => state.cartStore)
+	const animated_total_price = useSpring({
+		number: total_price,
+		from: { number: 0 },
+	})
 	const cartList: ICartItem[] = cart
 
 	return (
@@ -44,7 +48,9 @@ const Cart: NextPage = () => {
 									<Span color="grey.600">{t('total')}:</Span>
 
 									<Span fontSize={18} fontWeight={600} lineHeight="1">
-										{total_price.toFixed(2)}
+										<animated.span>
+											{animated_total_price.number.to((x) => getCurrency(x))}
+										</animated.span>
 									</Span>
 								</FlexBetween>
 
