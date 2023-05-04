@@ -36,8 +36,6 @@ const MiniCart: FC<MiniCartProps> = ({ toggleSidenav }) => {
 		from: { number: 0 },
 	})
 
-	// handle add to cart
-
 	const handleAddToCart = useCallback(
 		(item: ICartItem) => () => {
 			addToCart(item)
@@ -106,11 +104,6 @@ const MiniCart: FC<MiniCartProps> = ({ toggleSidenav }) => {
 				)}
 
 				{cartList?.map((item: ICartItem) => {
-					const item_animated_total_price = useSpring({
-						number: item.qty * Number(item?.variants[0]?.price),
-						from: { number: 0 },
-					})
-
 					return (
 						<FlexBox
 							py={2}
@@ -178,9 +171,7 @@ const MiniCart: FC<MiniCartProps> = ({ toggleSidenav }) => {
 									color="primary.main"
 									mt={0.5}
 								>
-									<animated.span>
-										{item_animated_total_price.number.to((x) => getCurrency(x))}
-									</animated.span>
+									{getCurrency(item.qty * Number(item?.variants[0]?.price))}
 								</Box>
 							</Box>
 
