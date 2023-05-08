@@ -13,6 +13,8 @@ import { LoadingButton } from '@mui/lab'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import { localize } from 'src/utils/Translate/localize'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 
 interface VariantRowProps {
 	variant: IProductVariant
@@ -49,6 +51,7 @@ const VariantRow: FC<VariantRowProps> = ({
 		ordering,
 	} = variant
 	const [openVariant, setOpenVariant] = useState(false)
+	const user = useTypedSelector((state) => state.userStore.user)
 
 	const handleRemoveThis = () => {
 		id && handleRemove(id)
@@ -56,6 +59,7 @@ const VariantRow: FC<VariantRowProps> = ({
 
 	useEffect(() => {
 		enableAnimations(false)
+		console.log(user)
 	}, [])
 
 	return (
@@ -154,21 +158,24 @@ const VariantRow: FC<VariantRowProps> = ({
 						color="secondary"
 						onClick={() => handleClone(variant)}
 					>
-						<img
-							src={
-								cloneLoading === variant.id
-									? 'https://pa1.narvii.com/6707/686c3b62427e1d3fb06402d4849cce5dcb759aef_hq.gif'
-									: 'https://i.pinimg.com/originals/b5/f4/05/b5f405e21abff867a56ca7a4458b8955.jpg'
-							}
-							alt=""
-							width="100%"
-							height="100%"
-							style={{
-								borderRadius: '4px',
-								objectFit: 'cover',
-							}}
-						/>
-						{/* {cloneLoading === variant.id ? 'Cloning' : 'Clone'} */}
+						{user?.is_superuser ? (
+							<img
+								src={
+									cloneLoading === variant.id
+										? 'https://pa1.narvii.com/6707/686c3b62427e1d3fb06402d4849cce5dcb759aef_hq.gif'
+										: 'https://i.pinimg.com/originals/b5/f4/05/b5f405e21abff867a56ca7a4458b8955.jpg'
+								}
+								alt=""
+								width="100%"
+								height="100%"
+								style={{
+									borderRadius: '4px',
+									objectFit: 'cover',
+								}}
+							/>
+						) : (
+							<LibraryAddIcon />
+						)}
 					</LoadingButton>
 					<Button
 						size="small"

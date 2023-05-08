@@ -27,6 +27,7 @@ import axios from 'axios'
 import httpToHttps from 'src/utils/httpToHttps'
 import { axiosAuth } from 'src/api/interceptor'
 import ThumbnailService from 'src/api/services/download/thumbnail.service'
+import { useTypedSelector } from 'src/hooks/useTypedSelector'
 
 export const getServerSideProps = async ({ locale }) => {
 	return {
@@ -49,6 +50,7 @@ const EditProduct: NextPageAuth = () => {
 	const [variantsBlackList, setVariantsBlackList] = useState<string[]>([])
 	const [updateLoading, setUpdateLoading] = useState<boolean>(false)
 	const [cloneLoading, setCloneLoading] = useState<null | string>(null)
+	const user = useTypedSelector((state) => state.userStore.user)
 
 	const {
 		data: product,
@@ -250,7 +252,7 @@ const EditProduct: NextPageAuth = () => {
 		)
 		await Promise.all(attributePromises)
 		setCloneLoading(null)
-		audioClone.play()
+		user?.is_superuser && audioClone.play()
 		refetch()
 	}
 

@@ -28,6 +28,7 @@ const initialValues = {
 
 const CreateProductV2: NextPageAuth = () => {
 	const localVariants = useTypedSelector((state) => state.localVariantsStore)
+	const user = useTypedSelector((state) => state.userStore.user)
 	const variants: IProductVariant[] = Object.values(localVariants)
 	const [productID, setProductID] = useState<string | null>(null)
 	const [cloneLoading, setCloneLoading] = useState<null | string>(null)
@@ -161,18 +162,14 @@ const CreateProductV2: NextPageAuth = () => {
 	const handleCloneVariant = (data: IProductVariant) => {
 		setCloneLoading(data.id)
 		const audioClone = new Audio('/clone.mp3')
-		console.log(variants.length + 1)
 		localVariantAdd({
 			...data,
 			id: v4(),
 			ordering: variants?.length + 1,
 		})
 		setCloneLoading(null)
-		audioClone.play()
+		user?.is_superuser && audioClone.play()
 	}
-	useEffect(() => {
-		console.log(variants)
-	}, [variants])
 
 	return fetch ? (
 		<Box py={4}>
