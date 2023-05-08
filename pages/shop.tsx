@@ -238,7 +238,14 @@ const ShopPage = ({ query }) => {
 						<ProductFilterCard />
 					</Grid>
 
-					<Grid item md={9} xs={12}>
+					<Grid
+						item
+						md={9}
+						xs={12}
+						display="flex"
+						flexDirection="column"
+						justifyContent="space-between"
+					>
 						{products?.count ? (
 							<ProductCard1List
 								products={products.results}

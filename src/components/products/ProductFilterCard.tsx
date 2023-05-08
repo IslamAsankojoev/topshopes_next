@@ -125,6 +125,32 @@ const ProductFilterCard = () => {
 
 	return (
 		<Card sx={{ p: '18px 27px', overflow: 'auto' }} elevation={1}>
+			<H6 mb={2}>{shopT('priceRange')}</H6>
+			<FlexBetween>
+				<TextField
+					name="minPrice"
+					placeholder="0"
+					type="number"
+					size="small"
+					value={preMinPrice}
+					fullWidth
+					onChange={(e) => handlePriceValueChange(e)}
+				/>
+				<H5 color="grey.600" px={1}>
+					-
+				</H5>
+				<TextField
+					name="maxPrice"
+					placeholder="250"
+					type="number"
+					size="small"
+					value={preMaxPrice}
+					fullWidth
+					onChange={(e) => handlePriceValueChange(e)}
+				/>
+			</FlexBetween>
+
+			<Divider sx={{ my: 3 }} />
 			<H6 mb={1.25}>{commonT('categories')}</H6>
 
 			<Paragraph
@@ -180,49 +206,49 @@ const ProductFilterCard = () => {
 
 			<Divider sx={{ mt: 2, mb: 3 }} />
 
-			<H6 mb={2}>{shopT('priceRange')}</H6>
-			<FlexBetween>
-				<TextField
-					name="minPrice"
-					placeholder="0"
-					type="number"
-					size="small"
-					value={preMinPrice}
-					fullWidth
-					onChange={(e) => handlePriceValueChange(e)}
-				/>
-				<H5 color="grey.600" px={1}>
-					-
-				</H5>
-				<TextField
-					name="maxPrice"
-					placeholder="250"
-					type="number"
-					size="small"
-					value={preMaxPrice}
-					fullWidth
-					onChange={(e) => handlePriceValueChange(e)}
-				/>
-			</FlexBetween>
-
-			<Divider sx={{ my: 3 }} />
-
 			<H6 mb={2}>{shopT('brands')}</H6>
-			{brandList?.map((item) => (
-				<FormControlLabel
-					onChange={(e: any) => handleBrandChange(e.target.checked, item.name)}
-					key={item.id}
-					sx={{ display: 'flex' }}
-					label={<Span color="inherit">{item.name}</Span>}
-					control={
-						<Checkbox
-							size="small"
-							color="secondary"
-							defaultChecked={router?.query?.brand?.includes(item.name)}
-						/>
-					}
-				/>
-			))}
+			<span
+				style={{
+					display: 'flex',
+					flexWrap: 'wrap',
+					alignItems: 'center',
+					width: '100%',
+					gap: '0.6rem',
+				}}
+			>
+				{brandList?.map((item) => (
+					<FormControlLabel
+						onChange={(e: any) =>
+							handleBrandChange(e.target.checked, item.name)
+						}
+						key={item.id}
+						sx={{
+							display: 'flex',
+							margin: '0',
+							'& .MuiButtonBase-root': {
+								display: 'none',
+							},
+							'& .MuiTypography-root': {
+								padding: '0.20rem 0.45rem',
+								borderRadius: '0.25rem',
+								backgroundColor: 'grey.200',
+							},
+							'& .Mui-checked + .MuiTypography-root': {
+								backgroundColor: 'secondary.main',
+								color: 'white',
+							},
+						}}
+						label={<Span color="inherit">{item.name}</Span>}
+						control={
+							<Checkbox
+								size="small"
+								color="secondary"
+								defaultChecked={router?.query?.brand?.includes(item.name)}
+							/>
+						}
+					/>
+				))}
+			</span>
 
 			<Divider sx={{ my: 3 }} />
 			{/* 
