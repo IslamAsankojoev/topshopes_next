@@ -76,7 +76,7 @@ export type IProductVariant = {
 	overall_price?: string
 	price: string
 	discount_price?: string
-	discount: 0
+	discount: number
 	product?: string
 	thumbnail: string
 	images: IImage[]

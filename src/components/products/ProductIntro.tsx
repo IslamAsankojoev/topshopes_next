@@ -48,7 +48,17 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 
 	const { addToCart, toggleWish } = useActions()
 	const handleAddToCart = () => {
-		addToCart({ ...product, variants: [selectedVariant] })
+		addToCart({
+			...product,
+			variants: [
+				{
+					...selectedVariant,
+					price: !!selectedVariant.discount
+						? selectedVariant.discount_price
+						: selectedVariant.price,
+				},
+			],
+		})
 	}
 
 	const toggleWishItem = () => {

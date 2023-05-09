@@ -480,6 +480,7 @@ const Field: FC<any> = (props) => {
 		const onChange = (editorValue: string) => {
 			setValue(editorValue)
 			other.setValue(other.name, editorValue)
+			other.trigger(other.name)
 		}
 
 		return (

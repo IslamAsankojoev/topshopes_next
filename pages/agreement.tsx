@@ -19,7 +19,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const AgreementPage: FC = () => {
 	const { t } = useTranslation('about')
-	// test commit
 	return (
 		<ShopLayout1>
 			<SEO
