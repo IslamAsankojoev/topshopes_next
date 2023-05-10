@@ -1,6 +1,7 @@
 import {
 	Box,
 	Card,
+	Grid,
 	Paper,
 	ToggleButton,
 	ToggleButtonGroup,
@@ -13,7 +14,7 @@ import {
 	IProductVariant,
 } from 'src/shared/types/product.types'
 import Carousel from '../carousel/Carousel'
-import { primary } from 'src/theme/themeColors'
+import { grey, primary } from 'src/theme/themeColors'
 
 type AttributeSelectProps = {
 	attribute_name: string
@@ -78,60 +79,65 @@ const AttributeSelect: FC<AttributeSelectProps> = ({
 							fontSize: '10px',
 							fontWeight: 'normal',
 							display: 'inline',
+							color: 'primary.main',
 						}}
 					>
 						{selectedAttribute}
 					</Typography>
 				</Typography>
+				<Grid xs={12} md={10} lg={10}>
+					<Carousel
+						totalSlides={attribute_values?.length}
+						visibleSlides={5}
+						spacing="10px"
+						sx={{
+							width: '100%',
+						}}
+						showArrow={attribute_values?.length > 5}
+						rightButtonStyle={{
+							width: '25px',
+							height: '25px',
+						}}
+						leftButtonStyle={{
+							width: '25px',
+							height: '25px',
+						}}
+					>
+						{attribute_values.sort().map((attribute_value) => {
+							const attributeVariant: IProductVariant = variants.find(
+								(variant) => {
+									return variant.attribute_values.find((attribute) => {
+										return attribute.value === attribute_value
+									})
+								}
+							)
 
-				<Carousel
-					totalSlides={variants?.length}
-					visibleSlides={5}
-					spacing="10px"
-					showArrow={variants?.length > 5}
-					rightButtonStyle={{
-						width: '25px',
-						height: '25px',
-					}}
-					leftButtonStyle={{
-						width: '25px',
-						height: '25px',
-					}}
-				>
-					{attribute_values.sort().map((attribute_value) => {
-						const attributeVariant: IProductVariant = variants.find(
-							(variant) => {
-								return variant.attribute_values.find((attribute) => {
-									return attribute.value === attribute_value
-								})
-							}
-						)
-
-						return (
-							<img
-								src={attributeVariant.thumbnail}
-								alt=""
-								onClick={() => {
-									setSelectedAttribute(attribute_value)
-								}}
-								style={{
-									transition: 'all 0.2s ease',
-									cursor: 'pointer',
-									borderRadius: '0.5rem',
-									border: `${
-										selectedAttribute === attribute_value
-											? `2px solid ${primary[500]}`
-											: '2px solid transparent'
-									}`,
-									height: '100%',
-									width: '100%',
-									objectFit: 'cover',
-									boxShadow: 'rgba(3, 0, 71, 0.09) 0px 1px 3px',
-								}}
-							/>
-						)
-					})}
-				</Carousel>
+							return (
+								<img
+									src={attributeVariant.thumbnail}
+									alt=""
+									onClick={() => {
+										setSelectedAttribute(attribute_value)
+									}}
+									style={{
+										transition: 'all 0.2s ease',
+										cursor: 'pointer',
+										borderRadius: '0.5rem',
+										border: `${
+											selectedAttribute === attribute_value
+												? `2px solid ${primary[500]}`
+												: `2px solid ${grey[200]}`
+										}`,
+										backgroundColor: `white`,
+										height: '100%',
+										width: '100%',
+										objectFit: 'cover',
+									}}
+								/>
+							)
+						})}
+					</Carousel>
+				</Grid>
 			</>
 		)
 	}

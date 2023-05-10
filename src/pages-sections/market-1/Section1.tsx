@@ -47,7 +47,7 @@ const Section1: NextPage<Props> = ({ carouselData }) => {
 					showDots={true}
 					autoPlay={false}
 					visibleSlides={1}
-					showArrow={false}
+					showArrow={true}
 					spacing="0px"
 				>
 					{mainCarouselData?.map((data, ind) => {
