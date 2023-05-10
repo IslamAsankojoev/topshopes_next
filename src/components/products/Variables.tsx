@@ -1,8 +1,9 @@
-import { FormControl } from '@mui/material'
+import { Box, Card, FormControl } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import { IProduct, IProductVariant } from 'src/shared/types/product.types'
 
 import AttributeSelect from './AttributeSelect'
+import Carousel from '../carousel/Carousel'
 
 type VariablesProps = {
 	product: IProduct
@@ -73,6 +74,7 @@ const Variables: FC<VariablesProps> = ({
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
+				gap: '20px',
 			}}
 		>
 			{[...attributes.keys()].map((attribute) => {

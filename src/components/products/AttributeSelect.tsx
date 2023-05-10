@@ -1,10 +1,19 @@
 import {
+	Box,
 	Card,
+	Paper,
 	ToggleButton,
 	ToggleButtonGroup,
 	Typography,
 } from '@mui/material'
 import { FC, useEffect, useState, MouseEvent } from 'react'
+import {
+	IProductAttribute,
+	IProductAttributeValue,
+	IProductVariant,
+} from 'src/shared/types/product.types'
+import Carousel from '../carousel/Carousel'
+import { primary } from 'src/theme/themeColors'
 
 type AttributeSelectProps = {
 	attribute_name: string
@@ -51,6 +60,81 @@ const AttributeSelect: FC<AttributeSelectProps> = ({
 			)?.value
 		)
 	}, [])
+
+	if (attribute_name === 'Вариант' || attribute_name === 'Цвет') {
+		return (
+			<>
+				<Typography
+					sx={{
+						fontSize: '11px',
+						fontWeight: 'bold',
+						padding: '0.4rem 0.4rem',
+						textTransform: 'uppercase',
+					}}
+				>
+					{attribute_name} -{' '}
+					<Typography
+						sx={{
+							fontSize: '10px',
+							fontWeight: 'normal',
+							display: 'inline',
+						}}
+					>
+						{selectedAttribute}
+					</Typography>
+				</Typography>
+
+				<Carousel
+					totalSlides={variants?.length}
+					visibleSlides={5}
+					spacing="10px"
+					showArrow={variants?.length > 5}
+					rightButtonStyle={{
+						width: '25px',
+						height: '25px',
+					}}
+					leftButtonStyle={{
+						width: '25px',
+						height: '25px',
+					}}
+				>
+					{attribute_values.sort().map((attribute_value) => {
+						const attributeVariant: IProductVariant = variants.find(
+							(variant) => {
+								return variant.attribute_values.find((attribute) => {
+									return attribute.value === attribute_value
+								})
+							}
+						)
+
+						return (
+							<img
+								src={attributeVariant.thumbnail}
+								alt=""
+								onClick={() => {
+									setSelectedAttribute(attribute_value)
+								}}
+								style={{
+									transition: 'all 0.2s ease',
+									cursor: 'pointer',
+									borderRadius: '0.5rem',
+									border: `${
+										selectedAttribute === attribute_value
+											? `2px solid ${primary[500]}`
+											: '2px solid transparent'
+									}`,
+									height: '100%',
+									width: '100%',
+									objectFit: 'cover',
+									boxShadow: 'rgba(3, 0, 71, 0.09) 0px 1px 3px',
+								}}
+							/>
+						)
+					})}
+				</Carousel>
+			</>
+		)
+	}
 
 	return (
 		<>
