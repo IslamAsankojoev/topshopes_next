@@ -137,6 +137,8 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 								height={200}
 								layout="responsive"
 								alt={name}
+								objectFit="cover"
+								objectPosition="top"
 							/>
 						</a>
 					</Link>

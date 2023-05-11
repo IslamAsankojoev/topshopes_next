@@ -62,6 +62,8 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 		})
 	}
 
+	const displayVariant = !!selectedVariant ? selectedVariant : variants[0]
+
 	const toggleWishItem = () => {
 		toggleWish({
 			id: product.id,
@@ -104,31 +106,33 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							justifyContent: 'center',
 							alignItems: 'center',
 							position: 'relative',
-							backgroundColor: 'transparent',
-							boxShadow: 'none',
+							backgroundColor: 'white',
+							// boxShadow: 'none',
 						}}
 					>
 						<div
 							style={{
-								width: '500px',
-								height: '500px',
+								width: '460px',
+								height: '600px',
 							}}
 						>
 							<LazyImage
 								alt={name}
 								layout="fill"
 								loading="eager"
-								objectFit="contain"
+								objectFit="cover"
 								style={{
+									// boxShadow: '0px 1px 3px rgba(3, 0, 71, 0.09)',
+									borderRadius: '0.5rem',
 									transition: 'all 0.3s ease-in-out',
 								}}
-								src={selectedImage || variants[0]?.thumbnail}
+								src={displayVariant.thumbnail}
 							/>
 						</div>
 					</Card>
 				</Grid>
 
-				<Grid item md={6} xs={12} alignItems="center">
+				<Grid item md={6} xs={12} alignItems="center" justifyContent="center">
 					<Box
 						sx={{
 							position: 'relative',
@@ -188,9 +192,9 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							<FlexBox alignItems="center" gap={1} mt={0.5}>
 								<H2 color="primary.main">
 									{getCurrency(
-										!!selectedVariant?.discount
-											? selectedVariant?.discount_price
-											: selectedVariant?.price
+										!!displayVariant?.discount
+											? displayVariant?.discount_price
+											: displayVariant?.price
 									)}
 								</H2>
 
@@ -198,7 +202,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 									<H2 color="grey.600" fontWeight={600}>
 										<del>
 											{getCurrency(
-												!!selectedVariant?.discount && selectedVariant?.price
+												!!displayVariant?.discount && displayVariant?.price
 											)}
 										</del>
 									</H2>
