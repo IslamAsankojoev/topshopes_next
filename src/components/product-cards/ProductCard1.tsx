@@ -137,7 +137,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 								height={200}
 								layout="responsive"
 								alt={name}
-								objectFit="cover"
+								objectFit="contain"
 								objectPosition="top"
 							/>
 						</a>
@@ -162,47 +162,49 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 								</a>
 							</Link>
 
-							<Link href={`/shops/${shop?.id}`}>
-								<a>
-									<span
-										style={{
-											fontSize: '0.8rem',
-											fontWeight: 400,
-											color: 'grey',
-											display: 'block',
-										}}
-									>
-										{shop?.name}
-									</span>
-								</a>
-							</Link>
-							<Typography color="primary">{category}</Typography>
+							<Box className="detail">
+								<Link href={`/shops/${shop?.id}`}>
+									<a>
+										<span
+											style={{
+												fontSize: '0.8rem',
+												fontWeight: 400,
+												color: 'grey',
+												display: 'block',
+											}}
+										>
+											{shop?.name}
+										</span>
+									</a>
+								</Link>
+								<Typography color="primary">{category}</Typography>
 
-							{!props.hideRating ? (
-								<BazaarRating
-									value={Number(rating) || 0}
-									color="warn"
-									readOnly
-								/>
-							) : null}
+								{!props.hideRating ? (
+									<BazaarRating
+										value={Number(rating) || 0}
+										color="warn"
+										readOnly
+									/>
+								) : null}
 
-							{props.showProductSize ? (
-								<Span color="grey.600" mb={1} display="block">
-									300ml
-								</Span>
-							) : null}
+								{props.showProductSize ? (
+									<Span color="grey.600" mb={1} display="block">
+										300ml
+									</Span>
+								) : null}
 
-							<FlexBox alignItems="center" gap={1} mt={0.5}>
-								<Box fontWeight="600" color="primary.main">
-									{getCurrency(!!discount ? discount_price : price)}
-								</Box>
-
-								{!!discount && (
-									<Box color="grey.600" fontWeight="600">
-										<del>{getCurrency(!!discount && price)}</del>
+								<FlexBox alignItems="center" gap={1} mt={0.5}>
+									<Box fontWeight="600" color="primary.main">
+										{getCurrency(!!discount ? discount_price : price)}
 									</Box>
-								)}
-							</FlexBox>
+
+									{!!discount && (
+										<Box color="grey.600" fontWeight="600">
+											<del>{getCurrency(!!discount && price)}</del>
+										</Box>
+									)}
+								</FlexBox>
+							</Box>
 						</Box>
 						<FlexBox
 							width="30px"

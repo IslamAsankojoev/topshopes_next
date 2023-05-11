@@ -135,8 +135,12 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 				<Grid item md={6} xs={12} alignItems="center" justifyContent="center">
 					<Box
 						sx={{
+							height: '100%',
 							position: 'relative',
 							padding: '1rem',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center',
 						}}
 					>
 						<H1 mb={1}>{name}</H1>
