@@ -15,6 +15,7 @@ export type IProduct = {
 	description: string
 	is_published: boolean
 	created_at: string
+	sold_quantity: number
 }
 
 export type IProductPreview = Pick<

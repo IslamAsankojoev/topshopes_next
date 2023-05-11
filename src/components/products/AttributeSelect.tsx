@@ -76,8 +76,8 @@ const AttributeSelect: FC<AttributeSelectProps> = ({
 					{attribute_name} -{' '}
 					<Typography
 						sx={{
-							fontSize: '10px',
-							fontWeight: 'normal',
+							fontSize: '11px',
+							fontWeight: 'bold',
 							display: 'inline',
 							color: 'primary.main',
 						}}
@@ -85,7 +85,7 @@ const AttributeSelect: FC<AttributeSelectProps> = ({
 						{selectedAttribute}
 					</Typography>
 				</Typography>
-				<Grid xs={12} md={10} lg={10}>
+				<Grid xs={12} sm={7} md={8} lg={8}>
 					<Carousel
 						totalSlides={attribute_values?.length}
 						visibleSlides={5}

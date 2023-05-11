@@ -29,7 +29,8 @@ type ProductIntroProps = {
 
 const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 	const { t } = useTranslation('common')
-	const { brand, id, shop, name, variants, rating } = product
+	const { brand, id, shop, name, variants, rating, sold_quantity, reviews } =
+		product
 
 	const router = useRouter()
 	const routerId = router.query.id as string
@@ -135,25 +136,44 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 						}}
 					>
 						<H1 mb={1}>{name}</H1>
-						<FlexBox alignItems="flex-start" mb={2} flexDirection="column">
+						<FlexBox
+							alignItems="flex-start"
+							mb={2}
+							flexDirection="column"
+							gap={0.5}
+						>
 							<Box>
-								{t('brand')}: {brand?.name}
+								{t('soldBy')}:{' '}
+								<b>
+									<Link href={`/shops/${shop?.id}`}>
+										<a>{shop?.name}</a>
+									</Link>
+								</b>
 							</Box>
 							<Box>
-								{t('rated')}:
-								<BazaarRating
-									color="warn"
-									fontSize="1.25rem"
-									value={Number(rating)}
-									readOnly
-								/>
-								({rating})
+								{t('brand')}: <b>{' ' + brand?.name}</b>
 							</Box>
+							{!!reviews?.length && (
+								<FlexBox>
+									{t('rated')}:{' '}
+									<BazaarRating
+										color="warn"
+										fontSize="1.25rem"
+										value={Number(rating)}
+										readOnly
+									/>
+									({rating})
+								</FlexBox>
+							)}
 							<Box>
-								{t('soldBy')}:
-								<Link href={`/shops/${shop?.id}`}>
-									<a>{shop?.name}</a>
-								</Link>
+								{!!sold_quantity &&
+									localize({
+										ru: 'Продано',
+										tr: 'Satıldı',
+										en: 'Sold',
+									}) +
+										': ' +
+										sold_quantity}
 							</Box>
 						</FlexBox>
 
@@ -190,6 +210,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							<H6
 								ml={1}
 								textTransform="capitalize"
+								fontWeight={900}
 								color={
 									selectedVariant?.status === 'available' ? 'green' : 'red'
 								}
@@ -227,7 +248,11 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 									p: '.7rem 1rem',
 								}}
 							>
-								{t('addCart')}
+								{localize({
+									ru: 'В корзину',
+									tr: 'Sepete ekle',
+									en: 'Add to cart',
+								})}
 							</BazaarButton>
 							<BazaarButton
 								color="error"
