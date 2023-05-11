@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Card, Grid } from '@mui/material'
+import { Box, Card, Grid, Typography } from '@mui/material'
 import BazaarButton from 'src/components/BazaarButton'
 import BazaarRating from 'src/components/BazaarRating'
 import LazyImage from 'src/components/LazyImage'
-import { H1, H2, H6 } from 'src/components/Typography'
+import { H1, H2, H3, H4, H6 } from 'src/components/Typography'
 import { useActions } from 'src/hooks/useActions'
 import { useTypedSelector } from 'src/hooks/useTypedSelector'
 import { useTranslation } from 'next-i18next'
@@ -181,13 +181,22 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 							</Box>
 						</FlexBox>
 
-						<Box mb={3}>
+						<Variables
+							product={product}
+							setVariant={setSelectedVariant}
+							setImage={setSelectedImage}
+							variant={selectedVariant}
+						/>
+						<Box mt={2}>
 							{/* <H2 color="primary.main" mb={0.5} lineHeight="1">
 								{Number(selectedVariant?.price || variants[0]?.price).toFixed(
 									2
 								)}
 								c
 							</H2> */}
+							<FlexBox alignItems="center" mb={1}>
+								{/* <Box>{t('status')}:</Box> */}
+							</FlexBox>
 
 							<FlexBox alignItems="center" gap={1} mt={0.5}>
 								<H2 color="primary.main">
@@ -197,41 +206,35 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 											: displayVariant?.price
 									)}
 								</H2>
-
 								{!!selectedVariant?.discount && (
-									<H2 color="grey.600" fontWeight={600}>
-										<del>
-											{getCurrency(
-												!!displayVariant?.discount && displayVariant?.price
-											)}
-										</del>
-									</H2>
+									<>
+										<H2 color="grey.400" fontWeight={400}>
+											<del>
+												{getCurrency(
+													!!displayVariant?.discount && displayVariant?.price
+												)}
+											</del>
+										</H2>
+									</>
 								)}
+								&#8212;
+								<H4
+									textTransform="capitalize"
+									fontWeight={900}
+									color={
+										selectedVariant?.status === 'available'
+											? 'success.900'
+											: 'error.main'
+									}
+								>
+									{selectedVariant?.status
+										? selectedVariant?.status === 'available'
+											? t('available')
+											: t('unavailable')
+										: t('unavailable')}
+								</H4>
 							</FlexBox>
 						</Box>
-						<FlexBox alignItems="center" mb={2}>
-							<Box>{t('status')}:</Box>
-							<H6
-								ml={1}
-								textTransform="capitalize"
-								fontWeight={900}
-								color={
-									selectedVariant?.status === 'available' ? 'green' : 'red'
-								}
-							>
-								{selectedVariant?.status
-									? selectedVariant?.status === 'available'
-										? t('available')
-										: t('unavailable')
-									: t('unavailable')}
-							</H6>
-						</FlexBox>
-						<Variables
-							product={product}
-							setVariant={setSelectedVariant}
-							setImage={setSelectedImage}
-							variant={selectedVariant}
-						/>
 						<br />
 						<FlexBox
 							gap={2}

@@ -74,12 +74,12 @@ const Variables: FC<VariablesProps> = ({
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
-				gap: '20px',
+				gap: '10px',
 			}}
 		>
 			{[...attributes.keys()].map((attribute) => {
 				return (
-					<FormControl key={attribute} sx={{ display: 'inline-block' }}>
+					<>
 						<AttributeSelect
 							variants={product.variants}
 							variant={variant}
@@ -87,7 +87,7 @@ const Variables: FC<VariablesProps> = ({
 							attribute_values={[...attributes.get(attribute)]}
 							setSelectedAttributes={setSelectedAttributes}
 						/>
-					</FormControl>
+					</>
 				)
 			})}
 		</div>
