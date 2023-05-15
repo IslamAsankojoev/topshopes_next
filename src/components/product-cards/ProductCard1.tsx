@@ -1,7 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Favorite } from '@mui/icons-material'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
-import { Box, Chip, IconButton, Modal, Typography, styled } from '@mui/material'
+import {
+	Box,
+	Card,
+	Chip,
+	IconButton,
+	Modal,
+	Typography,
+	styled,
+} from '@mui/material'
 import BazaarCard from 'src/components/BazaarCard'
 import BazaarRating from 'src/components/BazaarRating'
 import LazyImage from 'src/components/LazyImage'
@@ -18,6 +26,7 @@ import { FlexBox } from '../flex-box'
 import { getCurrency } from 'src/utils/getCurrency'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import ProductModal from '../products/ProductModal'
+import { error, secondary } from 'src/theme/themeColors'
 
 const StyledBazaarCard = styled(BazaarCard)(() => ({
 	height: '100%',
@@ -41,7 +50,7 @@ const ImageWrapper = styled(Box)(({ theme }) => ({
 
 const StyledChip = styled(Chip)(() => ({
 	zIndex: 1,
-	top: '10px',
+	bottom: '10px',
 	left: '10px',
 	paddingLeft: 3,
 	paddingRight: 3,
@@ -49,6 +58,7 @@ const StyledChip = styled(Chip)(() => ({
 	fontSize: '10px',
 	position: 'absolute',
 	color: 'white',
+	borderRadius: '6px',
 }))
 
 // const HoverIconWrapper = styled(Box)(({ theme }) => ({
@@ -119,160 +129,193 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 	}
 
 	return (
-		<>
-			<StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}>
-				<ImageWrapper>
-					{!!discount && (
-						<StyledChip
-							color="primary"
-							size="small"
-							label={`${discount}% off`}
+		<Box
+			sx={{
+				position: 'relative',
+				padding: '.5rem',
+				borderRadius: '10px',
+				'@media (max-width: 600px)': {
+					padding: '0',
+				},
+				'&:hover': {
+					backgroundColor: 'white',
+					boxShadow: '0px 1px 3px rgba(3, 0, 71, 0.09)',
+				},
+				'&:hover .product-card-img-wrapper': {
+					boxShadow: 'none',
+				},
+			}}
+		>
+			{/* <StyledBazaarCard ref={CurrentCard} hoverEffect={props.hoverEffect}> */}
+			<Card
+				className="product-card-img-wrapper"
+				sx={{
+					transition: '0s',
+					position: 'relative',
+				}}
+			>
+				{!!discount && (
+					<StyledChip color="error" size="small" label={`${discount}% off`} />
+				)}
+				<Link href={`/product/${id}`}>
+					<a ref={parent}>
+						<LazyImage
+							src={thumbnail}
+							width={150}
+							height={200}
+							layout="responsive"
+							alt={name}
+							objectFit="contain"
+							objectPosition="top"
 						/>
-					)}
-					<Link href={`/product/${id}`}>
-						<a ref={parent}>
-							<LazyImage
-								src={thumbnail}
-								width={200}
-								height={200}
-								layout="responsive"
-								alt={name}
-								objectFit="contain"
-								objectPosition="top"
-							/>
-						</a>
-					</Link>
-				</ImageWrapper>
+					</a>
+				</Link>
+				<FlexBox
+					width="30px"
+					alignItems="center"
+					className="add-cart"
+					flexDirection="column-reverse"
+					justifyContent={'flex-start'}
+					sx={{
+						position: 'absolute',
+						right: '15px',
+						bottom: '10px',
+						'@media (max-width: 600px)': {
+							right: '15px',
+							bottom: '10px',
+						},
+					}}
+				>
+					<IconButton
+						onClick={toggleIsFavorite}
+						color="inherit"
+						sx={{
+							backgroundColor: '#ffffff90',
+							padding: '5px',
+							'&:hover': {
+								opacity: 1,
+								backgroundColor: '#ffffff',
+							},
+							'& svg': {
+								color: 'error',
+							},
+						}}
+					>
+						{!!isInWishList ? (
+							<Favorite color="error" fontSize="small" />
+						) : (
+							<FavoriteBorder fontSize="small" color="error" />
+						)}
+					</IconButton>
+				</FlexBox>
+			</Card>
+			{/* </StyledBazaarCard> */}
+			<ContentWrapper className="product-wrapper">
+				<FlexBox>
+					<Box flex="1 1 0" minWidth="0px">
+						<Link href={`/product/${id}`}>
+							<a>
+								<span style={{}}>
+									<FlexBox alignItems="center" gap={1}>
+										<Box
+											sx={{
+												color: 'grey.900',
+												fontWeight: 1000,
+												fontSize: '1.1rem',
+											}}
+										>
+											{getCurrency(!!discount ? discount_price : price)}
+										</Box>
 
-				<ContentWrapper>
-					<FlexBox>
-						<Box flex="1 1 0" minWidth="0px" mr={1}>
-							<Link href={`/product/${id}`}>
+										{!!discount && (
+											<Box color="grey.600" fontWeight="600">
+												<del>{getCurrency(!!discount && price)}</del>
+											</Box>
+										)}
+									</FlexBox>
+									<Typography
+										className="title-concated"
+										sx={{
+											color: 'grey.600',
+											display: 'block',
+											overflow: 'hidden',
+											textOverflow: 'ellipsis',
+											whiteSpace: 'nowrap',
+										}}
+									>
+										<Typography
+											sx={{
+												color: 'grey.900',
+												display: 'inline-block',
+												fontWeight: 600,
+											}}
+										>
+											{`${shop?.name} / `}&nbsp;
+										</Typography>
+										{name}
+									</Typography>
+								</span>
+							</a>
+						</Link>
+
+						<Box className="detail">
+							{/* <Link href={`/shops/${shop?.id}`}>
 								<a>
 									<span
 										style={{
-											fontSize: '1.1rem',
-											fontWeight: 600,
-											color: '#000',
+											fontSize: '0.8rem',
+											fontWeight: 400,
+											color: 'grey',
 											display: 'block',
 										}}
 									>
-										{name}
+										
 									</span>
 								</a>
-							</Link>
+							</Link> */}
+							{/* <Typography color="primary">{category}</Typography> */}
 
-							<Box className="detail">
-								<Link href={`/shops/${shop?.id}`}>
-									<a>
-										<span
-											style={{
-												fontSize: '0.8rem',
-												fontWeight: 400,
-												color: 'grey',
-												display: 'block',
-											}}
-										>
-											{shop?.name}
-										</span>
-									</a>
-								</Link>
-								<Typography color="primary">{category}</Typography>
+							{!props.hideRating ? (
+								<BazaarRating
+									value={Number(rating) || 0}
+									color="warn"
+									readOnly
+								/>
+							) : null}
 
-								{!props.hideRating ? (
-									<BazaarRating
-										value={Number(rating) || 0}
-										color="warn"
-										readOnly
-									/>
-								) : null}
-
-								{props.showProductSize ? (
-									<Span color="grey.600" mb={1} display="block">
-										300ml
-									</Span>
-								) : null}
-
-								<FlexBox alignItems="center" gap={1} mt={0.5}>
-									<Box fontWeight="600" color="primary.main">
-										{getCurrency(!!discount ? discount_price : price)}
-									</Box>
-
-									{!!discount && (
-										<Box color="grey.600" fontWeight="600">
-											<del>{getCurrency(!!discount && price)}</del>
-										</Box>
-									)}
-								</FlexBox>
-							</Box>
+							{props.showProductSize ? (
+								<Span color="grey.600" mb={1} display="block">
+									300ml
+								</Span>
+							) : null}
 						</Box>
-						<FlexBox
-							width="30px"
-							alignItems="center"
-							className="add-cart"
-							flexDirection="column-reverse"
-							justifyContent={'flex-start'}
-						>
-							{/* <IconButton onClick={handleOpen}>
-								<AddIcon color="primary" fontSize="small" />
-							</IconButton> */}
-							<IconButton onClick={toggleIsFavorite}>
-								{!!isInWishList ? (
-									<Favorite color="primary" fontSize="small" />
-								) : (
-									<FavoriteBorder fontSize="small" color="disabled" />
-								)}
-							</IconButton>
-						</FlexBox>
-					</FlexBox>
-				</ContentWrapper>
-			</StyledBazaarCard>
-			<Modal
-				open={open}
-				onClose={handleClose}
-				sx={styleModalOverlay}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-			>
-				<>
-					<Box sx={styleModal}>
-						{open && <ProductModal id={id} />}
-						<IconButton
-							sx={{
-								position: 'fixed',
-								top: 5,
-								right: 5,
-							}}
-						>
-							<CloseIcon onClick={handleClose} />
-						</IconButton>
 					</Box>
-				</>
-			</Modal>
-		</>
+				</FlexBox>
+			</ContentWrapper>
+		</Box>
 	)
 }
 
 export default ProductCard1
 
-const styleModalOverlay = {
-	position: 'fixed' as 'fixed',
-	zIndex: 9999,
-}
+// const styleModalOverlay = {
+// 	position: 'fixed' as 'fixed',
+// 	zIndex: 9999,
+// }
 
-const styleModal = {
-	overflow: 'scroll',
-	position: 'absolute' as 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: '100%',
-	height: '100%',
-	maxWidth: '100%',
-	maxHeight: '100%',
-	bgcolor: 'background.paper',
-	boxShadow: 24,
-	'&::-webkit-scrollbar': {
-		display: 'none',
-	},
-}
+// const styleModal = {
+// 	overflow: 'scroll',
+// 	position: 'absolute' as 'absolute',
+// 	top: '50%',
+// 	left: '50%',
+// 	transform: 'translate(-50%, -50%)',
+// 	width: '100%',
+// 	height: '100%',
+// 	maxWidth: '100%',
+// 	maxHeight: '100%',
+// 	bgcolor: 'background.paper',
+// 	boxShadow: 24,
+// 	'&::-webkit-scrollbar': {
+// 		display: 'none',
+// 	},
+// }
