@@ -108,7 +108,7 @@ const navbarNavigations = [
 		title: 'shop',
 		megaMenu: false,
 		megaMenuWithSub: false,
-		url: '/shop',
+		url: '/shop?ordering=-rating',
 	},
 	{
 		title: 'about',
