@@ -165,7 +165,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 							height={200}
 							layout="responsive"
 							alt={name}
-							objectFit="contain"
+							objectFit="cover"
 							objectPosition="top"
 						/>
 					</a>
