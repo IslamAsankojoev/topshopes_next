@@ -58,3 +58,10 @@ img {
 #product-image.fade-out {
 	opacity: 0;
 }
+
+hr.dashed {
+	border: none;
+	border-top: 1px dashed #bfbfbf;
+	height: 0;
+	margin: 12px auto;
+}

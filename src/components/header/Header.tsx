@@ -23,7 +23,7 @@ import SearchBox from '../search-box/SearchBox'
 import { useSession } from 'next-auth/react'
 
 export const HeaderWrapper = styled(Box)(({ theme }) => ({
-	zIndex: 15004,
+	zIndex: 3,
 	position: 'relative',
 	height: layoutConstant.headerHeight,
 	transition: 'height 250ms ease-in-out',
@@ -160,7 +160,14 @@ const Header: FC<HeaderProps> = ({
 						</Badge>
 					</FlexBox>
 
-					<Drawer open={sidenavOpen} anchor="right" onClose={toggleSidenav}>
+					<Drawer
+						open={sidenavOpen}
+						anchor="right"
+						onClose={toggleSidenav}
+						sx={{
+							zIndex: 1600,
+						}}
+					>
 						<MiniCart />
 					</Drawer>
 

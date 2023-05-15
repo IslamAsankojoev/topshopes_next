@@ -43,7 +43,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ product }) => {
 	)
 
 	const wishlist: IProductPreview[] = useTypedSelector(
-		(state) => state.wishStore.items
+		(state) => state.wishStore?.items
 	)
 	const [isInWishlist, setIsInWishlist] = useState<boolean>(false)
 

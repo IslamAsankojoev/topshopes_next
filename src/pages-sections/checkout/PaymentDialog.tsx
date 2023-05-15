@@ -1,18 +1,23 @@
 import styled from '@emotion/styled'
 import { Visibility } from '@mui/icons-material'
+import CloseIcon from '@mui/icons-material/Close'
 import {
 	Button,
 	Dialog,
 	DialogContent,
+	DialogTitle,
 	IconButton,
 	Typography,
 } from '@mui/material'
 import { FC, Fragment, useState } from 'react'
 import StringHTML from 'src/components/StringHTML/StringHTML'
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded'
+import { FlexBetween } from 'src/components/flex-box'
 
-
-const PaymentDialog: FC<{ images?: string[], text: string }> = ({ images, text }) => {
+const PaymentDialog: FC<{ images?: string[]; text: string }> = ({
+	images,
+	text,
+}) => {
 	const [addCardForm, setAddCardForm] = useState<boolean>(false)
 
 	return (
@@ -28,22 +33,39 @@ const PaymentDialog: FC<{ images?: string[], text: string }> = ({ images, text }
 				<InfoRoundedIcon sx={{ fontSize: 25 }} />
 			</IconButton>
 
-			<Dialog open={addCardForm} onClose={() => setAddCardForm(false)}>
-				<DialogContent>
-					<Typography variant="h6" mb={3}>
+			<Dialog
+				open={addCardForm}
+				onClose={() => setAddCardForm(false)}
+				sx={{
+					zIndex: 1600,
+				}}
+			>
+				<DialogTitle
+					alignItems="center"
+					sx={{
+						position: 'relative',
+					}}
+				>
+					<Typography variant="h6" align="center">
 						Инструкция
 					</Typography>
-					<Typography variant="body1" mb={3}>
-						<StringHTML>{text.replaceAll("|" , "<br>")}</StringHTML>
-					</Typography>
-
-					<Button
-						variant="contained"
-						color={'primary'}
+					<IconButton
+						sx={{
+							position: 'absolute',
+							top: 10,
+							right: 10,
+						}}
 						onClick={() => setAddCardForm(false)}
 					>
-						Закрыть
-					</Button>
+						<CloseIcon />
+					</IconButton>
+				</DialogTitle>
+				<DialogContent>
+					<Typography variant="body1" mb={3}>
+						<StringHTML>
+							{text.replaceAll('|', '<hr class="dashed">')}
+						</StringHTML>
+					</Typography>
 				</DialogContent>
 			</Dialog>
 		</Fragment>

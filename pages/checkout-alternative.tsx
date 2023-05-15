@@ -6,6 +6,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import CheckoutForm2 from 'src/pages-sections/checkout/CheckoutForm2'
 import CheckoutSummary2 from 'src/pages-sections/checkout/CheckoutSummary2'
 import { NextPageAuth } from 'src/shared/types/auth.types'
+import ShopLayout1 from 'src/components/layouts/ShopLayout1'
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
@@ -21,7 +22,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 const CheckoutAlternative: NextPageAuth = () => {
 	return (
-		<ShopLayout2>
+		<ShopLayout1>
 			<SEO title="Checkout alternative" />
 			<Container sx={{ my: '1.5rem' }}>
 				<Grid container spacing={3}>
@@ -34,7 +35,7 @@ const CheckoutAlternative: NextPageAuth = () => {
 					</Grid>
 				</Grid>
 			</Container>
-		</ShopLayout2>
+		</ShopLayout1>
 	)
 }
 
