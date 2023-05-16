@@ -30,7 +30,6 @@ const CreateProductV2: NextPageAuth = () => {
 	const localVariants = useTypedSelector((state) => state.localVariantsStore)
 	const user = useTypedSelector((state) => state.userStore.user)
 	const variants: IProductVariant[] = Object.values(localVariants)
-	const [productID, setProductID] = useState<string | null>(null)
 	const [cloneLoading, setCloneLoading] = useState<null | string>(null)
 
 	const [createLoading, setCreateLoading] = useState(false)
@@ -52,12 +51,11 @@ const CreateProductV2: NextPageAuth = () => {
 			return null
 		}
 		setCreateLoading(true)
-
+		let productId = null
 		try {
 			// create product
 			const productResponse = await api.products.ProductsService.create(data) // create product
-			const productId = productResponse.id // get product id
-			setProductID(productId) // set product id
+			productId = productResponse.id // get product id
 
 			// create variants with new product
 			const variantPromises = variants.map(async (variant) => {
@@ -101,7 +99,7 @@ const CreateProductV2: NextPageAuth = () => {
 			push(`/vendor/products/`) // redirect to products list
 			setCreateLoading(false)
 		} catch (e) {
-			api.products.ProductsService.delete(productID as string)
+			api.products.ProductsService.delete(productId as string)
 			console.error(e)
 			toast.error(
 				localize({

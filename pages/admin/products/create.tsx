@@ -56,13 +56,14 @@ const CreateProduct: NextPageAuth = () => {
 					kz: 'Төрліктерді қосыңыз',
 				})
 			)
-			return
+			return null
 		}
 		let productId = null
 		try {
 			// create product
 			const productResponse = await api.products.ProductsService.create(data)
 			productId = productResponse.id
+			console.log(productId)
 
 			// create variants with new product
 			for (let i of variants) {
@@ -104,8 +105,10 @@ const CreateProduct: NextPageAuth = () => {
 					}
 				}
 			}
+
 			push('/admin/products/')
 		} catch (e) {
+			console.log(productId)
 			if (productId) {
 				await api.products.ProductsService.delete(productId)
 			}
