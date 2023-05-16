@@ -171,7 +171,7 @@ const CreateProductV2: NextPageAuth = () => {
 
 	useEffect(() => {
 		localeVariantsClear()
-	}, [localeVariantsClear])
+	}, [])
 
 	return fetch ? (
 		<Box py={4}>
