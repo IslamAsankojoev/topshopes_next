@@ -7,6 +7,7 @@ import {
 	TableContainer,
 	Typography,
 } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 import { FC, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -31,6 +32,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { localize } from 'src/utils/Translate/localize'
 import { H2, H3 } from 'src/components/Typography'
 import { useRouter } from 'next/router'
+import { grey } from 'src/theme/themeColors'
 
 const tableHeading = [
 	{ id: 'image', label: 'image', align: 'left' },
@@ -125,38 +127,11 @@ const VariantList: FC<Props> = ({
 	}
 
 	return (
-		<Card1
-			sx={{
-				mt: 2,
-			}}
-		>
-			<FlexBetween
-				sx={{
-					pb: 2,
-				}}
-			>
+		<>
+			<FlexBetween my={4}>
 				{!!variants.length ? (
 					<>
 						<H3>{adminT('productVariants')}</H3>
-						<Button
-							color="primary"
-							variant="contained"
-							size="small"
-							onClick={() =>
-								setVariantFormOpen((prev) => {
-									return !prev
-								})
-							}
-							disabled={false}
-						>
-							{localize({
-								ru: 'Добавить вариант',
-								tr: 'Varyant Ekle',
-								en: 'Add Variant',
-								kg: 'Вариант кошуруу',
-								kz: 'Вариант қосу',
-							})}
-						</Button>
 					</>
 				) : null}
 			</FlexBetween>
@@ -205,6 +180,41 @@ const VariantList: FC<Props> = ({
 							</Table>
 						</TableContainer>
 					</Scrollbar>
+					<span
+						style={{
+							display: 'flex',
+							justifyContent: 'flex-end',
+							margin: '10px',
+						}}
+					>
+						<Button
+							color="primary"
+							variant="contained"
+							size="normal"
+							onClick={() =>
+								setVariantFormOpen((prev) => {
+									return !prev
+								})
+							}
+							disabled={false}
+							sx={{
+								// width: '200px',
+								'@media screen and (max-width: 600px)': {
+									// width: '100%',
+								},
+								boxShadow: 'none',
+							}}
+						>
+							<AddIcon fontSize="small" />
+							{/* {localize({
+								ru: 'Добавить вариант',
+								tr: 'Varyant Ekle',
+								en: 'Add Variant',
+								kg: 'Вариант кошуруу',
+								kz: 'Вариант қосу',
+							})} */}
+						</Button>
+					</span>
 				</Card>
 			) : (
 				<Empty>
@@ -303,7 +313,7 @@ const VariantList: FC<Props> = ({
 					</Typography>
 				</Box>
 			) : null}
-		</Card1>
+		</>
 	)
 }
 

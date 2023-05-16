@@ -169,6 +169,10 @@ const CreateProductV2: NextPageAuth = () => {
 		user?.is_superuser && audioClone.play()
 	}
 
+	useEffect(() => {
+		localeVariantsClear()
+	}, [localeVariantsClear])
+
 	return fetch ? (
 		<Box py={4}>
 			<H3 mb={2}>Добавить новый продукт</H3>
@@ -176,18 +180,21 @@ const CreateProductV2: NextPageAuth = () => {
 				initialValues={initialValues}
 				handleFormSubmit={handleFormSubmit}
 				update={false}
+				variantsTable={
+					<VariantList
+						variants={variants}
+						handleVariantChange={handleChangeVariant}
+						handleVariantRemove={handleRemoveVariant}
+						handleVariantCreate={handleCreateVariant}
+						handleVariantClone={handleCloneVariant}
+						cloneLoading={cloneLoading}
+						handleUpOrdering={handleUpOrdering}
+						handleDownOrdering={handleDownOrdering}
+					/>
+				}
 			/>
 			<br />
-			<VariantList
-				variants={variants}
-				handleVariantChange={handleChangeVariant}
-				handleVariantRemove={handleRemoveVariant}
-				handleVariantCreate={handleCreateVariant}
-				handleVariantClone={handleCloneVariant}
-				cloneLoading={cloneLoading}
-				handleUpOrdering={handleUpOrdering}
-				handleDownOrdering={handleDownOrdering}
-			/>
+
 			{createLoading ? <Loading /> : null}
 		</Box>
 	) : null

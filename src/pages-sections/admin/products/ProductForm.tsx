@@ -18,7 +18,7 @@ import { ContentWrapper } from 'src/components/products/ProductViewDialog'
 import { useActions } from 'src/hooks/useActions'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, ReactNode } from 'react'
 import { localize } from 'src/utils/Translate/localize'
 import * as yup from 'yup'
 import { useProductFetch } from './useProductFetch'
@@ -36,13 +36,14 @@ type ProductFormProps = {
 	update?: boolean
 	includeShop?: boolean
 	refetch?: () => void
+	variantsTable?: ReactNode
 }
 // ================================================================
 
 const ProductForm: FC<ProductFormProps> = (props) => {
 	const { t: adminT } = useTranslation('admin')
 	const { t: commonT } = useTranslation('common')
-	const { initialValues, handleFormSubmit, update } = props
+	const { initialValues, handleFormSubmit, update, variantsTable } = props
 	const {
 		push,
 		query: { id },
@@ -118,7 +119,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 	return (
 		<Grid container columnGap={3}>
 			<Grid item xs={12} sm={12}>
-				<Card sx={{ p: 3, overflow: 'initial' }}>
+				<Card sx={{ p: 3, overflow: 'initial', pb: 12, position: 'relative' }}>
 					<form onSubmit={handleSubmit(handleProductSubmit)}>
 						<Grid container spacing={3}>
 							<Grid item sm={12} xs={12} display="flex" columnGap={5}>
@@ -358,14 +359,20 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 										size="small"
 										type="submit"
 										sx={{
-											px: 3,
+											px: 4,
 											whiteSpace: 'nowrap',
 											fontSize: '16px',
 											fontWeight: 'bold',
 											height: '50px',
-											minWidth: '150px',
+											minWidth: '200px',
+											maxWidth: '100%',
+											bottom: '20px',
+											right: '20px',
+											position: 'absolute',
 											'@media (max-width: 600px)': {
-												marginTop: '1rem',
+												width: '90%',
+												transform: 'translateX(-50%)',
+												left: '50%',
 											},
 										}}
 									>
@@ -375,6 +382,7 @@ const ProductForm: FC<ProductFormProps> = (props) => {
 							</Grid>
 						</Grid>
 					</form>
+					{variantsTable}
 				</Card>
 			</Grid>
 		</Grid>

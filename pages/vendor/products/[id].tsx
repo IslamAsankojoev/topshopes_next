@@ -266,23 +266,20 @@ const EditProduct: NextPageAuth = () => {
 						handleFormSubmit={handleFormSubmit}
 						update={true}
 						refetch={refetch}
+						variantsTable={
+							<VariantList
+								variants={filteredVariantsList}
+								handleVariantChange={handleVariantChange}
+								handleVariantRemove={handleVariantRemove}
+								handleVariantCreate={handleVariantCreate}
+								handleVariantClone={handleVariantClone}
+								cloneLoading={cloneLoading}
+								handleDownOrdering={handleDownOrdering}
+								handleUpOrdering={handleUpOrdering}
+							/>
+						}
 					/>
 
-					{/* <ProductVariantListV2
-						refetch={refetch}
-						product={product}
-						isAdmin={false}
-					/> */}
-					<VariantList
-						variants={filteredVariantsList}
-						handleVariantChange={handleVariantChange}
-						handleVariantRemove={handleVariantRemove}
-						handleVariantCreate={handleVariantCreate}
-						handleVariantClone={handleVariantClone}
-						cloneLoading={cloneLoading}
-						handleDownOrdering={handleDownOrdering}
-						handleUpOrdering={handleUpOrdering}
-					/>
 					{updateLoading ? <Loading /> : null}
 				</>
 			) : null}
