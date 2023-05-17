@@ -135,7 +135,7 @@ const ProductCard1: FC<ProductCard1Props> = (props) => {
 				padding: '.5rem',
 				borderRadius: '10px',
 				'@media (max-width: 600px)': {
-					padding: '0',
+					// padding: '0',
 				},
 				'&:hover': {
 					backgroundColor: 'white',
