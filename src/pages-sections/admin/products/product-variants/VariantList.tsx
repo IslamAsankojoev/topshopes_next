@@ -148,38 +148,38 @@ const VariantList: FC<Props> = ({
 				{!!variants.length ? (
 					<>
 						<H3>{adminT('productVariants')}</H3>
+						<span
+							style={{
+								display: 'flex',
+								justifyContent: 'flex-end',
+								margin: '10px',
+							}}
+						>
+							<Button
+								color="primary"
+								variant="contained"
+								size="normal"
+								onClick={() =>
+									setVariantFormOpen((prev) => {
+										return !prev
+									})
+								}
+								disabled={false}
+								sx={{
+									'@media screen and (max-width: 600px)': {},
+									boxShadow: 'none',
+								}}
+							>
+								<AddIcon fontSize="small" />
+								{localize({
+									ru: 'Вариант',
+									tr: 'Varyant',
+									en: 'Variant',
+								})}
+							</Button>
+						</span>
 					</>
 				) : null}
-				<span
-					style={{
-						display: 'flex',
-						justifyContent: 'flex-end',
-						margin: '10px',
-					}}
-				>
-					<Button
-						color="primary"
-						variant="contained"
-						size="normal"
-						onClick={() =>
-							setVariantFormOpen((prev) => {
-								return !prev
-							})
-						}
-						disabled={false}
-						sx={{
-							'@media screen and (max-width: 600px)': {},
-							boxShadow: 'none',
-						}}
-					>
-						<AddIcon fontSize="small" />
-						{localize({
-							ru: 'Вариант',
-							tr: 'Varyant',
-							en: 'Variant',
-						})}
-					</Button>
-				</span>
 			</FlexBetween>
 
 			<VariantForm
