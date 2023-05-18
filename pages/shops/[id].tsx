@@ -4,14 +4,44 @@ import ShopLayout1 from 'src/components/layouts/ShopLayout1'
 import ShopIntroCard from 'src/components/shop/ShopIntroCard'
 import useWindowSize from 'src/hooks/useWindowSize'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { FC } from 'react'
-import { useQuery } from 'react-query'
+import { FC, useEffect } from 'react'
+import { QueryClient, dehydrate, useQuery } from 'react-query'
 import { IShop } from 'src/shared/types/shop.types'
 import { useRouter } from 'next/router'
 import ProductCard1List from 'src/components/products/ProductCard1List'
 import { api } from 'src/api/index.service'
+import { GetServerSideProps } from 'next'
 
-const Shop: FC<{ shop: IShop }> = () => {
+export const getServerSideProps: GetServerSideProps = async ({
+	query,
+	locale,
+}) => {
+	try {
+		const queryClient = new QueryClient()
+		await queryClient.fetchQuery(['shop'], () =>
+			api.shops.ShopsService.get(query.id as string, {
+				...query,
+				page_size: 18,
+			})
+		)
+
+		return {
+			props: {
+				query,
+				dehydratedState: dehydrate(queryClient),
+				...(await serverSideTranslations(locale as string, ['common', 'shop'])),
+			},
+		}
+	} catch {
+		return {
+			props: {
+				...(await serverSideTranslations(locale as string, ['common', 'shop'])),
+			},
+		}
+	}
+}
+
+const Shop: FC<{ shop: IShop }> = (props) => {
 	const width = useWindowSize()
 	const isTablet = width < 1025
 	const router = useRouter()
@@ -37,6 +67,10 @@ const Shop: FC<{ shop: IShop }> = () => {
 			{ scroll: false }
 		)
 	}
+
+	useEffect(() => {
+		console.log(props)
+	}, [])
 
 	return (
 		<ShopLayout1>
@@ -84,14 +118,3 @@ const Shop: FC<{ shop: IShop }> = () => {
 }
 
 export default Shop
-
-export const getServerSideProps = async (context) => {
-	return {
-		props: {
-			...(await serverSideTranslations(context.locale as string, [
-				'common',
-				'shop',
-			])),
-		},
-	}
-}
