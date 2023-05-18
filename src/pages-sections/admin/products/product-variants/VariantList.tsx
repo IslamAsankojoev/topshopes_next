@@ -35,12 +35,28 @@ import { useRouter } from 'next/router'
 import { grey } from 'src/theme/themeColors'
 
 const tableHeading = [
-	{ id: 'image', label: 'image', align: 'left' },
+	{
+		id: 'image',
+		label: localize({
+			ru: 'Изображение',
+			en: 'Image',
+			tr: 'Resim',
+		}),
+		align: 'left',
+	},
 	{ id: 'price', label: 'price', align: 'left' },
-	{ id: 'sale', label: 'sale', align: 'left' },
+	{
+		id: 'sale',
+		label: localize({
+			ru: 'Скидка',
+			en: 'Sale',
+			tr: 'İndirim',
+		}),
+		align: 'left',
+	},
 	{ id: 'status', label: 'status', align: 'left' },
 	{ id: 'stock', label: 'stock', align: 'left' },
-	{ id: 'attributes', label: 'attributes', align: 'left' },
+	{ id: 'attributes', label: 'attributes', align: 'center' },
 	{ id: 'action', label: 'action', align: 'center' },
 ]
 
@@ -134,6 +150,36 @@ const VariantList: FC<Props> = ({
 						<H3>{adminT('productVariants')}</H3>
 					</>
 				) : null}
+				<span
+					style={{
+						display: 'flex',
+						justifyContent: 'flex-end',
+						margin: '10px',
+					}}
+				>
+					<Button
+						color="primary"
+						variant="contained"
+						size="normal"
+						onClick={() =>
+							setVariantFormOpen((prev) => {
+								return !prev
+							})
+						}
+						disabled={false}
+						sx={{
+							'@media screen and (max-width: 600px)': {},
+							boxShadow: 'none',
+						}}
+					>
+						<AddIcon fontSize="small" />
+						{localize({
+							ru: 'Вариант',
+							tr: 'Varyant',
+							en: 'Variant',
+						})}
+					</Button>
+				</span>
 			</FlexBetween>
 
 			<VariantForm
@@ -180,41 +226,6 @@ const VariantList: FC<Props> = ({
 							</Table>
 						</TableContainer>
 					</Scrollbar>
-					<span
-						style={{
-							display: 'flex',
-							justifyContent: 'flex-end',
-							margin: '10px',
-						}}
-					>
-						<Button
-							color="primary"
-							variant="contained"
-							size="normal"
-							onClick={() =>
-								setVariantFormOpen((prev) => {
-									return !prev
-								})
-							}
-							disabled={false}
-							sx={{
-								// width: '200px',
-								'@media screen and (max-width: 600px)': {
-									// width: '100%',
-								},
-								boxShadow: 'none',
-							}}
-						>
-							<AddIcon fontSize="small" />
-							{/* {localize({
-								ru: 'Добавить вариант',
-								tr: 'Varyant Ekle',
-								en: 'Add Variant',
-								kg: 'Вариант кошуруу',
-								kz: 'Вариант қосу',
-							})} */}
-						</Button>
-					</span>
 				</Card>
 			) : (
 				<Empty>
